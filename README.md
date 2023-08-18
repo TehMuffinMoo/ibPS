@@ -40,7 +40,7 @@ You can either load the cmdlets directly, or Import/Install it as a PowerShell M
 #### Installing with Install.ps1 (Preferred and persistent)
 ```bash
 # Clone this repository on Windows
-$ git clone https://github.com/mat-cox/ibPS/
+$ git clone https://github.com/TehMuffinMoo/ibPS/
 
 # Go into the repository
 $ cd ibPS/
