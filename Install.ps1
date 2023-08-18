@@ -81,7 +81,7 @@ do {
             }
             Copy-Item "$ibPSDir\Modules\ibPS" $GlobalModuleDirectory -Recurse -Force
             Import-Module "ibPS" -DisableNameChecking
-            if (Test-Path "$UserModuleDirectory\ibPS") {
+            if (Test-Path "$GlobalModuleDirectory\ibPS") {
                 Write-Host "File installation succeeded." -ForegroundColor Green
                 if (Get-Module -Name "ibPS") {
                     Write-Host "Module loaded successfully." -ForegroundColor Green
