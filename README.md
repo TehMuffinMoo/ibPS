@@ -64,8 +64,6 @@ Import-Module -Name ".\Modules\ibPS\BloxOne-Main.psm1" -DisableNameChecking
 . .\Modules\BloxOne-Main.ps1
 ```
 
-Some example scripts have been placed in the `.\Examples` directory, including deploying a pair of appliances for a Store or Depot.
-
 All Cmdlets are listed below.
 
 
