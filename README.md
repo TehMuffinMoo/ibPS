@@ -78,8 +78,8 @@ Query-CSP -Method GET/POST/PUT/PATCH/DELETE -Uri URI -Data JSON
 Query-NIOS -Method GET/POST/PUT/PATCH/DELETE -Uri URI -Data JSON
   This is a core function for interacting with the REST API of NIOS
 
-Store-B1APIKey -APIKey "longapikeystringgoeshere"
-  Stores API Key for BloxOne within environment variables
+Store-B1APIKey -APIKey "longapikeystringgoeshere" -Persist
+  Stores API Key for BloxOne within environment variables. Using -Persist will persist those credentials for that user on that machine.
 
 Get-B1APIKey
   Retrieves stored API Key for BloxOne
