@@ -64,10 +64,24 @@ Import-Module -Name ".\Modules\ibPS\BloxOne-Main.psm1" -DisableNameChecking
 . .\Modules\BloxOne-Main.ps1
 ```
 
-All Cmdlets are listed below.
+### Authentication
+#### BloxOne API Key
+In order to authenticate against the BloxOne CSP (Cloud Services Portal), you must first set your API Key. You can do this for either your current powershell session or save the API Key as persistent for your current user.
 
+##### Persistent
+To store your API Key permenantly for your user, you can specify the <b>-Persist</b> option as shown below.
+```powershell
+Store-B1APIKey -ApiKey "<ApiKeyFromCSP>" -Persist
+```
+
+##### Single Session
+Alternatively, you can simply store your API Key for the current powershell session only.
+```powershell
+Store-B1APIKey -ApiKey "<ApiKeyFromCSP>"
+```
 
 ## Cmdlets
+All Cmdlets are listed below.
 
 ```
 # Most Get-* cmdlets implement a -Strict parameter which applies strict name checking. Where possible, the default is to perform wildcard lookups on submitted parameters.
