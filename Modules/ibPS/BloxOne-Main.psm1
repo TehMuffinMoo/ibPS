@@ -350,8 +350,33 @@ $SupportedApplications = "DHCP","DNS","NTP"
 $Debug = $false
 
 function Query-CSP {
+    <#
+    .SYNOPSIS
+        Queries the BloxOneDDI Cloud Services Portal
+
+    .DESCRIPTION
+        This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the BloxOne APIs.
+
+    .PARAMETER Method
+        Specify the HTTP Method to use
+
+    .PARAMETER Uri
+        Specify the Uri, such as "ipam/record", you can also use the full URL and http parameters must be appended here.
+
+    .PARAMETER Data
+        Data to be submitted on POST/PUT/PATCH/DELETE requests
+
+    .Example
+        Query-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
+
+        Query-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
+
+    .FUNCTIONALITY
+        BloxOneDDI
+    #>
     param(
       [Parameter(Mandatory=$true)]
+      [ValidateSet("GET","POST","PUT", "PATCH", "DELETE")]
       [String]$Method,
       [Parameter(Mandatory=$true)]
       [String]$Uri,
@@ -411,6 +436,7 @@ function Query-CSP {
 function Query-NIOS {
     param(
       [Parameter(Mandatory=$true)]
+      [ValidateSet("GET","POST","PUT", "PATCH", "DELETE")]
       [String]$Method,
       [Parameter(Mandatory=$true)]
       [String]$Server,
@@ -473,6 +499,22 @@ function Query-NIOS {
 }
 
 function Get-B1APIKey {
+    <#
+    .SYNOPSIS
+        Retrieves the stored BloxOneDDI API Key from the local machine, if available.
+
+    .DESCRIPTION
+        This function will retrieve the saved BloxOneDDI API Key from the local user/machine if it has previously been stored.
+
+    .PARAMETER NoBreak
+        If this is set, the function will not break if the API Key is not found
+
+    .Example
+        Get-B1APIKey
+
+    .FUNCTIONALITY
+        BloxOneDDI
+    #>
     param(
       [switch]$NoBreak = $false
     )
@@ -487,6 +529,25 @@ function Get-B1APIKey {
 }
 
 function Store-B1APIKey {
+    <#
+    .SYNOPSIS
+        Stores a new BloxOneDDI API Key
+
+    .DESCRIPTION
+        This function will store a new BloxOneDDI API Key for the current user on the local machine. If a previous API Key exists, it will be overwritten.
+
+    .PARAMETER APIKey
+        This is the BloxOneDDI API Key retrieves from the Cloud Services Portal
+
+    .PARAMETER Persist
+        Using the -Persist switch will save the API Key across powershell sessions. Without using this switch, the API Key will only be stored for the current powershell session.
+
+    .Example
+        Set-B1APIKey "mylongapikeyfromcsp" -Persist
+
+    .FUNCTIONALITY
+        BloxOneDDI
+    #>
     param(
       [Parameter(Mandatory=$true)]
       [String]$APIKey,
@@ -615,6 +676,7 @@ function Get-B1AuditLog {
 function Get-B1ServiceLog {
     param(
       [string]$OnPremHost,
+      [ValidateSet("DNS","DHCP","DFP", "NGC", "NTP","Host","Kube","NetworkMonitor","CDC-OUT","CDC-IN")]
       [string]$Container,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
@@ -1216,6 +1278,7 @@ function Get-B1Space {
 function Get-B1AddressBlock {
     param(
       [String]$Subnet,
+      [ValidateRange(0,32)]
       [Int]$CIDR,
       [String]$Name,
       [String]$Space,
@@ -1399,6 +1462,7 @@ function Get-B1Address {
 function Get-B1Subnet {
     param(
       [String]$Subnet,
+      [ValidateRange(0,32)]
       [Int]$CIDR,
       [String]$Space,
       [String]$Name,
@@ -1510,7 +1574,8 @@ function New-B1AddressBlock {
       [Parameter(Mandatory=$true)]
       [String]$Subnet,
       [Parameter(Mandatory=$true)]
-      [String]$CIDR,
+      [ValidateRange(0,32)]
+      [Int]$CIDR,
       [Parameter(Mandatory=$true)]
       [String]$Space,
       [Parameter(Mandatory=$true)]
@@ -1572,7 +1637,8 @@ function Remove-B1AddressBlock {
       [Parameter(Mandatory=$true)]
       [String]$Subnet,
       [Parameter(Mandatory=$true)]
-      [String]$CIDR,
+      [ValidateRange(0,32)]
+      [Int]$CIDR,
       [Parameter(Mandatory=$true)]
       [String]$Space,
       [Switch]$Recurse,
@@ -1609,7 +1675,8 @@ function Set-B1AddressBlock {
       [Parameter(Mandatory=$true)]
       [String]$Subnet,
       [Parameter(Mandatory=$true)]
-      [String]$CIDR,
+      [ValidateRange(0,32)]
+      [Int]$CIDR,
       [Parameter(Mandatory=$true)]
       [String]$Space,
       [String]$Name,
@@ -1679,7 +1746,8 @@ function New-B1Subnet {
       [Parameter(Mandatory=$true)]
       [String]$Subnet,
       [Parameter(Mandatory=$true)]
-      [String]$CIDR,
+      [ValidateRange(0,32)]
+      [Int]$CIDR,
       [Parameter(Mandatory=$true)]
       [String]$Space,
       [Parameter(Mandatory=$true)]
@@ -1745,7 +1813,8 @@ function Set-B1Subnet {
       [Parameter(Mandatory=$true)]
       [String]$Subnet,
       [Parameter(Mandatory=$true)]
-      [String]$CIDR,
+      [ValidateRange(0,32)]
+      [Int]$CIDR,
       [Parameter(Mandatory=$true)]
       [String]$Space,
       [String]$Name,
@@ -1818,7 +1887,8 @@ function Remove-B1Subnet {
       [Parameter(Mandatory=$true)]
       [String]$Subnet,
       [Parameter(Mandatory=$true)]
-      [String]$CIDR,
+      [ValidateRange(0,32)]
+      [Int]$CIDR,
       [String]$Name,
       [Parameter(Mandatory=$true)]
       [String]$Space
@@ -1985,6 +2055,7 @@ function New-B1HAGroup {
       [Parameter(Mandatory=$true)]
       [String]$Space,
       [Parameter(Mandatory=$true)]
+      [ValidateSet("active-active","active-passive")]
       [String]$Mode,  ## active-active / active-passive
       [Parameter(Mandatory=$true)]
       [String]$PrimaryNode,
@@ -2225,6 +2296,7 @@ function Get-B1Host {
       [String]$OPHID,
       [String]$Space,
       [String]$Limit = "10001",
+      [ValidateSet("online","pending","degraded","error")]
       [String]$Status,
       [switch]$Detailed,
       [switch]$BreakOnError,
@@ -2514,7 +2586,7 @@ function New-B1Service {
     [Parameter(Mandatory=$true)]
     [String]$Name,
     [Parameter(Mandatory=$true)]
-    [String]$Host,
+    [String]$OnPremHost,
     [Parameter(Mandatory=$false)]
     [String]$Description = "",
     [Parameter(Mandatory=$false)]
@@ -2527,7 +2599,7 @@ function New-B1Service {
     [Switch]$DHCP
   )
   $MatchType = Match-Type $Strict
-  $B1Host = Get-B1Host -Name $Host -Detailed
+  $B1Host = Get-B1Host -Name $OnPremHost -Detailed
   if ($B1Host) {
     if ($B1Host.count -gt 1) {
       Write-Host "Too many hosts returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
@@ -2550,10 +2622,10 @@ function New-B1Service {
           } | ConvertTo-Json -Depth 3
           $NewServiceResult = Query-CSP -Method POST -Uri "https://csp.infoblox.com/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
           if ($NewServiceResult.id) {
-            Write-Host "NTP service created successfully on $Host" -ForegroundColor Green
+            Write-Host "NTP service created successfully on $OnPremHost" -ForegroundColor Green
             Set-B1NTPServiceConfiguration -Name $Name -UseGlobalNTPConfig
           } else {
-            Write-Host "Failed to create NTP service on $Host" -ForegroundColor Red
+            Write-Host "Failed to create NTP service on $OnPremHost" -ForegroundColor Red
           }
         }
       }
@@ -2575,9 +2647,9 @@ function New-B1Service {
           } | ConvertTo-Json -Depth 3
           $NewServiceResult = Query-CSP -Method POST -Uri "https://csp.infoblox.com/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
           if ($NewServiceResult.id) {
-            Write-Host "DNS service created successfully on $Host" -ForegroundColor Green
+            Write-Host "DNS service created successfully on $OnPremHost" -ForegroundColor Green
           } else {
-            Write-Host "Failed to create DNS service $Host" -ForegroundColor Green
+            Write-Host "Failed to create DNS service $OnPremHost" -ForegroundColor Green
           }
         }
       }
@@ -2599,9 +2671,9 @@ function New-B1Service {
           } | ConvertTo-Json -Depth 3
           $NewServiceResult = Query-CSP -Method POST -Uri "https://csp.infoblox.com/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
           if ($NewServiceResult.id) {
-            Write-Host "DHCP service created successfully on $Host" -ForegroundColor Green
+            Write-Host "DHCP service created successfully on $OnPremHost" -ForegroundColor Green
           } else {
-            Write-Host "Failed to create DHCP service $Host" -ForegroundColor Green
+            Write-Host "Failed to create DHCP service $OnPremHost" -ForegroundColor Green
           }
         }
       }
@@ -3306,6 +3378,7 @@ function Get-B1DNSHost {
 function Get-B1Tag {
     param(
         [String]$Name,
+        [ValidateSet("active","revoked")]
         [String]$Status,
         [switch]$Strict
     )
@@ -3771,6 +3844,7 @@ function Get-B1DNSUsage {
 
 function Get-B1Record {
     param(
+      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
       [String]$Type,
       [String]$Name,
       [String]$Zone,
@@ -3847,6 +3921,7 @@ function Get-B1Record {
 function New-B1Record {
     param(
       [Parameter(Mandatory=$true)]
+      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -4004,6 +4079,7 @@ function New-B1Record {
 function Set-B1Record {
     param(
       [Parameter(Mandatory=$true)]
+      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -4134,6 +4210,7 @@ function Set-B1Record {
 function Remove-B1Record {
     param(
       [Parameter(Mandatory=$true)]
+      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
       [String]$Type,
       [String]$Name,
       [String]$Zone,
@@ -4171,6 +4248,7 @@ function Remove-B1Record {
 function New-NIOSRecord {
     param(
       [Parameter(Mandatory=$true)]
+      [ValidateSet("A")]
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [String]$FQDN,
@@ -4698,9 +4776,9 @@ function Get-B1TopMetrics {
     [CmdletBinding(DefaultParameterSetName="default")]
     param (
         [switch][parameter(ParameterSetName="topQueries")] $TopQueries,
-        [string][parameter(ParameterSetName="topQueries", Mandatory=$true)] $QueryType,
+        [string][parameter(ParameterSetName="topQueries", Mandatory=$true)][ValidateSet("NXDOMAIN","NXRRSET","DNS","DFP")] $QueryType,
         [switch][parameter(ParameterSetName="topClients")] $TopClients,
-        [string][parameter(ParameterSetName="topClients")] $TopClientLogType,
+        [string][parameter(ParameterSetName="topClients")][ValidateSet("DNS","DFP")] $TopClientLogType,
         [int]$TopCount = "20",
         [datetime]$Start = (Get-Date).AddDays(-1),
         [datetime]$End = (Get-Date)
@@ -5592,6 +5670,7 @@ function Deploy-B1Appliance {
       [Parameter(Mandatory=$true)]
       [System.Object]$PortGroup,
       [Parameter(Mandatory=$true)]
+      [ValidateSet("vDS","Standard")]
       [String]$PortGroupType,
       [Parameter(Mandatory=$true)]
       $Creds,

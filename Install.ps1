@@ -115,7 +115,7 @@ do {
                 Write-Host "Failed to locate ibPS module directory: $GlobalModuleDirectory\ibPS"
             } else {
                 Remove-Item "$GlobalModuleDirectory\ibPS" -Recurse -Force
-                if (!(Test-Path "$UserModuleDirectory\ibPS")) {
+                if (!(Test-Path "$GlobalModuleDirectory\ibPS")) {
                     Write-Host "ibPS uninstall succeeded." -ForegroundColor Green
                 } else {
                     Write-Host "ibPS uninstall failed." -ForegroundColor Red
