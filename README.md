@@ -98,6 +98,9 @@ Store-B1APIKey -APIKey "longapikeystringgoeshere" -Persist
 Get-B1APIKey
   Retrieves stored API Key for BloxOne
   
+Get-ibPSVersion
+  Gets the ibPS Module Version
+  
 Store-NIOSCredentials -Credentials ${CredentialObject -Persist
   Stores NIOS Credentials encrypted, can be run without -Credentials parameter for it to prompt instead. The optional -Persist parameter will persist the credentials for that user on that machine. This requires a restart of the powershell session before credentials can be used.
 
