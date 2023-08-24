@@ -383,6 +383,9 @@ Get-B1BulkOperation -id "1ed34a08-6806-4c17-9f94-6645521c0e23"
   
 Search-B1 -Query "search term"
   Used to perform a global search of the BloxOneDDI Cloud Services Portal
+  
+Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
+  Used to reboot a BloxOneDDI Host
 
 Migrate-NIOSSubzoneToBloxOne -Server "10.100.10.10" -Subzone "dev.mydomain.corp" -View "default" -Confirm:$false
   Used to migrate DNS Subzone data from InfoBlox NIOS to InfoBlox BloxOne.

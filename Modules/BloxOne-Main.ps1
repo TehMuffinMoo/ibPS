@@ -676,531 +676,6 @@ function Disable-B1OnPremHostApplication {
     }
 }
 
-
-
-
-
-function Get-B1FixedAddress {
-    param(
-        [String]$IP = $null,
-        [Switch]$Strict = $false
-    )
-	$MatchType = Match-Type $Strict
-    [System.Collections.ArrayList]$Filters = @()
-    if ($IP) {
-        $Filters.Add("address==`"$IP`"") | Out-Null
-    }
-    if ($Filters) {
-        $Filter = Combine-Filters $Filters
-    }
-
-    if ($Filter) {
-        Query-CSP -Method GET -Uri "dhcp/fixed_address?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
-    } else {
-        Query-CSP -Method GET -Uri "dhcp/fixed_address" | Select -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-}
-
-function Get-B1DHCPLease {
-    [CmdletBinding(DefaultParameterSetName="st")]
-    param (
-        [Switch][parameter(ParameterSetName="htree")] $Range,
-        [String][parameter(ParameterSetName="htree", Mandatory=$true)] $RangeStart,
-        [String][parameter(ParameterSetName="htree")] $RangeEnd,
-        [String][parameter(ParameterSetName="htree")] $Limit = 1000,
-        [String][parameter(ParameterSetName="std")] $Address,
-        [String][parameter(ParameterSetName="std")] $MACAddress,
-        [String][parameter(ParameterSetName="std")] $Hostname,
-        [String][parameter(ParameterSetName="std")] $HAGroup,
-        [String][parameter(ParameterSetName="std")] $DHCPServer,
-        [String]$Space = "Global",
-        [switch]$Strict
-    )
-    $MatchType = Match-Type $Strict
-
-    if ($Range) {
-        $B1Range = Get-B1Range -StartAddress $RangeStart -EndAddress $RangeEnd
-        if ($Range) {
-            Query-CSP -Method GET -Uri "ipam/htree?_limit=$Limit&view=SPACE&state=used&node=$($B1Range.id)" | Select -ExpandProperty results -ErrorAction SilentlyContinue | Select -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
-        } else {
-          Write-Host "Error. Range not found." -ForegroundColor Red
-        }
-    } else {
-        $HAGroups = Get-B1HAGroup
-        $DHCPHosts = Get-B1DHCPHost
-        [System.Collections.ArrayList]$Filters = @()
-        if ($Address) {
-            $Filters.Add("address==`"$Address`"") | Out-Null
-        }
-        if ($MACAddress) {
-            $Filters.Add("client_id==`"$MACAddress`"") | Out-Null
-        }
-        if ($Hostname) {
-            $Filters.Add("hostname$MatchType`"$Hostname`"") | Out-Null
-        }
-        if ($HAGroup) {
-            $HAGroupId = ($HAGroups | where {$_.name -eq $HAGroup}).id
-            $Filters.Add("ha_group==`"$HAGroupId`"") | Out-Null
-        }
-        if ($DHCPServer) {
-            $DHCPHostId = (Get-B1DHCPHost -Name $DHCPServer -Strict:$Strict).id
-            $Filters.Add("host==`"$DHCPHostId`"") | Out-Null
-        }
-        if ($Space) {
-            $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
-            $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
-        }
-
-
-        if ($Filters) {
-            $Filter = Combine-Filters $Filters
-            $Query = "?_filter=$Filter"
-            Query-CSP -Method GET -Uri "dhcp/lease?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
-        } else {
-            Query-CSP -Method GET -Uri "dhcp/lease" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
-        }
-    }
-}
-
-function Get-B1DNSUsage {
-    param(
-        [String]$Address,
-        [String]$Space,
-        [Switch]$ParseDetails
-    )
-    [System.Collections.ArrayList]$Filters = @()
-    if ($Address) {
-        $Filters.Add("address==`'$Address`'") | Out-Null
-    }
-    if ($Space) {
-        $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
-        $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
-    }
-    if ($Filters) {
-        $QueryFilter = Combine-Filters $Filters
-        if ($ParseDetails) {
-          $AuthZones = Get-B1AuthoritativeZone
-          $Spaces = Get-B1Space
-          $Views = Get-B1DNSView
-          Query-CSP -Method GET -Uri "ipam/dns_usage?_filter=$QueryFilter" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select address,name,type,absolute_name,@{Name = 'zone'; Expression = {$authzone = $_.zone; (@($AuthZones).where({ $_.id -eq $authzone })).fqdn }},@{Name = 'space'; Expression = {$ipamspace = $_.space; (@($Spaces).where({ $_.id -eq $ipamspace })).name }},@{Name = 'view'; Expression = {$dnsview = $_.view; (@($Views).where({ $_.id -eq $dnsview })).name }},* -ErrorAction SilentlyContinue
-        } else {
-          Query-CSP -Method GET -Uri "ipam/dns_usage?_filter=$QueryFilter" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select address,name,type,absolute_name,zone,space,* -ErrorAction SilentlyContinue
-        }
-    } else {
-        if ($ParseDetails) {
-          $AuthZones = Get-B1AuthoritativeZone
-          $Spaces = Get-B1Space
-          $Views = Get-B1DNSView
-          Query-CSP -Method GET -Uri "ipam/dns_usage" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select address,name,type,absolute_name,@{Name = 'zone'; Expression = {$authzone = $_.zone; (@($AuthZones).where({ $_.id -eq $authzone })).fqdn }},@{Name = 'space'; Expression = {$ipamspace = $_.space; (@($Spaces).where({ $_.id -eq $ipamspace })).name }},@{Name = 'view'; Expression = {$dnsview = $_.view; (@($Views).where({ $_.id -eq $dnsview })).name }},* -ErrorAction SilentlyContinue
-        } else {
-          Query-CSP -Method GET -Uri "ipam/dns_usage" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select address,name,type,absolute_name,zone,space,* -ErrorAction SilentlyContinue
-        }
-    }
-}
-
-function Get-B1Record {
-    param(
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
-      [String]$Type,
-      [String]$Name,
-      [String]$Zone,
-      [String]$rdata,
-      [String]$FQDN,
-      [String]$Source,
-      [String]$View,
-      [switch]$Strict = $false,
-      [switch]$IncludeInheritance = $false
-    )
-
-    $SupportedRecords = "A","CNAME","PTR","NS","TXT","SOA","SRV"
-    $MatchType = Match-Type $Strict
-    [System.Collections.ArrayList]$Filters = @()
-    if ($Type) {
-        if ($Type -in $SupportedRecords) {
-            $Filters.Add("type==`"$Type`"") | Out-Null
-        } else {
-            Write-Host "Invalid type specified. The following record types are supported: $SupportedRecords" -ForegroundColor Red
-            break
-        }
-    }
-    if ($Name) {
-        $Filters.Add("name_in_zone$MatchType`"$Name`"") | Out-Null
-    }
-    if ($rdata) {
-        $Filters.Add("dns_rdata$MatchType`"$rdata`"") | Out-Null
-    }
-    if ($FQDN) {
-        if ($Strict) {
-            if (!($FQDN.EndsWith("."))) {
-                $FQDN = "$FQDN."
-            }
-        }
-        $Filters.Add("absolute_name_spec$MatchType`"$FQDN`"") | Out-Null
-    }
-    if ($Zone) {
-        if ($Strict) {
-            if (!($Zone.EndsWith("."))) {
-                $Zone = "$Zone."
-            }
-        }
-        $Filters.Add("absolute_zone_name$MatchType`"$Zone`"") | Out-Null
-    }
-    
-    if ($Filters) {
-        $Filter = Combine-Filters $Filters
-        if ($IncludeInheritance) {
-            $Query = "?_filter=$Filter&_inherit=full"
-        } else {
-            $Query = "?_filter=$Filter"
-        }
-    } else {
-        if ($IncludeInheritance) {
-            $Query = "?_inherit=full"
-        }
-    }
-
-    if ($Query) {
-        $Result = Query-CSP -Method GET -Uri "dns/record$Query" | Select -ExpandProperty results -ErrorAction SilentlyContinue
-    } else {
-        $Result = Query-CSP -Method GET -Uri "dns/record" | Select -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-
-    if ($View) {
-        $Result = $Result | where {$_.view_name -eq $View}
-    }
-    if ($Source) {
-        $Result = $Result | where {$_.source -contains $Source}
-    }
-    $Result
-}
-
-function New-B1Record {
-    param(
-      [Parameter(Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
-      [String]$Type,
-      [Parameter(Mandatory=$true)]
-      [String]$Name,
-      [Parameter(Mandatory=$true)]
-      [String]$Zone,
-      [Parameter(Mandatory=$true)]
-      [String]$rdata,
-      [Parameter(Mandatory=$true)]
-      [String]$view,
-      [int]$TTL,
-      [string]$Description,
-      [bool]$CreatePTR = $true,
-      [int]$Priority,
-      [int]$Weight,
-      [int]$Port,
-      [switch]$SkipExistsErrors = $false,
-      [switch]$IgnoreExists = $false
-    )
-    
-    $SupportedRecords = "A","CNAME","PTR","TXT","SRV"
-    ## To be added: "NS","SOA"
-    if (!($Type -in $SupportedRecords)) {
-        Write-Host "Invalid type specified. The following record types are supported: $SupportedRecords" -ForegroundColor Red
-        break
-    }
-
-    if ($view) {
-        $viewId = (Get-B1DNSView -Name $view -Strict).id
-    }
-
-    $TTLAction = "inherit"
-    $FQDN = $Name+"."+$Zone
-    $Record = Get-B1Record -Name $Name -View $view -Strict | where {$_.absolute_zone_name -match "^$($Zone)"}
-    if ($Record -and -not $IgnoreExists) {
-        if (!$SkipExistsErrors -and !$Debug) {Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow}
-        return $false
-    } else {
-        $AuthZoneId = (Get-B1AuthoritativeZone -FQDN $Zone -Strict -View $view).id
-        if (!($AuthZoneId)) {
-            Write-Host "Error. Authorative Zone not found." -ForegroundColor Red
-        } else {
-            switch ($Type) {
-                "A" {
-                    if (!(Get-B1Record -Name $Name -rdata $rdata -Strict | where {$_.absolute_zone_name -match "^$($Zone)"})) {
-                        if ([bool]($rdata -as [ipaddress])) {
-                            $rdataSplat = @{
-	                            "address" = $rdata
-	                        }
-                            $Options = @{
-		                            "create_ptr" = $CreatePTR
-		                            "check_rmz" = $false
-	                        }
-                        } else {
-                            Write-Host "Error. Invalid IP Address." -ForegroundColor Red
-                            break
-                        }
-                    } else {
-                        Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow
-                    }
-                }
-                "CNAME" {
-                    if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\.)?$)") {
-                        if (!($rdata.EndsWith("."))) {
-                            $rdata = "$rdata."
-                        }
-                        $rdataSplat = @{
-	                        "cname" = $rdata
-	                    }
-                    } else {
-                        Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
-                        break
-                    }
-                }
-                "TXT" {
-                    $rdataSplat = @{
-                        "text" = $rdata
-	                }
-                }
-                "PTR" {
-                    $rdataSplat = @{
-                        "dname" = $rdata
-	                }
-                }
-                "SRV" {
-                    if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
-                        if ($Priority -and $Weight -and $Port) {
-                            $rdataSplat = @{
-		                        "priority" = $Priority
-		                        "weight" = $Weight
-		                        "port" = $Port
-		                        "target" = $rdata
-	                        }
-                        } else {
-                            Write-Host "Error. When creating SRV records, -Priority, -Weight & -Port parameters are all required." -ForegroundColor Red
-                            break
-                        }
-                    } else {
-                        Write-Host "Error. SRV target must be an FQDN: $rdata" -ForegroundColor Red
-                        break
-                    }
-                }
-                default {
-                    Write-Host "Error. Invalid record type: $Type" -ForegroundColor Red
-                    Write-Host "Please use a supported record type: $SupportedRecords" -ForegroundColor Gray
-                    break
-                }
-            }
-            if ($rdataSplat) {
-                Write-Host "Creating $Type Record for $FQDN.." -ForegroundColor Gray
-            
-                if ($TTL) {
-                    $TTLAction = "override"
-                }
-                $splat = @{
-	                "name_in_zone" = $Name
-	                "zone" = $AuthZoneId
-	                "type" = $Type
-	                "rdata" = $rdataSplat
-	                "inheritance_sources" = @{
-		                "ttl" = @{
-			                "action" = $TTLAction
-		                }
-	                }
-                }
-                if ($Options) {
-                    $splat | Add-Member -Name "options" -Value $Options -MemberType NoteProperty
-                }               
-                if ($TTL) {
-                    $splat | Add-Member -Name "ttl" -Value $TTL -MemberType NoteProperty
-                }
-                if ($viewId) {
-                    #$splat | Add-Member -Name "view" -Value $viewId -MemberType NoteProperty
-                }
-                if ($Description) {
-                    $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
-                }
-
-                $splat = $splat | ConvertTo-Json
-                if ($Debug) {$splat}
-                $Result = Query-CSP -Method POST -Uri "dns/record" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
-                if ($Debug) {$Result}
-                if ($Result.dns_rdata -match $rdata) {
-                    Write-Host "DNS $Type Record has been successfully created for $FQDN." -ForegroundColor Green
-                    #return $Result
-                } else {
-                    Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red
-                }
-
-            }
-        }
-    }
-
-}
-
-function Set-B1Record {
-    param(
-      [Parameter(Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
-      [String]$Type,
-      [Parameter(Mandatory=$true)]
-      [String]$Name,
-      [Parameter(Mandatory=$true)]
-      [String]$Zone,
-      [Parameter(Mandatory=$true)]
-      [String]$rdata,
-      [Parameter(Mandatory=$true)]
-      [String]$view,
-      [String]$CurrentRDATA,
-      [int]$TTL,
-      [string]$Description,
-      [int]$Priority,
-      [int]$Weight,
-      [int]$Port
-    )
-    
-    if ($view) {
-        $viewId = (Get-B1DNSView -Name $view -Strict).id
-    }
-
-    $TTLAction = "inherit"
-    $FQDN = $Name+"."+$Zone
-    $Record = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA
-    if (!($Record)) {
-        Write-Host "Error. Record doesn't exist." -ForegroundColor Red
-        break
-    } else {
-        switch ($Type) {
-            "A" {
-                if ([bool]($rdata -as [ipaddress])) {
-                    $rdataSplat = @{
-                        "address" = $rdata
-                    }
-                } else {
-                    Write-Host "Error. Invalid IP Address." -ForegroundColor Red
-                    break
-                }
-            }
-            "CNAME" {
-                if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\.)?$)") {
-                  if (!($rdata.EndsWith("."))) {
-                    $rdata = "$rdata."
-                  }
-                  $rdataSplat = @{
-	                "cname" = $rdata
-	              }
-                } else {
-                  Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
-                  break
-                }
-            }
-            "TXT" {
-                $rdataSplat = @{
-                    "text" = $rdata
-                }
-            }
-            "PTR" {
-                $rdataSplat = @{
-                    "dname" = $rdata
-                }
-            }
-            "SRV" {
-                if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
-                    if ($Priority -and $Weight -and $Port) {
-                        $rdataSplat = @{
-		                    "priority" = $Priority
-		                    "weight" = $Weight
-		                    "port" = $Port
-		                    "target" = $rdata
-	                    }
-                    } else {
-                        Write-Host "Error. When updating SRV records, -Priority, -Weight & -Port parameters are all required." -ForegroundColor Red
-                        break
-                    }
-                } else {
-                    Write-Host "Error. SRV target must be an FQDN: $rdata" -ForegroundColor Red
-                    break
-                }
-            }
-            default {
-                Write-Host "Error. Invalid record type: $Type" -ForegroundColor Red
-                Write-Host "Please use a supported record type: $SupportedRecords" -ForegroundColor Gray
-                break
-            }
-        }
-
-        if ($rdataSplat) {
-            Write-Host "Updating $Type Record for $FQDN.." -ForegroundColor Gray
-            
-            if ($TTL) {
-                $TTLAction = "override"
-                $Record.inheritance_sources
-            }
-            $splat = @{
-                "name_in_zone" = $Name
-	            "rdata" = $rdataSplat
-	            "inheritance_sources" = @{
-		            "ttl" = @{
-			            "action" = $TTLAction
-		            }
-	            }
-            }
-            if ($Options) {
-                $splat | Add-Member -Name "options" -Value $Options -MemberType NoteProperty
-            }               
-            if ($TTL) {
-                $splat | Add-Member -Name "ttl" -Value $TTL -MemberType NoteProperty
-            }
-            if ($Description) {
-                $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
-            }
-            
-            $splat = $splat | ConvertTo-Json
-            if ($Debug) {$splat}
-            $Result = Query-CSP -Method PATCH -Uri $($Record.id) -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
-            if ($Debug) {$Result}
-            if ($Result.dns_rdata -match $rdata) {
-                Write-Host "DNS $Type Record has been successfully updated for $FQDN." -ForegroundColor Green
-            } else {
-                Write-Host "Failed to update DNS $Type Record for $FQDN." -ForegroundColor Red
-            }
-
-        }
-    }
-}
-
-function Remove-B1Record {
-    param(
-      [Parameter(Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
-      [String]$Type,
-      [String]$Name,
-      [String]$Zone,
-      [Parameter(Mandatory=$true)]
-      [String]$View,
-      [String]$rdata,
-      [String]$FQDN,
-      [Switch]$Strict = $false
-    )
-
-    if (!(($Name -and $Zone) -or $FQDN)) {
-        Write-Host "Error. You must specify either -Name & -Zone or -FQDN" -ForegroundColor Red
-        break
-    }
-    
-    $Record = Get-B1Record -Type $Type -Name $Name -Zone $Zone -View $View -rdata $rdata -FQDN $FQDN -Strict:$Strict
-
-    if (($Record | measure).Count -gt 1) {
-        Write-Host "More than one record returned. These will not be removed." -ForegroundColor Red
-        $Record | ft -AutoSize
-    } elseif (($Record | measure).Count -eq 1) {
-        Write-Host "Removing record: $FQDN$Name.$Zone.." -ForegroundColor Yellow
-        $Result = Query-CSP -Method "DELETE" -Uri $Record.id
-        if (Get-B1Record -Type $Type -Name $Name -Zone $Zone -View $View -rdata $rdata -FQDN $FQDN -Strict:$Strict) {
-            Write-Host "Failed to remove DNS record: $FQDN$Name.$Zone" -ForegroundColor Red
-        } else {
-            Write-Host "Successfully removed DNS record: $FQDN$Name.$Zone" -ForegroundColor Green
-        }
-    } else {
-        Write-Host "DNS record does not exist: $FQDN$Name.$Zone" -ForegroundColor Gray
-    }
-
-}
-
 function New-NIOSRecord {
     param(
       [Parameter(Mandatory=$true)]
@@ -1248,311 +723,223 @@ function New-NIOSRecord {
 
 }
 
-function New-B1AuthoritativeZone {
+function Get-NIOSDelegatedZone {
     param(
       [Parameter(Mandatory=$true)]
+      [String]$Server,
       [String]$FQDN,
+      $Creds
+    )
+    if ($FQDN) {
+        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds | select -ExpandProperty results | where {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
+    } else {
+        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds | select -ExpandProperty results -ErrorAction SilentlyContinue
+    }
+}
+
+function Get-NIOSAuthorativeZone {
+    param(
       [Parameter(Mandatory=$true)]
-      [System.Object]$View,
+      [String]$Server,
+      [String]$FQDN,
+      $Creds
+    )
+    if ($FQDN) {
+        Query-NIOS -Method GET -Server $Server -Uri "zone_auth?_return_as_object=1" -Creds $Creds | select -ExpandProperty results | where {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
+    } else {
+        Query-NIOS -Method GET -Server $Server -Uri "zone_auth?_return_as_object=1" -Creds $Creds | select -ExpandProperty results -ErrorAction SilentlyContinue
+    }
+}
+
+function Get-NIOSForwardZone {
+    param(
+      [Parameter(Mandatory=$true)]
+      [String]$Server,
+      [String]$FQDN,
+      $Creds
+    )
+    if ($FQDN) {
+        Query-NIOS -Method GET -Server $Server -Uri "zone_forward?_return_as_object=1" -Creds $Creds | select -ExpandProperty results | where {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
+    } else {
+        Query-NIOS -Method GET -Server $Server -Uri "zone_forward?_return_as_object=1" -Creds $Creds | select -ExpandProperty results -ErrorAction SilentlyContinue
+    }
+}
+
+function New-NIOSDelegatedZone {
+    param(
+      [Parameter(Mandatory=$true)]
+      [String]$Server,
+      [Parameter(Mandatory=$true)]
+      [System.Object]$Hosts,
+      [Parameter(Mandatory=$true)]
+      [String]$FQDN,
+      $Creds
+    )
+    if (Get-NIOSDelegatedZone -Server $Server -Creds $Creds -FQDN $FQDN) {
+        Write-Host "Error. Delegated zone already exists." -ForegroundColor Red
+    } else {
+        Write-Host "Creating delegated DNS Zone $FQDN.." -ForegroundColor Cyan
+
+        $splat = @{
+            "fqdn" = $FQDN
+            "delegate_to" = $Hosts
+        }
+        $splat = $splat | ConvertTo-Json
+        if ($Debug) {$splat}
+
+        try {
+            $Result = Query-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat
+            $Successful = $true
+            if ($Debug) {$Result}
+        } catch {
+            Write-Host "Failed to create NIOS DNS Zone Delegation." -ForegroundColor Red
+            $Successful = $false
+        } finally {
+            if ($Successful) {
+                Write-Host "NIOS DNS Zone Delegation created successfully for $FQDN." -ForegroundColor Green
+            }
+        }
+    }
+}
+
+function Migrate-NIOSSubzoneToBloxOne {
+    param(
+      [Parameter(Mandatory=$true)]
+      [String]$Server,
+      [Parameter(Mandatory=$true)]
+      [String]$Subzone,
+      [Parameter(Mandatory=$true)]
+      [String]$View,
+      [switch]$Confirm = $true,
+      [switch]$IncludeDHCP = $false,
+      [switch]$Test = $false,
+      [switch]$CreateZones = $false,
       [System.Object]$DNSHosts,
       [System.Object]$AuthNSGs,
-      [String]$DNSACL,
-      [String]$Description
+      $Creds
     )
 
-    if (Get-B1AuthoritativeZone -FQDN $FQDN -View $View -Strict) {
-        Write-Host "The $FQDN Zone already exists in DNS." -ForegroundColor Red
+    $Export = @()
+
+    if (!(Get-NIOSAuthorativeZone -Server $Server -Creds $Creds -FQDN $Subzone)) {
+        Write-Host "Error. Authorative zone does not exist in NIOS." -ForegroundColor Red
     } else {
+        Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
+        $SubzoneData = Query-NIOS -Method GET -Server $Server -Uri "allrecords?zone=$Subzone&_return_as_object=1&_return_fields%2B=creator" -Creds $Creds | Select -ExpandProperty results -ErrorAction SilentlyContinue
 
-        $ViewUUID = (Get-B1DNSView -Name $View -Strict).id
-
-        $splat = @{
-	        "fqdn" = $FQDN
-	        "disabled" = $false
-	        "view" = $ViewUUID
-            "primary_type" = "cloud"
+        if (!$IncludeDHCP) {
+            $SubzoneData = $SubzoneData | where {$_.Creator -eq "STATIC"}
         }
 
-        if ($DNSHosts -or $AuthNSGs) {
-            if ($DNSHosts) {
-                $B1Hosts = New-Object System.Collections.ArrayList
-                foreach ($DNSHost in $DNSHosts) {
-                    $B1Hosts.Add(@{"host"=(Get-B1DNSHost -Name $DNSHost).id;}) | Out-Null
-                }
-                $splat | Add-Member -Name "internal_secondaries" -Value $B1Hosts -MemberType NoteProperty
-            }
+        $UnsupportedRecords = $SubzoneData | where {$_.type -eq "UNSUPPORTED"}
+        if ($UnsupportedRecords) {
+            Write-Host "Unsupported records found. These may need to be re-created in BloxOne." -ForegroundColor Red
+            $UnsupportedRecords | ft name,zone,type,comment,view -AutoSize
+        }
+        $SubzoneData = $SubzoneData | where {$_.type -ne "UNSUPPORTED"}
 
-            if ($AuthNSGs) {
-                $B1AuthNSGs = @()
-                foreach ($AuthNSG in $AuthNSGs) {
-                    $B1AuthNSGs += (Get-B1AuthoritativeNSG -Name $AuthNSG -Strict).id
-                }
-                $splat | Add-Member -Name "nsgs" -Value $B1AuthNSGs -MemberType NoteProperty
+        foreach ($SubzoneItem in $SubzoneData) {
+            if ($SubzoneItem.type -eq "record:host_ipv4addr") {
+                $SubzoneItem.type = "record:host"
             }
+            if ($Debug) {Write-Host "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1"}
 
-            if ($DNSACL) {
-                $DNSACLID = (Get-B1DNSACL -Name $DNSACL).id
-                if ($DNSACLID) {
-                    $UpdateACL = @(@{
-			                    "element" = "acl"
-			                    "acl" = $DNSACLID
-	                })
-                    $splat | Add-Member -Name "update_acl" -Value $UpdateACL -MemberType NoteProperty
-                } else {
-                    Write-Host "Error. DNS ACL not found." -ForegroundColor Red
-                    break
+            $ReturnData = Query-NIOS -Method GET -Server $Server -Uri "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1" -Creds $Creds | Select -ExpandProperty results -ErrorAction SilentlyContinue | Select -First 1 -ErrorAction SilentlyContinue
+
+            switch ($SubzoneItem.type) {
+                "record:host" {
+                    $HostData = $ReturnData.ipv4addrs.ipv4addr
+                }
+                "record:a" {
+                    $HostData = $ReturnData.ipv4addr
+                }
+                "record:cname" {
+                    $HostData = $ReturnData.canonical+"."
+                }
+                "record:srv" {
+                    $HostData = "$($ReturnData.target):$($ReturnData.port):$($ReturnData.priority):$($ReturnData.weight)"
                 }
             }
 
-            if ($Description) {
-                $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
+            $splat = @{
+                "Type" = $SubzoneItem.type
+                "Name" = $SubzoneItem.name
+                "Data" = $HostData
             }
 
-        } else {
-            Write-Host "Error. DNSHosts or AuthNSGs must be specified." -ForegroundColor Red
-            break
+            $Export += $splat
         }
-
-        $splat = $splat | ConvertTo-Json
-        if ($Debug) {$splat}
-
-        $Result = Query-CSP -Method POST -Uri "dns/auth_zone" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
-
-        if ($Result) {
-            Write-Host "Created Authorative DNS Zone $FQDN successfully." -ForegroundColor Green
-        } else {
-            Write-Host "Failed to create Authorative DNS Zone $FQDN." -ForegroundColor Red
-        }
+        Write-Host "The following records are ready to copy." -ForegroundColor Green
+        $Export | ConvertTo-Json | ConvertFrom-Json | ft -AutoSize
     }
-}
 
-function New-B1ForwardZone {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$FQDN,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$View,
-      [Parameter(Mandatory=$true)]
-      $Forwarders,
-      $DNSHosts,
-      [String]$Description
-    )
-
-    if (Get-B1ForwardZone -FQDN $FQDN -View $View) {
-        Write-Host "The $FQDN Zone already exists in DNS." -ForegroundColor Red
-    } else {
-
-        $ViewUUID = (Get-B1DNSView -Name $View -Strict).id
-
-        if ($Forwarders.GetType().Name -eq "Object[]") {
-            $ExternalHosts = New-Object System.Collections.ArrayList
-            foreach ($Forwarder in $Forwarders) {
-                $ExternalHosts.Add(@{"address"=$Forwarder;"fqdn"=$Forwarder;}) | Out-Null
-            }
-        } elseif ($Forwarders.GetType().Name -eq "ArrayList") {
-            $ExternalHosts = $Forwarders
-        } else {
-            Write-Host "Error. Invalid data submitted in -ExternalHosts" -ForegroundColor Red
-            break
-        }
-
-        $splat = @{
-	        "fqdn" = $FQDN
-	        "disabled" = $false
-            "forward_only" = $true
-	        "external_forwarders" = $ExternalHosts
-	        "view" = $ViewUUID
-        }
-
-        if ($DNSHosts) {
-            $B1Hosts = New-Object System.Collections.ArrayList
-            foreach ($DNSHost in $DNSHosts) {
-                $B1Hosts.Add((Get-B1DNSHost -Name $DNSHost).id) | Out-Null
-            }
-            $splat | Add-Member -Name "hosts" -Value $B1Hosts -MemberType NoteProperty
-        }
-
-        $splat = $splat | ConvertTo-Json
-        if ($Debug) {$splat}
-
-        $Result = Query-CSP -Method POST -Uri "dns/forward_zone" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
-
-        if ($Result) {
-            Write-Host "Created Forward DNS Zone $FQDN successfully." -ForegroundColor Green
-        } else {
-            Write-Host "Failed to create Forward DNS Zone $FQDN." -ForegroundColor Red
-        }
+    if ($Confirm -and -not $Test) {
+        Write-Host "Review Information" -ForegroundColor Yellow
+        Write-Warning "Are you sure you want to continue with copying this DNS Zone to BloxOne?" -WarningAction Inquire
     }
-}
 
-
-function Set-B1ForwardZone {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$FQDN,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$View,
-      [String]$Forwarders,
-      [System.Object]$DNSHosts,
-      [String]$DNSServerGroups
-    )
-
-    $ForwardZone = Get-B1ForwardZone -FQDN $FQDN
-
-    if ($ForwardZone) {
-        $ForwardZoneUri = $ForwardZone.id
-
-        $ForwardZonePatch = @{}
-
-        if ($Forwarders) {
-            if ($Forwarders.GetType().Name -eq "Object[]") {
-                $ExternalHosts = New-Object System.Collections.ArrayList
-                foreach ($Forwarder in $Forwarders) {
-                    $ExternalHosts.Add(@{"address"=$Forwarder;"fqdn"=$Forwarder;}) | Out-Null
-                }
-            } elseif ($Forwarders.GetType().Name -eq "ArrayList") {
-                $ExternalHosts = $Forwarders
-            }
-        }
-                
-        if ($DNSHosts) {
-            $B1Hosts = New-Object System.Collections.ArrayList
-            foreach ($DNSHost in $DNSHosts) {
-                $B1Hosts.Add((Get-B1DNSHost -Name $DNSHost).id) | Out-Null
-            }
-        }
-
-        if ($DNSServerGroups) {
-            $B1ForwardNSGs = @()
-            foreach ($DNSServerGroup in $DNSServerGroups) {
-                $B1ForwardNSGs += (Get-B1ForwardNSG -Name $DNSServerGroup).id
-            }
-        }
-
-        if ($ExternalHosts) {$ForwardZonePatch.external_forwarders = $ExternalHosts}
-        if ($B1Hosts) {$ForwardZonePatch.hosts = $B1Hosts}
-        if ($DNSServerGroups) {
-            $ForwardZonePatch.nsgs = $B1ForwardNSGs
-            $ForwardZonePatch.external_forwarders = @()
-            $ForwardZonePatch.hosts = @()
-        }
-
-        if ($ForwardZonePatch.Count -eq 0) {
-            Write-Host "Nothing to update." -ForegroundColor Gray
-        } else {
-            $splat = $ForwardZonePatch | ConvertTo-Json -Depth 10
-            if ($Debug) {$splat}
-
-            $Result = Query-CSP -Method PATCH -Uri "$ForwardZoneUri" -Data $splat
-        
-            if (($Result | select -ExpandProperty result).fqdn -like "$FQDN*") {
-                Write-Host "Updated Forward DNS Zone successfully." -ForegroundColor Green
+    if (!(Get-B1AuthoritativeZone -FQDN $Subzone -View $View)) {
+        if ($CreateZones) {
+            if ($DNSHosts -or $AuthNSGs) {
+                New-B1AuthoritativeZone -FQDN $Subzone -View $View -DNSHosts $DNSHosts -AuthNSGs $AuthNSGs
+                Wait-Event -Timeout 10
             } else {
-                Write-Host "Failed to update Forward DNS Zone." -ForegroundColor Red
+                Write-Host "Error. You must specify -DNSHosts or -AuthNSGs when -CreateZones is $true" -ForegroundColor Red
                 break
             }
-        }
-
-    } else {
-        Write-Host "The Forward Zone $FQDN does not exist." -ForegroundColor Red
-    }
-}
-
-function Set-B1AuthoritativeZone {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$FQDN,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$View,
-      [System.Object]$DNSHosts,
-      [System.Object]$AddAuthNSGs,
-      [System.Object]$RemoveAuthNSGs,
-      [String]$Description
-    )
-
-    $AuthZone = Get-B1AuthoritativeZone -FQDN $FQDN -View $View -Strict
-    
-    if ($AuthZone) {
-        $AuthZoneUri = $AuthZone.id
-        $AuthZonePatch = @{}
-
-        if ($DNSHosts -or $AddAuthNSGs -or $RemoveAuthNSGs) {
-            if ($DNSHosts) {
-                $B1Hosts = New-Object System.Collections.ArrayList
-                foreach ($DNSHost in $DNSHosts) {
-                    $B1Hosts.Add(@{"host"=(Get-B1DNSHost -Name $DNSHost).id;}) | Out-Null
-                }
-                $AuthZonePatch.internal_secondaries = $B1Hosts
-            }
-
-            if ($AddAuthNSGs) {
-                $B1AuthNSGs = @()
-                if ($AuthZone.nsgs -gt 0) {
-                    $B1AuthNSGs += $AuthZone.nsgs
-                }
-                foreach ($AuthNSG in $AddAuthNSGs) {
-                    $B1AuthNSGs += (Get-B1AuthoritativeNSG -Name $AuthNSG -Strict).id
-                }
-                $AuthZonePatch.nsgs = @()
-                $AuthZonePatch.nsgs += $B1AuthNSGs | select -Unique
-            }
-
-            if ($RemoveAuthNSGs) {
-                $B1AuthNSGs = @()
-                if ($AuthZone.nsgs -gt 0) {
-                    $B1AuthNSGs += $AuthZone.nsgs
-                }
-                foreach ($AuthNSG in $RemoveAuthNSGs) {
-                    $AuthNSGid = (Get-B1AuthoritativeNSG -Name $AuthNSG -Strict).id
-                    $B1AuthNSGs = $B1AuthNSGs | where {$_ -ne $AuthNSGid}
-                }
-                $AuthZonePatch.nsgs = @()
-                $AuthZonePatch.nsgs += $B1AuthNSGs | select -Unique
-            }
-
-        }
-        if ($Description) {
-            $AuthZonePatch.comment = $Description
-        }
-        
-        if ($AuthZonePatch.Count -eq 0) {
-            Write-Host "Nothing to update." -ForegroundColor Gray
         } else {
-            $splat = $AuthZonePatch | ConvertTo-Json -Depth 10
-            $Result = Query-CSP -Method PATCH -Uri "$AuthZoneUri" -Data $splat
-            if (($Result | select -ExpandProperty result).fqdn -like "$FQDN*") {
-              Write-Host "Updated Authoritative DNS Zone: $FQDN successfully." -ForegroundColor Green
-            } else {
-              Write-Host "Failed to update Authoritative DNS Zone: $FQDN." -ForegroundColor Red
-              break
+            Write-Host "Error. Authorative Zone $Subzone not found in BloxOne." -ForegroundColor Red
+            break
+        }
+    }
+
+    if (!($Test)) {
+        Write-Host "Syncing $($Subzone) to BloxOneDDI in View $View.." -ForegroundColor Yellow
+        foreach ($ExportedItem in $Export) {
+            switch ($ExportedItem.type) {
+                "record:host" {
+                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$true -SkipExistsErrors
+                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
+                }
+                "record:a" {
+                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$true -SkipExistsErrors
+                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
+                }
+                "record:cname" {
+                    $CreateResult = New-B1Record -Type "CNAME" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$false -SkipExistsErrors
+                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
+                }
+                "record:srv" {
+                    $ExportedData = $ExportedItem.data.split(":")
+                    $CreateResult = New-B1Record -Type "SRV" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Port $ExportedData[1] -Priority $ExportedData[2] -Weight $ExportedData[3] -view $View -CreatePTR:$false -SkipExistsErrors
+                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
+                }
             }
         }
-        if ($Debug) {$splat}
-       
-    } else {
-        Write-Host "The Authoritative Zone $FQDN does not exist." -ForegroundColor Red
+        Write-Host "Completed Syncing $($Subzone) to BloxOneDDI in View $View.." -ForegroundColor Green
     }
 }
 
-function Remove-B1AuthoritativeZone {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$FQDN,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$View
-    )
-    $Zone = Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View
-    if ($Zone) {
-        Query-CSP -Method "DELETE" -Uri "$($Zone.id)"
-        if (Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View) {
-            Write-Host "Error. Failed to delete Authoritative Zone $FQDN." -ForegroundColor Red
-        } else {
-            Write-Host "Successfully deleted Authoritative Zone $FQDN." -ForegroundColor Green
-        }
-    } else {
-        Write-Host "Zone $FQDN does not exist." -ForegroundColor Yellow
-    }
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function Get-B1DHCPGlobalConfig {
     $Result = Query-CSP -Method "GET" -Uri "dhcp/global" | Select -ExpandProperty result -ErrorAction SilentlyContinue
@@ -1983,85 +1370,6 @@ function Get-B1TopMetrics {
     }
 }
 
-function Get-NIOSDelegatedZone {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$Server,
-      [String]$FQDN,
-      $Creds
-    )
-    if ($FQDN) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds | select -ExpandProperty results | where {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
-    } else {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds | select -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-}
-
-function Get-NIOSAuthorativeZone {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$Server,
-      [String]$FQDN,
-      $Creds
-    )
-    if ($FQDN) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_auth?_return_as_object=1" -Creds $Creds | select -ExpandProperty results | where {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
-    } else {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_auth?_return_as_object=1" -Creds $Creds | select -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-}
-
-function Get-NIOSForwardZone {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$Server,
-      [String]$FQDN,
-      $Creds
-    )
-    if ($FQDN) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_forward?_return_as_object=1" -Creds $Creds | select -ExpandProperty results | where {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
-    } else {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_forward?_return_as_object=1" -Creds $Creds | select -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-}
-
-function New-NIOSDelegatedZone {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$Server,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$Hosts,
-      [Parameter(Mandatory=$true)]
-      [String]$FQDN,
-      $Creds
-    )
-    if (Get-NIOSDelegatedZone -Server $Server -Creds $Creds -FQDN $FQDN) {
-        Write-Host "Error. Delegated zone already exists." -ForegroundColor Red
-    } else {
-        Write-Host "Creating delegated DNS Zone $FQDN.." -ForegroundColor Cyan
-
-        $splat = @{
-            "fqdn" = $FQDN
-            "delegate_to" = $Hosts
-        }
-        $splat = $splat | ConvertTo-Json
-        if ($Debug) {$splat}
-
-        try {
-            $Result = Query-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat
-            $Successful = $true
-            if ($Debug) {$Result}
-        } catch {
-            Write-Host "Failed to create NIOS DNS Zone Delegation." -ForegroundColor Red
-            $Successful = $false
-        } finally {
-            if ($Successful) {
-                Write-Host "NIOS DNS Zone Delegation created successfully for $FQDN." -ForegroundColor Green
-            }
-        }
-    }
-}
-
 function Start-B1Export {
     param(
       [Parameter(Mandatory=$true)]
@@ -2319,31 +1627,7 @@ function Start-B1DiagnosticTask {
   }
 }
 
-function Reboot-B1OnPremHost {
-  param(
-    [parameter(Mandatory=$true)]
-               [String]$OnPremHost,
-               [Switch]$NoWarning
-  )
 
-  $OPH = Get-B1Host -Name $OnPremHost
-  if ($OPH.id) {
-    $splat = @{
-      "ophid" = $OPH.ophid
-      "cmd" = @{
-        "name" = "reboot"
-      }
-    }
-    if (!($NoWarning)) {
-        Write-Warning "WARNING! Are you sure you want to reboot this host? $OnPremHost" -WarningAction Inquire
-    }
-    Write-Host "Rebooting $OnPremHost.." -ForegroundColor Yellow
-    $splat = $splat | ConvertTo-Json
-    Query-CSP -Method POST -Uri "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
-  } else {
-    Write-Host "On Prem Host $OnPremHost not found" -ForegroundColor Red
-  }
-}
 
 function Get-B1DiagnosticTask {
   param(
@@ -2366,124 +1650,6 @@ function Get-B1DiagnosticTask {
   }
 }
 
-function Migrate-NIOSSubzoneToBloxOne {
-    param(
-      [Parameter(Mandatory=$true)]
-      [String]$Server,
-      [Parameter(Mandatory=$true)]
-      [String]$Subzone,
-      [Parameter(Mandatory=$true)]
-      [String]$View,
-      [switch]$Confirm = $true,
-      [switch]$IncludeDHCP = $false,
-      [switch]$Test = $false,
-      [switch]$CreateZones = $false,
-      [System.Object]$DNSHosts,
-      [System.Object]$AuthNSGs,
-      $Creds
-    )
-
-    $Export = @()
-
-    if (!(Get-NIOSAuthorativeZone -Server $Server -Creds $Creds -FQDN $Subzone)) {
-        Write-Host "Error. Authorative zone does not exist in NIOS." -ForegroundColor Red
-    } else {
-        Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
-        $SubzoneData = Query-NIOS -Method GET -Server $Server -Uri "allrecords?zone=$Subzone&_return_as_object=1&_return_fields%2B=creator" -Creds $Creds | Select -ExpandProperty results -ErrorAction SilentlyContinue
-
-        if (!$IncludeDHCP) {
-            $SubzoneData = $SubzoneData | where {$_.Creator -eq "STATIC"}
-        }
-
-        $UnsupportedRecords = $SubzoneData | where {$_.type -eq "UNSUPPORTED"}
-        if ($UnsupportedRecords) {
-            Write-Host "Unsupported records found. These may need to be re-created in BloxOne." -ForegroundColor Red
-            $UnsupportedRecords | ft name,zone,type,comment,view -AutoSize
-        }
-        $SubzoneData = $SubzoneData | where {$_.type -ne "UNSUPPORTED"}
-
-        foreach ($SubzoneItem in $SubzoneData) {
-            if ($SubzoneItem.type -eq "record:host_ipv4addr") {
-                $SubzoneItem.type = "record:host"
-            }
-            if ($Debug) {Write-Host "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1"}
-
-            $ReturnData = Query-NIOS -Method GET -Server $Server -Uri "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1" -Creds $Creds | Select -ExpandProperty results -ErrorAction SilentlyContinue | Select -First 1 -ErrorAction SilentlyContinue
-
-            switch ($SubzoneItem.type) {
-                "record:host" {
-                    $HostData = $ReturnData.ipv4addrs.ipv4addr
-                }
-                "record:a" {
-                    $HostData = $ReturnData.ipv4addr
-                }
-                "record:cname" {
-                    $HostData = $ReturnData.canonical+"."
-                }
-                "record:srv" {
-                    $HostData = "$($ReturnData.target):$($ReturnData.port):$($ReturnData.priority):$($ReturnData.weight)"
-                }
-            }
-
-            $splat = @{
-                "Type" = $SubzoneItem.type
-                "Name" = $SubzoneItem.name
-                "Data" = $HostData
-            }
-
-            $Export += $splat
-        }
-        Write-Host "The following records are ready to copy." -ForegroundColor Green
-        $Export | ConvertTo-Json | ConvertFrom-Json | ft -AutoSize
-    }
-
-    if ($Confirm -and -not $Test) {
-        Write-Host "Review Information" -ForegroundColor Yellow
-        Write-Warning "Are you sure you want to continue with copying this DNS Zone to BloxOne?" -WarningAction Inquire
-    }
-
-    if (!(Get-B1AuthoritativeZone -FQDN $Subzone -View $View)) {
-        if ($CreateZones) {
-            if ($DNSHosts -or $AuthNSGs) {
-                New-B1AuthoritativeZone -FQDN $Subzone -View $View -DNSHosts $DNSHosts -AuthNSGs $AuthNSGs
-                Wait-Event -Timeout 10
-            } else {
-                Write-Host "Error. You must specify -DNSHosts or -AuthNSGs when -CreateZones is $true" -ForegroundColor Red
-                break
-            }
-        } else {
-            Write-Host "Error. Authorative Zone $Subzone not found in BloxOne." -ForegroundColor Red
-            break
-        }
-    }
-
-    if (!($Test)) {
-        Write-Host "Syncing $($Subzone) to BloxOneDDI in View $View.." -ForegroundColor Yellow
-        foreach ($ExportedItem in $Export) {
-            switch ($ExportedItem.type) {
-                "record:host" {
-                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$true -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
-                }
-                "record:a" {
-                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$true -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
-                }
-                "record:cname" {
-                    $CreateResult = New-B1Record -Type "CNAME" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$false -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
-                }
-                "record:srv" {
-                    $ExportedData = $ExportedItem.data.split(":")
-                    $CreateResult = New-B1Record -Type "SRV" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Port $ExportedData[1] -Priority $ExportedData[2] -Weight $ExportedData[3] -view $View -CreatePTR:$false -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
-                }
-            }
-        }
-        Write-Host "Completed Syncing $($Subzone) to BloxOneDDI in View $View.." -ForegroundColor Green
-    }
-}
-
 function DeprecationNotice {
   param (
     $Date,
@@ -2501,5 +1667,3 @@ function DeprecationNotice {
 function Get-ibPSVersion {
   (Get-Module -ListAvailable -Name ibPS).Version.ToString()
 }
-
-#Export-ModuleMember -Function * -Alias *
