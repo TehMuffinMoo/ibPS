@@ -3400,4 +3400,4 @@ function Get-ibPSVersion {
   (Get-Module -ListAvailable -Name ibPS).Version.ToString()
 }
 
-Export-ModuleMember -Function * -Alias *
+#Export-ModuleMember -Function * -Alias *
