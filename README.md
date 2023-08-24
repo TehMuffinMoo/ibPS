@@ -300,7 +300,7 @@ Remove-B1AddressReservation -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
 Remove-B1AddressBlock -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
   Removes an Address Block from IPAM.
 
-Remove-B1Subnet -Address "10.0.0.1" -Space "Global"
+Remove-B1Subnet -Subnet 10.0.0.1 -CIDR 24 -Space "Global"
   Removes a Subnet from IPAM.
 
 Remove-B1OnPremHost -Name "bloxoneddihost1.mydomain.corp" (WILL BE DEPRECATED AUGUST 2023 - Use New-B1Host instead)
