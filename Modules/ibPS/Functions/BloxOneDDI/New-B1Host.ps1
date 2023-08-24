@@ -20,9 +20,6 @@
     
     .FUNCTIONALITY
         BloxOneDDI
-    
-    .FUNCTIONALITY
-        IPAM
 
     .FUNCTIONALITY
         Host

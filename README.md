@@ -317,6 +317,9 @@ Remove-B1DHCPConfigProfile -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihos
   
 Remove-B1Range -Start "10.250.20.20" -End "10.250.20.100"
   Used to remove a DHCP Range
+  
+Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Strict
+  Used to remove a BloxOneDDI Service
 
 Set-B1OnPremHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.10" -TimeZone "Europe/London" -Space "Global" (WILL BE DEPRECATED AUGUST 2023 - Use Set-B1Host instead)
   Newly registered devices are given a random name which is updated when using the -IP and -Name parameters together. -IP is used to reference the object, -Name is used as the updated DNS Name. TimeZone and Space can also be configured using this cmdlet.

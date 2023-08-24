@@ -36,9 +36,6 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
-    .PARAMETER Strict
-        Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-
     .PARAMETER NoIPSpace
         Filter by hosts which do not have an IPAM space assigned
 
@@ -47,9 +44,6 @@
     
     .FUNCTIONALITY
         BloxOneDDI
-    
-    .FUNCTIONALITY
-        IPAM
 
     .FUNCTIONALITY
         Host
