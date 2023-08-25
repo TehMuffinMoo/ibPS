@@ -159,7 +159,6 @@
                      #)
 	                "limit" = $TopCount
                 }
-                $splat | ConvertTo-Json -Depth 4
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
                 $Result = Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/cubejs/v1/query?query=$Query"
