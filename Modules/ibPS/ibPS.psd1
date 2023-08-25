@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0.271'
+ModuleVersion = '1.0.0.272'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -69,7 +69,38 @@ Description = 'BloxOne REST API for PowerShell'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Get-ibPSVersion', 'DeprecationNotice'
+FunctionsToExport = 'Apply-B1HostDHCPConfigProfile', 'Apply-B1HostDNSConfigProfile', 
+               'Deploy-B1Appliance', 'Get-B1Address', 'Get-B1AddressBlock', 
+               'Get-B1AddressBlockNextAvailable', 'Get-B1APIKey', 
+               'Get-B1Applications', 'Get-B1AuditLog', 'Get-B1AuthoritativeNSG', 
+               'Get-B1AuthoritativeZone', 'Get-B1BootstrapConfig', 
+               'Get-B1BulkOperation', 'Get-B1DelegatedZone', 'Get-B1DFPLog', 
+               'Get-B1DHCPConfigProfile', 'Get-B1DHCPGlobalConfig', 'Get-B1DHCPHost', 
+               'Get-B1DHCPLease', 'Get-B1DHCPLog', 'Get-B1DHCPOptionCode', 
+               'Get-B1DHCPOptionsGroup', 'Get-B1DHCPOptionSpace', 
+               'Get-B1DiagnosticTask', 'Get-B1DNSACL', 'Get-B1DNSConfigProfile', 
+               'Get-B1DNSHost', 'Get-B1DNSLog', 'Get-B1DNSUsage', 'Get-B1DNSView', 
+               'Get-B1Export', 'Get-B1FixedAddress', 'Get-B1ForwardNSG', 
+               'Get-B1ForwardZone', 'Get-B1GlobalNTPConfig', 'Get-B1HAGroup', 
+               'Get-B1HealthCheck', 'Get-B1Host', 'Get-B1NTPServiceConfiguration', 
+               'Get-B1Range', 'Get-B1Record', 'Get-B1SecurityLog', 
+               'Get-B1SecurityPolicy', 'Get-B1Service', 'Get-B1ServiceLog', 
+               'Get-B1Space', 'Get-B1Subnet', 'Get-B1Tag', 'Get-B1TopMetrics', 
+               'New-B1AddressBlock', 'New-B1AddressReservation', 
+               'New-B1AuthoritativeZone', 'New-B1DHCPConfigProfile', 
+               'New-B1ForwardZone', 'New-B1HAGroup', 'New-B1Host', 'New-B1Range', 
+               'New-B1Record', 'New-B1Service', 'New-B1Subnet', 'Reboot-B1Host', 
+               'Remove-B1AddressBlock', 'Remove-B1AddressReservation', 
+               'Remove-B1AuthoritativeZone', 'Remove-B1Host', 
+               'Remove-B1HostDHCPConfigProfile', 'Remove-B1HostDNSConfigProfile', 
+               'Remove-B1Range', 'Remove-B1Record', 'Remove-B1Service', 
+               'Remove-B1Subnet', 'Search-B1', 'Set-B1AddressBlock', 
+               'Set-B1AuthoritativeZone', 'Set-B1DHCPConfigProfile', 
+               'Set-B1DHCPGlobalConfig', 'Set-B1DNSHost', 'Set-B1ForwardNSG', 
+               'Set-B1ForwardZone', 'Set-B1Host', 'Set-B1NTPServiceConfiguration', 
+               'Set-B1Range', 'Set-B1Record', 'Set-B1Subnet', 'Start-B1DiagnosticTask', 
+               'Start-B1Export', 'Start-B1Service', 'Stop-B1Service', 'Store-B1APIKey', 
+               'Get-NIOSCredentials', 'Store-NIOSCredentials', 'Get-ibPSVersion'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
