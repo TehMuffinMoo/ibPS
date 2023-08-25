@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.0.0.272'
+ModuleVersion = '1.0.0.275'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -77,7 +77,7 @@ FunctionsToExport = 'Apply-B1HostDHCPConfigProfile', 'Apply-B1HostDNSConfigProfi
                'Get-B1BulkOperation', 'Get-B1DelegatedZone', 'Get-B1DFPLog', 
                'Get-B1DHCPConfigProfile', 'Get-B1DHCPGlobalConfig', 'Get-B1DHCPHost', 
                'Get-B1DHCPLease', 'Get-B1DHCPLog', 'Get-B1DHCPOptionCode', 
-               'Get-B1DHCPOptionsGroup', 'Get-B1DHCPOptionSpace', 
+               'Get-B1DHCPOptionGroup', 'Get-B1DHCPOptionSpace', 
                'Get-B1DiagnosticTask', 'Get-B1DNSACL', 'Get-B1DNSConfigProfile', 
                'Get-B1DNSHost', 'Get-B1DNSLog', 'Get-B1DNSUsage', 'Get-B1DNSView', 
                'Get-B1Export', 'Get-B1FixedAddress', 'Get-B1ForwardNSG', 

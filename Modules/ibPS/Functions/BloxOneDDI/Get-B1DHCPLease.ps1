@@ -15,9 +15,6 @@
     .PARAMETER RangeEnd
         The end address of the DHCP Range to search
 
-    .PARAMETER Limit
-        Limits the number of results returned, the default is 1000
-
     .PARAMETER Address
         Filter the DHCP Leases by IP Address
 
@@ -35,6 +32,9 @@
 
     .PARAMETER Space
         Filter the DHCP Leases by IPAM Space
+
+    .PARAMETER Limit
+        Limits the number of results returned, the default is 100
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
@@ -56,21 +56,26 @@
         [Switch][parameter(ParameterSetName="htree")] $Range,
         [String][parameter(ParameterSetName="htree", Mandatory=$true)] $RangeStart,
         [String][parameter(ParameterSetName="htree")] $RangeEnd,
-        [String][parameter(ParameterSetName="htree")] $Limit = 1000,
         [String][parameter(ParameterSetName="std")] $Address,
         [String][parameter(ParameterSetName="std")] $MACAddress,
         [String][parameter(ParameterSetName="std")] $Hostname,
         [String][parameter(ParameterSetName="std")] $HAGroup,
         [String][parameter(ParameterSetName="std")] $DHCPServer,
         [String]$Space = "Global",
+        [String]$Limit = 100,
         [switch]$Strict
     )
     $MatchType = Match-Type $Strict
 
-    if ($Range) {
+    if ($Limit) {
+      $LimitString = "_limit=$($Limit)&"
+    }
+
+    if ($Range -or $RangeStart -or $RangeEnd) {
+        $Range = $true
         $B1Range = Get-B1Range -StartAddress $RangeStart -EndAddress $RangeEnd
         if ($Range) {
-            Query-CSP -Method GET -Uri "ipam/htree?_limit=$Limit&view=SPACE&state=used&node=$($B1Range.id)" | Select -ExpandProperty results -ErrorAction SilentlyContinue | Select -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
+            Query-CSP -Method GET -Uri "ipam/htree?$($LimitString)view=SPACE&state=used&node=$($B1Range.id)" | Select -ExpandProperty results -ErrorAction SilentlyContinue | Select -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
         } else {
           Write-Host "Error. Range not found." -ForegroundColor Red
         }
@@ -104,9 +109,9 @@
         if ($Filters) {
             $Filter = Combine-Filters $Filters
             $Query = "?_filter=$Filter"
-            Query-CSP -Method GET -Uri "dhcp/lease?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
+            Query-CSP -Method GET -Uri "dhcp/lease?$($LimitString)_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         } else {
-            Query-CSP -Method GET -Uri "dhcp/lease" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
+            Query-CSP -Method GET -Uri "dhcp/lease$($LimitString)" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         }
     }
 }

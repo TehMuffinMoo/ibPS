@@ -86,12 +86,6 @@ All Cmdlets are listed below.
 ```
 # Most Get-* cmdlets implement a -Strict parameter which applies strict name checking. Where possible, the default is to perform wildcard lookups on submitted parameters.
 
-Query-CSP -Method GET/POST/PUT/PATCH/DELETE -Uri URI -Data JSON
-  This is a core function for interacting with the REST API of CSP
-
-Query-NIOS -Method GET/POST/PUT/PATCH/DELETE -Uri URI -Data JSON
-  This is a core function for interacting with the REST API of NIOS
-
 Store-B1APIKey -APIKey "longapikeystringgoeshere" -Persist
   Stores API Key for BloxOne within environment variables. Using -Persist will persist those credentials for that user on that machine.
 
