@@ -28,7 +28,7 @@
 ## Limitations
 
 * Cmdlets have not yet been created for all BloxOne API endpoints. This is still being actively developed with the aim to have most, if not all api endpoints integrated eventually.
-* A [PowerShell module already exists for InfoBlox NIOS](https://www.powershellgallery.com/packages/Posh-IBWAPI/3.2.2) and so limited Cmdlets will be built into this module. Any NIOS cmdlets built in are primarily for the purpose of migration to BloxOneDDI and will likely be deprecated.
+* A [PowerShell module already exists for InfoBlox NIOS](https://www.powershellgallery.com/packages/Posh-IBWAPI/3.2.2) and so limited Cmdlets will be built into this module. Any NIOS cmdlets built in are primarily for the purpose of migration to BloxOneDDI and will be deprecated.
 
 ## How To Use
 
@@ -86,12 +86,6 @@ All Cmdlets are listed below.
 ```
 # Most Get-* cmdlets implement a -Strict parameter which applies strict name checking. Where possible, the default is to perform wildcard lookups on submitted parameters.
 
-Query-CSP -Method GET/POST/PUT/PATCH/DELETE -Uri URI -Data JSON
-  This is a core function for interacting with the REST API of CSP
-
-Query-NIOS -Method GET/POST/PUT/PATCH/DELETE -Uri URI -Data JSON
-  This is a core function for interacting with the REST API of NIOS
-
 Store-B1APIKey -APIKey "longapikeystringgoeshere" -Persist
   Stores API Key for BloxOne within environment variables. Using -Persist will persist those credentials for that user on that machine.
 
@@ -145,9 +139,6 @@ Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
 
 Get-B1HAGroup -Name "MyHAGroup"
   Retrieves a listing of all DHCP HA Groups, or a single result when using the optional -Name parameter.
-
-Get-B1OnPremHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" (WILL BE DEPRECATED AUGUST 2023 - Use Get-B1Host instead)
-  Retrieves a listing of all registered On-Prem hosts within BloxOne, optionally filtering by using the -Name or -IP parameters. A bespoke switch exists (-BreakOnError) which breaks out of the script upon errors.
   
 Get-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
   Retrieves a listing of all registered On-Prem hosts within BloxOne, optionally filtering by using the -Name or -IP parameters. A bespoke switch exists (-BreakOnError) which breaks out of the script upon errors.
@@ -237,20 +228,8 @@ Get-B1NTPServiceConfiguration
 Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)
   Query top metric templates. -TopQueries can be used with the -QueryType parameter and -TopClients can be used with the -TopClientLogType parameter.
 
-Get-NIOSDelegatedZone -Server "NIOSipOrHostname" -Creds "CredentialObjectForNIOS" -FQDN "dev.mydomain.corp"
-  Retrieves a listing of all Delegated DNS Zones within InfoBlox NIOS (Grid), optionally filtering by using the -FQDN parameter.
-
-Get-NIOSAuthorativeZone -Server "NIOSipOrHostname" -Creds "CredentialObjectForNIOS" -FQDN "dev.mydomain.corp"
-  Retrieves a listing of all Authorative DNS Zones within InfoBlox NIOS (Grid), optionally filtering by using the -FQDN parameter.
-
-Get-NIOSForwardZone -Server "NIOSipOrHostname" -Creds "CredentialObjectForNIOS" -FQDN "dev.mydomain.corp"
-  Retrieves a listing of all Forward DNS Zones within InfoBlox NIOS (Grid), optionally filtering by using the -FQDN parameter.
-
 New-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Host "bloxoneddihost1.mydomain.corp" -NTP -DNS -DHCP
   Deploys a new BloxOneDDI Service
-
-New-NIOSDelegatedZone -Server "NIOSipOrHostname" -Creds "CredentialObjectForNIOS" -FQDN "dev.mydomain.corp" -View "default" -Hosts @(@{"address"="10.10.50.222";"name"="bloxoneddihost2.dev.mydomain.corp";}))
-  Creates a new Delegated DNS Zone within InfoBlox NIOS (Grid) and assigns delegate nameservers using the -Hosts parameter. This parameter accepts an array where each item contains a key/value pair for "address" and "name".
 
 New-B1AuthoritativeZone -FQDN "prod.mydomain.corp" -View "Global" -DNSHosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -Description "Prod Zone"
   Creates a new Authorative DNS Zone within BloxOne.
@@ -267,9 +246,6 @@ New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "Test" -
 New-B1HAGroup -Name "MyHAGroup" -Space "Global" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group"
   Creates a new DHCP HA Group within BloxOne. Modes can include "active-active" or "active-passive". In Active/Passive, the -SecondaryNode parameter becomes the passive node.
 
-New-B1OnPremHost -Name "bloxoneddihost3.mydomain.corp" -Space "Global" -Description "Infra Node A" (WILL BE DEPRECATED AUGUST 2023 - Use New-B1Host instead)
-  Creates an On-Prem host within BloxOne and returns the API Key used for registration of the appliance.
-  
 New-B1Host -Name -Name "bloxoneddihost3.mydomain.corp" -Space "Global" -Description "Infra Node A"
   Creates a host within BloxOne.
 
@@ -284,9 +260,6 @@ New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" 
 
 New-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp" -rdata "10.1.1.10" -TTL "60" -CreatePTR $false -Description "My Server"
   Creates a new DNS record. Use the -TTL parameter to override the TTL of the parent DNS Zone and -CreatePTR can be set to $false if you don't want PTRs automatically creating.
-  
-New-NIOSRecord -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp" -rdata "10.1.1.10" -Description "My Server"
-  Creates a new DNS record. Use the -TTL parameter to override the TTL of the parent DNS Zone and -CreatePTR can be set to $false if you don't want PTRs automatically creating.
 
 Remove-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
   Removes a DNS record.
@@ -300,12 +273,9 @@ Remove-B1AddressReservation -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
 Remove-B1AddressBlock -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
   Removes an Address Block from IPAM.
 
-Remove-B1Subnet -Address "10.0.0.1" -Space "Global"
+Remove-B1Subnet -Subnet 10.0.0.1 -CIDR 24 -Space "Global"
   Removes a Subnet from IPAM.
 
-Remove-B1OnPremHost -Name "bloxoneddihost1.mydomain.corp" (WILL BE DEPRECATED AUGUST 2023 - Use New-B1Host instead)
-  Removes an On-Prem host from within BloxOne.
-  
 Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
   Removes a host from within BloxOne.
 
@@ -317,9 +287,9 @@ Remove-B1DHCPConfigProfile -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihos
   
 Remove-B1Range -Start "10.250.20.20" -End "10.250.20.100"
   Used to remove a DHCP Range
-
-Set-B1OnPremHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.10" -TimeZone "Europe/London" -Space "Global" (WILL BE DEPRECATED AUGUST 2023 - Use Set-B1Host instead)
-  Newly registered devices are given a random name which is updated when using the -IP and -Name parameters together. -IP is used to reference the object, -Name is used as the updated DNS Name. TimeZone and Space can also be configured using this cmdlet.
+  
+Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Strict
+  Used to remove a BloxOneDDI Service
 
 Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
   Newly registered devices are given a random name which is updated when using the -IP and -Name parameters together. -IP is used to reference the object, -Name is used as the updated DNS Name. TimeZone and Space can also be configured using this cmdlet.
@@ -380,9 +350,9 @@ Get-B1BulkOperation -id "1ed34a08-6806-4c17-9f94-6645521c0e23"
   
 Search-B1 -Query "search term"
   Used to perform a global search of the BloxOneDDI Cloud Services Portal
-
-Migrate-NIOSSubzoneToBloxOne -Server "10.100.10.10" -Subzone "dev.mydomain.corp" -View "default" -Confirm:$false
-  Used to migrate DNS Subzone data from InfoBlox NIOS to InfoBlox BloxOne.
+  
+Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
+  Used to reboot a BloxOneDDI Host
 
 Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
   Used to deploy the BloxOne Virtual Appliance. Requires VMware PowerCLI to be installed. All parameters are mandatory. -PortGroupType can be Standard or VDS.
