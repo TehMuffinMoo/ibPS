@@ -55,10 +55,10 @@ do {
             $PSModuleDirectories = $env:PSModulePath += ";$UserModuleDirectory"
             [System.Environment]::SetEnvironmentVariable('PSModulePath',$PSModuleDirectories,[System.EnvironmentVariableTarget]::User)
         }
-        Import-Module "ibPS" -DisableNameChecking -Force
+        Get-Module ibPS -ListAvailable | Import-Module -DisableNameChecking -Force
         if (Test-Path "$UserModuleDirectory\ibPS") {
             Write-Host "File installation succeeded." -ForegroundColor Green
-            if (Get-Module -Name "ibPS" -ListAvailable) {
+            if (Get-ibPSVersion) {
                 Write-Host "Module loaded successfully." -ForegroundColor Green
             } else {
                 Write-Host "Module failed to load." -ForegroundColor Red
@@ -80,10 +80,10 @@ do {
                 Remove-Item "$GlobalModuleDirectory\ibPS" -Recurse -Force
             }
             Copy-Item "$ibPSDir\Modules\ibPS" $GlobalModuleDirectory -Recurse -Force
-            Import-Module "ibPS" -DisableNameChecking -Force
+            Get-Module ibPS -ListAvailable | Import-Module -DisableNameChecking -Force
             if (Test-Path "$GlobalModuleDirectory\ibPS") {
                 Write-Host "File installation succeeded." -ForegroundColor Green
-                if (Get-Module -Name "ibPS" -ListAvailable) {
+                if (Get-ibPSVersion) {
                     Write-Host "Module loaded successfully." -ForegroundColor Green
                 } else {
                     Write-Host "Module failed to load." -ForegroundColor Red
