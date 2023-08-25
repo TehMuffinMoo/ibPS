@@ -32,12 +32,13 @@
     switch ($Type) {
       "ApplicationHealth" {
         $Hosts = Get-B1Host -Name $OnPremHost -Detailed
-        $B1HealthStatus = @{}
+        $B1HealthStatus = @()
         foreach ($B1Host in $Hosts) {
+            $B1HostHealthStatus = @{}
             $B1AppStatus = @()
             foreach ($B1App in $B1Host.services) {
                 $B1AppData = @{
-                    "BloxOne Host" = $B1Host.display_name
+                    "Host" = $B1Host.display_name
                     "Application" = ($CompositeStateSpaces | where {$_.Service_Type -eq $B1App.service_type}).Application
                     "Friendly Name" = ($CompositeStateSpaces | where {$_.Service_Type -eq $B1App.service_type}).FriendlyName
                     "Status" = $B1App.status.status
@@ -45,15 +46,14 @@
                 $B1AppStatus += $B1AppData
             }
             foreach ($App in $B1AppStatus) {
-              $B1HealthStatus += @{
+              $B1HostHealthStatus += @{
                 $($App.Application) = $($App.Status)
               }
             }
-            $B1HealthStatus += @{
-                "Host" = $B1Host.display_name
-            }
+            $B1HostHealthStatus."Host" = $B1Host.display_name
+            $B1HealthStatus += $B1HostHealthStatus
         }
-        ($B1HealthStatus | ConvertTo-Json| ConvertFrom-Json) | select "BloxOne Host",* | ft -AutoSize
+        ($B1HealthStatus | ConvertTo-Json | ConvertFrom-Json) | select *
       }
     }
 }

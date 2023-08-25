@@ -9,7 +9,7 @@
 .AUTHOR
    Mat Cox
 .VERSION
-   v0.9
+   v1.9
 .CHANGELOG
    v0.1 - 17/05/2022 - Initial commit
    v0.2 - 18/05/2022 - Addition of a number of new Cmdlets, still developing..
@@ -20,6 +20,7 @@
    v0.7 - 24/10/2022 - I guess it's that time again
    v0.8 - 20/04/2023 - Definitely in need of a new version no.
    v0.9 - 25/08/2023 - Complete re-write/re-structure, add contextual help info (Get-Help) for all cmdlets & basic prep for implementing pipeline input
+   v1.9 - 25/08/2023 - Align version numbers with module
 #>
 
 ## Enable Debug Logging (Mainly @splat outputs)
