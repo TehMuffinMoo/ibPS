@@ -375,7 +375,7 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
 Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flexible usage of ibPS. The table below shows the current support for this feature.
 Cmdlet                           | Pipeline Input Supported
 -------------------------------- | -------------
-Reboot-B1Host                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
 Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
 Remove-B1AddressReservation      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
 Remove-B1AuthoritativeZone       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
@@ -384,7 +384,7 @@ Remove-B1Host                    | ![Not Implemented](https://badgen.net/badge/S
 Remove-B1HostDHCPConfigProfile   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
 Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
 Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Remove-B1Record                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
 Remove-B1Service                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
 Remove-B1Subnet                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
 Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
@@ -400,9 +400,9 @@ Set-B1NTPServiceConfiguration    | ![Not Implemented](https://badgen.net/badge/S
 Set-B1Range                      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
 Set-B1Record                     | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
 Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Start-B1DiagnosticTask           | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Start-B1Service                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Stop-B1Service                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
+Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
+Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
 
 ## Resources
 

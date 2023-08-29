@@ -39,6 +39,9 @@
     .PARAMETER NoIPSpace
         Filter by hosts which do not have an IPAM space assigned
 
+    .PARAMETER id
+        Use the id parameter to filter the results by ID
+
     .Example
         Get-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
     
@@ -61,7 +64,8 @@
       [switch]$BreakOnError,
       [switch]$Reduced,
       [switch]$Strict = $false,
-      [switch]$NoIPSpace
+      [switch]$NoIPSpace,
+      [String]$id
     )
 
 	$MatchType = Match-Type $Strict
@@ -84,6 +88,9 @@
     if ($Status) {
       $Filters.Add("composite_status==`"$Status`"") | Out-Null
       $Detailed = $true
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Detailed) {
       $APIEndpoint = "detail_hosts"
