@@ -46,7 +46,6 @@
       [String]$Description
     )
 
-    $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
     if (Get-B1HAGroup -Name $Name -Space $Space) {
         Write-Host "HA Group already exists by the name $Name." -ForegroundColor Red
     } else {
@@ -67,7 +66,6 @@
             "mode" = $Mode
             "comment" = $Description
             "hosts" = $HAHosts
-            #"ip_space" = $SpaceUUID
         }
 
         $splat = $splat | ConvertTo-Json

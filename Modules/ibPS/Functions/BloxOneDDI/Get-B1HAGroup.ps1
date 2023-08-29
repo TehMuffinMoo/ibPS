@@ -38,7 +38,6 @@
     )
 
 	$MatchType = Match-Type $Strict
-    $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
 
     [System.Collections.ArrayList]$Filters = @()
     if ($Name) {
