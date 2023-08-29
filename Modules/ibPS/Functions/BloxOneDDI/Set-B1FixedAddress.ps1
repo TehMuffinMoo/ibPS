@@ -63,8 +63,8 @@
       [String]$Space,
       [String]$Name,
       [String]$Description,
-      [String]$MatchType,
       [ValidateSet("mac","client_text","client_hex","relay_text","relay_hex")]
+      [String]$MatchType,
       [String]$MatchValue,
       [System.Object]$DHCPOptions,
       [System.Object]$Tags,

@@ -48,12 +48,13 @@
 
     process {
       if ($id) {
-        if (Get-B1FixedAddress -id $id) {
+        $FixedAddress = Get-B1FixedAddress -id $id
+        if ($FixedAddress) {
           Query-CSP -Method DELETE -Uri $id | Out-Null
           if (Get-B1FixedAddress -id $id) {
             Write-Host "Error. Failed to delete fixed address with id: $id" -ForegroundColor Red
           } else {
-            Write-Host "Successfully deleted fixed address with id: $id" -ForegroundColor Green
+            Write-Host "Successfully deleted fixed address $($FixedAddress.address) with id: $id" -ForegroundColor Green
           }
         } else {
           Write-Host "Error. Fixed Address does not exist with id: $id" -ForegroundColor Red
