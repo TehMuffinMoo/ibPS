@@ -373,36 +373,36 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
 ## To-Do
 ### Implement pipeline input for all Set- & Remove- cmdlets
 Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flexible usage of ibPS. The table below shows the current support for this feature.
-Cmdlet                           | Pipeline Input Supported
--------------------------------- | -------------
-Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Remove-B1AddressReservation      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Remove-B1AuthoritativeZone       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Remove-B1Host                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Remove-B1HostDHCPConfigProfile   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Remove-B1Service                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Remove-B1Subnet                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1AuthoritativeZone          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1DHCPConfigProfile          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1DHCPGlobalConfig           | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1DNSHost                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Set-B1ForwardNSG                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1ForwardZone                | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1Host                       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1NTPServiceConfiguration    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1Range                      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1Record                     | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
-Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
+Cmdlet                           | Pipeline Input Supported                                                      | Supported Input Cmdlets
+-------------------------------- | ----------------------------------------------------------------------------- | ----------------------------
+Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
+Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AddressBlock
+Remove-B1AddressReservation      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressReservation
+Remove-B1AuthoritativeZone       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
+Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
+Remove-B1Host                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Remove-B1HostDHCPConfigProfile   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDHCPConfigProfile
+Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDNSConfigProfile
+Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
+Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
+Remove-B1Service                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Service
+Remove-B1Subnet                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Subnet
+Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressBlock
+Set-B1AuthoritativeZone          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
+Set-B1DHCPConfigProfile          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPConfigProfile
+Set-B1DHCPGlobalConfig           | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPGlobalConfig
+Set-B1DNSHost                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
+Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
+Set-B1ForwardNSG                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1ForwardNSG
+Set-B1ForwardZone                | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1ForwardZone
+Set-B1Host                       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Set-B1NTPServiceConfiguration    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1NTPServiceConfiguration
+Set-B1Range                      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
+Set-B1Record                     | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Record
+Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
+Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
+Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
+Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 
 ## Resources
 
