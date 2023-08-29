@@ -63,7 +63,7 @@
       [switch]$Detailed,
       [switch]$BreakOnError,
       [switch]$Reduced,
-      [switch]$Strict = $false,
+      [switch]$Strict,
       [switch]$NoIPSpace,
       [String]$id
     )
@@ -118,15 +118,12 @@
             return $Results
         }
     } else {
-        if ($Name) {
-            if ($BreakOnError) {
-                Write-Host "Error. No On-Prem Host(s) found matching $Name." -ForegroundColor Red
-            }
-        } else {
-            Write-Host "No On-Prem Host(s) found." -ForegroundColor Gray
-        }
+        Write-Verbose "No On-Prem Host(s) found."
         if ($BreakOnError) {
-            break
+          if ($Name) {
+            Write-Host "Error. No On-Prem Host(s) found matching $Name." -ForegroundColor Red
+          }
+          break
         }
     }
 }

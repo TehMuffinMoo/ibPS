@@ -380,7 +380,7 @@ Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1AddressReservation      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressReservation
 Remove-B1AuthoritativeZone       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
 Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
-Remove-B1Host                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Remove-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Remove-B1HostDHCPConfigProfile   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDHCPConfigProfile
 Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDNSConfigProfile
 Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range

@@ -56,6 +56,6 @@
     $splat = $splat | ConvertTo-Json
     Query-CSP -Method POST -Uri "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
   } else {
-    Write-Host "On Prem Host $OnPremHost$id not found" -ForegroundColor Red
+    Write-Host "BloxOne Host $OnPremHost$id not found" -ForegroundColor Red
   }
 }
