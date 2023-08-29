@@ -35,6 +35,9 @@
     .PARAMETER Space
         Use this parameter to filter the list of fixed addresses by Space
 
+    .PARAMETER id
+        The id of the fixed address. Accepts pipeline input
+
     .Example
         Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 

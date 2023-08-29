@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.16'
+ModuleVersion = '1.9.0.18'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -92,15 +92,16 @@ FunctionsToExport = 'Apply-B1HostDHCPConfigProfile', 'Apply-B1HostDNSConfigProfi
                'New-B1Host', 'New-B1Range', 'New-B1Record', 'New-B1Service', 
                'New-B1Subnet', 'Reboot-B1Host', 'Remove-B1AddressBlock', 
                'Remove-B1AddressReservation', 'Remove-B1AuthoritativeZone', 
-               'Remove-B1Host', 'Remove-B1HostDHCPConfigProfile', 
-               'Remove-B1HostDNSConfigProfile', 'Remove-B1Range', 'Remove-B1Record', 
-               'Remove-B1Service', 'Remove-B1Subnet', 'Search-B1', 
-               'Set-B1AddressBlock', 'Set-B1AuthoritativeZone', 
-               'Set-B1DHCPConfigProfile', 'Set-B1DHCPGlobalConfig', 'Set-B1DNSHost', 
-               'Set-B1FixedAddress', 'Set-B1ForwardNSG', 'Set-B1ForwardZone', 
-               'Set-B1Host', 'Set-B1NTPServiceConfiguration', 'Set-B1Range', 
-               'Set-B1Record', 'Set-B1Subnet', 'Start-B1DiagnosticTask', 
-               'Start-B1Export', 'Start-B1Service', 'Stop-B1Service', 'Store-B1APIKey', 
+               'Remove-B1FixedAddress', 'Remove-B1Host', 
+               'Remove-B1HostDHCPConfigProfile', 'Remove-B1HostDNSConfigProfile', 
+               'Remove-B1Range', 'Remove-B1Record', 'Remove-B1Service', 
+               'Remove-B1Subnet', 'Search-B1', 'Set-B1AddressBlock', 
+               'Set-B1AuthoritativeZone', 'Set-B1DHCPConfigProfile', 
+               'Set-B1DHCPGlobalConfig', 'Set-B1DNSHost', 'Set-B1FixedAddress', 
+               'Set-B1ForwardNSG', 'Set-B1ForwardZone', 'Set-B1Host', 
+               'Set-B1NTPServiceConfiguration', 'Set-B1Range', 'Set-B1Record', 
+               'Set-B1Subnet', 'Start-B1DiagnosticTask', 'Start-B1Export', 
+               'Start-B1Service', 'Stop-B1Service', 'Store-B1APIKey', 
                'Get-NIOSCredentials', 'Store-NIOSCredentials', 'Get-ibPSVersion'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
