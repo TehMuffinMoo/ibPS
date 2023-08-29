@@ -80,19 +80,12 @@
           $AddressBlock | ft -AutoSize
       } elseif (($AddressBlock | measure).Count -eq 1) {
           Write-Host "Removing Address Block: $($AddressBlock.Address)/$($AddressBlock.cidr).." -ForegroundColor Yellow
-          $Result = Query-CSP -Method "DELETE" -Uri $URI
-          if ($id) {
-            if (Get-B1AddressBlock -id $id) {
-              Write-Host "Failed to remove Address Block: $($AddressBlock.Address)/$($AddressBlock.cidr)" -ForegroundColor Red
-            } else {
-              Write-Host "Successfully removed Address Block: $($AddressBlock.Address)/$($AddressBlock.cidr)" -ForegroundColor Green
-            }
+          Query-CSP -Method "DELETE" -Uri $URI | Out-Null
+          $AB = Get-B1AddressBlock -id $($AddressBlock.id)
+          if ($AB) {
+            Write-Host "Failed to remove Address Block: $($AB.Address)/$($AB.cidr)" -ForegroundColor Red
           } else {
-            if (Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space) {
-              Write-Host "Failed to remove Address Block: $($AddressBlock.Address)/$($AddressBlock.cidr)" -ForegroundColor Red
-            } else {
-              Write-Host "Successfully removed Address Block: $($AddressBlock.Address)/$($AddressBlock.cidr)" -ForegroundColor Green
-            }
+            Write-Host "Successfully removed Address Block: $($AddressBlock.Address)/$($AddressBlock.cidr)" -ForegroundColor Green
           }
       } else {
           Write-Host "Address Block does not exist: $($AddressBlock.Address)/$($AddressBlock.cidr)" -ForegroundColor Gray

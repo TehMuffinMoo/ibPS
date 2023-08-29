@@ -49,8 +49,6 @@
 
 	$MatchType = Match-Type $Strict
 
-    $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
-
     [System.Collections.ArrayList]$Filters = @()
     if ($Subnet) {
         $Filters.Add("address==`"$Subnet`"") | Out-Null
@@ -65,6 +63,7 @@
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Space) {
+        $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
         $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
     }
 

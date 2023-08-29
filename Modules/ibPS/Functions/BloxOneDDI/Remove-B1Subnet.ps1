@@ -63,12 +63,8 @@
         $SubnetInfo | ft -AutoSize
       } elseif (($SubnetInfo | measure).Count -eq 1) {
         Write-Host "Removing Subnet: $($SubnetInfo.Address)/$($SubnetInfo.cidr).." -ForegroundColor Yellow
-        $Result = Query-CSP -Method "DELETE" -Uri $($SubnetInfo.id) -Data $null
-        if ($id) {
-          $SI = Get-B1Subnet -id $id
-        } else {
-          $SI = Get-B1Subnet -Subnet $Subnet -CIDR $CIDR -Space $Space -Name $Name -Strict
-        }
+        Query-CSP -Method "DELETE" -Uri $($SubnetInfo.id) -Data $null | Out-Null
+        $SI = Get-B1Subnet -id $($SubnetInfo.id)
         if ($SI) {
           Write-Host "Failed to remove Subnet: $($SI.Address)/$($SI.cidr)" -ForegroundColor Red
         } else {

@@ -58,12 +58,8 @@
         }
 
         Write-Host "Removing $($B1Service.name).." -ForegroundColor Cyan
-        $Results = Query-CSP -Method DELETE -Uri "https://csp.infoblox.com/api/infra/v1/services/$($B1Service.id)"
-        if ($id) {
-          $B1S = Get-B1Service -id $idshort -Detailed
-        } else {
-          $B1S = Get-B1Service -Name $Name -Strict -Detailed
-        }
+        Query-CSP -Method DELETE -Uri "https://csp.infoblox.com/api/infra/v1/services/$($B1Service.id)" | Out-Null
+        $B1S = Get-B1Service -id $($B1Service.id) -Detailed
         if ($B1S) {
           Write-Host "Failed to delete service: $($B1S.name)" -ForegroundColor Red
         } else {

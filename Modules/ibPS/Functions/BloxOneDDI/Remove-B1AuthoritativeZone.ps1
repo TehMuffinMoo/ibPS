@@ -12,6 +12,9 @@
     .PARAMETER View
         The DNS View the zone is located in
 
+    .PARAMETER id
+        The id of the authoritative zone. Accepts pipeline input
+
     .Example
         Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
    
@@ -22,20 +25,34 @@
         DNS
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$true,ParameterSetName="noID")]
       [String]$FQDN,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$View
+      [Parameter(Mandatory=$true,ParameterSetName="noID")]
+      [System.Object]$View,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
-    $Zone = Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View
-    if ($Zone) {
-        Query-CSP -Method "DELETE" -Uri "$($Zone.id)"
-        if (Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View) {
-            Write-Host "Error. Failed to delete Authoritative Zone $FQDN." -ForegroundColor Red
+
+    process { 
+      if ($id) {
+        $Zone = Get-B1AuthoritativeZone -id $id
+      } else {
+        $Zone = Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View
+      }
+      if ($Zone) {
+        Query-CSP -Method "DELETE" -Uri "$($Zone.id)" | Out-Null
+        $B1Zone = Get-B1AuthoritativeZone -id $id
+        if ($B1Zone) {
+            Write-Host "Error. Failed to delete Authoritative Zone: $($B1Zone.fqdn)" -ForegroundColor Red
         } else {
-            Write-Host "Successfully deleted Authoritative Zone $FQDN." -ForegroundColor Green
+            Write-Host "Successfully deleted Authoritative Zone: $($Zone.fqdn)." -ForegroundColor Green
         }
-    } else {
-        Write-Host "Zone $FQDN does not exist." -ForegroundColor Yellow
+      } else {
+        Write-Host "Zone $FQDN$id does not exist." -ForegroundColor Yellow
+      }
     }
 }

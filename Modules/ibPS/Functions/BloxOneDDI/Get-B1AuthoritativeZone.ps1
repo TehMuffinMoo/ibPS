@@ -18,6 +18,9 @@
     .PARAMETER View
         The DNS View where the authoritative zone(s) are located
 
+    .PARAMETER id
+        The id of the authoritative zone to filter by
+
     .Example
         Get-B1AuthoritativeZone -FQDN "prod.mydomain.corp"
     
@@ -31,7 +34,8 @@
       [String]$FQDN,
       [bool]$Disabled,
       [Switch]$Strict = $false,
-      [String]$View
+      [String]$View,
+      [String]$id
     )
     if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
 	$MatchType = Match-Type $Strict
@@ -44,6 +48,9 @@
     }
     if ($ViewUUID) {
         $Filters.Add("view==`"$ViewUUID`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

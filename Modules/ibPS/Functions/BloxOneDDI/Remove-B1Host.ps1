@@ -54,7 +54,7 @@
           Write-Warning "Are you sure you want to delete: $($hostID.display_name)?" -WarningAction Inquire
         }
 
-        Query-CSP -Method DELETE -Uri "https://csp.infoblox.com/api/infra/v1/hosts/$($hostID.id)"
+        Query-CSP -Method DELETE -Uri "https://csp.infoblox.com/api/infra/v1/hosts/$($hostID.id)" | Out-Null
         if ($id) {
           $HID = Get-B1Host -id $idshort -Detailed
         } else {
