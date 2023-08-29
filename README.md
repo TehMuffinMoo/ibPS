@@ -371,6 +371,9 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
 ```
 
 ## To-Do
+
+All work below will be committed to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until updates are posted to main.
+
 ### Implement pipeline input for all Set- & Remove- cmdlets
 Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flexible usage of ibPS. The table below shows the current support for this feature.
 Cmdlet                           | Pipeline Input Supported                                                      | Supported Input Cmdlets
