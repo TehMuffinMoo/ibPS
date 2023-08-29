@@ -46,7 +46,7 @@
       [String]$Description
     )
 
-    if (Get-B1HAGroup -Name $Name -Space $Space) {
+    if (Get-B1HAGroup -Name $Name) {
         Write-Host "HA Group already exists by the name $Name." -ForegroundColor Red
     } else {
         $HostA = "dhcp/host/"+(Get-B1Host -Name $PrimaryNode -BreakOnError).legacy_id
