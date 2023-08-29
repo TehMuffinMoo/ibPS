@@ -192,6 +192,9 @@ Get-B1DHCPGlobalConfig
 Get-B1Record -Type A -Name "ns2" -rdata "10.10" -Zone "prod" | ft name_in_zone,absolute_zone_name,dns_rdata,ttl,type
   Retrieves a listing of all DNS records, optionally filtering by -Type and -rdata parameters.
   
+Get-B1FixedAddress -IP 10.10.100.12
+  Retrieves a list of DHCP Fixed Addresses
+  
 Get-B1AuthoritativeNSG -Name "Data Centre"
   Retrieves a listing of all Authorative Name Server Groups, optionally filtering by the -Name parameter.
   
@@ -260,6 +263,9 @@ New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" 
 
 New-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp" -rdata "10.1.1.10" -TTL "60" -CreatePTR $false -Description "My Server"
   Creates a new DNS record. Use the -TTL parameter to override the TTL of the parent DNS Zone and -CreatePTR can be set to $false if you don't want PTRs automatically creating.
+  
+New-B1FixedAddress -IP "10.10.1.10" -Name "New fixed address" -Description "Description for new fixed address" -MatchType mac -MatchValue "ab:cd:ef:ab:cd:12" -Space Global -Tags @{"environment"="production"}
+  Retrieves a list of DHCP Fixed Addresses
 
 Remove-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
   Removes a DNS record.
@@ -305,6 +311,9 @@ Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description -T
 
 Set-B1Record -Type "A" -Name "test" -Zone "app1.prod.mydomain.corp" -rdata "10.10.100.225" -TTL "60" -Description "My App"
   Used to update the configuration of an existing DNS record.
+  
+Set-B1FixedAddress -IP "10.10.1.10" -Name "Updated name" -Description "Updated comment" -MatchType mac -MatchValue "12:23:45:ab:cd:12" -Space Global -Tags @{"environment"="test"}
+  Used to update an existing fixed address.
 
 Set-B1ForwardZone -FQDN "azurecr.io" -View "default" -Forwarders "10.10.10.10","10.20.20.20" -DNSHosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
   Used to set DNS Forwarders / Hosts on an existing Forward Zone. -DNSServerGroups can optionally be used to apply a server group, but this will overwrite any existing Forwarders or DNS Hosts. (Generally desirable as they would be in the Group!)

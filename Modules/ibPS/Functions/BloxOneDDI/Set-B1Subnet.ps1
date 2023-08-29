@@ -41,6 +41,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the subnet
 
+    .PARAMETER id
+        The id of the subnet to update. Accepts pipeline input
+
     .Example
         Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
     
@@ -51,12 +54,21 @@
         IPAM
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(
+        ParameterSetName="noID",
+        Mandatory=$true
+      )]
       [String]$Subnet,
-      [Parameter(Mandatory=$true)]
+      [Parameter(
+        ParameterSetName="noID",
+        Mandatory=$true
+      )]
       [ValidateRange(0,32)]
       [Int]$CIDR,
-      [Parameter(Mandatory=$true)]
+      [Parameter(
+        ParameterSetName="noID",
+        Mandatory=$true
+      )]
       [String]$Space,
       [String]$Name,
       [String]$HAGroup,
@@ -64,61 +76,72 @@
       [String]$Description,
       [String]$DHCPLeaseSeconds,
       [String]$DDNSDomain,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID"
+      )]
+      [string[]]$id
     )
 
-    $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
-    $BloxSubnet = Get-B1Subnet -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance
+    process {
 
-    if ($BloxSubnet) {
-        $BloxSubnetUri = $BloxSubnet.id
+      if ($id) {
+        $BloxSubnet = Get-B1Subnet -id $id -IncludeInheritance
+      } else {
+        $BloxSubnet = Get-B1Subnet -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance
+      }
+ 
+      if ($BloxSubnet) {
+          $BloxSubnetUri = $BloxSubnet.id
 
-        $BloxSubnetPatch = @{}
-        if ($Name) {$BloxSubnetPatch.name = $Name}
-        if ($Description) {$BloxSubnetPatch.comment = $Description}
-        if ($DHCPOptions) {$BloxSubnetPatch.dhcp_options = $DHCPOptions}
-        if ($HAGroup) {$BloxSubnetPatch.dhcp_host = (Get-B1HAGroup -Name $HAGroup -Strict).id}
+          $BloxSubnetPatch = @{}
+          if ($Name) {$BloxSubnetPatch.name = $Name}
+          if ($Description) {$BloxSubnetPatch.comment = $Description}
+          if ($DHCPOptions) {$BloxSubnetPatch.dhcp_options = $DHCPOptions}
+          if ($HAGroup) {$BloxSubnetPatch.dhcp_host = (Get-B1HAGroup -Name $HAGroup -Strict).id}
 
-        if ($DHCPLeaseSeconds) {
-            $BloxSubnet.inheritance_sources.dhcp_config.lease_time.action = "override"
-            $BloxSubnet.dhcp_config.lease_time = $DHCPLeaseSeconds
+          if ($DHCPLeaseSeconds) {
+              $BloxSubnet.inheritance_sources.dhcp_config.lease_time.action = "override"
+              $BloxSubnet.dhcp_config.lease_time = $DHCPLeaseSeconds
 
-            $BloxSubnetPatch.inheritance_sources = $BloxSubnet.inheritance_sources
-            $BloxSubnetPatch.dhcp_config += $BloxSubnet.dhcp_config | select * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6
-        }
+              $BloxSubnetPatch.inheritance_sources = $BloxSubnet.inheritance_sources
+              $BloxSubnetPatch.dhcp_config += $BloxSubnet.dhcp_config | select * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6
+          }
 
-        if ($DDNSDomain) {
-            $BloxSubnetPatch."ddns_domain" = $DDNSDomain
-            $DDNSupdateBlock = @{
-                ddns_update_block = @{
-			        "action" = "override"
+          if ($DDNSDomain) {
+              $BloxSubnetPatch."ddns_domain" = $DDNSDomain
+              $DDNSupdateBlock = @{
+                  ddns_update_block = @{
+		  	        "action" = "override"
 			        "value" = @{}
-		        }
-            }
-            $BloxSubnetPatch.inheritance_sources = $DDNSupdateBlock
-        }
+		          }
+              }
+              $BloxSubnetPatch.inheritance_sources = $DDNSupdateBlock
+          }
 
-        if ($Tags) {
-            $BloxSubnetPatch.tags = $Tags
-        }
+          if ($Tags) {
+              $BloxSubnetPatch.tags = $Tags
+          }
+  
+          if ($BloxSubnetPatch.Count -eq 0) {
+              Write-Host "Nothing to update." -ForegroundColor Gray
+          } else {
+              $splat = $BloxSubnetPatch | ConvertTo-Json -Depth 10
+              if ($Debug) {$splat}
 
-        if ($BloxSubnetPatch.Count -eq 0) {
-            Write-Host "Nothing to update." -ForegroundColor Gray
-        } else {
-            $splat = $BloxSubnetPatch | ConvertTo-Json -Depth 10
-            if ($Debug) {$splat}
+              $Result = Query-CSP -Method PATCH -Uri "$BloxSubnetUri" -Data $splat
+              $Result = $Result | select -ExpandProperty result
+              if ($Result.id -eq $BloxSubnetUri) {
+                  Write-Host "Updated Subnet $($Result.address)/$($result.CIDR) successfully." -ForegroundColor Green
+              } else {
+                  Write-Host "Failed to update Subnet $Subnet/$CIDR - $BloxSubnetUri." -ForegroundColor Red
+                  break
+              }
+          }
 
-            $Result = Query-CSP -Method PATCH -Uri "$BloxSubnetUri" -Data $splat
-        
-            if (($Result | select -ExpandProperty result).address -eq $Subnet) {
-                Write-Host "Updated Subnet $Subnet/$CIDR successfully." -ForegroundColor Green
-            } else {
-                Write-Host "Failed to update Subnet $Subnet/$CIDR." -ForegroundColor Red
-                break
-            }
-        }
-
-    } else {
-        Write-Host "The Subnet $Subnet/$CIDR does not exists." -ForegroundColor Red
+      } else {
+          Write-Host "The Subnet $Subnet/$CIDR - $BloxSubnetUri does not exist." -ForegroundColor Red
+      }
     }
 }
