@@ -24,6 +24,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER id
+        Filter by the id of the address block
+
     .Example
         Get-B1AddressBlock -Subnet "10.10.100.0/12" -Space "Global"
     
@@ -40,7 +43,8 @@
       [String]$Name,
       [String]$Space,
       [Switch]$IncludeInheritance,
-      [Switch]$Strict = $false
+      [Switch]$Strict = $false,
+      [String]$id
     )
 
 	$MatchType = Match-Type $Strict
@@ -56,6 +60,9 @@
     }
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Space) {
         $Filters.Add("space==`"$SpaceUUID`"") | Out-Null

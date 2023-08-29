@@ -367,6 +367,40 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
   Used to deploy the BloxOne Virtual Appliance. Requires VMware PowerCLI to be installed. All parameters are mandatory. -PortGroupType can be Standard or VDS.
 ```
 
+## To-Do
+### Implement pipeline input for all Set- & Remove- cmdlets
+Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flexible usage of ibPS. The table below shows the current support for this feature.
+Cmdlet                           | Pipeline Input Supported
+-------------------------------- | -------------
+Reboot-B1Host                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
+Remove-B1AddressReservation      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1AuthoritativeZone       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
+Remove-B1Host                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1HostDHCPConfigProfile   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1Record                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1Service                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Remove-B1Subnet                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1AuthoritativeZone          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1DHCPConfigProfile          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1DHCPGlobalConfig           | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1DNSHost                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
+Set-B1ForwardNSG                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1ForwardZone                | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1Host                       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1NTPServiceConfiguration    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1Range                      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1Record                     | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)
+Start-B1DiagnosticTask           | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Start-B1Service                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Stop-B1Service                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+
 ## Resources
 
 This PowerShell Module makes use of the following InfoBlox APIs;
