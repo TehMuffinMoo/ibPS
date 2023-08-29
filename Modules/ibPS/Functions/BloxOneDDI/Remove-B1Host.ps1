@@ -12,7 +12,7 @@
     .PARAMETER id
         The id of the BloxOneDDI Host. Accepts pipeline input
 
-    .PARAMETER Confirm
+    .PARAMETER NoWarning
         Using -NoWarning will stop warnings prior to deleting a host
 
     .Example

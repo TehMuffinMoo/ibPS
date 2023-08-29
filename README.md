@@ -95,7 +95,7 @@ Get-B1APIKey
 Get-ibPSVersion
   Gets the ibPS Module Version
   
-Store-NIOSCredentials -Credentials ${CredentialObject -Persist
+Store-NIOSCredentials -Credentials ${$CredentialObject} -Persist
   Stores NIOS Credentials encrypted, can be run without -Credentials parameter for it to prompt instead. The optional -Persist parameter will persist the credentials for that user on that machine. This requires a restart of the powershell session before credentials can be used.
 
 Get-NIOSCredentials
@@ -385,7 +385,7 @@ Remove-B1HostDHCPConfigProfile   | ![Not Implemented](https://badgen.net/badge/S
 Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDNSConfigProfile
 Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
 Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
-Remove-B1Service                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Service
+Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Remove-B1Subnet                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Subnet
 Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressBlock
 Set-B1AuthoritativeZone          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
