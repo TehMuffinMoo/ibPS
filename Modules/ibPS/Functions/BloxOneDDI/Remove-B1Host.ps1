@@ -41,6 +41,8 @@
       if ($id) {
         if ($id -like "infra/host/*") {
           $idshort = $id.replace("infra/host/","")
+        } else {
+          $idshort = $id
         }
         $hostID = Get-B1Host -id $idshort -Detailed
       } else {
