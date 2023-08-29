@@ -269,6 +269,9 @@ New-B1FixedAddress -IP "10.10.1.10" -Name "New fixed address" -Description "Desc
 
 Remove-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
   Removes a DNS record.
+  
+Remove-B1FixedAddress -IP 10.12.2.200 -Space Global
+  Removes a fixed address
 
 Remove-B1AuthoritativeZone -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
   Removes a DNS record.
