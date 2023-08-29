@@ -57,8 +57,8 @@
       [String]$MatchValue,
       [Parameter(Mandatory=$true)]
       [String]$Space,
-      [System.Object]$DHCPOptions = @(),
-      [System.Object]$Tags = @()
+      [System.Object]$DHCPOptions = $null,
+      [System.Object]$Tags = $null
     )
 
     if ($Space) {$SpaceUUID = (Get-B1Space -Name $Space -Strict).id}
