@@ -95,7 +95,7 @@ Get-B1APIKey
 Get-ibPSVersion
   Gets the ibPS Module Version
   
-Store-NIOSCredentials -Credentials ${CredentialObject -Persist
+Store-NIOSCredentials -Credentials ${$CredentialObject} -Persist
   Stores NIOS Credentials encrypted, can be run without -Credentials parameter for it to prompt instead. The optional -Persist parameter will persist the credentials for that user on that machine. This requires a restart of the powershell session before credentials can be used.
 
 Get-NIOSCredentials
@@ -269,6 +269,9 @@ New-B1FixedAddress -IP "10.10.1.10" -Name "New fixed address" -Description "Desc
 
 Remove-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
   Removes a DNS record.
+  
+Remove-B1FixedAddress -IP 10.12.2.200 -Space Global
+  Removes a fixed address
 
 Remove-B1AuthoritativeZone -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
   Removes a DNS record.
@@ -366,6 +369,43 @@ Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
 Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
   Used to deploy the BloxOne Virtual Appliance. Requires VMware PowerCLI to be installed. All parameters are mandatory. -PortGroupType can be Standard or VDS.
 ```
+
+## To-Do
+
+All work below will be committed to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until updates are posted to main.
+
+### Implement pipeline input for all Set- & Remove- cmdlets
+Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flexible usage of ibPS. The table below shows the current support for this feature.
+Cmdlet                           | Pipeline Input Supported                                                      | Supported Input Cmdlets
+-------------------------------- | ----------------------------------------------------------------------------- | ----------------------------
+Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
+Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AddressBlock
+Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Address
+Remove-B1AuthoritativeZone       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AuthoritativeZone
+Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
+Remove-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
+Remove-B1HostDHCPConfigProfile   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDHCPConfigProfile
+Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDNSConfigProfile
+Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
+Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
+Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
+Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
+Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressBlock
+Set-B1AuthoritativeZone          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
+Set-B1DHCPConfigProfile          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPConfigProfile
+Set-B1DHCPGlobalConfig           | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPGlobalConfig
+Set-B1DNSHost                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
+Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
+Set-B1ForwardNSG                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1ForwardNSG
+Set-B1ForwardZone                | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1ForwardZone
+Set-B1Host                       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Set-B1NTPServiceConfiguration    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1NTPServiceConfiguration
+Set-B1Range                      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
+Set-B1Record                     | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Record
+Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
+Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
+Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
+Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 
 ## Resources
 
