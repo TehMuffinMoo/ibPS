@@ -9,8 +9,11 @@
     .PARAMETER IP
         The IP of the fixed address
 
-    .PARAMETER Strict
-        Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+    .PARAMETER Space
+        Use this parameter to filter the list of fixed addresses by Space
+
+    .PARAMETER id
+        Use the id parameter to filter the results by ID
 
     .Example
         Get-B1FixedAddress -IP 10.10.100.12
@@ -23,12 +26,21 @@
     #>
     param(
         [String]$IP = $null,
-        [Switch]$Strict = $false
+        [String]$Space,
+        [String]$id
     )
-	$MatchType = Match-Type $Strict
+
+    if ($Space) {$SpaceUUID = (Get-B1Space -Name $Space -Strict).id}
+
     [System.Collections.ArrayList]$Filters = @()
     if ($IP) {
         $Filters.Add("address==`"$IP`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    if ($SpaceUUID) {
+        $Filters.Add("ip_space==`"$SpaceUUID`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

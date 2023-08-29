@@ -39,8 +39,8 @@
     param(
       [String]$Name,
       [String]$IP,
-      [String]$TimeZone,
       [String]$Space,
+      [String]$TimeZone,
       [String]$Description,
       [switch]$NoIPSpace,
       [System.Object]$Tags
