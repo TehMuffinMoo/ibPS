@@ -22,19 +22,36 @@
         IPAM
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Address,
-      [Parameter(Mandatory=$true)]
-      [String]$Space
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [String]$Space,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
-    $AddressReservation = Get-B1Address -Address $Address -Reserved
+
+    if ($id) {
+      $AddressReservation = Get-B1Address -id $id -Reserved
+    } else {
+      $AddressReservation = Get-B1Address -Address $Address -Reserved
+    }
     if ($AddressReservation) {
         $Result = Query-CSP -Method "DELETE" -Uri $AddressReservation.id
-            
-        if (!($AddressReservation = Get-B1Address -Address $Address -Reserved)) {
-            Write-Host "Address Reservation deleted successfully." -ForegroundColor Green
+
+        if ($id) {
+          $AR = Get-B1Address -id $id -Reserved
         } else {
-            Write-Host "Failed to delete Address Reservation." -ForegroundColor Red
+          $AR = Get-B1Address -Address $Address -Reserved
+        }
+
+        if (!($AR)) {
+            Write-Host "Address Reservation deleted successfully: $($AddressReservation.address)." -ForegroundColor Green
+        } else {
+            Write-Host "Failed to delete Address Reservation: $($AR.address)" -ForegroundColor Red
             break
         }
     } else {

@@ -28,10 +28,14 @@
         IPAM
     #>
     param(
+      [Parameter(ParameterSetName="noID")]
       [String]$Address,
+      [Parameter(ParameterSetName="noID")]
       [String]$State,
-      [Switch]$Reserved = $false,
-      [Switch]$Fixed = $false
+      [Switch]$Reserved,
+      [Switch]$Fixed,
+      [Parameter(ParameterSetName="ID")]
+      [String]$id
     )
 
     [System.Collections.ArrayList]$Filters = @()
@@ -40,6 +44,9 @@
     }
     if ($State) {
         $Filters.Add("state==`"$State`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = "_filter="+(Combine-Filters $Filters)

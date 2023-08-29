@@ -377,7 +377,7 @@ Cmdlet                           | Pipeline Input Supported                     
 -------------------------------- | ----------------------------------------------------------------------------- | ----------------------------
 Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AddressBlock
-Remove-B1AddressReservation      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressReservation
+Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Address
 Remove-B1AuthoritativeZone       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
 Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
 Remove-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
@@ -386,7 +386,7 @@ Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/S
 Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
 Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
 Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
-Remove-B1Subnet                  | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Subnet
+Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
 Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressBlock
 Set-B1AuthoritativeZone          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
 Set-B1DHCPConfigProfile          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPConfigProfile
