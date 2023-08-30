@@ -35,7 +35,7 @@
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($IP) {
-        $Filters.Add("address$MatchType`"$IP`"") | Out-Null
+        $Filters.Add("address==`"$IP`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

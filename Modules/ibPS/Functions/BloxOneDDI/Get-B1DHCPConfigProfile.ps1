@@ -15,6 +15,9 @@
     .PARAMETER IncludeInheritance
         Include inherited configuration in results
 
+    .PARAMETER id
+        Return results based on DHCP Config Profile id
+
     .Example
         Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
     
@@ -24,23 +27,27 @@
     param(
         [String]$Name,
         [switch]$Strict = $false,
-        [switch]$IncludeInheritance = $false
+        [switch]$IncludeInheritance = $false,
+        [string]$id
     )
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
     }
-    if ($Name) {
+    if ($Filter) {
         if ($IncludeInheritance) {
             Query-CSP -Method GET -Uri "dhcp/server?_filter=$Filter&_inherit=full" | Select -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
             Query-CSP -Method GET -Uri "dhcp/server?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
         }
-    }else {
+    } else {
         if ($IncludeInheritance) {
             Query-CSP -Method GET -Uri "dhcp/server?_inherit=full" | Select -ExpandProperty results -ErrorAction SilentlyContinue
         } else {

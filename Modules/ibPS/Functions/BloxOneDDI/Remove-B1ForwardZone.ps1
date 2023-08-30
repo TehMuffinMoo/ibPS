@@ -1,4 +1,4 @@
-﻿function Remove-B1AuthoritativeZone {
+﻿function Remove-B1ForwardZone {
     <#
     .SYNOPSIS
         Removes a Authoritative Zone from BloxOneDDI
@@ -39,20 +39,20 @@
 
     process { 
       if ($id) {
-        $Zone = Get-B1AuthoritativeZone -id $id
+        $Zone = Get-B1ForwardZone -id $id
       } else {
-        $Zone = Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View
+        $Zone = Get-B1ForwardZone -FQDN $FQDN -Strict -View $View
       }
       if ($Zone) {
         Query-CSP -Method "DELETE" -Uri "$($Zone.id)" | Out-Null
-        $B1Zone = Get-B1AuthoritativeZone -id $($Zone.id)
+        $B1Zone = Get-B1ForwardZone -id $($Zone.id)
         if ($B1Zone) {
-            Write-Host "Error. Failed to delete Authoritative Zone: $($B1Zone.fqdn)" -ForegroundColor Red
+            Write-Host "Error. Failed to delete Forward Zone: $($B1Zone.fqdn)" -ForegroundColor Red
         } else {
-            Write-Host "Successfully deleted Authoritative Zone: $($Zone.fqdn)" -ForegroundColor Green
+            Write-Host "Successfully deleted Forward Zone: $($Zone.fqdn)" -ForegroundColor Green
         }
       } else {
-        Write-Host "Zone $FQDN$id does not exist." -ForegroundColor Yellow
+        Write-Host "Forward Zone $FQDN$id does not exist." -ForegroundColor Yellow
       }
     }
 }

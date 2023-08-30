@@ -82,6 +82,7 @@
 
         if ($Result) {
             Write-Host "Created Forward DNS Zone $FQDN successfully." -ForegroundColor Green
+            return $Result
         } else {
             Write-Host "Failed to create Forward DNS Zone $FQDN." -ForegroundColor Red
         }

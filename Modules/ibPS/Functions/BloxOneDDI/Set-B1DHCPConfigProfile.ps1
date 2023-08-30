@@ -20,26 +20,41 @@
 
     .Example
         Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
-    
+
+    .PARAMETER id
+        The id of the DHCP config profile to update. Accepts pipeline input
+
     .FUNCTIONALITY
         BloxOneDDI
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Name,
       [Switch]$AddDDNSZones,
       [Switch]$RemoveDDNSZones,
       [System.Object]$DDNSZones,
-      [Parameter(Mandatory=$true)]
-      [String]$DNSView
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [String]$DNSView,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
-    if ($AddDDNSZones -or $RemoveDDNSZones) {
+
+    process {
         if ($AddDDNSZones -and $RemoveDDNSZones) {
             Write-Host "Error. You can only specify Add or Remove for DDNS Zones." -ForegroundColor Red
             break
         } else {
             $ToUpdate = @()
-            $ConfigProfile = Get-B1DHCPConfigProfile -Name $Name -IncludeInheritance -Strict
+            if ($id) {
+              $ConfigProfile = Get-B1DHCPConfigProfile -id $id -IncludeInheritance
+            } else {
+              $ConfigProfile = Get-B1DHCPConfigProfile -Name $Name -IncludeInheritance -Strict
+            }
+
             if (!($ConfigProfile) ) {
                 Write-Host "Error. Config Profile $Name not found" -ForegroundColor Red
             } else {
@@ -138,6 +153,6 @@
 
                 }
             }
-        }
+      }
     }
 }

@@ -39,6 +39,9 @@
     .PARAMETER Tags
         A list of tags to update on the address block. This will replace existing tags, so would normally be a combined list of existing and new tags
 
+    .PARAMETER id
+        The id of the address block to update. Accepts pipeline input
+
     .Example
         Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
     
@@ -49,24 +52,36 @@
         IPAM
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Subnet,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [ValidateRange(0,32)]
       [Int]$CIDR,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Space,
       [String]$Name,
       [System.Object]$DHCPOptions,
       [String]$Description,
       [String]$DHCPLeaseSeconds,
       [String]$DDNSDomain,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
 
-    $AddressBlock = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance
+    process {
 
-    if ($AddressBlock) {
+      if ($id) {
+        $AddressBlock = Get-B1AddressBlock -id $id -IncludeInheritance
+      } else {
+        $AddressBlock = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance
+      }
+
+      if ($AddressBlock) {
         $AddressBlockUri = $AddressBlock.id
 
         $AddressBlockPatch = @{}
@@ -105,15 +120,17 @@
 
             $Result = Query-CSP -Method PATCH -Uri "$AddressBlockUri" -Data $splat
         
-            if (($Result | select -ExpandProperty result).address -eq $Subnet) {
-                Write-Host "Updated Address Block $Subnet/$($AddressBlock.cidr) successfully." -ForegroundColor Green
+            if (($Result | select -ExpandProperty result).id -eq $($AddressBlock.id)) {
+                Write-Host "Updated Address Block $($AddressBlock.address)/$($AddressBlock.cidr) successfully." -ForegroundColor Green
+                return $Result | select -ExpandProperty result
             } else {
-                Write-Host "Failed to update Address Block $Subnet." -ForegroundColor Red
+                Write-Host "Failed to update Address Block $Subnet$id." -ForegroundColor Red
                 break
             }
         }
 
-    } else {
-        Write-Host "The Address Block $Subnet/$CIDR does not exists." -ForegroundColor Red
+      } else {
+        Write-Host "The Address Block $Subnet/$CIDR$id does not exist." -ForegroundColor Red
+      }
     }
 }

@@ -273,8 +273,11 @@ Remove-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
 Remove-B1FixedAddress -IP 10.12.2.200 -Space Global
   Removes a fixed address
 
-Remove-B1AuthoritativeZone -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
-  Removes a DNS record.
+Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
+  Removes an authoritative dns zone
+  
+Remove-B1ForwardZone -FQDN "myforwardzone.mycompany.corp" -View "default"
+  Removes a forward dns zone
 
 Remove-B1AddressReservation -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
   Removes an IP Reservation from IPAM. This is not a DHCP Reservation, see fixed addresses for that.
@@ -382,32 +385,31 @@ Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AddressBlock
 Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Address
 Remove-B1AuthoritativeZone       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AuthoritativeZone
+Remove-B1ForwardZone             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1ForwardZone
 Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
 Remove-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Remove-B1Range                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Range
 Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
 Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
-Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressBlock
-Set-B1AuthoritativeZone          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
-Set-B1DHCPConfigProfile          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPConfigProfile
-Set-B1DHCPGlobalConfig           | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPGlobalConfig
-Set-B1DNSHost                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
+Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AddressBlock
+Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AuthoritativeZone
+Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1DHCPConfigProfile
 Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
-Set-B1ForwardNSG                 | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1ForwardNSG
-Set-B1ForwardZone                | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1ForwardZone
-Set-B1Host                       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Set-B1ForwardNSG                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1ForwardNSG
+Set-B1ForwardZone                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1ForwardZone
+Set-B1Host                       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Set-B1NTPServiceConfiguration    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1NTPServiceConfiguration
-Set-B1Range                      | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
-Set-B1Record                     | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Record
+Set-B1Range                      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Range
+Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
 Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
-Revoke-B1DHCPConfigProfile       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
-Revoke-B1DNSConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
-Grant-B1DHCPConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
-Grant-B1DNSConfigProfile         | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Revoke-B1DHCPConfigProfile       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPHost
+Revoke-B1DNSConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
+Grant-B1DHCPConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPHost
+Grant-B1DNSConfigProfile         | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
 
 ## Resources
 

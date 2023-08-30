@@ -27,6 +27,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the DHCP Range. This will overwrite existing tags.
 
+    .PARAMETER id
+        The id of the range. Accepts pipeline input
+
     .Example
         Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description -Tags @{"siteCode"="12345"}
     
@@ -40,18 +43,31 @@
         DHCP
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$StartAddress,
+      [Parameter(ParameterSetName="noID",Mandatory=$false)]
       [String]$EndAddress,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [string]$Space,
       [String]$Name,
       [String]$Description,
       [String]$HAGroup,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
-    $DHCPRange = Get-B1Range -StartAddress $StartAddress -EndAddress $EndAddress -Space $Space
-    if ($DHCPRange) {
+
+    process {
+      if ($id) {
+        $DHCPRange = Get-B1Range -id $id
+      } else {
+        $DHCPRange = Get-B1Range -StartAddress $StartAddress -EndAddress $EndAddress -Space $Space
+      }
+      if ($DHCPRange) {
         if ($Description) {
             $DHCPRange.comment = $Description
         }
@@ -71,12 +87,14 @@
         $splat = $DHCPRange | select * -ExcludeProperty utilization,utilization_v6,id,inheritance_assigned_hosts,inheritance_parent,parent,protocol,space,inheritance_sources | ConvertTo-Json -Depth 10
         if ($Debug) {$splat}
         $Result = Query-CSP -Method PATCH -Uri $($DHCPRange.id) -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
-        if ($Result.start -eq $StartAddress) {
-            Write-Host "Updated DHCP Range: $Name - $StartAddress - $EndAddress Successfully." -ForegroundColor Green
+        if ($($Result.id) -eq $($DHCPRange.id)) {
+            Write-Host "Updated DHCP Range: $($DHCPRange.name) - $($DHCPRange.start) - $($DHCPRange.end) Successfully." -ForegroundColor Green
+            return $Result
         } else {
-            Write-Host "Failed to update DHCP Range: $Name - $StartAddress - $EndAddress" -ForegroundColor Red
+            Write-Host "Failed to update DHCP Range: $($DHCPRange.name) - $($DHCPRange.start) - $($DHCPRange.end)" -ForegroundColor Red
         }
-    } else {
-        Write-Host "Error. DHCP Range does not exist: $Name - $StartAddress - $EndAddress" -ForegroundColor Red
+      } else {
+        Write-Host "Error. DHCP Range does not exist: $StartAddress$id - $EndAddress" -ForegroundColor Red
+      }
     }
 }

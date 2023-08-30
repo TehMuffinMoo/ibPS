@@ -12,6 +12,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER id
+        Filter results by forward DNS server group id
+
     .Example
         Get-B1ForwardNSG -Name "Data Centre" -Strict
     
@@ -23,12 +26,16 @@
     #>
     param(
         [String]$Name,
-        [Switch]$Strict = $false
+        [Switch]$Strict = $false,
+        [String]$id
     )
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
