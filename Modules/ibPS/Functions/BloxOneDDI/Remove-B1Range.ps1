@@ -16,7 +16,7 @@
         Use this parameter to filter the list of Address Blocks by Space
 
     .PARAMETER id
-        The id of the range
+        The id of the range. Accepts pipeline input
 
     .Example
         Remove-B1Range -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global"

@@ -27,41 +27,38 @@
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,
-        [Parameter(Mandatory=$true)]
         [String]$DNSConfigProfile,
         [String]$DNSName
     )
     $DNSHost = Get-B1DNSHost -Name $Name -Strict
-    if ($DNSConfigProfile) {
-        $DNSConfigProfileId = (Get-B1DNSConfigProfile -Name $DNSConfigProfile -Strict).id
-    }
     if ($DNSHost) {
+      $splat = @{}
         
-        $splat = @{
-            "inheritance_sources" = @{
-		        "kerberos_keys" = @{
-			        "action" = "inherit"
-		        }
-	        }
-            "type" = "bloxone_ddi"
-            "associated_server" = @{
-                "id" = $DNSConfigProfileId
-            }
+      if ($DNSConfigProfile) {
+        $DNSConfigProfileId = (Get-B1DNSConfigProfile -Name $DNSConfigProfile -Strict).id
+        $splat.inheritance_sources = @{
+          "kerberos_keys" = @{
+  	        "action" = "inherit"
+          }
+	    }
+        $splat.type = "bloxone_ddi"
+        $splat.associated_server = @{
+          "id" = $DNSConfigProfileId
         }
+      }
 
-        if ($DNSName) {
-            $splat | Add-Member -Name "absolute_name" -Value $DNSName -MemberType NoteProperty
-        }
+      if ($DNSName) {
+        $splat.absolute_name = $DNSName
+      }
 
-        $splat = $splat | ConvertTo-Json
-        if ($debug) {$splat}
-        
-        $Results = Query-CSP -Method PATCH -Uri $($DNSHost.id) -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
+      $splat = $splat | ConvertTo-Json
+      if ($debug) {$splat}
+      $Results = Query-CSP -Method PATCH -Uri $($DNSHost.id) -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
 
-        if ($Results.name -eq $Name) {
-            Write-Host "DNS Host: $Name updated successfully." -ForegroundColor Green
-        } else {
-            Write-Host "Failed to update DNS Host: $Name." -ForegroundColor Red
-        }
+      if ($($Results.id) -eq $($DNSHost.id)) {
+          Write-Host "DNS Host: $($DNSHost.absolute_name) updated successfully." -ForegroundColor Green
+      } else {
+          Write-Host "Failed to update DNS Host: $($DNSHost.absolute_name)." -ForegroundColor Red
+      }
     }
 }

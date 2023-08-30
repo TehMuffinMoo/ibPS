@@ -18,6 +18,9 @@
     .PARAMETER View
         The DNS View where the forward zone(s) are located
 
+    .PARAMETER id
+        Filter the results by forward zone id
+
     .Example
         Get-B1ForwardZone -FQDN "prod.mydomain.corp"
     
@@ -31,7 +34,8 @@
       [String]$FQDN,
       [bool]$Disabled,
       [switch]$Strict = $false,
-      [String]$View
+      [String]$View,
+      [String]$id
     )
     if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
 	$MatchType = Match-Type $Strict
@@ -44,6 +48,9 @@
     }
     if ($ViewUUID) {
         $Filters.Add("view==`"$ViewUUID`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
