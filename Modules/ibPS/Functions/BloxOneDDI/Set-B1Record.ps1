@@ -50,6 +50,11 @@
     #>
     param(
       [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
       [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
       [String]$Type,
       [Parameter(ParameterSetName="noID",Mandatory=$true)]

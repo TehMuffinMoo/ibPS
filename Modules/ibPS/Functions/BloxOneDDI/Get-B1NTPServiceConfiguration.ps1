@@ -35,13 +35,12 @@
 
   $MatchType = Match-Type $Strict
   if (!($ServiceId) -and $Name) {
-    $B1Service = Get-B1Service -Name $Name -Strict:$Strict
+    $B1Service = Get-B1Service -Name $Name -Strict:$Strict | where {$_.service_type -eq "ntp"}
     $ServiceId = $B1Service.id.replace("infra/service/","")
   }
   if ($B1Service) {
     if ($B1Service.count -gt 1) {
       Write-Host "Too many services returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
-      $ServiceId | ft -AutoSize
     } else {
       $Result = Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/ntp/v1/service/config/$ServiceId" | select -ExpandProperty ntp_service -ErrorAction SilentlyContinue
       if ($Result) {

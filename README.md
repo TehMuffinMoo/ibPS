@@ -399,20 +399,25 @@ Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Statu
 Set-B1ForwardNSG                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1ForwardNSG
 Set-B1ForwardZone                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1ForwardZone
 Set-B1Host                       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
-Set-B1NTPServiceConfiguration    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1NTPServiceConfiguration
 Set-B1Range                      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Range
 Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
 Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
-Revoke-B1DHCPConfigProfile       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPHost
-Revoke-B1DNSConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
-Grant-B1DHCPConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPHost
-Grant-B1DNSConfigProfile         | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
+
+### Replace old for new APIs
+This is a work in progress.
+
+Old Cmdlet           | New Cmdlet        | Old API Endpoint     | New API Endpoint    | Status
+---------------------|------------------ | -------------------- | ------------------- | --------
+Get-B1DNSHost        | Get-B1DNSService  | /dns/host            | /dns/service        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Set-B1DNSHost        | Set-B1DNSService  | /dns/host            | /dns/service        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Get-B1DHCPHost       | Get-B1DHCPService | /dhcp/host           | /dhcp/service       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+Get-B1DHCPHost       | Set-B1DHCPService | /dhcp/host           | /dhcp/service       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
+
 
 ## Resources
-
 This PowerShell Module makes use of the following InfoBlox APIs;
 
 - [CSP Cloud](https://csp.infoblox.com/apidoc)
