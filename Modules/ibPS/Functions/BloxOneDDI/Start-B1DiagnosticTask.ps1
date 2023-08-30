@@ -36,6 +36,9 @@
     .PARAMETER WaitForOutput
         Indicates whether the function should wait for results to be returned from the diagnostic task, or start it in the background only. This defaults to $true
 
+    .PARAMETER id
+        The id of the BloxOneDDI Host to run the diagnostic task on. Accepts pipeline input
+
     .Example
         Start-B1DiagnosticTask -DNSTest -FQDN "google.com"
 
@@ -49,115 +52,124 @@
         Tasks
     #>
   param(
-    [parameter(Mandatory=$true)]
-               [String]$OnPremHost,
-    [parameter(ParameterSetName="traceroute",
-               Mandatory=$true)]
-               [Switch]$Traceroute,
-    [parameter(ParameterSetName="traceroute",
-               Mandatory=$true)]
-               [String]$Target,
-    [parameter(ParameterSetName="traceroute",
-               Mandatory=$false)]
-               [String]$Port,
-    [parameter(ParameterSetName="dnstest",
-               Mandatory=$true)]
-               [Switch]$DNSTest,
-    [parameter(ParameterSetName="dnstest",
-               Mandatory=$true)]
-               [String]$FQDN,
-    [parameter(ParameterSetName="ntptest",
-               Mandatory=$true)]
-               [Switch]$NTPTest,
-    [parameter(ParameterSetName="dnsconf",
-               Mandatory=$true)]
-               [Switch]$DNSConfiguration,
-    [parameter(ParameterSetName="dhcpconf",
-               Mandatory=$true)]
-               [Switch]$DHCPConfiguration,
+    [String]$OnPremHost,
+    [parameter(ParameterSetName="traceroute",Mandatory=$true)]
+    [Switch]$Traceroute,
+    [parameter(ParameterSetName="dnstest")]
+    [Switch]$DNSTest,
+    [parameter(ParameterSetName="ntptest")]
+    [Switch]$NTPTest,
+    [parameter(ParameterSetName="dnsconf")]
+    [Switch]$DNSConfiguration,
+    [parameter(ParameterSetName="dhcpconf")]
+    [Switch]$DHCPConfiguration,
+    [parameter(ParameterSetName="traceroute",Mandatory=$true)]
+    [String]$Target,
+    [parameter(ParameterSetName="traceroute",Mandatory=$false)]
+    [String]$Port,
+    [parameter(ParameterSetName="dnstest",Mandatory=$true)]
+    [String]$FQDN,
     [parameter(Mandatory=$false)]
-               [Switch]$WaitForOutput = $true
+    [Switch]$WaitForOutput = $true,
+    [Parameter(
+      ValueFromPipelineByPropertyName = $true
+    )]
+    [String]$id
   )
 
-  $OPH = Get-B1Host -Name $OnPremHost
-
-  if ($OPH.ophid) {
-    if ($Traceroute) {
-      $splat = @{
-        "ophid" = $OPH.ophid
-        "cmd" = @{
-          "name" = "traceroute"
-          "args" = @{
-            "target" = $Target
-            "port" = $Port
+  process {
+    if ($OnPremHost -and $id) {
+      Write-Host "Error. -OnPremHost and -id are mutually exclusive. Please select only one parameter" -ForegroundColor Red
+      break
+    } elseif (!$OnPremHost -and !$id) {
+      Write-Host "Error. You must specify either -OnPremHost or -id" -ForegroundColor Red
+      break
+    }
+  
+    if ($id) {
+      $OPH = Get-B1Host -id $id
+    } else {
+      $OPH = Get-B1Host -Name $OnPremHost -Strict
+    }
+  
+    if ($OPH.ophid) {
+      if ($Traceroute) {
+        $splat = @{
+          "ophid" = $OPH.ophid
+          "cmd" = @{
+            "name" = "traceroute"
+            "args" = @{
+              "target" = $Target
+              "port" = $Port
+            }
           }
         }
       }
-    }
-
-    if ($DNSTest) {
-      $splat = @{
-        "ophid" = $OPH.ophid
-        "cmd" = @{
-          "name" = "dns_test"
-          "args" = @{
-            "domain_name" = $FQDN
+  
+      if ($DNSTest) {
+        $splat = @{
+          "ophid" = $OPH.ophid
+          "cmd" = @{
+            "name" = "dns_test"
+            "args" = @{
+              "domain_name" = $FQDN
+            }
           }
         }
       }
-    }
 
-    if ($NTPTest) {
-      $splat = @{
-        "ophid" = $OPH.ophid
-        "cmd" = @{
-          "name" = "ntp_test"
+      if ($NTPTest) {
+        $splat = @{
+          "ophid" = $OPH.ophid
+          "cmd" = @{
+            "name" = "ntp_test"
+          }
         }
       }
-    }
 
 
-    if ($DNSConfiguration) {
-      $splat = @{
-        "ophid" = $OPH.ophid
-        "cmd" = @{
-          "name" = "dns_conf"
+      if ($DNSConfiguration) {
+        $splat = @{
+          "ophid" = $OPH.ophid
+          "cmd" = @{
+            "name" = "dns_conf"
+          }
         }
       }
-    }
 
-    if ($DHCPConfiguration) {
-      $splat = @{
-        "ophid" = $OPH.ophid
-        "cmd" = @{
-          "name" = "dhcp_conf"
+      if ($DHCPConfiguration) {
+        $splat = @{
+          "ophid" = $OPH.ophid
+          "cmd" = @{
+            "name" = "dhcp_conf"
+          }
         }
       }
-    }
 
-    $splat = $splat | ConvertTo-Json
-    if ($Debug) {$splat}
-    $Result = Query-CSP -Method POST -Uri "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
-    if ($Result) {
-      if ($WaitForOutput) {
-        while ((Get-B1DiagnosticTask -id $Result.id).status -eq "InProgress") {
-          Write-Host "Waiting for task to complete on $OnPremHost.." -ForegroundColor Yellow
-          Wait-Event -Timeout 5
-        }
-        if ($DNSConfiguration) {
-          $Job = Get-B1DiagnosticTask -id $Result.id -Download
-        } elseif ($DHCPConfiguration) {
-          $Job = Get-B1DiagnosticTask -id $Result.id -Download | select -ExpandProperty Dhcp4 -ErrorAction SilentlyContinue
+      $splat = $splat | ConvertTo-Json
+      if ($Debug) {$splat}
+      $Result = Query-CSP -Method POST -Uri "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
+      if ($Result) {
+        if ($WaitForOutput) {
+          while ((Get-B1DiagnosticTask -id $Result.id).status -eq "InProgress") {
+            Write-Host "Waiting for task to complete on $($OPH.display_name).." -ForegroundColor Yellow
+            Wait-Event -Timeout 5
+          }
+          if ($DNSConfiguration) {
+            $Job = Get-B1DiagnosticTask -id $Result.id -Download
+          } elseif ($DHCPConfiguration) {
+            $Job = Get-B1DiagnosticTask -id $Result.id -Download | select -ExpandProperty Dhcp4 -ErrorAction SilentlyContinue
+          } else {
+            $Job = Get-B1DiagnosticTask -id $Result.id
+          }
+          if ($Job) {
+            return $Job
+          } else {
+            Write-Host "Job failed on $($OPH.display_name)." -ForegroundColor Red
+          }
         } else {
-          $Job = Get-B1DiagnosticTask -id $Result.id
+          return $Result
         }
-        if ($Job) {
-          return $Job
-        } else {
-          Write-Host "Job failed on $OnPremHost." -ForegroundColor Red
-        }
-      } else {
-        return $Result
       }
     }
   }

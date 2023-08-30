@@ -384,7 +384,7 @@ Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1AuthoritativeZone       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AuthoritativeZone
 Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
 Remove-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
-Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
+Remove-B1Range                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Range
 Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
 Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet

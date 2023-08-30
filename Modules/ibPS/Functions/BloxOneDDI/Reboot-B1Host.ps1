@@ -12,6 +12,9 @@
     .PARAMETER NoWarning
         If this parameter is used, there will be no prompt for confirmation before rebooting
 
+    .PARAMETER id
+        The id of the BloxOneDDI Host. Accepts pipeline input
+
     .Example
         Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
    
@@ -22,12 +25,23 @@
         Host
     #>
   param(
-    [parameter(Mandatory=$true)]
-               [String]$OnPremHost,
-               [Switch]$NoWarning
+    [Parameter(ParameterSetName="noID",Mandatory=$true)]
+    [String]$OnPremHost,
+    [Switch]$NoWarning,
+    [Parameter(
+      ValueFromPipelineByPropertyName = $true,
+      ParameterSetName="ID",
+      Mandatory=$true
+    )]
+    [String]$id
   )
 
-  $OPH = Get-B1Host -Name $OnPremHost
+  if ($id) {
+    $OPH = Get-B1Host -id $id
+  } else {
+    $OPH = Get-B1Host -Name $OnPremHost
+  }
+
   if ($OPH.id) {
     $splat = @{
       "ophid" = $OPH.ophid
@@ -36,12 +50,12 @@
       }
     }
     if (!($NoWarning)) {
-        Write-Warning "WARNING! Are you sure you want to reboot this host? $OnPremHost" -WarningAction Inquire
+        Write-Warning "WARNING! Are you sure you want to reboot this host? $($OPH.display_name)" -WarningAction Inquire
     }
-    Write-Host "Rebooting $OnPremHost.." -ForegroundColor Yellow
+    Write-Host "Rebooting $($OPH.display_name).." -ForegroundColor Yellow
     $splat = $splat | ConvertTo-Json
     Query-CSP -Method POST -Uri "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
   } else {
-    Write-Host "On Prem Host $OnPremHost not found" -ForegroundColor Red
+    Write-Host "BloxOne Host $OnPremHost$id not found" -ForegroundColor Red
   }
 }

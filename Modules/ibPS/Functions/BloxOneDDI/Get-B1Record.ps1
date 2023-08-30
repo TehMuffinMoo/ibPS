@@ -33,6 +33,9 @@
     .PARAMETER IncludeInheritance
         Whether to include inherited properties in the results
 
+    .PARAMETER id
+        Use the id parameter to filter the results by ID
+
     .Example
         Get-B1Record -Name "myArecord" -Zone "corp.mydomain.com" -View "default" | ft name_in_zone,rdata,type
    
@@ -52,7 +55,8 @@
       [String]$Source,
       [String]$View,
       [switch]$Strict = $false,
-      [switch]$IncludeInheritance = $false
+      [switch]$IncludeInheritance = $false,
+      [String]$id
     )
 
     $SupportedRecords = "A","CNAME","PTR","NS","TXT","SOA","SRV"
@@ -71,6 +75,9 @@
     }
     if ($rdata) {
         $Filters.Add("dns_rdata$MatchType`"$rdata`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($FQDN) {
         if ($Strict) {

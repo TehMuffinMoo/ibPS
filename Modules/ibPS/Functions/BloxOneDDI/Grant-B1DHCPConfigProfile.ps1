@@ -1,4 +1,4 @@
-﻿function Apply-B1HostDHCPConfigProfile {
+﻿function Grant-B1DHCPConfigProfile {
     <#
     .SYNOPSIS
         Applies a DHCP Config Profile to one or most BloxOneDDI Hosts
@@ -13,7 +13,7 @@
         A list of BloxOneDDI Hosts to apply the DHCP Config Profile to
 
     .Example
-        Apply-B1HostDHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+        Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -21,6 +21,7 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [Alias("Apply-B1HostDHCPConfigProfile")]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,

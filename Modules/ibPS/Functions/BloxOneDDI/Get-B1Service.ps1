@@ -18,6 +18,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER id
+        Use the id parameter to filter the results by ID
+
     .Example
         Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
     
@@ -28,19 +31,25 @@
         Service
     #>
     param(
-        [Parameter(Mandatory=$false)]
+        [Parameter(ParameterSetName="noID",Mandatory=$false)]
         [String]$Name,
-        [Parameter(Mandatory=$false)]
         [Switch]$Detailed,
-        [Parameter(Mandatory=$false)]
         [String]$Limit = "10001",
-        [Parameter(Mandatory=$false)]
-        [Switch]$Strict = $false
+        [Switch]$Strict,
+        [Parameter(
+          ValueFromPipelineByPropertyName = $true,
+          ParameterSetName="ID",
+          Mandatory=$true
+        )]
+        [String]$id
     )
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Detailed) {
       $ServicesUri = "detail_services"

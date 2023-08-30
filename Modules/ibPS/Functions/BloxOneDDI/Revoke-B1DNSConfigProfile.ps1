@@ -1,4 +1,4 @@
-﻿function Remove-B1HostDNSConfigProfile {
+﻿function Revoke-B1DNSConfigProfile {
     <#
     .SYNOPSIS
         Removes a DNS Config Profile from one or more BloxOneDDI hosts
@@ -13,7 +13,7 @@
         A list of BloxOneDDI Hosts to remove the DNS Config Profile from
 
     .Example
-        Remove-B1HostDNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+        Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -21,6 +21,7 @@
     .FUNCTIONALITY
         DNS
     #>
+    [Alias("Remove-B1HostDNSConfigProfile")]
     param(
         [Parameter(Mandatory=$true)]
         [System.Object]$Hosts

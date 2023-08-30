@@ -27,6 +27,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER id
+        The id of the record. Accepts pipeline input
+
     .Example
         Remove-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default"
    
@@ -37,38 +40,60 @@
         DNS
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
       [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
       [String]$Type,
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Name,
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Zone,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
       [String]$View,
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
       [String]$rdata,
+      [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
       [String]$FQDN,
-      [Switch]$Strict = $false
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
 
-    if (!(($Name -and $Zone) -or $FQDN)) {
-        Write-Host "Error. You must specify either -Name & -Zone or -FQDN" -ForegroundColor Red
-        break
-    }
-    
-    $Record = Get-B1Record -Type $Type -Name $Name -Zone $Zone -View $View -rdata $rdata -FQDN $FQDN -Strict:$Strict
-
-    if (($Record | measure).Count -gt 1) {
-        Write-Host "More than one record returned. These will not be removed." -ForegroundColor Red
-        $Record | ft -AutoSize
-    } elseif (($Record | measure).Count -eq 1) {
-        Write-Host "Removing record: $FQDN$Name.$Zone.." -ForegroundColor Yellow
-        $Result = Query-CSP -Method "DELETE" -Uri $Record.id
-        if (Get-B1Record -Type $Type -Name $Name -Zone $Zone -View $View -rdata $rdata -FQDN $FQDN -Strict:$Strict) {
-            Write-Host "Failed to remove DNS record: $FQDN$Name.$Zone" -ForegroundColor Red
-        } else {
-            Write-Host "Successfully removed DNS record: $FQDN$Name.$Zone" -ForegroundColor Green
+    process {
+      if ($id) {
+        $Record = Get-B1Record -id $id
+      } else {
+        if (!(($Name -and $Zone) -or $FQDN)) {
+          Write-Host "Error. You must specify either -Name & -Zone or -FQDN" -ForegroundColor Red
+          break
         }
-    } else {
-        Write-Host "DNS record does not exist: $FQDN$Name.$Zone" -ForegroundColor Gray
+        $Record = Get-B1Record -Type $Type -Name $Name -Zone $Zone -View $View -rdata $rdata -FQDN $FQDN -Strict
+        if (($Record | measure).Count -gt 1) {
+          Write-Host "More than one record returned. These will not be removed. Please pipe Get-B1Record into Remove-B1Record instead for changes to more than one record." -ForegroundColor Red
+          $Record | ft -AutoSize
+          break
+        }
+      }
+      if ($Record) {
+        Write-Host "Removing record: $($Record.absolute_name_spec)" -ForegroundColor Yellow
+        $Result = Query-CSP -Method "DELETE" -Uri $Record.id
+        if ($id) {
+          $RC = Get-B1Record -id $id
+        } else {
+          $RC = Get-B1Record -Type $Type -Name $Name -Zone $Zone -View $View -rdata $rdata -FQDN $FQDN -Strict
+        }
+        if ($RC) {
+            Write-Host "Failed to remove DNS record: $($RC.absolute_name_spec)" -ForegroundColor Red
+        } else {
+            Write-Host "Successfully removed DNS record: $($Record.absolute_name_spec)" -ForegroundColor Green
+        }
+      } else {
+        Write-Host "DNS record does not exist: $id$FQDN$Name.$Zone" -ForegroundColor Gray
+      }
     }
-
 }

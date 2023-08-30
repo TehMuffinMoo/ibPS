@@ -83,6 +83,7 @@
         $Result = Query-CSP -Method POST -Uri "ipam/range" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
         if ($Result.start -eq $StartAddress -and $Result.end -eq $EndAddress) {
             Write-Host "Created DHCP Range Successfully. Start: $StartAddress - End: $EndAddress" -ForegroundColor Green
+            return $Result
         } else {
             Write-Host "Failed to create DHCP Range." -ForegroundColor Red
         }

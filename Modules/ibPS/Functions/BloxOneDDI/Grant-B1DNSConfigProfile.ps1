@@ -1,4 +1,4 @@
-﻿function Apply-B1HostDNSConfigProfile {
+﻿function Grant-B1DNSConfigProfile {
     <#
     .SYNOPSIS
         Applies a DNS Config Profile to one or most BloxOneDDI Hosts
@@ -13,7 +13,7 @@
         A list of BloxOneDDI Hosts to apply the DNS Config Profile to
 
     .Example
-        Apply-B1HostDNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+        Grant-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -21,6 +21,7 @@
     .FUNCTIONALITY
         DNS
     #>
+    [Alias("Apply-B1HostDNSConfigProfile")]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,

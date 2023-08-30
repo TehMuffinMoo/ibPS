@@ -67,6 +67,6 @@
     if ($Results) {
         return $Results
     } else {
-        Write-Host "No DHCP HA Groups found." -ForegroundColor Gray
+        Write-Verbose "No DHCP HA Groups found."
     }
 }
