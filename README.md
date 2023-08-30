@@ -288,10 +288,10 @@ Remove-B1Subnet -Subnet 10.0.0.1 -CIDR 24 -Space "Global"
 Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
   Removes a host from within BloxOne.
 
-Remove-B1DNSConfigProfile -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+Revoke-B1DNSConfigProfile -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
   Used to remove DNS Configuration Profiles from BloxOne hosts. The -Hosts parameter accepts a PSObject for long lists.
 
-Remove-B1DHCPConfigProfile -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+Revoke-B1DHCPConfigProfile -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
   Used to remove DHCP Configuration Profiles from BloxOne hosts. The -Hosts parameter accepts a PSObject for long lists.
   
 Remove-B1Range -Start "10.250.20.20" -End "10.250.20.100"
@@ -342,10 +342,10 @@ Enable-B1OnPremHostApplication -Name "bloxoneddihost1.mydomain.corp" -DNS -DHCP 
 Disable-B1OnPremHostApplication -Name "bloxoneddihost1.mydomain.corp" -DNS -DHCP -NTP
   Allows you to Disable BloxOne On-Prem Host Applications using the DNS/DHCP/NTP switches
   
-Apply-B1HostDNSConfigProfile -Name "Edge Profile" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+Grant-B1DNSConfigProfile -Name "Edge Profile" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
   Used to add DNS Configuration Profiles to BloxOne hosts. The -Hosts parameter accepts a PSObject for long lists.
 
-Apply-B1HostDHCPConfigProfile -Name "Edge Profile" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+Grant-B1DHCPConfigProfile -Name "Edge Profile" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
   Used to add DHCP Configuration Profiles to BloxOne hosts. The -Hosts parameter accepts a PSObject for long lists.
   
 Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
@@ -384,9 +384,7 @@ Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1AuthoritativeZone       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AuthoritativeZone
 Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
 Remove-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
-Remove-B1HostDHCPConfigProfile   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDHCPConfigProfile
-Remove-B1HostDNSConfigProfile    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1HostDNSConfigProfile
-Remove-B1Range                   | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Range
+Remove-B1Range                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Range
 Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
 Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
@@ -406,6 +404,10 @@ Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Statu
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
+Revoke-B1DHCPConfigProfile       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Revoke-B1DNSConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Grant-B1DHCPConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Grant-B1DNSConfigProfile         | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
 
 ## Resources
 

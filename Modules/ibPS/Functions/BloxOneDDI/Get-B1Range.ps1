@@ -21,6 +21,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER id
+        Filter the results by range id
+
     .Example
         Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
     
@@ -38,12 +41,8 @@
       [String]$EndAddress,
       [String]$Name,
       [String]$Space,
-      [Switch]$Strict = $false
+      [String]$id
     )
-
-	$MatchType = Match-Type $Strict
-
-    $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
 
     [System.Collections.ArrayList]$Filters = @()
     if ($StartAddress) {
@@ -56,9 +55,12 @@
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($Space) {
+        $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
         $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
     }
-
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
         Query-CSP -Uri "ipam/range?_filter=$Filter" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue

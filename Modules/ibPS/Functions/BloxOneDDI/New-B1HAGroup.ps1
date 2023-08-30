@@ -37,7 +37,7 @@
       [Parameter(Mandatory=$true)]
       [String]$Name,
       [Parameter(Mandatory=$true)]
-      [ValidateSet("active-active","active-passive")]
+      [ValidateSet("active-active","active-passive","advanced-active-passive")]
       [String]$Mode,  ## active-active / active-passive
       [Parameter(Mandatory=$true)]
       [String]$PrimaryNode,
@@ -46,14 +46,14 @@
       [String]$Description
     )
 
-    if (Get-B1HAGroup -Name $Name) {
+    if (Get-B1HAGroup -Name $Name -Strict) {
         Write-Host "HA Group already exists by the name $Name." -ForegroundColor Red
     } else {
         $HostA = "dhcp/host/"+(Get-B1Host -Name $PrimaryNode -BreakOnError).legacy_id
         $HostARole = "active"
         $HostB = "dhcp/host/"+(Get-B1Host -Name $SecondaryNode -BreakOnError).legacy_id
         $HostBRole = "active"
-        if ($Mode -eq "active-passive") {
+        if ($Mode -eq "active-passive" -or $Mode -eq "advanced-active-passive") {
             $HostBRole = "passive"
         }
 
@@ -74,6 +74,7 @@
         $Result = Query-CSP -Method POST -Uri "dhcp/ha_group" -Data $splat | select -ExpandProperty result
         if ($Result.name -eq $Name) {
             Write-Host "Created DHCP HA Group $Name Successfully." -ForegroundColor Green
+            return $Result
         } else {
             Write-Host "Failed to create DHCP HA Group $Name." -ForegroundColor Red
         }

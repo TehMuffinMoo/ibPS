@@ -1,4 +1,4 @@
-﻿function Remove-B1HostDHCPConfigProfile {
+﻿function Revoke-B1DHCPConfigProfile {
     <#
     .SYNOPSIS
         Removes a DHCP Config Profile from one or more BloxOneDDI hosts
@@ -13,7 +13,7 @@
         A list of BloxOneDDI Hosts to remove the DHCP Config Profile from
 
     .Example
-        Remove-B1HostDHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+        Revoke-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -21,6 +21,7 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [Alias("Remove-B1HostDHCPConfigProfile")]
     param(
         [Parameter(Mandatory=$true)]
         [System.Object]$Hosts
