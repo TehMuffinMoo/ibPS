@@ -76,10 +76,6 @@
     
     process {
 
-      if ($view) {
-        $viewId = (Get-B1DNSView -Name $view -Strict).id
-      }
-
       $TTLAction = "inherit"
       $FQDN = $Name+"."+$Zone
       if ($id) {
