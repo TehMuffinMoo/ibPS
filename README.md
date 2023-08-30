@@ -401,7 +401,7 @@ Set-B1ForwardZone                | ![Implemented](https://badgen.net/badge/Statu
 Set-B1Host                       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Set-B1NTPServiceConfiguration    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1NTPServiceConfiguration
 Set-B1Range                      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Range
-Set-B1Record                     | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Record
+Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
 Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service

@@ -49,131 +49,144 @@
         DNS
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
       [String]$Type,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Name,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Zone,
-      [Parameter(Mandatory=$true)]
       [String]$rdata,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$view,
+      [Parameter(ParameterSetName="noID")]
       [String]$CurrentRDATA,
       [int]$TTL,
       [string]$Description,
       [int]$Priority,
       [int]$Weight,
-      [int]$Port
+      [int]$Port,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
     
-    if ($view) {
-        $viewId = (Get-B1DNSView -Name $view -Strict).id
-    }
+    process {
 
-    $TTLAction = "inherit"
-    $FQDN = $Name+"."+$Zone
-    $Record = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA
-    if (!($Record)) {
+      if ($view) {
+        $viewId = (Get-B1DNSView -Name $view -Strict).id
+      }
+
+      $TTLAction = "inherit"
+      $FQDN = $Name+"."+$Zone
+      if ($id) {
+        $Record = Get-B1Record -id $id
+      } else {
+        $Record = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA
+      }
+      if (!($Record)) {
         Write-Host "Error. Record doesn't exist." -ForegroundColor Red
         break
-    } else {
-        switch ($Type) {
+      } else {
+        $splat = @{}
+        if ($rdata) {
+          switch ($Type) {
             "A" {
-                if ([bool]($rdata -as [ipaddress])) {
-                    $rdataSplat = @{
-                        "address" = $rdata
-                    }
-                } else {
-                    Write-Host "Error. Invalid IP Address." -ForegroundColor Red
-                    break
+              if ([bool]($rdata -as [ipaddress])) {
+                $rdataSplat = @{
+                    "address" = $rdata
                 }
+              } else {
+                Write-Host "Error. Invalid IP Address." -ForegroundColor Red
+                break
+              }
             }
             "CNAME" {
-                if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\.)?$)") {
-                  if (!($rdata.EndsWith("."))) {
-                    $rdata = "$rdata."
-                  }
-                  $rdataSplat = @{
-	                "cname" = $rdata
-	              }
-                } else {
-                  Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
-                  break
+              if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\.)?$)") {
+                if (!($rdata.EndsWith("."))) {
+                  $rdata = "$rdata."
                 }
+                $rdataSplat = @{
+	              "cname" = $rdata
+	            }
+              } else {
+                Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
+                break
+              }
             }
             "TXT" {
-                $rdataSplat = @{
-                    "text" = $rdata
-                }
+              $rdataSplat = @{
+                "text" = $rdata
+              }
             }
             "PTR" {
-                $rdataSplat = @{
-                    "dname" = $rdata
-                }
+              $rdataSplat = @{
+                "dname" = $rdata
+              }
             }
             "SRV" {
-                if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
-                    if ($Priority -and $Weight -and $Port) {
-                        $rdataSplat = @{
-		                    "priority" = $Priority
-		                    "weight" = $Weight
-		                    "port" = $Port
-		                    "target" = $rdata
-	                    }
-                    } else {
-                        Write-Host "Error. When updating SRV records, -Priority, -Weight & -Port parameters are all required." -ForegroundColor Red
-                        break
-                    }
+              if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
+                if ($Priority -and $Weight -and $Port) {
+                  $rdataSplat = @{
+		            "priority" = $Priority
+		            "weight" = $Weight
+		            "port" = $Port
+		            "target" = $rdata
+	              }
                 } else {
-                    Write-Host "Error. SRV target must be an FQDN: $rdata" -ForegroundColor Red
-                    break
+                  Write-Host "Error. When updating SRV records, -Priority, -Weight & -Port parameters are all required." -ForegroundColor Red
+                  break
                 }
+              } else {
+                Write-Host "Error. SRV target must be an FQDN: $rdata" -ForegroundColor Red
+                break
+              }
             }
             default {
-                Write-Host "Error. Invalid record type: $Type" -ForegroundColor Red
-                Write-Host "Please use a supported record type: $SupportedRecords" -ForegroundColor Gray
-                break
+              Write-Host "Error. Invalid record type: $Type" -ForegroundColor Red
+              Write-Host "Please use a supported record type: $SupportedRecords" -ForegroundColor Gray
+              break
             }
+          }
+
+          if ($rdataSplat) {
+            $splat.rdata = $rdataSplat
+          }
         }
 
-        if ($rdataSplat) {
-            Write-Host "Updating $Type Record for $FQDN.." -ForegroundColor Gray
-            
-            if ($TTL) {
-                $TTLAction = "override"
-                $Record.inheritance_sources
-            }
-            $splat = @{
-                "name_in_zone" = $Name
-	            "rdata" = $rdataSplat
-	            "inheritance_sources" = @{
-		            "ttl" = @{
-			            "action" = $TTLAction
-		            }
-	            }
-            }
-            if ($Options) {
-                $splat | Add-Member -Name "options" -Value $Options -MemberType NoteProperty
-            }               
-            if ($TTL) {
-                $splat | Add-Member -Name "ttl" -Value $TTL -MemberType NoteProperty
-            }
-            if ($Description) {
-                $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
-            }
-            
-            $splat = $splat | ConvertTo-Json
-            if ($Debug) {$splat}
-            $Result = Query-CSP -Method PATCH -Uri $($Record.id) -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
-            if ($Debug) {$Result}
-            if ($Result.dns_rdata -match $rdata) {
-                Write-Host "DNS $Type Record has been successfully updated for $FQDN." -ForegroundColor Green
-            } else {
-                Write-Host "Failed to update DNS $Type Record for $FQDN." -ForegroundColor Red
-            }
-
+        if ($Name) {
+          $splat.name_in_zone = $Name
         }
+        if ($TTL) {
+          $TTLAction = "override"
+          $Record.inheritance_sources
+          $Splat.inheritance_sources = @{
+            "ttl" = @{
+              "action" = $TTLAction
+             }
+          }
+          $Splat.ttl = $TTL
+        }
+        if ($Options) {
+          $splat.options = $Options
+        }               
+        if ($Description) {
+          $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
+        }
+
+        Write-Host "Updating $($Record.type) Record for $($Record.absolute_name_spec)" -ForegroundColor Gray
+        $splat = $splat | ConvertTo-Json
+        if ($Debug) {$splat}
+        $Result = Query-CSP -Method PATCH -Uri $($Record.id) -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
+        if ($Debug) {$Result}
+        if ($Result.dns_rdata -match $rdata) {
+          Write-Host "DNS $($Record.type) Record has been successfully updated for $($Record.absolute_name_spec)" -ForegroundColor Green
+        } else {
+          Write-Host "Failed to update DNS $($Record.type) Record for $($Record.absolute_name_spec)" -ForegroundColor Red
+      }
     }
+  }
 }
