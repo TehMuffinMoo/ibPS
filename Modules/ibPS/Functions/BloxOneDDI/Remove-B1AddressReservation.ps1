@@ -40,13 +40,9 @@
       $AddressReservation = Get-B1Address -Address $Address -Reserved
     }
     if ($AddressReservation) {
-        $Result = Query-CSP -Method "DELETE" -Uri $AddressReservation.id
+        Query-CSP -Method "DELETE" -Uri $($AddressReservation.id) | Out-Null
 
-        if ($id) {
-          $AR = Get-B1Address -id $id -Reserved
-        } else {
-          $AR = Get-B1Address -Address $Address -Reserved
-        }
+        $AR = Get-B1Address -id $($AddressReservation.id) -Reserved
 
         if (!($AR)) {
             Write-Host "Address Reservation deleted successfully: $($AddressReservation.address)." -ForegroundColor Green

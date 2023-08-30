@@ -23,20 +23,37 @@
     #>
     [Alias("Apply-B1HostDHCPConfigProfile")]
     param(
-        [Parameter(Mandatory=$true)]
-        [String]$Name,
-        [Parameter(Mandatory=$true)]
-        [System.Object]$Hosts
+      [Parameter(Mandatory=$true)]
+      [String]$Name,
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [System.Object]$Hosts,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
 
-    $DHCPConfigProfileId = (Get-B1DHCPConfigProfile -Name $Name -Strict).id
-    if (!$DHCPConfigProfileId) {
-        Write-Host "Failed to get DHCP Config Profile." -ForegroundColor Red
-    }
-    
-    foreach ($DHCPHost in $Hosts) {
-        $DHCPHostId = (Get-B1DHCPHost -Name $DHCPHost).id
+    process {
 
+      $LoopHosts = @()
+
+      if ($id) {
+        ## Not Implemented
+      } else {
+        foreach ($DHCPHost in $Hosts) {
+          $LoopHosts += Get-B1DHCPHost -Name $DHCPHost -Strict
+        }
+      }
+
+      $DHCPConfigProfileId = (Get-B1DHCPConfigProfile -Name $Name -Strict).id
+      if (!$DHCPConfigProfileId) {
+        Write-Host "Failed to get DHCP Config Profile." -ForegroundColor Red
+        break
+      }
+    
+      foreach ($LH in $LoopHosts) {
         $splat = @{
             "server" = $DHCPConfigProfileId
         }
@@ -44,11 +61,12 @@
         $splat = $splat | ConvertTo-Json
         if ($Debug) {$splat}
 
-        $Result = Query-CSP -Method "PATCH" -Uri "$DHCPHostId" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method "PATCH" -Uri $($LH.id) -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
         if ($Result.server -eq $DHCPConfigProfileId) {
-            Write-Host "DHCP Config Profile `"$Name`" has been successfully applied to $DHCPHost" -ForegroundColor Green
+            Write-Host "DHCP Config Profile `"$Name`" has been successfully applied to $($LH.name)" -ForegroundColor Green
         } else {
-            Write-Host "Failed to apply DHCP Config Profile `"$Name`" to $DHCPHost" -ForegroundColor Red
+            Write-Host "Failed to apply DHCP Config Profile `"$Name`" to $($LH.name)" -ForegroundColor Red
         }
+      }
     }
 }

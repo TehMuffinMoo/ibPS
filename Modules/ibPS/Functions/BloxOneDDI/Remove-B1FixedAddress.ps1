@@ -28,15 +28,9 @@
         DHCP
     #>
     param(
-      [Parameter(
-        ParameterSetName="noID",
-        Mandatory=$true
-      )]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$IP = $null,
-      [Parameter(
-        ParameterSetName="noID",
-        Mandatory=$true
-      )]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Space,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
@@ -49,28 +43,19 @@
     process {
       if ($id) {
         $FixedAddress = Get-B1FixedAddress -id $id
-        if ($FixedAddress) {
-          Query-CSP -Method DELETE -Uri $id | Out-Null
-          if (Get-B1FixedAddress -id $id) {
-            Write-Host "Error. Failed to delete fixed address with id: $id" -ForegroundColor Red
-          } else {
-            Write-Host "Successfully deleted fixed address $($FixedAddress.address) with id: $id" -ForegroundColor Green
-          }
-        } else {
-          Write-Host "Error. Fixed Address does not exist with id: $id" -ForegroundColor Red
-        }
       } else {
         $FixedAddress = Get-B1FixedAddress -IP $IP -Space $Space
-        if ($FixedAddress) {
-          Query-CSP -Method DELETE -Uri $FixedAddress.id
-          if (Get-B1FixedAddress -IP $IP -Space $Space) {
-            Write-Host "Error. Failed to delete fixed address with id: $id" -ForegroundColor Red
-          } else {
-            Write-Host "Successfully deleted fixed address with id: $id" -ForegroundColor Green
-          }
+      }
+
+      if ($FixedAddress) {
+        Query-CSP -Method DELETE -Uri $($FixedAddress.id) | Out-Null
+        if (Get-B1FixedAddress -id $($FixedAddress.id)) {
+          Write-Host "Error. Failed to delete fixed address: $($FixedAddress.address)" -ForegroundColor Red
         } else {
-          Write-Host "Error. Fixed Address does not exist with IP: $IP in Space: $Space" -ForegroundColor Red
+          Write-Host "Successfully deleted fixed address $($FixedAddress.address)" -ForegroundColor Green
         }
+      } else {
+        Write-Host "Error. Fixed Address does not exist: $IP$id" -ForegroundColor Red
       }
     }
 }

@@ -24,6 +24,9 @@
     .PARAMETER Description
         The description for the zone to be updated to
 
+    .PARAMETER id
+        The id of the authoritative zone to update. Accepts pipeline input
+
     .Example
         Set-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -AddAuthNSGs "Data Centre"
    
@@ -34,19 +37,31 @@
         DNS
     #>
     param(
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$FQDN,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$View,
       [System.Object]$DNSHosts,
       [System.Object]$AddAuthNSGs,
       [System.Object]$RemoveAuthNSGs,
-      [String]$Description
+      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [System.Object]$View,
+      [String]$Description,
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
 
-    $AuthZone = Get-B1AuthoritativeZone -FQDN $FQDN -View $View -Strict
+    process {
+
+      if ($id) {
+        $AuthZone = Get-B1AuthoritativeZone -id $id
+      } else {
+        $AuthZone = Get-B1AuthoritativeZone -FQDN $FQDN -View $View -Strict
+      }
     
-    if ($AuthZone) {
+      if ($AuthZone) {
         $AuthZoneUri = $AuthZone.id
         $AuthZonePatch = @{}
 
@@ -94,16 +109,17 @@
         } else {
             $splat = $AuthZonePatch | ConvertTo-Json -Depth 10
             $Result = Query-CSP -Method PATCH -Uri "$AuthZoneUri" -Data $splat
-            if (($Result | select -ExpandProperty result).fqdn -like "$FQDN*") {
-              Write-Host "Updated Authoritative DNS Zone: $FQDN successfully." -ForegroundColor Green
+            if (($Result | select -ExpandProperty result).id -eq $($AuthZone.id)) {
+              Write-Host "Updated Authoritative DNS Zone: $($AuthZone.fqdn) successfully." -ForegroundColor Green
             } else {
-              Write-Host "Failed to update Authoritative DNS Zone: $FQDN." -ForegroundColor Red
+              Write-Host "Failed to update Authoritative DNS Zone: $($AuthZone.fqdn)." -ForegroundColor Red
               break
             }
         }
         if ($Debug) {$splat}
        
-    } else {
-        Write-Host "The Authoritative Zone $FQDN does not exist." -ForegroundColor Red
+      } else {
+        Write-Host "The Authoritative Zone $FQDN$id does not exist." -ForegroundColor Red
+      }
     }
 }

@@ -55,11 +55,8 @@
         }
 
         Query-CSP -Method DELETE -Uri "https://csp.infoblox.com/api/infra/v1/hosts/$($hostID.id)" | Out-Null
-        if ($id) {
-          $HID = Get-B1Host -id $idshort -Detailed
-        } else {
-          $HID = Get-B1Host -Name $Name -Strict
-        }
+        $HID = Get-B1Host -id $($hostID.id) -Detailed
+
         if ($HID) {
           Write-Host "Error. Failed to delete BloxOneDDI Host: $($HID.display_name)" -ForegroundColor Red
         } else {

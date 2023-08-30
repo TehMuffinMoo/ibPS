@@ -388,8 +388,8 @@ Remove-B1Range                   | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
 Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
-Set-B1AddressBlock               | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AddressBlock
-Set-B1AuthoritativeZone          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1AuthoritativeZone
+Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AddressBlock
+Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AuthoritativeZone
 Set-B1DHCPConfigProfile          | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPConfigProfile
 Set-B1DHCPGlobalConfig           | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPGlobalConfig
 Set-B1DNSHost                    | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
@@ -404,10 +404,10 @@ Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Statu
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
-Revoke-B1DHCPConfigProfile       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
-Revoke-B1DNSConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
-Grant-B1DHCPConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
-Grant-B1DNSConfigProfile         | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1Host
+Revoke-B1DHCPConfigProfile       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPHost
+Revoke-B1DNSConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
+Grant-B1DHCPConfigProfile        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DHCPHost
+Grant-B1DNSConfigProfile         | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)  | Get-B1DNSHost
 
 ## Resources
 
