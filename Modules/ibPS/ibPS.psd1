@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.39'
+ModuleVersion = '1.9.0.40'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -101,7 +101,8 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1DFPLog', 'Get-B1DNS
                'Remove-B1FixedAddress', 'Grant-B1DNSConfigProfile', 
                'Grant-B1DHCPConfigProfile', 'Revoke-B1DHCPConfigProfile', 
                'Revoke-B1DNSConfigProfile', 'New-B1HAGroup', 'Get-B1HAGroup', 
-               'Get-NIOSCredentials', 'Store-NIOSCredentials', 'Get-ibPSVersion'
+               'Remove-B1ForwardZone', 'Get-NIOSCredentials', 
+               'Store-NIOSCredentials', 'Get-ibPSVersion'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
