@@ -406,9 +406,20 @@ Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Statu
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 
-### Replace old /dns/host & /dhcp/host APIs with /dns/service & /dhcp/service
-This is a work in progress
+### Replace old for new APIs
+This is a work in progress.
 
+Old Cmdlet           | New Cmdlet        | Old API Endpoint     | New API Endpoint
+---------------------|------------------ | -------------------- | ----------------------------
+Get-B1DNSHost        | Get-B1DNSService  | /dns/host            | /dns/service
+Set-B1DNSHost        | Set-B1DNSService  | /dns/host            | /dns/service
+Get-B1DHCPHost       | Get-B1DHCPService | /dhcp/host           | /dhcp/service
+Get-B1DHCPHost       | Set-B1DHCPService | /dhcp/host           | /dhcp/service
+
+
+Replace old /dns/host & /dhcp/host APIs with /dns/service & /dhcp/service
+
+## Resources
 This PowerShell Module makes use of the following InfoBlox APIs;
 
 - [CSP Cloud](https://csp.infoblox.com/apidoc)
