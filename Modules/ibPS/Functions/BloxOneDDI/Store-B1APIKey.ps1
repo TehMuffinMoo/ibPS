@@ -28,7 +28,7 @@ function Store-B1APIKey {
       [switch]$Persist
     )
     if ($Persist) {
-        if ($IsWindows) {}
+        if ($IsWindows) {
           [System.Environment]::SetEnvironmentVariable('B1APIKey',$APIKey,[System.EnvironmentVariableTarget]::User)
           $ENV:B1APIKey = $APIKey
           Write-Host "BloxOne API key has been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
