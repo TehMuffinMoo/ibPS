@@ -38,7 +38,7 @@ function Store-B1APIKey {
             touch ~/.bash_profile
           }
           sed -i '' -e '/B1APIKey/d' ~/.bash_profile
-          echo "export B1APIKey=$B1APIKey" >> ~/.bash_profile
+          echo "export B1APIKey=$APIKey" >> ~/.bash_profile
           Write-Host "BloxOne API key has been stored permenantly for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
         }
     } else {
