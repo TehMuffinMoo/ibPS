@@ -34,11 +34,11 @@ function Store-B1APIKey {
           Write-Host "BloxOne API key has been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
         } elseif ($IsMacOS) {
           $ENV:B1APIKey = $APIKey
-          if (!(Test-Path ~/.bash_profile)) {
-            touch ~/.bash_profile
+          if (!(Test-Path ~/.zshenv)) {
+            touch ~/.zshenv
           }
-          sed -i '' -e '/B1APIKey/d' ~/.bash_profile
-          echo "export B1APIKey=$APIKey" >> ~/.bash_profile
+          sed -i '' -e '/B1APIKey/d' ~/.zshenv
+          echo "export B1APIKey=$APIKey" >> ~/.zshenv
           Write-Host "BloxOne API key has been stored permenantly for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
         }
     } else {
