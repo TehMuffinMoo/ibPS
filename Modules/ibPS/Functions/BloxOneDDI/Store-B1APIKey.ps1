@@ -28,9 +28,19 @@ function Store-B1APIKey {
       [switch]$Persist
     )
     if ($Persist) {
-        [System.Environment]::SetEnvironmentVariable('B1APIKey',$APIKey,[System.EnvironmentVariableTarget]::User)
-        $ENV:B1APIKey = $APIKey
-        Write-Host "BloxOne API key has been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+        if ($IsWindows) {}
+          [System.Environment]::SetEnvironmentVariable('B1APIKey',$APIKey,[System.EnvironmentVariableTarget]::User)
+          $ENV:B1APIKey = $APIKey
+          Write-Host "BloxOne API key has been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+        } elseif ($IsMacOS) {
+          $ENV:B1APIKey = $APIKey
+          if (!(Test-Path ~/.bash_profile)) {
+            touch ~/.bash_profile
+          }
+          sed -i '' -e '/B1APIKey/d' ~/.bash_profile
+          echo "export B1APIKey=$B1APIKey" >> ~/.bash_profile
+          Write-Host "BloxOne API key has been stored permenantly for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+        }
     } else {
         $ENV:B1APIKey = $APIKey
         Write-Host "BloxOne API key has been stored for this session." -ForegroundColor Green
