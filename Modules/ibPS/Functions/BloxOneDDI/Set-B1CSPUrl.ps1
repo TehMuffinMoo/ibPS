@@ -1,4 +1,4 @@
-function Get-B1CSPUrl {
+function Set-B1CSPUrl {
     <#
     .SYNOPSIS
         Sets/updates the BloxOneDDI CSP Url.
@@ -16,7 +16,9 @@ function Get-B1CSPUrl {
         API
     #>
     param(
+        [Parameter(ParameterSetName="URL")]
         [String]$URL,
+        [Parameter(ParameterSetName="Region")]
         [ValidateSet("US","EU")]
         [String]$Region,
         [switch]$Persist
