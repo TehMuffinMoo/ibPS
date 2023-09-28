@@ -182,7 +182,7 @@
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress
 
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-    $Result = Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/cubejs/v1/query?query=$Query"
+    $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
     if ($Result.result.data) {
         $Result.result.data | Select @{name="timestamp";Expression={$_.'NstarLeaseActivity.timestamp'}},`
                                      @{name="dhcp_server";Expression={Match-DHCPHost($_.'NstarLeaseActivity.host_id')}},`
