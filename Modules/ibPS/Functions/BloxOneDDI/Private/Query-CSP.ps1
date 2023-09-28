@@ -37,6 +37,9 @@ function Query-CSP {
     ## Get Stored API Key
     $B1ApiKey = Get-B1APIKey
 
+    ## Get Saved CSP URL
+    $B1CSPUrl = Get-B1CSPUrl
+
     ## Set Headers
     $CSPHeaders = @{
         'Authorization' = "Token $B1ApiKey"
@@ -46,8 +49,8 @@ function Query-CSP {
     $ErrorOnEmpty = $true
 
     ## Allow full API or only endpoint to be specified.
-    if ($Uri -notlike "https://csp.infoblox.com/*") {
-        $Uri = "https://csp.infoblox.com/api/ddi/v1/"+$Uri
+    if ($Uri -notlike "$B1CSPUrl/*") {
+        $Uri = "$B1CSPUrl/api/ddi/v1/"+$Uri
     }
     $Uri = $Uri -replace "\*","``*"
     if ($Debug) {$Uri}
