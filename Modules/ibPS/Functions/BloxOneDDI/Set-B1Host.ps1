@@ -117,7 +117,7 @@
 
         $splat = $OnPremHost | select * -ExcludeProperty configs,created_at | ConvertTo-Json -Depth 10 -Compress
         if ($Debug) {$splat}
-        $Results = Query-CSP -Method PUT -Uri "https://csp.infoblox.com/api/infra/v1/hosts/$hostID" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$hostID" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
         if ($($Results.id) -eq $($OnPremHost.id)) {
           Write-Host "Updated BloxOneDDI Host Configuration $($OnPremHost.display_name) successfuly." -ForegroundColor Green
         } else {

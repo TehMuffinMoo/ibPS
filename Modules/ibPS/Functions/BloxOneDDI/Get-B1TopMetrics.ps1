@@ -85,7 +85,7 @@
                 }
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/cubejs/v1/query?query=$Query"
+                $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DNSClients = $Result.result.data | Select @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
@@ -123,7 +123,7 @@
                 }
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/cubejs/v1/query?query=$Query"
+                $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DNSClients = $Result.result.data | Select @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
@@ -161,7 +161,7 @@
                 }
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/cubejs/v1/query?query=$Query"
+                $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DNSClients = $Result.result.data | Select @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
@@ -199,7 +199,7 @@
                 }
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/cubejs/v1/query?query=$Query"
+                $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
                 $TopQueriesLog = $Result.result.data | Select @{name="query";Expression={$_.'PortunusDnsLogs.qname'}},`
                                              @{name="queryCount";Expression={$_.'PortunusDnsLogs.qnameCount'}}
                 $TopQueriesLog
@@ -236,7 +236,7 @@
                 }
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/cubejs/v1/query?query=$Query"
+                $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DNSClients = $Result.result.data | Select @{name="device_ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}},`
@@ -275,7 +275,7 @@
                 }
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/cubejs/v1/query?query=$Query"
+                $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DFPClients = $Result.result.data | Select @{name="device_name";Expression={$_.'PortunusAggUserDevices.device_name'}},`
                                              @{name="count";Expression={$_.'PortunusAggUserDevices.deviceCount'}} | Sort count

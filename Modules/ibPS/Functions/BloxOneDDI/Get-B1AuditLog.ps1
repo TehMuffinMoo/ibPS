@@ -101,13 +101,13 @@ function Get-B1AuditLog {
     }
         
     if ($Limit -and $Filters) {
-        $Results = Query-CSP -Uri "https://csp.infoblox.com/api/auditlog/v1/logs?_limit=$Limit&_offset=$Offset&_filter=$Filter" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs?_limit=$Limit&_offset=$Offset&_filter=$Filter" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } elseif ($Limit) {
-        $Results = Query-CSP -Uri "https://csp.infoblox.com/api/auditlog/v1/logs?_limit=$Limit" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs?_limit=$Limit" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } elseif ($Filters) {
-        $Results = Query-CSP -Uri "https://csp.infoblox.com/api/auditlog/v1/logs?_filter=$Filter" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs?_filter=$Filter" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "https://csp.infoblox.com/api/auditlog/v1/logs" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($Results) {
         return $Results

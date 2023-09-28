@@ -15,7 +15,7 @@
     .FUNCTIONALITY
         Service
     #>
-    $Results = Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/infra/v1/applications" | select -ExpandProperty results | select -ExpandProperty applications -ErrorAction SilentlyContinue
+    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/applications" | select -ExpandProperty results | select -ExpandProperty applications -ErrorAction SilentlyContinue
     
     if ($Results) {
       return $Results

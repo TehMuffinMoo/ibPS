@@ -75,7 +75,7 @@
             "destinations" = @()
             "source_interfaces" = @()
           } | ConvertTo-Json -Depth 3
-          $NewServiceResult = Query-CSP -Method POST -Uri "https://csp.infoblox.com/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
+          $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
           if ($NewServiceResult.id) {
             Write-Host "NTP service created successfully on $OnPremHost" -ForegroundColor Green
             Set-B1NTPServiceConfiguration -Name $Name -UseGlobalNTPConfig
@@ -100,7 +100,7 @@
             "destinations" = @()
             "source_interfaces" = @()
           } | ConvertTo-Json -Depth 3
-          $NewServiceResult = Query-CSP -Method POST -Uri "https://csp.infoblox.com/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
+          $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
           if ($NewServiceResult.id) {
             Write-Host "DNS service created successfully on $OnPremHost" -ForegroundColor Green
           } else {
@@ -124,7 +124,7 @@
             "destinations" = @()
             "source_interfaces" = @()
           } | ConvertTo-Json -Depth 3
-          $NewServiceResult = Query-CSP -Method POST -Uri "https://csp.infoblox.com/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
+          $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
           if ($NewServiceResult.id) {
             Write-Host "DHCP service created successfully on $OnPremHost" -ForegroundColor Green
           } else {

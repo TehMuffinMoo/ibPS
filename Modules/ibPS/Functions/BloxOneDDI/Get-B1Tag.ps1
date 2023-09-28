@@ -42,8 +42,8 @@
         $Filter = Combine-Filters $Filters
     }
     if ($Filter) {
-        Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/atlas-tagging/v2/tags?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/atlas-tagging/v2/tags" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

@@ -36,8 +36,8 @@
     }
 
     if ($Filter) {
-        Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/atcfw/v1/security_policies?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/atcfw/v1/security_policies" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

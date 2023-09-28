@@ -148,7 +148,7 @@
 
       $splat = $splat | ConvertTo-Json
       if ($Debug) {$splat}
-      $Result = Query-CSP -Method POST -Uri "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
+      $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
       if ($Result) {
         if ($WaitForOutput) {
           while ((Get-B1DiagnosticTask -id $Result.id).status -eq "InProgress") {

@@ -141,7 +141,7 @@
     }
     $splat = $splat | ConvertTo-Json
     if ($Debug) {$splat}
-    $Export = Query-CSP -Method "POST" -Uri "https://csp.infoblox.com/bulk/v1/export" -Data $splat
+    $Export = Query-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
 
     if ($Export.success.message -eq "Export pending") {
         Write-Host "Data Export initalised successfully." -ForegroundColor Green
