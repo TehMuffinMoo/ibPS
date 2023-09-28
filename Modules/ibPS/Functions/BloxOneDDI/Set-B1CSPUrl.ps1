@@ -34,11 +34,12 @@ function Set-B1CSPUrl {
       }
 
       if ($Persist) {
-          if ($IsWindows) {
+          $Platform = Detect-OS
+          if ($Platform -eq "Windows") {
             [System.Environment]::SetEnvironmentVariable('B1CSPUrl',$URL,[System.EnvironmentVariableTarget]::User)
             $ENV:B1CSPUrl = $URL
             Write-Host "BloxOne CSP URL ($URL) has been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
-          } elseif ($IsMacOS) {
+          } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
             $ENV:B1CSPUrl = $URL
             if (!(Test-Path ~/.zshenv)) {
               touch ~/.zshenv

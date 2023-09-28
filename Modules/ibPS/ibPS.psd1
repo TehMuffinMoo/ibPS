@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.42'
+ModuleVersion = '1.9.0.45'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()

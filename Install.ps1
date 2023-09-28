@@ -4,7 +4,11 @@ param(
 
 $ibPSDir = $PSScriptRoot
 
-if ($IsWindows) {
+. $ibPSDir\Modules\ibPS\Functions\BloxOneDDI\Private\Misc.ps1
+
+$Platform = Detect-OS
+
+if ($Platform -eq "Windows") {
   $UserDocuments = "$ENV:USERPROFILE\Documents"
   $UserModuleDirectory = "$UserDocuments\WindowsPowerShell\Modules"
   $GlobalModuleDirectory = "C:\Windows\System32\WindowsPowerShell\v1.0\Modules"
@@ -14,7 +18,7 @@ if ($IsWindows) {
  ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) 
 }
 
-if ($IsMacOS) {
+if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
   $UserDocuments = "$ENV:HOME/.local/share"
   $UserModuleDirectory = "$UserDocuments/powershell/Modules"
   $GlobalModuleDirectory = "/usr/local/microsoft/powershell/7/Modules"
@@ -52,7 +56,7 @@ do {
       'i' {
         Write-Host "Installing ibPS for current user.." -ForegroundColor Yellow
 
-        if ($IsWindows) {
+        if ($Platform -eq "Windows") {
           if (!(Test-Path "$UserDocuments\WindowsPowerShell")) {
               New-Item -ItemType Directory -Name "WindowsPowershell" -Path $UserDocuments
           }
@@ -61,7 +65,7 @@ do {
           }
         }
 
-        if ($IsMacOS) {
+        if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
           if (!(Test-Path "$UserDocuments/powershell")) {
               New-Item -ItemType Directory -Name "powershell" -Path $UserDocuments
           }
