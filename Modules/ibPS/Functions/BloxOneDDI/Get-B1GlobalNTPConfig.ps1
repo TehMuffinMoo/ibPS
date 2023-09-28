@@ -15,7 +15,7 @@
     .FUNCTIONALITY
         NTP
     #>
-    $Result = Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/ntp/v1/account/config"
+    $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ntp/v1/account/config"
     if ($Result) {
       $Result | select -ExpandProperty account_config
     } else {

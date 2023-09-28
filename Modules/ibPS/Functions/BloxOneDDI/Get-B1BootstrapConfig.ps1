@@ -29,7 +29,7 @@
     $ophids = (Get-B1Host -Name $OnPremHost -Strict:$Strict).ophid
     $Results = @()
     foreach ($ophid in $ophids) {
-        $Results += Query-CSP -Method "GET" -Uri "https://csp.infoblox.com/api/atlas-bootstrap-app/v1/host/$ophid"
+        $Results += Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/atlas-bootstrap-app/v1/host/$ophid"
     }
     return $Results
 }

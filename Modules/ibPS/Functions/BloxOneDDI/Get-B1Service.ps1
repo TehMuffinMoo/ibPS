@@ -58,9 +58,9 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        $Results = Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/infra/v1/$($ServicesUri)?_limit=$Limit&_filter=$Filter" | select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)?_limit=$Limit&_filter=$Filter" | select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Method GET -Uri "https://csp.infoblox.com/api/infra/v1/$($ServicesUri)?_limit=$Limit" | select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)?_limit=$Limit" | select -ExpandProperty results -ErrorAction SilentlyContinue
     }
     
     if ($Results) {
