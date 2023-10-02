@@ -20,9 +20,12 @@
 ## Key Features
 
 * Automate end-to-end deployments of BloxOne
-* Create, Edit & Remove objects from BloxOne Cloud (Subnets, Ranges, Zones, HAGroups, etc.)
+* Create, Edit & Remove objects from BloxOne Cloud (Records, Subnets, Ranges, Zones, HAGroups, etc.)
 * Apply DNS/DHCP Configuration Policies to On-Prem hosts
 * Deploy VMware BloxOne Appliances
+* Deploy / Configure / Manage Hosts & Services
+* Query DNS/DHCP/Host/Audit/Security logs
+* Interact with the TIDE API
 * Automate the world!
 
 ## Limitations
