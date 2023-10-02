@@ -22,7 +22,7 @@ function Get-B1DNSEvent {
         Use this parameter to filter the DNS Log by the response, i.e "NXDOMAIN"
 
     .PARAMETER Start
-        A date parameter used as the starting date/time of the log search. By default, the search will start from 24hrs ago and returns the latest results first. You may need to increase the -Limit parameter or reduce the -End date/time to view earlier events.
+        A date parameter used as the starting date/time of the log seatrch. By default, the search will start from 24hrs ago and returns the latest results first. You may need to increase the -Limit parameter or reduce the -End date/time to view earlier events.
 
     .PARAMETER End
         A date parameter used as the end date/time of the log search.
@@ -50,7 +50,8 @@ function Get-B1DNSEvent {
       [String[]]$Source,
       [String[]]$Network,
       [String[]]$Policy,
-      [Int[]]$ThreatLevel,
+      [ValidateSet("Info","Low","Medium","High")]
+      [String[]]$ThreatLevel,
       [String[]]$ThreatClass,
       [String[]]$FeedName,
       [String[]]$FeedType,
@@ -69,8 +70,8 @@ function Get-B1DNSEvent {
       [int]$Offset = 0
     )
 
-    $StartEpoch = $((Get-Date -Date ($Start) -UFormat %s))
-    $EndEpoch = $((Get-Date -Date ($End) -UFormat %s))
+    $StartEpoch = [math]::round($((Get-Date -Date ($Start) -UFormat %s)))
+    $EndEpoch = [math]::round($((Get-Date -Date ($End) -UFormat %s)))
 
     $Filters = @()
 
