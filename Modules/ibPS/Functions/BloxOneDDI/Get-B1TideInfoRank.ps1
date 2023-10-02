@@ -23,6 +23,7 @@ function Get-B1TideInfoRank {
     #>
 
     param(
+      [Parameter(Mandatory=$true)]
       [string]$Domain,
       [switch]$Strict
     )
