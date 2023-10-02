@@ -34,7 +34,7 @@ function Get-B1DNSEvent {
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
     .Example
-        Get-B1DNSEvent
+        Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
     
     .FUNCTIONALITY
         BloxOneDDI

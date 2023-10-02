@@ -34,6 +34,9 @@ function Get-B1TideThreats {
         Threats may be considered separately by profile and property, depending on the value of the “distinct” query parameter. For example, assume an IP has been most recently submitted by an organization as Bot_Sality and Bot_Virut. If the “distinct” parameter is “property”, both records will be returned. If the “distinct” parameter is “profile”, only the most recently detected record from the organization will be returned.
         The default is "Property"
 
+    .PARAMETER Id
+        Filter the results by Threat ID
+
     .EXAMPLE
         Get-B1TideThreats -Hostname "google.com"
 

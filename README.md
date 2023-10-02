@@ -119,6 +119,8 @@ Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "
 Get-B1DNSLog -Source "10.177.18.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 100 -Offset 0
   Retrieves all DNS logs from BloxOneDDI with various filter options.
 
+Get-B1DNSEvent
+
 Get-B1DFPLog -Source "10.177.18.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 100 -Offset 0
   Retrieves all DNS Forwarding Proxy logs from BloxOneDDI with various filter options.
   
@@ -259,7 +261,7 @@ Get-B1TideThreatProperty -Name "CamelCase" -ThreatLevel 100
   Queries a list of threat properties from the TIDE API
 
 Get-B1TideThreats -Hostname eicar.co
-  Queries a list of threats fromt the TIDE API
+  Queries a list of threats from the TIDE API
 
 Get-B1TideDataProfile -Name "My Profile"
   Query a list of TIDE Data Profiles with the option to filter by Name
