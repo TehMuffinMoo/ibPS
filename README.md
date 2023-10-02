@@ -3,7 +3,7 @@
   <br>
   <!--<a href=""><img src="" alt="Markdownify" width="200"></a>-->
   <br>
-  InfoBlox BloxOneDDI Powershell Module
+  InfoBlox BloxOneDDI & BloxOne Threat Defense Powershell Module
   <br>
 </h1>
 
