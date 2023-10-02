@@ -266,6 +266,12 @@ Get-B1TideThreats -Hostname eicar.co
 
 Get-B1TideDataProfile -Name "My Profile"
   Query a list of TIDE Data Profiles with the option to filter by Name
+  
+Get-B1LookalikeDomains -Domain microsoft.com
+  Query a list of lookalike domains (API Endpoint: /lookalike_domains)
+  
+Get-B1Lookalikes -Domain google.com -Reason "phishing"
+  Query a list of lookalike domains (API Endpoint: /lookalikes)
 
 New-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
   Creates a new TIDE Data Profile
