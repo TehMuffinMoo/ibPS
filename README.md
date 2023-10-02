@@ -91,6 +91,12 @@ Store-B1APIKey -APIKey "longapikeystringgoeshere" -Persist
 
 Get-B1APIKey
   Retrieves stored API Key for BloxOne
+
+Get-B1CspUrl
+  Retrieves the currently set CSP URL
+
+Set-B1CspUrl -Region EU
+  Updates the CSP URL to a new region
   
 Get-ibPSVersion
   Gets the ibPS Module Version
@@ -231,6 +237,36 @@ Get-B1NTPServiceConfiguration
 Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)
   Query top metric templates. -TopQueries can be used with the -QueryType parameter and -TopClients can be used with the -TopClientLogType parameter.
 
+Get-B1TideFeeds
+  Query a list of TIDE Feeds (Custom RPZ)
+
+Get-B1TideInfoRank -Domain "amazonaws.com" -Strict
+  Queries the InfoRank list
+
+Get-B1TideThreatClass -id "Bot"
+  Queries a list of TIDE Threat Classes
+
+Get-B1TideThreatClassDefaultTTL
+  Queries the default TTL of TIDE Threat Classes
+
+Get-B1TideThreatCounts
+  Queries a list of threat counts, optionally choosing -Historical
+
+Get-B1TideThreatEnrichment -Type Mandiant -Indicator "amazon.com"
+  Queries the TIDE Threat Enrichment API
+
+Get-B1TideThreatProperty -Name "CamelCase" -ThreatLevel 100
+  Queries a list of threat properties from the TIDE API
+
+Get-B1TideThreats -Hostname eicar.co
+  Queries a list of threats fromt the TIDE API
+
+Get-B1TideDataProfile -Name "My Profile"
+  Query a list of TIDE Data Profiles with the option to filter by Name
+
+New-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
+  Creates a new TIDE Data Profile
+
 New-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Host "bloxoneddihost1.mydomain.corp" -NTP -DNS -DHCP
   Deploys a new BloxOneDDI Service
 
@@ -338,6 +374,9 @@ Set-B1DHCPConfigProfile -AddDDNSZones -DDNSZones "prod.mydomain.corp","100.10.in
 
 Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "prod.mydomain.corp","dev.mydomain.corp" -DNSView "default"
   Used for setting global DHCP configuration. Primarily for Adding/Removing internal DDNS Zones. -RemoveDDNSZones can be used to remove zones instead.
+
+Set-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false -State "Activated"
+  Updates an existing TIDE Data Profile. The -State parameter can be used to enable/disable the profile.
 	
 Enable-B1OnPremHostApplication -Name "bloxoneddihost1.mydomain.corp" -DNS -DHCP -NTP
   Allows you to enable BloxOne On-Prem Host Applications using the DNS/DHCP/NTP switches
@@ -405,6 +444,8 @@ Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Statu
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
+Set-B1TideDataProfile            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TideDataProfile
+
 
 ### Replace old for new APIs
 This is a work in progress.

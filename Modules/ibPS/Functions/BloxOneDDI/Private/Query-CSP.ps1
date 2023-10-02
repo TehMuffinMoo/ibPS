@@ -23,6 +23,8 @@ function Query-CSP {
 
     .FUNCTIONALITY
         BloxOneDDI
+
+    .FUNCTIONALITY
         Core
     #>
     param(
