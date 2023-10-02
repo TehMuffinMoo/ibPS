@@ -119,7 +119,8 @@ Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "
 Get-B1DNSLog -Source "10.177.18.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 100 -Offset 0
   Retrieves all DNS logs from BloxOneDDI with various filter options.
 
-Get-B1DNSEvent
+Get-B1DNSEvent -Start (Get-Date).AddDays(-7) -AppName iCloud -FeedName Public_DOH -ThreatIndicator mask.icloud.com -Response NXDOMAIN
+  Retrieves DNS queries which have triggered an event based on a security policy
 
 Get-B1DFPLog -Source "10.177.18.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 100 -Offset 0
   Retrieves all DNS Forwarding Proxy logs from BloxOneDDI with various filter options.
