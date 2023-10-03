@@ -218,6 +218,9 @@ Get-B1DHCPLease -Address "10.10.50.222" -MACAddress "01:02:ab:cd:ef:34:56" -Host
 
 Get-B1DNSUsage -Address "10.10.50.222" -Space "Global"
   A useful command to return any records associated with a particular IP.
+
+Get-B1DFP -Name "My DFP" -Strict
+  Query a list of DNS Forwarding Proxies and its resolver configuration
   
 Get-B1HealthCheck -ApplicationHealth
   Retrieves health for on-prem hosts
@@ -275,6 +278,12 @@ Get-B1LookalikeDomains -Domain microsoft.com
   
 Get-B1Lookalikes -Domain google.com -Reason "phishing"
   Query a list of lookalike domains (API Endpoint: /lookalikes)
+
+Get-B1LookalikeTargets
+  Query a list of lookalike target domains (Global Lookalike Target List)
+
+Get-B1LookalikeTargetCandidates
+  Query a list of lookalike target candidates (Global Lookalike Candidates List)
 
 New-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
   Creates a new TIDE Data Profile

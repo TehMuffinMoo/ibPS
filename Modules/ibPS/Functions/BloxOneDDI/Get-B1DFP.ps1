@@ -6,9 +6,6 @@ function Get-B1DFP {
     .DESCRIPTION
         Use this method query a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
 
-    .Example
-        Get-B1DFP
-
     .PARAMETER Name
         Filter the results by name
 
@@ -22,14 +19,20 @@ function Get-B1DFP {
         Filter the results by policy_id
 
     .PARAMETER DefaultSecurityPolicy
-        Boolean value to filter by default security policy
+        Switch value to filter by default security policy
 
     .PARAMETER id
         Filter the results by id
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-    
+
+    .EXAMPLE
+        Get-B1DFP -Name "My DFP" -Strict
+
+    .EXAMPLE
+        Get-B1DFP -DefaultSecurityPolicy
+
     .FUNCTIONALITY
         BloxOneDDI
     
@@ -41,7 +44,7 @@ function Get-B1DFP {
         [String]$SiteID,
         [String]$OPHID,
         [Int]$PolicyID,
-        [Bool]$DefaultSecurityPolicy,
+        [Switch]$DefaultSecurityPolicy,
         [Int]$id,
         [Switch]$Strict
     )
