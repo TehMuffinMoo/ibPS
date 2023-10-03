@@ -246,55 +246,55 @@ Get-B1NTPServiceConfiguration
 Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)
   Query top metric templates. -TopQueries can be used with the -QueryType parameter and -TopClients can be used with the -TopClientLogType parameter.
 
-Get-B1TideFeeds
+Get-B1TDTideFeeds
   Query a list of TIDE Feeds (Custom RPZ)
 
-Get-B1TideInfoRank -Domain "amazonaws.com" -Strict
+Get-B1TDTideInfoRank -Domain "amazonaws.com" -Strict
   Queries the InfoRank list
 
-Get-B1TideThreatClass -id "Bot"
+Get-B1TDTideThreatClass -id "Bot"
   Queries a list of TIDE Threat Classes
 
-Get-B1TideThreatClassDefaultTTL
+Get-B1TDTideThreatClassDefaultTTL
   Queries the default TTL of TIDE Threat Classes
 
-Get-B1TideThreatCounts
+Get-B1TDTideThreatCounts
   Queries a list of threat counts, optionally choosing -Historical
 
-Get-B1TideThreatEnrichment -Type Mandiant -Indicator "amazon.com"
+Get-B1TDTideThreatEnrichment -Type Mandiant -Indicator "amazon.com"
   Queries the TIDE Threat Enrichment API
 
-Get-B1TideThreatProperty -Name "CamelCase" -ThreatLevel 100
+Get-B1TDTideThreatProperty -Name "CamelCase" -ThreatLevel 100
   Queries a list of threat properties from the TIDE API
 
-Get-B1TideThreats -Hostname eicar.co
+Get-B1TDTideThreats -Hostname eicar.co
   Queries a list of threats from the TIDE API
 
-Get-B1TideDataProfile -Name "My Profile"
+Get-B1TDTideDataProfile -Name "My Profile"
   Query a list of TIDE Data Profiles with the option to filter by Name
   
-Get-B1LookalikeDomains -Domain microsoft.com
+Get-B1TDLookalikeDomains -Domain microsoft.com
   Query a list of lookalike domains (API Endpoint: /lookalike_domains)
   
-Get-B1Lookalikes -Domain google.com -Reason "phishing"
+Get-B1TDLookalikes -Domain google.com -Reason "phishing"
   Query a list of lookalike domains (API Endpoint: /lookalikes)
 
-Get-B1LookalikeTargets
+Get-B1TDLookalikeTargets
   Query a list of lookalike target domains (Global Lookalike Target List)
 
-Get-B1LookalikeTargetCandidates
+Get-B1TDLookalikeTargetCandidates
   Query a list of lookalike target candidates (Global Lookalike Candidates List)
 
-Get-B1DossierSupportedFeedback
+Get-B1TDDossierSupportedFeedback
   Query a list of supported feedback types for Dossier
 
-Get-B1DossierSupportedSources -Target ip
+Get-B1TDDossierSupportedSources -Target ip
   Query a list of supported sources for Dossier
 
-Get-B1DossierSupportedTargets -Source mandiant
+Get-B1TDDossierSupportedTargets -Source mandiant
   Query a list of supported indicator types for Dossier
 
-New-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
+New-B1TDTideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
   Creates a new TIDE Data Profile
 
 New-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Host "bloxoneddihost1.mydomain.corp" -NTP -DNS -DHCP
@@ -369,7 +369,7 @@ Remove-B1Range -Start "10.250.20.20" -End "10.250.20.100"
 Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Strict
   Used to remove a BloxOneDDI Service
 
-Remove-B1SecurityPolicy -Name "My Policy"
+Remove-B1TDSecurityPolicy -Name "My Policy"
   Used to remove BloxOne Threat Defense Security Policies
 
 Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
