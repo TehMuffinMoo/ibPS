@@ -12,6 +12,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER id
+        Filter the results by id
+
     .Example
         Get-B1SecurityPolicy -Name "Remote Users"
    
@@ -23,12 +26,12 @@
     #>
     [CmdletBinding(DefaultParameterSetName="notid")]
     param(
-      [parameter(ParameterSetName="id")]
-      [String]$id,
       [parameter(ParameterSetName="notid")]
       [String]$Name,
       [parameter(ParameterSetName="notid")]
-      [Switch]$Strict
+      [Switch]$Strict,
+      [parameter(ParameterSetName="id")]
+      [String]$id
     )
 
 	$MatchType = Match-Type $Strict
