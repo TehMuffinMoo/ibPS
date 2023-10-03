@@ -285,6 +285,15 @@ Get-B1LookalikeTargets
 Get-B1LookalikeTargetCandidates
   Query a list of lookalike target candidates (Global Lookalike Candidates List)
 
+Get-B1DossierSupportedFeedback
+  Query a list of supported feedback types for Dossier
+
+Get-B1DossierSupportedSources -Target ip
+  Query a list of supported sources for Dossier
+
+Get-B1DossierSupportedTargets -Source mandiant
+  Query a list of supported indicator types for Dossier
+
 New-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
   Creates a new TIDE Data Profile
 
