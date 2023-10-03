@@ -44,10 +44,10 @@
     }
 
     if ($id) {
-        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$id" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$id" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } elseif ($Filter) {
-        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
