@@ -21,8 +21,13 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(DefaultParameterSetName="notid")]
     param(
+      [parameter(ParameterSetName="id")]
+      [String]$id,
+      [parameter(ParameterSetName="notid")]
       [String]$Name,
+      [parameter(ParameterSetName="notid")]
       [Switch]$Strict
     )
 
@@ -35,7 +40,9 @@
         $Filter = Combine-Filters $Filters
     }
 
-    if ($Filter) {
+    if ($id) {
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$id" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+    } elseif ($Filter) {
         Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies" | Select -ExpandProperty results -ErrorAction SilentlyContinue
