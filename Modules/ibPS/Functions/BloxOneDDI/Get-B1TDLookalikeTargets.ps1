@@ -1,4 +1,4 @@
-﻿function Get-B1LookalikeTargets {
+﻿function Get-B1TDLookalikeTargets {
     <#
     .SYNOPSIS
         Queries a list of lookalike target domains for the account
@@ -8,7 +8,7 @@
         The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against.
 
     .Example
-        Get-B1LookalikeTargets
+        Get-B1TDLookalikeTargets
     
     .FUNCTIONALITY
         BloxOneDDI

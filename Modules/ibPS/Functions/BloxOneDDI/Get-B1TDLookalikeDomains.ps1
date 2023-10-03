@@ -1,15 +1,15 @@
-﻿function Get-B1Lookalikes {
+﻿function Get-B1TDLookalikeDomains {
     <#
     .SYNOPSIS
-        Queries a list of lookalike domains
+        Queries a list of detected Lookalike Domain objects with target domains specified by the account.
 
     .DESCRIPTION
-        This function is used to retrieve information on lookalike domains
+        This function is used to retrieve information on all detected Lookalike Domain objects with target domains specified by the account.
 
     .PARAMETER Domain
         Filter the results by target domain
 
-    .PARAMETER LookalikeDomain
+    .PARAMETER LookalikeHost
         Filter the results by lookalike domain
 
     .PARAMETER Reason
@@ -25,7 +25,7 @@
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
     .Example
-        Get-B1Lookalikes -Domain google.com -Reason "phishing"
+        Get-B1TDLookalikeDomains -Domain google.com
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -35,7 +35,7 @@
     #>
     param(
       [String]$Domain,
-      [String]$LookalikeDomain,
+      [String]$LookalikeHost,
       [String]$Reason,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
@@ -48,8 +48,8 @@
     if ($Domain) {
       $Filters += "target_domain$($MatchType)`"$Domain`""
     }
-    if ($LookalikeDomain) {
-      $Filters += "lookalike_domain$($MatchType)`"$LookalikeDomain`""
+    if ($LookalikeHost) {
+      $Filters += "lookalike_host$($MatchType)`"$LookalikeHost`""
     }
     if ($Reason) {
       $Filters += "reason$($MatchType)`"$Reason`""
@@ -60,9 +60,9 @@
     }
  
     if ($Filter) {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes?$Filter&_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_domains?$Filter&_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes?_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_domains?_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
     }
   
     if ($Results) {

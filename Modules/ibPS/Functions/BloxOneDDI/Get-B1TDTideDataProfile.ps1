@@ -1,4 +1,4 @@
-﻿function Get-B1TideDataProfile {
+﻿function Get-B1TDTideDataProfile {
     <#
     .SYNOPSIS
         Queries a list of TIDE Data Profiles
@@ -10,7 +10,7 @@
         Use this parameter to filter by Name
 
     .Example
-        Get-B1TideDataProfiles -Name "My Profile"
+        Get-B1TDTideDataProfiles -Name "My Profile"
     
     .FUNCTIONALITY
         BloxOneDDI

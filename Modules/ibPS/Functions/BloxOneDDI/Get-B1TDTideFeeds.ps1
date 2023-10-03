@@ -1,4 +1,4 @@
-﻿function Get-B1TideFeeds {
+﻿function Get-B1TDTideFeeds {
     <#
     .SYNOPSIS
         Queries a list BYOF RPZ threat feeds
@@ -7,7 +7,7 @@
         This function is used to query a list of Bring Your Own File RPZ threat feeds
 
     .Example
-        Get-B1TideFeeds
+        Get-B1TDTideFeeds
     
     .FUNCTIONALITY
         BloxOneDDI

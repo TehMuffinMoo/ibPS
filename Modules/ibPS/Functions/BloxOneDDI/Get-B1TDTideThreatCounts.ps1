@@ -1,4 +1,4 @@
-function Get-B1TideThreatCounts {
+function Get-B1TDTideThreatCounts {
     <#
     .SYNOPSIS
         Queries the threats count from TIDE API
@@ -10,10 +10,10 @@ function Get-B1TideThreatCounts {
         Specify this switch to retrieve historical threat counts
 
     .Example
-        Get-B1TideThreatCounts
+        Get-B1TDTideThreatCounts
 
     .Example
-        Get-B1TideThreatCounts -Historical
+        Get-B1TDTideThreatCounts -Historical
 
     .FUNCTIONALITY
         BloxOneDDI

@@ -1,4 +1,4 @@
-function Get-B1TideThreats {
+function Get-B1TDTideThreats {
     <#
     .SYNOPSIS
         Queries active threats from the TIDE API
@@ -38,19 +38,19 @@ function Get-B1TideThreats {
         Filter the results by Threat ID
 
     .EXAMPLE
-        Get-B1TideThreats -Hostname "google.com"
+        Get-B1TDTideThreats -Hostname "google.com"
 
     .EXAMPLE
-        Get-B1TideThreats -IP "1.1.1.1"
+        Get-B1TDTideThreats -IP "1.1.1.1"
 
     .EXAMPLE
-        Get-B1TideThreats -Hostname eicar.co -Limit 10
+        Get-B1TDTideThreats -Hostname eicar.co -Limit 10
 
     .EXAMPLE
-        Get-B1TideThreats -Type Host -Value eicar.co -Distinct Profile
+        Get-B1TDTideThreats -Type Host -Value eicar.co -Distinct Profile
 
     .EXAMPLE
-        Get-B1TideThreats -Type URL -Age Recent
+        Get-B1TDTideThreats -Type URL -Age Recent
 
     .FUNCTIONALITY
         BloxOneDDI

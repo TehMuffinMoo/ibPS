@@ -1,4 +1,4 @@
-function Get-B1SecurityPolicyRules {
+function Get-B1TDSecurityPolicyRules {
     <#
     .SYNOPSIS
         Use this cmdlet to retrieve a list of security policy rules
@@ -16,7 +16,7 @@ function Get-B1SecurityPolicyRules {
         Filter results by category_filter_id
     
     .Example
-        Get-B1SecurityPolicyRules 
+        Get-B1TDSecurityPolicyRules 
     
     .FUNCTIONALITY
         BloxOneDDI

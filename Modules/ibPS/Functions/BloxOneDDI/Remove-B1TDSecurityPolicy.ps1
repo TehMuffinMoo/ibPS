@@ -1,4 +1,4 @@
-﻿function Remove-B1SecurityPolicy {
+﻿function Remove-B1TDSecurityPolicy {
     <#
     .SYNOPSIS
         Removes a BloxOne Threat Defense Security Policy
@@ -13,10 +13,10 @@
         The name of the BloxOne Threat Defense Security Policy to delete.
 
     .EXAMPLE
-        Remove-B1SecurityPolicy -Name "Remote Users"
+        Remove-B1TDSecurityPolicy -Name "Remote Users"
 
     .EXAMPLE
-        Get-B1SecurityPolicy -Name "Remote Users" | Remove-B1SecurityPolicy
+        Get-B1TDSecurityPolicy -Name "Remote Users" | Remove-B1TDSecurityPolicy
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -38,9 +38,9 @@
 
     process {
       if ($Name) {
-        $SecurityPolicy = Get-B1SecurityPolicy -Name $Name
+        $SecurityPolicy = Get-B1TDSecurityPolicy -Name $Name
       } elseif ($id) {
-        $SecurityPolicy = Get-B1SecurityPolicy -id $id
+        $SecurityPolicy = Get-B1TDSecurityPolicy -id $id
       } else {
         Write-Error "Neither -Name or -id were specified."
       }
@@ -48,9 +48,9 @@
       if ($SecurityPolicy) {
         Query-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$($SecurityPolicy.id)"
         if ($Name) {
-            $SecurityPolicyCheck = Get-B1SecurityPolicy -Name $Name -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+            $SecurityPolicyCheck = Get-B1TDSecurityPolicy -Name $Name -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         } elseif ($id) {
-            $SecurityPolicyCheck = Get-B1SecurityPolicy -id $id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
+            $SecurityPolicyCheck = Get-B1TDSecurityPolicy -id $id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
         }
         if ($SecurityPolicyCheck) {
             Write-Error "Failed to delete security policy: $($SecurityPolicy.name)"

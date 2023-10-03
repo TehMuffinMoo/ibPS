@@ -1,4 +1,4 @@
-function Get-B1TideThreatClassDefaultTTL {
+function Get-B1TDTideThreatClassDefaultTTL {
     <#
     .SYNOPSIS
         Queries the default TTL for threat classes
@@ -7,7 +7,7 @@ function Get-B1TideThreatClassDefaultTTL {
         This function will query the default TTL applied to threat classes
 
     .Example
-        Get-B1TideThreatClassDefaultTTL
+        Get-B1TDTideThreatClassDefaultTTL
 
     .FUNCTIONALITY
         BloxOneDDI

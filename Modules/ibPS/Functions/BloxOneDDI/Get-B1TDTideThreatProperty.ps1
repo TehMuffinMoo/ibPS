@@ -1,4 +1,4 @@
-function Get-B1TideThreatProperty {
+function Get-B1TDTideThreatProperty {
     <#
     .SYNOPSIS
         Queries a list of threat properties
@@ -19,7 +19,7 @@ function Get-B1TideThreatProperty {
         Filter the results by property threat level
 
     .Example
-        Get-B1TideThreatProperty -Name "CamelCase" -ThreatLevel 100
+        Get-B1TDTideThreatProperty -Name "CamelCase" -ThreatLevel 100
 
     .FUNCTIONALITY
         BloxOneDDI

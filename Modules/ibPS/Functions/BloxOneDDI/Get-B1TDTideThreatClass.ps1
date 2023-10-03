@@ -1,4 +1,4 @@
-function Get-B1TideThreatClass {
+function Get-B1TDTideThreatClass {
     <#
     .SYNOPSIS
         Queries a list of threat classes
@@ -10,7 +10,7 @@ function Get-B1TideThreatClass {
         Filter the results by class ID
 
     .Example
-        Get-B1TideThreatClass -id "Bot"
+        Get-B1TDTideThreatClass -id "Bot"
 
     .FUNCTIONALITY
         BloxOneDDI

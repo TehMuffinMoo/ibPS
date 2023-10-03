@@ -1,4 +1,4 @@
-function New-B1TideDataProfile {
+function New-B1TDTideDataProfile {
     <#
     .SYNOPSIS
         Creates a new TIDE Data Profile
@@ -19,7 +19,7 @@ function New-B1TideDataProfile {
         This boolean value indicates if to use the default TTL for threats (default is true)
 
     .Example
-        New-B1TideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $false
+        New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $false
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -36,7 +36,7 @@ function New-B1TideDataProfile {
         [bool]$DefaultTTL = $true
     )
 
-    $TIDEDataProfile = Get-B1TideDataProfile -Name $Name
+    $TIDEDataProfile = Get-B1TDTideDataProfile -Name $Name
     if ($TIDEDataProfile) {
         Write-Host "A data profile with this name already exists: $Name." -ForegroundColor Red
     } else {

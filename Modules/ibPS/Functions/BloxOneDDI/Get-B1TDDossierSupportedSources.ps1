@@ -1,4 +1,4 @@
-function Get-B1DossierSupportedSources {
+function Get-B1TDDossierSupportedSources {
     <#
     .SYNOPSIS
         Queries a list of available dossier sources
@@ -7,7 +7,7 @@ function Get-B1DossierSupportedSources {
         The Dossier Sources cmdlet returns a list of all Dossier (sometimes referred to as Intel Lookup) sources and whether or not they are available for the caller.
 
     .Example
-        Get-B1DossierSupportedSources -Target ip
+        Get-B1TDDossierSupportedSources -Target ip
     
     .FUNCTIONALITY
         BloxOneDDI

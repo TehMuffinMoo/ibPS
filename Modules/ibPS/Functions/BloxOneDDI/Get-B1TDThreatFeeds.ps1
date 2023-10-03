@@ -1,4 +1,4 @@
-function Get-B1ThreatFeeds {
+function Get-B1TDThreatFeeds {
     <#
     .SYNOPSIS
         Use this cmdlet to retrieve information on all Threat Feed objects for the account
@@ -13,7 +13,7 @@ function Get-B1ThreatFeeds {
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .Example
-        Get-B1ThreatFeeds -Name "FarSightNOD","AntiMalware"
+        Get-B1TDThreatFeeds -Name "FarSightNOD","AntiMalware"
     
     .FUNCTIONALITY
         BloxOneDDI

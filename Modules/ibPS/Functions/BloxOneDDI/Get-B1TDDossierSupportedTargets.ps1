@@ -1,4 +1,4 @@
-function Get-B1DossierSupportedTargets {
+function Get-B1TDDossierSupportedTargets {
     <#
     .SYNOPSIS
         Queries a list of available dossier indicator types
@@ -7,7 +7,7 @@ function Get-B1DossierSupportedTargets {
         The Dossier Indicators cmdlet returns a list of all Dossier (sometimes referred to as Intel Lookup) indicator types and whether or not they are available for the caller.
 
     .Example
-        Get-B1DossierSupportedTargets
+        Get-B1TDDossierSupportedTargets
     
     .FUNCTIONALITY
         BloxOneDDI

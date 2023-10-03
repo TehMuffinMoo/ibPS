@@ -1,4 +1,4 @@
-function Get-B1TideThreatEnrichment {
+function Get-B1TDTideThreatEnrichment {
     <#
     .SYNOPSIS
         Used to retrieve threat enrichment data from BloxOne Threat Defense
@@ -14,7 +14,7 @@ function Get-B1TideThreatEnrichment {
         When using the Threat Actor lookup, the indicator should be the name of the Threat Actor, e.g "APT1","Carbanak","FIN6", etc.
 
     .Example
-        Get-B1TideDataProfiles -Name "My Profile"
+        Get-B1TDTideDataProfiles -Name "My Profile"
     
     .FUNCTIONALITY
         BloxOneDDI

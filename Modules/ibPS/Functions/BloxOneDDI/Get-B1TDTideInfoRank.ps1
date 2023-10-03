@@ -1,4 +1,4 @@
-function Get-B1TideInfoRank {
+function Get-B1TDTideInfoRank {
     <#
     .SYNOPSIS
         Queries the InfoRank List
@@ -13,7 +13,7 @@ function Get-B1TideInfoRank {
         Return results for this domain name only, by default all related domains will be returned
 
     .Example
-        Get-B1TideInfoRank -Domain "amazonaws.com" -Strict
+        Get-B1TDTideInfoRank -Domain "amazonaws.com" -Strict
 
     .FUNCTIONALITY
         BloxOneDDI

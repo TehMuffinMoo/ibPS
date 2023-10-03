@@ -1,4 +1,4 @@
-﻿function Get-B1SecurityPolicy {
+﻿function Get-B1TDSecurityPolicy {
     <#
     .SYNOPSIS
         Retrieves a list of BloxOne Threat Defense Security Policies
@@ -16,7 +16,7 @@
         Filter the results by id
 
     .Example
-        Get-B1SecurityPolicy -Name "Remote Users"
+        Get-B1TDSecurityPolicy -Name "Remote Users"
    
     .FUNCTIONALITY
         BloxOneDDI
