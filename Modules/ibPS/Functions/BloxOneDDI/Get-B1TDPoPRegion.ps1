@@ -43,7 +43,6 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        $Filter
     }
 
     if ($id) {

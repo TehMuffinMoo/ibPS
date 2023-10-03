@@ -372,6 +372,9 @@ Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Strict
 Remove-B1TDSecurityPolicy -Name "My Policy"
   Used to remove BloxOne Threat Defense Security Policies
 
+Remove-B1TDNetworkList
+  Used to remove Network Lists from BloxOne Threat Defense
+
 Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
   Newly registered devices are given a random name which is updated when using the -IP and -Name parameters together. -IP is used to reference the object, -Name is used as the updated DNS Name. TimeZone and Space can also be configured using this cmdlet.
 
@@ -477,7 +480,9 @@ Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Statu
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
-Set-B1TideDataProfile            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TideDataProfile
+Set-B1TDTideDataProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDTideDataProfile
+Remove-B1TDSecurityPolicy        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDSecurityPolicy
+Remove-B1TDNetworkList           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDNetworkList
 
 
 ### Replace old for new APIs
