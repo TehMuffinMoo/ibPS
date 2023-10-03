@@ -369,6 +369,9 @@ Remove-B1Range -Start "10.250.20.20" -End "10.250.20.100"
 Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Strict
   Used to remove a BloxOneDDI Service
 
+Remove-B1SecurityPolicy -Name "My Policy"
+  Used to remove BloxOne Threat Defense Security Policies
+
 Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
   Newly registered devices are given a random name which is updated when using the -IP and -Name parameters together. -IP is used to reference the object, -Name is used as the updated DNS Name. TimeZone and Space can also be configured using this cmdlet.
 
