@@ -18,6 +18,12 @@
     .PARAMETER View
         The DNS View where the forward zone(s) are located
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results returned from the Audit Log. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
     .PARAMETER id
         Filter the results by forward zone id
 
@@ -35,6 +41,8 @@
       [bool]$Disabled,
       [switch]$Strict = $false,
       [String]$View,
+      [Int]$Limit = 1000,
+      [Int]$Offset = 0,
       [String]$id
     )
     if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
@@ -56,8 +64,8 @@
         $Filter = Combine-Filters $Filters
     }
     if ($Filter) {
-        Query-CSP -Method GET -Uri "dns/forward_zone?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dns/forward_zone?_filter=$Filter&_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dns/forward_zone" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dns/forward_zone?_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
