@@ -74,8 +74,8 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        Query-CSP -Uri "ipam/range?_filter=$Filter" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/range?_filter=$Filter&_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Uri "ipam/range" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/range?_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
