@@ -49,8 +49,11 @@
       [String]$Space,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [Switch]$Strict,
       [String]$id
     )
+
+	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
     if ($StartAddress) {

@@ -57,7 +57,7 @@ function Query-CSP {
     $Uri = $Uri -replace "\*","``*"
     if ($Debug) {$Uri}
 
-    try {
+   # try {
       switch ($Method) {
         'GET' {
             $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders
@@ -89,17 +89,17 @@ function Query-CSP {
       } elseif ($ErrorOnEmpty) {
         Write-Host "Error. No results from API."
       }
-    } catch {
-      switch ($_.Exception.Response.StatusCode) {
-        429 {
-          Write-Error "Too many requests. Please refine your query and try again to avoid rate limiting."
-        }
-        401 {
-          Write-Error "Authorization required, please store/update your BloxOne API Key using Store-B1APIKey"
-        }
-        default {
-          return $_.Exception.Response
-        }
-      }
-    }
+   # } catch {
+   #   switch ($_.Exception.Response.StatusCode) {
+   #     429 {
+   #       Write-Error "Too many requests. Please refine your query and try again to avoid rate limiting."
+   #     }
+   #     401 {
+   #       Write-Error "Authorization required, please store/update your BloxOne API Key using Store-B1APIKey"
+   #     }
+   #     default {
+   #       return $_.Exception.Response
+   #     }
+   #   }
+   # }
 }

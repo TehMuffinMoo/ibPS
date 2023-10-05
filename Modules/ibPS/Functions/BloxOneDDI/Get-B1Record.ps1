@@ -60,7 +60,7 @@
       [String]$FQDN,
       [String]$Source,
       [String]$View,
-      [switch]$Strict = $false,
+      [Switch]$Strict,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [switch]$IncludeInheritance = $false,

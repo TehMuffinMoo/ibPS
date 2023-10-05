@@ -53,7 +53,7 @@
       [String]$Name,
       [string]$id,
       [Switch]$IncludeInheritance,
-      [Switch]$Strict = $false,
+      [Switch]$Strict,
       [Int]$Limit = 1000,
       [Int]$Offset = 0
     )
