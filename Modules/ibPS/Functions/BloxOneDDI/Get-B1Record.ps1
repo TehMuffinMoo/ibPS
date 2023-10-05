@@ -107,9 +107,9 @@
     if ($Filters) {
         $Filter = Combine-Filters $Filters
         if ($IncludeInheritance) {
-            $Query = "?_filter=$Filter&_inherit=full&_limit=$Limit&_offset=$Offset"
+            $Query = "?_filter=$Filter&_inherit=full"
         } else {
-            $Query = "?_filter=$Filter&_limit=$Limit&_offset=$Offset"
+            $Query = "?_filter=$Filter"
         }
     } else {
         if ($IncludeInheritance) {
@@ -120,7 +120,7 @@
     if ($Query) {
         $Result = Query-CSP -Method GET -Uri "dns/record$Query&_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Result = Query-CSP -Method GET -Uri "dns/record&_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "dns/record?_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     }
 
     if ($View) {
