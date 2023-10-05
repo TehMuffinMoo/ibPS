@@ -21,6 +21,12 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results returned from the Audit Log. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
     .PARAMETER id
         Filter the results by range id
 
@@ -41,6 +47,8 @@
       [String]$EndAddress,
       [String]$Name,
       [String]$Space,
+      [Int]$Limit = 1000,
+      [Int]$Offset = 0,
       [String]$id
     )
 

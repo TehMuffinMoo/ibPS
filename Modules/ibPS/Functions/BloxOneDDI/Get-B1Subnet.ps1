@@ -27,6 +27,12 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results returned from the Audit Log. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
     .Example
         Get-B1Subnet -Subnet 10.10.100.0 -CIDR 24 -IncludeInheritance
 
@@ -47,7 +53,9 @@
       [String]$Name,
       [string]$id,
       [Switch]$IncludeInheritance,
-      [Switch]$Strict = $false
+      [Switch]$Strict = $false,
+      [Int]$Limit = 1000,
+      [Int]$Offset = 0
     )
 
 	$MatchType = Match-Type $Strict
@@ -85,8 +93,8 @@
     }
 
     if ($Query) {
-        Query-CSP -Uri "ipam/subnet$Query" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/subnet$Query&_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Uri "ipam/subnet" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/subnet?_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

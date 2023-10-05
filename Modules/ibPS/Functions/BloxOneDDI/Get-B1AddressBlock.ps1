@@ -24,6 +24,12 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results returned from the Audit Log. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
     .PARAMETER id
         Filter by the id of the address block
 
@@ -44,6 +50,8 @@
       [String]$Space,
       [Switch]$IncludeInheritance,
       [Switch]$Strict = $false,
+      [Int]$Limit = 1000,
+      [Int]$Offset = 0,
       [String]$id
     )
 
@@ -81,8 +89,8 @@
     }
 
     if ($Query) {
-        Query-CSP -Uri "ipam/address_block$Query" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/address_block$Query&_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Uri "ipam/address_block" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/address_block?_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

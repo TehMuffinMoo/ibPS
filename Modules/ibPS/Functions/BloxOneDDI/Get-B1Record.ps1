@@ -30,6 +30,12 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results returned from the Audit Log. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
     .PARAMETER IncludeInheritance
         Whether to include inherited properties in the results
 
@@ -55,6 +61,8 @@
       [String]$Source,
       [String]$View,
       [switch]$Strict = $false,
+      [Int]$Limit = 1000,
+      [Int]$Offset = 0,
       [switch]$IncludeInheritance = $false,
       [String]$id
     )
@@ -99,9 +107,9 @@
     if ($Filters) {
         $Filter = Combine-Filters $Filters
         if ($IncludeInheritance) {
-            $Query = "?_filter=$Filter&_inherit=full"
+            $Query = "?_filter=$Filter&_inherit=full&_limit=$Limit&_offset=$Offset"
         } else {
-            $Query = "?_filter=$Filter"
+            $Query = "?_filter=$Filter&_limit=$Limit&_offset=$Offset"
         }
     } else {
         if ($IncludeInheritance) {
@@ -110,9 +118,9 @@
     }
 
     if ($Query) {
-        $Result = Query-CSP -Method GET -Uri "dns/record$Query" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "dns/record$Query&_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Result = Query-CSP -Method GET -Uri "dns/record" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "dns/record&_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
     }
 
     if ($View) {
