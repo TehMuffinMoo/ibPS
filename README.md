@@ -294,6 +294,12 @@ Get-B1TDDossierSupportedSources -Target ip
 Get-B1TDDossierSupportedTargets -Source mandiant
   Query a list of supported indicator types for Dossier
 
+Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
+  Query a Dossier lookup job
+
+Start-B1TDDossierLookup -Type host -Value eicar.co
+  Starts a Dossier lookup job
+
 New-B1TDTideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
   Creates a new TIDE Data Profile
 
@@ -483,6 +489,7 @@ Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Statu
 Set-B1TDTideDataProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDTideDataProfile
 Remove-B1TDSecurityPolicy        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDSecurityPolicy
 Remove-B1TDNetworkList           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDNetworkList
+Get-B1TDDossierLookup            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Start-B1TTDDossierLookup
 
 
 ### Replace old for new APIs
