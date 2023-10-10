@@ -19,9 +19,6 @@
     .PARAMETER Wait
         If this switch is set, the API call will wait for job completion before returning
 
-    .PARAMETER Limit
-        Used to set the maximum number of records to be returned (default is 100)
-
     .Example
         Start-B1TDDossierLookup -Type ip -Value 1.1.1.1
 
@@ -41,8 +38,7 @@
       [Parameter(Mandatory=$true)]
       [String]$Value,
       [String[]]$Source,
-      [Switch]$Wait,
-      [Int]$Limit = 100
+      [Switch]$Wait
     )
     
     $Filters = @()
