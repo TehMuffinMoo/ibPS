@@ -460,36 +460,36 @@ All work below will be committed to the [dev branch](https://github.com/TehMuffi
 
 ### Implement pipeline input for all Set- & Remove- cmdlets
 Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flexible usage of ibPS. The table below shows the current support for this feature.
-Cmdlet                           | Pipeline Input Supported                                                      | Supported Input Cmdlets
--------------------------------- | ----------------------------------------------------------------------------- | ----------------------------
-Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
-Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AddressBlock
-Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Address
-Remove-B1AuthoritativeZone       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AuthoritativeZone
-Remove-B1ForwardZone             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1ForwardZone
-Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
-Remove-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
-Remove-B1Range                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Range
-Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
-Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
-Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
-Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AddressBlock
-Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1AuthoritativeZone
-Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1DHCPConfigProfile
-Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1FixedAddress
-Set-B1ForwardNSG                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1ForwardNSG
-Set-B1ForwardZone                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1ForwardZone
-Set-B1Host                       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
-Set-B1Range                      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Range
-Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Record
-Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Subnet
-Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Host
-Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
-Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1Service
-Set-B1TDTideDataProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDTideDataProfile
-Remove-B1TDSecurityPolicy        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDSecurityPolicy
-Remove-B1TDNetworkList           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Get-B1TDNetworkList
-Get-B1TDDossierLookup            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)             | Start-B1TTDDossierLookup
+Cmdlet                           | Pipeline Input Supported                                           | Supported Input Cmdlets
+-------------------------------- | ------------------------------------------------------------------ | ----------------------------
+Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
+Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
+Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Address
+Remove-B1AuthoritativeZone       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
+Remove-B1ForwardZone             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1ForwardZone
+Remove-B1FixedAddress            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1FixedAddress
+Remove-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
+Remove-B1Range                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Range
+Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Record
+Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
+Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subnet
+Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
+Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
+Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
+Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1FixedAddress
+Set-B1ForwardNSG                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1ForwardNSG
+Set-B1ForwardZone                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1ForwardZone
+Set-B1Host                       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
+Set-B1Range                      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Range
+Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Record
+Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subnet
+Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
+Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
+Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
+Set-B1TDTideDataProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TDTideDataProfile
+Remove-B1TDSecurityPolicy        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TDSecurityPolicy
+Remove-B1TDNetworkList           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TDNetworkList
+Get-B1TDDossierLookup            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1TTDDossierLookup
 
 
 ### Replace old for new APIs

@@ -64,7 +64,7 @@
 
     if ($ReturnResults) {
         if ($Results) {
-            return $ReturnResults | Select -ExpandProperty results
+            return $ReturnResults | Select-Object -ExpandProperty results
         } else {
             return $ReturnResults
         }
