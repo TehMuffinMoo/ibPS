@@ -17,10 +17,7 @@
         A list of supported sources can be obtained by using the Get-B1TDDossierSupportedSources cmdlet
 
     .Example
-        Start-B1TDDossierBatchLookup -Type ip -Value "1.1.1.1","1.0.0.1"
-
-    .EXAMPLE
-        Start-B1TDDossierBatchLookup -Type host -Value eicar.co
+        Start-B1TDDossierBatchLookup -Type ip -Target "1.1.1.1","1.0.0.1" -Source "apt","mandiant"
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -46,7 +43,7 @@
         $RequestBody.target = @{
             "one" = @{
                 "type" = $Type
-                "target" = $Target
+                "target" = $Target[0]
                 "sources" = $Source
             }
         }
@@ -60,6 +57,14 @@
         }
     }
 
-    $RequestBody | ConvertTo-Json -Depth 5
+    $RequestJSON = $RequestBody | ConvertTo-Json -Depth 5
+
+    if ($RequestBody) {
+        $Results = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs" -Data $RequestJSON
+    }
+
+    if ($Results) {
+        return $Results
+    }
 
 }
