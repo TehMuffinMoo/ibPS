@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.53'
+ModuleVersion = '1.9.0.54'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -70,7 +70,7 @@ Description = 'BloxOne REST API for PowerShell'
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = 'Deploy-B1Appliance', 'Get-B1Address', 'Get-B1AddressBlock', 
-               'Get-B1AddressBlockNextAvailable', 'Get-B1APIKeys', 
+               'Get-B1AddressBlockNextAvailable', 'Get-B1APIKey', 
                'Get-B1Applications', 'Get-B1AuditLog', 'Get-B1AuthoritativeNSG', 
                'Get-B1AuthoritativeZone', 'Get-B1BootstrapConfig', 
                'Get-B1BulkOperation', 'Get-B1CSPAPIKey', 'Get-B1CSPUrl', 
@@ -97,28 +97,32 @@ FunctionsToExport = 'Deploy-B1Appliance', 'Get-B1Address', 'Get-B1AddressBlock',
                'Get-B1TDTideInfoRank', 'Get-B1TDTideThreatClass', 
                'Get-B1TDTideThreatClassDefaultTTL', 'Get-B1TDTideThreatCounts', 
                'Get-B1TDTideThreatEnrichment', 'Get-B1TDTideThreatProperty', 
-               'Get-B1TDTideThreats', 'Get-B1TopMetrics', 
-               'Grant-B1DHCPConfigProfile', 'Grant-B1DNSConfigProfile', 
-               'New-B1AddressBlock', 'New-B1AddressReservation', 
-               'New-B1AuthoritativeZone', 'New-B1DHCPConfigProfile', 
-               'New-B1FixedAddress', 'New-B1ForwardZone', 'New-B1HAGroup', 
-               'New-B1Host', 'New-B1Range', 'New-B1Record', 'New-B1Service', 
-               'New-B1Subnet', 'New-B1TDTideDataProfile', 'Reboot-B1Host', 
-               'Remove-B1AddressBlock', 'Remove-B1AddressReservation', 
+               'Get-B1TDTideThreats', 'Get-B1TopMetrics', 'Get-B1User', 
+               'Get-B1UserAPIKey', 'Grant-B1DHCPConfigProfile', 
+               'Grant-B1DNSConfigProfile', 'New-B1AddressBlock', 
+               'New-B1AddressReservation', 'New-B1APIKey', 'New-B1AuthoritativeZone', 
+               'New-B1DHCPConfigProfile', 'New-B1FixedAddress', 'New-B1ForwardZone', 
+               'New-B1HAGroup', 'New-B1Host', 'New-B1Range', 'New-B1Record', 
+               'New-B1Service', 'New-B1Subnet', 'New-B1TDTideDataProfile', 
+               'Reboot-B1Host', 'Remove-B1AddressBlock', 
+               'Remove-B1AddressReservation', 'Remove-B1APIKey', 
                'Remove-B1AuthoritativeZone', 'Remove-B1FixedAddress', 
                'Remove-B1ForwardZone', 'Remove-B1Host', 'Remove-B1Range', 
                'Remove-B1Record', 'Remove-B1Service', 'Remove-B1Subnet', 
                'Remove-B1TDNetworkList', 'Remove-B1TDSecurityPolicy', 
                'Revoke-B1DHCPConfigProfile', 'Revoke-B1DNSConfigProfile', 
-               'Search-B1', 'Set-B1AddressBlock', 'Set-B1AuthoritativeZone', 
-               'Set-B1CSPUrl', 'Set-B1DHCPConfigProfile', 'Set-B1DHCPGlobalConfig', 
-               'Set-B1DNSHost', 'Set-B1FixedAddress', 'Set-B1ForwardNSG', 
-               'Set-B1ForwardZone', 'Set-B1Host', 'Set-B1NTPServiceConfiguration', 
-               'Set-B1Range', 'Set-B1Record', 'Set-B1Subnet', 
-               'Set-B1TDTideDataProfile', 'Start-B1DiagnosticTask', 'Start-B1Export', 
-               'Start-B1Service', 'Start-B1TDDossierBatchLookup', 
+               'Search-B1', 'Set-B1AddressBlock', 'Set-B1APIKey', 
+               'Set-B1AuthoritativeZone', 'Set-B1CSPUrl', 'Set-B1DHCPConfigProfile', 
+               'Set-B1DHCPGlobalConfig', 'Set-B1DNSHost', 'Set-B1FixedAddress', 
+               'Set-B1ForwardNSG', 'Set-B1ForwardZone', 'Set-B1Host', 
+               'Set-B1NTPServiceConfiguration', 'Set-B1Range', 'Set-B1Record', 
+               'Set-B1Subnet', 'Set-B1TDTideDataProfile', 'Start-B1DiagnosticTask', 
+               'Start-B1Export', 'Start-B1Service', 'Start-B1TDDossierBatchLookup', 
                'Start-B1TDDossierLookup', 'Stop-B1Service', 'Store-B1CSPAPIKey', 
-               'Get-NIOSCredentials', 'Store-NIOSCredentials', 'Get-ibPSVersion'
+               'Get-NIOSAuthoritativeZone', 'Get-NIOSCredentials', 
+               'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
+               'Migrate-NIOSSubzoneToBloxOne', 'New-NIOSDelegatedZone', 
+               'Store-NIOSCredentials', 'Get-ibPSVersion'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
