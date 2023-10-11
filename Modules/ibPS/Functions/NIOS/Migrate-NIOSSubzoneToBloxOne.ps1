@@ -1,4 +1,56 @@
 function Migrate-NIOSSubzoneToBloxOne {
+    <#
+    .SYNOPSIS
+        Used to migrate Authoritative Zone data from NIOS to BloxOneDDI
+
+    .DESCRIPTION
+        This function is used to migrate Authoritative Zone data from NIOS to BloxOneDDI
+
+    .PARAMETER Server
+        The NIOS Grid Master FQDN
+
+    .PARAMETER Subzone
+        The name of the subzone to migrate
+
+    .PARAMETER NIOSView
+        The DNS View within NIOS where the subzone is located
+
+    .PARAMETER B1View
+        The DNS View within BloxOne where the subzone is to be migrated to
+
+    .PARAMETER Confirm
+        Set this parameter to false to ignore confirmation prompts
+
+    .PARAMETER IncludeDHCP
+        Use this option to include DHCP addresses when migrating the subzone. This is not recommended as these records will be created as static A records, not dynamic.
+
+    .PARAMETER Test
+        Specify -Test to verify what will be created, without actually creating it
+
+    .PARAMETER CreateZones
+        Use the -CreateZones parameter to indicate if missing zones should be first created in BloxOne. This required either -DNSHosts or -AuthNSGs to be specified.
+
+    .PARAMETER DNSHosts
+        Used in combination with -CreateZones to specify which DNS Host(s) the zone should be assigned to.
+
+    .PARAMETER AuthNSGs
+        Used in combination with -CreateZones to specify which Authoriative Name Server Group(s) the zone should be assigned to.
+
+    .PARAMETER Creds
+        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
+
+    .EXAMPLE
+        Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Confirm:$false
+
+    .EXAMPLE
+        Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group"
+
+    .FUNCTIONALITY
+        NIOS
+
+    .FUNCTIONALITY
+        Migration
+    #>
     param(
       [Parameter(Mandatory=$true)]
       [String]$Server,
