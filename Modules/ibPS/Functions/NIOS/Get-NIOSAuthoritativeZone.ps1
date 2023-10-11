@@ -1,3 +1,4 @@
+function Get-NIOSAuthoritativeZone {
     <#
     .SYNOPSIS
         Used to retrieve a list of Authoritative Zones from NIOS
@@ -27,7 +28,7 @@
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
     .EXAMPLE
-        Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Confirm:$false
+        Get-NIOSAuthoritativeZone 
 
     .EXAMPLE
         Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group"
@@ -38,7 +39,6 @@
     .FUNCTIONALITY
         Migration
     #>
-function Get-NIOSAuthoritativeZone {
     param(
       [Parameter(Mandatory=$true)]
       [String]$Server,
@@ -48,7 +48,7 @@ function Get-NIOSAuthoritativeZone {
       [PSCredential]$Creds
     )
     if ($FQDN) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_auth?view=$View&_return_as_object=1&_max_results=$Limit" -Creds $Creds | Select-Object -ExpandProperty results | Where-Object {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
+        Query-NIOS -Method GET -Server $Server -Uri "zone_auth?view=$View&fqdn=$FQDN&_return_as_object=1&_max_results=$Limit" -Creds $Creds | Select-Object -ExpandProperty results
     } else {
         Query-NIOS -Method GET -Server $Server -Uri "zone_auth?view=$View&_return_as_object=1&_max_results=$Limit" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
