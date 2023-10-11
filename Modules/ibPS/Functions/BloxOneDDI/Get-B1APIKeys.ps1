@@ -74,8 +74,6 @@ function Get-B1APIKeys {
 
     $CombinedFilter += Combine-Filters2($QueryFilters)
 
-    $CombinedFilter
-
     $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/api_keys$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {
