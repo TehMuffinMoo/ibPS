@@ -70,50 +70,50 @@ function Migrate-NIOSSubzoneToBloxOne {
     )
 
     $Export = @()
+    $SubzoneData = @()
 
     if (!(Get-NIOSAuthoritativeZone -Server $Server -Creds $Creds -FQDN $Subzone -View $NIOSView)) {
         Write-Host "Error. Authorative zone does not exist in NIOS." -ForegroundColor Red
     } else {
         Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
-        $SubzoneData = Query-NIOS -Method GET -Server $Server -Uri "allrecords?zone=$Subzone&view=$NIOSView&_return_as_object=1&_return_fields%2B=creator" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $RecordTypes = "host","a","cname","srv"
+        foreach ($RT in $RecordTypes) {
+            Write-Host "Querying $RT records" -ForegroundColor Cyan
+            $ReturnFields = ""
+            if ($RT -in ("a","cname")) {
+                $ReturnFields = "&_return_fields%2b=creator"
+            }
+            $SubzoneData += Query-NIOS -Method GET -Server $Server -Uri "record:$($RT)?zone=$($Subzone)&view=$($NIOSView)&_return_as_object=1$ReturnFields" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        }
 
         if (!$IncludeDHCP) {
-            $SubzoneData = $SubzoneData | Where-Object {$_.Creator -eq "STATIC"}
+            $SubzoneData = $SubzoneData | Where-Object {$_.Creator -eq "STATIC" -or (!$_.Creator)}
         }
-
-        $UnsupportedRecords = $SubzoneData | Where-Object {$_.type -eq "UNSUPPORTED"}
-        if ($UnsupportedRecords) {
-            Write-Host "Unsupported records found. These may need to be re-created in BloxOne." -ForegroundColor Red
-            $UnsupportedRecords | Format-Table name,zone,type,comment,view -AutoSize
-        }
-        $SubzoneData = $SubzoneData | Where-Object {$_.type -ne "UNSUPPORTED"}
 
         foreach ($SubzoneItem in $SubzoneData) {
-            if ($SubzoneItem.type -eq "record:host_ipv4addr") {
-                $SubzoneItem.type = "record:host"
-            }
-            if ($Debug) {Write-Host "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1"}
+            $SubzoneItem._ref -match "(record\:\w+)\/.*" | Out-Null
+            $RecordType = $Matches[1]
 
-            $ReturnData = Query-NIOS -Method GET -Server $Server -Uri "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object -First 1 -ErrorAction SilentlyContinue
+            if ($Debug) {Write-Host "$($RecordType)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1"}
 
-            switch ($SubzoneItem.type) {
+            switch ($RecordType) {
                 "record:host" {
-                    $HostData = $ReturnData.ipv4addrs.ipv4addr
+                    $HostData = $SubzoneItem.ipv4addrs.ipv4addr
                 }
                 "record:a" {
-                    $HostData = $ReturnData.ipv4addr
+                    $HostData = $SubzoneItem.ipv4addr
                 }
                 "record:cname" {
-                    $HostData = $ReturnData.canonical+"."
+                    $HostData = $SubzoneItem.canonical+"."
                 }
                 "record:srv" {
-                    $HostData = "$($ReturnData.target):$($ReturnData.port):$($ReturnData.priority):$($ReturnData.weight)"
+                    $HostData = "$($SubzoneItem.target):$($SubzoneItem.port):$($SubzoneItem.priority):$($SubzoneItem.weight)"
                 }
             }
 
             $splat = @{
-                "Type" = $SubzoneItem.type
-                "Name" = $SubzoneItem.name
+                "Type" = $RecordType
+                "Name" = $SubzoneItem.name -split ("\.$($Subzone)") | Select-Object -First 1
                 "Data" = $HostData
             }
 
