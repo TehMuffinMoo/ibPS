@@ -40,6 +40,9 @@ function Migrate-NIOSSubzoneToBloxOne {
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
     .EXAMPLE
+        Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Test
+
+    .EXAMPLE
         Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Confirm:$false
 
     .EXAMPLE
@@ -76,7 +79,7 @@ function Migrate-NIOSSubzoneToBloxOne {
         Write-Host "Error. Authorative zone does not exist in NIOS." -ForegroundColor Red
     } else {
         Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
-        $RecordTypes = "host","a","cname","srv"
+        $RecordTypes = "host","a","cname","srv","txt","mx"
         foreach ($RT in $RecordTypes) {
             Write-Host "Querying $RT records" -ForegroundColor Cyan
             $ReturnFields = ""
@@ -109,8 +112,17 @@ function Migrate-NIOSSubzoneToBloxOne {
                 "record:srv" {
                     $HostData = "$($SubzoneItem.target):$($SubzoneItem.port):$($SubzoneItem.priority):$($SubzoneItem.weight)"
                 }
+                "record:txt" {
+                    $HostData = $SubzoneItem.text
+                }
+                "record:mx" {
+                    $HostData = "$($SubzoneItem.mail_exchanger):$($SubzoneItem.preference)"
+                }
             }
 
+            if (($SubzoneItem.name -split ("\.$($Subzone)") | Select-Object -First 1) -eq $Subzone) {
+              $SubzoneItem.name = ""
+            }
             $splat = @{
                 "Type" = $RecordType
                 "Name" = $SubzoneItem.name -split ("\.$($Subzone)") | Select-Object -First 1
@@ -183,6 +195,26 @@ function Migrate-NIOSSubzoneToBloxOne {
                       $ExportedData = $ExportedItem.data.split(":")
                       $CreateResult = New-B1Record -Type "SRV" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Port $ExportedData[1] -Priority $ExportedData[2] -Weight $ExportedData[3] -view $B1View -CreatePTR:$false -SkipExistsErrors
                       if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as SRV Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    }
+                }
+                "record:txt" {
+                    $ExportedData
+                    $FoundRecords = $Records | Where-Object {$_.type -eq "TXT" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?" -and $_.rdata -eq $ExportedItem.data}
+                    if ($FoundRecords) {
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
+                    } else {
+                      $CreateResult = New-B1Record -Type "TXT" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$false -SkipExistsErrors
+                      if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as TXT Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    }
+                }
+                "record:mx" {
+                    $FoundRecords = $Records | Where-Object {$_.type -eq "MX" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
+                    if ($FoundRecords) {
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
+                    } else {
+                      $ExportedData = $ExportedItem.data.split(":")
+                      $CreateResult = New-B1Record -Type "MX" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Preference $ExportedData[1] -view $B1View
+                      if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as MX Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                     }
                 }
             }

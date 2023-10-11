@@ -52,7 +52,7 @@
         DNS
     #>
     param(
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
+      [ValidateSet("A","AAAA","CAA","CNAME","HTTPS","MX","NAPTR","NS","PTR","SRV","SVCB","TXT")]
       [String]$Type,
       [String]$Name,
       [String]$Zone,
@@ -67,16 +67,10 @@
       [String]$id
     )
 
-    $SupportedRecords = "A","CNAME","PTR","NS","TXT","SOA","SRV"
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     if ($Type) {
-        if ($Type -in $SupportedRecords) {
-            $Filters.Add("type==`"$Type`"") | Out-Null
-        } else {
-            Write-Host "Invalid type specified. The following record types are supported: $SupportedRecords" -ForegroundColor Red
-            break
-        }
+      $Filters.Add("type==`"$Type`"") | Out-Null
     }
     if ($Name) {
         $Filters.Add("name_in_zone$MatchType`"$Name`"") | Out-Null

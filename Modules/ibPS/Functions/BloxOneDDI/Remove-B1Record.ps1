@@ -42,7 +42,7 @@
     param(
       [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
+      [ValidateSet("A","AAAA","CAA","CNAME","HTTPS","MX","NAPTR","NS","PTR","SRV","SVCB","TXT")]
       [String]$Type,
       [Parameter(ParameterSetName="noID",Mandatory=$true)]
       [String]$Name,

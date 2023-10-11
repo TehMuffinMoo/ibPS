@@ -56,9 +56,10 @@
     #>
     param(
       [Parameter(Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
+      [ValidateSet("A","CNAME","PTR","TXT","SRV","MX")] ## To be added "AAAA","CAA","HTTPS","NAPTR","NS","SVCB"
       [String]$Type,
       [Parameter(Mandatory=$true)]
+      [AllowEmptyString()]
       [String]$Name,
       [Parameter(Mandatory=$true)]
       [String]$Zone,
@@ -69,20 +70,67 @@
       [int]$TTL,
       [string]$Description,
       [bool]$CreatePTR = $true,
-      [int]$Priority,
-      [int]$Weight,
-      [int]$Port,
       [switch]$SkipExistsErrors = $false,
       [switch]$IgnoreExists = $false
     )
-    
-    $SupportedRecords = "A","CNAME","PTR","TXT","SRV"
-    ## To be added: "NS","SOA"
-    if (!($Type -in $SupportedRecords)) {
-        Write-Host "Invalid type specified. The following record types are supported: $SupportedRecords" -ForegroundColor Red
-        break
+
+    DynamicParam {
+        switch ($Type) {
+          "SRV" {
+             $priorityAttribute = New-Object System.Management.Automation.ParameterAttribute
+             $priorityAttribute.Position = 2
+             $priorityAttribute.Mandatory = $true
+             $priorityAttribute.HelpMessage = "The Priority parameter is required when creating an SRV Record."
+
+             $weightAttribute = New-Object System.Management.Automation.ParameterAttribute
+             $weightAttribute.Position = 3
+             $weightAttribute.Mandatory = $true
+             $weightAttribute.HelpMessage = "The Weight parameter is required when creating an SRV Record."
+
+             $portAttribute = New-Object System.Management.Automation.ParameterAttribute
+             $portAttribute.Position = 4
+             $portAttribute.Mandatory = $true
+             $portAttribute.HelpMessage = "The Port parameter is required when creating an SRV Record."
+
+             $weightAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+             $weightAttributeCollection.Add($weightAttribute)
+
+             $priorityAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+             $priorityAttributeCollection.Add($priorityAttribute)
+
+             $portAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+             $portAttributeCollection.Add($portAttribute)
+
+             $priorityParam = New-Object System.Management.Automation.RuntimeDefinedParameter('Priority', [Int], $priorityAttributeCollection)
+             $weightParam = New-Object System.Management.Automation.RuntimeDefinedParameter('Weight', [Int], $weightAttributeCollection)
+             $portParam = New-Object System.Management.Automation.RuntimeDefinedParameter('Port', [Int], $portAttributeCollection)
+
+             $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+             $paramDictionary.Add('Priority', $priorityParam)
+             $paramDictionary.Add('Weight', $weightParam)
+             $paramDictionary.Add('Port', $portParam)
+             return $paramDictionary
+         }
+         "MX" {
+             $preferenceAttribute = New-Object System.Management.Automation.ParameterAttribute
+             $preferenceAttribute.Position = 3
+             $preferenceAttribute.Mandatory = $true
+             $preferenceAttribute.HelpMessage = "The -Preference parameter is required when creating an MX Record."
+
+             $preferenceAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+             $preferenceAttributeCollection.Add($preferenceAttribute)
+
+             $preferenceParam = New-Object System.Management.Automation.RuntimeDefinedParameter('Preference', [Int], $preferenceAttributeCollection)
+
+             $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+             $paramDictionary.Add('Preference', $preferenceParam)
+             return $paramDictionary
+         }
+      }
     }
 
+    process {
+    
     if ($view) {
         $viewId = (Get-B1DNSView -Name $view -Strict).id
     }
@@ -144,9 +192,9 @@
                     if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
                         if ($Priority -and $Weight -and $Port) {
                             $rdataSplat = @{
-		                        "priority" = $Priority
-		                        "weight" = $Weight
-		                        "port" = $Port
+		                        "priority" = $PSBoundParameters['Priority']
+		                        "weight" = $PSBoundParameters['Weight']
+		                        "port" = $PSBoundParameters['Port']
 		                        "target" = $rdata
 	                        }
                         } else {
@@ -158,9 +206,17 @@
                         break
                     }
                 }
+                "MX" {
+                    if (!($rdata.EndsWith("."))) {
+                        $rdata = "$rdata."
+                    }
+                    $rdataSplat = @{
+                        "exchange" = $rdata
+	                    "preference" = $PSBoundParameters['Preference']
+	                }
+                }
                 default {
                     Write-Host "Error. Invalid record type: $Type" -ForegroundColor Red
-                    Write-Host "Please use a supported record type: $SupportedRecords" -ForegroundColor Gray
                     break
                 }
             }
@@ -208,5 +264,7 @@
             }
         }
     }
+
+  }
 
 }
