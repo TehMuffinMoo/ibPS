@@ -5,7 +5,9 @@ function Migrate-NIOSSubzoneToBloxOne {
       [Parameter(Mandatory=$true)]
       [String]$Subzone,
       [Parameter(Mandatory=$true)]
-      [String]$View,
+      [String]$NIOSView,
+      [Parameter(Mandatory=$true)]
+      [String]$B1View,
       [switch]$Confirm = $true,
       [switch]$IncludeDHCP = $false,
       [switch]$Test = $false,
@@ -17,11 +19,11 @@ function Migrate-NIOSSubzoneToBloxOne {
 
     $Export = @()
 
-    if (!(Get-NIOSAuthorativeZone -Server $Server -Creds $Creds -FQDN $Subzone)) {
+    if (!(Get-NIOSAuthoritativeZone -Server $Server -Creds $Creds -FQDN $Subzone -View $NIOSView)) {
         Write-Host "Error. Authorative zone does not exist in NIOS." -ForegroundColor Red
     } else {
         Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
-        $SubzoneData = Query-NIOS -Method GET -Server $Server -Uri "allrecords?zone=$Subzone&_return_as_object=1&_return_fields%2B=creator" -Creds $Creds | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $SubzoneData = Query-NIOS -Method GET -Server $Server -Uri "allrecords?zone=$Subzone&view=$NIOSView&_return_as_object=1&_return_fields%2B=creator" -Creds $Creds | Select -ExpandProperty results -ErrorAction SilentlyContinue
 
         if (!$IncludeDHCP) {
             $SubzoneData = $SubzoneData | where {$_.Creator -eq "STATIC"}
@@ -74,10 +76,10 @@ function Migrate-NIOSSubzoneToBloxOne {
         Write-Warning "Are you sure you want to continue with copying this DNS Zone to BloxOne?" -WarningAction Inquire
     }
 
-    if (!(Get-B1AuthoritativeZone -FQDN $Subzone -View $View)) {
+    if (!(Get-B1AuthoritativeZone -FQDN $Subzone -View $B1View)) {
         if ($CreateZones) {
             if ($DNSHosts -or $AuthNSGs) {
-                New-B1AuthoritativeZone -FQDN $Subzone -View $View -DNSHosts $DNSHosts -AuthNSGs $AuthNSGs
+                New-B1AuthoritativeZone -FQDN $Subzone -View $B1View -DNSHosts $DNSHosts -AuthNSGs $AuthNSGs
                 Wait-Event -Timeout 10
             } else {
                 Write-Host "Error. You must specify -DNSHosts or -AuthNSGs when -CreateZones is $true" -ForegroundColor Red
@@ -90,28 +92,28 @@ function Migrate-NIOSSubzoneToBloxOne {
     }
 
     if (!($Test)) {
-        Write-Host "Syncing $($Subzone) to BloxOneDDI in View $View.." -ForegroundColor Yellow
+        Write-Host "Syncing $($Subzone) to BloxOneDDI in View $B1View.." -ForegroundColor Yellow
         foreach ($ExportedItem in $Export) {
             switch ($ExportedItem.type) {
                 "record:host" {
-                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$true -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
+                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$true -SkipExistsErrors
+                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                 }
                 "record:a" {
-                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$true -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
+                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$true -SkipExistsErrors
+                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                 }
                 "record:cname" {
-                    $CreateResult = New-B1Record -Type "CNAME" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $View -CreatePTR:$false -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
+                    $CreateResult = New-B1Record -Type "CNAME" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$false -SkipExistsErrors
+                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                 }
                 "record:srv" {
                     $ExportedData = $ExportedItem.data.split(":")
-                    $CreateResult = New-B1Record -Type "SRV" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Port $ExportedData[1] -Priority $ExportedData[2] -Weight $ExportedData[3] -view $View -CreatePTR:$false -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $View." -ForegroundColor Green }
+                    $CreateResult = New-B1Record -Type "SRV" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Port $ExportedData[1] -Priority $ExportedData[2] -Weight $ExportedData[3] -view $B1View -CreatePTR:$false -SkipExistsErrors
+                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                 }
             }
         }
-        Write-Host "Completed Syncing $($Subzone) to BloxOneDDI in View $View.." -ForegroundColor Green
+        Write-Host "Completed Syncing $($Subzone) to BloxOneDDI in View $B1View.." -ForegroundColor Green
     }
 }
