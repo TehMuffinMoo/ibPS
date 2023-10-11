@@ -15,12 +15,6 @@ function Get-NIOSAuthoritativeZone {
     .PARAMETER View
         The DNS View within NIOS where the subzone is located
 
-    .PARAMETER B1View
-        The DNS View within BloxOne where the subzone is to be migrated to
-
-    .PARAMETER Confirm
-        Set this parameter to false to ignore confirmation prompts
-
     .PARAMETER Limit
         Use this parameter to limit the quantity of results returned. The default number of results is 1000.
 
@@ -28,16 +22,13 @@ function Get-NIOSAuthoritativeZone {
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
     .EXAMPLE
-        Get-NIOSAuthoritativeZone 
-
-    .EXAMPLE
-        Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group"
+        Get-NIOSAuthoritativeZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
 
     .FUNCTIONALITY
         NIOS
 
     .FUNCTIONALITY
-        Migration
+        DNS
     #>
     param(
       [Parameter(Mandatory=$true)]
@@ -47,9 +38,23 @@ function Get-NIOSAuthoritativeZone {
       [Int]$Limit = 1000,
       [PSCredential]$Creds
     )
+
+    $Filters = @()
     if ($FQDN) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_auth?view=$View&fqdn=$FQDN&_return_as_object=1&_max_results=$Limit" -Creds $Creds | Select-Object -ExpandProperty results
+        $Filters += "fqdn=$FQDN"
+    }
+    if ($View) {
+        $Filters += "view=$View"
+    }
+    $Filters += "_return_as_object=1"
+    $Filters += "_max_results=$Limit"
+    if ($Filters) {
+        $Filter = Combine-Filters2($Filters)
+    }
+
+    if ($Filter) {
+        Query-NIOS -Method GET -Server $Server -Uri "zone_auth$Filter" -Creds $Creds | Select-Object -ExpandProperty results
     } else {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_auth?view=$View&_return_as_object=1&_max_results=$Limit" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-NIOS -Method GET -Server $Server -Uri "zone_auth$Filter" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
