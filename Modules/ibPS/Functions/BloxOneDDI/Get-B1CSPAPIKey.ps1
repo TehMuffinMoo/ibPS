@@ -1,4 +1,4 @@
-function Get-B1APIKey {
+function Get-B1CSPAPIKey {
     <#
     .SYNOPSIS
         Retrieves the stored BloxOneDDI API Key from the local machine, if available.
@@ -10,7 +10,7 @@ function Get-B1APIKey {
         If this is set, the function will not break if the API Key is not found
 
     .Example
-        Get-B1APIKey
+        Get-B1CSPAPIKey
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -23,7 +23,7 @@ function Get-B1APIKey {
     )
     $ApiKey = $ENV:B1APIKey
     if (!$ApiKey) {
-        Write-Host "Error. Missing API Key. Store your API Key first using the Store-APIKey Cmdlet and re-run this script." -ForegroundColor Red
+        Write-Host "Error. Missing API Key. Store your API Key first using the Store-B1CSPAPIKey Cmdlet and re-run this script." -ForegroundColor Red
         if (!($NoBreak)) {
             break
         }

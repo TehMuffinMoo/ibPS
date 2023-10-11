@@ -26,7 +26,7 @@
         [string]$query
     )
     ## Get Stored API Key
-    $B1ApiKey = Get-B1APIKey
+    $B1ApiKey = Get-B1CSPAPIKey
 
     ## Set Headers
     $CSPHeaders = @{

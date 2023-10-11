@@ -1,5 +1,5 @@
 
-function Store-B1APIKey {
+function Store-B1CSPAPIKey {
     <#
     .SYNOPSIS
         Stores a new BloxOneDDI API Key

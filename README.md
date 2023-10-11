@@ -74,13 +74,13 @@ In order to authenticate against the BloxOne CSP (Cloud Services Portal), you mu
 ##### Persistent
 To store your API Key permenantly for your user, you can specify the <b>-Persist</b> option as shown below.
 ```powershell
-Store-B1APIKey -ApiKey "<ApiKeyFromCSP>" -Persist
+Store-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>" -Persist
 ```
 
 ##### Single Session
 Alternatively, you can simply store your API Key for the current powershell session only.
 ```powershell
-Store-B1APIKey -ApiKey "<ApiKeyFromCSP>"
+Store-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>"
 ```
 
 ## Cmdlets
@@ -89,16 +89,16 @@ All Cmdlets are listed below.
 ```
 # Most Get-* cmdlets implement a -Strict parameter which applies strict name checking. Where possible, the default is to perform wildcard lookups on submitted parameters.
 
-Store-B1APIKey -APIKey "longapikeystringgoeshere" -Persist
+Store-B1CSPAPIKey -APIKey "longapikeystringgoeshere" -Persist
   Stores API Key for BloxOne within environment variables. Using -Persist will persist those credentials for that user on that machine.
 
-Get-B1APIKey
-  Retrieves stored API Key for BloxOne
+Get-B1CSPAPIKey
+  Retrieves the stored API Key for ibPS to communicate with the BloxOne Cloud
 
-Get-B1CspUrl
-  Retrieves the currently set CSP URL
+Get-B1CSPUrl
+  Retrieves the currently set CSP URL for ibPS to communicate with the BloxOne Cloud
 
-Set-B1CspUrl -Region EU
+Set-B1CSPUrl -Region EU
   Updates the CSP URL to a new region
   
 Get-ibPSVersion

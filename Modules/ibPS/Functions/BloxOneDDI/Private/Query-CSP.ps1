@@ -37,7 +37,7 @@ function Query-CSP {
     )
 
     ## Get Stored API Key
-    $B1ApiKey = Get-B1APIKey
+    $B1ApiKey = Get-B1CSPAPIKey
 
     ## Get Saved CSP URL
     $B1CSPUrl = Get-B1CSPUrl
@@ -95,7 +95,7 @@ function Query-CSP {
    #       Write-Error "Too many requests. Please refine your query and try again to avoid rate limiting."
    #     }
    #     401 {
-   #       Write-Error "Authorization required, please store/update your BloxOne API Key using Store-B1APIKey"
+   #       Write-Error "Authorization required, please store/update your BloxOne API Key using Store-B1CSPAPIKey"
    #     }
    #     default {
    #       return $_.Exception.Response
