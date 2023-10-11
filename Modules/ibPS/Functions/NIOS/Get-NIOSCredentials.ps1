@@ -11,6 +11,8 @@ function Get-NIOSCredentials {
 
     .FUNCTIONALITY
         NIOS
+
+    .FUNCTIONALITY
         Authentication
     #>
     $Base64 = $ENV:NIOSCredentials

@@ -35,9 +35,21 @@
     $Base64 =[Convert]::ToBase64String($Bytes)
 
     if ($Persist) {
-        [System.Environment]::SetEnvironmentVariable('NIOSCredentials',$Base64,[System.EnvironmentVariableTarget]::User)
-        $ENV:NIOSCredentials = $Base64
-        Write-Host "Credentials for $Username have been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+        $Platform = Detect-OS
+        if ($Platform -eq "Windows") {
+          [System.Environment]::SetEnvironmentVariable('NIOSCredentials',$Base64,[System.EnvironmentVariableTarget]::User)
+          $ENV:NIOSCredentials = $Base64
+          Write-Host "Credentials for $Username have been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+        } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+            [System.Environment]::SetEnvironmentVariable('NIOSCredentials',$Base64,[System.EnvironmentVariableTarget]::User)
+            $ENV:NIOSCredentials = $Base64
+            if (!(Test-Path ~/.zshenv)) {
+              touch ~/.zshenv
+            }
+            sed -i '' -e '/NIOSCredentials/d' ~/.zshenv
+            echo "export NIOSCredentials=$Base64" >> ~/.zshenv
+            Write-Host "NIOS Credentials have been stored permenantly for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+        }
     } else {
         $ENV:NIOSCredentials = $Base64
         Write-Host "Credentials for $Username have been stored for this session." -ForegroundColor Green
