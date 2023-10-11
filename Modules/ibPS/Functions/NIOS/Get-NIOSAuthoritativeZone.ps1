@@ -44,7 +44,7 @@ function Get-NIOSAuthoritativeZone {
         $Filters += "fqdn=$FQDN"
     }
     if ($View) {
-        $Filters += "view=$View"
+        $Filters += "view=$($View)"
     }
     $Filters += "_return_as_object=1"
     $Filters += "_max_results=$Limit"

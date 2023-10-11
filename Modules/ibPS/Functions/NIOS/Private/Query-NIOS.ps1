@@ -83,7 +83,6 @@
             Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
         }
     }
-    $Result
     if ($Result) {
         if ($Result.result -and -not $Result.results) {
             $Result | Add-Member -MemberType NoteProperty -Name "results" -Value $Result.result
