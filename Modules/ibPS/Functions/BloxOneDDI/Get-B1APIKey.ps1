@@ -1,4 +1,4 @@
-function Get-B1APIKeys {
+function Get-B1APIKey {
     <#
     .SYNOPSIS
         Retrieves a list of BloxOne Cloud API Keys
@@ -25,8 +25,14 @@ function Get-B1APIKeys {
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER Strict
+        Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+
+    .PARAMETER id
+        The id of the API Key to filter by
+
     .EXAMPLE
-        Get-B1APIKeys -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
+        Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -35,15 +41,20 @@ function Get-B1APIKeys {
         Authentication
     #>
     param(
-        $User,
-        $Name,
+        [String]$User,
+        [string]$CreatedBy,
+        [String]$Name,
         [ValidateSet("Interactive", "Legacy", "Service")]
-        $Type,
+        [String]$Type,
         [ValidateSet("Enabled", "Disabled")]
-        $State,
-        $Limit = 101,
-        $Offset = 0
+        [String]$State,
+        [Int]$Limit = 101,
+        [Int]$Offset = 0,
+        [Switch]$Strict,
+        [String]$id
     )
+
+    $MatchType = Match-Type $Strict
 
     $QueryFilters = @()
     if ($Limit) {
@@ -55,16 +66,22 @@ function Get-B1APIKeys {
 
     $ParamFilters = @()
     if ($User) {
-      $ParamFilters += "user_email:=`"$User`""
+      $ParamFilters += "user_email$MatchType`"$User`""
     }
+    if ($CreatedBy) {
+        $ParamFilters += "created_by$MatchType`"$CreatedBy`""
+      }
     if ($Name) {
-        $ParamFilters += "name:=`"$Name`""
+        $ParamFilters += "name$MatchType`"$Name`""
     }
     if ($Type) {
         $ParamFilters += "type:=`"$Type`""
     }
     if ($State) {
         $ParamFilters += "state:=`"$State`""
+    }
+    if ($id) {
+        $ParamFilters += "id==`"$id`""
     }
 
      if ($ParamFilters) {

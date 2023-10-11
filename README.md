@@ -227,7 +227,13 @@ Get-B1HealthCheck -ApplicationHealth
   
 Get-B1Applications
   Retrieves a list of supported service types
-  
+
+Get-B1APIKey -Name "servicekeyname" -CreatedBy "user@domain.corp"
+  Retrieves a list of API Keys configured within the BloxOne Cloud
+
+Get-B1UserAPIKey
+  Retrieves a list of interactive API Keys configured for your user within the BloxOne Cloud
+
 Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
   Retrieves a list of deployed BloxOneDDI Services
   
@@ -339,6 +345,9 @@ New-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp" -rdata "10.1.
 New-B1FixedAddress -IP "10.10.1.10" -Name "New fixed address" -Description "Description for new fixed address" -MatchType mac -MatchValue "ab:cd:ef:ab:cd:12" -Space Global -Tags @{"environment"="production"}
   Retrieves a list of DHCP Fixed Addresses
 
+New-B1APIKey -Name "serviceapikey" -Type Service -UserName "svc-account-name"
+  Creates a new API Key in the BloxOne Cloud and returns the key
+
 Remove-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
   Removes a DNS record.
   
@@ -419,6 +428,9 @@ Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "prod.mydomain.corp","dev.mydoma
 
 Set-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false -State "Activated"
   Updates an existing TIDE Data Profile. The -State parameter can be used to enable/disable the profile.
+
+Set-B1APIKey -Name "mykey" -Type "interactive" -User "user@domain.corp" -State "Disabled"
+  Used to update an existing API Key, such as enabling/disabling it.
 	
 Enable-B1OnPremHostApplication -Name "bloxoneddihost1.mydomain.corp" -DNS -DHCP -NTP
   Allows you to enable BloxOne On-Prem Host Applications using the DNS/DHCP/NTP switches
@@ -473,6 +485,7 @@ Remove-B1Range                   | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Record
 Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subnet
+Remove-B1APIKey                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1APIKey
 Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
 Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
@@ -483,6 +496,7 @@ Set-B1Host                       | ![Implemented](https://badgen.net/badge/Statu
 Set-B1Range                      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Range
 Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Record
 Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subnet
+Set-B1APIKey                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1APIKey
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
