@@ -16,7 +16,7 @@ function Get-B1User {
         Filter the results by the state of the user
 
     .PARAMETER Limit
-        Use this parameter to limit the quantity of results returned from the Audit Log. The default number of results is 100.
+        Use this parameter to limit the quantity of results returned. The default number of results is 100.
 
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination

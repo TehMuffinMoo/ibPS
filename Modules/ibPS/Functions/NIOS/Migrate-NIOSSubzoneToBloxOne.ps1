@@ -66,7 +66,7 @@ function Migrate-NIOSSubzoneToBloxOne {
       [switch]$CreateZones = $false,
       [System.Object]$DNSHosts,
       [System.Object]$AuthNSGs,
-      $Creds
+      [PSCredential]$Creds
     )
 
     $Export = @()
@@ -75,18 +75,18 @@ function Migrate-NIOSSubzoneToBloxOne {
         Write-Host "Error. Authorative zone does not exist in NIOS." -ForegroundColor Red
     } else {
         Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
-        $SubzoneData = Query-NIOS -Method GET -Server $Server -Uri "allrecords?zone=$Subzone&view=$NIOSView&_return_as_object=1&_return_fields%2B=creator" -Creds $Creds | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $SubzoneData = Query-NIOS -Method GET -Server $Server -Uri "allrecords?zone=$Subzone&view=$NIOSView&_return_as_object=1&_return_fields%2B=creator" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
 
         if (!$IncludeDHCP) {
-            $SubzoneData = $SubzoneData | where {$_.Creator -eq "STATIC"}
+            $SubzoneData = $SubzoneData | Where-Object {$_.Creator -eq "STATIC"}
         }
 
-        $UnsupportedRecords = $SubzoneData | where {$_.type -eq "UNSUPPORTED"}
+        $UnsupportedRecords = $SubzoneData | Where-Object {$_.type -eq "UNSUPPORTED"}
         if ($UnsupportedRecords) {
             Write-Host "Unsupported records found. These may need to be re-created in BloxOne." -ForegroundColor Red
-            $UnsupportedRecords | ft name,zone,type,comment,view -AutoSize
+            $UnsupportedRecords | Format-Table name,zone,type,comment,view -AutoSize
         }
-        $SubzoneData = $SubzoneData | where {$_.type -ne "UNSUPPORTED"}
+        $SubzoneData = $SubzoneData | Where-Object {$_.type -ne "UNSUPPORTED"}
 
         foreach ($SubzoneItem in $SubzoneData) {
             if ($SubzoneItem.type -eq "record:host_ipv4addr") {
@@ -94,7 +94,7 @@ function Migrate-NIOSSubzoneToBloxOne {
             }
             if ($Debug) {Write-Host "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1"}
 
-            $ReturnData = Query-NIOS -Method GET -Server $Server -Uri "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1" -Creds $Creds | Select -ExpandProperty results -ErrorAction SilentlyContinue | Select -First 1 -ErrorAction SilentlyContinue
+            $ReturnData = Query-NIOS -Method GET -Server $Server -Uri "$($SubzoneItem.type)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object -First 1 -ErrorAction SilentlyContinue
 
             switch ($SubzoneItem.type) {
                 "record:host" {
@@ -120,7 +120,7 @@ function Migrate-NIOSSubzoneToBloxOne {
             $Export += $splat
         }
         Write-Host "The following records are ready to copy." -ForegroundColor Green
-        $Export | ConvertTo-Json | ConvertFrom-Json | ft -AutoSize
+        $Export | ConvertTo-Json | ConvertFrom-Json | Format-Table -AutoSize
     }
 
     if ($Confirm -and -not $Test) {

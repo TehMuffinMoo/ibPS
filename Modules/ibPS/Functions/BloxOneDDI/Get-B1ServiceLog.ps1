@@ -19,7 +19,7 @@ function Get-B1ServiceLog {
         A date parameter used as the end date/time of the log search.
 
     .PARAMETER Limit
-        Use this parameter to limit the quantity of results returned from the Audit Log. The default number of results is 100.
+        Use this parameter to limit the quantity of results. The default number of results is 100.
 
     .Example
         Get-B1ServiceLog -OnPremHost "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)

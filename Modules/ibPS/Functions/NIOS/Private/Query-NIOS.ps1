@@ -21,11 +21,13 @@
     .PARAMETER Data
         Data to be submitted on POST/PUT/PATCH/DELETE requests
 
-    .Example
+    .EXAMPLE
         Query-CSP -Method GET -Uri "zone_delegated?return_as_object=1"
 
     .FUNCTIONALITY
         NIOS
+
+    .FUNCTIONALITY
         Core
     #>
     param(
@@ -37,7 +39,7 @@
       [Parameter(Mandatory=$true)]
       [String]$Uri,
       [String]$ApiVersion = "2.12",
-      $Creds,
+      [PSCredential]$Creds,
       [String]$Data
     )
 

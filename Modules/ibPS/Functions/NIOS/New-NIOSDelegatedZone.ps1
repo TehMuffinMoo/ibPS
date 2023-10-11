@@ -6,7 +6,7 @@ function New-NIOSDelegatedZone {
       [System.Object]$Hosts,
       [Parameter(Mandatory=$true)]
       [String]$FQDN,
-      $Creds
+      [PSCredential]$Creds
     )
     if (Get-NIOSDelegatedZone -Server $Server -Creds $Creds -FQDN $FQDN) {
         Write-Host "Error. Delegated zone already exists." -ForegroundColor Red

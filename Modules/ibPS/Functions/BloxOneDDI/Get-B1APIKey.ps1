@@ -20,7 +20,7 @@ function Get-B1APIKey {
         Filter the results by the state of the API Key
 
     .PARAMETER Limit
-        Use this parameter to limit the quantity of results returned from the Audit Log. The default and maximum number of results is 101.
+        Use this parameter to limit the quantity of results. The default and maximum number of results is 101.
 
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination

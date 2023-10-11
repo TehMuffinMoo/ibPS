@@ -5,11 +5,11 @@ function Get-NIOSDelegatedZone {
       [String]$Server,
       [String]$FQDN,
       [Int]$Limit,
-      $Creds
+      [PSCredential]$Creds
     )
     if ($FQDN) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated?_return_as_object=1&_max_results=$Limit" -Creds $Creds | select -ExpandProperty results | where {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
+        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated?_return_as_object=1&_max_results=$Limit" -Creds $Creds | Select-Object -ExpandProperty results | Where-Object {$_.fqdn -eq $FQDN} -ErrorAction SilentlyContinue
     } else {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated?_return_as_object=1&_max_results=$Limit" -Creds $Creds | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated?_return_as_object=1&_max_results=$Limit" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
