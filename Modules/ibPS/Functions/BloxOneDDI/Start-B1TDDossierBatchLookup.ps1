@@ -51,7 +51,7 @@
         $RequestBody.target = @{
             "group" = @{
                 "type" = $Type
-                "target" = $Target
+                "targets" = $Target
                 "sources" = $Source
             }
         }
