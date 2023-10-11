@@ -83,7 +83,7 @@ Alternatively, you can simply store your API Key for the current powershell sess
 Store-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>"
 ```
 
-## Cmdlets
+## BloxOne Cmdlets
 All Cmdlets are listed below.
 
 ```
@@ -104,12 +104,6 @@ Set-B1CSPUrl -Region EU
 Get-ibPSVersion
   Gets the ibPS Module Version
   
-Store-NIOSCredentials -Credentials ${$CredentialObject} -Persist
-  Stores NIOS Credentials encrypted, can be run without -Credentials parameter for it to prompt instead. The optional -Persist parameter will persist the credentials for that user on that machine. This requires a restart of the powershell session before credentials can be used.
-
-Get-NIOSCredentials
-  Retrieves stored NIOS Credentials for BloxOne
-
 Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
   Retrieves a listing of all audit logs, optionally limiting the number of results by using an offset or the various filters.
 
@@ -464,12 +458,30 @@ Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
 
 Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
   Used to deploy the BloxOne Virtual Appliance. Requires VMware PowerCLI to be installed. All parameters are mandatory. -PortGroupType can be Standard or VDS.
+```
 
-Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group" -Confirm:$false
-  Used to migrate Authoritative Subzones from NIOS to BloxOneDDI
+## NIOS Cmdlets
+```
+Store-NIOSCredentials -Credentials ${$CredentialObject} -Persist
+  Stores NIOS Credentials encrypted, can be run without -Credentials parameter for it to prompt instead. The optional -Persist parameter will persist the credentials for that user on that machine. This requires a restart of the powershell session before credentials can be used.
+
+Get-NIOSCredentials
+  Retrieves stored NIOS Credentials
+
+Get-NIOSAuthoritativeZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
+  Retrieves a list of authoritative zones from NIOS
+
+Get-NIOSForwardZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
+  Retrieves a list of forward zones from NIOS
+
+Get-NIOSDelegatedZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
+  Retrieves a list of delegated zones from NIOS
 
 New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN delegated.my-dns.zone -Hosts @(@{"address"="1.2.3.4";"name"="bloxoneddihost1.dev.mydomain.corp";},@{"address"="2.3.4.5";"name"="bloxoneddihost2.dev.mydomain.corp";}) -View External
   Used to create a new delegated zone within NIOS
+
+Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group" -Confirm:$false
+  Used to migrate Authoritative Subzones from NIOS to BloxOneDDI
 ```
 
 ## To-Do
