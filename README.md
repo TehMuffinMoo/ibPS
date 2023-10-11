@@ -100,10 +100,7 @@ Get-B1CSPUrl
 
 Set-B1CSPUrl -Region EU
   Updates the CSP URL to a new region
-  
-Get-ibPSVersion
-  Gets the ibPS Module Version
-  
+
 Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
   Retrieves a listing of all audit logs, optionally limiting the number of results by using an offset or the various filters.
 
@@ -482,6 +479,12 @@ New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN delegated.my-dns.zone
 
 Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group" -Confirm:$false
   Used to migrate Authoritative Subzones from NIOS to BloxOneDDI
+```
+
+## General Cmdlets
+```
+Get-ibPSVersion
+  Gets the ibPS Module Version
 ```
 
 ## To-Do
