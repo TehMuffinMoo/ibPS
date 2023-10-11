@@ -99,7 +99,7 @@ function Migrate-NIOSSubzoneToBloxOne {
                 "record:host" {
                     $FoundRecords = $Records | Where-Object {$_.type -eq "A" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
                     if ($FoundRecords) {
-                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor Yellow
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
                     } else {
                       $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$true -SkipExistsErrors
                       if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
@@ -108,7 +108,7 @@ function Migrate-NIOSSubzoneToBloxOne {
                 "record:a" {
                     $FoundRecords = $Records | Where-Object {$_.type -eq "A" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
                     if ($FoundRecords) {
-                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor Yellow
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
                     } else {
                       $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$true -SkipExistsErrors
                       if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
@@ -117,7 +117,7 @@ function Migrate-NIOSSubzoneToBloxOne {
                 "record:cname" {
                     $FoundRecords = $Records | Where-Object {$_.type -eq "CNAME" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
                     if ($FoundRecords) {
-                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor Yellow
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
                     } else {
                       $CreateResult = New-B1Record -Type "CNAME" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$false -SkipExistsErrors
                       if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as CNAME Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
@@ -126,7 +126,7 @@ function Migrate-NIOSSubzoneToBloxOne {
                 "record:srv" {
                     $FoundRecords = $Records | Where-Object {$_.type -eq "SRV" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
                     if ($FoundRecords) {
-                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor Yellow
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
                     } else {
                       $ExportedData = $ExportedItem.data.split(":")
                       $CreateResult = New-B1Record -Type "SRV" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Port $ExportedData[1] -Priority $ExportedData[2] -Weight $ExportedData[3] -view $B1View -CreatePTR:$false -SkipExistsErrors
