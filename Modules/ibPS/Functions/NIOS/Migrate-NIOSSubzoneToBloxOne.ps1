@@ -92,25 +92,46 @@ function Migrate-NIOSSubzoneToBloxOne {
     }
 
     if (!($Test)) {
-        Write-Host "Syncing $($Subzone) to BloxOneDDI in View $B1View.." -ForegroundColor Yellow
+        Write-Host "Syncing $($Subzone) to BloxOneDDI in View $B1View.." -ForegroundColor Magenta
+        $Records = Get-B1Record -Zone $Subzone -View $B1View
         foreach ($ExportedItem in $Export) {
             switch ($ExportedItem.type) {
                 "record:host" {
-                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$true -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    $FoundRecords = $Records | Where-Object {$_.type -eq "A" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
+                    if ($FoundRecords) {
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor Yellow
+                    } else {
+                      $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$true -SkipExistsErrors
+                      if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    }
                 }
                 "record:a" {
-                    $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$true -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    $FoundRecords = $Records | Where-Object {$_.type -eq "A" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
+                    if ($FoundRecords) {
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor Yellow
+                    } else {
+                      $CreateResult = New-B1Record -Type "A" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$true -SkipExistsErrors
+                      if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    }
                 }
                 "record:cname" {
-                    $CreateResult = New-B1Record -Type "CNAME" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$false -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    $FoundRecords = $Records | Where-Object {$_.type -eq "CNAME" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
+                    if ($FoundRecords) {
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor Yellow
+                    } else {
+                      $CreateResult = New-B1Record -Type "CNAME" -Name $ExportedItem.name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -CreatePTR:$false -SkipExistsErrors
+                      if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as CNAME Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    }
                 }
                 "record:srv" {
-                    $ExportedData = $ExportedItem.data.split(":")
-                    $CreateResult = New-B1Record -Type "SRV" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Port $ExportedData[1] -Priority $ExportedData[2] -Weight $ExportedData[3] -view $B1View -CreatePTR:$false -SkipExistsErrors
-                    if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as A Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    $FoundRecords = $Records | Where-Object {$_.type -eq "SRV" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
+                    if ($FoundRecords) {
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor Yellow
+                    } else {
+                      $ExportedData = $ExportedItem.data.split(":")
+                      $CreateResult = New-B1Record -Type "SRV" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Port $ExportedData[1] -Priority $ExportedData[2] -Weight $ExportedData[3] -view $B1View -CreatePTR:$false -SkipExistsErrors
+                      if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as SRV Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    }
                 }
             }
         }
