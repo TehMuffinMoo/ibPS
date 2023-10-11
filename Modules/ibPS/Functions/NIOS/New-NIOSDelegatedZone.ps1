@@ -15,6 +15,9 @@ function New-NIOSDelegatedZone {
     .PARAMETER Hosts
         A list of DNS Hosts to delegate this zone to
 
+    .PARAMETER View
+        The DNS View the delegated zone should be placed in
+
     .PARAMETER Creds
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
@@ -34,20 +37,21 @@ function New-NIOSDelegatedZone {
       [System.Object]$Hosts,
       [Parameter(Mandatory=$true)]
       [String]$FQDN,
+      [Parameter(Mandatory=$true)]
+      [String]$View,
       [PSCredential]$Creds
     )
-    if (Get-NIOSDelegatedZone -Server $Server -Creds $Creds -FQDN $FQDN) {
+    if (Get-NIOSDelegatedZone -Server $Server -Creds $Creds -FQDN $FQDN -View $View) {
         Write-Host "Error. Delegated zone already exists." -ForegroundColor Red
     } else {
         Write-Host "Creating delegated DNS Zone $FQDN.." -ForegroundColor Cyan
-
         $splat = @{
             "fqdn" = $FQDN
-            "delegate_to" = $Hosts
+            "delegate_to" = @($Hosts)
+            "view" = $View
         }
         $splat = $splat | ConvertTo-Json
         if ($Debug) {$splat}
-
         try {
             $Result = Query-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat
             $Successful = $true
@@ -58,6 +62,8 @@ function New-NIOSDelegatedZone {
         } finally {
             if ($Successful) {
                 Write-Host "NIOS DNS Zone Delegation created successfully for $FQDN." -ForegroundColor Green
+            } else {
+                Write-Error "Failed to create NIOS DNS Zone Delegation. Please check the parent zone exists."
             }
         }
     }

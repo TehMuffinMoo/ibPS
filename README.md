@@ -467,6 +467,9 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
 
 Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group" -Confirm:$false
   Used to migrate Authoritative Subzones from NIOS to BloxOneDDI
+
+New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN delegated.my-dns.zone -Hosts @(@{"address"="1.2.3.4";"name"="bloxoneddihost1.dev.mydomain.corp";},@{"address"="2.3.4.5";"name"="bloxoneddihost2.dev.mydomain.corp";}) -View External
+  Used to create a new delegated zone within NIOS
 ```
 
 ## To-Do
