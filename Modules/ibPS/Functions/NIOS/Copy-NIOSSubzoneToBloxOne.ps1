@@ -1,28 +1,28 @@
-function Migrate-NIOSSubzoneToBloxOne {
+function Copy-NIOSSubzoneToBloxOne {
     <#
     .SYNOPSIS
-        Used to migrate Authoritative Zone data from NIOS to BloxOneDDI
+        Used to copy/migrate Authoritative Zone data from NIOS to BloxOneDDI
 
     .DESCRIPTION
-        This function is used to migrate Authoritative Zone data from NIOS to BloxOneDDI
+        This function is used to copy/migrate Authoritative Zone data from NIOS to BloxOneDDI
 
     .PARAMETER Server
         The NIOS Grid Master FQDN
 
     .PARAMETER Subzone
-        The name of the subzone to migrate
+        The name of the subzone to copy/migrate
 
     .PARAMETER NIOSView
         The DNS View within NIOS where the subzone is located
 
     .PARAMETER B1View
-        The DNS View within BloxOne where the subzone is to be migrated to
+        The DNS View within BloxOne where the subzone is to be copied/migrated to
 
     .PARAMETER Confirm
         Set this parameter to false to ignore confirmation prompts
 
     .PARAMETER IncludeDHCP
-        Use this option to include DHCP addresses when migrating the subzone. This is not recommended as these records will be created as static A records, not dynamic.
+        Use this option to include DHCP addresses when copying/migrating the subzone. This is not recommended as these records will be created as static A records, not dynamic.
 
     .PARAMETER Test
         Specify -Test to verify what will be created, without actually creating it
@@ -40,13 +40,13 @@ function Migrate-NIOSSubzoneToBloxOne {
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
     .EXAMPLE
-        Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Test
+        Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Test
 
     .EXAMPLE
-        Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Confirm:$false
+        Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Confirm:$false
 
     .EXAMPLE
-        Migrate-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group"
+        Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group"
 
     .FUNCTIONALITY
         NIOS
@@ -54,6 +54,7 @@ function Migrate-NIOSSubzoneToBloxOne {
     .FUNCTIONALITY
         Migration
     #>
+    [Alias("Migrate-NIOSSubzoneToBloxOne")]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Server,
