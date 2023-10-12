@@ -98,7 +98,7 @@
       [ValidateSet("vDS","Standard")]
       [String]$PortGroupType,
       [Parameter(Mandatory=$true)]
-      $Creds,
+      [PSCredential]$Creds,
       [Switch]$SkipCloudChecks,
       [Switch]$SkipPingChecks,
       [Switch]$SkipPowerOn
@@ -186,7 +186,7 @@
     
         if ($Result) {
             Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
-            if ($Debug) {$Result | ft -AutoSize}
+            if ($Debug) {$Result | Format-Table -AutoSize}
             if (!($SkipPowerOn)) {
               Write-Host "Powering on $Name.." -ForegroundColor Cyan
               $VMStart = Start-VM -VM $Result
@@ -229,7 +229,7 @@
             Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Gray
 
             if (!($SkipCloudChecks)) {
-                Get-B1Host -IP $IP | ft display_name,ip_address,host_version -AutoSize
+                Get-B1Host -IP $IP | Format-Table display_name,ip_address,host_version -AutoSize
             }
             
         } else {

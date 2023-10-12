@@ -58,7 +58,7 @@
   if ($B1Host) {
     if ($B1Host.count -gt 1) {
       Write-Host "Too many hosts returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
-      $B1Host | ft -AutoSize
+      $B1Host | Format-Table -AutoSize
     } else {
       if ($NTP) {
         if (Get-B1Service -Name $Name -Strict) {

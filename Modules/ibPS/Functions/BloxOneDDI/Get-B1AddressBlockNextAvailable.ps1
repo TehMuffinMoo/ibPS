@@ -37,8 +37,6 @@
       [Int]$SubnetCount = 1
     )
 
-    $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
-
     $ParentAddressBlockCIDRPair = $ParentAddressBlock.Split("/")
     if ($ParentAddressBlockCIDRPair[0] -and $ParentAddressBlockCIDRPair[1]) {
         $Parent = Get-B1AddressBlock -Subnet $ParentAddressBlockCIDRPair[0] -CIDR $ParentAddressBlockCIDRPair[1] -Space $Space

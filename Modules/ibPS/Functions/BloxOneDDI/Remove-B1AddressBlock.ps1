@@ -77,7 +77,7 @@
   
       if (($AddressBlock | measure).Count -gt 1) {
           Write-Host "More than one address block returned. These will not be removed." -ForegroundColor Red
-          $AddressBlock | ft -AutoSize
+          $AddressBlock | Format-Table -AutoSize
       } elseif (($AddressBlock | measure).Count -eq 1) {
           Write-Host "Removing Address Block: $($AddressBlock.Address)/$($AddressBlock.cidr).." -ForegroundColor Yellow
           Query-CSP -Method "DELETE" -Uri $URI | Out-Null

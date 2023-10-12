@@ -37,7 +37,7 @@
   if ($B1Service) {
     if ($B1Service.count -gt 1) {
       Write-Host "Too many services returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
-      $B1Service | ft -AutoSize
+      $B1Service | Format-Table -AutoSize
     } else {
       if ($UseGlobalNTPConfig) {
         $GlobalNTPConfig = Get-B1GlobalNTPConfig

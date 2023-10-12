@@ -75,7 +75,7 @@
         $Record = Get-B1Record -Type $Type -Name $Name -Zone $Zone -View $View -rdata $rdata -FQDN $FQDN -Strict
         if (($Record | measure).Count -gt 1) {
           Write-Host "More than one record returned. These will not be removed. Please pipe Get-B1Record into Remove-B1Record instead for changes to more than one record." -ForegroundColor Red
-          $Record | ft -AutoSize
+          $Record | Format-Table -AutoSize
           break
         }
       }

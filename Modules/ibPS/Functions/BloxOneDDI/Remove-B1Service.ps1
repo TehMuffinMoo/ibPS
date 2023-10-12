@@ -50,7 +50,7 @@
   
       if ($B1Service.count -gt 1) {
         Write-Host "More than one service returned. Check the name/id or pipe Get-B1Service into Remove-B1Service when removing multiple objects." -ForegroundColor Red
-        $B1Service | ft name,service_type,@{label='host_id';e={$_.configs.host_id}} -AutoSize
+        $B1Service | Format-Table name,service_type,@{label='host_id';e={$_.configs.host_id}} -AutoSize
       } elseif ($B1Service) {
 
         if (!$NoWarning) {

@@ -54,7 +54,7 @@
 
       if (($B1Range | measure).Count -gt 1) {
         Write-Host "More than one DHCP Ranges returned. These will not be removed. To remove multiple objects, please pipe Get-B1Range into Remove-B1Range." -ForegroundColor Red
-        $B1Range | ft comment,start,end,space,name -AutoSize
+        $B1Range | Format-Table comment,start,end,space,name -AutoSize
       } elseif (($B1Range | measure).Count -eq 1) {
         Write-Host "Removing DHCP Range: $($B1Range.start) - $($B1Range.end).." -ForegroundColor Yellow
         $Result = Query-CSP -Method "DELETE" -Uri $($B1Range.id)

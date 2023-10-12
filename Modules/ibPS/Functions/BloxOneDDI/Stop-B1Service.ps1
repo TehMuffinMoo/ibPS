@@ -40,7 +40,7 @@
       }
       if ($B1Service.count -gt 1) {
           Write-Host "More than one service returned. Check the parameters entered and pipe Get-B1Service to Stop-B1Service if multiple actions are required." -ForegroundColor Red
-          $B1Service | ft name,service_type,@{label='host_id';e={$_.configs.host_id}} -AutoSize
+          $B1Service | Format-Table name,service_type,@{label='host_id';e={$_.configs.host_id}} -AutoSize
       } elseif ($B1Service) {
           Write-Host "Stopping $($B1Service.name).." -ForegroundColor Cyan
           $B1Service.desired_state = "Stop"
