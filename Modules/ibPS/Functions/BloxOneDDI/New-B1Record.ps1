@@ -190,7 +190,10 @@
                 }
                 "SRV" {
                     if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
-                        if ($Priority -and $Weight -and $Port) {
+                        if ($PSBoundParameters['Priority'] -ge 0 -and $PSBoundParameters['Weight'] -ge 0 -and $PSBoundParameters['Port'] -ge 0) {
+                            if (!($rdata.EndsWith("."))) {
+                                $rdata = "$rdata."
+                            }
                             $rdataSplat = @{
 		                        "priority" = $PSBoundParameters['Priority']
 		                        "weight" = $PSBoundParameters['Weight']
