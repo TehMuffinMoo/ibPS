@@ -97,7 +97,7 @@
 
         $Result = Query-CSP -Method POST -Uri "ipam/address_block" -Data $splat
         
-        if (($Result | select -ExpandProperty result).address -eq $Subnet) {
+        if (($Result | Select-Object -ExpandProperty result).address -eq $Subnet) {
             Write-Host "Address Block $Subnet/$CIDR created successfully." -ForegroundColor Green
         } else {
             Write-Host "Failed to create Address Block $Subnet." -ForegroundColor Red

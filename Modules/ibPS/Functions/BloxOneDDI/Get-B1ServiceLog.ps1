@@ -97,9 +97,9 @@ function Get-B1ServiceLog {
 
     $B1OnPremHosts = Get-B1Host -Detailed
     if ($QueryFilters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET | Select -ExpandProperty logs | Select timestamp,@{Name = 'onpremhost'; Expression = {$ophid = $_.ophid; (@($B1OnPremHosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET | Select-Object -ExpandProperty logs | Select-Object timestamp,@{Name = 'onpremhost'; Expression = {$ophid = $_.ophid; (@($B1OnPremHosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET | Select -ExpandProperty logs | Select timestamp,@{Name = 'onpremhost'; Expression = {$ophid = $_.ophid; (@($B1OnPremHosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET | Select-Object -ExpandProperty logs | Select-Object timestamp,@{Name = 'onpremhost'; Expression = {$ophid = $_.ophid; (@($B1OnPremHosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
     }
     if ($Results) {
         return $Results

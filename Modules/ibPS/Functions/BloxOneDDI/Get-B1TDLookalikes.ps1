@@ -60,9 +60,9 @@
     }
  
     if ($Filter) {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes?$Filter&_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes?$Filter&_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes?_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
   
     if ($Results) {

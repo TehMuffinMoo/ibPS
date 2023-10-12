@@ -68,7 +68,7 @@
 
     $DHCPHosts = Get-B1DHCPHost
     function Match-DHCPHost($id) {
-        ($DHCPHosts | where {$_.id -eq $id}).name
+        ($DHCPHosts | Where-Object {$_.id -eq $id}).name
     }
 
     $splat = @{
@@ -184,7 +184,7 @@
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
     $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
     if ($Result.result.data) {
-        $Result.result.data | Select @{name="timestamp";Expression={$_.'NstarLeaseActivity.timestamp'}},`
+        $Result.result.data | Select-Object @{name="timestamp";Expression={$_.'NstarLeaseActivity.timestamp'}},`
                                      @{name="dhcp_server";Expression={Match-DHCPHost($_.'NstarLeaseActivity.host_id')}},`
                                      @{name="protocol";Expression={$_.'NstarLeaseActivity.protocol'}},`
                                      @{name="state";Expression={$_.'NstarLeaseActivity.state'}},`

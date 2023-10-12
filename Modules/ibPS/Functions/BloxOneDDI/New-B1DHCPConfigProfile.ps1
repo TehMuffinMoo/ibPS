@@ -106,7 +106,7 @@
 
         $Result = Query-CSP -Method POST -Uri "dhcp/server" -Data $splat
         
-        if (($Result | select -ExpandProperty result).name -eq $Name) {
+        if (($Result | Select-Object -ExpandProperty result).name -eq $Name) {
             Write-Host "DHCP Config Profile: $Name created successfully." -ForegroundColor Green
         } else {
             Write-Host "Failed to create DHCP Config Profile: $Name" -ForegroundColor Red

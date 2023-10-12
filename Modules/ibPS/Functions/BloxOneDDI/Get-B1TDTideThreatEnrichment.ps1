@@ -33,7 +33,7 @@ function Get-B1TDTideThreatEnrichment {
     switch ($Type) {
       "Threat Actor" {
         $Uri = "/tide/threat-enrichment/threat_actor/lookup?name=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET | Select -ExpandProperty description -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET | Select-Object -ExpandProperty description -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       }
       "Nameserver Reputation" {
         $Uri = "/tide/threat-enrichment/nameserver_reputation/search?indicator=$Indicator"
@@ -53,7 +53,7 @@ function Get-B1TDTideThreatEnrichment {
       }
       "Mandiant" {
         $Uri = "/tide/threat-enrichment/mandiant/indicator/search?indicator=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET | Select -ExpandProperty matches -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET | Select-Object -ExpandProperty matches -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       }
       "Whois" {
         $Uri = "/tide/threat-enrichment/whois/search?indicator=$Indicator"

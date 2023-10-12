@@ -87,7 +87,7 @@
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
-                $DNSClients = $Result.result.data | Select @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
+                $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
                 $DNSClients
                 break
@@ -125,7 +125,7 @@
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
-                $DNSClients = $Result.result.data | Select @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
+                $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
                 $DNSClients
                 break
@@ -163,7 +163,7 @@
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
-                $DNSClients = $Result.result.data | Select @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
+                $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
                 $DNSClients
                 break
@@ -200,7 +200,7 @@
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-                $TopQueriesLog = $Result.result.data | Select @{name="query";Expression={$_.'PortunusDnsLogs.qname'}},`
+                $TopQueriesLog = $Result.result.data | Select-Object @{name="query";Expression={$_.'PortunusDnsLogs.qname'}},`
                                              @{name="queryCount";Expression={$_.'PortunusDnsLogs.qnameCount'}}
                 $TopQueriesLog
                 break
@@ -238,7 +238,7 @@
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
-                $DNSClients = $Result.result.data | Select @{name="device_ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
+                $DNSClients = $Result.result.data | Select-Object @{name="device_ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}},`
                                              @{name="licenseUsage";Expression={[math]::Round(($_.'NstarDnsActivity.total_count')/9000 + 0.5)}} | Sort queryCount
                 $DNSClients
@@ -277,7 +277,7 @@
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
-                $DFPClients = $Result.result.data | Select @{name="device_name";Expression={$_.'PortunusAggUserDevices.device_name'}},`
+                $DFPClients = $Result.result.data | Select-Object @{name="device_name";Expression={$_.'PortunusAggUserDevices.device_name'}},`
                                              @{name="count";Expression={$_.'PortunusAggUserDevices.deviceCount'}} | Sort count
                 $DFPClients
             }

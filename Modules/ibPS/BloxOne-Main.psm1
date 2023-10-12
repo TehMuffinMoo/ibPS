@@ -59,4 +59,4 @@ function Get-ibPSVersion {
   (Get-Module -ListAvailable -Name ibPS).Version.ToString()
 }
 
-Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -Alias *
+Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -Alias *

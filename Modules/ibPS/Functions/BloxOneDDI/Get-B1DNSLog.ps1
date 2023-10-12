@@ -139,7 +139,7 @@ function Get-B1DNSLog {
     if ($DNSServers) {
         $DNSServerArr = @()
         foreach ($DNSServer in $DNSServers) {
-          $SiteID = ($OnPremHosts | where {$_.absolute_name -like "*$DNSServer*"}).site_id
+          $SiteID = ($OnPremHosts | Where-Object {$_.absolute_name -like "*$DNSServer*"}).site_id
           $DNSServerArr += $SiteID
         }
         $DNSServerSplat = @{
@@ -157,7 +157,7 @@ function Get-B1DNSLog {
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
     $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
     if ($Result.result.data) {
-        $Result.result.data | Select @{name="ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
+        $Result.result.data | Select-Object @{name="ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
                                      @{name="name";Expression={$_.'NstarDnsActivity.device_name'}},`
                                      @{name="dhcp_fingerprint";Expression={$_.'NstarDnsActivity.dhcp_fingerprint'}},`
                                      @{name="dns_view";Expression={$_.'NstarDnsActivity.dns_view'}},`

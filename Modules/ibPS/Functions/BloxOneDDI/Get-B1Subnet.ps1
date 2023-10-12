@@ -93,8 +93,8 @@
     }
 
     if ($Query) {
-        Query-CSP -Uri "ipam/subnet$Query&_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/subnet$Query&_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Uri "ipam/subnet?_limit=$Limit&_offset=$Offset" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/subnet?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

@@ -42,8 +42,8 @@
     }
 
     if ($Filter) {
-        Query-CSP -Method GET -Uri "dns/forward_nsg?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dns/forward_nsg?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dns/forward_nsg" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dns/forward_nsg" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

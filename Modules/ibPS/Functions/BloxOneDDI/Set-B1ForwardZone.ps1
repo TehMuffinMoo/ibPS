@@ -103,9 +103,9 @@
 
               $Result = Query-CSP -Method PATCH -Uri "$ForwardZoneUri" -Data $splat
           
-              if (($Result | select -ExpandProperty result).id -eq $ForwardZone.id) {
+              if (($Result | Select-Object -ExpandProperty result).id -eq $ForwardZone.id) {
                   Write-Host "Updated Forward DNS Zone successfully: $($ForwardZone.fqdn)" -ForegroundColor Green
-                  return $Result | select -ExpandProperty result
+                  return $Result | Select-Object -ExpandProperty result
               } else {
                   Write-Host "Failed to update Forward DNS Zone: $($ForwardZone.fqdn)" -ForegroundColor Red
                   break

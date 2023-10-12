@@ -59,9 +59,9 @@
     }
 
     if ($Filter) {
-        $Results = Query-CSP -Method GET -Uri "dhcp/ha_group?_filter=$Filter" | select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "dhcp/ha_group?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Method GET -Uri "dhcp/ha_group" | select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "dhcp/ha_group" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     
     if ($Results) {

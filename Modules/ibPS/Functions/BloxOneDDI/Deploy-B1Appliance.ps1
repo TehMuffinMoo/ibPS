@@ -114,7 +114,7 @@
     }
 
     $VMCluster = Get-Cluster $Cluster -ErrorAction SilentlyContinue
-	$VMHost = $VMCluster | Get-VMHost -State "Connected" | Select -First 1
+	$VMHost = $VMCluster | Get-VMHost -State "Connected" | Select-Object -First 1
     if (!($VMCluster)) {
         Write-Host "Error. Failed to get VM Cluster, please check details and try again." -ForegroundColor Red
         break

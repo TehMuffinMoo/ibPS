@@ -120,9 +120,9 @@
 
             $Result = Query-CSP -Method PATCH -Uri "$AddressBlockUri" -Data $splat
         
-            if (($Result | select -ExpandProperty result).id -eq $($AddressBlock.id)) {
+            if (($Result | Select-Object -ExpandProperty result).id -eq $($AddressBlock.id)) {
                 Write-Host "Updated Address Block $($AddressBlock.address)/$($AddressBlock.cidr) successfully." -ForegroundColor Green
-                return $Result | select -ExpandProperty result
+                return $Result | Select-Object -ExpandProperty result
             } else {
                 Write-Host "Failed to update Address Block $Subnet$id." -ForegroundColor Red
                 break

@@ -58,17 +58,17 @@
           $Filter2 = Combine-Filters2 $Filters2
       } 
       if ($Filter2) {
-          $Results = Query-CSP -Uri "ipam/address$Filter2" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+          $Results = Query-CSP -Uri "ipam/address$Filter2" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       } elseif ($Filter) {
           $Filter2 = Combine-Filters2 $Filter
-          $Results = Query-CSP -Uri "ipam/address$Filter2" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue    
+          $Results = Query-CSP -Uri "ipam/address$Filter2" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue    
       } else {
-          $Results = Query-CSP -Uri "ipam/address" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+          $Results = Query-CSP -Uri "ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       }
   
       if ($Results -and $Reserved) {
           if ($Reserved) {
-              $Results = $Results | where {$_.usage -contains "IPAM RESERVED"}
+              $Results = $Results | Where-Object {$_.usage -contains "IPAM RESERVED"}
           }
       }
       return $Results

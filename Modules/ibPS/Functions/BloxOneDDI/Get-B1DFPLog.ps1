@@ -154,7 +154,7 @@
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
     $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
     if ($Result.result.data) {
-        $Result.result.data | Select @{name="timestamp";Expression={$_.'PortunusDnsLogs.timestamp'}},`
+        $Result.result.data | Select-Object @{name="timestamp";Expression={$_.'PortunusDnsLogs.timestamp'}},`
                                      @{name="query";Expression={$_.'PortunusDnsLogs.qname'}},`
                                      @{name="device_name";Expression={$_.'PortunusDnsLogs.device_name'}},`
                                      @{name="device_ip";Expression={$_.'PortunusDnsLogs.qip'}},`

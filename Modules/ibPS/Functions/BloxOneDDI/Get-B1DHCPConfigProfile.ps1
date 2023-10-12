@@ -43,15 +43,15 @@
     }
     if ($Filter) {
         if ($IncludeInheritance) {
-            Query-CSP -Method GET -Uri "dhcp/server?_filter=$Filter&_inherit=full" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+            Query-CSP -Method GET -Uri "dhcp/server?_filter=$Filter&_inherit=full" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
-            Query-CSP -Method GET -Uri "dhcp/server?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+            Query-CSP -Method GET -Uri "dhcp/server?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
     } else {
         if ($IncludeInheritance) {
-            Query-CSP -Method GET -Uri "dhcp/server?_inherit=full" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+            Query-CSP -Method GET -Uri "dhcp/server?_inherit=full" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
-            Query-CSP -Method GET -Uri "dhcp/server" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+            Query-CSP -Method GET -Uri "dhcp/server" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
     }
 }

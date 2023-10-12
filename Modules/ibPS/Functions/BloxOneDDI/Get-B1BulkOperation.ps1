@@ -41,8 +41,8 @@
     }
 
     if ($id) {
-        Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation/$id$FilterIncQuery" | select -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation/$id$FilterIncQuery" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {
-        Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation$FilterIncQuery" | select -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation$FilterIncQuery" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
 }

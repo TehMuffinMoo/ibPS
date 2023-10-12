@@ -123,7 +123,7 @@ function Get-B1TDTideThreats {
             if ($Id) {
               return $Results
             } else {
-              return $Results | Select -ExpandProperty threat -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+              return $Results | Select-Object -ExpandProperty threat -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
             }
         }
     }

@@ -73,11 +73,11 @@ function Get-B1DFP {
     }
     
     if ($id) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps/$id" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps/$id" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } elseif ($Filter) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps?$Filter" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps?$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
   
     if ($Results) {

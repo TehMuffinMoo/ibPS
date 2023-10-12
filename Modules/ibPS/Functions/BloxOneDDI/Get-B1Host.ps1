@@ -103,17 +103,17 @@
     }
 
     if ($Filter) {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($APIEndpoint)?_limit=$($Limit)&_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($APIEndpoint)?_limit=$($Limit)&_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($APIEndpoint)?_limit=$($Limit)" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($APIEndpoint)?_limit=$($Limit)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     
     if ($Results) {
         if ($NoIPSpace) {
-            $Results = $Results | where {!($_.ip_space)}
+            $Results = $Results | Where-Object {!($_.ip_space)}
         }
         if ($Reduced) {
-            return $Results | Select display_name,ip_address,description,host_subtype,host_version,mac_address,nat_ip,last_seen,updated_at
+            return $Results | Select-Object display_name,ip_address,description,host_subtype,host_version,mac_address,nat_ip,last_seen,updated_at
         } else {            
             return $Results
         }

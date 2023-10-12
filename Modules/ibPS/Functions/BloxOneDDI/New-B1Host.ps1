@@ -45,7 +45,7 @@
     $splat = $splat | ConvertTo-Json
     if ($Debug) {$splat}
 
-    $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
+    $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
     $Result
     if ($Result.display_name -eq $Name) {
         Write-Host "On-Prem host $Name created successfully." -ForegroundColor Green

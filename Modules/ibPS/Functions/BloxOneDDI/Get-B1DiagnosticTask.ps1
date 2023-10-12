@@ -32,7 +32,7 @@
     $Result = Query-CSP -Method GET -Uri $URI
   } else {
     $URI = "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/task/$($id)"
-    $Result = Query-CSP -Method GET -Uri $URI | Select -ExpandProperty result -ErrorAction SilentlyContinue
+    $Result = Query-CSP -Method GET -Uri $URI | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
   }
 
 

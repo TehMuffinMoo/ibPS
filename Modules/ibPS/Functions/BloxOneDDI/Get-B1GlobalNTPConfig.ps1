@@ -17,7 +17,7 @@
     #>
     $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ntp/v1/account/config"
     if ($Result) {
-      $Result | select -ExpandProperty account_config
+      $Result | Select-Object -ExpandProperty account_config
     } else {
       Write-Host "Error. No Global NTP Configuration defined." -ForegroundColor Red
     }

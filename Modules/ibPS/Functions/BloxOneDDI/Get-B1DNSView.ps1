@@ -34,9 +34,9 @@
         $Filter = Combine-Filters $Filters
     }
     if ($Filter) {
-        $Results = Query-CSP -Method GET -Uri "dns/view?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "dns/view?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Method GET -Uri "dns/view" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "dns/view" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($Results) {
         return $Results

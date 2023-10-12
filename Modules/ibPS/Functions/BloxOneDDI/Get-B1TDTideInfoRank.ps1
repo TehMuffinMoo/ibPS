@@ -40,7 +40,7 @@ function Get-B1TDTideInfoRank {
         if ($Strict) {
           return $Results
         } else {
-          return $Results | Select -ExpandProperty matches -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          return $Results | Select-Object -ExpandProperty matches -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         }
       }
     }

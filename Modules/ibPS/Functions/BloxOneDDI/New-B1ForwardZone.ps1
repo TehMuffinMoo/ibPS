@@ -78,7 +78,7 @@
         $splat = $splat | ConvertTo-Json
         if ($Debug) {$splat}
 
-        $Result = Query-CSP -Method POST -Uri "dns/forward_zone" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method POST -Uri "dns/forward_zone" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 
         if ($Result) {
             Write-Host "Created Forward DNS Zone $FQDN successfully." -ForegroundColor Green

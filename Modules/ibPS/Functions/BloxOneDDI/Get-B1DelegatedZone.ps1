@@ -58,8 +58,8 @@
     }
 
     if ($Filter) {
-        Query-CSP -Method GET -Uri "dns/delegation?_filter=$Filter&_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dns/delegation?_filter=$Filter&_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dns/delegation?_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dns/delegation?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

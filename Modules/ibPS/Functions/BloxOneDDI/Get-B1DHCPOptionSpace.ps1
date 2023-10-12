@@ -43,8 +43,8 @@
     }
 
     if ($Filter) {
-        Query-CSP -Method GET -Uri "dhcp/option_space?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dhcp/option_space?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dhcp/option_space" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dhcp/option_space" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

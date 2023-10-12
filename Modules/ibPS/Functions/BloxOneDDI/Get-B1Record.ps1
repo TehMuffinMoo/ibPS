@@ -112,16 +112,16 @@
     }
 
     if ($Query) {
-        $Result = Query-CSP -Method GET -Uri "dns/record$Query&_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "dns/record$Query&_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Result = Query-CSP -Method GET -Uri "dns/record?_limit=$Limit&_offset=$Offset" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "dns/record?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 
     if ($View) {
-        $Result = $Result | where {$_.view_name -eq $View}
+        $Result = $Result | Where-Object {$_.view_name -eq $View}
     }
     if ($Source) {
-        $Result = $Result | where {$_.source -contains $Source}
+        $Result = $Result | Where-Object {$_.source -contains $Source}
     }
     $Result
 }

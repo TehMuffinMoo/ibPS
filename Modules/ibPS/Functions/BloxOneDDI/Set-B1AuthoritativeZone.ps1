@@ -83,7 +83,7 @@
                     $B1AuthNSGs += (Get-B1AuthoritativeNSG -Name $AuthNSG -Strict).id
                 }
                 $AuthZonePatch.nsgs = @()
-                $AuthZonePatch.nsgs += $B1AuthNSGs | select -Unique
+                $AuthZonePatch.nsgs += $B1AuthNSGs | Select-Object -Unique
             }
 
             if ($RemoveAuthNSGs) {
@@ -93,10 +93,10 @@
                 }
                 foreach ($AuthNSG in $RemoveAuthNSGs) {
                     $AuthNSGid = (Get-B1AuthoritativeNSG -Name $AuthNSG -Strict).id
-                    $B1AuthNSGs = $B1AuthNSGs | where {$_ -ne $AuthNSGid}
+                    $B1AuthNSGs = $B1AuthNSGs | Where-Object {$_ -ne $AuthNSGid}
                 }
                 $AuthZonePatch.nsgs = @()
-                $AuthZonePatch.nsgs += $B1AuthNSGs | select -Unique
+                $AuthZonePatch.nsgs += $B1AuthNSGs | Select-Object -Unique
             }
 
         }
@@ -109,7 +109,7 @@
         } else {
             $splat = $AuthZonePatch | ConvertTo-Json -Depth 10
             $Result = Query-CSP -Method PATCH -Uri "$AuthZoneUri" -Data $splat
-            if (($Result | select -ExpandProperty result).id -eq $($AuthZone.id)) {
+            if (($Result | Select-Object -ExpandProperty result).id -eq $($AuthZone.id)) {
               Write-Host "Updated Authoritative DNS Zone: $($AuthZone.fqdn) successfully." -ForegroundColor Green
             } else {
               Write-Host "Failed to update Authoritative DNS Zone: $($AuthZone.fqdn)." -ForegroundColor Red

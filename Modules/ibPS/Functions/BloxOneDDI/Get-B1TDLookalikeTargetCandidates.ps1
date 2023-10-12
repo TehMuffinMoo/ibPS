@@ -19,7 +19,7 @@
     param(
     )
  
-    $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_target_candidates" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+    $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_target_candidates" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
   
     if ($Results) {
       return $Results

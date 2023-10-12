@@ -48,9 +48,9 @@
     }
 
     if ($Filter) {
-        $Results = Query-CSP -Uri "ipam/ip_space?_filter=$Filter" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "ipam/ip_space?_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "ipam/ip_space" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "ipam/ip_space" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($Results) {
         return $Results

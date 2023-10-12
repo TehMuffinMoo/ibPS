@@ -76,8 +76,8 @@ function Set-B1TDTideDataProfile {
               }
           }
         }
-        $splat = $TIDEDataProfile | select -ExcludeProperty id | ConvertTo-Json -Compress
-        $Result = Query-CSP -Method "PUT" -Uri "$(Get-B1CSPUrl)/tide/admin/v1/resources/dataprofiles/$Name" -Data $splat | select -ExpandProperty profile -ErrorAction SilentlyContinue
+        $splat = $TIDEDataProfile | Select-Object -ExcludeProperty id | ConvertTo-Json -Compress
+        $Result = Query-CSP -Method "PUT" -Uri "$(Get-B1CSPUrl)/tide/admin/v1/resources/dataprofiles/$Name" -Data $splat | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
   
         if ($Result) {
           Write-Host "Successfully updated TIDE Data Profile: $Name" -ForegroundColor Green

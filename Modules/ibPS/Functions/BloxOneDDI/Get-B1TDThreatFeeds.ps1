@@ -39,9 +39,9 @@ function Get-B1TDThreatFeeds {
     }
 
     if ($Filter) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds?_filter=$Filter" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds?_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds" -Method GET | select -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
   
     if ($Results) {

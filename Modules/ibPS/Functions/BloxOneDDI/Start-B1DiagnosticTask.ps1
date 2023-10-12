@@ -148,7 +148,7 @@
 
       $splat = $splat | ConvertTo-Json
       if ($Debug) {$splat}
-      $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select -ExpandProperty result -ErrorAction SilentlyContinue
+      $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
       if ($Result) {
         if ($WaitForOutput) {
           while ((Get-B1DiagnosticTask -id $Result.id).status -eq "InProgress") {
@@ -158,7 +158,7 @@
           if ($DNSConfiguration) {
             $Job = Get-B1DiagnosticTask -id $Result.id -Download
           } elseif ($DHCPConfiguration) {
-            $Job = Get-B1DiagnosticTask -id $Result.id -Download | select -ExpandProperty Dhcp4 -ErrorAction SilentlyContinue
+            $Job = Get-B1DiagnosticTask -id $Result.id -Download | Select-Object -ExpandProperty Dhcp4 -ErrorAction SilentlyContinue
           } else {
             $Job = Get-B1DiagnosticTask -id $Result.id
           }

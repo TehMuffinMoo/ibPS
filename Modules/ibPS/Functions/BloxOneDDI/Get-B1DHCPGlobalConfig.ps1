@@ -15,6 +15,6 @@
     .FUNCTIONALITY
         DHCP
     #>
-    $Result = Query-CSP -Method "GET" -Uri "dhcp/global" | Select -ExpandProperty result -ErrorAction SilentlyContinue
+    $Result = Query-CSP -Method "GET" -Uri "dhcp/global" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
     return $Result
 }

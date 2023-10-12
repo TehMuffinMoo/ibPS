@@ -43,7 +43,7 @@
     if ($ParentAddressBlockCIDRPair[0] -and $ParentAddressBlockCIDRPair[1]) {
         $Parent = Get-B1AddressBlock -Subnet $ParentAddressBlockCIDRPair[0] -CIDR $ParentAddressBlockCIDRPair[1] -Space $Space
         if ($Parent) {
-            Query-CSP -Method "GET" -Uri "$($Parent.id)/nextavailableaddressblock?cidr=$SubnetCIDRSize&count=$SubnetCount" | select -ExpandProperty results -ErrorAction SilentlyContinue
+            Query-CSP -Method "GET" -Uri "$($Parent.id)/nextavailableaddressblock?cidr=$SubnetCIDRSize&count=$SubnetCount" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
             Write-Host "Unable to find Parent Address Block: $ParentAddressBlock" -ForegroundColor Red
         }

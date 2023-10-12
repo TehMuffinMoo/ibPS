@@ -75,7 +75,7 @@
         $Range = $true
         $B1Range = Get-B1Range -StartAddress $RangeStart -EndAddress $RangeEnd
         if ($Range) {
-            Query-CSP -Method GET -Uri "ipam/htree?$($LimitString)view=SPACE&state=used&node=$($B1Range.id)" | Select -ExpandProperty results -ErrorAction SilentlyContinue | Select -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
+            Query-CSP -Method GET -Uri "ipam/htree?$($LimitString)view=SPACE&state=used&node=$($B1Range.id)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
         } else {
           Write-Host "Error. Range not found." -ForegroundColor Red
         }
@@ -93,7 +93,7 @@
             $Filters.Add("hostname$MatchType`"$Hostname`"") | Out-Null
         }
         if ($HAGroup) {
-            $HAGroupId = ($HAGroups | where {$_.name -eq $HAGroup}).id
+            $HAGroupId = ($HAGroups | Where-Object {$_.name -eq $HAGroup}).id
             $Filters.Add("ha_group==`"$HAGroupId`"") | Out-Null
         }
         if ($DHCPServer) {
@@ -109,9 +109,9 @@
         if ($Filters) {
             $Filter = Combine-Filters $Filters
             $Query = "?_filter=$Filter"
-            Query-CSP -Method GET -Uri "dhcp/lease?$($LimitString)_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
+            Query-CSP -Method GET -Uri "dhcp/lease?$($LimitString)_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         } else {
-            Query-CSP -Method GET -Uri "dhcp/lease$($LimitString)" | Select -ExpandProperty results -ErrorAction SilentlyContinue | select @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
+            Query-CSP -Method GET -Uri "dhcp/lease$($LimitString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         }
     }
 }

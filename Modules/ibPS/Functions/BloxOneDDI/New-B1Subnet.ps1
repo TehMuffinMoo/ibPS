@@ -104,7 +104,7 @@
 
         $Result = Query-CSP -Method POST -Uri "ipam/subnet" -Data $splat
         
-        if (($Result | select -ExpandProperty result).address -eq $Subnet) {
+        if (($Result | Select-Object -ExpandProperty result).address -eq $Subnet) {
             Write-Host "Subnet $Subnet/$CIDR created successfully." -ForegroundColor Green
         } else {
             Write-Host "Failed to create subnet $Subnet/$CIDR." -ForegroundColor Red

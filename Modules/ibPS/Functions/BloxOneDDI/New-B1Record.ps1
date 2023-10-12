@@ -137,7 +137,7 @@
 
     $TTLAction = "inherit"
     $FQDN = $Name+"."+$Zone
-    $Record = Get-B1Record -Name $Name -View $view -Strict | where {$_.absolute_zone_name -match "^$($Zone)"}
+    $Record = Get-B1Record -Name $Name -View $view -Strict | Where-Object {$_.absolute_zone_name -match "^$($Zone)"}
     if ($Record -and -not $IgnoreExists) {
         if (!$SkipExistsErrors -and !$Debug) {Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow}
         return $false
@@ -148,7 +148,7 @@
         } else {
             switch ($Type) {
                 "A" {
-                    if (!(Get-B1Record -Name $Name -rdata $rdata -Strict | where {$_.absolute_zone_name -match "^$($Zone)"})) {
+                    if (!(Get-B1Record -Name $Name -rdata $rdata -Strict | Where-Object {$_.absolute_zone_name -match "^$($Zone)"})) {
                         if ([bool]($rdata -as [ipaddress])) {
                             $rdataSplat = @{
 	                            "address" = $rdata
@@ -255,7 +255,7 @@
 
                 $splat = $splat | ConvertTo-Json
                 if ($Debug) {$splat}
-                $Result = Query-CSP -Method POST -Uri "dns/record" -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue
+                $Result = Query-CSP -Method POST -Uri "dns/record" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
                 if ($Debug) {$Result}
                 if ($Result.dns_rdata -match $rdata) {
                     Write-Host "DNS $Type Record has been successfully created for $FQDN." -ForegroundColor Green

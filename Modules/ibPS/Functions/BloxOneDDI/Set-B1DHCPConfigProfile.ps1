@@ -99,7 +99,7 @@
                         }
                     } | ConvertTo-Json
 
-                    $Result = Query-CSP -Method "PATCH" -Uri "$($ConfigProfile.id)" -Data $ConfigProfileSplat | Select -ExpandProperty result
+                    $Result = Query-CSP -Method "PATCH" -Uri "$($ConfigProfile.id)" -Data $ConfigProfileSplat | Select-Object -ExpandProperty result
             
                     if ($Result) {
                         if ($ToUpdate.count -gt 0) {
@@ -133,7 +133,7 @@
                         "ddns_zones" = $ConfigProfileJson
                     } | ConvertTo-Json
 
-                    $Result = Query-CSP -Method "PATCH" -Uri "$($ConfigProfile.id)" -Data $ConfigProfileSplat | Select -ExpandProperty result
+                    $Result = Query-CSP -Method "PATCH" -Uri "$($ConfigProfile.id)" -Data $ConfigProfileSplat | Select-Object -ExpandProperty result
 
                     if ($Result) {
                         if ($ToUpdate.count -gt 0) {

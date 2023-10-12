@@ -98,13 +98,13 @@ function Get-B1SecurityLog {
         
 
     if ($Limit -and $Filters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_limit=$Limit&_offset=$Offset&_filter=$Filter" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_limit=$Limit&_offset=$Offset&_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } elseif ($Limit) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_limit=$Limit" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_limit=$Limit" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } elseif ($Filters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_filter=$Filter" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events" -Method GET | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($Results) {
         if ($Raw) {

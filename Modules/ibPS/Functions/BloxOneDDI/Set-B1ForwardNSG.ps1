@@ -72,8 +72,8 @@
                 }
               }
               if ($Update) {
-                $splat = $NSG | select * -ExcludeProperty id | ConvertTo-Json -Depth 5 -Compress
-                $Results = Query-CSP -Method PATCH -Uri $NSG.id -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+                $splat = $NSG | Select-Object * -ExcludeProperty id | ConvertTo-Json -Depth 5 -Compress
+                $Results = Query-CSP -Method PATCH -Uri $NSG.id -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
                 if ($Results.id -eq $NSG.id) {
                   Write-Host "Successfully updated Forward NSG: $($NSG.name)" -ForegroundColor Green
                 } else {
@@ -87,7 +87,7 @@
                   if ($DNSHostId -in $NSG.hosts) {
                     $Update = $true
                     Write-Host "Removing $B1Host from $($NSG.name)" -ForegroundColor Cyan
-                    $NSG.hosts = $NSG.hosts | where {$_ -ne $DNSHostId}
+                    $NSG.hosts = $NSG.hosts | Where-Object {$_ -ne $DNSHostId}
                   } else {
                     Write-Host "$B1Host is not in forward NSG: $($NSG.name)" -ForegroundColor Yellow
                   }
@@ -96,8 +96,8 @@
                 }
               }
               if ($Update) {
-                $splat = $NSG | select * -ExcludeProperty id | ConvertTo-Json -Depth 5 -Compress
-                $Results = Query-CSP -Method PATCH -Uri $NSG.id -Data $splat | select -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+                $splat = $NSG | Select-Object * -ExcludeProperty id | ConvertTo-Json -Depth 5 -Compress
+                $Results = Query-CSP -Method PATCH -Uri $NSG.id -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
                 if ($Results.id -eq $NSG.id) {
                   Write-Host "Successfully updated Forward NSG: $($NSG.name)" -ForegroundColor Green
                 } else {

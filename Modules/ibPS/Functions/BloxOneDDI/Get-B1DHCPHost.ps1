@@ -41,8 +41,8 @@
         $Filter = Combine-Filters $Filters
     }
     if ($Filter) {
-        Query-CSP -Method GET -Uri "dhcp/host?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dhcp/host?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dhcp/host" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dhcp/host" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

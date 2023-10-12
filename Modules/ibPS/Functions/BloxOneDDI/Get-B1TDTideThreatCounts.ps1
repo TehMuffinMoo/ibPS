@@ -33,14 +33,14 @@ function Get-B1TDTideThreatCounts {
         $NewResults = @()
         foreach ($r in $Results.data) {
           $ObjName = $r[0].PSObject.Properties.Name
-          $NewResult = $r | Select -ExpandProperty $ObjName
+          $NewResult = $r | Select-Object -ExpandProperty $ObjName
           $NewResult | Add-Member -MemberType NoteProperty -Name "Date" -Value $ObjName
           $NewResults += $NewResult
         }
         return $NewResults
       }
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat/counts" -Method GET | select -ExpandProperty counts
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat/counts" -Method GET | Select-Object -ExpandProperty counts
         if ($Results) {
             return $Results
         }

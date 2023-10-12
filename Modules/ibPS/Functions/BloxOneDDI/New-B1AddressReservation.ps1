@@ -50,9 +50,9 @@
         $splat = ConvertTo-Json($splat) -Depth 2
         $Result = Query-CSP -Method "POST" -Uri "ipam/address" -Data $splat
 
-        if (($Result | select -ExpandProperty result).address -eq $Address) {
+        if (($Result | Select-Object -ExpandProperty result).address -eq $Address) {
             Write-Host "Address Reservation created successfully." -ForegroundColor Green
-            return $Result | select -ExpandProperty result
+            return $Result | Select-Object -ExpandProperty result
         } else {
             Write-Host "Error. Failed to create Address Reservation $Subnet." -ForegroundColor Red
             break

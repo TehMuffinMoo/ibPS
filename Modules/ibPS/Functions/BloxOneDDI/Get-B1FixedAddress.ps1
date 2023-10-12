@@ -47,8 +47,8 @@
     }
 
     if ($Filter) {
-        Query-CSP -Method GET -Uri "dhcp/fixed_address?_filter=$Filter" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dhcp/fixed_address?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dhcp/fixed_address" | Select -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "dhcp/fixed_address" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
