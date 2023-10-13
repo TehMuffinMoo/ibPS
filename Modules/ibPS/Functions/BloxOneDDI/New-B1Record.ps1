@@ -31,13 +31,22 @@
         Whether to create an associated PTR record (where applicable). This defaults to $true
 
     .PARAMETER Priority
-        Used to set the priority for applicable records. (i.e SRV)
+        Used to set the priority for SRV records
 
     .PARAMETER Weight
-        Used to set the weight for applicable records. (i.e SRV)
+        Used to set the weight for SRV records
 
     .PARAMETER Port
-        Used to set the port for applicable records. (i.e SRV)
+        Used to set the port for SRV records
+
+    .PARAMETER CAFlag
+        Used to set the CA Flag value for CAA records
+
+    .PARAMETER CATag
+        Used to set the CA Tag value for CAA records
+
+    .PARAMETER CAValue
+        Used to set the CA value for CAA records
 
     .PARAMETER SkipExistsErrors
         Whether to skip errors if the record already exists. Default is $false
@@ -56,7 +65,7 @@
     #>
     param(
       [Parameter(Mandatory=$true)]
-      [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX")] ## To be added "CAA","HTTPS","NAPTR","NS","SVCB"
+      [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX","CAA")] ## To be added "CAA","HTTPS","NAPTR","NS","SVCB"
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [AllowEmptyString()]
@@ -64,6 +73,7 @@
       [Parameter(Mandatory=$true)]
       [String]$Zone,
       [Parameter(Mandatory=$true)]
+      [AllowEmptyString()]
       [String]$rdata,
       [Parameter(Mandatory=$true)]
       [String]$view,
@@ -126,6 +136,41 @@
              $paramDictionary.Add('Preference', $preferenceParam)
              return $paramDictionary
          }
+         "CAA" {
+            $caflagAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $caflagAttribute.Mandatory = $true
+            $caflagAttribute.HelpMessage = "The CAFlag parameter is required when creating a CAA Record."
+
+            $catagAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $catagAttribute.Mandatory = $true
+            $catagAttribute.HelpMessage = "The CATag parameter is required when creating a CAA Record."
+
+            $catagValidateSet = New-Object System.Management.Automation.ValidateSetAttribute -ArgumentList @("issue", "issuewild", "iodef")
+
+            $cavalueAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $cavalueAttribute.Mandatory = $true
+            $cavalueAttribute.HelpMessage = "The CAValue parameter is required when creating a CAA Record."
+
+            $catagAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+            $catagAttributeCollection.Add($catagAttribute)
+            $catagAttributeCollection.Add($catagValidateSet)
+
+            $caflagAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+            $caflagAttributeCollection.Add($caflagAttribute)
+
+            $cavalueAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+            $cavalueAttributeCollection.Add($cavalueAttribute)
+
+            $caflagParam = New-Object System.Management.Automation.RuntimeDefinedParameter('CAFlag', [Int], $caflagAttributeCollection)
+            $catagParam = New-Object System.Management.Automation.RuntimeDefinedParameter('CATag', [String], $catagAttributeCollection)
+            $cavalueParam = New-Object System.Management.Automation.RuntimeDefinedParameter('CAValue', [String], $cavalueAttributeCollection)
+
+            $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+            $paramDictionary.Add('CAFlag', $caflagParam)
+            $paramDictionary.Add('CATag', $catagParam)
+            $paramDictionary.Add('CAValue', $cavalueParam)
+            return $paramDictionary
+        }
       }
     }
 
@@ -234,6 +279,13 @@
                     $rdataSplat = @{
                         "exchange" = $rdata
 	                    "preference" = $PSBoundParameters['Preference']
+	                }
+                }
+                "CAA" {
+                    $rdataSplat = @{
+                        "flags" = $PSBoundParameters['CAFlag']
+	                    "tag" = $PSBoundParameters['CATag']
+                        "value" = $PSBoundParameters['CAValue']
 	                }
                 }
                 default {
