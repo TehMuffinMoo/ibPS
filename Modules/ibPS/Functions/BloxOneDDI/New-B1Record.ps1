@@ -56,7 +56,7 @@
     #>
     param(
       [Parameter(Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","TXT","SRV","MX")] ## To be added "AAAA","CAA","HTTPS","NAPTR","NS","SVCB"
+      [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX")] ## To be added "CAA","HTTPS","NAPTR","NS","SVCB"
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [AllowEmptyString()]
@@ -148,6 +148,24 @@
         } else {
             switch ($Type) {
                 "A" {
+                    if (!(Get-B1Record -Name $Name -rdata $rdata -Strict | Where-Object {$_.absolute_zone_name -match "^$($Zone)"})) {
+                        if ([bool]($rdata -as [ipaddress])) {
+                            $rdataSplat = @{
+	                            "address" = $rdata
+	                        }
+                            $Options = @{
+		                            "create_ptr" = $CreatePTR
+		                            "check_rmz" = $false
+	                        }
+                        } else {
+                            Write-Host "Error. Invalid IP Address." -ForegroundColor Red
+                            break
+                        }
+                    } else {
+                        Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow
+                    }
+                }
+                "AAAA" {
                     if (!(Get-B1Record -Name $Name -rdata $rdata -Strict | Where-Object {$_.absolute_zone_name -match "^$($Zone)"})) {
                         if ([bool]($rdata -as [ipaddress])) {
                             $rdataSplat = @{

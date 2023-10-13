@@ -18,6 +18,9 @@ function Copy-NIOSSubzoneToBloxOne {
     .PARAMETER B1View
         The DNS View within BloxOne where the subzone is to be copied/migrated to
 
+    .PARAMETER RecordTypes
+        A list of one or more record types to copy. If not specified, all supported record types will be copied.
+
     .PARAMETER Confirm
         Set this parameter to false to ignore confirmation prompts
 
@@ -64,6 +67,8 @@ function Copy-NIOSSubzoneToBloxOne {
       [String]$NIOSView,
       [Parameter(Mandatory=$true)]
       [String]$B1View,
+      [ValidateSet("A","CNAME","PTR","TXT","SRV","MX","AAAA")] ## To be added "CAA","HTTPS","NAPTR","NS","SVCB"
+      [String[]]$RecordTypes,
       [switch]$Confirm = $true,
       [switch]$IncludeDHCP = $false,
       [switch]$Test = $false,
@@ -80,7 +85,9 @@ function Copy-NIOSSubzoneToBloxOne {
         Write-Host "Error. Authorative zone does not exist in NIOS." -ForegroundColor Red
     } else {
         Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
-        $RecordTypes = "host","a","cname","srv","txt","mx"
+        if (!$RecordTypes) {
+          [String[]]$RecordTypes = "host","a","cname","srv","txt","mx","aaaa"
+        }
         foreach ($RT in $RecordTypes) {
             Write-Host "Querying $RT records" -ForegroundColor Cyan
             $ReturnFields = ""
@@ -106,6 +113,9 @@ function Copy-NIOSSubzoneToBloxOne {
                 }
                 "record:a" {
                     $HostData = $SubzoneItem.ipv4addr
+                }
+                "record:aaaa" {
+                    $HostData = $SubzoneItem.ipv6addr
                 }
                 "record:cname" {
                     $HostData = $SubzoneItem.canonical+"."
@@ -199,7 +209,6 @@ function Copy-NIOSSubzoneToBloxOne {
                     }
                 }
                 "record:txt" {
-                    $ExportedData
                     $FoundRecords = $Records | Where-Object {$_.type -eq "TXT" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?" -and $_.rdata -eq $ExportedItem.data}
                     if ($FoundRecords) {
                         Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
@@ -216,6 +225,15 @@ function Copy-NIOSSubzoneToBloxOne {
                       $ExportedData = $ExportedItem.data.split(":")
                       $CreateResult = New-B1Record -Type "MX" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Preference $ExportedData[1] -view $B1View
                       if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as MX Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    }
+                }
+                "record:aaaa" {
+                    $FoundRecords = $Records | Where-Object {$_.type -eq "AAAA" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?"}
+                    if ($FoundRecords) {
+                        Write-Host "Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
+                    } else {
+                      $CreateResult = New-B1Record -Type "AAAA" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedItem.data -view $B1View
+                      if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as AAAA Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                     }
                 }
             }
