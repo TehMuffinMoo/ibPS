@@ -65,7 +65,7 @@
     #>
     param(
       [Parameter(Mandatory=$true)]
-      [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX","CAA")] ## To be added "CAA","HTTPS","NAPTR","NS","SVCB"
+      [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX","CAA","NS")] ## To be added "CAA","HTTPS","NAPTR","SVCB"
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [AllowEmptyString()]
@@ -182,7 +182,7 @@
 
     $TTLAction = "inherit"
     $FQDN = $Name+"."+$Zone
-    $Record = Get-B1Record -Name $Name -View $view -Strict | Where-Object {$_.absolute_zone_name -match "^$($Zone)"}
+    $Record = Get-B1Record -Name $Name -View $view -Strict -Type $Type -Zone $Zone
     if ($Record -and -not $IgnoreExists) {
         if (!$SkipExistsErrors -and !$Debug) {Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow}
         return $false
@@ -286,6 +286,14 @@
                         "flags" = $PSBoundParameters['CAFlag']
 	                    "tag" = $PSBoundParameters['CATag']
                         "value" = $PSBoundParameters['CAValue']
+	                }
+                }
+                "NS" {
+                    if (!($rdata.EndsWith("."))) {
+                        $rdata = "$rdata."
+                    }
+                    $rdataSplat = @{
+                        "dname" = $rdata
 	                }
                 }
                 default {

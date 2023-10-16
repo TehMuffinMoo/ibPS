@@ -67,7 +67,7 @@ function Copy-NIOSSubzoneToBloxOne {
       [String]$NIOSView,
       [Parameter(Mandatory=$true)]
       [String]$B1View,
-      [ValidateSet("A","CNAME","PTR","TXT","SRV","MX","AAAA","CAA")] ## To be added "NAPTR","NS"
+      [ValidateSet("A","CNAME","PTR","TXT","SRV","MX","AAAA","CAA","NS")] ## To be added "NAPTR"
       [String[]]$RecordTypes,
       [switch]$Confirm = $true,
       [switch]$IncludeDHCP = $false,
@@ -86,11 +86,14 @@ function Copy-NIOSSubzoneToBloxOne {
     } else {
         Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
         if (!$RecordTypes) {
-          [String[]]$RecordTypes = "host","a","cname","srv","txt","mx","aaaa","caa"
+          [String[]]$RecordTypes = "host","a","cname","srv","txt","mx","aaaa","caa","ns"
         }
         foreach ($RT in $RecordTypes.toLower()) {
             Write-Host "Querying $RT records" -ForegroundColor Cyan
-            $ReturnFields = "&_return_fields%2b=comment"
+            $ReturnFields = "&_return_fields%2b="
+            if ($RT -notin ("ns")) {
+                $ReturnFields = $ReturnFields + "comment"
+            }
             if ($RT -in ("a","cname")) {
                 $ReturnFields = $ReturnFields + ",creator"
             }
@@ -134,6 +137,9 @@ function Copy-NIOSSubzoneToBloxOne {
                 }
                 "record:caa" {
                     $HostData = "$($SubzoneItem.ca_flag):$($SubzoneItem.ca_tag):$($SubzoneItem.ca_value)"
+                }
+                "record:ns" {
+                    $HostData = $SubzoneItem.nameserver
                 }
                 "default" {
                     $HostData = $null
@@ -254,6 +260,15 @@ function Copy-NIOSSubzoneToBloxOne {
                     } else {
                       $CreateResult = New-B1Record -Type "CAA" -Name $ExportedItem.Name -Zone $Subzone -rdata "" -CAFlag $ExportedData[0] -CATag $ExportedData[1] -CAValue $ExportedData[2] -view $B1View -Description $ExportedItem.Comment -IgnoreExists
                       if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as CAA Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
+                    }
+                }
+                "record:ns" {
+                    $FoundRecords = $Records | Where-Object {$_.type -eq "NS" -and $_.name_in_zone -eq $ExportedItem.name -and $_.absolute_zone_name -match "$Subzone(\.)?" -and $_.rdata.dname -match "$($ExportedItem.data)(\.)?"}
+                    if ($FoundRecords) {
+                        Write-Host "NS Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
+                    } else {
+                      $CreateResult = New-B1Record -Type "NS" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedItem.data -view $B1View -Description $ExportedItem.Comment -IgnoreExists
+                      if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as NS Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                     }
                 }
             }
