@@ -120,17 +120,25 @@
          }
          "MX" {
              $preferenceAttribute = New-Object System.Management.Automation.ParameterAttribute
-             $preferenceAttribute.Position = 3
              $preferenceAttribute.Mandatory = $true
              $preferenceAttribute.HelpMessage = "The -Preference parameter is required when creating an MX Record."
+
+             $exchangeAttribute = New-Object System.Management.Automation.ParameterAttribute
+             $exchangeAttribute.Mandatory = $true
+             $exchangeAttribute.HelpMessage = "The -Exchange parameter is required when creating an MX Record."
 
              $preferenceAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
              $preferenceAttributeCollection.Add($preferenceAttribute)
 
+             $exchangeAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+             $exchangeAttributeCollection.Add($exchangeAttribute)
+
              $preferenceParam = New-Object System.Management.Automation.RuntimeDefinedParameter('Preference', [Int], $preferenceAttributeCollection)
+             $exhangeparamParam = New-Object System.Management.Automation.RuntimeDefinedParameter('Exchange', [String], $exchangeAttributeCollection)
 
              $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
              $paramDictionary.Add('Preference', $preferenceParam)
+             $paramDictionary.Add('Exchange', $exhangeparamParam)
              break
          }
          "CAA" {
@@ -169,7 +177,7 @@
             break
          }
         }
-        if ($Type -notin "CAA") {
+        if ($Type -notin "CAA","MX") { ## Ignore -rdata param for these types
             $rdataattribute = New-Object System.Management.Automation.ParameterAttribute
             $rdataattribute.Mandatory = $true
             $rdataattribute.HelpMessage = "Record Value"
@@ -284,7 +292,7 @@
                         $rdata = "$rdata."
                     }
                     $rdataSplat = @{
-                        "exchange" = $rdata
+                        "exchange" = $PSBoundParameters['Exchange']
 	                    "preference" = $PSBoundParameters['Preference']
 	                }
                 }

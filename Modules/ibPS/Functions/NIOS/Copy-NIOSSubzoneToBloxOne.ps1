@@ -248,7 +248,7 @@ function Copy-NIOSSubzoneToBloxOne {
                     if ($FoundRecords) {
                         Write-Host "MX Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
                     } else {
-                      $CreateResult = New-B1Record -Type "MX" -Name $ExportedItem.Name -Zone $Subzone -rdata $ExportedData[0] -Preference $ExportedData[1] -view $B1View -Description $ExportedItem.Comment -SkipExistsErrors -IgnoreExists
+                      $CreateResult = New-B1Record -Type "MX" -Name $ExportedItem.Name -Zone $Subzone -Exchange $ExportedData[0] -Preference $ExportedData[1] -view $B1View -Description $ExportedItem.Comment -SkipExistsErrors -IgnoreExists
                       if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as MX Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                     }
                 }
