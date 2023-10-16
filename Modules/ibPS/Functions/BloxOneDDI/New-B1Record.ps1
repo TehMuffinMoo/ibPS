@@ -65,16 +65,13 @@
     #>
     param(
       [Parameter(Mandatory=$true)]
-      [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX","CAA","NS")] ## To be added "CAA","HTTPS","NAPTR","SVCB"
+      [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX","CAA","NS")] ## To be added "HTTPS","NAPTR","SVCB"
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [AllowEmptyString()]
       [String]$Name,
       [Parameter(Mandatory=$true)]
       [String]$Zone,
-      [Parameter(Mandatory=$true)]
-      [AllowEmptyString()]
-      [String]$rdata,
       [Parameter(Mandatory=$true)]
       [String]$view,
       [int]$TTL,
@@ -119,7 +116,7 @@
              $paramDictionary.Add('Priority', $priorityParam)
              $paramDictionary.Add('Weight', $weightParam)
              $paramDictionary.Add('Port', $portParam)
-             return $paramDictionary
+             break
          }
          "MX" {
              $preferenceAttribute = New-Object System.Management.Automation.ParameterAttribute
@@ -134,7 +131,7 @@
 
              $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
              $paramDictionary.Add('Preference', $preferenceParam)
-             return $paramDictionary
+             break
          }
          "CAA" {
             $caflagAttribute = New-Object System.Management.Automation.ParameterAttribute
@@ -169,19 +166,37 @@
             $paramDictionary.Add('CAFlag', $caflagParam)
             $paramDictionary.Add('CATag', $catagParam)
             $paramDictionary.Add('CAValue', $cavalueParam)
+            break
+         }
+        }
+        if ($Type -notin "CAA") {
+            $rdataattribute = New-Object System.Management.Automation.ParameterAttribute
+            $rdataattribute.Mandatory = $true
+            $rdataattribute.HelpMessage = "Record Value"
+
+            $rdataAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+            $rdataAttributeCollection.Add($rdataAttribute)
+
+            $rdataParam = New-Object System.Management.Automation.RuntimeDefinedParameter('rdata', [String], $rdataAttributeCollection)
+            if (!$paramDictionary) {
+                $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+            }
+            $paramDictionary.Add('rdata', $rdataParam)
+        }
+        if ($paramDictionary) {
             return $paramDictionary
         }
-      }
     }
 
     process {
-    
+
     if ($view) {
         $viewId = (Get-B1DNSView -Name $view -Strict).id
     }
 
     $TTLAction = "inherit"
     $FQDN = $Name+"."+$Zone
+    if ($PSBoundParameters['rdata']) {$rdata = $PSBoundParameters['rdata']}
     $Record = Get-B1Record -Name $Name -View $view -Strict -Type $Type -Zone $Zone
     if ($Record -and -not $IgnoreExists) {
         if (!$SkipExistsErrors -and !$Debug) {Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow}

@@ -258,7 +258,7 @@ function Copy-NIOSSubzoneToBloxOne {
                     if ($FoundRecords) {
                         Write-Host "CAA Record already exists: $($FoundRecords.absolute_name_spec)" -ForegroundColor DarkYellow
                     } else {
-                      $CreateResult = New-B1Record -Type "CAA" -Name $ExportedItem.Name -Zone $Subzone -rdata "" -CAFlag $ExportedData[0] -CATag $ExportedData[1] -CAValue $ExportedData[2] -view $B1View -Description $ExportedItem.Comment -IgnoreExists
+                      $CreateResult = New-B1Record -Type "CAA" -Name $ExportedItem.Name -Zone $Subzone -CAFlag $ExportedData[0] -CATag $ExportedData[1] -CAValue $ExportedData[2] -view $B1View -Description $ExportedItem.Comment -IgnoreExists
                       if ($CreateResult) { Write-Host "Created $($ExportedItem.name) as CAA Record with data $($ExportedItem.data) in View $B1View." -ForegroundColor Green }
                     }
                 }
