@@ -193,39 +193,31 @@
         } else {
             switch ($Type) {
                 "A" {
-                    if (!(Get-B1Record -Name $Name -rdata $rdata -Strict | Where-Object {$_.absolute_zone_name -match "^$($Zone)"})) {
-                        if ([bool]($rdata -as [ipaddress])) {
-                            $rdataSplat = @{
-	                            "address" = $rdata
-	                        }
-                            $Options = @{
-		                            "create_ptr" = $CreatePTR
-		                            "check_rmz" = $false
-	                        }
-                        } else {
-                            Write-Host "Error. Invalid IP Address." -ForegroundColor Red
-                            break
-                        }
+                    if ([bool]($rdata -as [ipaddress])) {
+                        $rdataSplat = @{
+                            "address" = $rdata
+	                    }
+                        $Options = @{
+	                        "create_ptr" = $CreatePTR
+	                        "check_rmz" = $false
+	                    }
                     } else {
-                        Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow
+                        Write-Host "Error. Invalid IP Address." -ForegroundColor Red
+                        break
                     }
                 }
                 "AAAA" {
-                    if (!(Get-B1Record -Name $Name -rdata $rdata -Strict | Where-Object {$_.absolute_zone_name -match "^$($Zone)"})) {
-                        if ([bool]($rdata -as [ipaddress])) {
-                            $rdataSplat = @{
-	                            "address" = $rdata
-	                        }
-                            $Options = @{
-		                            "create_ptr" = $CreatePTR
-		                            "check_rmz" = $false
-	                        }
-                        } else {
-                            Write-Host "Error. Invalid IP Address." -ForegroundColor Red
-                            break
-                        }
-                    } else {
-                        Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow
+                    if ([bool]($rdata -as [ipaddress])) {
+                        $rdataSplat = @{
+                            "address" = $rdata
+	                    }
+                        $Options = @{
+	                        "create_ptr" = $CreatePTR
+	                        "check_rmz" = $false
+	                    }
+                    }    else {
+                        Write-Host "Error. Invalid IP Address." -ForegroundColor Red
+                        break
                     }
                 }
                 "CNAME" {
