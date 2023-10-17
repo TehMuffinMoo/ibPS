@@ -69,10 +69,10 @@ function Copy-NIOSSubzoneToBloxOne {
       [String]$B1View,
       [ValidateSet("A","CNAME","PTR","TXT","SRV","MX","AAAA","CAA","NS")] ## To be added "NAPTR"
       [String[]]$RecordTypes,
-      [switch]$Confirm = $true,
-      [switch]$IncludeDHCP = $false,
-      [switch]$Test = $false,
-      [switch]$CreateZones = $false,
+      [Bool]$Confirm = $true,
+      [Switch]$IncludeDHCP = $false,
+      [Switch]$Test = $false,
+      [Switch]$CreateZones = $false,
       [System.Object]$DNSHosts,
       [System.Object]$AuthNSGs,
       [PSCredential]$Creds

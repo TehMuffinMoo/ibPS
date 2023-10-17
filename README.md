@@ -282,6 +282,21 @@ Get-B1TDLookalikeTargets
 Get-B1TDLookalikeTargetCandidates
   Query a list of lookalike target candidates (Global Lookalike Candidates List)
 
+Get-B1TDContentCategory
+  Query a list of content categories from BloxOne Threat Defense
+
+Get-B1TDPoPRegion
+  Query a list of BloxOne Threat Defense Points of Presence
+
+Get-B1TDSecurityPolicy -Name "My Policy" -Strict
+  Query a list of security policies from BloxOne Threat Defense
+
+Get-B1TDSecurityPolicyRules -PolicyID 123456
+  Query a list of security policy rules from BloxOne Threat Defense
+
+Get-B1TDThreatFeeds
+  Query a list of threat feeds from BloxOne Threat Defense
+
 Get-B1TDDossierSupportedFeedback
   Query a list of supported feedback types for Dossier
 
