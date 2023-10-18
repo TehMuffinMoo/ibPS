@@ -27,8 +27,11 @@
     .PARAMETER End
         The end date/time for searching aggregated metrics
 
-    .Example
+    .EXAMPLE
         Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)
+
+	.EXAMPLE
+	    Get-B1TopMetrics -TopDNSServers -Start (Get-Date).AddDays(-31)
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -313,6 +316,6 @@
 		$Data = $splat | ConvertTo-Json -Depth 4 -Compress
 		$Query = [System.Web.HTTPUtility]::UrlEncode($Data)
 		$Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-		$Result.result.data | Select-Object *,@{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}}
+		$Result.result.data | Select-Object @{Name = 'Count'; Expression = {$_.'NstarDnsActivity.total_count'}},@{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}},@{Name = 'SiteID'; Expression = {$_.'NstarDnsActivity.site_id'}}
 	}
 }
