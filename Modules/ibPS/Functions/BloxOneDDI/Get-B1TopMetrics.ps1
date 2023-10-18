@@ -21,6 +21,12 @@
     .PARAMETER TopCount
         Use this parameter to return X results for the top metric selected
 
+	.PARAMETER TopDNSServers
+	    Use this parameter to return a list of DNS Servers by query count
+
+	.PARAMETER Granularity
+	    Use this parameter to return results based on intervals instead of aggregated across the whole time period
+
     .PARAMETER Start
         The start date/time for searching aggregated metrics
 
@@ -45,7 +51,8 @@
         [string][parameter(ParameterSetName="topQueries", Mandatory=$true)][ValidateSet("NXDOMAIN","NXRRSET","DNS","DFP")] $QueryType,
         [switch][parameter(ParameterSetName="topClients")] $TopClients,
         [string][parameter(ParameterSetName="topClients")][ValidateSet("DNS","DFP")] $TopClientLogType,
-		[switch][parameter(ParameterSetName="topDNSServers")] $TopDNSServers,
+        [switch][parameter(ParameterSetName="topDNSServers")] $TopDNSServers,
+		[string][parameter(ParameterSetName="topDNSServers")][ValidateSet("minute","hour","day","week","month","year")] $Granularity,
         [int]$TopCount = "20",
         [datetime]$Start = (Get-Date).AddDays(-1),
         [datetime]$End = (Get-Date)
@@ -152,15 +159,6 @@
 			                "granularity" = $null
 		                }
 	                )
-	                #"filters" = @(
-		                #@{
-			                #"member" = "NstarDnsActivity.response"
-			                #"operator" = "equals"
-			                #"values" = @(
-				                #"NXDOMAIN"
-			                #)
-		                #}
-                     #)
 	                "limit" = $TopCount
                 }
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
@@ -307,7 +305,7 @@
 						$StartDate
 						$EndDate
 					)
-					"granularity" = $null
+					"granularity" = $Granularity
 				}
 			)
 			"filters" = @()
@@ -316,6 +314,10 @@
 		$Data = $splat | ConvertTo-Json -Depth 4 -Compress
 		$Query = [System.Web.HTTPUtility]::UrlEncode($Data)
 		$Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-		$Result.result.data | Select-Object @{Name = 'Count'; Expression = {$_.'NstarDnsActivity.total_count'}},@{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}},@{Name = 'SiteID'; Expression = {$_.'NstarDnsActivity.site_id'}}
+		if ($Granularity) {
+			$Result.result.data | Select-Object @{Name = 'Timestamp'; Expression = {$_.'NstarDnsActivity.timestamp'}},@{Name = 'Count'; Expression = {$_.'NstarDnsActivity.total_count'}},@{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}},@{Name = 'SiteID'; Expression = {$_.'NstarDnsActivity.site_id'}}
+		} else {
+		    $Result.result.data | Select-Object @{Name = 'Count'; Expression = {$_.'NstarDnsActivity.total_count'}},@{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}},@{Name = 'SiteID'; Expression = {$_.'NstarDnsActivity.site_id'}}
+		}
 	}
 }
