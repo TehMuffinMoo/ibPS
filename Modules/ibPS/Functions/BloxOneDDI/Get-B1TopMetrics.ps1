@@ -311,7 +311,7 @@
 				}
 			)
 			"filters" = @()
-			"limit" = "1000"
+			"limit" = $TopCount
 		}
 		$Data = $splat | ConvertTo-Json -Depth 4 -Compress
 		$Query = [System.Web.HTTPUtility]::UrlEncode($Data)
