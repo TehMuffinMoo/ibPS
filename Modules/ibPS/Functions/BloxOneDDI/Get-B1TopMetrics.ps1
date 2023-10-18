@@ -42,6 +42,7 @@
         [string][parameter(ParameterSetName="topQueries", Mandatory=$true)][ValidateSet("NXDOMAIN","NXRRSET","DNS","DFP")] $QueryType,
         [switch][parameter(ParameterSetName="topClients")] $TopClients,
         [string][parameter(ParameterSetName="topClients")][ValidateSet("DNS","DFP")] $TopClientLogType,
+		[switch][parameter(ParameterSetName="topDNSServers")] $TopDNSServers,
         [int]$TopCount = "20",
         [datetime]$Start = (Get-Date).AddDays(-1),
         [datetime]$End = (Get-Date)
@@ -287,4 +288,31 @@
             }
         }
     }
+	if ($TopDNSServers) {
+		$DNSHosts = Get-B1DNSHost
+		$splat = @{
+			"measures" = @(
+				"NstarDnsActivity.total_count"
+			)
+			"dimensions" = @(
+				"NstarDnsActivity.site_id"
+			)
+			"timeDimensions" = @(
+				@{
+					"dimension" = "NstarDnsActivity.timestamp"
+					"dateRange" = @(
+						$StartDate
+						$EndDate
+					)
+					"granularity" = $null
+				}
+			)
+			"filters" = @()
+			"limit" = "1000"
+		}
+		$Data = $splat | ConvertTo-Json -Depth 4 -Compress
+		$Query = [System.Web.HTTPUtility]::UrlEncode($Data)
+		$Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
+		$Result.result.data | Select-Object *,@{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}}
+	}
 }
