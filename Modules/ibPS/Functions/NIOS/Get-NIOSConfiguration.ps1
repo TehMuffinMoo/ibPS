@@ -22,8 +22,12 @@ function Get-NIOSConfiguration {
         $NIOSConfig = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($Base64))
         $NIOSConfigSplit = $NIOSConfig.Split(":")
         
-        $Server = $NIOSConfigSplit[0]
-        $APIVersion = $NIOSConfigSplit[1]
+        if ($NIOSConfigSplit[0]) {
+          $Server = $NIOSConfigSplit[0]
+        }
+        if ($NIOSConfigSplit[1]) {
+          $APIVersion = $NIOSConfigSplit[1]
+        }
     }
     $Results = @{
       "Server" = $Server
