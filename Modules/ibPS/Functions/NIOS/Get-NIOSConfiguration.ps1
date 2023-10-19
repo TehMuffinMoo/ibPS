@@ -16,18 +16,18 @@ function Get-NIOSConfiguration {
         Authentication
     #>
     $Base64 = $ENV:NIOSConfig
+    $APIVersion = "2.12"
+    $Server = ""
     if ($Base64) {
         $NIOSConfig = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($Base64))
         $NIOSConfigSplit = $NIOSConfig.Split(":")
-        if (!$NIOSConfigSplit[1]) {
-            $APIVersion = "2.12"
-        } else {
-            $APIVersion = $NIOSConfigSplit[1]
-        }
-        $Results = @{
-            "Server" = $NIOSConfigSplit[0]
-            "APIVersion" = $APIVersion
-        }
-        return $Results
+        
+        $Server = $NIOSConfigSplit[0]
+        $APIVersion = $NIOSConfigSplit[1]
     }
+    $Results = @{
+      "Server" = $Server
+      "APIVersion" = $APIVersion
+    }
+    return $Results
 }

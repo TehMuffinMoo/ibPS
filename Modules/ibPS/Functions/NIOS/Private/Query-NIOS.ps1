@@ -59,6 +59,8 @@
     if (!($ApiVersion)) {
         if ($NIOSConfig.APIVersion) {
             $ApiVersion = $NIOSConfig.APIVersion
+        } else {
+            Write-Error "Error. NIOS WAPI Version not specified. Either use the -ApiVersion parameter or Set-NIOSConfiguration -APIVersion `"2.13`""
         }
     }
 
@@ -87,68 +89,71 @@
       }
     }
 
-    ## Build URL
-    $Uri = "https://$Server/wapi/v$ApiVersion/"+$Uri
+    if ($Server -and $ApiVersion) {
 
-    if ($PSVersionTable.PSVersion.ToString() -lt 7) {
-        switch ($Method) {
-            'GET' { 
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession
-            }
-            'POST' {
-                if (!($Data)) {
-                    Write-Host "Error. Data parameter not set."
-                    break
+        ## Build URL
+        $Uri = "https://$Server/wapi/v$ApiVersion/"+$Uri
+            
+        if ($PSVersionTable.PSVersion.ToString() -lt 7) {
+            switch ($Method) {
+                'GET' { 
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession
                 }
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
-            }
-            'PUT' {
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
-            }
-            'PATCH' {
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
-            }
-            'DELETE' {
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
-                $ErrorOnEmpty = $false
-            }
-            default {
-                Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
-            }
-        }
-    } elseif ($PSVersionTable.PSVersion.ToString() -gt 7) {
-        switch ($Method) {
-            'GET' { 
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-            }
-            'POST' {
-                if (!($Data)) {
-                    Write-Host "Error. Data parameter not set."
-                    break
+                'POST' {
+                    if (!($Data)) {
+                        Write-Host "Error. Data parameter not set."
+                        break
+                    }
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
                 }
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+                'PUT' {
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+                }
+                'PATCH' {
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+                }
+                'DELETE' {
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+                    $ErrorOnEmpty = $false
+                }
+                default {
+                    Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
+                }
             }
-            'PUT' {
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-            }
-            'PATCH' {
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-            }
-            'DELETE' {
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-                $ErrorOnEmpty = $false
-            }
-            default {
-                Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
+        } elseif ($PSVersionTable.PSVersion.ToString() -gt 7) {
+            switch ($Method) {
+                'GET' { 
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+                }
+                'POST' {
+                    if (!($Data)) {
+                        Write-Host "Error. Data parameter not set."
+                        break
+                    }
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+                }
+                'PUT' {
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+                }
+                'PATCH' {
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+                }
+                'DELETE' {
+                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+                    $ErrorOnEmpty = $false
+                }
+                default {
+                    Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
+                }
             }
         }
-    }
-    if ($Result) {
-        if ($Result.result -and -not $Result.results) {
-            $Result | Add-Member -MemberType NoteProperty -Name "results" -Value $Result.result
+        if ($Result) {
+            if ($Result.result -and -not $Result.results) {
+                $Result | Add-Member -MemberType NoteProperty -Name "results" -Value $Result.result
+            }
+            return $Result
+        } elseif ($ErrorOnEmpty) {
+            Write-Host "Error. No results from API."
         }
-        return $Result
-    } elseif ($ErrorOnEmpty) {
-        Write-Host "Error. No results from API."
     }
 }
