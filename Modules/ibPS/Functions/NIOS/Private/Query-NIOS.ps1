@@ -59,32 +59,77 @@
         'Content-Type' = 'application/json'
     }
 
+    if ($SkipCertificateCheck) {
+      if ($PSVersionTable.PSVersion.ToString() -lt 7) {
+        add-type @"
+            using System.Net;
+            using System.Security.Cryptography.X509Certificates;
+            public class TrustAllCertsPolicy : ICertificatePolicy {
+                public bool CheckValidationResult(
+                    ServicePoint srvPoint, X509Certificate certificate,
+                    WebRequest request, int certificateProblem) {
+                    return true;
+                }
+            }
+"@
+        [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+      }
+    }
+
     ## Build URL
     $Uri = "https://$Server/wapi/v$ApiVersion/"+$Uri
 
-    switch ($Method) {
-        'GET' { 
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-        }
-        'POST' {
-            if (!($Data)) {
-                Write-Host "Error. Data parameter not set."
-                break
+    if ($PSVersionTable.PSVersion.ToString() -lt 7) {
+        switch ($Method) {
+            'GET' { 
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession
             }
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+            'POST' {
+                if (!($Data)) {
+                    Write-Host "Error. Data parameter not set."
+                    break
+                }
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+            }
+            'PUT' {
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+            }
+            'PATCH' {
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+            }
+            'DELETE' {
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+                $ErrorOnEmpty = $false
+            }
+            default {
+                Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
+            }
         }
-        'PUT' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-        }
-        'PATCH' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-        }
-        'DELETE' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-            $ErrorOnEmpty = $false
-        }
-        default {
-            Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
+    } elseif ($PSVersionTable.PSVersion.ToString() -gt 7) {
+        switch ($Method) {
+            'GET' { 
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+            }
+            'POST' {
+                if (!($Data)) {
+                    Write-Host "Error. Data parameter not set."
+                    break
+                }
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+            }
+            'PUT' {
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+            }
+            'PATCH' {
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+            }
+            'DELETE' {
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+                $ErrorOnEmpty = $false
+            }
+            default {
+                Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
+            }
         }
     }
     if ($Result) {
