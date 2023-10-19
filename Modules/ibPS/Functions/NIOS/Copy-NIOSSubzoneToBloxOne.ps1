@@ -62,7 +62,6 @@ function Copy-NIOSSubzoneToBloxOne {
     #>
     [Alias("Migrate-NIOSSubzoneToBloxOne")]
     param(
-      [Parameter(Mandatory=$true)]
       [String]$Server,
       [Parameter(Mandatory=$true)]
       [String]$Subzone,

@@ -34,7 +34,6 @@ function New-NIOSDelegatedZone {
         DNS
     #>
     param(
-      [Parameter(Mandatory=$true)]
       [String]$Server,
       [Parameter(Mandatory=$true)]
       [System.Object]$Hosts,

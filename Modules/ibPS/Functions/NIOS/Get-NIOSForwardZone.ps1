@@ -34,7 +34,6 @@ function Get-NIOSForwardZone {
         DNS
     #>
     param(
-      [Parameter(Mandatory=$true)]
       [String]$Server,
       [String]$FQDN,
       [String]$View,

@@ -37,18 +37,29 @@
       [Parameter(Mandatory=$true)]
       [ValidateSet("GET","POST","PUT", "PATCH", "DELETE")]
       [String]$Method,
-      [Parameter(Mandatory=$true)]
       [String]$Server,
       [Parameter(Mandatory=$true)]
       [String]$Uri,
-      [String]$ApiVersion = "2.12",
+      [String]$ApiVersion,
       [PSCredential]$Creds,
       [String]$Data,
       [Switch]$SkipCertificateCheck
     )
-
+    $NIOSConfig = Get-NIOSConfiguration
     if (!($Creds)) {
         $Creds = Get-NIOSCredentials
+    }
+    if (!($Server)) {
+        if ($NIOSConfig.Server) {
+            $Server = $NIOSConfig.Server
+        } else {
+            Write-Error "Error. NIOS Server not specified. Either use the -Server parameter or Set-NIOSConfiguration -Server `"gm.mydomain.corp`""
+        }
+    }
+    if (!($ApiVersion)) {
+        if ($NIOSConfig.APIVersion) {
+            $ApiVersion = $NIOSConfig.APIVersion
+        }
     }
 
     $ErrorOnEmpty = $true
