@@ -21,6 +21,9 @@ function Get-NIOSDelegatedZone {
     .PARAMETER Creds
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
+    .PARAMETER SkipCertificateCheck
+        If this parameter is set, SSL Certificates Checks will be ignored
+
     .EXAMPLE
         Get-NIOSDelegatedZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
 
@@ -36,7 +39,8 @@ function Get-NIOSDelegatedZone {
       [String]$FQDN,
       [String]$View,
       [Int]$Limit = 1000,
-      [PSCredential]$Creds
+      [PSCredential]$Creds,
+      [Switch]$SkipCertificateCheck
     )
 
     $Filters = @()
@@ -53,8 +57,8 @@ function Get-NIOSDelegatedZone {
     }
 
     if ($Filter) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated$Filter" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated$Filter" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated$Filter" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-NIOS -Method GET -Server $Server -Uri "zone_delegated$Filter" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

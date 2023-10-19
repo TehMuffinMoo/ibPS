@@ -21,6 +21,9 @@
     .PARAMETER Data
         Data to be submitted on POST/PUT/PATCH/DELETE requests
 
+    .PARAMETER SkipCertificateCheck
+        If this parameter is set, SSL Certificates Checks will be ignored
+
     .EXAMPLE
         Query-CSP -Method GET -Uri "zone_delegated?return_as_object=1"
 
@@ -40,7 +43,8 @@
       [String]$Uri,
       [String]$ApiVersion = "2.12",
       [PSCredential]$Creds,
-      [String]$Data
+      [String]$Data,
+      [Switch]$SkipCertificateCheck
     )
 
     if (!($Creds)) {
@@ -60,23 +64,23 @@
 
     switch ($Method) {
         'GET' { 
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession
+            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
         }
         'POST' {
             if (!($Data)) {
                 Write-Host "Error. Data parameter not set."
                 break
             }
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
         }
         'PUT' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
         }
         'PATCH' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
         }
         'DELETE' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
+            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
             $ErrorOnEmpty = $false
         }
         default {

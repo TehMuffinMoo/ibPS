@@ -42,6 +42,9 @@ function Copy-NIOSSubzoneToBloxOne {
     .PARAMETER Creds
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
+    .PARAMETER SkipCertificateCheck
+        If this parameter is set, SSL Certificates Checks will be ignored
+
     .EXAMPLE
         Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Test
 
@@ -75,13 +78,14 @@ function Copy-NIOSSubzoneToBloxOne {
       [Switch]$CreateZones = $false,
       [System.Object]$DNSHosts,
       [System.Object]$AuthNSGs,
-      [PSCredential]$Creds
+      [PSCredential]$Creds,
+      [Switch]$SkipCertificateCheck
     )
 
     $Export = @()
     $SubzoneData = @()
 
-    if (!(Get-NIOSAuthoritativeZone -Server $Server -Creds $Creds -FQDN $Subzone -View $NIOSView)) {
+    if (!(Get-NIOSAuthoritativeZone -Server $Server -Creds $Creds -FQDN $Subzone -View $NIOSView -SkipCertificateCheck:$SkipCertificateCheck)) {
         Write-Host "Error. Authorative zone does not exist in NIOS." -ForegroundColor Red
     } else {
         Write-Host "Obtaining list of records from $Subzone..." -ForegroundColor Cyan
@@ -100,7 +104,7 @@ function Copy-NIOSSubzoneToBloxOne {
             if ($RT -in "caa") {
                 $ReturnFields = $ReturnFields + ",ca_flag,ca_tag,ca_value"
             }
-            $SubzoneData += Query-NIOS -Method GET -Server $Server -Uri "record:$($RT)?zone=$($Subzone)&view=$($NIOSView)&_return_as_object=1$ReturnFields" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            $SubzoneData += Query-NIOS -Method GET -Server $Server -Uri "record:$($RT)?zone=$($Subzone)&view=$($NIOSView)&_return_as_object=1$ReturnFields" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
 
         if (!$IncludeDHCP) {

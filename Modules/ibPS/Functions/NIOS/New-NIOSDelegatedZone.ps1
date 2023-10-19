@@ -21,6 +21,9 @@ function New-NIOSDelegatedZone {
     .PARAMETER Creds
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
+    .PARAMETER SkipCertificateCheck
+        If this parameter is set, SSL Certificates Checks will be ignored
+
     .EXAMPLE
         New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN my-dns.zone -Hosts "1.2.3.4","2.3.4.5"
 
@@ -39,7 +42,8 @@ function New-NIOSDelegatedZone {
       [String]$FQDN,
       [Parameter(Mandatory=$true)]
       [String]$View,
-      [PSCredential]$Creds
+      [PSCredential]$Creds,
+      [Switch]$SkipCertificateCheck
     )
     if (Get-NIOSDelegatedZone -Server $Server -Creds $Creds -FQDN $FQDN -View $View) {
         Write-Host "Error. Delegated zone already exists." -ForegroundColor Red
@@ -53,7 +57,7 @@ function New-NIOSDelegatedZone {
         $splat = $splat | ConvertTo-Json
         if ($Debug) {$splat}
         try {
-            $Result = Query-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat
+            $Result = Query-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat -SkipCertificateCheck:$SkipCertificateCheck 
             $Successful = $true
             if ($Debug) {$Result}
         } catch {

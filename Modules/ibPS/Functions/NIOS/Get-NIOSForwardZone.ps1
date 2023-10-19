@@ -21,6 +21,9 @@ function Get-NIOSForwardZone {
     .PARAMETER Creds
         Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
 
+    .PARAMETER SkipCertificateCheck
+        If this parameter is set, SSL Certificates Checks will be ignored
+
     .EXAMPLE
         Get-NIOSForwardZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
 
@@ -36,7 +39,8 @@ function Get-NIOSForwardZone {
       [String]$FQDN,
       [String]$View,
       [Int]$Limit = 1000,
-      [PSCredential]$Creds
+      [PSCredential]$Creds,
+      [Switch]$SkipCertificateCheck
     )
 
     $Filters = @()
@@ -53,8 +57,8 @@ function Get-NIOSForwardZone {
     }
 
     if ($Filter) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_forward$Filter" -Creds $Creds | Select-Object -ExpandProperty results
+        Query-NIOS -Method GET -Server $Server -Uri "zone_forward$Filter" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results
     } else {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_forward$Filter" -Creds $Creds | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-NIOS -Method GET -Server $Server -Uri "zone_forward$Filter" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
