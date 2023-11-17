@@ -50,7 +50,7 @@
         [switch][parameter(ParameterSetName="topQueries")] $TopQueries,
         [string][parameter(ParameterSetName="topQueries", Mandatory=$true)][ValidateSet("NXDOMAIN","NXRRSET","DNS","DFP")] $QueryType,
         [switch][parameter(ParameterSetName="topClients")] $TopClients,
-        [string][parameter(ParameterSetName="topClients")][ValidateSet("DNS","DFP")] $TopClientLogType,
+        [string][parameter(ParameterSetName="topClients")][ValidateSet("DNS","DFP","DHCP")] $TopClientLogType,
         [switch][parameter(ParameterSetName="topDNSServers")] $TopDNSServers,
 		[string][parameter(ParameterSetName="topDNSServers")][ValidateSet("minute","hour","day","week","month","year")] $Granularity,
         [int]$TopCount = "20",
@@ -287,6 +287,40 @@
                                              @{name="count";Expression={$_.'PortunusAggUserDevices.deviceCount'}} | Sort-Object count
                 $DFPClients
             }
+			"DHCP" {
+				$DHCPHosts = Get-B1DHCPHost
+				$splat = @{
+					"measures" = @(
+						"NstarLeaseActivity.total_count"
+					)
+					"dimensions" = @(
+						"NstarLeaseActivity.lease_ip",
+						"NstarLeaseActivity.host_id"
+					)
+					"timeDimensions" = @(
+						@{
+							"dimension" = "NstarLeaseActivity.timestamp"
+							"dateRange" = @(
+								$StartDate
+								$EndDate
+							)
+							"granularity" = $null
+						}
+					)
+					"filters" = @()
+					"limit" = $TopCount
+				}
+				$Data = $splat | ConvertTo-Json -Depth 4 -Compress
+				$Query = [System.Web.HTTPUtility]::UrlEncode($Data)
+				$Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
+	
+				$DNSClients = $Result.result.data | Select-Object @{name="lease_ip";Expression={$_.'NstarLeaseActivity.lease_ip'}},`
+											 @{name="leaseCount";Expression={$_.'NstarLeaseActivity.total_count'}},`
+											 @{Name = 'DHCP-Server'; Expression = {$HostID = $_.'NstarLeaseActivity.host_id';if ($HostID) {($DHCPHosts | Where-Object {$_.id -eq $HostID}).name}}},`
+											 @{name="host_id";Expression={$_.'NstarLeaseActivity.host_id'}} | Sort-Object queryCount
+				$DNSClients
+				break
+			}
             default {
                 Write-Host "Error. Permitted TopClientLogType options are: DNS, DFP" -ForegroundColor Red
                 break
