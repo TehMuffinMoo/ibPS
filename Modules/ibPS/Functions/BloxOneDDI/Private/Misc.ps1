@@ -125,7 +125,7 @@ $CompositeStateSpaces = @(
         "Service_Type" = "dhcp"
     },
     @{
-        "Application" = "DC"
+        "Application" = "CDC"
         "FriendlyName" = "Data Connector"
         "AppType" = "7"
         "Composite" = "24"

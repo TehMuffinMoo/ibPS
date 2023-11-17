@@ -480,6 +480,13 @@ Store-NIOSCredentials -Credentials ${$CredentialObject} -Persist
 Get-NIOSCredentials
   Retrieves stored NIOS Credentials
 
+Set-NIOSConfiguration -Server gridmaster.domain.corp -APIVersion 2.10
+  Used to set the Grid Master FQDN and/or API Version, optionally persisting using -Persist. The default API Version for WAPI is 2.12.
+  This is useful to save having to enter the server address every time.
+
+Get-NIOSConfiguration
+  Retrieves stored NIOS Configuration, if available.
+
 Get-NIOSAuthoritativeZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
   Retrieves a list of authoritative zones from NIOS
 
@@ -494,13 +501,6 @@ New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN delegated.my-dns.zone
 
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group" -Confirm:$false
   Used to copy/migrate Authoritative Subzones from NIOS to BloxOneDDI
-
-Set-NIOSConfiguration -Server gridmaster.domain.corp -APIVersion 2.10
-  Used to set the Grid Master FQDN and/or API Version, optionally persisting using -Persist. The default API Version for WAPI is 2.12.
-  This is useful to save having to enter the server address every time.
-
-Get-NIOSConfiguration
-  Retrieves stored NIOS Configuration, if available.
 ```
 
 ## General Cmdlets

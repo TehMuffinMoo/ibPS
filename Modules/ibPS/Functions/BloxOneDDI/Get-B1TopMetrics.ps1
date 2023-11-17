@@ -99,7 +99,7 @@
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
-                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
+                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort-Object queryCount
                 $DNSClients
                 break
             }
@@ -137,7 +137,7 @@
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
-                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
+                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort-Object queryCount
                 $DNSClients
                 break
             }
@@ -166,7 +166,7 @@
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
-                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort queryCount
+                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort-Object queryCount
                 $DNSClients
                 break
             }
@@ -216,12 +216,14 @@
     if ($TopClients) {
         switch ($TopClientLogType) {
             "DNS" {
+				$DNSHosts = Get-B1DNSHost
                 $splat = @{
 	                "measures" = @(
 		                "NstarDnsActivity.total_count"
 	                )
 	                "dimensions" = @(
-		                "NstarDnsActivity.device_ip"
+		                "NstarDnsActivity.device_ip",
+						"NstarDnsActivity.site_id"
 	                )
 	                "timeDimensions" = @(
 		                @{
@@ -242,7 +244,9 @@
 
                 $DNSClients = $Result.result.data | Select-Object @{name="device_ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
                                              @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}},`
-                                             @{name="licenseUsage";Expression={[math]::Round(($_.'NstarDnsActivity.total_count')/9000 + 0.5)}} | Sort queryCount
+                                             @{name="licenseUsage";Expression={[math]::Round(($_.'NstarDnsActivity.total_count')/6000 + 0.5)}},`
+											 @{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}},`
+											 @{name="site_id";Expression={$_.'NstarDnsActivity.site_id'}} | Sort-Object queryCount
                 $DNSClients
                 break
             }
@@ -280,7 +284,7 @@
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DFPClients = $Result.result.data | Select-Object @{name="device_name";Expression={$_.'PortunusAggUserDevices.device_name'}},`
-                                             @{name="count";Expression={$_.'PortunusAggUserDevices.deviceCount'}} | Sort count
+                                             @{name="count";Expression={$_.'PortunusAggUserDevices.deviceCount'}} | Sort-Object count
                 $DFPClients
             }
             default {
