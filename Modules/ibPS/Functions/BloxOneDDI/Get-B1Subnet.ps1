@@ -15,9 +15,6 @@
     .PARAMETER Name
         Use this parameter to filter the list of Subnets by Name
 
-    .PARAMETER id
-        Use this parameter to query a particular subnet id
-
     .PARAMETER Space
         Use this parameter to filter the list of Subnets by Space
 
@@ -33,10 +30,16 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
-    .Example
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
+    .PARAMETER id
+        Use this parameter to query a particular subnet id
+
+    .EXAMPLE
         Get-B1Subnet -Subnet 10.10.100.0 -CIDR 24 -IncludeInheritance
 
-    .Example
+    .EXAMPLE
         Get-B1Subnet -Name "subnet-1" -Space "Global" -Strict
     
     .FUNCTIONALITY
@@ -51,16 +54,18 @@
       [Int]$CIDR,
       [String]$Space,
       [String]$Name,
-      [string]$id,
       [Switch]$IncludeInheritance,
       [Switch]$Strict,
       [Int]$Limit = 1000,
-      [Int]$Offset = 0
+      [Int]$Offset = 0,
+      [String]$tfilter,
+      [String]$id
     )
 
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$Filters2 = @()
     if ($Space) {
         $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
         if ($SpaceUUID) {
@@ -81,19 +86,22 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        if ($IncludeInheritance) {
-            $Query = "?_filter=$Filter&_inherit=full"
-        } else {
-            $Query = "?_filter=$Filter"
-        }
-    } else {
-        if ($IncludeInheritance) {
-            $Query = "?_inherit=full"
-        }
+        $Filters2.Add("_filter=$Filter") | Out-Null
+    }
+    $Filters2.Add("_limit=$Limit") | Out-Null
+    $Filters2.Add("_offset=$Offset") | Out-Null
+    if ($tfilter) {
+        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($IncludeInheritance) {
+        $Filters2.Add("_inherit=full") | Out-Null
+    }
+    if ($Filters2) {
+        $Filter2 = Combine-Filters2 $Filters2
     }
 
-    if ($Query) {
-        Query-CSP -Uri "ipam/subnet$Query&_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($Filter2) {
+        Query-CSP -Uri "ipam/subnet$($Filter2)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Uri "ipam/subnet?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

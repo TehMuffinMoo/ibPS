@@ -39,10 +39,19 @@
     .PARAMETER NoIPSpace
         Filter by hosts which do not have an IPAM space assigned
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results. The default number of results is 10001.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
-    .Example
+    .EXAMPLE
         Get-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
     
     .FUNCTIONALITY
@@ -65,6 +74,7 @@
       [switch]$Reduced,
       [switch]$Strict,
       [switch]$NoIPSpace,
+      [String]$tfilter,
       [String]$id
     )
 
@@ -73,6 +83,7 @@
     if ($Space) {$IPSpace = (Get-B1Space -Name $Space -Strict).id}
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$Filters2 = @()
     if ($IP) {
         $Filters.Add("ip_address$MatchType`"$IP`"") | Out-Null
     }
@@ -100,10 +111,19 @@
 
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $Filters2.Add("_filter=$Filter") | Out-Null
+    }
+    $Filters2.Add("_limit=$Limit") | Out-Null
+    $Filters2.Add("_offset=$Offset") | Out-Null
+    if ($tfilter) {
+        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($Filters2) {
+        $Filter2 = Combine-Filters2 $Filters2
     }
 
-    if ($Filter) {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($APIEndpoint)?_limit=$($Limit)&_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($Filter2) {
+        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($APIEndpoint)$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($APIEndpoint)?_limit=$($Limit)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

@@ -24,10 +24,13 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
     .PARAMETER id
         The id of the authoritative zone to filter by
 
-    .Example
+    .EXAMPLE
         Get-B1AuthoritativeZone -FQDN "prod.mydomain.corp"
     
     .FUNCTIONALITY
@@ -43,11 +46,13 @@
       [String]$View,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [String]$tfilter,
       [String]$id
     )
     if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$Filters2 = @()
     if ($FQDN) {
         $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
     }
@@ -62,10 +67,19 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $Filters2.Add("_filter=$Filter") | Out-Null
+    }
+    $Filters2.Add("_limit=$Limit") | Out-Null
+    $Filters2.Add("_offset=$Offset") | Out-Null
+    if ($tfilter) {
+        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($Filters2) {
+        $Filter2 = Combine-Filters2 $Filters2
     }
 
-    if ($Filter) {
-        Query-CSP -Method GET -Uri "dns/auth_zone?_filter=$Filter&_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($Filter2) {
+        Query-CSP -Method GET -Uri "dns/auth_zone$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Method GET -Uri "dns/auth_zone?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

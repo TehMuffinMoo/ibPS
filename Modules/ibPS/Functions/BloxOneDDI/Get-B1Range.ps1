@@ -27,10 +27,13 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
     .PARAMETER id
         Filter the results by range id
 
-    .Example
+    .EXAMPLE
         Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
     
     .FUNCTIONALITY
@@ -50,12 +53,14 @@
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [Switch]$Strict,
+      [String]$tfilter,
       [String]$id
     )
 
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$Filters2 = @()
     if ($StartAddress) {
         $Filters.Add("start==`"$StartAddress`"") | Out-Null
     }
@@ -73,8 +78,21 @@
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
-        Query-CSP -Uri "ipam/range?_filter=$Filter&_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        if ($Filters) {
+            $Filter = Combine-Filters $Filters
+            $Filters2.Add("_filter=$Filter") | Out-Null
+        }
+        $Filters2.Add("_limit=$Limit") | Out-Null
+        $Filters2.Add("_offset=$Offset") | Out-Null
+        if ($tfilter) {
+            $Filters2.Add("_tfilter=$tfilter") | Out-Null
+        }
+        if ($Filters2) {
+            $Filter2 = Combine-Filters2 $Filters2
+        }
+    }
+    if ($Filter2) {
+        Query-CSP -Uri "ipam/range$($Filter2)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Uri "ipam/range?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

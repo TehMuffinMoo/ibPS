@@ -13,7 +13,10 @@
         Additionally returns related host information
 
     .PARAMETER Limit
-        Used to limit the number of results. The default is 10001
+        Use this parameter to limit the quantity of results. The default number of results is 10001.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
@@ -21,7 +24,7 @@
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
-    .Example
+    .EXAMPLE
         Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
     
     .FUNCTIONALITY
@@ -36,15 +39,11 @@
         [Switch]$Detailed,
         [String]$Limit = "10001",
         [Switch]$Strict,
-        [Parameter(
-          ValueFromPipelineByPropertyName = $true,
-          ParameterSetName="ID",
-          Mandatory=$true
-        )]
         [String]$id
     )
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$Filters2 = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
@@ -58,7 +57,15 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)?_limit=$Limit&_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Filters2.Add("_filter=$Filter") | Out-Null
+    }
+    $Filters2.Add("_limit=$Limit") | Out-Null
+    $Filters2.Add("_offset=$Offset") | Out-Null
+    if ($Filters2) {
+        $Filter2 = Combine-Filters2 $Filters2
+    }
+    if ($Filter2) {
+        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)?_limit=$Limit" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

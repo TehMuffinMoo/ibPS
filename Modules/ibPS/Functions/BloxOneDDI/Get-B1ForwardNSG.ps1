@@ -12,10 +12,19 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
     .PARAMETER id
         Filter results by forward DNS server group id
 
-    .Example
+    .EXAMPLE
         Get-B1ForwardNSG -Name "Data Centre" -Strict
     
     .FUNCTIONALITY
@@ -27,10 +36,14 @@
     param(
         [String]$Name,
         [Switch]$Strict = $false,
+        [Int]$Limit = 1000,
+        [Int]$Offset = 0,
+        [String]$tfilter,
         [String]$id
     )
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$Filters2 = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
@@ -39,10 +52,19 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $Filters2.Add("_filter=$Filter") | Out-Null
+    }
+    $Filters2.Add("_limit=$Limit") | Out-Null
+    $Filters2.Add("_offset=$Offset") | Out-Null
+    if ($tfilter) {
+        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($Filters2) {
+        $Filter2 = Combine-Filters2 $Filters2
     }
 
-    if ($Filter) {
-        Query-CSP -Method GET -Uri "dns/forward_nsg?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($Filter2) {
+        Query-CSP -Method GET -Uri "dns/forward_nsg$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Method GET -Uri "dns/forward_nsg" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

@@ -21,7 +21,13 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
-    .Example
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
+    .PARAMETER id
+        Return results based on the address id
+
+    .EXAMPLE
         Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
     
     .FUNCTIONALITY
@@ -39,6 +45,7 @@
       [Switch]$Reserved,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [String]$tfilter,
       [Parameter(ParameterSetName="ID")]
       [String]$id
     )
@@ -67,8 +74,10 @@
       }
       $Filters2.Add("_limit=$Limit") | Out-Null
       $Filters2.Add("_offset=$Offset") | Out-Null
+      if ($tfilter) {
+        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+      }
       $Filter2 = Combine-Filters2 $Filters2
-      $Filter2
 
       if ($Filter2) {
           $Results = Query-CSP -Uri "ipam/address$Filter2" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue

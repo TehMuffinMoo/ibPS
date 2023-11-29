@@ -58,7 +58,7 @@
       [Switch]$Strict,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
-      [Array]$tfilter,
+      [String]$tfilter,
       [String]$id
     )
 
@@ -82,25 +82,22 @@
         $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
     }
 
+    [System.Collections.ArrayList]$Filters2 = @()
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        if ($IncludeInheritance) {
-            $Query = "?_filter=$Filter&_inherit=full"
-        } else {
-            $Query = "?_filter=$Filter"
-        }
-    } else {
-        if ($IncludeInheritance) {
-            $Query = "?_inherit=full"
-        }
+        $Filters2.Add("_filter=$Filter") | Out-Null
     }
-
+    if ($IncludeInheritance) {
+        $Filters2.Add("_inherit=full") | Out-Null
+    }
     if ($tfilter) {
-        $tfilter = "&_tfilter=$tfilter"
+        $Filters2.Add("_tfilter=$tfilter") | Out-Null
     }
-    if ($Query) {
-        Query-CSP -Uri "ipam/address_block$Query&_limit=$Limit&_offset=$($Offset)$($tfilter)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } else {
-        Query-CSP -Uri "ipam/address_block?_limit=$Limit&_offset=$($Offset)$($tfilter)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    $Filters2.Add("_limit=$Limit") | Out-Null
+    $Filters2.Add("_offset=$Offset") | Out-Null
+    $Filter2 = Combine-Filters2 $Filters2
+
+    if ($Filter2) {
+        Query-CSP -Uri "ipam/address_block$Filter2" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

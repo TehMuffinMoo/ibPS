@@ -15,10 +15,19 @@
     .PARAMETER IncludeInheritance
         Include inherited configuration in results
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
     .PARAMETER id
         Return results based on DHCP Config Profile id
 
-    .Example
+    .EXAMPLE
         Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
     
     .FUNCTIONALITY
@@ -28,10 +37,14 @@
         [String]$Name,
         [switch]$Strict = $false,
         [switch]$IncludeInheritance = $false,
-        [string]$id
+        [Int]$Limit = 1000,
+        [Int]$Offset = 0,
+        [String]$tfilter,
+        [String]$id
     )
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$Filters2 = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
@@ -40,18 +53,20 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $Filters2.Add("_filter=$Filter") | Out-Null
     }
-    if ($Filter) {
-        if ($IncludeInheritance) {
-            Query-CSP -Method GET -Uri "dhcp/server?_filter=$Filter&_inherit=full" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        } else {
-            Query-CSP -Method GET -Uri "dhcp/server?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        }
+    $Filters2.Add("_limit=$Limit") | Out-Null
+    $Filters2.Add("_offset=$Offset") | Out-Null
+    if ($tfilter) {
+        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($Filters2) {
+        $Filter2 = Combine-Filters2 $Filters2
+    }
+
+    if ($Filter2) {
+        Query-CSP -Method GET -Uri "dhcp/server$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        if ($IncludeInheritance) {
-            Query-CSP -Method GET -Uri "dhcp/server?_inherit=full" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        } else {
-            Query-CSP -Method GET -Uri "dhcp/server" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        }
+        Query-CSP -Method GET -Uri "dhcp/server" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

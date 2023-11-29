@@ -45,8 +45,8 @@ function Get-B1DFP {
         [String]$OPHID,
         [Int]$PolicyID,
         [Switch]$DefaultSecurityPolicy,
-        [Int]$id,
-        [Switch]$Strict
+        [Switch]$Strict,
+        [String]$id
     )
  
     $MatchType = Match-Type $Strict
