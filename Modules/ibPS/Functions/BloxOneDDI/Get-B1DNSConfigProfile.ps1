@@ -20,12 +20,16 @@
     #>
     param(
         [String]$Name,
-        [switch]$Strict = $false
+        [Switch]$Strict,
+        [string]$id
     )
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

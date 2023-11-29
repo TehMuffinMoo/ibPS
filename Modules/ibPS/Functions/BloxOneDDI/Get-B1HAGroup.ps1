@@ -12,7 +12,7 @@
     .PARAMETER Mode
         The mode of the HA Group to filter by
 
-    .PARAMETER Id
+    .PARAMETER id
         The id of the HA Group to filter by
 
     .PARAMETER Strict
@@ -33,7 +33,7 @@
     param(
       [String]$Name,
       [String]$Mode,
-      [String]$Id,
+      [String]$id,
       [Switch]$Strict = $false
     )
 
@@ -51,7 +51,7 @@
             break
         }
     }
-    if ($Id) {
+    if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {

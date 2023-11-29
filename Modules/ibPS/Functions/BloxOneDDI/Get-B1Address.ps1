@@ -15,6 +15,12 @@
     .PARAMETER Reserved
         Use this parameter to filter the list of addresses to those which have a usage of Reserved
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
     .Example
         Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
     
@@ -24,12 +30,15 @@
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(DefaultParameterSetName = 'None')]
     param(
       [Parameter(ParameterSetName="noID")]
       [String]$Address,
       [Parameter(ParameterSetName="noID")]
       [String]$State,
       [Switch]$Reserved,
+      [Int]$Limit = 1000,
+      [Int]$Offset = 0,
       [Parameter(ParameterSetName="ID")]
       [String]$id
     )
@@ -49,19 +58,20 @@
           $Filter = "_filter="+(Combine-Filters $Filters)
       }
     
+      [System.Collections.ArrayList]$Filters2 = @()
       if ($State) {
-          [System.Collections.ArrayList]$Filters2 = @()
-          if ($Filter) {
-              $Filters2.Add($Filter) | Out-Null
-          }
           $Filters2.Add("address_state=$State") | Out-Null
-          $Filter2 = Combine-Filters2 $Filters2
-      } 
+      }
+      if ($Filter) {
+        $Filters2.Add($Filter) | Out-Null
+      }
+      $Filters2.Add("_limit=$Limit") | Out-Null
+      $Filters2.Add("_offset=$Offset") | Out-Null
+      $Filter2 = Combine-Filters2 $Filters2
+      $Filter2
+
       if ($Filter2) {
           $Results = Query-CSP -Uri "ipam/address$Filter2" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-      } elseif ($Filter) {
-          $Filter2 = Combine-Filters2 $Filter
-          $Results = Query-CSP -Uri "ipam/address$Filter2" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue    
       } else {
           $Results = Query-CSP -Uri "ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       }

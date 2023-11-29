@@ -378,6 +378,15 @@ Remove-B1Subnet -Subnet 10.0.0.1 -CIDR 24 -Space "Global"
 Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
   Removes a host from within BloxOne.
 
+Remove-B1HAGroup -Name "My HA Group"
+  Removes a DHCP HA Group
+
+Remove-B1DNSConfigProfile -Name "My DNS Config Profile"
+  Removes a DHCP HA Group
+
+Remove-B1DHCPConfigProfile -Name "My DHCP Config Profile"
+  Removes a DHCP HA Group
+
 Revoke-B1DNSConfigProfile -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
   Used to remove DNS Configuration Profiles from BloxOne hosts. The -Hosts parameter accepts a PSObject for long lists.
 
@@ -529,6 +538,9 @@ Remove-B1Record                  | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1Service                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Remove-B1Subnet                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subnet
 Remove-B1APIKey                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1APIKey
+Remove-B1HAGroup                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1HAGroup
+Remove-B1DHCPConfigProfile       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
+Remove-B1DNSConfigProfile        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSConfigProfile
 Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
 Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile

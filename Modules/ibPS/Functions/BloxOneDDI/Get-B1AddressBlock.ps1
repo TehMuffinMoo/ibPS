@@ -30,11 +30,17 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
     .PARAMETER id
         Filter by the id of the address block
 
-    .Example
+    .EXAMPLE
         Get-B1AddressBlock -Subnet "10.10.100.0/12" -Space "Global"
+
+    .EXAMPLE
+        Get-B1AddressBlock -tfilter '("sometagname"=="sometagvalue" or "someothertagname"=="someothertagvalue")'
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -52,6 +58,7 @@
       [Switch]$Strict,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [Array]$tfilter,
       [String]$id
     )
 
@@ -88,9 +95,12 @@
         }
     }
 
+    if ($tfilter) {
+        $tfilter = "&_tfilter=$tfilter"
+    }
     if ($Query) {
-        Query-CSP -Uri "ipam/address_block$Query&_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/address_block$Query&_limit=$Limit&_offset=$($Offset)$($tfilter)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Uri "ipam/address_block?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "ipam/address_block?_limit=$Limit&_offset=$($Offset)$($tfilter)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
