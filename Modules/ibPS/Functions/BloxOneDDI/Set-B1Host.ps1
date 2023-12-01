@@ -44,7 +44,6 @@
       [String]$Name,
       [Parameter(ParameterSetName="noID")]
       [String]$IP,
-      [Parameter(ParameterSetName="noID")]
       [String]$Space,
       [String]$TimeZone,
       [String]$Description,
