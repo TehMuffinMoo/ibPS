@@ -65,7 +65,7 @@ function Query-CSP {
         }
         'POST' {
             if ($Data -and $InFile) {
-                Write-Host "Error. -Data and -InFile are mutually exclusive parameters."
+                Write-Error "Error. -Data and -InFile are mutually exclusive parameters."
                 break
             }
             if ($InFile) {
@@ -85,7 +85,7 @@ function Query-CSP {
             $ErrorOnEmpty = $false
         }
         default {
-            Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
+            Write-Error "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
         }
       }
 
