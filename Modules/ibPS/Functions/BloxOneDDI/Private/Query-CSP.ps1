@@ -33,7 +33,8 @@ function Query-CSP {
       [String]$Method,
       [Parameter(Mandatory=$true)]
       [String]$Uri,
-      [String]$Data
+      [String]$Data,
+      [String]$InFile
     )
 
     ## Get Stored API Key
@@ -63,11 +64,15 @@ function Query-CSP {
             $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders
         }
         'POST' {
-            if (!($Data)) {
-                Write-Host "Error. Data parameter not set."
+            if ($Data -and $InFile) {
+                Write-Host "Error. -Data and -InFile are mutually exclusive parameters."
                 break
             }
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -Body $Data
+            if ($InFile) {
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -InFile $InFile
+            } else {
+                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -Body $Data
+            }
         }
         'PUT' {
             $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -Body $Data
