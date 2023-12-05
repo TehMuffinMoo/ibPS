@@ -100,6 +100,14 @@ All supported `Get-*` cmdlets have a `-Strict` and `-tfilter` parameter.
 
 <table>
   <tr>
+    <th>
+      Parameter
+    </th>
+    <th>
+      Description
+    </th>
+  </tr>
+  <tr>
     <td>
       -Strict
     </td>
