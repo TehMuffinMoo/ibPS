@@ -576,6 +576,7 @@ Get-ibPSVersion -CheckForUpdates
   # Gets the ibPS Module Version.
   # Using -CheckForUpdates optionally checks if ibPS is up to date
   # Using -Update will optionally perform an in place upgrade of the ibPS module
+  # Using -Force will force the update/replacement of ibPS, regardless of the current version
 ```
 
 ## To-Do
