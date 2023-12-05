@@ -56,7 +56,21 @@ function DeprecationNotice {
 }
 
 function Get-ibPSVersion {
-  (Get-Module -ListAvailable -Name ibPS).Version.ToString()
+  param (
+    [Switch]$CheckForUpdates
+  )
+  $CurrentVersion = (Get-Module -ListAvailable -Name ibPS).Version.ToString()
+  if ($CheckForUpdates) {
+    $ModuleManifest = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/Modules/ibPS/ibPS.psd1"
+    $LatestVersion = ($ModuleManifest.RawContent | Select-String -Pattern 'ModuleVersion\s\=\s(.*)').Matches.Groups[1].Value -replace "'",""
+    if ($LatestVersion -gt $CurrentVersion) {
+      Write-Host "New version available! Current Version: $CurrentVersion - Latest Version: $LatestVersion" -BackgroundColor Yellow -ForegroundColor DarkGreen
+    } else {
+      Write-Host "ibPS is up to date! Current Version: $CurrentVersion - Latest Version: $LatestVersion" -BackgroundColor Green -ForegroundColor Blue
+    }
+  } else {
+    return $CurrentVersion
+  }
 }
 
 Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -Alias *
