@@ -68,12 +68,12 @@ function Get-ibPSVersion {
       $LatestVersion = ($ModuleManifest.RawContent | Select-String -Pattern 'ModuleVersion\s\=\s(.*)').Matches.Groups[1].Value -replace "'",""
       if (($LatestVersion -gt $CurrentVersion) -or $Force) {
         if ($Force) {
-          Write-Host "Forcing update. Current Version: $CurrentVersion - Latest Version: $LatestVersion" -BackgroundColor DarkRed -ForegroundColor Yellow
+          Write-Host "Forcing update. Current Version: $($CurrentVersion) - Latest Version: $($LatestVersion)" -BackgroundColor DarkRed -ForegroundColor Yellow
         } else {
-          Write-Host "New version available! Current Version: $CurrentVersion - Latest Version: $LatestVersion" -BackgroundColor Yellow -ForegroundColor DarkGreen
+          Write-Host "New version available! Current Version: $($CurrentVersion) - Latest Version: $($LatestVersion)" -BackgroundColor Yellow -ForegroundColor DarkGreen
         }
         if ($Update) {
-          Write-Warning "Confirmation: Do you want to proceed with updating from v$CurrentVersion to v$LatestVersion?" -WarningAction Inquire
+          Write-Warning "Confirmation: Do you want to proceed with updating from v$($CurrentVersion) to v$($LatestVersion)?" -WarningAction Inquire
           Invoke-WebRequest -Uri "https://github.com/TehMuffinMoo/ibPS/archive/refs/heads/main.zip" -OutFile ibPS.zip
           if (Test-Path ibPS.zip) {
             Expand-Archive ibPS.zip
