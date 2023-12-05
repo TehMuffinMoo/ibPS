@@ -96,6 +96,10 @@ Use the `Get-Help` cmdlet to get detailed information on usage. Example;
 
 ```Get-Help New-B1AddressBlock -Detailed```
 
+All supported `Get-*` cmdlets have a `-Strict` and `-tfilter` parameter.
+  `-Strict` is used to apply strict name checking when querying objects. The default is to perform wildcard/lazy matches based on submitted query parameters.
+  `-tfilter` is used to filter results of your query by tags. An example may be `Get-B1Record -tfilter '("myTag"=="val1" or "myOtherTag"~"partvalue")'`
+  
 ```
 # Most Get-* cmdlets implement a -Strict parameter which applies strict name checking. Where possible, the default is to perform wildcard lookups on submitted parameters.
 
