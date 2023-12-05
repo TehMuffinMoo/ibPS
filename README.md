@@ -40,7 +40,7 @@ To clone and run this PowerShell Module, you'll be best off with Git. This can b
 ### Loading ibPS Module
 You can either load the cmdlets directly, or Import/Install it as a PowerShell Module.
 
-#### Installing with Install.ps1 (Preferred and persistent)
+#### Installing/Updating with Install.ps1 (Preferred and persistent)
 ```bash
 # Clone this repository on Windows
 $ git clone https://github.com/TehMuffinMoo/ibPS/
@@ -53,6 +53,12 @@ $ cd ibPS/
 
 # Non-Interactive Install Module
 . .\Install.ps1 -Selection i
+```
+
+#### Updating ibPS automatically
+```bash
+# You can upgrade ibPS directly from the module by using the following cmdlet
+Get-ibPSVersion -Update
 ```
 
 #### Explicitly Import Module
@@ -515,7 +521,9 @@ Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -N
 ## General Cmdlets
 ```
 Get-ibPSVersion -CheckForUpdates
-  Gets the ibPS Module Version. Using -CheckForUpdates optionally checks if ibPS is up to date
+  Gets the ibPS Module Version.
+  Using -CheckForUpdates optionally checks if ibPS is up to date
+  Using -Update will optionally perform an in place upgrade of the ibPS module
 ```
 
 ## To-Do

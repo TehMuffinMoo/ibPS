@@ -90,10 +90,10 @@ function Get-ibPSVersion {
                 $Selection = "g"
               }
             }
-            cd ibPS/ibPS-main
+            Set-Location ibPS/ibPS-main
             .\Install.ps1 -Selection $Selection
           }
-          cd ../../
+          Set-Location ../../
           Remove-Item ibPS,ibPS.zip -Recurse -Force
           if ($CurrentVersion = (Get-Module -ListAvailable -Name ibPS).Version.ToString() -eq $LatestVersion) {
             Write-Host "Successfully updated ibPS to latest version: $LatestVersion" -ForegroundColor Green
