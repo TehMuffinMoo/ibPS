@@ -41,7 +41,7 @@ To clone and run this PowerShell Module, you'll be best off with Git. This can b
 You can either load the cmdlets directly, or Import/Install it as a PowerShell Module.
 
 #### Installing/Updating with Install.ps1 (Preferred and persistent)
-```bash
+```powershell
 # Clone this repository on Windows
 $ git clone https://github.com/TehMuffinMoo/ibPS/
 
@@ -56,19 +56,19 @@ $ cd ibPS/
 ```
 
 #### Updating ibPS automatically
-```bash
+```powershell
 # You can upgrade ibPS directly from the module by using the following cmdlet
 Get-ibPSVersion -Update
 ```
 
 #### Explicitly Import Module
-```bash
+```powershell
 # You can import the module directly by using;
 Import-Module -Name ".\Modules\ibPS\BloxOne-Main.psm1" -DisableNameChecking
 ```
 
 #### Explicitly Import Functions
-```bash
+```powershell
 # You can load the functions directly by using;
 . .\Modules\BloxOne-Main.ps1
 ```
@@ -94,7 +94,9 @@ All Cmdlets are listed below, but the list does not currently contain all possib
 
 Use the `Get-Help` cmdlet to get detailed information on usage. Example;
 
-```Get-Help New-B1AddressBlock -Detailed```
+```powershell
+Get-Help New-B1AddressBlock -Detailed
+```
 
 All supported `Get-*` cmdlets have a `-Strict` and `-tfilter` parameter.
 
@@ -522,42 +524,42 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
 ```
 
 ## NIOS Cmdlets
-```
+```powershell
 Store-NIOSCredentials -Credentials ${$CredentialObject} -Persist
-  Stores NIOS Credentials encrypted, can be run without -Credentials parameter for it to prompt instead. The optional -Persist parameter will persist the credentials for that user on that machine. This requires a restart of the powershell session before credentials can be used.
+ # Stores NIOS Credentials encrypted, can be run without -Credentials parameter for it to prompt instead. The optional -Persist parameter will persist the credentials for that user on that machine. This requires a restart of the powershell session before credentials can be used.
 
 Get-NIOSCredentials
-  Retrieves stored NIOS Credentials
+ # Retrieves stored NIOS Credentials
 
 Set-NIOSConfiguration -Server gridmaster.domain.corp -APIVersion 2.10
-  Used to set the Grid Master FQDN and/or API Version, optionally persisting using -Persist. The default API Version for WAPI is 2.12.
-  This is useful to save having to enter the server address every time.
+ # Used to set the Grid Master FQDN and/or API Version, optionally persisting using -Persist. The default API Version for WAPI is 2.12.
+ # This is useful to save having to enter the server address every time.
 
 Get-NIOSConfiguration
-  Retrieves stored NIOS Configuration, if available.
+ # Retrieves stored NIOS Configuration, if available.
 
 Get-NIOSAuthoritativeZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
-  Retrieves a list of authoritative zones from NIOS
+ # Retrieves a list of authoritative zones from NIOS
 
 Get-NIOSForwardZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
-  Retrieves a list of forward zones from NIOS
+ # Retrieves a list of forward zones from NIOS
 
 Get-NIOSDelegatedZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
-  Retrieves a list of delegated zones from NIOS
+ # Retrieves a list of delegated zones from NIOS
 
 New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN delegated.my-dns.zone -Hosts @(@{"address"="1.2.3.4";"name"="bloxoneddihost1.dev.mydomain.corp";},@{"address"="2.3.4.5";"name"="bloxoneddihost2.dev.mydomain.corp";}) -View External
-  Used to create a new delegated zone within NIOS
+ # Used to create a new delegated zone within NIOS
 
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group" -Confirm:$false
-  Used to copy/migrate Authoritative Subzones from NIOS to BloxOneDDI
+ # Used to copy/migrate Authoritative Subzones from NIOS to BloxOneDDI
 ```
 
 ## General Cmdlets
-```
+```powershell
 Get-ibPSVersion -CheckForUpdates
-  Gets the ibPS Module Version.
-  Using -CheckForUpdates optionally checks if ibPS is up to date
-  Using -Update will optionally perform an in place upgrade of the ibPS module
+  # Gets the ibPS Module Version.
+  # Using -CheckForUpdates optionally checks if ibPS is up to date
+  # Using -Update will optionally perform an in place upgrade of the ibPS module
 ```
 
 ## To-Do
