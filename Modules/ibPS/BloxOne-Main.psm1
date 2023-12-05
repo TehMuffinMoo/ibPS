@@ -58,15 +58,20 @@ function DeprecationNotice {
 function Get-ibPSVersion {
   param (
     [Switch]$CheckForUpdates,
-    [Switch]$Update
+    [Switch]$Update,
+    [Switch]$Force
   )
   $CurrentVersion = (Get-Module -ListAvailable -Name ibPS).Version.ToString()
   if ($CheckForUpdates -or $Update) {
     $ModuleManifest = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/Modules/ibPS/ibPS.psd1"
     if ($ModuleManifest) {
       $LatestVersion = ($ModuleManifest.RawContent | Select-String -Pattern 'ModuleVersion\s\=\s(.*)').Matches.Groups[1].Value -replace "'",""
-      if ($LatestVersion -gt $CurrentVersion) {
-        Write-Host "New version available! Current Version: $CurrentVersion - Latest Version: $LatestVersion" -BackgroundColor Yellow -ForegroundColor DarkGreen
+      if (($LatestVersion -gt $CurrentVersion) -or $Force) {
+        if ($Force) {
+          Write-Host "Forcing update. Current Version: $CurrentVersion - Latest Version: $LatestVersion" -BackgroundColor DarkRed -ForegroundColor Yellow
+        } else {
+          Write-Host "New version available! Current Version: $CurrentVersion - Latest Version: $LatestVersion" -BackgroundColor Yellow -ForegroundColor DarkGreen
+        }
         if ($Update) {
           Write-Warning "Confirmation: Do you want to proceed with updating from v$CurrentVersion to v$LatestVersion?" -WarningAction Inquire
           Invoke-WebRequest -Uri "https://github.com/TehMuffinMoo/ibPS/archive/refs/heads/main.zip" -OutFile ibPS.zip
