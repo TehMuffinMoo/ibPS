@@ -514,8 +514,8 @@ Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -N
 
 ## General Cmdlets
 ```
-Get-ibPSVersion
-  Gets the ibPS Module Version
+Get-ibPSVersion -CheckForUpdates
+  Gets the ibPS Module Version. Using -CheckForUpdates optionally checks if ibPS is up to date
 ```
 
 ## To-Do
