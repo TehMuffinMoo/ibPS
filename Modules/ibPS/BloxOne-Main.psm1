@@ -31,7 +31,7 @@ $B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneDDI\*.ps1"
 $B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneDDI\Private\*.ps1"
 $NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\*.ps1"
 $NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1"
-$AdditionalFunctionsToImport = "Get-ibPSVersion","Query-CSP"
+$AdditionalFunctionsToImport = "Get-ibPSVersion","Query-CSP","Query-NIOS"
 
 foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $NIOSPublicFunctions + $NIOSPrivateFunctions)) {
   try {
@@ -90,10 +90,10 @@ function Get-ibPSVersion {
                 $Selection = "g"
               }
             }
-            cd ibPS/ibPS-main
+            Set-Location ibPS/ibPS-main
             .\Install.ps1 -Selection $Selection
           }
-          cd ../../
+          Set-Location ../../
           Remove-Item ibPS,ibPS.zip -Recurse -Force
           if ($CurrentVersion = (Get-Module -ListAvailable -Name ibPS).Version.ToString() -eq $LatestVersion) {
             Write-Host "Successfully updated ibPS to latest version: $LatestVersion" -ForegroundColor Green
