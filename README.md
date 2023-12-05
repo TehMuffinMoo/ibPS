@@ -523,6 +523,14 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
   Used to deploy the BloxOne Virtual Appliance. Requires VMware PowerCLI to be installed. All parameters are mandatory. -PortGroupType can be Standard or VDS.
 ```
 
+### Custom BloxOne Functions
+You can also create custom functions by using the `Query-CSP` cmdlet.
+```bash
+Query-CSP -Method <String> -Uri <String> -Data <String> -InFile <String>
+  # This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the BloxOne APIs.
+  # This allows creating custom functions which are not yet built into native ibPS cmdlets
+```
+
 ## NIOS Cmdlets
 ```powershell
 Store-NIOSCredentials -Credentials ${$CredentialObject} -Persist
@@ -552,6 +560,13 @@ New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN delegated.my-dns.zone
 
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group" -Confirm:$false
  # Used to copy/migrate Authoritative Subzones from NIOS to BloxOneDDI
+```
+### Custom NIOS Functions
+You can also create custom functions by using the `Query-NIOS` cmdlet.
+```bash
+Query-NIOS -Method <String> -Server <String> -Uri <String> -ApiVersion <String> -Creds <PSCredential> -Data <String> -SkipCertificateCheck <Switch>
+  # This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs.
+  # This allows creating custom functions which are not yet built into native ibPS cmdlets
 ```
 
 ## General Cmdlets

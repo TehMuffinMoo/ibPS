@@ -15,6 +15,9 @@ function Query-CSP {
     .PARAMETER Data
         Data to be submitted on POST/PUT/PATCH/DELETE requests
 
+    .PARAMETER InFile
+        File path of data to submit as part of POST request
+
     .Example
         Query-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
 
