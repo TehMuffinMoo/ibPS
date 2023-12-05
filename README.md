@@ -90,7 +90,11 @@ Store-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>"
 ```
 
 ## BloxOne Cmdlets
-All Cmdlets are listed below.
+All Cmdlets are listed below, but the list does not currently contain all possible parameters.
+
+Use the `Get-Help` cmdlet to get detailed information on usage. Example;
+
+```Get-Help New-B1AddressBlock -Detailed```
 
 ```
 # Most Get-* cmdlets implement a -Strict parameter which applies strict name checking. Where possible, the default is to perform wildcard lookups on submitted parameters.
