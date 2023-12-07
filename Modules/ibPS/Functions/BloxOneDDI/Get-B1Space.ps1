@@ -78,6 +78,5 @@
         return $Results
     } else {
         Write-Host "Error. Unable to find IPAM space: $Name" -ForegroundColor Red
-        break
     }
 }
