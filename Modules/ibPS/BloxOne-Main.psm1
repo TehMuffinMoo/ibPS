@@ -63,7 +63,7 @@ function Get-ibPSVersion {
   )
   $CurrentVersion = (Get-Module -ListAvailable -Name ibPS).Version.ToString()
   if ($CheckForUpdates -or $Update) {
-    $ModuleManifest = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/Modules/ibPS/ibPS.psd1"
+    $ModuleManifest = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/Modules/ibPS/ibPS.psd1" -Headers @{"Cache-Control"="no-cache"}
     if ($ModuleManifest) {
       $LatestVersion = ($ModuleManifest.RawContent | Select-String -Pattern 'ModuleVersion\s\=\s(.*)').Matches.Groups[1].Value -replace "'",""
       if (($LatestVersion -gt $CurrentVersion) -or $Force) {
@@ -74,7 +74,7 @@ function Get-ibPSVersion {
         }
         if ($Update) {
           Write-Warning "Confirmation: Do you want to proceed with updating from v$($CurrentVersion) to v$($LatestVersion)?" -WarningAction Inquire
-          Invoke-WebRequest -Uri "https://github.com/TehMuffinMoo/ibPS/archive/refs/heads/main.zip" -OutFile ibPS.zip
+          Invoke-WebRequest -Uri "https://github.com/TehMuffinMoo/ibPS/archive/refs/heads/main.zip" -OutFile ibPS.zip -Headers @{"Cache-Control"="no-cache"}
           if (Test-Path ibPS.zip) {
             Expand-Archive ibPS.zip
           }
