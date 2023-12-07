@@ -24,6 +24,9 @@
     .PARAMETER Description
         The description for the new zone
 
+    .PARAMETER Tags
+        Any tags you want to apply to the authoritative zone
+
     .Example
         New-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
    
@@ -41,7 +44,8 @@
       [System.Object]$DNSHosts,
       [System.Object]$AuthNSGs,
       [String]$DNSACL,
-      [String]$Description
+      [String]$Description,
+      [System.Object]$Tags
     )
 
     if (Get-B1AuthoritativeZone -FQDN $FQDN -View $View -Strict) {
@@ -86,6 +90,10 @@
                 Write-Host "Error. DNS ACL not found." -ForegroundColor Red
                 break
             }
+        }
+
+        if ($Tags) {
+            $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
         }
 
         if ($Description) {
