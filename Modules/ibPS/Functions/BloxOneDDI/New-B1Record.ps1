@@ -48,6 +48,10 @@
     .PARAMETER CAValue
         Used to set the CA value for CAA records
 
+    .PARAMETER Tags
+        Any tags you want to apply to the address block
+
+
     .PARAMETER SkipExistsErrors
         Whether to skip errors if the record already exists. Default is $false
 
@@ -77,6 +81,7 @@
       [int]$TTL,
       [string]$Description,
       [bool]$CreatePTR = $true,
+      [System.Object]$Tags,
       [switch]$SkipExistsErrors = $false,
       [switch]$IgnoreExists = $false
     )
@@ -344,6 +349,9 @@
                 }
                 if ($Description) {
                     $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
+                }
+                if ($Tags) {
+                    $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
                 }
 
                 $splat = $splat | ConvertTo-Json
