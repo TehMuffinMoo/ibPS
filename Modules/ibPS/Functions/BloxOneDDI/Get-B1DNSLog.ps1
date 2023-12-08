@@ -9,8 +9,11 @@ function Get-B1DNSLog {
     .PARAMETER Query
         Use this parameter to filter the DNS Logs by hostname or FQDN
 
-    .PARAMETER Source
-        Used to filter the DNS Log by IP Address
+    .PARAMETER IP
+        Used to filter the DNS Log by IP Address. Accepts multiple inputs.
+
+    .PARAMETER Name
+        Used to filter the DNS Log by Client Host Name. Accepts multiple inputs.
 
     .PARAMETER Type
         Used to filter the DNS Log by query type, such as "A" or "CNAME"
@@ -35,6 +38,9 @@ function Get-B1DNSLog {
 
     .Example
         Get-B1DNSLog -Source "10.10.172.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
+
+    .Example
+        Get-B1DNSLog -Source "10.10.172.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -44,10 +50,11 @@ function Get-B1DNSLog {
     #>
     param(
       [string]$Query,
-      [string]$Source,
+      [string[]]$IP,
+      [string[]]$Name,
       [string]$Type,
       [string]$Response,
-      [string]$DNSServers,
+      [string[]]$DNSServers,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
       [int]$Limit = 100,
@@ -125,15 +132,24 @@ function Get-B1DNSLog {
         $splat.filters += $ResponseSplat
     }
 
-    if ($Source) {
-        $SourceSplat = @{
+    if ($IP) {
+        $IPSplat = @{
             "member" = "NstarDnsActivity.device_ip"
             "operator" = "contains"
             "values" = @(
-                $Source
+                $IP
             )
 		}
-        $splat.filters += $SourceSplat
+        $splat.filters += $IPSplat
+    }
+
+    if ($Name) {
+        $NameSplat = @{
+            "member" = "NstarDnsActivity.device_name"
+            "operator" = "contains"
+            "values" = $Name
+		}
+        $splat.filters += $NameSplat
     }
 
     if ($DNSServers) {
