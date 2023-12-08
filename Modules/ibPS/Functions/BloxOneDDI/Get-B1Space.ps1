@@ -53,7 +53,7 @@
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($id) {
-        $Filters.Add("id$MatchType`"$id`"") | Out-Null
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
 
     if ($Filters) {
