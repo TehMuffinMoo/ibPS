@@ -152,7 +152,6 @@ function Get-B1DNSLog {
 
     if ($DNSServers) {
         $DNSServerArr = @()
-        $DNSServers
         foreach ($DNSServer in $DNSServers) {
           $SiteID = ($DNSServices | Where-Object {$_.name -like "*$DNSServer*"}).site_id
           $DNSServerArr += $SiteID
@@ -166,8 +165,6 @@ function Get-B1DNSLog {
     }
 
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-
-    $splat | ConvertTo-Json -Depth 4 
 
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
     $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
