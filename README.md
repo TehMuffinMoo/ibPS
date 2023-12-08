@@ -396,6 +396,12 @@ New-B1FixedAddress -IP "10.10.1.10" -Name "New fixed address" -Description "Desc
 New-B1APIKey -Name "serviceapikey" -Type Service -UserName "svc-account-name"
   Creates a new API Key in the BloxOne Cloud and returns the key
 
+Remove-B1DNSView -Name "My DNS View"
+  Removes a DNS View
+
+Remove-B1Space -Name "My DNS View"
+  Removes an IP Space
+
 Remove-B1Record -Type "A" -Name "myrecord" -Zone "prod.mydomain.corp"
   Removes a DNS record.
   
@@ -588,6 +594,8 @@ Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flex
 Cmdlet                           | Pipeline Input Supported                                           | Supported Input Cmdlets
 -------------------------------- | ------------------------------------------------------------------ | ----------------------------
 Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
+Remove-B1DNSView                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSView
+Remove-B1Space                 | ! [Implemented] (https://badgen.net/badge/Status/Implemented/green)  | Get-B1Space
 Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Address
 Remove-B1AuthoritativeZone       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
