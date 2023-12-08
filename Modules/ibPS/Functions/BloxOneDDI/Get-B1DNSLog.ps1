@@ -61,7 +61,7 @@ function Get-B1DNSLog {
       [int]$Offset = 0
     )
 
-    $OnPremHosts = Get-B1DNSHost
+    $DNSServices = Get-B1DNSHost
 
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()
@@ -136,9 +136,7 @@ function Get-B1DNSLog {
         $IPSplat = @{
             "member" = "NstarDnsActivity.device_ip"
             "operator" = "contains"
-            "values" = @(
-                $IP
-            )
+            "values" = $IP
 		}
         $splat.filters += $IPSplat
     }
@@ -154,21 +152,22 @@ function Get-B1DNSLog {
 
     if ($DNSServers) {
         $DNSServerArr = @()
+        $DNSServers
         foreach ($DNSServer in $DNSServers) {
-          $SiteID = ($OnPremHosts | Where-Object {$_.absolute_name -like "*$DNSServer*"}).site_id
+          $SiteID = ($DNSServices | Where-Object {$_.name -like "*$DNSServer*"}).site_id
           $DNSServerArr += $SiteID
         }
         $DNSServerSplat = @{
             "member" = "NstartDnsActivity.site_id"
             "operator" = "equals"
-            "values" = @(
-                $DNSServerArr
-            )
+            "values" = $DNSServerArr
         }
         $splat.filters += $DNSServerSplat
     }
 
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress
+
+    $splat | ConvertTo-Json -Depth 4 
 
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
     $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
@@ -183,7 +182,7 @@ function Get-B1DNSLog {
                                      @{name="query_type";Expression={$_.'NstarDnsActivity.query_type'}},`
                                      @{name="response";Expression={$_.'NstarDnsActivity.response'}},`
                                      @{name="timestamp";Expression={$_.'NstarDnsActivity.timestamp'}},
-                                     @{name="dns_server";Expression={$siteId = $_.'NstarDnsActivity.site_id'; (@($OnPremHosts).where({ $_.site_id -eq $siteId })).name}}
+                                     @{name="dns_server";Expression={$siteId = $_.'NstarDnsActivity.site_id'; (@($DNSServices).where({ $_.site_id -eq $siteId })).name}}
     } else {
         Write-Host "Error: No DNS logs returned." -ForegroundColor Red
     }
