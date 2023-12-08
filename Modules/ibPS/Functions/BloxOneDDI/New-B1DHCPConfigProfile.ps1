@@ -23,6 +23,9 @@
     .PARAMETER DDNSZones
         A list of DDNS Zones to apply to this DHCP Config Profile
 
+    .PARAMETER Tags
+        Any tags you want to apply to the new DHCP Config Profile
+
     .Example
         New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions @() -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
     
@@ -34,7 +37,8 @@
       [String]$Name,
       [String]$Description,
       [System.Object]$DHCPOptions = @(),
-      [System.Object]$DDNSZones
+      [System.Object]$DDNSZones,
+      [System.Object]$Tags
     )
     $ConfigProfile = Get-B1DHCPConfigProfile -Name $Name -Strict -IncludeInheritance
     if ($ConfigProfile) {
@@ -99,6 +103,10 @@
                 $ToUpdate += $DDNSZone
             }
 	        $splat.ddns_zones = $ConfigProfileJson
+        }
+
+        if ($Tags) {
+            $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
         }
         
         $splat = $splat | ConvertTo-Json -Depth 4

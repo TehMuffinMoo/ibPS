@@ -71,6 +71,5 @@
         return $Results
     } else {
         Write-Host "Error. Unable to find DNS View: $Name" -ForegroundColor Red
-        break
     }
 }

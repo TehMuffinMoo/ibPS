@@ -49,7 +49,7 @@
         Used to set the CA value for CAA records
 
     .PARAMETER Tags
-        Any tags you want to apply to the address block
+        Any tags you want to apply to the record
 
 
     .PARAMETER SkipExistsErrors
@@ -360,7 +360,7 @@
                 if ($Debug) {$Result}
                 if ($Result.dns_rdata -match $rdata) {
                     Write-Host "DNS $Type Record has been successfully created for $FQDN." -ForegroundColor Green
-                    #return $Result
+                    return $Result
                 } else {
                     Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red
                 }

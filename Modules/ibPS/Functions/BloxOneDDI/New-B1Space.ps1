@@ -36,7 +36,7 @@
       [String]$DDNSDomain,
       [System.Object]$Tags
     )
-    $B1Space = Get-B1Space -Name $Name 6> $null
+    $B1Space = Get-B1Space -Name $Name -Strict 6> $null
     if ($B1Space) {
         Write-Error "IP Space already exists with the name: $($Name)"
     } else {
@@ -66,11 +66,11 @@
         $splat = $splat | ConvertTo-Json -Depth 4
         if ($Debug) {$splat}
 
-        $Result = Query-CSP -Method POST -Uri "ipam/ip_space" -Data $splat
+        $Result = Query-CSP -Method POST -Uri "ipam/ip_space" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         
-        if (($Result | Select-Object -ExpandProperty result).name -eq $Name) {
+        if ($Result.name -eq $Name) {
             Write-Host "IP Space $($Name) created successfully." -ForegroundColor Green
-            return $Result | Select-Object -ExpandProperty result
+            return $Result
         } else {
             Write-Host "Failed to create IP Space $($Name)." -ForegroundColor Red
             break
