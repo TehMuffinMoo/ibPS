@@ -595,7 +595,7 @@ Cmdlet                           | Pipeline Input Supported                     
 -------------------------------- | ------------------------------------------------------------------ | ----------------------------
 Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
 Remove-B1DNSView                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSView
-Remove-B1Space                 | ! [Implemented] (https://badgen.net/badge/Status/Implemented/green)  | Get-B1Space
+Remove-B1Space                   | ![Implemented] (https://badgen.net/badge/Status/Implemented/green) | Get-B1Space
 Remove-B1AddressBlock            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 Remove-B1AddressReservation      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Address
 Remove-B1AuthoritativeZone       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
