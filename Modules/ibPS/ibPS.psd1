@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.85'
+ModuleVersion = '1.9.0.86'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -125,7 +125,7 @@ FunctionsToExport = 'Deploy-B1Appliance', 'Get-B1Address', 'Get-B1AddressBlock',
                'Get-NIOSConfiguration', 'Get-NIOSCredentials', 
                'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
                'New-NIOSDelegatedZone', 'Set-NIOSConfiguration', 
-               'Store-NIOSCredentials', 'Get-ibPSVersion', 'Query-CSP'
+               'Store-NIOSCredentials', 'Get-ibPSVersion', 'Query-CSP', 'Query-NIOS'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
