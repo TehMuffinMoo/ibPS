@@ -662,6 +662,8 @@ Set-B1TDTideDataProfile          | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1TDSecurityPolicy        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TDSecurityPolicy
 Remove-B1TDNetworkList           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TDNetworkList
 Get-B1TDDossierLookup            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1TTDDossierLookup
+Set-B1Object                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Object
+
 
 
 ### Replace old for new APIs
