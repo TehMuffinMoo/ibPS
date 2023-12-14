@@ -533,8 +533,23 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
 You can also create custom functions by using the generic wrapper cmdlets.
 ```bash
 Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
-  # This is a generic wrapper function which allows you to create custom calls to the BloxOne APIs.
+  # This is a generic wrapper function which allows you to create custom calls to retrieve objects from the BloxOne APIs.
   # It supports auto-complete of required fields based on the API Schema using double-tab
+
+Set-B1Object -id {Object ID} -_ref {Object Ref} -Data {Data to Submit}
+  # This is a generic wrapper function which allows you to create custom calls to update objects from the BloxOne APIs.
+  # It supports pipeline input from Get-B1Object
+  # Be mindful that a number of read-only fields will be returned and will need removing prior to submitting the data. id & _ref are always required fields and should not be removed.
+  
+  # See example below for adding a new tag to multiple DNS A records
+        $Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"')
+        foreach ($Record in $Records) {
+            if (!($Record.tags)) {
+                $Record.tags = @{}
+            }
+            $Record.tags.NewTag = "New Tag Value"
+        }
+        $Records | select id,_ref,tags | Set-B1Object
 ```
 
 ## NIOS Cmdlets

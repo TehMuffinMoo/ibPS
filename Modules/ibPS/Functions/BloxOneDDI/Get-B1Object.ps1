@@ -76,5 +76,9 @@ function Get-B1Object {
     $QueryString = ConvertTo-QueryString $QueryFilters
     $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
 
-    Query-CSP -Method GET -Uri $Uri | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+    $Results = Query-CSP -Method GET -Uri $Uri | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+    if ($Results) {
+        $Results | Add-Member -MemberType NoteProperty "_ref" -Value "$($B1CSPUrl)$($BasePath)"
+        $Results
+    }
 }

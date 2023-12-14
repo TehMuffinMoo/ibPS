@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.89'
+ModuleVersion = '1.9.0.92'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -118,15 +118,15 @@ FunctionsToExport = 'Deploy-B1Appliance', 'Get-B1Address', 'Get-B1AddressBlock',
                'Set-B1AuthoritativeZone', 'Set-B1CSPUrl', 'Set-B1DHCPConfigProfile', 
                'Set-B1DHCPGlobalConfig', 'Set-B1DNSHost', 'Set-B1FixedAddress', 
                'Set-B1ForwardNSG', 'Set-B1ForwardZone', 'Set-B1Host', 
-               'Set-B1NTPServiceConfiguration', 'Set-B1Range', 'Set-B1Record', 
-               'Set-B1Subnet', 'Set-B1TDTideDataProfile', 'Start-B1DiagnosticTask', 
-               'Start-B1Export', 'Start-B1Service', 'Start-B1TDDossierBatchLookup', 
-               'Start-B1TDDossierLookup', 'Stop-B1Service', 'Store-B1CSPAPIKey', 
-               'Copy-NIOSSubzoneToBloxOne', 'Get-NIOSAuthoritativeZone', 
-               'Get-NIOSConfiguration', 'Get-NIOSCredentials', 
-               'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
+               'Set-B1NTPServiceConfiguration', 'Set-B1Object', 'Set-B1Range', 
+               'Set-B1Record', 'Set-B1Subnet', 'Set-B1TDTideDataProfile', 
+               'Start-B1DiagnosticTask', 'Start-B1Export', 'Start-B1Service', 
+               'Start-B1TDDossierBatchLookup', 'Start-B1TDDossierLookup', 
+               'Stop-B1Service', 'Store-B1CSPAPIKey', 'Copy-NIOSSubzoneToBloxOne', 
+               'Get-NIOSAuthoritativeZone', 'Get-NIOSConfiguration', 
+               'Get-NIOSCredentials', 'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
                'New-NIOSDelegatedZone', 'Set-NIOSConfiguration', 
-               'Store-NIOSCredentials', 'Get-ibPSVersion', 'Query-CSP', 'Query-NIOS'
+               'Store-NIOSCredentials', 'Get-ibPSVersion', 'Query-NIOS'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
