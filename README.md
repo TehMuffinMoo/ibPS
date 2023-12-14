@@ -595,6 +595,10 @@ Remove-B1Object -id {Object ID} -_ref {Object Ref}
   # This example shows deleting multiple address blocks based on tag
 
         Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
+
+  # Another example using Splat for parameter input
+        Get-B1Object @splat -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
+
 ```
 
 ## NIOS Cmdlets
