@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.94'
+ModuleVersion = '1.9.0.95'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -84,7 +84,7 @@ FunctionsToExport = 'Deploy-B1Appliance', 'Get-B1Address', 'Get-B1AddressBlock',
                'Get-B1ForwardNSG', 'Get-B1ForwardZone', 'Get-B1GlobalNTPConfig', 
                'Get-B1HAGroup', 'Get-B1HealthCheck', 'Get-B1Host', 
                'Get-B1NTPServiceConfiguration', 'Get-B1Object', 'Get-B1Range', 
-               'Get-B1Record', 'Get-B1SecurityLog', 'Get-B1Service', 
+               'Get-B1Record', 'Get-B1Schema', 'Get-B1SecurityLog', 'Get-B1Service', 
                'Get-B1ServiceLog', 'Get-B1Space', 'Get-B1Subnet', 'Get-B1Tag', 
                'Get-B1TDContentCategory', 'Get-B1TDDossierLookup', 
                'Get-B1TDDossierSupportedFeedback', 
@@ -110,7 +110,7 @@ FunctionsToExport = 'Deploy-B1Appliance', 'Get-B1Address', 'Get-B1AddressBlock',
                'Remove-B1AuthoritativeZone', 'Remove-B1DHCPConfigProfile', 
                'Remove-B1DNSConfigProfile', 'Remove-B1DNSView', 
                'Remove-B1FixedAddress', 'Remove-B1ForwardZone', 'Remove-B1HAGroup', 
-               'Remove-B1Host', 'Remove-B1Range', 'Remove-B1Record', 
+               'Remove-B1Host', 'Remove-B1Object', 'Remove-B1Range', 'Remove-B1Record', 
                'Remove-B1Service', 'Remove-B1Space', 'Remove-B1Subnet', 
                'Remove-B1TDNetworkList', 'Remove-B1TDSecurityPolicy', 
                'Revoke-B1DHCPConfigProfile', 'Revoke-B1DNSConfigProfile', 

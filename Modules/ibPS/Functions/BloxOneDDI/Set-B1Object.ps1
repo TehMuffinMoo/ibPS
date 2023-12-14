@@ -1,10 +1,10 @@
 function Set-B1Object {
     <#
     .SYNOPSIS
-        Generic Wrapper for interaction with the CSP (Cloud Services Portal) via GET requests
+        Generic Wrapper for updating existing objects within the CSP (Cloud Services Portal)
 
     .DESCRIPTION
-        This is a Generic Wrapper for getting objects from the BloxOne CSP (Cloud Services Portal).
+        This is a Generic Wrapper for updating objects within the CSP (Cloud Services Portal). It is recommended this is used via Pipeline
 
     .PARAMETER _ref
         The base URL of the object to update

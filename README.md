@@ -570,6 +570,14 @@ Set-B1Object -id {Object ID} -_ref {Object Ref} -Data {Data to Submit}
             )
         }
         $Subnets | Set-B1Object
+
+Remove-B1Object -id {Object ID} -_ref {Object Ref}
+  # This is a generic wrapper function which allows you to create custom calls to delete objects from the BloxOne APIs.
+  # It supports pipeline input from Get-B1Object
+  
+  # This example shows deleting multiple address blocks based on tag
+
+        Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
 ```
 
 ## NIOS Cmdlets
