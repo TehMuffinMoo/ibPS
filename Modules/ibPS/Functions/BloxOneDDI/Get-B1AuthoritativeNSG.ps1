@@ -35,7 +35,7 @@
     )
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
-    [System.Collections.ArrayList]$Filters2 = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
@@ -44,18 +44,18 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        $Filters2.Add("_filter=$Filter") | Out-Null
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($tfilter) {
-        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+        $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
-    if ($Filters2) {
-        $Filter2 = Combine-Filters2 $Filters2
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
     }
 
-    if ($Filters2) {
-        $Filter2 = Combine-Filters2 $Filters2
-        Query-CSP -Method GET -Uri "dns/auth_nsg$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+        Query-CSP -Method GET -Uri "dns/auth_nsg$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Method GET -Uri "dns/auth_nsg" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

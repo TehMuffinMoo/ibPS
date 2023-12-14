@@ -93,7 +93,7 @@ function Get-B1ServiceLog {
     $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ssZ")
     $Filters += "end=$EndTime"
 
-    $QueryFilters = Combine-Filters2 -Filters $Filters
+    $QueryFilters = ConvertTo-QueryString -Filters $Filters
 
     $B1OnPremHosts = Get-B1Host -Detailed
     if ($QueryFilters) {

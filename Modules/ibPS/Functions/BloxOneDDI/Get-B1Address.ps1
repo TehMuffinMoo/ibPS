@@ -65,22 +65,22 @@
           $Filter = "_filter="+(Combine-Filters $Filters)
       }
     
-      [System.Collections.ArrayList]$Filters2 = @()
+      [System.Collections.ArrayList]$QueryFilters = @()
       if ($State) {
-          $Filters2.Add("address_state=$State") | Out-Null
+          $QueryFilters.Add("address_state=$State") | Out-Null
       }
       if ($Filter) {
-        $Filters2.Add($Filter) | Out-Null
+        $QueryFilters.Add($Filter) | Out-Null
       }
-      $Filters2.Add("_limit=$Limit") | Out-Null
-      $Filters2.Add("_offset=$Offset") | Out-Null
+      $QueryFilters.Add("_limit=$Limit") | Out-Null
+      $QueryFilters.Add("_offset=$Offset") | Out-Null
       if ($tfilter) {
-        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+        $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
       }
-      $Filter2 = Combine-Filters2 $Filters2
+      $QueryString = ConvertTo-QueryString $QueryFilters
 
-      if ($Filter2) {
-          $Results = Query-CSP -Uri "ipam/address$Filter2" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+      if ($QueryString) {
+          $Results = Query-CSP -Uri "ipam/address$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       } else {
           $Results = Query-CSP -Uri "ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       }

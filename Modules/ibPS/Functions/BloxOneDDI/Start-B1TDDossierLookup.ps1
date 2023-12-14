@@ -51,7 +51,7 @@
       $Filters += "wait=true"
     }
 
-    $CombinedFilters = Combine-Filters2 $Filters
+    $CombinedFilters = ConvertTo-QueryString $Filters
 
     if ($CombinedFilters) {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/indicator/$Type$CombinedFilters" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue

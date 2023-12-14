@@ -52,7 +52,7 @@ function Get-NIOSAuthoritativeZone {
     $Filters += "_return_as_object=1"
     $Filters += "_max_results=$Limit"
     if ($Filters) {
-        $Filter = Combine-Filters2($Filters)
+        $Filter = ConvertTo-QueryString($Filters)
     }
 
     if ($Filter) {

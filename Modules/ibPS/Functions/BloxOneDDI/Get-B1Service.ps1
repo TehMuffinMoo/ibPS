@@ -43,7 +43,7 @@
     )
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
-    [System.Collections.ArrayList]$Filters2 = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
@@ -57,15 +57,15 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        $Filters2.Add("_filter=$Filter") | Out-Null
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-    $Filters2.Add("_limit=$Limit") | Out-Null
-    $Filters2.Add("_offset=$Offset") | Out-Null
-    if ($Filters2) {
-        $Filter2 = Combine-Filters2 $Filters2
+    $QueryFilters.Add("_limit=$Limit") | Out-Null
+    $QueryFilters.Add("_offset=$Offset") | Out-Null
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
     }
-    if ($Filter2) {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($QueryString) {
+        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)?_limit=$Limit" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

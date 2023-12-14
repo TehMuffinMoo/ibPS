@@ -45,7 +45,7 @@
     if ($Space) {$SpaceUUID = (Get-B1Space -Name $Space -Strict).id}
 
     [System.Collections.ArrayList]$Filters = @()
-    [System.Collections.ArrayList]$Filters2 = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($IP) {
         $Filters.Add("address==`"$IP`"") | Out-Null
     }
@@ -57,19 +57,19 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        $Filters2.Add("_filter=$Filter") | Out-Null
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-    $Filters2.Add("_limit=$Limit") | Out-Null
-    $Filters2.Add("_offset=$Offset") | Out-Null
+    $QueryFilters.Add("_limit=$Limit") | Out-Null
+    $QueryFilters.Add("_offset=$Offset") | Out-Null
     if ($tfilter) {
-        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+        $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
-    if ($Filters2) {
-        $Filter2 = Combine-Filters2 $Filters2
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
     }
 
-    if ($Filter2) {
-        Query-CSP -Method GET -Uri "dhcp/fixed_address$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($QueryString) {
+        Query-CSP -Method GET -Uri "dhcp/fixed_address$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Method GET -Uri "dhcp/fixed_address" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

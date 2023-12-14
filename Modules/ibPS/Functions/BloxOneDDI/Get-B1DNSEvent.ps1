@@ -131,7 +131,7 @@ function Get-B1DNSEvent {
     $Filters += "_format=json"
 
     if ($Filters) {
-        $Filter = Combine-Filters2($Filters)
+        $Filter = ConvertTo-QueryString($Filters)
     }
     if ($Filter) {
       Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter&_offset=$Offset&_limit=$Limit" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue

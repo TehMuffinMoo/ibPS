@@ -46,7 +46,7 @@ function Get-B1TDTideThreatProperty {
       $Filters += "threat_level=$ThreatLevel"
     }
     if ($Filters) {
-        $Filter = Combine-Filters2($Filters)
+        $Filter = ConvertTo-QueryString($Filters)
     }
 
     if ($id) {

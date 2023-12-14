@@ -60,7 +60,7 @@
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
-    [System.Collections.ArrayList]$Filters2 = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($StartAddress) {
         $Filters.Add("start==`"$StartAddress`"") | Out-Null
     }
@@ -80,19 +80,19 @@
     if ($Filters) {
         if ($Filters) {
             $Filter = Combine-Filters $Filters
-            $Filters2.Add("_filter=$Filter") | Out-Null
+            $QueryFilters.Add("_filter=$Filter") | Out-Null
         }
-        $Filters2.Add("_limit=$Limit") | Out-Null
-        $Filters2.Add("_offset=$Offset") | Out-Null
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
         if ($tfilter) {
-            $Filters2.Add("_tfilter=$tfilter") | Out-Null
+            $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
         }
-        if ($Filters2) {
-            $Filter2 = Combine-Filters2 $Filters2
+        if ($QueryFilters) {
+            $QueryString = ConvertTo-QueryString $QueryFilters
         }
     }
-    if ($Filter2) {
-        Query-CSP -Uri "ipam/range$($Filter2)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($QueryString) {
+        Query-CSP -Uri "ipam/range$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Uri "ipam/range?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

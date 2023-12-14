@@ -33,7 +33,7 @@ function Combine-Filters {
     $combinedFilter
 }
 
-function Combine-Filters2 {
+function ConvertTo-QueryString {
     param(
       [parameter(mandatory=$true)]
       [System.Collections.ArrayList]$Filters
@@ -65,7 +65,7 @@ function Match-Type {
     return $MatchType
 }
 
-function ConvertTo-IPv4MaskString {
+function Convert-CIDRToNetmask {
   param(
     [parameter(Mandatory=$true)]
     [ValidateRange(0,32)]
@@ -76,7 +76,7 @@ function ConvertTo-IPv4MaskString {
   (($bytes.Count - 1)..0 | ForEach-Object { [String] $bytes[$_] }) -join "."
 }
 
-function Test-IPv4MaskString {
+function Test-NetmaskString {
   param(
     [parameter(Mandatory=$true)]
     [String] $MaskString
@@ -89,10 +89,10 @@ function Test-IPv4MaskString {
   $MaskString -match $maskPattern
 }
 
-function ConvertTo-IPv4MaskBits {
+function Convert-NetmaskToCIDR {
   param(
     [parameter(Mandatory=$true)]
-    [ValidateScript({Test-IPv4MaskString $_})]
+    [ValidateScript({Test-NetmaskString $_})]
     [String] $MaskString
   )
   $mask = ([IPAddress] $MaskString).Address
@@ -167,3 +167,132 @@ $CompositeStateSpaces = @(
         "Service_Type" = "ntp"
     }
 ) | ConvertTo-Json | ConvertFrom-Json
+
+function Get-NetworkInfo {
+  <#
+    .LINK
+      https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
+  #>
+  param ( 
+      [parameter(ValueFromPipeline)]
+      [string]
+      $IP,
+      [ValidateRange(0, 32)]
+      [Alias('CIDR')]
+      [int]
+      $MaskBits,
+
+      [switch]
+      $Force
+  )
+  process {
+
+      if ($PSBoundParameters.ContainsKey('MaskBits')) { 
+          $Mask = $MaskBits 
+      }
+
+      if (-not $IP) { 
+          $LocalIP = (Get-NetIPAddress | Where-Object { $_.AddressFamily -eq 'IPv4' -and $_.PrefixOrigin -ne 'WellKnown' })
+
+          $IP = $LocalIP.IPAddress
+          If ($Mask -notin 0..32) { $Mask = $LocalIP.PrefixLength }
+      }
+
+      if ($IP -match '/\d') { 
+          $IPandMask = $IP -Split '/' 
+          $IP = $IPandMask[0]
+          $Mask = $IPandMask[1]
+      }
+      
+      $Class = Get-NetworkClass -IP $IP
+
+      if ($Mask -notin 0..32) {
+
+          $Mask = switch ($Class) {
+              'A' { 8 }
+              'B' { 16 }
+              'C' { 24 }
+              default { 
+                  throw "Subnet mask size was not specified and could not be inferred because the address is Class $Class." 
+              }
+          }
+
+          Write-Warning "Subnet mask size was not specified. Using default subnet size for a Class $Class network of /$Mask."
+      }
+
+      $IPAddr = [ipaddress]::Parse($IP)
+      $MaskAddr = [ipaddress]::Parse((Convert-Int64toIP -int ([convert]::ToInt64(("1" * $Mask + "0" * (32 - $Mask)), 2))))        
+      $NetworkAddr = [ipaddress]($MaskAddr.address -band $IPAddr.address) 
+      $BroadcastAddr = [ipaddress](([ipaddress]::parse("255.255.255.255").address -bxor $MaskAddr.address -bor $NetworkAddr.address))
+      
+      $HostStartAddr = (Convert-IPtoInt64 -ip $NetworkAddr.ipaddresstostring) + 1
+      $HostEndAddr = (Convert-IPtoInt64 -ip $broadcastaddr.ipaddresstostring) - 1
+
+      $HostAddressCount = ($HostEndAddr - $HostStartAddr) + 1
+      
+      if ($Mask -ge 16 -or $Force) {
+          
+          Write-Progress "Calculating host addresses for $NetworkAddr/$Mask.."
+
+          $HostAddresses = for ($i = $HostStartAddr; $i -le $HostEndAddr; $i++) {
+              Convert-Int64toIP -int $i
+          }
+
+          Write-Progress -Completed -Activity "Clear Progress Bar"
+      }
+      else {
+          Write-Warning "Host address enumeration was not performed because it would take some time for a /$Mask subnet. `nUse -Force if you want it to occur."
+      }
+
+      [pscustomobject]@{
+          IPAddress        = $IPAddr
+          MaskBits         = $Mask
+          NetworkAddress   = $NetworkAddr
+          BroadcastAddress = $broadcastaddr
+          SubnetMask       = $MaskAddr
+          NetworkClass     = $Class
+          Range            = "$networkaddr ~ $broadcastaddr"
+          HostAddresses    = $HostAddresses
+          HostAddressCount = $HostAddressCount
+      }
+  }
+}
+
+function Convert-Int64toIP ([int64]$int) {
+  <#
+    .LINK
+      https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Private%5CConvert-Int64toIP.ps1
+  #>
+  (([math]::truncate($int / 16777216)).tostring() + "." + ([math]::truncate(($int % 16777216) / 65536)).tostring() + "." + ([math]::truncate(($int % 65536) / 256)).tostring() + "." + ([math]::truncate($int % 256)).tostring() )
+}
+
+function Convert-IPtoInt64 ($ip) { 
+  <#
+    .LINK
+      https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Private%5CConvert-IPtoInt64.ps1
+  #>
+  $octets = $ip.split(".") 
+  [int64]([int64]$octets[0] * 16777216 + [int64]$octets[1] * 65536 + [int64]$octets[2] * 256 + [int64]$octets[3]) 
+}
+
+function Get-NetworkClass {
+  <#
+    .LINK
+      https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-NetworkClass.ps1
+  #>
+  param(
+      [parameter(Mandatory,ValueFromPipeline)]
+      [string]
+      $IP
+  )
+  process {
+
+      switch ($IP.Split('.')[0]) {
+          { $_ -in 0..127 } { 'A' }
+          { $_ -in 128..191 } { 'B' }
+          { $_ -in 192..223 } { 'C' }
+          { $_ -in 224..239 } { 'D' }
+          { $_ -in 240..255 } { 'E' }
+      }
+  }
+}

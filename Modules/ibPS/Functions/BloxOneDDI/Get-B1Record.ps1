@@ -73,7 +73,7 @@
 
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
-    [System.Collections.ArrayList]$Filters2 = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Type) {
       $Filters.Add("type==`"$Type`"") | Out-Null
     }
@@ -105,22 +105,22 @@
     
     if ($Filters) {
         $Filter = Combine-Filters $Filters
-        $Filters2.Add("_filter=$Filter") | Out-Null
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-    $Filters2.Add("_limit=$Limit") | Out-Null
-    $Filters2.Add("_offset=$Offset") | Out-Null
+    $QueryFilters.Add("_limit=$Limit") | Out-Null
+    $QueryFilters.Add("_offset=$Offset") | Out-Null
     if ($tfilter) {
-        $Filters2.Add("_tfilter=$tfilter") | Out-Null
+        $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
     if ($IncludeInheritance) {
-        $Filters2.Add('_inherit=full') | Out-Null
+        $QueryFilters.Add('_inherit=full') | Out-Null
     }
-    if ($Filters2) {
-        $Filter2 = Combine-Filters2 $Filters2
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
     }
 
-    if ($Filter2) {
-        $Result = Query-CSP -Method GET -Uri "dns/record$($Filter2)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($QueryString) {
+        $Result = Query-CSP -Method GET -Uri "dns/record$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Result = Query-CSP -Method GET -Uri "dns/record?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
