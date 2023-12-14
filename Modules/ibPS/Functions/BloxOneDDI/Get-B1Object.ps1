@@ -15,6 +15,9 @@ function Get-B1Object {
     .PARAMETER Endpoint
         Specify the API Endpoint to use, such as "/ipam/record".
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
     .PARAMETER Filters
         Specify one or more filters to use. Requires object input
 
@@ -43,6 +46,7 @@ function Get-B1Object {
       [String]$App,
       [Parameter(Mandatory=$true)]
       [String]$Endpoint,
+      [String[]]$Fields,
       [System.Object]$Filters,
       [String]$tfilter,
       [Int]$Limit,
@@ -52,13 +56,21 @@ function Get-B1Object {
     ## Get Saved CSP URL
     $B1CSPUrl = Get-B1CSPUrl
 
-    $BasePath = (Query-CSP GET "https://csp.infoblox.com/apidoc/docs/$($PSBoundParameters['App'])").basePath
-    $BasePath = $BasePath.Substring(0,$BasePath.length-1)
+    $BasePath = (Query-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath
+    if ($BasePath) {
+        $BasePath = $BasePath.Substring(0,$BasePath.length-1)
+    } else {
+        $BasePath = $null
+    }
 
     [System.Collections.ArrayList]$QueryFilters = @()
     [System.Collections.ArrayList]$B1Filters = @()
     if ($Limit) {
-        $QueryFilters.Add("_limit=$Limit") | Out-Null
+        if ($($PSBoundParameters['App'] -eq "BloxOne Threat Defense")) {
+            $QueryFilters.Add("rlimit=$Limit") | Out-Null
+        } else {
+            $QueryFilters.Add("_limit=$Limit") | Out-Null
+        }
     }
     if ($Offset) {
         $QueryFilters.Add("_offset=$Offset") | Out-Null
@@ -73,7 +85,15 @@ function Get-B1Object {
     if ($tfilter) {
       $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
-    $QueryString = ConvertTo-QueryString $QueryFilters
+
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
     $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
 
     $Results = Query-CSP -Method GET -Uri $Uri | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue

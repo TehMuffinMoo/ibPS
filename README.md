@@ -542,14 +542,33 @@ Set-B1Object -id {Object ID} -_ref {Object Ref} -Data {Data to Submit}
   # Be mindful that a number of read-only fields will be returned and will need removing prior to submitting the data. id & _ref are always required fields and should not be removed.
   
   # See example below for adding a new tag to multiple DNS A records
-        $Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"')
+        $Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields tags
         foreach ($Record in $Records) {
             if (!($Record.tags)) {
                 $Record.tags = @{}
             }
             $Record.tags.NewTag = "New Tag Value"
         }
-        $Records | select id,_ref,tags | Set-B1Object
+        $Records | Set-B1Object
+
+  # This example will update the multiple DHCP Options against multiple Subnets
+
+        $Subnets = Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
+        foreach ($Subnet in $Subnets) {
+            $Subnet.dhcp_options = @(
+                @{
+                    "type"="option"
+                    "option_code"=(Get-B1DHCPOptionCode -Name "routers").id
+                    "option_value"="10.10.100.254"
+                }
+                @{
+                    "type"="option"
+                    "option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id
+                    "option_value"="10.1.1.100,10.3.1.100"
+                }
+            )
+        }
+        $Subnets | Set-B1Object
 ```
 
 ## NIOS Cmdlets

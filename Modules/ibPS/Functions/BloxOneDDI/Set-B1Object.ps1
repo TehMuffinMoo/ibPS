@@ -16,14 +16,33 @@ function Set-B1Object {
         The data to update
 
     .EXAMPLE
-        $Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"')
+        This example will update the comment/description against multiple DNS Records
+
+        $Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields comment
         foreach ($Record in $Records) {
-            if (!($Record.tags)) {
-                $Record.tags = @{}
-            }
-            $Record.tags.newtag = "Tag Value"
+            $Record.comment = "Updated Comment"
         }
-        $Records | select id,_ref,tags | Set-B1Object
+        $Records | Set-B1Object
+
+    .EXAMPLE
+        This example will update the multiple DHCP Options against multiple Subnets
+
+        $Subnets = Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
+        foreach ($Subnet in $Subnets) {
+            $Subnet.dhcp_options = @(
+                @{
+                    "type"="option"
+                    "option_code"=(Get-B1DHCPOptionCode -Name "routers").id
+                    "option_value"="10.10.100.254"
+                }
+                @{
+                    "type"="option"
+                    "option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id
+                    "option_value"="10.1.1.100,10.3.1.100"
+                }
+            )
+        }
+        $Subnets | Set-B1Object
 
     .FUNCTIONALITY
         BloxOneDDI
