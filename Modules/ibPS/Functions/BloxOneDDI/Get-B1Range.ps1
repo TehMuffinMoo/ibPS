@@ -84,13 +84,14 @@
         }
         $QueryFilters.Add("_limit=$Limit") | Out-Null
         $QueryFilters.Add("_offset=$Offset") | Out-Null
-        if ($tfilter) {
-            $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
-        }
-        if ($QueryFilters) {
-            $QueryString = ConvertTo-QueryString $QueryFilters
-        }
     }
+    if ($tfilter) {
+        $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
+
     if ($QueryString) {
         Query-CSP -Uri "ipam/range$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
