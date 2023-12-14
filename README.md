@@ -537,6 +537,21 @@ Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filter
   # This is a generic wrapper function which allows you to create custom calls to retrieve objects from the BloxOne APIs.
   # It supports auto-complete of required fields based on the API Schema using double-tab
 
+    # Here's an example getting a list of DNS A records from a particular domain, and using Splat for re-usable parameters
+
+        $splat = @{                   
+          "Product" = "BloxOne DDI"
+          "App" = "DnsConfig"
+          "Endpoint" = "/dns/record"
+        }
+
+        Get-B1Object @splat -filter @('absolute_zone_name=="mydomain.corp." and type=="a"') | ft absolute_name_spec,comment,rdata -AutoSize
+
+        # Another example of getting a list of CNAMEs, with the same Splat parameters
+        Get-B1Object @splat -filter @('absolute_zone_name=="mydomain.corp." and type=="cname"') | ft absolute_name_spec,comment,rdata -AutoSize
+
+
+
 Set-B1Object -id {Object ID} -_ref {Object Ref} -Data {Data to Submit}
   # This is a generic wrapper function which allows you to create custom calls to update objects from the BloxOne APIs.
   # It supports pipeline input from Get-B1Object
@@ -570,6 +585,8 @@ Set-B1Object -id {Object ID} -_ref {Object Ref} -Data {Data to Submit}
             )
         }
         $Subnets | Set-B1Object
+
+
 
 Remove-B1Object -id {Object ID} -_ref {Object Ref}
   # This is a generic wrapper function which allows you to create custom calls to delete objects from the BloxOne APIs.
