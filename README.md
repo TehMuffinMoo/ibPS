@@ -529,8 +529,8 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
   Used to deploy the BloxOne Virtual Appliance. Requires VMware PowerCLI to be installed. All parameters are mandatory. -PortGroupType can be Standard or VDS.
 ```
 
-### Custom BloxOne Functions
-You can also create custom functions by using the `Query-CSP` cmdlet.
+### Custom BloxOne Functions (Generic Wrapper)
+You can also create custom functions by using the generic wrapper cmdlets.
 ```bash
 Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
   # This is a generic wrapper function which allows you to create custom calls to the BloxOne APIs.
