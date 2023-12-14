@@ -532,9 +532,9 @@ Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Net
 ### Custom BloxOne Functions
 You can also create custom functions by using the `Query-CSP` cmdlet.
 ```bash
-Query-CSP -Method <String> -Uri <String> -Data <String> -InFile <String>
-  # This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the BloxOne APIs.
-  # This allows creating custom functions which are not yet built into native ibPS cmdlets
+Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
+  # This is a generic wrapper function which allows you to create custom calls to the BloxOne APIs.
+  # It supports auto-complete of required fields based on the API Schema using double-tab
 ```
 
 ## NIOS Cmdlets
