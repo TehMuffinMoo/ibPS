@@ -14,7 +14,7 @@
   <a href="#how-to-use">How To Use</a> •
   <a href="#cmdlets">Cmdlets</a> •
   <a href="#resources">Resources</a> •
-  <a href="#license">License</a>
+  <a href="#license">License</a> •
   <a href="https://www.powershellgallery.com/packages/ibPS/" target="_blank">Powershell Gallery</a>
 </p>
 
