@@ -27,7 +27,7 @@ Author = 'Mat Cox'
 CompanyName = 'TMM Networks'
 
 # Copyright statement for this module
-Copyright = '(c) 2022 Mat Cox. All rights reserved.'
+Copyright = '(c) 2021-2024 Mat Cox. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'InfoBlox BloxOne PowerShell Module'
@@ -152,7 +152,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Infoblox','BloxOne','BloxOneDDI','ThreatDefense','REST','Windows','Mac','API'
+        Tags = 'Infoblox','BloxOne','BloxOneDDI','ThreatDefense','REST','Windows','MacOS','API'
 
         # A URL to the license for this module.
         LicenseUri = 'https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE'
