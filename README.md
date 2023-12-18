@@ -600,6 +600,49 @@ Remove-B1Object -id {Object ID} -_ref {Object Ref}
   # Another example using Splat for parameter input
         Get-B1Object @splat -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
 
+
+
+Get-B1Schema -Product {Product Name} -App {App} -Endpoint {API Endpoint} -Method {Method Type} {Switch}-ListParameters
+
+    ## An example of retrieving all available apps for BloxOne DDI
+    Get-B1Schema -Product 'BloxOne DDI'
+
+      Available Apps: 
+
+      app                 label
+      ---                 -----
+      Ipamsvc             IP Address Management
+      DnsConfig           DNS Configuration
+      DnsData             DNS Data
+      DhcpLeases          DHCP Leases
+      DDIKeys             DDI Keys
+      ThirdPartyProviders Third Party Providers
+
+    ## An example of retrieving all available API endpoints for BloxOne DDI DnsConfig App
+    Get-B1Schema -Product 'BloxOne DDI' -App 'DnsConfig'
+
+      Endpoint                               Description
+      --------                               -----------
+      /dns/global                            Use this method to read the Global configuration object.…
+      /dns/forward_zone/{id}                 Use this method to read a Forward Zone object.…
+      /dns/auth_zone/copy                    Use this method to copy an __AuthZone__ object to a different __View__.…
+      /dns/forward_nsg/{id}                  Use this method to read a ForwardNSG object.…
+      /dns/convert_domain_name/{domain_name} Use this method to convert between Internationalized Domain Name (IDN) and ASCII domain name (Punycode).
+      /dns/cache_flush                       Use this method to create a Cache Flush object.…
+      /dns/delegation/{id}                   Use this method to read a Delegation object.…
+      /dns/acl                               Use this method to list ACL objects.…
+      /dns/view/bulk_copy                    Use this method to bulk copy __AuthZone__ and __ForwardZone__ objects from one __View__ object to another __View__ object.…
+      /dns/forward_nsg                       Use this method to list ForwardNSG objects.…
+      ...
+
+    ## An example of retrieving available methods for the CDC API endpoint
+    Get-B1Schema -Product 'BloxOne Cloud' -App 'CDC' -Endpoint /v1/applications
+
+      Name                           Value
+      ----                           -----
+      get                            Use this method to retrieve collection of applications.
+      delete                         Use this method to delete a collection of application configurations in data connector.
+      post                           Use this method to create application configurations in data connector.
 ```
 
 ## NIOS Cmdlets

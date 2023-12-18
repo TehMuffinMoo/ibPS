@@ -15,23 +15,20 @@ function Get-B1Schema {
     .PARAMETER Endpoint
         Specify the API Endpoint to use, such as "/ipam/record".
 
-    .PARAMETER Fields
-        Specify a list of fields to return. The default is to return all fields.
+    .PARAMETER Method
+        Specify the endpoint method to view the schema information for
 
-    .PARAMETER Filters
-        Specify one or more filters to use. Requires object input
-
-    .PARAMETER tfilter
-        Use this parameter to filter the results returned by tag.
-
-    .PARAMETER Limit
-        Use this parameter to limit the quantity of results. The default number of results is 1000.
-
-    .PARAMETER Offset
-        Use this parameter to offset the results by the value entered for the purpose of pagination
+    .PARAMETER ListParameters
+        Specify this switch to list information relating to available parameters for the particular endpoint
 
     .EXAMPLE
-        Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
+        Get-B1Schema -Product 'BloxOne DDI'
+
+    .EXAMPLE
+        Get-B1Schema -Product 'BloxOne DDI' -App DnsConfig
+
+    .EXAMPLE
+        Get-B1Schema -Product 'BloxOne Cloud' -App 'CDC' -Endpoint /v2/flows/data -Method get -ListParameters
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -40,36 +37,73 @@ function Get-B1Schema {
         Core
     #>
     param(
-      [Parameter(Mandatory=$true)]
       [String]$Product,
-      [Parameter(Mandatory=$true)]
       [String]$App,
-      [Parameter(Mandatory=$true)]
       [String]$Endpoint,
       [ValidateSet("GET","POST","PUT", "PATCH", "DELETE")]
       [String]$Method,
       [Switch]$ListParameters
     )
 
+    if ($ListParameters -and -not ($Method -and $Endpoint)) {
+        Write-Error "You must specify both the -Method and -Endpoint parameters to use -ListParameters"
+        break
+    }
+
     ## Get Saved CSP URL
     $B1CSPUrl = Get-B1CSPUrl
 
-    $BasePath = (Query-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath
-    if ($BasePath) {
-        $BasePath = $BasePath.Substring(0,$BasePath.length-1)
-    } else {
-        $BasePath = $null
-    }
+    if ($Product) {
+        if ($App) {
 
-    $Uri = "$(Get-B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])"
+            $Uri = "$(Get-B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])"
 
-    $Results = Query-CSP -Method GET -Uri $Uri
-    if ($Results) {
-        $Return = (($Results.paths.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator() | Where-Object {$_.Name -eq $($PSBoundParameters['Endpoint'])}).Value | Select-Object -ExpandProperty $($Method)
-        if ($ListParameters) {
-            $Return.parameters | ft name,type,description -Wrap
+            $Results = Query-CSP -Method GET -Uri $Uri
+            if ($Results) {
+                if ($Endpoint) {
+                    $Return = (($Results.paths.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator() | Where-Object {$_.Name -eq $($PSBoundParameters['Endpoint'])}).Value | Select-Object -ExpandProperty $($Method)
+                    if ($ListParameters) {
+                        $Return.parameters | Format-Table name,type,description -Wrap
+                    } elseif (!($Method)) {
+                        $ResultMethods = ($Return.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator()
+                        foreach ($ResultMethod in $ResultMethods) {
+                            $Methods += @{
+                                "$($ResultMethod.Name)" = $($ResultMethod.Value.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).description
+                            }
+                        }
+                        Write-Host "Available Methods: " -ForegroundColor Green
+                        $Methods | Format-Table -Wrap
+                    } else {
+                        $Return
+                    }
+                } else {
+                    $Return = @()
+                    $ResultsParsed = (($Results.paths.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator())
+                    foreach ($ResultParsed in $ResultsParsed) {
+                        $ResultMethods = (($ResultParsed.Value.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator())
+                        $Methods = @()
+                        foreach ($ResultMethod in $ResultMethods) {
+                            $Methods += @{
+                                "$($ResultMethod.Name)" = $($ResultMethod.Value.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).description
+                            }
+                        }
+                        $ResultMethods
+                        $Return += @{
+                            "Endpoint" = $ResultParsed.Name
+                            "Description" = ($Methods | Select-Object -First 1).Values[0] -join " "
+                        } | ConvertTo-Json | ConvertFrom-Json
+                    }
+                    $Return | Select-Object Endpoint,Description
+                }
+            }
         } else {
-            $Return
+            $Apps = Query-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products" | Where-Object {$_.title -eq $($PSBoundParameters['Product'])} | Select-Object -ExpandProperty apps
+            Write-Host "Available Apps: " -ForegroundColor Green
+            $Apps | Format-Table -AutoSize
         }
+    } else {
+        $Products = Query-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products"
+        Write-Host "Available Products: " -ForegroundColor Green
+        $Products.title
     }
 }
