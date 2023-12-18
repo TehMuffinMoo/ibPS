@@ -42,7 +42,13 @@ To clone and run this PowerShell Module, you'll be best off with Git. This can b
 ### Loading ibPS Module
 You can either load the cmdlets directly, or Import/Install it as a PowerShell Module.
 
-#### Installing/Updating with Install.ps1 (Preferred and persistent)
+#### Installing from Powershell Gallery
+```powershell
+Install-Module -Name ibPS
+```
+
+#### Installing/Updating with Install.ps1
+You can install with the Install.ps1 script, allowing you to install the latest 'bleeding edge' version.
 ```powershell
 # Clone this repository on Windows
 $ git clone https://github.com/TehMuffinMoo/ibPS/
