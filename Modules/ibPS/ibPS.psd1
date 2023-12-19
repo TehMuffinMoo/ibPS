@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.99'
+ModuleVersion = '1.9.0.101'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -162,9 +162,6 @@ PrivateData = @{
 
         # A URL to an icon representing this module.
         # IconUri = ''
-
-        # ReleaseNotes of this module
-        ReleaseNotes = 'v1.9.0.99 - Initial Gallery Publication'
 
         # Prerelease string of this module
         # Prerelease = ''
