@@ -118,14 +118,14 @@ function Get-ibPSVersion {
       }
     }
   } else {
-    if ($Details) {
-      return @{
-        "Version" = $CurrentVersion.ToString()
-        "Install Type" = $(if ($PSGalleryModule) { "Powershell Gallery" } else { "Local"})
-        "Install Path" = $InstalledModule.Path
-      } | ConvertTo-Json | ConvertFrom-Json | Select-Object "Version","Install Type","Install Path"
-    } else {
-      if (!($MultipleVersions)) {
+    if (!($MultipleVersions)) {
+      if ($Details) {
+        return @{
+          "Version" = $CurrentVersion.ToString()
+          "Install Type" = $(if ($PSGalleryModule) { "Powershell Gallery" } else { "Local"})
+          "Install Path" = $InstalledModule.Path
+        } | ConvertTo-Json | ConvertFrom-Json | Select-Object "Version","Install Type","Install Path"
+      } else {
         return $($CurrentVersion.ToString())
       }
     }
