@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.103'
+ModuleVersion = '1.9.0.104'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -164,7 +164,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.9.0.103 - Fix issue with version being displayed when using Get-ibPSVersion on Windows'
+        ReleaseNotes = 'v1.9.0.104 - Cleanup Miscellaneous Functions'
 
         # Prerelease string of this module
         # Prerelease = ''

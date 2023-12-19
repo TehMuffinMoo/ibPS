@@ -4,7 +4,7 @@ param(
 
 $ibPSDir = $PSScriptRoot
 
-. $ibPSDir\Modules\ibPS\Functions\BloxOneDDI\Private\Misc.ps1
+. $ibPSDir\Modules\ibPS\Functions\Misc\Misc.ps1
 
 $Platform = Detect-OS
 
