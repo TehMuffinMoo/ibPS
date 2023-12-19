@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.104'
+ModuleVersion = '1.9.0.105'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -164,7 +164,8 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.9.0.104 - Cleanup Miscellaneous Functions'
+        ReleaseNotes = 'v1.9.0.105 - Import Miscellaneous Functions
+v1.9.0.104 - Cleanup Miscellaneous Functions'
 
         # Prerelease string of this module
         # Prerelease = ''
