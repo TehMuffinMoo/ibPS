@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.0.107'
+ModuleVersion = '1.9.0.108'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -164,7 +164,8 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.9.0.107 - Cleanup misc functions
+        ReleaseNotes = 'v1.9.0.108 - Improve multiple version checking
+v1.9.0.107 - Cleanup misc functions
 v1.9.0.106 - Add warning when multiple versions of ibPS are present on the computer
 v1.9.0.105 - Import Miscellaneous Functions
 v1.9.0.104 - Cleanup Miscellaneous Functions'

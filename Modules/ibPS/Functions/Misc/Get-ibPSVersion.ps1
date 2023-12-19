@@ -38,9 +38,11 @@ function Get-ibPSVersion {
   )
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path -gt 1) {
-    Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary versions to avoid issues." -ForegroundColor Yellow
-    $InstalledModule
-    $InstalledModule = $InstalledModule | Sort-Object -Descending | Select-Object -First 1
+    Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary older versions to avoid issues." -ForegroundColor Yellow
+    Write-Host "Installed Versions: " -ForegroundColor Red
+    $InstalledModule | Select-Object Version,Name,Description,ModuleBase
+    $InstalledModule = $InstalledModule | Sort-Object Version -Descending | Select-Object -First 1
+    $MultipleVersions = $true
   }
   $PSGalleryModule = Get-InstalledModule -Name ibPS -EA SilentlyContinue -WA SilentlyContinue
   if ($PSGalleryModule) {
@@ -123,7 +125,9 @@ function Get-ibPSVersion {
         "Install Path" = $InstalledModule.Path
       } | ConvertTo-Json | ConvertFrom-Json | Select-Object "Version","Install Type","Install Path"
     } else {
-      return $CurrentVersion.ToString()
+      if (!($MultipleVersions)) {
+        return $($CurrentVersion.ToString())
+      }
     }
   }
 }
