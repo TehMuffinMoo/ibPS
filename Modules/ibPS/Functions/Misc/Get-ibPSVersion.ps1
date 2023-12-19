@@ -39,7 +39,8 @@ function Get-ibPSVersion {
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path -gt 1) {
     Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary versions to avoid issues." -ForegroundColor Yellow
-    
+    $InstalledModule
+    $InstalledModule = $InstalledModule | Sort-Object -Descending | Select-Object -First 1
   }
   $PSGalleryModule = Get-InstalledModule -Name ibPS -EA SilentlyContinue -WA SilentlyContinue
   if ($PSGalleryModule) {
