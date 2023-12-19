@@ -36,11 +36,16 @@ function Get-ibPSVersion {
     [Switch]$Details,
     [Switch]$Force
   )
+  $InstalledModule = Get-Module -ListAvailable -Name ibPS
+  if (($InstalledModule).Path -gt 1) {
+    Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary versions to avoid issues." -ForegroundColor Yellow
+    
+  }
   $PSGalleryModule = Get-InstalledModule -Name ibPS -EA SilentlyContinue -WA SilentlyContinue
   if ($PSGalleryModule) {
     [System.Version]$CurrentVersion = $PSGalleryModule.Version.ToString()
   } else {
-    [System.Version]$CurrentVersion = (Get-Module -ListAvailable -Name ibPS).Version.ToString()
+    [System.Version]$CurrentVersion = $InstalledModule.Version.ToString()
   }
   if ($CheckForUpdates -or $Update) {
     if ($PSGalleryModule) {
@@ -75,7 +80,7 @@ function Get-ibPSVersion {
               Expand-Archive ibPS.zip
             }
             if (Test-Path ibPS) {
-              $ModulePath = (Get-Module -ListAvailable -Name ibPS).Path
+              $ModulePath = $InstalledModule.Path
               $Platform = Detect-OS
               if ($Platform -eq "Windows") {
                 if ($ModulePath -like "$ENV:USERPROFILE\*") {
@@ -114,7 +119,7 @@ function Get-ibPSVersion {
       return @{
         "Version" = $CurrentVersion.ToString()
         "Install Type" = $(if ($PSGalleryModule) { "Powershell Gallery" } else { "Local"})
-        "Install Path" = (Get-Module -ListAvailable -Name ibPS).Path
+        "Install Path" = $InstalledModule.Path
       } | ConvertTo-Json | ConvertFrom-Json | Select-Object "Version","Install Type","Install Path"
     } else {
       return $CurrentVersion.ToString()
