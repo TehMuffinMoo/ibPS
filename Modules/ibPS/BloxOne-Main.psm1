@@ -56,9 +56,41 @@ function DeprecationNotice {
 }
 
 function Get-ibPSVersion {
+    <#
+    .SYNOPSIS
+        Checks the version of ibPS, with the option to update if a version is available
+
+    .DESCRIPTION
+        This function is used check the current version of ibPS, with the option to check for updates and update if a version is available
+
+    .PARAMETER CheckForUpdates
+        This switch indicates you want to check for new versions
+
+    .PARAMETER Update
+        This switch will perform an upgrade if one is available
+
+    .PARAMETER Details
+        This switch will return installation details, such as module location and install type
+
+    .PARAMETER Force
+        This switch will force an update, whether or not one is available
+
+    .EXAMPLE
+        Get-ibPSVersion
+
+    .EXAMPLE
+        Get-ibPSVersion -CheckForUpdates
+
+    .EXAMPLE
+        Get-ibPSVersion -Update
+    
+    .FUNCTIONALITY
+        ibPS
+    #>
   param (
     [Switch]$CheckForUpdates,
     [Switch]$Update,
+    [Switch]$Details,
     [Switch]$Force
   )
   $PSGalleryModule = Get-InstalledModule -Name ibPS -EA SilentlyContinue -WA SilentlyContinue
@@ -135,11 +167,15 @@ function Get-ibPSVersion {
       }
     }
   } else {
-    return @{
-      "Version" = $CurrentVersion
-      "Install Type" = $(if ($PSGalleryModule) { "Powershell Gallery" } else { "Local"})
-      "Install Path" = (Get-Module -ListAvailable -Name ibPS).Path
-    } | Select-Object "Version","Install Type","Install Path"
+    if ($Details) {
+      return @{
+        "Version" = $CurrentVersion.ToString()
+        "Install Type" = $(if ($PSGalleryModule) { "Powershell Gallery" } else { "Local"})
+        "Install Path" = (Get-Module -ListAvailable -Name ibPS).Path
+      } | ConvertTo-Json | ConvertFrom-Json | Select-Object "Version","Install Type","Install Path"
+    } else {
+      return $CurrentVersion.ToString()
+    }
   }
 }
 
