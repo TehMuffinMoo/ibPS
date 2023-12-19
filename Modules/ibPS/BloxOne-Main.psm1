@@ -135,7 +135,11 @@ function Get-ibPSVersion {
       }
     }
   } else {
-    return $CurrentVersion
+    return @{
+      "Version" = $CurrentVersion
+      "Install Type" = $(if ($PSGalleryModule) { "Powershell Gallery" } else { "Local"})
+      "Install Path" = (Get-Module -ListAvailable -Name ibPS).Path
+    } | Select-Object "Version","Install Type","Install Path"
   }
 }
 
