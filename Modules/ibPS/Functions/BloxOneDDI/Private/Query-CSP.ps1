@@ -103,9 +103,8 @@ function Query-CSP {
             Write-Error "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
         }
       }
-
       if ($Result) {
-        if ($Result.error) {
+        if ($Result.error -ne $null) {
             switch ($StatusCode) {
                 429 {
                     Write-Error "API Request Limit Reached. Use the -Limit and -Offset parameters or make your search more specific."
