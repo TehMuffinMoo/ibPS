@@ -73,7 +73,7 @@ function Query-CSP {
       }
     }
 
-    try {
+    #try {
       switch ($Method) {
         'GET' {
             $Result = Invoke-RestMethod @splat
@@ -122,14 +122,14 @@ function Query-CSP {
       } elseif ($ErrorOnEmpty) {
         Write-Host "Error. No results from API."
       }
-    } catch {
-        Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
-        Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
-        if ($PSVersionTable.PSVersion -lt 7.0.0) {
-            $reader = New-Object System.IO.StreamReader($result)
-            $reader.BaseStream.Position = 0
-            $reader.DiscardBufferedData()
-            $reader.ReadToEnd();
-        }
-    }
+    #} catch {
+    #    Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
+    #    Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+    #    if ($PSVersionTable.PSVersion -lt 7.0.0) {
+    #        $reader = New-Object System.IO.StreamReader($result)
+    #        $reader.BaseStream.Position = 0
+    #        $reader.DiscardBufferedData()
+    #        $reader.ReadToEnd();
+    #    }
+    #}
 }
