@@ -66,7 +66,7 @@ function Query-CSP {
         "Uri" = $Uri
         "Headers" = $CSPHeaders
     }
-    if ($PSVersionTable.PSVersion -gt 7.0.0) {
+    if ($PSVersionTable.PSVersion -gt "7.0.0") {
       $splat += @{
         "SkipHttpErrorCheck" = $true
         "StatusCodeVariable" = 'StatusCode'
@@ -125,7 +125,7 @@ function Query-CSP {
     #} catch {
     #    Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
     #    Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
-    #    if ($PSVersionTable.PSVersion -lt 7.0.0) {
+    #    if ($PSVersionTable.PSVersion -lt "7.0.0") {
     #        $reader = New-Object System.IO.StreamReader($result)
     #        $reader.BaseStream.Position = 0
     #        $reader.DiscardBufferedData()
