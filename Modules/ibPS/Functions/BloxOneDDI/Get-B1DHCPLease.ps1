@@ -39,6 +39,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
     .Example
         Get-B1DHCPLease -Range -RangeStart 10.10.100.20 -RangeEnd 10.10.100.50 -Limit 100
 
@@ -61,8 +64,9 @@
         [String][parameter(ParameterSetName="std")] $Hostname,
         [String][parameter(ParameterSetName="std")] $HAGroup,
         [String][parameter(ParameterSetName="std")] $DHCPServer,
-        [String]$Space = "Global",
+        [String]$Space,
         [String]$Limit = 100,
+        [String[]]$Fields,
         [switch]$Strict
     )
     $MatchType = Match-Type $Strict
@@ -83,6 +87,7 @@
         $HAGroups = Get-B1HAGroup
         $DHCPHosts = Get-B1DHCPHost
         [System.Collections.ArrayList]$Filters = @()
+        [System.Collections.ArrayList]$QueryFilters = @()
         if ($Address) {
             $Filters.Add("address==`"$Address`"") | Out-Null
         }
@@ -105,13 +110,23 @@
             $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
         }
 
-
         if ($Filters) {
             $Filter = Combine-Filters $Filters
-            $Query = "?_filter=$Filter"
-            Query-CSP -Method GET -Uri "dhcp/lease?$($LimitString)_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
+            $QueryFilters.Add("_filter=$Filter") | Out-Null
+        }
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+        if ($Fields) {
+            $Fields += "ha_group,host"
+            $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+        }
+        if ($QueryFilters) {
+            $QueryString = ConvertTo-QueryString $QueryFilters
+        }
+
+        if ($QueryString) {
+            Query-CSP -Method GET -Uri "dhcp/lease$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         } else {
-            Query-CSP -Method GET -Uri "dhcp/lease$($LimitString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
+            Query-CSP -Method GET -Uri "dhcp/lease" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         }
     }
 }

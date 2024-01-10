@@ -17,20 +17,40 @@
 
 function Combine-Filters {
     param(
-      [parameter(mandatory=$true)]
-      [System.Collections.ArrayList]$Filters
+    [parameter(Mandatory=$true)]  
+    $Filters
     )
     $combinedFilter = $null
     $FilterCount = $Filters.Count
-    foreach ($filter in $Filters) {
-        if ($FilterCount -le 1) {
-            $combinedFilter += $Filter
-        } else {
-            $combinedFilter += $Filter+" and "
+    switch ($Filters.GetType().FullName) {
+      "System.Collections.ArrayList" {
+        foreach ($filter in $Filters) {
+          if ($FilterCount -le 1) {
+              $combinedFilter += $Filter
+          } else {
+              $combinedFilter += $Filter+" and "
+          }
+          $FilterCount = $FilterCount - 1
         }
-        $FilterCount = $FilterCount - 1
+      }
+      "System.Object[]" {
+        foreach ($filter in $Filters) {
+          if ($FilterCount -le 1) {
+            $combinedFilter += "$($Filter.Property)$($Filter.Operator)`"$($Filter.Value)`""
+          } else {
+            $combinedFilter += "$($Filter.Property)$($Filter.Operator)`"$($Filter.Value)`" and "
+          }
+          $FilterCount = $FilterCount - 1
+        }
+      }
+      "System.String" {
+        return $Filters
+      }
+      default {
+        Write-Error "Unsupported Filter input"
+      }
     }
-    $combinedFilter
+    return $combinedFilter
 }
 
 function ConvertTo-QueryString {

@@ -33,6 +33,9 @@ function Get-B1DNSEvent {
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .Example
         Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
     
@@ -66,6 +69,7 @@ function Get-B1DNSEvent {
       [String[]]$DNSView,
       [datetime]$Start = $(Get-Date).AddDays(-1),
       [datetime]$End = $(Get-Date),
+      [String[]]$Fields,
       [int]$Limit = 100,
       [int]$Offset = 0
     )
@@ -123,10 +127,15 @@ function Get-B1DNSEvent {
     if ($AppName) {
       $Filters += "app_name=$AppName"
     }
+    $Filters += "_limit=$Limit"
+    $Filters += "_offset=$Offset"
     if ($DNSView) {
       $DNSViewReturned = Get-B1DNSView -Name $DNSView -Strict
       $DNSViewReturnedId = $($DNSViewReturned).id.Substring(9)
       $Filters += "dns_view=$DNSView,$DNSViewReturnedId"
+    }
+    if ($Fields) {
+      $Filters += "_fields=$($Fields -join ",")"
     }
     $Filters += "_format=json"
 
@@ -134,8 +143,8 @@ function Get-B1DNSEvent {
         $Filter = ConvertTo-QueryString($Filters)
     }
     if ($Filter) {
-      Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter&_offset=$Offset&_limit=$Limit" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {
-      Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event&_offset=$Offset&_limit=$Limit" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
 }

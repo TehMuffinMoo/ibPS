@@ -15,6 +15,9 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
     .PARAMETER id
         Return results based on the authoritative NSG id
 
@@ -31,6 +34,7 @@
         [String]$Name,
         [Switch]$Strict = $false,
         [String]$tfilter,
+        [String[]]$Fields,
         [String]$id
     )
 	$MatchType = Match-Type $Strict
@@ -49,12 +53,14 @@
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
-
-    if ($QueryFilters) {
-        $QueryString = ConvertTo-QueryString $QueryFilters
+    if ($QueryString) {
         Query-CSP -Method GET -Uri "dns/auth_nsg$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Method GET -Uri "dns/auth_nsg" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue

@@ -24,6 +24,36 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+
+        ## String
+        $CustomFilters = 'address=="10.1.2.3" and state=="free"'
+
+
+        ## Object
+        $CustomFilters = @(
+           @{
+             "Property"="address"
+             "Operator"="=="
+             "Value"="10.1.2.3"
+           }
+           @{
+             "Property"="state"
+             "Operator"="=="
+             "Value"="used"
+           }
+        )
+
+
+        ## ArrayList
+        [System.Collections.ArrayList]$CustomFilters = @()
+        $CustomFilters.Add('address=="10.1.2.3"') | Out-Null
+        $CustomFilters.Add('state=="used"') | Out-Null
+
     .PARAMETER id
         Return results based on the address id
 
@@ -46,25 +76,30 @@
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String]$tfilter,
+      [String[]]$Fields,
+      $CustomFilters,
       [Parameter(ParameterSetName="ID")]
       [String]$id
     )
 
     process {
-      [System.Collections.ArrayList]$Filters = @()
-      if ($Address) {
-          $Filters.Add("address==`"$Address`"") | Out-Null
+      if ($CustomFilters) {
+        $Filter = "_filter="+(Combine-Filters $CustomFilters)
+      } else {
+        [System.Collections.ArrayList]$Filters = @()
+        if ($Address) {
+            $Filters.Add("address==`"$Address`"") | Out-Null
+        }
+        if ($State) {
+            $Filters.Add("state==`"$State`"") | Out-Null
+        }
+        if ($id) {
+            $Filters.Add("id==`"$id`"") | Out-Null
+        }
+        if ($Filters) {
+            $Filter = "_filter="+(Combine-Filters $Filters)
+        }
       }
-      if ($State) {
-          $Filters.Add("state==`"$State`"") | Out-Null
-      }
-      if ($id) {
-          $Filters.Add("id==`"$id`"") | Out-Null
-      }
-      if ($Filters) {
-          $Filter = "_filter="+(Combine-Filters $Filters)
-      }
-    
       [System.Collections.ArrayList]$QueryFilters = @()
       if ($State) {
           $QueryFilters.Add("address_state=$State") | Out-Null
@@ -74,6 +109,10 @@
       }
       $QueryFilters.Add("_limit=$Limit") | Out-Null
       $QueryFilters.Add("_offset=$Offset") | Out-Null
+      if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+      }
       if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
       }

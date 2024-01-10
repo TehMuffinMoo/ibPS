@@ -1,10 +1,9 @@
 $products = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-
     (Query-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products") | Where-Object {
         $_.title -like "$wordToComplete*"
     } | ForEach-Object {
-          "$($_.Title)"
+          "`'$($_.Title)`'"
     }
 }
 Register-ArgumentCompleter -CommandName Get-B1Object,Get-B1Schema -ParameterName Product -ScriptBlock $products

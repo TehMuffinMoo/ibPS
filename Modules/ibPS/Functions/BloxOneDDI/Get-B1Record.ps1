@@ -42,6 +42,9 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
@@ -68,6 +71,7 @@
       [Int]$Offset = 0,
       [switch]$IncludeInheritance = $false,
       [String]$tfilter,
+      [String[]]$Fields,
       [String]$id
     )
 
@@ -114,6 +118,10 @@
     }
     if ($IncludeInheritance) {
         $QueryFilters.Add('_inherit=full') | Out-Null
+    }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters

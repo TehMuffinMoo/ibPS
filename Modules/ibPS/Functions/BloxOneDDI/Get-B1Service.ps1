@@ -21,6 +21,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
@@ -39,6 +42,7 @@
         [Switch]$Detailed,
         [String]$Limit = "10001",
         [Switch]$Strict,
+        [String[]]$Fields,
         [String]$id
     )
     $MatchType = Match-Type $Strict
@@ -61,6 +65,10 @@
     }
     $QueryFilters.Add("_limit=$Limit") | Out-Null
     $QueryFilters.Add("_offset=$Offset") | Out-Null
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }

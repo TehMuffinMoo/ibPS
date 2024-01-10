@@ -30,6 +30,9 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .PARAMETER id
         Filter the results by range id
 
@@ -54,6 +57,7 @@
       [Int]$Offset = 0,
       [Switch]$Strict,
       [String]$tfilter,
+      [String[]]$Fields,
       [String]$id
     )
 
@@ -78,15 +82,17 @@
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
-        if ($Filters) {
-            $Filter = Combine-Filters $Filters
-            $QueryFilters.Add("_filter=$Filter") | Out-Null
-        }
-        $QueryFilters.Add("_limit=$Limit") | Out-Null
-        $QueryFilters.Add("_offset=$Offset") | Out-Null
+        $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
+    $QueryFilters.Add("_limit=$Limit") | Out-Null
+    $QueryFilters.Add("_offset=$Offset") | Out-Null
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters

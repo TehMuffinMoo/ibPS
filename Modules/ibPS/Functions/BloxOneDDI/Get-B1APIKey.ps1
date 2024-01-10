@@ -28,11 +28,44 @@ function Get-B1APIKey {
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+
+        ## String
+        $CustomFilters = 'name~"10.1.2.3" and state=="enabled"'
+
+
+        ## Object
+        $CustomFilters = @(
+           @{
+             "Property"="name"
+             "Operator"="~"
+             "Value"="postman"
+           }
+           @{
+             "Property"="state"
+             "Operator"="=="
+             "Value"="enabled"
+           }
+        )
+
+
+        ## ArrayList
+        [System.Collections.ArrayList]$CustomFilters = @()
+        $CustomFilters.Add('name~"postman"') | Out-Null
+        $CustomFilters.Add('state=="enabled"') | Out-Null
+
     .PARAMETER id
         The id of the API Key to filter by
 
     .EXAMPLE
         Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
+        
+    .EXAMPLE
+        Get-B1APIKey -CustomFilters $CustomFilters
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -51,44 +84,50 @@ function Get-B1APIKey {
         [Int]$Limit = 101,
         [Int]$Offset = 0,
         [Switch]$Strict,
+        [String[]]$Fields,
+        $CustomFilters,
         [String]$id
     )
 
-    $MatchType = Match-Type $Strict
-
     $QueryFilters = @()
-    if ($Limit) {
-        $QueryFilters += "_limit=$Limit"
-    }
-    if ($Offset) {
-        $QueryFilters += "_offset=$Offset"
-    }
+    $QueryFilters += "_limit=$Limit"
+    $QueryFilters += "_offset=$Offset"
 
-    $ParamFilters = @()
-    if ($User) {
-      $ParamFilters += "user_email$MatchType`"$User`""
-    }
-    if ($CreatedBy) {
-        $ParamFilters += "created_by$MatchType`"$CreatedBy`""
-      }
-    if ($Name) {
-        $ParamFilters += "name$MatchType`"$Name`""
-    }
-    if ($Type) {
-        $ParamFilters += "type:=`"$Type`""
-    }
-    if ($State) {
-        $ParamFilters += "state:=`"$State`""
-    }
-    if ($id) {
-        $ParamFilters += "id==`"$id`""
-    }
+    if ($CustomFilters) {
+        $ParamFilter = Combine-Filters $CustomFilters
+    } else {
+        $MatchType = Match-Type $Strict
 
-     if ($ParamFilters) {
+        [System.Collections.ArrayList]$ParamFilters = @()
+        if ($User) {
+            $ParamFilters += "user_email$MatchType`"$User`""
+        }
+        if ($CreatedBy) {
+            $ParamFilters += "created_by$MatchType`"$CreatedBy`""
+        }
+        if ($Name) {
+            $ParamFilters += "name$MatchType`"$Name`""
+        }
+        if ($Type) {
+            $ParamFilters += "type:=`"$Type`""
+        }
+        if ($State) {
+            $ParamFilters += "state:=`"$State`""
+        }
+        if ($id) {
+            $ParamFilters += "id==`"$id`""
+        }
+
         $ParamFilter = Combine-Filters($ParamFilters)
+    }
+
+    if ($ParamFilter) {
         $QueryFilters += "_filter=$ParamFilter"
     }
-
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters += "_fields=$($Fields -join ",")"
+    }
     $CombinedFilter += ConvertTo-QueryString($QueryFilters)
 
     $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/api_keys$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue

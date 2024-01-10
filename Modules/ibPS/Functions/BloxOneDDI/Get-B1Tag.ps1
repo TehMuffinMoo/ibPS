@@ -12,6 +12,9 @@
     .PARAMETER Status
         The status of the tag to filter by
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -28,10 +31,12 @@
         [String]$Name,
         [ValidateSet("active","revoked")]
         [String]$Status,
-        [switch]$Strict
+        [switch]$Strict,
+        [String[]]$Fields
     )
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Name) {
         $Filters.Add("key$MatchType`"$Name`"") | Out-Null
     }
@@ -40,9 +45,18 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-    if ($Filter) {
-        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
+    if ($QueryString) {
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

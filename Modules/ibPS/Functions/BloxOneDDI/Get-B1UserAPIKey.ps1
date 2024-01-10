@@ -21,7 +21,7 @@ function Get-B1UserAPIKey {
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-
+        
     .PARAMETER id
         The id of the authoritative zone to filter by
 
@@ -49,7 +49,7 @@ function Get-B1UserAPIKey {
 
     $MatchType = Match-Type $Strict
 
-    $QueryFilters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Limit) {
         $QueryFilters += "_limit=$Limit"
     }
@@ -68,7 +68,7 @@ function Get-B1UserAPIKey {
         $ParamFilters += "id==`"$id`""
     }
 
-     if ($ParamFilters) {
+    if ($ParamFilters) {
         $ParamFilter = Combine-Filters($ParamFilters)
         $QueryFilters += "_filter=$ParamFilter"
     }

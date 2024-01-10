@@ -61,10 +61,22 @@ function Query-CSP {
     $Uri = $Uri -replace "\*","``*"
     if ($Debug) {$Uri}
 
-   # try {
+    $splat = @{
+        "Method" = $Method
+        "Uri" = $Uri
+        "Headers" = $CSPHeaders
+    }
+    if ($PSVersionTable.PSVersion -gt 7.0.0) {
+      $splat += @{
+        "SkipHttpErrorCheck" = $true
+        "StatusCodeVariable" = 'StatusCode'
+      }
+    }
+
+    try {
       switch ($Method) {
         'GET' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders
+            $Result = Invoke-RestMethod @splat
         }
         'POST' {
             if ($Data -and $InFile) {
@@ -72,19 +84,19 @@ function Query-CSP {
                 break
             }
             if ($InFile) {
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -InFile $InFile
+                $Result = Invoke-RestMethod @splat -InFile $InFile
             } else {
-                $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -Body $Data
+                $Result = Invoke-RestMethod @splat -Body $Data
             }
         }
         'PUT' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -Body $Data
+            $Result = Invoke-RestMethod @splat -Body $Data
         }
         'PATCH' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -Body $Data
+            $Result = Invoke-RestMethod @splat -Body $Data
         }
         'DELETE' {
-            $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $CSPHeaders -Body $Data
+            $Result = Invoke-RestMethod @splat -Body $Data
             $ErrorOnEmpty = $false
         }
         default {
@@ -93,21 +105,32 @@ function Query-CSP {
       }
 
       if ($Result) {
-        return $Result
+        if ($Result.error) {
+            switch ($StatusCode) {
+                429 {
+                    Write-Error "API Request Limit Reached. Use the -Limit and -Offset parameters or make your search more specific."
+                }
+                401 {
+                     Write-Error "Authorization required, please store/update your BloxOne API Key using Store-B1CSPAPIKey"
+                }
+                default {
+                    Write-Error $($Result.error.message)
+                }
+            }
+        } else {
+            return $Result
+        }
       } elseif ($ErrorOnEmpty) {
         Write-Host "Error. No results from API."
       }
-   # } catch {
-   #   switch ($_.Exception.Response.StatusCode) {
-   #     429 {
-   #       Write-Error "Too many requests. Please refine your query and try again to avoid rate limiting."
-   #     }
-   #     401 {
-   #       Write-Error "Authorization required, please store/update your BloxOne API Key using Store-B1CSPAPIKey"
-   #     }
-   #     default {
-   #       return $_.Exception.Response
-   #     }
-   #   }
-   # }
+    } catch {
+        Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
+        Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
+        if ($PSVersionTable.PSVersion -lt 7.0.0) {
+            $reader = New-Object System.IO.StreamReader($result)
+            $reader.BaseStream.Position = 0
+            $reader.DiscardBufferedData()
+            $reader.ReadToEnd();
+        }
+    }
 }

@@ -35,7 +35,7 @@ function Get-B1SecurityLog {
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-
+        
     .PARAMETER Raw
         Return results as raw without additional parsing
 
@@ -68,6 +68,7 @@ function Get-B1SecurityLog {
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Username) {
         $Filters.Add("userEmail$MatchType`"$Username`"") | Out-Null
     }
@@ -94,15 +95,17 @@ function Get-B1SecurityLog {
 
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
+    $QueryFilters.Add("_limit=$Limit") | Out-Null
+    $QueryFilters.Add("_offset=$Offset") | Out-Null
         
-
-    if ($Limit -and $Filters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_limit=$Limit&_offset=$Offset&_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } elseif ($Limit) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_limit=$Limit" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } elseif ($Filters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events?_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
+    $QueryString
+    if ($QueryString) {
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

@@ -27,6 +27,9 @@ function Get-B1DFP {
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .EXAMPLE
         Get-B1DFP -Name "My DFP" -Strict
 
@@ -46,12 +49,14 @@ function Get-B1DFP {
         [Int]$PolicyID,
         [Switch]$DefaultSecurityPolicy,
         [Switch]$Strict,
+        [String[]]$Fields,
         [String]$id
     )
  
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Name) {
       $Filters += "name$($MatchType)`"$Name`""
     }
@@ -64,18 +69,28 @@ function Get-B1DFP {
     if ($PolicyID) {
       $Filters += "policy_id==$PolicyID"
     }
+    if ($id) {
+      $Filters += "id==$id"
+    }
     if ($DefaultSecurityPolicy) {
       $Filters += "default_security_policy==$DefaultSecurityPolicy"
     }
-
     if ($Filters) {
-        $Filter = "_filter="+(Combine-Filters $Filters)
+        $Filter = (Combine-Filters $Filters)
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
+    }
+    if ($Fields) {
+      $Fields += "id"
+      $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+    if ($QueryFilters) {
+      $QueryString = ConvertTo-QueryString $QueryFilters
     }
     
     if ($id) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps/$id" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } elseif ($Filter) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps?$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps/$id$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    } elseif ($QueryString) {
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
       $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

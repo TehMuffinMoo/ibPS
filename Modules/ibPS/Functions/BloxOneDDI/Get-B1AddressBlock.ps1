@@ -33,6 +33,36 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+
+        ## String
+        $CustomFilters = 'address=="10.1.2.0" and cidr=="24"'
+
+
+        ## Object
+        $CustomFilters = @(
+           @{
+             "Property"="address"
+             "Operator"="=="
+             "Value"="10.1.2.0"
+           }
+           @{
+             "Property"="cidr"
+             "Operator"="=="
+             "Value"="24"
+           }
+        )
+
+
+        ## ArrayList
+        [System.Collections.ArrayList]$CustomFilters = @()
+        $CustomFilters.Add('address=="10.1.2.0"') | Out-Null
+        $CustomFilters.Add('cidr=="24"') | Out-Null
+
     .PARAMETER id
         Filter by the id of the address block
 
@@ -59,32 +89,38 @@
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String]$tfilter,
+      [String[]]$Fields,
+      $CustomFilters,
       [String]$id
     )
 
-	$MatchType = Match-Type $Strict
+    if ($CustomFilters) {
+      $Filter = Combine-Filters $CustomFilters
+    } else {
+        $MatchType = Match-Type $Strict
 
-    [System.Collections.ArrayList]$Filters = @()
-    if ($Subnet) {
-        $Filters.Add("address==`"$Subnet`"") | Out-Null
-    }
-    if ($CIDR) {
-        $Filters.Add("cidr==$CIDR") | Out-Null
-    }
-    if ($Name) {
-        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
-    }
-    if ($id) {
-        $Filters.Add("id==`"$id`"") | Out-Null
-    }
-    if ($Space) {
-        $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
-        $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
+        [System.Collections.ArrayList]$Filters = @()
+        if ($Subnet) {
+            $Filters.Add("address==`"$Subnet`"") | Out-Null
+        }
+        if ($CIDR) {
+            $Filters.Add("cidr==$CIDR") | Out-Null
+        }
+        if ($Name) {
+            $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+        }
+        if ($id) {
+            $Filters.Add("id==`"$id`"") | Out-Null
+        }
+        if ($Space) {
+            $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
+            $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
+        }
+        $Filter = Combine-Filters $Filters
     }
 
     [System.Collections.ArrayList]$QueryFilters = @()
-    if ($Filters) {
-        $Filter = Combine-Filters $Filters
+    if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($IncludeInheritance) {
@@ -93,6 +129,10 @@
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+      }
     $QueryFilters.Add("_limit=$Limit") | Out-Null
     $QueryFilters.Add("_offset=$Offset") | Out-Null
     $QueryString = ConvertTo-QueryString $QueryFilters

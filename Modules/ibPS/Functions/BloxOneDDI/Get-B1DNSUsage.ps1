@@ -14,7 +14,7 @@
 
     .PARAMETER ParseDetails
         Whether to enhance the data by resolving the Authoritative Zone, IPAM Space & DNS View names
-
+        
     .Example
         Get-B1DNSUsage -Address "10.10.100.30" -Space "Global" -ParseDetails
    

@@ -24,6 +24,9 @@ function Get-B1User {
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .PARAMETER id
         The id of the authoritative zone to filter by
 
@@ -54,12 +57,13 @@ function Get-B1User {
         [Int]$Limit = 101,
         [Int]$Offset = 0,
         [Switch]$Strict,
+        [String[]]$Fields,
         [String]$id
     )
 
     $MatchType = Match-Type $Strict
 
-    $QueryFilters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Limit) {
         $QueryFilters += "_limit=$Limit"
     }
@@ -83,10 +87,13 @@ function Get-B1User {
     if ($id) {
         $ParamFilters += "id==`"$id`""
     }
-
-     if ($ParamFilters) {
+    if ($ParamFilters) {
         $ParamFilter = Combine-Filters($ParamFilters)
         $QueryFilters += "_filter=$ParamFilter"
+    }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
 
     $CombinedFilter += ConvertTo-QueryString($QueryFilters)

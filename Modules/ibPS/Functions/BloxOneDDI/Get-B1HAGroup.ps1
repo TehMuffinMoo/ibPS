@@ -21,6 +21,9 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .PARAMETER id
         The id of the HA Group to filter by
 
@@ -46,6 +49,7 @@
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String]$tfilter,
+      [String[]]$Fields,
       [String]$id
     )
 
@@ -75,6 +79,10 @@
     $QueryFilters.Add("_offset=$Offset") | Out-Null
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters

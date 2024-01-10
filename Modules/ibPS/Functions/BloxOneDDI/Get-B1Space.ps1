@@ -21,6 +21,9 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+        
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -42,6 +45,7 @@
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String]$tfilter,
+      [String[]]$Fields,
       [String]$id
     )
 
@@ -64,6 +68,10 @@
     $QueryFilters.Add("_offset=$Offset") | Out-Null
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters

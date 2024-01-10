@@ -39,6 +39,36 @@ function Get-B1AuditLog {
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+
+        ## String
+        $CustomFilters = 'action=="update" and user_name=="some.email@domain.corp"'
+
+
+        ## Object
+        $CustomFilters = @(
+           @{
+             "Property"="action"
+             "Operator"="=="
+             "Value"="update"
+           }
+           @{
+             "Property"="user_name"
+             "Operator"="=="
+             "Value"="some.email@domain.corp"
+           }
+        )
+
+
+        ## ArrayList
+        [System.Collections.ArrayList]$CustomFilters = @()
+        $CustomFilters.Add('action=="update"') | Out-Null
+        $CustomFilters.Add('user_name=="some.email@domain.corp"') | Out-Null
+
     .Example
         Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
     
@@ -56,58 +86,70 @@ function Get-B1AuditLog {
       [int]$ResponseCode,
       [string]$ClientIP,
       [string]$Action,
-      [datetime]$Start = (Get-Date).AddDays(-1),
+      [datetime]$Start = (Get-Date).AddDays(-7),
       [datetime]$End = (Get-Date),
       [Int]$Limit = 100,
       [Int]$Offset,
+      [String[]]$Fields,
+      $CustomFilters,
       [switch]$Strict
     )
 
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()
 
-	$MatchType = Match-Type $Strict
-
-    [System.Collections.ArrayList]$Filters = @()
-    if ($Username) {
-        $Filters.Add("user_name$MatchType`"$Username`"") | Out-Null
-    }
-    if ($ResourceType) {
-        $Filters.Add("resource_type$MatchType`"$ResourceType`"") | Out-Null
-    }
-    if ($Method) {
-        $Filters.Add("http_method$MatchType`"$Method`"") | Out-Null
-    }
-    if ($ResponseCode) {
-        $Filters.Add("http_code==$ResponseCode") | Out-Null
-    }
-    if ($ClientIP) {
-        $Filters.Add("client_ip$MatchType`"$ClientIP`"") | Out-Null
-    }
-    if ($Action) {
-        $Filters.Add("action$MatchType`"$Action`"") | Out-Null
-    }
-    if ($Start) {
-        $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ssZ")
-        $Filters.Add("created_at>=`"$StartTime`"") | Out-Null
-    }
-    if ($End) {
-        $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ssZ")
-        $Filters.Add("created_at<=`"$EndTime`"") | Out-Null
-    }
-
-    if ($Filters) {
-        $Filter = Combine-Filters $Filters
-    }
-        
-    if ($Limit -and $Filters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs?_limit=$Limit&_offset=$Offset&_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } elseif ($Limit) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs?_limit=$Limit" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } elseif ($Filters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs?_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($CustomFilters) {
+        $Filter = Combine-Filters $CustomFilters
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $MatchType = Match-Type $Strict
+
+        [System.Collections.ArrayList]$Filters = @()
+        if ($Username) {
+            $Filters.Add("user_name$MatchType`"$Username`"") | Out-Null
+        }
+        if ($ResourceType) {
+            $Filters.Add("resource_type$MatchType`"$ResourceType`"") | Out-Null
+        }
+        if ($Method) {
+            $Filters.Add("http_method$MatchType`"$Method`"") | Out-Null
+        }
+        if ($ResponseCode) {
+            $Filters.Add("http_code==$ResponseCode") | Out-Null
+        }
+        if ($ClientIP) {
+            $Filters.Add("client_ip$MatchType`"$ClientIP`"") | Out-Null
+        }
+        if ($Action) {
+            $Filters.Add("action$MatchType`"$Action`"") | Out-Null
+        }
+        if ($Start) {
+            $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ssZ")
+            $Filters.Add("created_at>=`"$StartTime`"") | Out-Null
+        }
+        if ($End) {
+            $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ssZ")
+            $Filters.Add("created_at<=`"$EndTime`"") | Out-Null
+        }
+
+        if ($Filters) {
+            $Filter = Combine-Filters $Filters
+        }
+    }
+
+    [System.Collections.ArrayList]$QueryFilters = @()
+    if ($Filter) {
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
+    }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+    $QueryFilters.Add("_limit=$Limit") | Out-Null
+    $QueryFilters.Add("_offset=$Offset") | Out-Null
+    $QueryString = ConvertTo-QueryString $QueryFilters
+
+    if ($QueryString) {
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($Results) {
         return $Results
