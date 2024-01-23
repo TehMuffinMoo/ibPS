@@ -1,5 +1,5 @@
 
-function Store-B1CSPAPIKey {
+function Set-B1CSPAPIKey {
     <#
     .SYNOPSIS
         Stores a new BloxOneDDI API Key
@@ -14,7 +14,7 @@ function Store-B1CSPAPIKey {
         Using the -Persist switch will save the API Key across powershell sessions. Without using this switch, the API Key will only be stored for the current powershell session.
 
     .Example
-        Set-B1APIKey "mylongapikeyfromcsp" -Persist
+        Set-B1CSPAPIKey -APIKey "mylongapikeyfromcsp" -Persist
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -22,6 +22,7 @@ function Store-B1CSPAPIKey {
     .FUNCTIONALITY
         Authentication
     #>
+    [Alias("Store-B1CSPAPIKey")]
     param(
       [Parameter(Mandatory=$true)]
       [String]$APIKey,

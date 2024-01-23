@@ -56,12 +56,7 @@ function Get-B1Object {
     ## Get Saved CSP URL
     $B1CSPUrl = Get-B1CSPUrl
 
-    $BasePath = (Query-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath
-    if ($BasePath) {
-        $BasePath = $BasePath.Substring(0,$BasePath.length-1)
-    } else {
-        $BasePath = $null
-    }
+    $BasePath = (Query-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
 
     [System.Collections.ArrayList]$QueryFilters = @()
     [System.Collections.ArrayList]$B1Filters = @()
@@ -95,10 +90,12 @@ function Get-B1Object {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
-
-    $Results = Query-CSP -Method GET -Uri $Uri | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-    if ($Results) {
-        $Results | Add-Member -MemberType NoteProperty "_ref" -Value "$($B1CSPUrl)$($BasePath)"
-        $Results
+    $Results = Query-CSP -Method GET -Uri $Uri
+    if ($Results.results -ne $null) {
+        $Results = $Results | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+    } elseif ($Results.result -ne $null) {
+        $Results = $Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
     }
+    $Results | Add-Member -MemberType NoteProperty "_ref" -Value "$($B1CSPUrl)$($BasePath)"
+    $Results
 }
