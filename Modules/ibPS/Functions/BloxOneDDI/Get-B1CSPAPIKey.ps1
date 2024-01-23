@@ -23,7 +23,7 @@ function Get-B1CSPAPIKey {
     )
     $ApiKey = $ENV:B1APIKey
     if (!$ApiKey) {
-        Write-Host "Error. Missing API Key. Store your API Key first using the Store-B1CSPAPIKey Cmdlet and re-run this script." -ForegroundColor Red
+        Write-Host "Error. Missing API Key. Store your API Key first using the Set-B1CSPAPIKey Cmdlet and re-run this script." -ForegroundColor Red
         if (!($NoBreak)) {
             break
         }

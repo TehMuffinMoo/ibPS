@@ -110,7 +110,7 @@ function Query-CSP {
                     Write-Error "API Request Limit Reached. Use the -Limit and -Offset parameters or make your search more specific."
                 }
                 401 {
-                     Write-Error "Authorization required, please store/update your BloxOne API Key using Store-B1CSPAPIKey"
+                     Write-Error "Authorization required, please store/update your BloxOne API Key using Set-B1CSPAPIKey"
                 }
                 default {
                     Write-Error $($Result.error.message)
