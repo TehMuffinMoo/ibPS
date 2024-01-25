@@ -433,6 +433,7 @@ function New-ISOFile {
         try {
           $image = New-Object -ComObject IMAPI2FS.MsftFileSystemImage -Property @{VolumeName=$VolumeName} -ErrorAction Stop
           $image.ChooseImageDefaultsForMediaType(13) ## Defaults to DVDPLUSRW_DUALLAYER
+          $image.fileSystemsToCreate(2)
         }
         catch {
           throw ("Failed to initialise image. " + $_.exception.Message)
