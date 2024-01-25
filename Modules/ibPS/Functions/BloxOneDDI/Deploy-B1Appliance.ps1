@@ -211,7 +211,11 @@
                 foreach ($ParamItem in ($VHDPathAttribute,$HyperVServerAttribute,$HyperVGenerationAttribute,$VMPathAttribute,$VirtualNetworkAttribute,$VirtualNetworkVLANAttribute,$CPUAttribute,$MemoryAttribute)) {
                     $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                     $AttributeCollection.Add($ParamItem)
-                    $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
+                    if ($($ParamItem.HelpMessageBaseName -eq "CPU" -or $($ParamItem.HelpMessageBaseName) -eq "Memory")) {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [Int], $AttributeCollection)    
+                    } else {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
+                    }
                     $paramDictionary.Add($($ParamItem.HelpMessageBaseName), $DefinedParam)
                  }
                  return $paramDictionary
