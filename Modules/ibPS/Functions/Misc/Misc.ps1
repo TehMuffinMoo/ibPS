@@ -356,9 +356,9 @@ function New-B1Metadata {
   } | ConvertTo-Json -Depth 5
   
   $userdata = @()
+  $userdata += "#cloud-config"
   if ($LocalDebug) {
       $userdata += @(
-          "#cloud-config"
           "bootcmd:"
           "- sed -i '5i -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT' /etc/firewall.d/firewall.4.rules"
           "- systemctl restart firewalld.service"
