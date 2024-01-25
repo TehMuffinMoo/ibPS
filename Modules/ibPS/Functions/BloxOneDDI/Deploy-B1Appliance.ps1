@@ -334,7 +334,7 @@
                     Write-Host "Successfully created customization ISO." -ForegroundColor Cyan
                 }
     
-                $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes "16GB"  -SwitchName $VirtualNetwork -ComputerName $HyperVServer -Path $VMPath
+                $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes 16GB  -SwitchName $VirtualNetwork -ComputerName $HyperVServer -Path $VMPath
 
                 if ($VM) {
                     Set-VM -Name $Name  -ProcessorCount 8 -ComputerName $HyperVServer -CheckpointType Disabled
