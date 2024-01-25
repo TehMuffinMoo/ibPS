@@ -373,7 +373,7 @@
                     $OsDiskInfo = Get-Item $($PSBoundParameters['VHDPath'])
                     $RemoteBasePath = $($PSBoundParameters['VMPath']) -replace "`:","$"
                     if (!(Test-Path "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
-                        New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks" -ItemType Directory
+                        New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks"" -ItemType Directory
                     }
                     switch ($($PSBoundParameters['HyperVGeneration'])) {
                         1 {
@@ -381,7 +381,7 @@
                         }
                         2 {
                             $VHDExtension = "vhdx"
-                            Set-VMFirmware -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -EnableSecureBoot On MicrosoftUEFICertificateAuthority -BootOrder (Get-VMHardDiskDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name),(Get-VMDvdDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name)
+                            Set-VMFirmware -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -EnableSecureBoot On -SecureBootTemplate MicrosoftUEFICertificateAuthority -BootOrder (Get-VMHardDiskDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name),(Get-VMDvdDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name)
                         }
                     }
                     Copy-Item -Path $OsDiskInfo -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks\$($Name).$($VHDExtension)"
