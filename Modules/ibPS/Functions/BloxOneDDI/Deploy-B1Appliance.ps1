@@ -337,9 +337,9 @@
                 $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes 16GB  -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
 
                 if ($VM) {
-                    Set-VM -Name $Name  -ProcessorCount 8 -ComputerName $HyperVServer -CheckpointType Disabled
+                    Set-VM -Name $Name  -ProcessorCount 8 -ComputerName $($PSBoundParameters['HyperVServer']) -CheckpointType Disabled
                     if ($($PSBoundParameters['VirtualNetworkVLAN'])) {
-                        Set-VMNetworkAdapterVlan -VMName $Name -ComputerName $HyperVServer -VlanId $($PSBoundParameters['VirtualNetworkVLAN']) -Access
+                        Set-VMNetworkAdapterVlan -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -VlanId $($PSBoundParameters['VirtualNetworkVLAN']) -Access
                     }
                     
                     $OsDiskInfo = Get-Item $($PSBoundParameters['VHDPath'])
