@@ -196,7 +196,7 @@
 
                 $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
-                foreach ($ParamItem in ($VHDPathAttribute,$HyperVServerAttribute,$HyperVGenerationAttribute,$VMPathAttribute,$VirtualNetworkVLANAttribute)) {
+                foreach ($ParamItem in ($VHDPathAttribute,$HyperVServerAttribute,$HyperVGenerationAttribute,$VMPathAttribute,$VirtualNetworkAttribute,$VirtualNetworkVLANAttribute)) {
                     $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                     $AttributeCollection.Add($ParamItem)
                     $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
