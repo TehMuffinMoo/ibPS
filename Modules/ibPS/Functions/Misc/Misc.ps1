@@ -333,9 +333,11 @@ function New-B1Metadata {
   )
   $CIDR = Convert-NetmaskToCIDR $Netmask
 
-  $metadata = @{
-      "instance-id" = ""
-  } | ConvertTo-Json
+  $metadata = @(
+      '{'
+      '"instance-id": ""'
+      '}'
+   ) -join "`r`n"
   
   $network = @(
       "ethernets:"
