@@ -316,3 +316,90 @@ function Get-NetworkClass {
       }
   }
 }
+
+function New-B1Metadata {
+  param(
+      [Parameter(Mandatory=$true)]
+      [IPAddress]$IP,
+      [Parameter(Mandatory=$true)]
+      [String]$Netmask,
+      [Parameter(Mandatory=$true)]
+      [IPAddress]$Gateway,
+      [Parameter(Mandatory=$true)]
+      [String]$DNSServers,
+      [Parameter(Mandatory=$true)]
+      [String]$JoinToken,
+      [String]$LocalDebug
+  )
+  $CIDR = Convert-NetmaskToCIDR $Netmask
+
+  $metadata = @{
+      "instance-id" = ""
+  } | ConvertTo-Json
+  
+  $network = @{
+      "ethernets" = @{
+          "eth0" = @{
+              addresses = @(
+                  "$($IP)/$($CIDR)"
+              )
+              dhcp4 = "False"
+              gateway4 = "$($Gateway)"
+              nameservers = @{
+                  addresses = @(
+                      $DNSServers
+                  )
+              }
+          }
+      }
+      version = 2
+  } | ConvertTo-Json -Depth 5
+  
+  $userdata = @()
+  if ($LocalDebug) {
+      $userdata += @(
+          "#cloud-config"
+          "bootcmd:"
+          "- sed -i '5i -A INPUT -p tcp -m tcp --dport 22 -j ACCEPT' /etc/firewall.d/firewall.4.rules"
+          "- systemctl restart firewalld.service"
+          "- sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config"
+          "- sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config"
+          "- systemctl enable ssh"
+          "- systemctl --no-block restart ssh"
+          "- echo 'root:$($LocalDebug)' | chpasswd"
+      )
+  }
+  $userdata += @(
+      "host_setup:"
+      "  jointoken: $($JoinToken)"
+  )
+  $userdataAggr = $userdata -join "`r`n"
+
+  $Results = @{
+      "metadata" = $metadata
+      "network" = $network
+      "userdata" = $userdataAggr
+  }
+
+  return $Results
+}
+
+function New-ISOFile {
+  param(
+      [Parameter(Mandatory=$true)]
+      [String]$Source,
+      [Parameter(Mandatory=$true)]
+      [String]$Destination,
+      [Parameter(Mandatory=$true)]
+      [String]$VolumeName
+  )
+  $OS = Detect-OS
+
+  if ($OS -eq "Windows") {
+
+  }
+
+  if ($OS -eq "Mac") {
+      hdiutil makehybrid -iso -iso-volume-name "$VolumeName" -joliet -joliet-volume-name "$VolumeName" -o "$Destination" "$Source"
+  }
+}
