@@ -67,9 +67,12 @@
     .PARAMETER SkipPowerOn
         Using this parameter will leave the VM in a powered off state once deployed
 
-    .Example
-        Deploy-B1Appliance -Type "VMware" -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
+    .EXAMPLE
+        Deploy-B1Appliance -Type "VMware" -Name "bloxoneddihost1" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
     
+    .EXAMPLE
+        Deploy-B1Appliance -Type Hyper-V -Name "bloxoneddihost1" -IP 10.10.100.10 -Netmask 255.255.255.0 -Gateway 10.10.100.1 -DNSServers 10.10.100.1 -NTPServers ntp.ubuntu.com -DNSSuffix mydomain.corp -JoinToken "JoinTokenGoesHere" -VHDPath ".\BloxOne_OnPrem_VHDX_v3.8.1.vhdx" -HyperVServer "Host1.mycompany.corp" -HyperVGeneration 2 -VMPath "A:\VMs" -VirtualNetwork "Virtual Network 1" -VirtualNetworkVLAN 101
+
     .FUNCTIONALITY
         BloxOneDDI
     
@@ -235,7 +238,7 @@
             "VMware" {
                 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
 
-                if (Connect-VIServer -Server $($PSBoundParameters['vCenter']) -Credential $Creds) {
+                if (Connect-VIServer -Server $($PSBoundParameters['vCenter']) -Credential $($PSBoundParameters['Creds'])) {
                     Write-Host "Connected to vCenter $($PSBoundParameters['vCenter']) successfully." -ForegroundColor Green
                 } else {
                     Write-Error "Failed to establish session with vCenter $($PSBoundParameters['vCenter'])."
@@ -254,16 +257,16 @@
                 }
                 switch($($PSBoundParameters['PortGroupType'])) {
                     "vDS" {
-                        $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $PortGroup
+                        $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
                         if (!($NetworkMapping)) {
                             Write-Error "Error. Failed to get vDS Port Group, please check details and try again."
                             break
                         } else {
-                            $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $PortGroup
+                            $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
                         }
                     }
                     "Standard" {
-                        $NetworkMapping = Get-VirtualSwitch -VMHost $VMHost | Get-VirtualPortGroup -Name $PortGroup
+                        $NetworkMapping = Get-VirtualSwitch -VMHost $VMHost | Get-VirtualPortGroup -Name $($PSBoundParameters['PortGroup'])
                         if (!($NetworkMapping)) {
                             Write-Error "Error. Failed to get Virtual Port Group, please check details and try again."
                             break
@@ -329,7 +332,7 @@
                 }
             }
             "Hyper-V" {
-                $VMMetadata = New-B1Metadata -IP $IP -Netmask $Netmask -Gateway $Gateway -DNSServers $DNSServers -JoinToken $JoinToken
+                $VMMetadata = New-B1Metadata -IP $IP -Netmask $Netmask -Gateway $Gateway -DNSServers $DNSServers -JoinToken $JoinToken -DNSSuffix $DNSSuffix
 
                 if (!(Test-Path 'work-dir')) {
                     New-Item -Type Directory -Name "work-dir" | Out-Null

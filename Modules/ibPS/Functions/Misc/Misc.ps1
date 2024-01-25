@@ -327,6 +327,7 @@ function New-B1Metadata {
       [IPAddress]$Gateway,
       [Parameter(Mandatory=$true)]
       [String]$DNSServers,
+      [String]$DNSSuffix,
       [Parameter(Mandatory=$true)]
       [String]$JoinToken,
       [String]$LocalDebug
@@ -347,6 +348,7 @@ function New-B1Metadata {
       "    gateway4: $($Gateway)"
       "    nameservers:"
       "      addresses: [$($DNSServers)]"
+      "    search: [$($DNSSuffix)]"
       "version: 2"
   ) -join "`r`n"
   
