@@ -194,9 +194,21 @@
                 $VirtualNetworkVLANAttribute.HelpMessageBaseName = "VirtualNetworkVLAN"
                 $VirtualNetworkVLANAttribute.HelpMessage = "The VirtualNetworkVLAN parameter is used to define the name of the Virtual Network VLAN to connect the VM to (if applicable)."
 
+                $CPUAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $CPUAttribute.Position = 7
+                $CPUAttribute.Mandatory = $false
+                $CPUAttribute.HelpMessageBaseName = "CPU"
+                $CPUAttribute.HelpMessage = "The CPU parameter is used to define the number of CPUs to assign to the VM. The default is 8."
+
+                $MemoryAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $MemoryAttribute.Position = 8
+                $MemoryAttribute.Mandatory = $false
+                $MemoryAttribute.HelpMessageBaseName = "Memory"
+                $MemoryAttribute.HelpMessage = "The CPU parameter is used to define the amount of memory to assign to the VM. The default is 16GB."
+
                 $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
-                foreach ($ParamItem in ($VHDPathAttribute,$HyperVServerAttribute,$HyperVGenerationAttribute,$VMPathAttribute,$VirtualNetworkAttribute,$VirtualNetworkVLANAttribute)) {
+                foreach ($ParamItem in ($VHDPathAttribute,$HyperVServerAttribute,$HyperVGenerationAttribute,$VMPathAttribute,$VirtualNetworkAttribute,$VirtualNetworkVLANAttribute,$CPUAttribute,$MemoryAttribute)) {
                     $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                     $AttributeCollection.Add($ParamItem)
                     $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
@@ -334,10 +346,22 @@
                     Write-Host "Successfully created customization ISO." -ForegroundColor Cyan
                 }
     
-                $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes 16GB  -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
+                if (!($PSBoundParameters['Memory'])) {
+                    $Memory = 16GB
+                } else {
+                    $Memory = $PSBoundParameters['Memory']
+                }
+
+                if (!($PSBoundParameters['CPU'])) {
+                    $CPU = 8
+                } else {
+                    $CPU = $PSBoundParameters['CPU']
+                }
+
+                $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes $Memory -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
 
                 if ($VM) {
-                    Set-VM -Name $Name  -ProcessorCount 8 -ComputerName $($PSBoundParameters['HyperVServer']) -CheckpointType Disabled
+                    Set-VM -Name $Name  -ProcessorCount $CPU -ComputerName $($PSBoundParameters['HyperVServer']) -CheckpointType Disabled
                     if ($($PSBoundParameters['VirtualNetworkVLAN'])) {
                         Set-VMNetworkAdapterVlan -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -VlanId $($PSBoundParameters['VirtualNetworkVLAN']) -Access
                     }
@@ -357,7 +381,7 @@
                         }
                     }
                     Copy-Item -Path $OsDiskInfo -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks\$($Name).$($VHDExtension)"
-                    Copy-Item -Path $MetaData -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks\$($Name)-metadata.iso"
+                    Copy-Item -Path "cloud-init/metadata.iso" -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks\$($Name)-metadata.iso"
                     
                     if (!(Get-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
                         Add-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)"
