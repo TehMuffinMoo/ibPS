@@ -347,15 +347,15 @@
                 }
     
                 if (!($PSBoundParameters['Memory'])) {
-                    $Memory = 16GB
+                    [Int]$Memory = 16GB
                 } else {
-                    $Memory = $PSBoundParameters['Memory']
+                    [Int]$Memory = $PSBoundParameters['Memory']
                 }
 
                 if (!($PSBoundParameters['CPU'])) {
-                    $CPU = 8
+                    [Int]$CPU = 8
                 } else {
-                    $CPU = $PSBoundParameters['CPU']
+                    [Int]$CPU = $PSBoundParameters['CPU']
                 }
 
                 $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes $Memory -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
