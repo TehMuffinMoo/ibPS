@@ -210,7 +210,7 @@
     process {
         if (!($SkipPingChecks)) {
             if ((Test-NetConnection $IP -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
-                Write-Error "Error. IP Address already in use." -ForegroundColor Red
+                Write-Error "Error. IP Address already in use."
                 break
             }
         }
@@ -222,25 +222,25 @@
                 if (Connect-VIServer -Server $vCenter -Credential $Creds) {
                     Write-Host "Connected to vCenter $vCenter successfully." -ForegroundColor Green
                 } else {
-                    Write-Error "Failed to establish session with vCenter $vCenter." -ForegroundColor Red
+                    Write-Error "Failed to establish session with vCenter $vCenter."
                     break
                 }
             
                 $VMCluster = Get-Cluster $Cluster -ErrorAction SilentlyContinue
                 $VMHost = $VMCluster | Get-VMHost -State "Connected" | Select-Object -First 1
                 if (!($VMCluster)) {
-                    Write-Error "Error. Failed to get VM Cluster, please check details and try again." -ForegroundColor Red
+                    Write-Error "Error. Failed to get VM Cluster, please check details and try again."
                     break
                 }
                 if (!(Get-Datastore $Datastore -ErrorAction SilentlyContinue)) {
-                    Write-Error "Error. Failed to get VM Datastore, please check details and try again." -ForegroundColor Red
+                    Write-Error "Error. Failed to get VM Datastore, please check details and try again."
                     break
                 }
                 switch($PortGroupType) {
                     "vDS" {
                         $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $PortGroup
                         if (!($NetworkMapping)) {
-                            Write-Error "Error. Failed to get vDS Port Group, please check details and try again." -ForegroundColor Red
+                            Write-Error "Error. Failed to get vDS Port Group, please check details and try again."
                             break
                         } else {
                             $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $PortGroup
@@ -249,19 +249,19 @@
                     "Standard" {
                         $NetworkMapping = Get-VirtualSwitch -VMHost $VMHost | Get-VirtualPortGroup -Name $PortGroup
                         if (!($NetworkMapping)) {
-                            Write-Error "Error. Failed to get Virtual Port Group, please check details and try again." -ForegroundColor Red
+                            Write-Error "Error. Failed to get Virtual Port Group, please check details and try again."
                             break
                         } else {
             
                         }
                     }
                     "Default" {
-                        Write-Error "Invalid Port Group Type specified. Must be either `"vDS`" or `"Standard`"" -ForegroundColor Red
+                        Write-Error "Invalid Port Group Type specified. Must be either `"vDS`" or `"Standard`""
                         break
                     }
                 }
                 if (!(Test-Path $OVAPath)) {
-                    Write-Error "Error. OVA $OVAPath not found." -ForegroundColor Red
+                    Write-Error "Error. OVA $OVAPath not found."
                     break
                 } else {
                     $OVFConfig = Get-OvfConfiguration -Ovf $OVAPath
@@ -284,7 +284,7 @@
                         $OVFConfig.NetworkMapping.lan.Value = $NetworkMapping
                     
                     } else {
-                        Write-Error "Error. Unable to retrieve OVF Configuration from $OVAPath." -ForegroundColor Red
+                        Write-Error "Error. Unable to retrieve OVF Configuration from $OVAPath."
                     }
             
                     Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
@@ -302,7 +302,7 @@
                                 Wait-Event -Timeout 10
                                 $VMStartCount = $VMStartCount + 10
                                 if ($VMStartCount -gt 120) {
-                                    Write-Error "Error. VM Failed to start." -ForegroundColor Red
+                                    Write-Error "Error. VM Failed to start."
                                     break
                                 }
                             }
@@ -329,7 +329,7 @@
                 Get-ChildItem -Path "cloud-init/" | Where-Object {$_.Name -ne "metadata.iso"} | Remove-Item
 
                 if (!(Test-Path "cloud-init/metadata.iso")) {
-                    Write-Error "Error. Failed to create customization ISO." -ForegroundColor Red
+                    Write-Error "Error. Failed to create customization ISO."
                 } else {
                     Write-Host "Successfully created customization ISO." -ForegroundColor Cyan
                 }
@@ -382,7 +382,7 @@
                             Wait-Event -Timeout 10
                             $VMStartCount = $VMStartCount + 10
                             if ($VMStartCount -gt 120) {
-                                Write-Error "Error. VM Failed to start." -ForegroundColor Red
+                                Write-Error "Error. VM Failed to start."
                                 break
                             }
                         }
@@ -400,7 +400,7 @@
                         Write-Host "Waiting for network to become reachable. Elapsed Time: $PingStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
                         if ($PingStartCount -gt 120) {
-                            Write-Error "Error. Network Failed to become reachable on $IP." -ForegroundColor Red
+                            Write-Error "Error. Network Failed to become reachable on $IP."
                             break
                         }
                     }
@@ -412,7 +412,7 @@
                         Write-Host "Waiting for BloxOne Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
                         if ($CSPStartCount -gt 120) {
-                            Write-Error "Error. VM failed to register with the BloxOne CSP. Please check VM Console for details." -ForegroundColor Red
+                            Write-Error "Error. VM failed to register with the BloxOne CSP. Please check VM Console for details."
                             break
                         }
                     }
@@ -427,7 +427,7 @@
                 Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
             }
         } else {
-            Write-Error "Failed to deploy BloxOne Appliance." -ForegroundColor Red
+            Write-Error "Failed to deploy BloxOne Appliance."
             break
         }
     }
