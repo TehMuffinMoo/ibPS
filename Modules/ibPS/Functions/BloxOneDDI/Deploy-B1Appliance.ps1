@@ -340,7 +340,7 @@
                 New-Item -Type Directory -Name "work-dir/cloud-init" | Out-Null
                 New-Item -Path "work-dir/cloud-init/user-data" -Value $VMMetadata.userdata | Out-Null
                 New-Item -Path "work-dir/cloud-init/network-config" -Value $VMMetadata.network | Out-Null
-                New-Item -Path "work-dir/cloud-init/metadata" -Value $VMMetadata.metadata | Out-Null
+                New-Item -Path "work-dir/cloud-init/meta-data" -Value $VMMetadata.metadata | Out-Null
 
                 Write-Host "Creating configuration metadata ISO" -ForegroundColor Cyan
                 New-ISOFile -Source "work-dir/cloud-init/" -Destination "work-dir/metadata.iso" -VolumeName "CIDATA"
