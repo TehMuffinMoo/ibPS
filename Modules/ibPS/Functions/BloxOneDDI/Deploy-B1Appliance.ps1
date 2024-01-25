@@ -343,7 +343,7 @@
                     }
                     
                     $OsDiskInfo = Get-Item $($PSBoundParameters['VHDPath'])
-                    $RemoteBasePath = $VMPath -replace "`:","$"
+                    $RemoteBasePath = $($PSBoundParameters['VMPath']) -replace "`:","$"
                     if (!(Test-Path "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
                         New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks" -ItemType Directory
                     }
@@ -360,17 +360,17 @@
                     Copy-Item -Path $MetaData -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks\$($Name)-metadata.iso"
                     
                     if (!(Get-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
-                        Add-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)"
+                        Add-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)"
                     }
                     
                     if (!(Get-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
-                        Add-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
+                        Add-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
                     } else {
-                        Set-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
+                        Set-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
                     }
                     
-                    if (Get-VHD -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer'])) {
-                        Resize-VHD -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer']) -SizeBytes 60GB
+                    if (Get-VHD -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer'])) {
+                        Resize-VHD -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer']) -SizeBytes 60GB
                     }
                     
                     if (!($SkipPowerOn)) {
