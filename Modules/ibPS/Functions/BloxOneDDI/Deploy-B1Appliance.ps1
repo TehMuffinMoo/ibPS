@@ -236,7 +236,7 @@
                     Write-Error "Error. Failed to get VM Datastore, please check details and try again."
                     break
                 }
-                switch($($PSBoundParameters['PortGroupType']) {
+                switch($($PSBoundParameters['PortGroupType'])) {
                     "vDS" {
                         $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $PortGroup
                         if (!($NetworkMapping)) {
