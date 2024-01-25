@@ -331,20 +331,21 @@
             "Hyper-V" {
                 $VMMetadata = New-B1Metadata -IP $IP -Netmask $Netmask -Gateway $Gateway -DNSServers $DNSServers -JoinToken $JoinToken
 
-                if (Test-Path cloud-init) {
-                    Remove-Item -Path "cloud-init" -Recurse
+                if (!(Test-Path 'work-dir')) {
+                    New-Item -Type Directory -Name "work-dir" | Out-Null
                 }
-                New-Item -Type Directory -Name "cloud-init" | Out-Null
-                New-Item -Path "cloud-init/user-data" -Value $VMMetadata.userdata | Out-Null
-                New-Item -Path "cloud-init/network-config" -Value $VMMetadata.network | Out-Null
-                New-Item -Path "cloud-init/metadata" -Value $VMMetadata.metadata | Out-Null
+                if (Test-Path 'work-dir/cloud-init') {
+                    Remove-Item -Path "work-dir/cloud-init" -Recurse
+                }
+                New-Item -Type Directory -Name "work-dir/cloud-init" | Out-Null
+                New-Item -Path "work-dir/cloud-init/user-data" -Value $VMMetadata.userdata | Out-Null
+                New-Item -Path "work-dir/cloud-init/network-config" -Value $VMMetadata.network | Out-Null
+                New-Item -Path "work-dir/cloud-init/metadata" -Value $VMMetadata.metadata | Out-Null
 
                 Write-Host "Creating configuration metadata ISO" -ForegroundColor Cyan
-                New-ISOFile -Source "cloud-init/" -Destination "cloud-init/metadata.iso" -VolumeName "CIDATA"
+                New-ISOFile -Source "work-dir/cloud-init/" -Destination "work-dir/metadata.iso" -VolumeName "CIDATA"
 
-                Get-ChildItem -Path "cloud-init/" | Where-Object {$_.Name -ne "metadata.iso"} | Remove-Item
-
-                if (!(Test-Path "cloud-init/metadata.iso")) {
+                if (!(Test-Path "work-dir/metadata.iso")) {
                     Write-Error "Error. Failed to create customization ISO."
                 } else {
                     Write-Host "Successfully created customization ISO." -ForegroundColor Cyan
@@ -384,8 +385,8 @@
                         }
                     }
 
-                    Copy-Item -Path $OsDiskInfo -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\\Virtual Hard Disks\$($Name).$($VHDExtension)"
-                    Copy-Item -Path "cloud-init/metadata.iso" -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
+                    Copy-Item -Path $OsDiskInfo -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\\Virtual Hard Disks\$($Name).$($VHDExtension)" | Out-Null
+                    Copy-Item -Path "work-dir/metadata.iso" -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso" | Out-Null
                     
                     if (!(Get-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
                         Add-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)"
