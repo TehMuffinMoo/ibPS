@@ -337,23 +337,16 @@ function New-B1Metadata {
       "instance-id" = ""
   } | ConvertTo-Json
   
-  $network = @{
-      "ethernets" = @{
-          "eth0" = @{
-              addresses = @(
-                  "$($IP)/$($CIDR)"
-              )
-              dhcp4 = "False"
-              gateway4 = "$($Gateway)"
-              nameservers = @{
-                  addresses = @(
-                      $DNSServers
-                  )
-              }
-          }
-      }
-      version = 2
-  } | ConvertTo-Json -Depth 5
+  $network = @(
+      "ethernets:"
+      "  eth0:"
+      "    addresses: [ $($IP)/$($CIDR) ]"
+      "    dhcp4: False"
+      "    gateway4: $($Gateway)"
+      "    nameservers:"
+      "      addresses: [$($DNSServers)]"
+      "version: 2"
+  ) -join "`r`n"
   
   $userdata = @()
   $userdata += "#cloud-config"
