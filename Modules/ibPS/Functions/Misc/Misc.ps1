@@ -448,7 +448,7 @@ function New-ISOFile {
         }
 
         try {
-          $sourceItems = Get-ChildItem -LiteralPath $Source -ErrorAction Stop
+          $sourceItems = Get-ChildItem -LiteralPath $Source -Exclude *.iso -ErrorAction Stop
         }
         catch {
           throw ("Failed to get source items. " + $_.exception.message)

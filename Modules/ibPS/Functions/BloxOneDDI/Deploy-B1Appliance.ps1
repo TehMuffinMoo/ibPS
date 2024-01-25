@@ -219,24 +219,24 @@
             "VMware" {
                 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
 
-                if (Connect-VIServer -Server $vCenter -Credential $Creds) {
-                    Write-Host "Connected to vCenter $vCenter successfully." -ForegroundColor Green
+                if (Connect-VIServer -Server $($PSBoundParameters['vCenter']) -Credential $Creds) {
+                    Write-Host "Connected to vCenter $($PSBoundParameters['vCenter']) successfully." -ForegroundColor Green
                 } else {
-                    Write-Error "Failed to establish session with vCenter $vCenter."
+                    Write-Error "Failed to establish session with vCenter $($PSBoundParameters['vCenter'])."
                     break
                 }
             
-                $VMCluster = Get-Cluster $Cluster -ErrorAction SilentlyContinue
+                $VMCluster = Get-Cluster $($PSBoundParameters['Cluster']) -ErrorAction SilentlyContinue
                 $VMHost = $VMCluster | Get-VMHost -State "Connected" | Select-Object -First 1
                 if (!($VMCluster)) {
                     Write-Error "Error. Failed to get VM Cluster, please check details and try again."
                     break
                 }
-                if (!(Get-Datastore $Datastore -ErrorAction SilentlyContinue)) {
+                if (!($Datastore = Get-Datastore $($PSBoundParameters['Datastore']) -ErrorAction SilentlyContinue)) {
                     Write-Error "Error. Failed to get VM Datastore, please check details and try again."
                     break
                 }
-                switch($PortGroupType) {
+                switch($($PSBoundParameters['PortGroupType']) {
                     "vDS" {
                         $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $PortGroup
                         if (!($NetworkMapping)) {
@@ -260,11 +260,11 @@
                         break
                     }
                 }
-                if (!(Test-Path $OVAPath)) {
-                    Write-Error "Error. OVA $OVAPath not found."
+                if (!(Test-Path $PSBoundParameters['OVAPath'])) {
+                    Write-Error "Error. OVA $($PSBoundParameters['OVAPath']) not found."
                     break
                 } else {
-                    $OVFConfig = Get-OvfConfiguration -Ovf $OVAPath
+                    $OVFConfig = Get-OvfConfiguration -Ovf $($PSBoundParameters['OVAPath'])
                 }
             
                 if (Get-VM -Name $Name -ErrorAction SilentlyContinue) {
@@ -284,11 +284,11 @@
                         $OVFConfig.NetworkMapping.lan.Value = $NetworkMapping
                     
                     } else {
-                        Write-Error "Error. Unable to retrieve OVF Configuration from $OVAPath."
+                        Write-Error "Error. Unable to retrieve OVF Configuration from $($PSBoundParameters['OVAPath'])."
                     }
             
                     Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
-                    $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $OVAPath -Name $Name -VMHost $VMHost -Datastore (Get-Datastore $Datastore) -ErrorAction SilentlyContinue
+                    $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $($PSBoundParameters['OVAPath']) -Name $Name -VMHost $VMHost -Datastore $Datastore -ErrorAction SilentlyContinue
                 
                     if ($VM) {
                         Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
@@ -334,50 +334,50 @@
                     Write-Host "Successfully created customization ISO." -ForegroundColor Cyan
                 }
     
-                $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes 16GB  -SwitchName $VirtualNetwork -ComputerName $HyperVServer -Path $VMPath
+                $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes 16GB  -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
 
                 if ($VM) {
                     Set-VM -Name $Name  -ProcessorCount 8 -ComputerName $HyperVServer -CheckpointType Disabled
-                    if ($VirtualNetworkVLAN) {
-                        Set-VMNetworkAdapterVlan -VMName $Name -ComputerName $HyperVServer -VlanId $VirtualNetworkVLAN -Access
+                    if ($($PSBoundParameters['VirtualNetworkVLAN'])) {
+                        Set-VMNetworkAdapterVlan -VMName $Name -ComputerName $HyperVServer -VlanId $($PSBoundParameters['VirtualNetworkVLAN']) -Access
                     }
                     
-                    $OsDiskInfo = Get-Item $VHDPath
+                    $OsDiskInfo = Get-Item $($PSBoundParameters['VHDPath'])
                     $RemoteBasePath = $VMPath -replace "`:","$"
-                    if (!(Test-Path "\\$($HyperVServer)\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
-                        New-Item "\\\$($HyperVServer)\$($RemoteBasePath)\Virtual Hard Disks" -ItemType Directory
+                    if (!(Test-Path "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
+                        New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks" -ItemType Directory
                     }
-                    switch ($HyperVGeneration) {
+                    switch ($($PSBoundParameters['HyperVGeneration'])) {
                         1 {
                             $VHDExtension = "vhd"
                         }
                         2 {
                             $VHDExtension = "vhdx"
-                            Set-VMFirmware -VMName $Name -ComputerName $HyperVServer -EnableSecureBoot On MicrosoftUEFICertificateAuthority -BootOrder (Get-VMHardDiskDrive -ComputerName $HyperVServer -VMName $Name),(Get-VMDvdDrive -ComputerName $HyperVServer -VMName $Name)
+                            Set-VMFirmware -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -EnableSecureBoot On MicrosoftUEFICertificateAuthority -BootOrder (Get-VMHardDiskDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name),(Get-VMDvdDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name)
                         }
                     }
-                    Copy-Item -Path $OsDiskInfo -Destination "\\$($HyperVServer)\$($RemoteBasePath)\Virtual Hard Disks\$($Name).$($VHDExtension)"
-                    Copy-Item -Path $MetaData -Destination "\\$($HyperVServer)\$($RemoteBasePath)\Virtual Hard Disks\$($Name)-metadata.iso"
+                    Copy-Item -Path $OsDiskInfo -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks\$($Name).$($VHDExtension)"
+                    Copy-Item -Path $MetaData -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\Virtual Hard Disks\$($Name)-metadata.iso"
                     
-                    if (!(Get-VMHardDiskDrive -VMName $Name -ComputerName $HyperVServer)) {
-                        Add-VMHardDiskDrive -VMName $Name -ComputerName $HyperVServer -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)"
+                    if (!(Get-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
+                        Add-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)"
                     }
                     
-                    if (!(Get-VMDvdDrive -VMName $Name -ComputerName $HyperVServer)) {
-                        Add-VMDvdDrive -VMName $Name -ComputerName $HyperVServer  -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
+                    if (!(Get-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
+                        Add-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
                     } else {
-                        Set-VMDvdDrive -VMName $Name -ComputerName $HyperVServer  -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
+                        Set-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
                     }
                     
-                    if (Get-VHD -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $HyperVServer) {
-                        Resize-VHD -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $HyperVServer -SizeBytes 60GB
+                    if (Get-VHD -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer'])) {
+                        Resize-VHD -Path "$($VMPath)\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer']) -SizeBytes 60GB
                     }
                     
                     if (!($SkipPowerOn)) {
                         Write-Host "Powering on $Name.." -ForegroundColor Cyan
-                        $VMStart = Start-VM -Name $Name -ComputerName $HyperVServer 
+                        $VMStart = Start-VM -Name $Name -ComputerName $($PSBoundParameters['HyperVServer'])
                         $VMStartCount = 0
-                        while ((Get-VM -Name $Name -ComputerName $HyperVServer).State -ne "Running") {
+                        while ((Get-VM -Name $Name -ComputerName $($PSBoundParameters['HyperVServer'])).State -ne "Running") {
                             Write-Host "Waiting for VM to start. Elapsed Time: $VMStartCount`s" -ForegroundColor Gray
                             Wait-Event -Timeout 10
                             $VMStartCount = $VMStartCount + 10
