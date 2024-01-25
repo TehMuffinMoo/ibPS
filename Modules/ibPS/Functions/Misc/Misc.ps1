@@ -395,11 +395,88 @@ function New-ISOFile {
   )
   $OS = Detect-OS
 
-  if ($OS -eq "Windows") {
+  switch($OS) {
+    "Windows" {
+      $typeDefinition = @'
+        public class ISOFile  {
+            public unsafe static void Create(string Path, object Stream, int BlockSize, int TotalBlocks) {
+                int bytes = 0;
+                byte[] buf = new byte[BlockSize];
+                var ptr = (System.IntPtr)(&bytes);
+                var o = System.IO.File.OpenWrite(Path);
+                var i = Stream as System.Runtime.InteropServices.ComTypes.IStream;
 
-  }
+                if (o != null) {
+                    while (TotalBlocks-- > 0) {
+                        i.Read(buf, BlockSize, ptr); o.Write(buf, 0, bytes);
+                    }
 
-  if ($OS -eq "Mac") {
+                    o.Flush(); o.Close();
+                }
+            }
+        }
+'@
+        if (!('ISOFile' -as [type])) {
+          switch ($PSVersionTable.PSVersion.Major) {
+            {$_ -ge 7} {
+              Write-Verbose ("Adding type for PowerShell 7 or later.")
+              Add-Type -CompilerOptions "/unsafe" -TypeDefinition $typeDefinition
+            }
+
+            5 {
+              Write-Verbose ("Adding type for PowerShell 5.")
+              $compOpts = New-Object System.CodeDom.Compiler.CompilerParameters
+              $compOpts.CompilerOptions = "/unsafe"
+              Add-Type -CompilerParameters $compOpts -TypeDefinition $typeDefinition
+            }
+            default {
+              throw ("Unsupported PowerShell version.")
+            }
+          }
+        }
+
+        try {
+          $image = New-Object -ComObject IMAPI2FS.MsftFileSystemImage -Property @{VolumeName=$VolumeName} -ErrorAction Stop
+          $image.ChooseImageDefaultsForMediaType(13) ## Defaults to DVDPLUSRW_DUALLAYER
+        }
+        catch {
+          throw ("Failed to initialise image. " + $_.exception.Message)
+        }
+
+        if (!($targetFile = New-Item -Path $Destination -ItemType File -Force -ErrorAction SilentlyContinue)) {
+                throw ("Cannot create file " + $Destination + ".")
+        }
+
+        try {
+          $sourceItems = Get-ChildItem -LiteralPath $Source -ErrorAction Stop
+        }
+        catch {
+          throw ("Failed to get source items. " + $_.exception.message)
+        }
+
+        foreach($sourceItem in $sourceItems) {
+          try {
+              $image.Root.AddTree($sourceItem.FullName, $true)
+          }
+          catch {
+              throw ("Failed to add " + $sourceItem.fullname + ". " + $_.exception.message)
+          }
+        }
+
+        try {
+          $result = $image.CreateResultImage()
+          [ISOFile]::Create($targetFile.FullName,$result.ImageStream,$result.BlockSize,$result.TotalBlocks)
+        }
+        catch {
+          throw ("Failed to write ISO file. " + $_.exception.Message)
+        }
+
+        return $targetFile
+
+    }
+    
+    "Mac" {
       hdiutil makehybrid -iso -iso-volume-name "$VolumeName" -joliet -joliet-volume-name "$VolumeName" -o "$Destination" "$Source"
+    }
   }
 }
