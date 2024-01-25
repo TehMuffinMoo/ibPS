@@ -373,7 +373,7 @@
                     $OsDiskInfo = Get-Item $($PSBoundParameters['VHDPath'])
                     $RemoteBasePath = $($PSBoundParameters['VMPath']) -replace "`:","$"
                     if (!(Test-Path "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
-                        New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks"" -ItemType Directory
+                        New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks" -ItemType Directory
                     }
                     switch ($($PSBoundParameters['HyperVGeneration'])) {
                         1 {
