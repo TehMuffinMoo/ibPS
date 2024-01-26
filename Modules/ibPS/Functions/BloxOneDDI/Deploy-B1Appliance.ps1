@@ -429,7 +429,7 @@
                             $VHDExtension = "vhdx"
                         }
                     }
-                    if ([System.IO.Path]::GetExtension($($PSBoundParameters['VHDPath'])) -ne ".$($VHDExtension))" {
+                    if ([System.IO.Path]::GetExtension($($PSBoundParameters['VHDPath'])) -ne ".$($VHDExtension)") {
                         switch($PSBoundParameters['HyperVGeneration']) {
                             1 {
                                 Write-Error "Error. You must use a .vhd file format for Generation 1 Hyper-V VMs."
