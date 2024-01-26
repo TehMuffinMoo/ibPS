@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.1.6'
+ModuleVersion = '1.9.1.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -165,7 +165,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.9.1.6 - Latest release - Hyper-V deployment integration using Deploy-B1Appliance'
+        ReleaseNotes = 'v1.9.1.7 - Introduce -DownloadLatestImage and -ImagesPath for automatically obtaining latest image and providing local cache to avoid duplicate downloads'
 
         # Prerelease string of this module
         # Prerelease = ''

@@ -23,7 +23,7 @@
 * Automate end-to-end deployments of BloxOne
 * Create, Edit & Remove objects from BloxOne Cloud (Records, Subnets, Ranges, Zones, HAGroups, etc.)
 * Apply DNS/DHCP Configuration Policies to On-Prem hosts
-* Deploy VMware BloxOne Appliances
+* Deploy VMware & Hyper-V BloxOne Appliances
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
@@ -534,8 +534,10 @@ Search-B1 -Query "search term"
 Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
   Used to reboot a BloxOneDDI Host
 
-Deploy-B1Appliance -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
-  Used to deploy the BloxOne Virtual Appliance. Requires VMware PowerCLI to be installed. All parameters are mandatory. -PortGroupType can be Standard or VDS.
+Deploy-B1Appliance -Type VMware -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
+  Used to deploy the BloxOne Virtual Appliance. Requires VMware PowerCLI to be installed for VMware or Hyper-V Powershell Tools for Microsoft Hyper-V.
+  Images can be downloaded automatically using -DownloadLatestImage and cached locally with -ImagesPath parameters
+  See examples by using Get-Help Deploy-B1Appliance -Detailed
 ```
 
 ### Custom BloxOne Functions (Generic Wrapper)
