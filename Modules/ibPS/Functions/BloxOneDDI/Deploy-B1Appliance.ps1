@@ -156,7 +156,7 @@
           "VMware" {
              $OVAPathAttribute = New-Object System.Management.Automation.ParameterAttribute
              $OVAPathAttribute.Position = 1
-             $OVAPathAttribute.Mandatory = $true
+             $OVAPathAttribute.Mandatory = $false
              $OVAPathAttribute.HelpMessageBaseName = "OVAPath"
              $OVAPathAttribute.HelpMessage = "The OVAPath parameter is used to define the full path of the .ova image to deploy."
 
@@ -210,7 +210,7 @@
            "Hyper-V" {
                 $VHDPathAttribute = New-Object System.Management.Automation.ParameterAttribute
                 $VHDPathAttribute.Position = 1
-                $VHDPathAttribute.Mandatory = $true
+                $VHDPathAttribute.Mandatory = $false
                 $VHDPathAttribute.HelpMessageBaseName = "VHDPath"
                 $VHDPathAttribute.HelpMessage = "The VHDPath parameter is used to define the full path of the .vhd/.vhdx image to deploy."
 
