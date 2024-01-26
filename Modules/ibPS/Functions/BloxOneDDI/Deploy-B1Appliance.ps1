@@ -408,14 +408,17 @@
                 $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes $Memory -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
 
                 if ($VM) {
+                    Write-Host "Configuring VM Resources.." -ForegroundColor Cyan
                     Set-VM -Name $Name  -ProcessorCount $CPU -ComputerName $($PSBoundParameters['HyperVServer']) -CheckpointType Disabled
                     if ($($PSBoundParameters['VirtualNetworkVLAN'])) {
+                        Write-Host "Configuring Virtual Network VLAN.." -ForegroundColor Cyan
                         Set-VMNetworkAdapterVlan -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -VlanId $($PSBoundParameters['VirtualNetworkVLAN']) -Access
                     }
                     
                     $OsDiskInfo = Get-Item $($PSBoundParameters['VHDPath'])
                     $RemoteBasePath = $($PSBoundParameters['VMPath']) -replace "`:","$"
                     if (!(Test-Path "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
+                        Write-Host "Preparing VM folders.." -ForegroundColor Cyan
                         New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks" -ItemType Directory | Out-Null
                     }
                     switch ($($PSBoundParameters['HyperVGeneration'])) {
@@ -426,25 +429,30 @@
                             $VHDExtension = "vhdx"
                         }
                     }
-
+                    Write-Host "Copying $($VHDExtension).." -ForegroundColor Cyan
                     Copy-Item -Path $OsDiskInfo -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\\Virtual Hard Disks\$($Name).$($VHDExtension)" | Out-Null
+                    Write-Host "Copying Metadata ISO.." -ForegroundColor Cyan
                     Copy-Item -Path "work-dir/metadata.iso" -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso" | Out-Null
                     
                     if (!(Get-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
+                        Write-Host "Attaching $($VHDExtension).." -ForegroundColor Cyan
                         Add-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)"
                     }
                     
+                    Write-Host "Attaching Metadata ISO.." -ForegroundColor Cyan
                     if (!(Get-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
                         Add-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
                     } else {
                         Set-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
                     }
                     
+                    Write-Host "Resizing $($VHDExtension).." -ForegroundColor Cyan
                     if (Get-VHD -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer'])) {
                         Resize-VHD -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer']) -SizeBytes 60GB
                     }
 
                     if ($PSBoundParameters['HyperVGeneration'] -eq 2) {
+                        Write-Host "Configuring Secure Boot.." -ForegroundColor Cyan
                         Set-VMFirmware -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -EnableSecureBoot On -SecureBootTemplate MicrosoftUEFICertificateAuthority -BootOrder (Get-VMHardDiskDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name),(Get-VMDvdDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name)
                     }
                     
