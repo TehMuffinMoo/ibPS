@@ -6,6 +6,8 @@
     .DESCRIPTION
         This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host or cluster
 
+        Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
+
     .PARAMETER Type
         The type of deployment to perform (VMware / Hyper-V)
 
@@ -56,6 +58,38 @@
     .PARAMETER Creds
         The credentials used for connecting to vCenter.
           Only used when -Type is VMware
+
+    .PARAMETER VHDPath
+        The full path to the BloxOne VHD/VHDX file
+          Only used when -Type is Hyper-V
+          
+    .PARAMETER HyperVServer
+        The FQDN for the Hyper-V server where the BloxOne appliance will be deployed to
+          Only used when -Type is Hyper-V
+
+    .PARAMETER HyperVGeneration
+        The generation of the Hyper-V VM to be created (1 or 2)
+          Only used when -Type is Hyper-V
+
+    .PARAMETER VMPath
+        The VMPath parameter is used to define the base path for the VM to be created in. A folder will be created within this path with the VM name.
+          Only used when -Type is Hyper-V
+
+    .PARAMETER VirtualNetwork
+        The VirtualNetwork parameter is used to define the name of the Virtual Network to connect the VM to.
+          Only used when -Type is Hyper-V
+
+    .PARAMETER VirtualNetworkVLAN
+        The VirtualNetworkVLAN parameter is used to define the VLAN number to assign to the interface, if applicable.
+          Only used when -Type is Hyper-V
+
+    .PARAMETER CPU
+        The CPU parameter is used to define the number of CPUs to assign to the VM. The default is 8.
+          Only used when -Type is Hyper-V
+
+    .PARAMETER Memory
+        The Memory parameter is used to define the amount of memory to assign to the VM. The default is 16GB.
+          Only used when -Type is Hyper-V
 
     .PARAMETER SkipCloudChecks
         Using this parameter will mean the deployment will not wait for the BloxOneDDI Host to become registered/available within the Cloud Services Portal
@@ -207,7 +241,7 @@
                 $MemoryAttribute.Position = 8
                 $MemoryAttribute.Mandatory = $false
                 $MemoryAttribute.HelpMessageBaseName = "Memory"
-                $MemoryAttribute.HelpMessage = "The CPU parameter is used to define the amount of memory to assign to the VM. The default is 16GB."
+                $MemoryAttribute.HelpMessage = "The Memory parameter is used to define the amount of memory to assign to the VM. The default is 16GB."
 
                 $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
 
@@ -332,21 +366,25 @@
                 }
             }
             "Hyper-V" {
+                Write-Host "Generating customization metadata" -ForegroundColor Cyan
                 $VMMetadata = New-B1Metadata -IP $IP -Netmask $Netmask -Gateway $Gateway -DNSServers $DNSServers -JoinToken $JoinToken -DNSSuffix $DNSSuffix
+                if ($VMMetadata) {
+                    Write-Host "Customization metadata generated successfully." -ForegroundColor Cyan
+                } else {
+                    Write-Error "Failed to generate customization metadata"
+                }
 
-                if (!(Test-Path 'work-dir')) {
-                    New-Item -Type Directory -Name "work-dir" | Out-Null
+                if (Test-Path 'work-dir') {
+                    Remove-Item -Path "work-dir" -Recurse
                 }
-                if (Test-Path 'work-dir/cloud-init') {
-                    Remove-Item -Path "work-dir/cloud-init" -Recurse
-                }
+                New-Item -Type Directory -Name "work-dir" | Out-Null
                 New-Item -Type Directory -Name "work-dir/cloud-init" | Out-Null
                 New-Item -Path "work-dir/cloud-init/user-data" -Value $VMMetadata.userdata | Out-Null
                 New-Item -Path "work-dir/cloud-init/network-config" -Value $VMMetadata.network | Out-Null
                 New-Item -Path "work-dir/cloud-init/meta-data" -Value $VMMetadata.metadata | Out-Null
 
                 Write-Host "Creating configuration metadata ISO" -ForegroundColor Cyan
-                New-ISOFile -Source "work-dir/cloud-init/" -Destination "work-dir/metadata.iso" -VolumeName "CIDATA"
+                $MetadataISO = New-ISOFile -Source "work-dir/cloud-init/" -Destination "work-dir/metadata.iso" -VolumeName "CIDATA"
 
                 if (!(Test-Path "work-dir/metadata.iso")) {
                     Write-Error "Error. Failed to create customization ISO."
@@ -365,7 +403,8 @@
                 } else {
                     $CPU = $PSBoundParameters['CPU']
                 }
-
+                
+                Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
                 $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes $Memory -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
 
                 if ($VM) {
@@ -377,7 +416,7 @@
                     $OsDiskInfo = Get-Item $($PSBoundParameters['VHDPath'])
                     $RemoteBasePath = $($PSBoundParameters['VMPath']) -replace "`:","$"
                     if (!(Test-Path "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
-                        New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks" -ItemType Directory
+                        New-Item "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks" -ItemType Directory | Out-Null
                     }
                     switch ($($PSBoundParameters['HyperVGeneration'])) {
                         1 {
@@ -454,11 +493,16 @@
                     }
                 }
 
+                if ($Type -eq "Hyper-V") {
+                    Set-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path $null ## Cleanup metadata ISO
+                }
+
                 Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Gray
 
                 if (!($SkipCloudChecks)) {
                     Get-B1Host -IP $IP | Format-Table display_name,ip_address,host_version -AutoSize
                 }
+                Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
             } else {
                 Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
             }
@@ -466,5 +510,7 @@
             Write-Error "Failed to deploy BloxOne Appliance."
             break
         }
+
+        Remove-Item -Path "work-dir" -Recurse ## Cleanup work directory
     }
 }
