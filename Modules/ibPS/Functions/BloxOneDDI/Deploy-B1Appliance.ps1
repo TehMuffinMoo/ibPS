@@ -405,7 +405,7 @@
                 }
                 
                 Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
-                $VM = New-VM -Name $Name  -NoVHD  -Generation 2 -MemoryStartupBytes $Memory -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
+                $VM = New-VM -Name $Name  -NoVHD  -Generation $($PSBoundParameters['HyperVGeneration']) -MemoryStartupBytes $Memory -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
 
                 if ($VM) {
                     Write-Host "Configuring VM Resources.." -ForegroundColor Cyan
