@@ -435,7 +435,7 @@
                                 Write-Error "Error. You must use a .vhd file format for Generation 1 Hyper-V VMs."
                             }
                             2 {
-                                Write-Error "Error. You must use a .vhdx file format for Generation 1 Hyper-V VMs."
+                                Write-Error "Error. You must use a .vhdx file format for Generation 2 Hyper-V VMs."
                             }
                         }
                     }
