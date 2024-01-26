@@ -38,6 +38,7 @@
     .PARAMETER OVAPath
         The path to the BloxOneDDI OVA
           Only used when -Type is VMware
+          -OVAPath and -DownloadLatestImage are mutually exclusive. -ImagesPath should be used for selecting the appropriate image cache location.
 
     .PARAMETER vCenter
         The Hostname, IP or FQDN of the vCenter you want to deploy to
@@ -62,6 +63,7 @@
     .PARAMETER VHDPath
         The full path to the BloxOne VHD/VHDX file
           Only used when -Type is Hyper-V
+          -VHDPath and -DownloadLatestImage are mutually exclusive. -ImagesPath should be used for selecting the appropriate image cache location.
           
     .PARAMETER HyperVServer
         The FQDN for the Hyper-V server where the BloxOne appliance will be deployed to
@@ -90,6 +92,15 @@
     .PARAMETER Memory
         The Memory parameter is used to define the amount of memory to assign to the VM. The default is 16GB.
           Only used when -Type is Hyper-V
+
+    .PARAMETER DownloadLatestImage
+        Using this parameter will download the latest relevant image prior to deployment.
+            -DownloadLatestImage, -OVAPath & -VHDPath are mutually exclusive.
+            When -DownloadLatestImage is used in combination with -ImagesPath, the latest image will be downloaded to this location prior to deployment if it does not already exist. If used consistently, this will always deploy the latest image but only need to download it once; effectively caching.
+
+    .PARAMETER ImagesPath
+        Use this parameter to define the base path for images to be cached in, when using the -DownloadLatestImage parameter.
+        This cannot be used in conjunction with -OVAPath or -VHDPath
 
     .PARAMETER SkipCloudChecks
         Using this parameter will mean the deployment will not wait for the BloxOneDDI Host to become registered/available within the Cloud Services Portal
@@ -133,6 +144,8 @@
       [System.Object]$DNSSuffix,
       [Parameter(Mandatory=$true)]
       [System.Object]$JoinToken,
+      [Switch]$DownloadLatestImage,
+      [String]$ImagesPath,
       [Switch]$SkipCloudChecks,
       [Switch]$SkipPingChecks,
       [Switch]$SkipPowerOn
@@ -268,8 +281,81 @@
             }
         }
 
+        if ($DownloadLatestImage) {
+            Write-Host "-DownloadLatestImage is selected. The latest BloxOne image will be used." -ForegroundColor Cyan
+            if ($PSBoundParameters['OVAPath'] -or $PSBoundParameters['VHDPath']) {
+                Write-Error "-DownloadLatestImage cannot be used in conjunction with -OVAPath or -VHDPath"
+            }
+            if ($ImagesPath) {
+                Write-Host "-ImagesPath is selected. Collecting existing cached images.." -ForegroundColor Cyan
+                if (!(Test-Path $ImagesPath)) {
+                    Write-Host "-ImagesPath: $($ImagesPath) does not exist. Attempting to create it.." -ForegroundColor Yellow
+                    if ($ImagesDir = New-Item -Type Directory $ImagesPath) {
+                        Write-Host "Successfully created $($ImagesPath)" -ForegroundColor Cyan
+                        $CurrentImages = Get-ChildItem $ImagesPath
+                    } else {
+                        Write-Error "Error. Failed to create -ImagesPath: $($ImagesPath)"
+                    }
+                } else {
+                    $CurrentImages = Get-ChildItem $ImagesPath
+                }
+            } else {
+                Write-Host "-ImagesPath not set. Downloaded images will not be cached." -ForegroundColor Yellow
+            }
+            $Images = Get-B1Object -Product 'Bloxone Cloud' -App BootstrapApp -Endpoint /images
+            switch ($Type) {
+                "VMware" {
+                    $Image = $Images | Where-Object {$_.desc -like "*OVA"}
+                }
+                "Hyper-V" {
+                    switch($PSBoundParameters['HyperVGeneration']) {
+                        1 {
+                            $Image = $Images | Where-Object {$_.desc -like "*Azure/HyperV"}
+                        }
+                        2 {
+                            $Image = $Images | Where-Object {$_.desc -like "*Hyper-V Gen 2"}
+                        }
+                    }
+                }
+            }
+            if ($Image) {
+                $($Image.link) -match "^.*\/(.*)$" | Out-Null
+                if ($Matches) {
+                    $ImageFileName = $Matches[1]
+                    if ($ImagesPath) {
+                        if (!(Test-Path "$($ImagesPath)\$($ImageFileName)")) {
+                            Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
+                            Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($ImagesPath)\$($ImageFileName)"
+                        } else {
+                            Write-Host "Latest image already downloaded: $($ImageFileName)" -ForegroundColor Cyan
+                        }
+                        $ImageFile = "$($ImagesPath)\$($ImageFileName)"
+                    } else {
+                        if (!(Test-Path "$($ImageFileName)")) {
+                            Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
+                            Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($ImageFileName)"
+                        } else {
+                            Write-Host "Latest image already downloaded: $($ImageFileName)" -ForegroundColor Cyan
+                        }
+                        $ImageFile = "$($ImageFileName)"
+                    }
+                } else {
+                    Write-Error "Error. Failed to identify image name."
+                }
+            } else {
+                Write-Error "Error. Failed to find image."
+            }
+        }
+
         switch($Type) {
             "VMware" {
+                if (!($DownloadLatestImage)) {
+                    if (!($PSBoundParameters['OVAPath'])) {
+                        Write-Error "-OVAPath must be specified if -DownloadLatestImage is not used."
+                    } else {
+                        $ImageFile = $PSBoundParameters['OVAPath']
+                    }
+                }
                 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
 
                 if (Connect-VIServer -Server $($PSBoundParameters['vCenter']) -Credential $($PSBoundParameters['Creds'])) {
@@ -313,11 +399,11 @@
                         break
                     }
                 }
-                if (!(Test-Path $PSBoundParameters['OVAPath'])) {
-                    Write-Error "Error. OVA $($PSBoundParameters['OVAPath']) not found."
+                if (!(Test-Path $($ImageFile))) {
+                    Write-Error "Error. OVA $($ImageFile) not found."
                     break
                 } else {
-                    $OVFConfig = Get-OvfConfiguration -Ovf $($PSBoundParameters['OVAPath'])
+                    $OVFConfig = Get-OvfConfiguration -Ovf $($ImageFile)
                 }
             
                 if (Get-VM -Name $Name -ErrorAction SilentlyContinue) {
@@ -337,11 +423,11 @@
                         $OVFConfig.NetworkMapping.lan.Value = $NetworkMapping
                     
                     } else {
-                        Write-Error "Error. Unable to retrieve OVF Configuration from $($PSBoundParameters['OVAPath'])."
+                        Write-Error "Error. Unable to retrieve OVF Configuration from $($ImageFile)."
                     }
             
                     Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
-                    $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $($PSBoundParameters['OVAPath']) -Name $Name -VMHost $VMHost -Datastore $Datastore -ErrorAction SilentlyContinue
+                    $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $($ImageFile) -Name $Name -VMHost $VMHost -Datastore $Datastore -ErrorAction SilentlyContinue
                 
                     if ($VM) {
                         Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
@@ -366,6 +452,13 @@
                 }
             }
             "Hyper-V" {
+                if (!($DownloadLatestImage)) {
+                    if (!($PSBoundParameters['VHDPath'])) {
+                        Write-Error "-VHDPath must be specified if -DownloadLatestImage is not used."
+                    } else {
+                        $ImageFile = $PSBoundParameters['VHDPath']
+                    }
+                }
                 Write-Host "Generating customization metadata" -ForegroundColor Cyan
                 $VMMetadata = New-B1Metadata -IP $IP -Netmask $Netmask -Gateway $Gateway -DNSServers $DNSServers -JoinToken $JoinToken -DNSSuffix $DNSSuffix
                 if ($VMMetadata) {
@@ -415,7 +508,7 @@
                         Set-VMNetworkAdapterVlan -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -VlanId $($PSBoundParameters['VirtualNetworkVLAN']) -Access
                     }
                     
-                    $OsDiskInfo = Get-Item $($PSBoundParameters['VHDPath'])
+                    $OsDiskInfo = Get-Item $($ImageFile)
                     $RemoteBasePath = $($PSBoundParameters['VMPath']) -replace "`:","$"
                     if (!(Test-Path "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
                         Write-Host "Preparing VM folders.." -ForegroundColor Cyan
@@ -429,7 +522,7 @@
                             $VHDExtension = "vhdx"
                         }
                     }
-                    if ([System.IO.Path]::GetExtension($($PSBoundParameters['VHDPath'])) -ne ".$($VHDExtension)") {
+                    if ([System.IO.Path]::GetExtension($($ImageFile)) -ne ".$($VHDExtension)") {
                         switch($PSBoundParameters['HyperVGeneration']) {
                             1 {
                                 Write-Error "Error. You must use a .vhd file format for Generation 1 Hyper-V VMs."
