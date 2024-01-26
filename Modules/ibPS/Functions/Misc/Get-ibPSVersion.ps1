@@ -104,7 +104,7 @@ function Get-ibPSVersion {
             }
             Set-Location ../../
             Remove-Item ibPS,ibPS.zip -Recurse -Force
-            if ($CurrentVersion = (Get-Module -ListAvailable -Name ibPS).Version.ToString() -eq $LatestVersion) {
+            if ($CurrentVersion = ((Get-Module -ListAvailable -Name ibPS).Version -eq $LatestVersion)) {
               Write-Host "Successfully updated ibPS to latest version: $LatestVersion" -ForegroundColor Green
             } else {
               Write-Error "Failed to update ibPS to latest version. Current Version: $CurrentVersion"
