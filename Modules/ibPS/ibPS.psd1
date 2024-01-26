@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.1.5'
+ModuleVersion = '1.9.1.6'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -165,10 +165,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.9.1.5 - Finalise changes to Deploy-B1Appliance for integration with Hyper-V
-v1.9.1.4 - Finalise changes to Deploy-B1Appliance for integration with Hyper-V
-v1.9.1.3 - Add ability to deploy to both VMware & Hyper-V platforms. -Type is a new mandatory parameter when using Deploy-B1Appliance.
-v1.9.1.2 - Update Store-B1CSPAPIKey to Set-B1CSPAPIKey & minor compatibility fix for Get-B1Object'
+        ReleaseNotes = 'v1.9.1.6 - Latest release - Hyper-V deployment integration using Deploy-B1Appliance'
 
         # Prerelease string of this module
         # Prerelease = ''
