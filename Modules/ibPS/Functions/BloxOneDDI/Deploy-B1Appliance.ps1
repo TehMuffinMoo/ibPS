@@ -1,10 +1,10 @@
 ﻿function Deploy-B1Appliance {
     <#
     .SYNOPSIS
-        Deploys a BloxOneDDI Virtual Appliance to VMware
+        Deploys a BloxOneDDI Virtual Appliance to VMware or Hyper-V
 
     .DESCRIPTION
-        This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host or cluster
+        This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/cluster or Hyper-V
 
         Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
 
@@ -427,6 +427,16 @@
                         }
                         2 {
                             $VHDExtension = "vhdx"
+                        }
+                    }
+                    if ([System.IO.Path]::GetFileNameWithoutExtension($($PSBoundParameters['VHDPath'])) -ne $VHDExtension) {
+                        switch($PSBoundParameters['HyperVGeneration']) {
+                            1 {
+                                Write-Error "Error. You must use a .vhd file format for Generation 1 Hyper-V VMs."
+                            }
+                            2 {
+                                Write-Error "Error. You must use a .vhdx file format for Generation 1 Hyper-V VMs."
+                            }
                         }
                     }
                     Write-Host "Copying $($VHDExtension).." -ForegroundColor Cyan
