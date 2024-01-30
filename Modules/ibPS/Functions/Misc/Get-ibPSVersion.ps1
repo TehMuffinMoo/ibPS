@@ -34,8 +34,11 @@ function Get-ibPSVersion {
     [Switch]$CheckForUpdates,
     [Switch]$Update,
     [Switch]$Details,
-    [Switch]$Force
+    [Switch]$Force,
+    [ValidateSet("main", "dev")]
+    [String]$Branch = "main"
   )
+
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path.Count -gt 1) {
     Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary older versions to avoid issues." -ForegroundColor Yellow
@@ -67,7 +70,7 @@ function Get-ibPSVersion {
         Write-Host "ibPS is up to date! Current Version: $CurrentVersion - Latest Version: $LatestVersion" -BackgroundColor Green -ForegroundColor Blue
       }
     } else {
-      $ModuleManifest = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/Modules/ibPS/ibPS.psd1" -Headers @{"Cache-Control"="no-cache"}
+      $ModuleManifest = Invoke-WebRequest -Uri "https://raw.githubusercontent.com/TehMuffinMoo/ibPS/$($Branch)/Modules/ibPS/ibPS.psd1" -Headers @{"Cache-Control"="no-cache"}
       if ($ModuleManifest) {
         [System.Version]$LatestVersion = ($ModuleManifest.RawContent | Select-String -Pattern 'ModuleVersion\s\=\s(.*)').Matches.Groups[1].Value -replace "'",""
         if (($LatestVersion -gt $CurrentVersion) -or $Force) {
@@ -78,7 +81,7 @@ function Get-ibPSVersion {
           }
           if ($Update) {
             Write-Warning "Confirmation: Do you want to proceed with updating from v$($CurrentVersion) to v$($LatestVersion)?" -WarningAction Inquire
-            Invoke-WebRequest -Uri "https://github.com/TehMuffinMoo/ibPS/archive/refs/heads/main.zip" -OutFile ibPS.zip -Headers @{"Cache-Control"="no-cache"}
+            Invoke-WebRequest -Uri "https://github.com/TehMuffinMoo/ibPS/archive/refs/heads/$($Branch).zip" -OutFile ibPS.zip -Headers @{"Cache-Control"="no-cache"}
             if (Test-Path ibPS.zip) {
               Expand-Archive ibPS.zip
             }
