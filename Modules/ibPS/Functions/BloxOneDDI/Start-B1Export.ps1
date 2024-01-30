@@ -45,11 +45,21 @@
     .PARAMETER $BackupAll
         Use this switch to enable all configuration & data types to be included in the export/backup
 
-    .Example
+    .EXAMPLE
         Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -DNSConfig -DNSData -IPAMData -KeyData -ThreatDefense -Bootstrap -OnPremHosts -Redirects -Tags
 
-    .Example
+    .EXAMPLE
         Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -BackupAll
+
+    .EXAMPLE
+        $ExportName = "B1-Export-$((Get-Date).ToString('dd-MM-yy hh-mm-ss'))"
+
+        Start-B1Export -Name $ExportName -BackupAll
+        while (($BulkOp = Get-B1BulkOperation -Name $ExportName -Strict).overall_status -ne "Completed") {
+            Write-Host "Waiting for export to complete.."
+            Wait-Event -Timeout 5
+        }
+        $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -149,5 +159,4 @@
     } else {
         Write-Host "Data Export failed to initialise." -ForegroundColor Red
     }
-
 }

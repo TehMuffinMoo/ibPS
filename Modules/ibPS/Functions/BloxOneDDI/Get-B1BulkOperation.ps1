@@ -28,10 +28,8 @@
         Tasks
     #>
     param(
-        [Parameter(Mandatory=$true)]
         [string]$id,
         [string]$Name,
-        [String[]]$Fields,
         [switch]$Strict = $false
     )
 
@@ -41,21 +39,20 @@
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
         $QueryFilters.Add("_filter=$Filter") | Out-Null
-    }
-    if ($Fields) {
-        $Fields += "id"
-        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
 
     if ($QueryString) {
-        Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation/$id$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {
-        Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation/$id" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
 }
