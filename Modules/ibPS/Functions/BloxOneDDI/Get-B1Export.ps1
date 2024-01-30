@@ -12,11 +12,21 @@
     .PARAMETER filePath
         The local file path where the export should be downloaded to
 
-    .Example
+    .EXAMPLE
         Get-B1Export -data_ref (Get-B1BulkOperation -Name "Backup of all CSP data").data_ref -filePath "C:\Backups"
 
-    .Example
+    .EXAMPLE
         Get-B1Export -Name "Backup" -Description "Backup of all CSP data" -BackupAll -data_ref $data_ref
+
+    .EXAMPLE
+        $ExportName = "B1-Export-$((Get-Date).ToString('dd-MM-yy hh-mm-ss'))"
+
+        Start-B1Export -Name $ExportName -BackupAll
+        while (($BulkOp = Get-B1BulkOperation -Name $ExportName -Strict).overall_status -ne "Completed") {
+            Write-Host "Waiting for export to complete.."
+            Wait-Event -Timeout 5
+        }
+        $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -25,7 +35,10 @@
         Backup
     #>
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(
+            ValueFromPipelineByPropertyName = $true,
+            Mandatory=$true
+          )]
         [string]$data_ref,
         [Parameter(Mandatory=$true)]
         [string]$filePath
