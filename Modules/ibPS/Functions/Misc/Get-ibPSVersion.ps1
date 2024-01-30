@@ -56,31 +56,32 @@ function Get-ibPSVersion {
   } else {
     [System.Version]$CurrentVersion = $InstalledModule.Version.ToString()
   }
-  if ($CheckForUpdates -or $Update) {
 
-    if (!($Branch) -and !$($ENV:IBPSBranch)) {
-      $Branch = "main"
-    } else {
-      if ($($ENV:IBPSBranch)) {
-        if (!($Branch)) {
-          $Branch = $($ENV:IBPSBranch)
-        }
+  if (!($Branch) -and !$($ENV:IBPSBranch)) {
+    $Branch = "main"
+  } else {
+    if ($($ENV:IBPSBranch)) {
+      if (!($Branch)) {
+        $Branch = $($ENV:IBPSBranch)
       }
     }
-  
-    if ($Branch) {
-      $Platform = Detect-OS
-      if ($Platform -eq "Windows") {
-        [System.Environment]::SetEnvironmentVariable('IBPSBranch',$Branch,[System.EnvironmentVariableTarget]::User)
-      } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-        if (!(Test-Path ~/.zshenv)) {
-          touch ~/.zshenv
-        }
-        sed -i '' -e '/IBPSBranch/d' ~/.zshenv
-        echo "export IBPSBranch=$Branch" >> ~/.zshenv
-        $ENV:IBPSBranch = $Branch
+  }
+
+  if ($Branch) {
+    $Platform = Detect-OS
+    if ($Platform -eq "Windows") {
+      [System.Environment]::SetEnvironmentVariable('IBPSBranch',$Branch,[System.EnvironmentVariableTarget]::User)
+    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+      if (!(Test-Path ~/.zshenv)) {
+        touch ~/.zshenv
       }
+      sed -i '' -e '/IBPSBranch/d' ~/.zshenv
+      echo "export IBPSBranch=$Branch" >> ~/.zshenv
+      $ENV:IBPSBranch = $Branch
     }
+  }
+
+  if ($CheckForUpdates -or $Update) {
 
     if ($PSGalleryModule) {
       [System.Version]$LatestVersion = (Find-Module -Name ibPS | Where-Object {$_.CompanyName -eq "TehMuffinMoo"}).Version.ToString()
@@ -152,10 +153,11 @@ function Get-ibPSVersion {
     if (!($MultipleVersions)) {
       if ($Details) {
         return @{
+          "Branch" = $Branch
           "Version" = $CurrentVersion.ToString()
           "Install Type" = $(if ($PSGalleryModule) { "Powershell Gallery" } else { "Local"})
           "Install Path" = $InstalledModule.Path
-        } | ConvertTo-Json | ConvertFrom-Json | Select-Object "Version","Install Type","Install Path"
+        } | ConvertTo-Json | ConvertFrom-Json | Select-Object "Branch","Version","Install Type","Install Path"
       } else {
         return $($CurrentVersion.ToString())
       }
