@@ -5,7 +5,7 @@ on:
     branches: [dev]
 
 jobs:
-  publish-to-gallery:
+  PSGallery-Publish-Dev:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,5 +14,4 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
         shell: pwsh
         run: |
-          cd ibPS
           Publish-Module -Name "ibPS-Dev" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
