@@ -18,6 +18,9 @@ function Get-ibPSVersion {
     .PARAMETER Force
         This switch will force an update, whether or not one is available
 
+    .PARAMETER Branch
+        Use the -Branch parameter to select the github branch to update with.
+
     .EXAMPLE
         Get-ibPSVersion
 
@@ -31,9 +34,9 @@ function Get-ibPSVersion {
         ibPS
     #>
   param (
+    [Switch]$Details,
     [Switch]$CheckForUpdates,
     [Switch]$Update,
-    [Switch]$Details,
     [Switch]$Force,
     [ValidateSet("main", "dev")]
     [String]$Branch = "main"
