@@ -130,7 +130,7 @@ function Get-ibPSVersion {
                   $Selection = "g"
                 }
               }
-              Set-Location ibPS/ibPS-main
+              Set-Location ibPS/ibPS-$($Branch)
               .\Install.ps1 -Selection $Selection
             }
             Set-Location ../../
