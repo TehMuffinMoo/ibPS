@@ -1,11 +1,11 @@
-name: Publish PowerShell Module (Dev)
+name: Publish PowerShell Module
 
 on:
   push:
-    branches: [dev]
+    branches: [main]
 
 jobs:
-  PSGallery-Publish-Dev:
+  PSGallery-Publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,4 +20,4 @@ jobs:
           } else {
             Write-Host "Version number is the same, skipping publishing.."
           }
-          #Publish-Module -Name "ibPS-Dev" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
+          #Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
