@@ -1,0 +1,23 @@
+name: Publish PowerShell Module
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  PSGallery-Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and publish
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_KEY }}
+        shell: pwsh
+        run: |
+          $Manifest = Test-ModuleManifest 'Modules/ibPS/ibPS.psd1'
+          if ($($Manifest.Version) -gt $(Find-Module ibPS).Version) {
+            Write-Host "Publishing v$($Manifest.Version.ToString()).."
+          } else {
+            Write-Host "Version number is the same, skipping publishing.."
+          }
+          Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
