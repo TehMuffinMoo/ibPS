@@ -84,31 +84,32 @@
     $dataTypes = New-Object System.Collections.ArrayList
 
     if ($DNSConfig -or $BackupAll) {
-        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v1/authzones.v1.dnsconfig.bulk.infoblox.com") | Out-Null
-        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v1/forwardzones.v1.dnsconfig.bulk.infoblox.com") | Out-Null
-        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v1/servers.v1.dnsconfig.bulk.infoblox.com") | Out-Null
-        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v1/views.v1.dnsconfig.bulk.infoblox.com") | Out-Null
+        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v2/authzonev2s.v2.dnsconfig.bulk.infoblox.com") | Out-Null ## Authoritative Zones
+        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v2/forwardzonev2s.v2.dnsconfig.bulk.infoblox.com") | Out-Null ## Forward Zones
+        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v2/serverv2s.v2.dnsconfig.bulk.infoblox.com") | Out-Null ## DNS Config Profiles
+        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v2/viewv2s.v2.dnsconfig.bulk.infoblox.com") | Out-Null ## DNS Views
     }
     if ($DNSData -or $BackupAll) {
-        $dataTypes.Add("dnsdata.bulk.infoblox.com/v1/records.v1.dnsdata.bulk.infoblox.com") | Out-Null
+        $dataTypes.Add("dnsdata.bulk.infoblox.com/v2/recordv2s.v2.dnsdata.bulk.infoblox.com") | Out-Null ## DNS Records
     }
     if ($NTPData -or $BackupAll) {
-        $dataTypes.Add("ntp.bulk.infoblox.com/v1alpha1/ntpserviceconfigs.v1alpha1.ntp.bulk.infoblox.com") | Out-Null
+        $dataTypes.Add("ntp.bulk.infoblox.com/v1alpha1/ntpserviceconfigs.v1alpha1.ntp.bulk.infoblox.com") | Out-Null ## NTP Configuration
     }
     if ($IPAMData -or $BackupAll) {
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/addressblocks.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/addresses.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/fixedaddresses.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/hagroups.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/hardwarefilters.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/ipspaces.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/optioncodes.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/optionfilters.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/optiongroups.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/optionspaces.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/ranges.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/servers.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v1/subnets.v1.ipamdhcp.bulk.infoblox.com") | Out-Null
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/addressblockv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## IPAM Address Blocks
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/addressv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## Addresses
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/fixedaddressv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## Fixed Addresses
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/hagroupv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## HA Groups
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/hardwarefilterv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## Hardware Filters
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/ipspacev3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## IP Spaces
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/optioncodev3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Option Codes
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/optionfilterv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Option Filters
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/optiongroupv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Option Groups
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/optionspacev3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Option Spaces
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/rangev3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Ranges
+		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/subnetv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## IPAM Subnets
+        $dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/ipamhostv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Hosts
+        $dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/serverv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Config Profiles
     }
     if ($KeyData -or $BackupAll) {
         $dataTypes.Add("keys.bulk.infoblox.com/v1/tsigkeys.v1.keys.bulk.infoblox.com") | Out-Null
