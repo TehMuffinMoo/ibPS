@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.1.8'
+ModuleVersion = '1.9.1.9'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -165,7 +165,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'v1.9.1.8 - Add -Branch parameter to Get-ibPSVersion to support changing between main/dev branches'
+        ReleaseNotes = 'v1.9.1.9 - Update Start-B1Export with latest version control + some minor enhancements.'
 
         # Prerelease string of this module
         # Prerelease = ''
