@@ -14,6 +14,7 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
         shell: pwsh
         run: |
+          ./Install.ps1 -Selection i
           $Manifest = Test-ModuleManifest 'Modules/ibPS/ibPS.psd1'
           if ($($Manifest.Version) -gt $(Find-Module ibPS).Version) {
             Write-Host "Publishing v$($Manifest.Version.ToString()).."
