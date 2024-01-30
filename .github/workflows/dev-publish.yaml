@@ -14,4 +14,10 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
         shell: pwsh
         run: |
-          Publish-Module -Name "ibPS-Dev" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
+          $Manifest = Test-ModuleManifest 'Modules/ibPS/ibPS.psd1'
+          if ($($Manifest.Version.ToString()) -gt $(Get-ibPSVersion)) {
+            Write-Host "Publishing v$($Manifest.Version.ToString()).."
+          } else {
+            Write-Host "Version number is the same, skipping publishing.."
+          }
+          #Publish-Module -Name "ibPS-Dev" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
