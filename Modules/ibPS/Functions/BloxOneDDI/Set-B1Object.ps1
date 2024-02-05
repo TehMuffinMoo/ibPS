@@ -51,16 +51,16 @@ function Set-B1Object {
         Core
     #>
     param(
-        [Parameter(Mandatory=$true,ValueFromPipeline = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         $Data,
         [Parameter(
             ValueFromPipelineByPropertyName = $true,
-            Mandatory=$true
-          )]
-          [String]$_ref,
+            Mandatory = $true
+        )]
+        [String]$_ref,
         [Parameter(
-          ValueFromPipelineByPropertyName = $true,
-          Mandatory=$true
+            ValueFromPipelineByPropertyName = $true,
+            Mandatory = $true
         )]
         [String]$id
     )

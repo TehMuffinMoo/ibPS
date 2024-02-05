@@ -27,11 +27,18 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER Assosications
+        Obtain a list of associated subnets/ranges with this host
+
     .PARAMETER id
         Return results based on DHCP Host id
 
     .EXAMPLE
         Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
+
+    .EXAMPLE
+        $AssociatedSubnets = (Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -Associations).Subnets
+        $AssociatedSubnets | ft name,address,cidr,comment
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -47,6 +54,7 @@
         [Int]$Offset = 0,
         [String]$tfilter,
         [String[]]$Fields,
+        [Switch]$Associations,
         [String]$id
     )
     $MatchType = Match-Type $Strict
@@ -79,8 +87,25 @@
     }
 
     if ($QueryString) {
-        Query-CSP -Method GET -Uri "dhcp/host$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "dhcp/host$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dhcp/host" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Method GET -Uri "dhcp/host" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    }
+    if ($Results -and $Associations) {
+        $AssociationResults = @()
+        foreach ($DHCPHost in $Results) {
+            $AssociationItem = Query-CSP -Method GET -Uri "$($DHCPHost.id)/associations"
+            $AssociationResults += @{
+                "Host" = $DHCPHost.name
+                "HostInfo" = $AssociationItem.host
+                "HAGroups" = $AssociationItem.ha_groups
+                "Subnets" = $AssociationItem.subnets
+            }
+        }
+    }
+    if ($AssociationResults) {
+        $AssociationResults | ConvertTo-Json -Depth 15 | ConvertFrom-Json -Depth 15 | Select-Object Host,HostInfo,Subnets,HAGroups
+    } else {
+        return $Results
     }
 }
