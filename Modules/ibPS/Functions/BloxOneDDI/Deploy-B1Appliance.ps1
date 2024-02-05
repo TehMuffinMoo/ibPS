@@ -202,7 +202,11 @@
              foreach ($ParamItem in ($OVAPathAttribute,$vCenterAttribute,$ClusterAttribute,$DatastoreAttribute,$PortGroupAttribute,$PortGroupTypeAttribute,$CredsAttribute)) {
                 $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                 $AttributeCollection.Add($ParamItem)
-                $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
+                if ($($ParamItem.HelpMessageBaseName -eq "Creds")) {
+                    $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [pscredential], $AttributeCollection)    
+                } else {
+                    $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
+                }
                 $paramDictionary.Add($($ParamItem.HelpMessageBaseName), $DefinedParam)
              }
              return $paramDictionary

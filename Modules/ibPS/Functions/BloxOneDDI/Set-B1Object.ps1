@@ -51,22 +51,24 @@ function Set-B1Object {
         Core
     #>
     param(
-        [Parameter(Mandatory=$true,ValueFromPipeline = $true)]
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         $Data,
         [Parameter(
             ValueFromPipelineByPropertyName = $true,
-            Mandatory=$true
-          )]
-          [String]$_ref,
+            Mandatory = $true
+        )]
+        [String]$_ref,
         [Parameter(
-          ValueFromPipelineByPropertyName = $true,
-          Mandatory=$true
+            ValueFromPipelineByPropertyName = $true,
+            Mandatory = $true
         )]
         [String]$id
     )
 
     process {
-        $Results = Query-CSP -Method PATCH -Uri "$($_ref)/$($id)" -Data ($Data | Select-Object -ExcludeProperty _ref,id | ConvertTo-Json -Depth 10 -Compress) | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+        $Data.PSObject.Properties.Remove('_ref')
+        $Data.PSObject.Properties.Remove('id')
+        $Results = Query-CSP -Method PATCH -Uri "$($_ref)/$($id)" -Data ($Data | ConvertTo-Json -Depth 10 -Compress) | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
         if ($Results) {
             return $Results
         }
