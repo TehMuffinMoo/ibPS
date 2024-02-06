@@ -501,6 +501,9 @@ Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "prod.mydomain.corp","dev.mydoma
 Set-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false -State "Activated"
   Updates an existing TIDE Data Profile. The -State parameter can be used to enable/disable the profile.
 
+Set-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group" -Tags @{"TagName"="TagValue"}
+  Updates the configuration of an existing HA Group
+
 Set-B1APIKey -Name "mykey" -Type "interactive" -User "user@domain.corp" -State "Disabled"
   Used to update an existing API Key, such as enabling/disabling it.
 	
@@ -738,6 +741,7 @@ Set-B1Range                      | ![Implemented](https://badgen.net/badge/Statu
 Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Record
 Set-B1Subnet                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subnet
 Set-B1APIKey                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1APIKey
+Set-B1HAGroup                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1HAGroup
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
