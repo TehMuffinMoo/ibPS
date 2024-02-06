@@ -86,7 +86,7 @@
             else {
                 $HAGroup.hosts[0].PSObject.Properties.Remove(0)
             }
-            $HAGroup.hosts[0] = $HAGroup.hosts[0] | Select-Object -ExcludeProperty port
+            $HAGroup.hosts[0].PSObject.Properties.Remove('port')
             if ($SecondaryNode) {
                 if (!($SecondaryHost = (Get-B1Host -Name $SecondaryNode -BreakOnError).legacy_id)) {
                     $HAGroup.hosts[1].host = "dhcp/host/$($SecondaryHost.legacy_id)"
@@ -103,19 +103,20 @@
                     $HAGroup.hosts[1] = $SecondaryHostConfig
                 }
             }
-            $HAGroup.hosts[1] = $HAGroup.hosts[1] | Select-Object -ExcludeProperty port
+            $HAGroup.hosts[1].PSObject.Properties.Remove('port')
             if ($Description) {
                 $HAGroup.comment = $Description
             }
             if ($Tags) {
                 $HAGroup.tags = $Tags
             }
-        
-            $splat = $HAGroup | Select-Object -ExcludeProperty id | ConvertTo-Json -Depth 5
+            $HAGroupID = $HAGroup.id
+            $HAGroup.PSObject.Properties.Remove('id')
+            $splat = $HAGroup | ConvertTo-Json -Depth 5
             if ($Debug) { $splat }
 
-            $Result = Query-CSP -Method PATCH -Uri $($HAGroup.id) -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
-            if ($Result.id -eq $HAGroup.id) {
+            $Result = Query-CSP -Method PATCH -Uri $($HAGroupID) -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.id -eq $HAGroupID) {
                 Write-Host "Updated DHCP HA Group $($HAGroup.name) Successfully." -ForegroundColor Green
                 return $Result
             }
@@ -124,4 +125,4 @@
             }
         }
     }
-}
+} 
