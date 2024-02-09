@@ -6,6 +6,9 @@
     .DESCRIPTION
         This function is used to create a new Authoritative Zone in BloxOneDDI
 
+    .PARAMETER Type
+        The type of authoritative zone to create (Primary / Secondary)
+    
     .PARAMETER FQDN
         The FQDN of the zone to create
 
@@ -19,7 +22,7 @@
         A list of Authoritative DNS Server Groups to assign to the zone
 
     .PARAMETER DNSACL
-        The DNS ACL to assign to the zone
+        The DNS ACL to assign to the zone for zone transfers
 
     .PARAMETER Description
         The description for the new zone
@@ -28,7 +31,7 @@
         Any tags you want to apply to the authoritative zone
 
     .Example
-        New-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
+        New-B1AuthoritativeZone -Type Primary -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -37,6 +40,9 @@
         DNS
     #>
     param(
+      [Parameter(Mandatory=$true)]
+      [ValidateSet("Primary","Secondary")]
+      [String]$Type,
       [Parameter(Mandatory=$true)]
       [String]$FQDN,
       [Parameter(Mandatory=$true)]
@@ -55,11 +61,20 @@
 
         $ViewUUID = (Get-B1DNSView -Name $View -Strict).id
 
+        switch($Type) {
+            "Primary" {
+                $PrimaryType = "cloud"
+            }
+            "Secondary" {
+                $PrimaryType = "external"
+            }
+        }
+
         $splat = @{
 	        "fqdn" = $FQDN
 	        "disabled" = $false
 	        "view" = $ViewUUID
-            "primary_type" = "cloud"
+            "primary_type" = $PrimaryType
         }
 
         if ($DNSHosts) {

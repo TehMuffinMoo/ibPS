@@ -9,6 +9,9 @@
     .PARAMETER FQDN
         The fqdn of the authoritative zone to filter by
 
+    .PARAMETER Type
+        The type of authoritative zone to filter by (Primary / Secondary)
+
     .PARAMETER Disabled
         Filter results based on if the authoritative zone is disabled or not
 
@@ -44,6 +47,8 @@
     #>
     param(
       [String]$FQDN,
+      [ValidateSet("Primary","Secondary")]
+      [String]$Type,
       [bool]$Disabled,
       [Switch]$Strict = $false,
       [String]$View,
@@ -59,6 +64,17 @@
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($FQDN) {
         $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
+    }
+    if ($Type) {
+        switch($Type) {
+            "Primary" {
+                $PrimaryType = "cloud"
+            }
+            "Secondary" {
+                $PrimaryType = "external"
+            }
+        }
+        $Filters.Add("primary_type==`"$PrimaryType`"") | Out-Null
     }
     if ($Disabled) {
         $Filters.Add("disabled==`"$Disabled`"") | Out-Null
