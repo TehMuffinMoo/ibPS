@@ -9,6 +9,9 @@
     .PARAMETER FQDN
         The fqdn of the authoritative zone to filter by
 
+    .PARAMETER Type
+        The type of authoritative zone to filter by (Primary / Secondary)
+
     .PARAMETER Disabled
         Filter results based on if the authoritative zone is disabled or not
 
