@@ -626,6 +626,8 @@
             break
         }
 
-        Remove-Item -Path "work-dir" -Recurse ## Cleanup work directory
+        if (Test-Path 'work-dir') {
+            Remove-Item -Path "work-dir" -Recurse
+        } ## Cleanup work directory
     }
 }
