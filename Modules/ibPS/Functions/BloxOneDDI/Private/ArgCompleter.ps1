@@ -22,3 +22,9 @@ $endpoints = {
     (((Query-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/$($fakeBoundParameters['App'])").paths).psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator() | Where-Object {$_.Name -like "$wordToComplete*"} | ForEach-Object {$_.Name}
 }
 Register-ArgumentCompleter -CommandName Get-B1Object,Get-B1Schema -ParameterName Endpoint -ScriptBlock $endpoints
+
+$applications = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    Get-B1Applications | Where-Object {$_ -like "$wordToComplete*"}
+}
+Register-ArgumentCompleter -CommandName Get-B1Service,New-B1Service -ParameterName Type -ScriptBlock $applications

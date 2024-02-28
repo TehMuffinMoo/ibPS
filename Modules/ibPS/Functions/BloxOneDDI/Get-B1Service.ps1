@@ -9,6 +9,9 @@
     .PARAMETER Name
         Filters the results by the name of the container
 
+    .PARAMETER Type
+        Filters based on the type of service
+
     .PARAMETER Detailed
         Additionally returns related host information
 
@@ -39,6 +42,7 @@
     param(
         [Parameter(ParameterSetName="noID",Mandatory=$false)]
         [String]$Name,
+        [String]$Type,
         [Switch]$Detailed,
         [String]$Limit = "10001",
         [Switch]$Strict,
@@ -53,6 +57,9 @@
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    if ($Type) {
+        $Filters.Add("service_type==`"$Type`"") | Out-Null
     }
     if ($Detailed) {
       $ServicesUri = "detail_services"
