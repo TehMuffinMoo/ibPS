@@ -276,7 +276,7 @@ Get-B1APIKey -Name "servicekeyname" -CreatedBy "user@domain.corp"
 Get-B1UserAPIKey
   Retrieves a list of interactive API Keys configured for your user within the BloxOne Cloud
 
-Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+Get-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp"
   Retrieves a list of deployed BloxOneDDI Services
   
 Start-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
@@ -366,7 +366,7 @@ Start-B1TDDossierLookup -Type host -Value eicar.co
 New-B1TDTideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
   Creates a new TIDE Data Profile
 
-New-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Host "bloxoneddihost1.mydomain.corp" -NTP -DNS -DHCP
+New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -Host "bloxoneddihost1.mydomain.corp"
   Deploys a new BloxOneDDI Service
 
 New-B1AuthoritativeZone -FQDN "prod.mydomain.corp" -View "Global" -DNSHosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -Description "Prod Zone"

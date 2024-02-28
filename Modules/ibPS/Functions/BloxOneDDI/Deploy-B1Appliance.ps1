@@ -603,6 +603,7 @@
                         Wait-Event -Timeout 10
                         if ($CSPStartCount -gt 120) {
                             Write-Error "Error. VM failed to register with the BloxOne CSP. Please check VM Console for details."
+                            $Failed = $true
                             break
                         }
                     }
@@ -612,12 +613,16 @@
                     Set-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path $null ## Cleanup metadata ISO
                 }
 
-                Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Gray
+                if (!$Failed) {
+                    Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Gray
 
-                if (!($SkipCloudChecks)) {
-                    Get-B1Host -IP $IP | Format-Table display_name,ip_address,host_version -AutoSize
+                    if (!($SkipCloudChecks)) {
+                        Get-B1Host -IP $IP | Format-Table display_name,ip_address,host_version -AutoSize
+                    }
+                    Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
+                } else {
+                    Write-Error "Failed to deploy BloxOne Appliance."
                 }
-                Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
             } else {
                 Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
             }
@@ -626,6 +631,8 @@
             break
         }
 
-        Remove-Item -Path "work-dir" -Recurse ## Cleanup work directory
+        if (Test-Path 'work-dir') {
+            Remove-Item -Path "work-dir" -Recurse
+        } ## Cleanup work directory
     }
 }

@@ -9,26 +9,25 @@
     .PARAMETER Name
         The name of the new BloxOneDDI Service
 
+    .PARAMETER Type
+        The type of service to deploy
+
     .PARAMETER Description
         The description of the new BloxOneDDI Service
 
     .PARAMETER OnPremHost
-        The name of the OnPremHost to create the service on
+        The name of the BloxOne DDI Host to create the service on
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
-    .PARAMETER NTP
-        This parameter specifies whether to deploy the NTP Service
+    .EXAMPLE
+        ## Create a DNS Service
+        New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
 
-    .PARAMETER DNS
-        This parameter specifies whether to deploy the DNS Service
-
-    .PARAMETER DHCP
-        This parameter specifies whether to deploy the DHCP Service
-
-    .Example
-        New-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Host "bloxoneddihost1.mydomain.corp" -NTP -DNS -DHCP
+    .EXAMPLE
+        ## Create a DHCP Service
+        New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -41,17 +40,13 @@
     [Parameter(Mandatory=$true)]
     [String]$Name,
     [Parameter(Mandatory=$true)]
+    [String]$Type,
+    [Parameter(Mandatory=$true)]
     [String]$OnPremHost,
     [Parameter(Mandatory=$false)]
     [String]$Description = "",
     [Parameter(Mandatory=$false)]
-    [Switch]$Strict,
-    [Parameter(ParameterSetName="NTP")]
-    [Switch]$NTP,
-    [Parameter(ParameterSetName="DNS")]
-    [Switch]$DNS,
-    [Parameter(ParameterSetName="DHCP")]
-    [Switch]$DHCP
+    [Switch]$Strict
   )
   $MatchType = Match-Type $Strict
   $B1Host = Get-B1Host -Name $OnPremHost -Detailed
@@ -60,76 +55,28 @@
       Write-Host "Too many hosts returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
       $B1Host | Format-Table -AutoSize
     } else {
-      if ($NTP) {
-        if (Get-B1Service -Name $Name -Strict) {
-          Write-Host "Service $Name already exists" -ForegroundColor Yellow
-        } else {
-          $splat = @{
-            "name" = $Name
-            "description" = $Description
-            "service_type" = "ntp"
-            "desired_state" = "start"
-            "pool_id" = $($B1Host.pool.pool_id)
-            "tags" = @{}
-            "interface_labels" = @()
-            "destinations" = @()
-            "source_interfaces" = @()
-          } | ConvertTo-Json -Depth 3
-          $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-          if ($NewServiceResult.id) {
-            Write-Host "NTP service created successfully on $OnPremHost" -ForegroundColor Green
+      if (Get-B1Service -Name $Name -Strict) {
+        Write-Host "Service $Name already exists" -ForegroundColor Yellow
+      } else {
+        $splat = @{
+          "name" = $Name
+          "description" = $Description
+          "service_type" = $Type
+          "desired_state" = "start"
+          "pool_id" = $($B1Host.pool.pool_id)
+          "tags" = @{}
+          "interface_labels" = @()
+          "destinations" = @()
+          "source_interfaces" = @()
+        } | ConvertTo-Json -Depth 3
+        $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        if ($NewServiceResult.id) {
+          Write-Host "$($Type.ToUpper()) service created successfully on $OnPremHost" -ForegroundColor Green
+          if ($Type -eq "ntp") {
             Set-B1NTPServiceConfiguration -Name $Name -UseGlobalNTPConfig
-          } else {
-            Write-Host "Failed to create NTP service on $OnPremHost" -ForegroundColor Red
           }
-        }
-      }
-
-      if ($DNS) {
-        if (Get-B1Service -Name $Name -Strict) {
-          Write-Host "Service $Name already exists" -ForegroundColor Red
         } else {
-          $splat = @{
-            "name" = $Name
-            "description" = $Description
-            "service_type" = "dns"
-            "desired_state" = "start"
-            "pool_id" = $($B1Host.pool.pool_id)
-            "tags" = @{}
-            "interface_labels" = @()
-            "destinations" = @()
-            "source_interfaces" = @()
-          } | ConvertTo-Json -Depth 3
-          $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-          if ($NewServiceResult.id) {
-            Write-Host "DNS service created successfully on $OnPremHost" -ForegroundColor Green
-          } else {
-            Write-Host "Failed to create DNS service $OnPremHost" -ForegroundColor Green
-          }
-        }
-      }
-
-      if ($DHCP) {
-        if (Get-B1Service -Name $Name -Strict) {
-          Write-Host "Service $Name already exists" -ForegroundColor Red
-        } else {
-          $splat = @{
-            "name" = $Name
-            "description" = $Description
-            "service_type" = "dhcp"
-            "desired_state" = "start"
-            "pool_id" = $($B1Host.pool.pool_id)
-            "tags" = @{}
-            "interface_labels" = @()
-            "destinations" = @()
-            "source_interfaces" = @()
-          } | ConvertTo-Json -Depth 3
-          $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-          if ($NewServiceResult.id) {
-            Write-Host "DHCP service created successfully on $OnPremHost" -ForegroundColor Green
-          } else {
-            Write-Host "Failed to create DHCP service $OnPremHost" -ForegroundColor Green
-          }
+          Write-Host "Failed to create $($Type.ToUpper()) service on $OnPremHost" -ForegroundColor Red
         }
       }
     }
