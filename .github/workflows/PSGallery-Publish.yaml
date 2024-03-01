@@ -20,10 +20,10 @@ jobs:
           $Manifest = Test-ModuleManifest 'Modules/ibPS/ibPS.psd1'
           if ($($Manifest.Version) -gt $(Find-Module ibPS).Version) {
             Write-Host "Publishing v$($Manifest.Version.ToString()).."
+            Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
           } else {
             Write-Host "Version number is the same, skipping publishing.."
           }
-          Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
           $Version = v$($Manifest.Version.ToString()
           Write-Output "::set-output name=version::$($Version)"
       - name: Create Release
