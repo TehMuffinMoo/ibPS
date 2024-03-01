@@ -601,6 +601,24 @@ Set-B1Object -id {Object ID} -_ref {Object Ref} -Data {Data to Submit}
 
 
 
+New-B1Object -Product -Product {Product Name} -App {App} -Endpoint {API Endpoint} -Data {Data to Submit}
+  # This is a generic wrapper function which allows you to create custom calls to add new objects via the BloxOne APIs.
+  # It supports pipeline input for the -Data parameter
+  
+        # This example will create a new DNS Record
+
+        $Splat = @{
+	        "name_in_zone" = "MyNewRecord"
+	        "zone" = "dns/auth_zone/12345678-8989-4833-abcd-12345678" ### The DNS Zone ID
+	        "type" = "A"
+	        "rdata" = @{
+	     	    "address" = "10.10.10.10"
+            }
+		}
+    New-B1Object -Product 'BloxOne DDI' -App DnsData -Endpoint /dns/record -Data $Splat
+
+
+
 Remove-B1Object -id {Object ID} -_ref {Object Ref}
   # This is a generic wrapper function which allows you to create custom calls to delete objects from the BloxOne APIs.
   # It supports pipeline input from Get-B1Object
