@@ -21,13 +21,16 @@ jobs:
           if ($($Manifest.Version) -gt $(Find-Module ibPS).Version) {
             Write-Host "Publishing v$($Manifest.Version.ToString()).."
             Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
+            Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           } else {
             Write-Host "Version number is the same, skipping publishing.."
+            Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           }
           $Version = "v$($Manifest.Version.ToString())"
           Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "ReleaseNotes=$($Manifest.ReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
       - name: Create Release
+        if: ${{ env.ReleaseUpdated }} == 'true'
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -36,5 +39,5 @@ jobs:
           tag_name: ${{ env.Version }}
           release_name: Release ${{ env.Version }}
           body: ${{ env.ReleaseNotes }}
-          draft: true
+          draft: false
           prerelease: false
