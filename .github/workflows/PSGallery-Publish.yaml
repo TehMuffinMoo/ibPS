@@ -33,7 +33,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
         with:
-          tag_name: ${{ steps.build.outputs.version }}
+          tag_name: ${{ steps.build.outputs.Version }}
           release_name: Release ${{ steps.build.outputs.Version }}
           body: ${{ steps.build.outputs.ReleaseNotes }}
           draft: true
