@@ -24,7 +24,7 @@ jobs:
           } else {
             Write-Host "Version number is the same, skipping publishing.."
           }
-          $Version = v$($Manifest.Version.ToString()
+          $Version = "v$($Manifest.Version.ToString())"
           Write-Output "::set-output name=version::$($Version)"
       - name: Create Release
         id: create_release
