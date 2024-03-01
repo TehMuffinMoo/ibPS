@@ -7,13 +7,16 @@ function Get-B1Object {
         This is a Generic Wrapper for getting objects from the BloxOne CSP (Cloud Services Portal).
 
     .PARAMETER Product
-        Specify the product to use
+        Specify the product to use, such as 'BloxOne DDI'.
+        This parameter is auto-populated when using tab
 
     .PARAMETER App
-        Specify the App to use
+        Specify the App to use, such as 'DnsConfig'
+        This parameter is auto-populated when using tab
 
     .PARAMETER Endpoint
         Specify the API Endpoint to use, such as "/ipam/record".
+        This parameter is auto-populated when using tab
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
