@@ -33,8 +33,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
         with:
-          tag_name: ${{ Version }}
-          release_name: Release ${{ Version }}
-          body: ${{ ReleaseNotes }}
+          tag_name: ${{ env.Version }}
+          release_name: Release ${{ env.Version }}
+          body: ${{ env.ReleaseNotes }}
           draft: true
           prerelease: false
