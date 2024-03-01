@@ -8,9 +8,8 @@ jobs:
   PSGallery-Publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-      - uses: actions/checkout@v4
       - name: Build and publish
+        uses: actions/checkout@v4
         id: build
         env:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
