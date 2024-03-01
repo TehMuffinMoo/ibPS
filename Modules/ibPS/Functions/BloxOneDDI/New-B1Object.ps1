@@ -21,6 +21,9 @@ function New-B1Object {
     .PARAMETER Data
         The data to submit
 
+    .PARAMETER JSON
+        Use this switch if the -Data parameter contains JSON data instead of a PSObject
+
     .PARAMETER Method
         The method to use when creating new object. Defaults to POST
 
@@ -52,6 +55,7 @@ function New-B1Object {
         [String]$Endpoint,
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         [psobject]$Data,
+        [Switch]$JSON,
         [ValidateSet("POST","PUT")]
         $Method = "POST"
     )
@@ -61,7 +65,9 @@ function New-B1Object {
         $BasePath = (Query-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
 
         $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
-        $Data = $Data | ConvertTo-Json -Depth 15 -Compress
+        if (!($JSON)) {
+            $Data = $Data | ConvertTo-Json -Depth 15 -Compress
+        }
         $Results = Query-CSP -Method $Method -Uri $Uri -Data $Data
         if ($Results) {
             return $Results
