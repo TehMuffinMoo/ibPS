@@ -61,9 +61,7 @@ function New-B1Object {
         $BasePath = (Query-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
 
         $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
-        $Uri
         $Data = $Data | ConvertTo-Json -Depth 15 -Compress
-        $Data
         $Results = Query-CSP -Method $Method -Uri $Uri -Data $Data
         if ($Results) {
             return $Results
