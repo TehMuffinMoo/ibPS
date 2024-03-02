@@ -30,7 +30,7 @@ jobs:
           Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "ReleaseNotes=$($Manifest.ReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
       - name: Create Release
-        if: ${{ env.ReleaseUpdated }} == 'true'
+        if: ${{ env.ReleaseUpdated == 'true' }}
         id: create_release
         uses: actions/create-release@v1
         env:
