@@ -23,19 +23,3 @@ markdown_extensions:
   - def_list
   - pymdownx.tasklist:
       custom_checkbox: true
-nav:
-  - Home: index.md
-  - Functions:
-    - BloxOne:
-      - Deploy-B1Appliance: Functions/BloxOne/Deploy-B1Appliance.md
-    - NIOS:
-      - Copy-NIOSSubzoneToBloxOne: Functions/NIOS/Copy-NIOSSubzoneToBloxOne.md
-      - Get-NIOSAuthoritativeZone: Functions/NIOS/Get-NIOSAuthoritativeZone.md
-      - Get-NIOSConfiguration: Functions/NIOS/Get-NIOSConfiguration.md
-      - Get-NIOSCredentials: Functions/NIOS/Get-NIOSCredentials.md
-      - Get-NIOSDelegatedZone: Functions/NIOS/Get-NIOSDelegatedZone.md
-      - Get-NIOSForwardZone: Functions/NIOS/Get-NIOSForwardZone.md
-      - New-NIOSDelegatedZone: Functions/NIOS/New-NIOSDelegatedZone.md
-      - Set-NIOSConfiguration: Functions/NIOS/Set-NIOSConfiguration.md
-      - Store-NIOSCredentials: Functions/NIOS/Store-NIOSCredentials.md
-      - Query-NIOS: Functions/NIOS/Copy-NIOSSubzoneToBloxOne.md
