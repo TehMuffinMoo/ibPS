@@ -5,11 +5,5 @@
 # Required
 version: 2
 
-# Set the version tools you might need
-build:
-  os: "ubuntu-22.04"
-  tools:
-    pwsh: "7.3.7"
-
 mkdocs:
   configuration: docs/mkdocs.yml
