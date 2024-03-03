@@ -107,7 +107,7 @@ Use the `Get-Help` cmdlet to get detailed information on usage. Example;
 Get-Help New-B1AddressBlock -Detailed
 ```
 
-All supported `Get-*` cmdlets have a `-Strict` and `-tfilter` parameter.
+Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-Limit` & `-Offset` parameters. Their use is described below.
 
 <table>
   <tr>
@@ -127,13 +127,40 @@ This is used to apply strict name checking when querying objects.
 The default is to perform wildcard/lazy matches based on submitted query parameters.
     </td>
   </tr>
+  <tr>
     <td>
       -tfilter
     </td>
     <td>
 This is used to filter results of your query by tags.
-An example may be;
 <pre>Get-B1Record -tfilter '("myTag"=="val1" or "myOtherTag"~"partvalue")'</pre>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      -Fields
+    </td>
+    <td>
+This is used to filter the fields returned by the API
+<pre>Get-B1Record -Fields name_in_zone,absolute_zone_name,rdata </pre>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      -Limit
+    </td>
+    <td>
+This is used to specify the number of results to return from the API.
+<pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000</pre>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      -Offset
+    </td>
+    <td>
+The -Offset parameter will offset the results returned by the amount specified. This is used in combination with -Limit to achieve pagination of API results.
+<pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000 -Offset 1000</pre>
     </td>
   </tr>
 </table>
