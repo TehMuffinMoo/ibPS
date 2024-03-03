@@ -9,7 +9,7 @@ theme:
 repo_url: https://github.com/TehMuffinMoo/ibPS
 repo_name: ibPS
 edit_uri: ""
-docs_dir: docs
+docs_dir: .
 markdown_extensions:
   - toc:
       permalink: true
