@@ -1,0 +1,245 @@
+---
+external help file: BloxOne-Main-help.xml
+Module Name: ibPS
+online version:
+schema: 2.0.0
+---
+
+# Set-B1Record
+
+## SYNOPSIS
+Updates an existing DNS record in BloxOneDDI
+
+## SYNTAX
+
+### ID
+```
+Set-B1Record -Type <String> [-rdata <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>]
+ [-Weight <Int32>] [-Port <Int32>] -id <String> [<CommonParameters>]
+```
+
+### noID
+```
+Set-B1Record -Type <String> -Name <String> -Zone <String> [-rdata <String>] -view <String>
+ [-CurrentRDATA <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>] [-Weight <Int32>]
+ [-Port <Int32>] [<CommonParameters>]
+```
+
+## DESCRIPTION
+This function is used to update an existing DNS record in BloxOneDDI
+
+## EXAMPLES
+
+### EXAMPLE 1
+```
+Set-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.50.10" -TTL 600
+```
+
+## PARAMETERS
+
+### -Type
+The type of the record to update
+
+```yaml
+Type: String
+Parameter Sets: ID
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: noID
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Name
+The name of the record to update
+
+```yaml
+Type: String
+Parameter Sets: noID
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Zone
+The zone of the record to update
+
+```yaml
+Type: String
+Parameter Sets: noID
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -rdata
+The RDATA to update the record to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -view
+The DNS View the record exists in
+
+```yaml
+Type: String
+Parameter Sets: noID
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CurrentRDATA
+Optional parameter to select record based on current RDATA.
+Will be deprecated once pipeline input is implemented.
+
+```yaml
+Type: String
+Parameter Sets: noID
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TTL
+The TTL to update the record to
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Description
+The description to update the record to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Priority
+Used to update the priority for applicable records.
+(i.e SRV)
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Weight
+Used to update the weight for applicable records.
+(i.e SRV)
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Port
+Used to update the port for applicable records.
+(i.e SRV)
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -id
+{{ Fill id Description }}
+
+```yaml
+Type: String
+Parameter Sets: ID
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
+
+## INPUTS
+
+## OUTPUTS
+
+## NOTES
+
+## RELATED LINKS
