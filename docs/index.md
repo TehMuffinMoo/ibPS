@@ -313,11 +313,7 @@ Get-ibPSVersion -CheckForUpdates
   # Using -Force will force the update/replacement of ibPS, regardless of the current version
 ```
 
-## To-Do
-
-All work below will be committed to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until updates are posted to main.
-
-### Implement pipeline input for all Set- & Remove- cmdlets
+## Pipeline Support
 Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flexible usage of ibPS. The table below shows the current support for this feature.
 
 Cmdlet                           | Pipeline Input Supported                                           | Supported Input Cmdlets
@@ -360,6 +356,8 @@ Remove-B1TDNetworkList           | ![Implemented](https://badgen.net/badge/Statu
 Get-B1TDDossierLookup            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1TTDDossierLookup
 Set-B1Object                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Object
 
+## To-Do
+All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested, where updates are then posted to main.
 
 
 ### Replace old for new APIs
