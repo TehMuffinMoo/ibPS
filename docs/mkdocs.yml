@@ -27,6 +27,7 @@ nav:
   - Home: index.md
   - Functions:
     - BloxOne:
+      - Deploy-B1Appliance: Functions/BloxOne/Deploy-B1Appliance.md
     - NIOS:
       - Copy-NIOSSubzoneToBloxOne: Functions/NIOS/Copy-NIOSSubzoneToBloxOne.md
       - Get-NIOSAuthoritativeZone: Functions/NIOS/Get-NIOSAuthoritativeZone.md
