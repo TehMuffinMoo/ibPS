@@ -80,6 +80,9 @@ jobs:
                 "Private" {
                   $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
                 }
+                "Misc" {
+                  $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
+                }
               }
               Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
             }
@@ -111,7 +114,7 @@ jobs:
           git add .
           git status
           git commit -m "Update Module to v${{ env.version }}"
-          git push
+          git push origin/dev-test
 
       #- name: Create Release
       #  if: ${{ env.ReleaseUpdated == 'true' }}
