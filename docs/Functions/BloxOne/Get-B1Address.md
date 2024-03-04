@@ -152,7 +152,7 @@ Accept wildcard characters: False
 
 ### -CustomFilters
 Accepts either an Object, ArrayList or String containing one or more custom filters.
-See here for usage: \[Custom Filters\](../../../#-customfilters)
+See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
 ```yaml
 Type: Object
