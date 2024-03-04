@@ -1,4 +1,4 @@
-name: Publish PowerShell Module v2
+name: Publish PowerShell Module (v2)
 
 on: workflow_dispatch
 #  push:
@@ -113,7 +113,6 @@ jobs:
         run: |
           git config --global user.name 'TehMuffinMoo'
           git config --global user.email 'mat.cox@tmmn.uk'
-          git branch -M dev-test
           git add .
           git status
           git commit -m "Update Module to v${{ env.version }}"
