@@ -1,4 +1,4 @@
-name: Publish PowerShell Module v2
+name: Publish PowerShell Module (v2)
 
 on: workflow_dispatch
 #  push:
@@ -87,16 +87,9 @@ jobs:
                   $BaseName = "General"
                 }
               }
-
-              ## Add new docs
               Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
             }
           }
-
-          Get-ChildItem ./docs/Functions
-          Get-ChildItem ./docs/Functions/BloxOne
-          Get-ChildItem ./docs/Functions/NIOS
-          Get-ChildItem ./docs/Functions/General
 
           Write-Host "Removing temporary docs directory.."
           Remove-Item './docs-temp' -Recurse -Force -Confirm:$false
@@ -120,11 +113,10 @@ jobs:
         run: |
           git config --global user.name 'TehMuffinMoo'
           git config --global user.email 'mat.cox@tmmn.uk'
-          git branch -M dev-test
           git add .
           git status
           git commit -m "Update Module to v${{ env.version }}"
-          git push origin/dev-test
+          git push
 
       #- name: Create Release
       #  if: ${{ env.ReleaseUpdated == 'true' }}
