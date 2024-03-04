@@ -34,15 +34,52 @@ jobs:
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
           $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
 
+          Write-Host "Updating release notes"
+          $ModuleReleaseNotes = "$($ReleaseNotes)"
+
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
           Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $ModuleReleaseNotes
 
-          Write-Host "Updating release notes"
-          $ModuleReleaseNotes = "$($ReleaseNotes)"
-          
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw
           $ModuleVersionString = "## $($ModuleVersion.ToString())"
           Set-Content -Path './CHANGELOG.md' -Value ($ModuleVersionString + "`r`n" + $ReleaseNotes + "`r`n`r`n" + $ChangeHistory)
+
+          $Version = "v$($ModuleVersion.ToString())"
+          Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "ReleaseNotes=$($ModuleReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+
+          $ModuleRelease = (Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1").ReleaseNotes
+          Write-Host $ModuleRelease
+
+      - name: Install platyPS module
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module platyPS -ErrorAction Stop
+
+      - name: Update Documentation
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory './docs-temp'
+          Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
+
+          New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion 1.9.2.5 -Force
+
+          foreach ($F in Get-ChildItem './Modules/ibPS/Functions/' -Recurse) {
+            $DocToFind = "./docs-temp/$($F.BaseName).md"
+            if (Test-Path $DocToFind) {
+              Write-Host "Found $DocToFind"
+              $BaseName = (Get-Item $F.DirectoryName).BaseName
+              switch ($BaseName) {
+                "BloxOneDDI" = {
+                  $BaseName = "BloxOne"
+                }
+              }
+              Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
+            }
+          }
+
+          Remove-Item './docs-temp' -Recurse -Force -Confirm:$false
 
       - name: Build and Publish
         id: build
@@ -50,9 +87,7 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
         shell: pwsh
         run: |
-          Copy-Item './Modules/ibPS' '/home/runner/.local/share/powershell/Modules/' -Recurse
-          $Manifest = Test-ModuleManifest './Modules/ibPS/ibPS.psd1'
-          if ($($Manifest.Version) -gt $(Find-Module ibPS).Version) {
+          if ("{{ env.Version }}" -gt $(Find-Module ibPS).Version) {
             Write-Host "Publishing v$($Manifest.Version.ToString()).."
             #Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
             Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
@@ -60,9 +95,6 @@ jobs:
             Write-Host "Version number is the same, skipping publishing.."
             Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           }
-          $Version = "v$($Manifest.Version.ToString())"
-          Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "ReleaseNotes=$($Manifest.ReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
 
       #- name: Create Release
       #  if: ${{ env.ReleaseUpdated == 'true' }}
