@@ -54,12 +54,14 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Installing platyPS Powershell Module.."
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module platyPS -ErrorAction Stop
+          git clone https://github.com/TehMuffinMoo/platyPS /tmp/platyPS
 
       - name: Update Documentation
         shell: pwsh
         run: |
+          Write-Host "Importing platyPS Module.."
+          Import-Module '/tmp/platyPS/src/platyPS/platyPS.psd1' -ErrorAction Stop
+          
           Write-Host "Creating temporary docs directory.."
           New-Item -ItemType Directory './docs-temp'
 
