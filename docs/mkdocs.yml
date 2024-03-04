@@ -3,7 +3,7 @@ theme:
   name: material
   #logo: images/v.svg
   features:
-    - navigation.expand
+    - navigation.sections
   palette:
     primary: indigo
 repo_url: https://github.com/TehMuffinMoo/ibPS

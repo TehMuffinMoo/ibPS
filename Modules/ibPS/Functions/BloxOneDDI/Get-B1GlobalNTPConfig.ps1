@@ -7,7 +7,10 @@
         This function is used to retrieve the BloxOneDDI Global NTP Configuration
 
     .EXAMPLE
-        PS> Get-B1NTPGlobalConfig
+        PS> Get-B1GlobalNTPConfig
+
+    .OUTPUTS
+        Global NTP Object
    
     .FUNCTIONALITY
         BloxOneDDI

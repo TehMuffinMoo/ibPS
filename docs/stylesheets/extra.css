@@ -1,0 +1,4 @@
+/* Maximum space for center grid */
+.md-grid {
+    max-width: 85rem !important; /* or 100%, if you want to stretch to full-width */
+}  
