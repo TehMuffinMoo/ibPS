@@ -23,7 +23,7 @@ If previous configuration exists, it will be overwritten.
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-NIOSConfiguration -Server gm.mydomain.corp -APIVersion 2.13 -Persist
 ```
 

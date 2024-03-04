@@ -12,8 +12,8 @@
     .PARAMETER Hosts
         A list of BloxOneDDI Hosts to apply the DNS Config Profile to
 
-    .Example
-        Grant-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+    .EXAMPLE
+        PS> Grant-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

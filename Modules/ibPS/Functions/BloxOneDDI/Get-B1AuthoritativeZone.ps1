@@ -37,7 +37,7 @@
         The id of the authoritative zone to filter by
 
     .EXAMPLE
-        Get-B1AuthoritativeZone -FQDN "prod.mydomain.corp"
+        PS> Get-B1AuthoritativeZone -FQDN "prod.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

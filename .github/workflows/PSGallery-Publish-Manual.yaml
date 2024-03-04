@@ -3,7 +3,7 @@ name: Publish PowerShell Module (Gallery Only)
 on: workflow_dispatch
 
 jobs:
-  PSGallery-Publish:
+  PSGallery-Publish-Only:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

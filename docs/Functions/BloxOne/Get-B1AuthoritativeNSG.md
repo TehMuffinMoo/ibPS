@@ -23,7 +23,7 @@ This function is used to query a list Authoritative DNS Server Groups from BloxO
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1AuthoritativeNSG -Name "Data Centre" -Strict
 ```
 

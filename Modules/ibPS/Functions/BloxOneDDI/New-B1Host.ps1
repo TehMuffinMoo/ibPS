@@ -15,8 +15,8 @@
     .PARAMETER Description
         The description of the new BloxOneDDI Host
 
-    .Example
-        New-B1Host -Name "bloxoneddihost1.mydomain.corp" -Description "My BloxOneDDI Host" -Space "Global"
+    .EXAMPLE
+        PS> New-B1Host -Name "bloxoneddihost1.mydomain.corp" -Description "My BloxOneDDI Host" -Space "Global"
     
     .FUNCTIONALITY
         BloxOneDDI

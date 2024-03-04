@@ -13,7 +13,8 @@ Updates an existing DNS Host
 ## SYNTAX
 
 ```
-Set-B1DNSHost [-Name] <String> [[-DNSConfigProfile] <String>] [[-DNSName] <String>] [<CommonParameters>]
+Set-B1DNSHost [-Name] <String> [[-DNSConfigProfile] <String>] [[-DNSName] <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +23,7 @@ This function is used to updates an existing DNS Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
 ```
 
@@ -70,6 +71,21 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

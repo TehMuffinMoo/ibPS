@@ -23,7 +23,7 @@ This function is used to query a list of DNS Config Profiles from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DNSConfigProfile -Name "Data Centre" -Strict
 ```
 

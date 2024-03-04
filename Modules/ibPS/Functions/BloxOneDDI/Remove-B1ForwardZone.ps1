@@ -1,10 +1,10 @@
 ﻿function Remove-B1ForwardZone {
     <#
     .SYNOPSIS
-        Removes a Authoritative Zone from BloxOneDDI
+        Removes a Forward Zone from BloxOneDDI
 
     .DESCRIPTION
-        This function is used to remove a Authoritative Zone from BloxOneDDI
+        This function is used to remove a Forward Zone from BloxOneDDI
 
     .PARAMETER FQDN
         The FQDN of the zone to remove
@@ -13,10 +13,10 @@
         The DNS View the zone is located in
 
     .PARAMETER id
-        The id of the authoritative zone. Accepts pipeline input
+        The id of the forward zone. Accepts pipeline input
 
-    .Example
-        Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
+    .EXAMPLE
+        PS> Remove-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default"
    
     .FUNCTIONALITY
         BloxOneDDI

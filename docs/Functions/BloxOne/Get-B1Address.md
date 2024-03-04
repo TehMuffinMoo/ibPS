@@ -15,19 +15,20 @@ Queries a list of address objects from the BloxOneDDI IPAM
 ### None (Default)
 ```
 Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-CustomFilters <Object>] [<CommonParameters>]
+ [-CustomFilters <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### noID
 ```
 Get-B1Address [-Address <String>] [-State <String>] [-Reserved] [-Limit <Int32>] [-Offset <Int32>]
- [-tfilter <String>] [-Fields <String[]>] [-CustomFilters <Object>] [<CommonParameters>]
+ [-tfilter <String>] [-Fields <String[]>] [-CustomFilters <Object>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### ID
 ```
 Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-CustomFilters <Object>] [-id <String>] [<CommonParameters>]
+ [-CustomFilters <Object>] [-id <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,7 +37,7 @@ This function is used to query a list of address objects from the BloxOneDDI IPA
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
 ```
 
@@ -151,30 +152,7 @@ Accept wildcard characters: False
 
 ### -CustomFilters
 Accepts either an Object, ArrayList or String containing one or more custom filters.
-
-## String
-$CustomFilters = 'address=="10.1.2.3" and state=="free"'
-
-
-## Object
-$CustomFilters = @(
-   @{
-     "Property"="address"
-     "Operator"="=="
-     "Value"="10.1.2.3"
-   }
-   @{
-     "Property"="state"
-     "Operator"="=="
-     "Value"="used"
-   }
-)
-
-
-## ArrayList
-\[System.Collections.ArrayList\]$CustomFilters = @()
-$CustomFilters.Add('address=="10.1.2.3"') | Out-Null
-$CustomFilters.Add('state=="used"') | Out-Null
+See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
 ```yaml
 Type: Object
@@ -195,6 +173,21 @@ Return results based on the address id
 Type: String
 Parameter Sets: ID
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

@@ -15,8 +15,8 @@
     .PARAMETER NoWarning
         Using -NoWarning will stop warnings prior to deleting a host
 
-    .Example
-        Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+    .EXAMPLE
+        PS> Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

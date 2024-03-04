@@ -14,12 +14,12 @@ Removes a fixed address from BloxOneDDI IPAM
 
 ### noID
 ```
-Remove-B1FixedAddress -IP <String> -Space <String> [<CommonParameters>]
+Remove-B1FixedAddress -IP <String> -Space <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1FixedAddress -id <String> [<CommonParameters>]
+Remove-B1FixedAddress -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,12 +28,12 @@ This function is used to remove a fixed address from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1FixedAddress -IP 10.10.10.200 -Space Global
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1FixedAddress -IP 10.10.10.200 | Remove-B1FixedAddress
 ```
 
@@ -82,6 +82,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

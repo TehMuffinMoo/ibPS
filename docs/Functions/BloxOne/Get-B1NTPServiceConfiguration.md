@@ -13,7 +13,8 @@ Retrieves the NTP configuration for a particular service
 ## SYNTAX
 
 ```
-Get-B1NTPServiceConfiguration [[-Name] <String>] [[-ServiceId] <String>] [-Strict] [<CommonParameters>]
+Get-B1NTPServiceConfiguration [[-Name] <String>] [[-ServiceId] <String>] [-Strict]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +23,7 @@ This function is used to retrieve the NTP configuration for a particular service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
 ```
 
@@ -71,6 +72,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

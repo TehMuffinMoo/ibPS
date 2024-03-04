@@ -13,7 +13,8 @@ Perform multiple simultaneous lookups against the BloxOne Threat Defense Dossier
 ## SYNTAX
 
 ```
-Start-B1TDDossierBatchLookup [-Type] <String> [-Target] <String[]> [-Source] <String[]> [<CommonParameters>]
+Start-B1TDDossierBatchLookup [-Type] <String> [-Target] <String[]> [-Source] <String[]>
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +23,7 @@ This function is used to perform multiple simultaneous lookups against the BloxO
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Start-B1TDDossierBatchLookup -Type ip -Target "1.1.1.1","1.0.0.1" -Source "apt","mandiant"
 ```
 
@@ -70,6 +71,21 @@ Aliases:
 
 Required: True
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

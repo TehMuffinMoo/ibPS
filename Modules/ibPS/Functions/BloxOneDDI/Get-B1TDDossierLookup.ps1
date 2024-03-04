@@ -19,13 +19,13 @@
         Used to filter the results by individual task ID
 
     .EXAMPLE
-        Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
+        PS> Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
 
     .EXAMPLE
-        Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
+        PS> Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
 
     .EXAMPLE
-        Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
+        PS> Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
 
     .FUNCTIONALITY
         BloxOneDDI

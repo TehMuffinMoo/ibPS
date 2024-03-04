@@ -24,7 +24,7 @@ This log contains information from all containers on all BloxOneDDI Hosts, allow
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1ServiceLog -OnPremHost "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
 ```
 

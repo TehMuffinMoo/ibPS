@@ -14,38 +14,40 @@ Queries active threats from the TIDE API
 
 ### host (Default)
 ```
-Get-B1TDTideThreats [-Hostname <String>] [-Limit <Int32>] [<CommonParameters>]
+Get-B1TDTideThreats [-Hostname <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### ip
 ```
-Get-B1TDTideThreats [-IP <String>] [-Limit <Int32>] [<CommonParameters>]
+Get-B1TDTideThreats [-IP <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### url
 ```
-Get-B1TDTideThreats [-URL <String>] [-Limit <Int32>] [<CommonParameters>]
+Get-B1TDTideThreats [-URL <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### email
 ```
-Get-B1TDTideThreats [-Email <String>] [-Limit <Int32>] [<CommonParameters>]
+Get-B1TDTideThreats [-Email <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### hash
 ```
-Get-B1TDTideThreats [-Hash <String>] [-Limit <Int32>] [<CommonParameters>]
+Get-B1TDTideThreats [-Hash <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### type
 ```
 Get-B1TDTideThreats [-Type <String>] [-Value <String>] [-Age <String>] [-Distinct <String>] [-Limit <Int32>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### id
 ```
-Get-B1TDTideThreats [-Id <String>] [-Limit <Int32>] [<CommonParameters>]
+Get-B1TDTideThreats [-Id <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,27 +56,27 @@ This function will query the active threats from the TIDE API
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideThreats -Hostname "google.com"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1TDTideThreats -IP "1.1.1.1"
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 Get-B1TDTideThreats -Hostname eicar.co -Limit 10
 ```
 
 ### EXAMPLE 4
-```
+```powershell
 Get-B1TDTideThreats -Type Host -Value eicar.co -Distinct Profile
 ```
 
 ### EXAMPLE 5
-```
+```powershell
 Get-B1TDTideThreats -Type URL -Age Recent
 ```
 
@@ -246,6 +248,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: 100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

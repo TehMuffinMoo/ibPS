@@ -14,7 +14,7 @@ Creates a new BloxOneDDI Service
 
 ```
 New-B1Service [-Name] <String> [-Type] <String> [-OnPremHost] <String> [[-Description] <String>] [-Strict]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,15 +23,15 @@ This function is used to create a new BloxOneDDI Service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 ## Create a DNS Service
-New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 ## Create a DHCP Service
-New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
@@ -109,6 +109,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

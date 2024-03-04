@@ -14,12 +14,12 @@ Starts a BloxOneDDI Service
 
 ### noID
 ```
-Start-B1Service -Name <String> [<CommonParameters>]
+Start-B1Service -Name <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Start-B1Service -id <String> [<CommonParameters>]
+Start-B1Service -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +28,7 @@ This function is used to start a BloxOneDDI Service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Start-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
 ```
 
@@ -62,6 +62,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

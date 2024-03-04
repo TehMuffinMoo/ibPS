@@ -51,15 +51,14 @@
     .PARAMETER Tags
         Any tags you want to apply to the record
 
-
     .PARAMETER SkipExistsErrors
         Whether to skip errors if the record already exists. Default is $false
 
     .PARAMETER IgnoreExists
         Whether to ignore if a record already exists and attempt to create it anyway
 
-    .Example
-        New-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.30.10" -TTL 300
+    .EXAMPLE
+        PS> New-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.30.10" -TTL 300
    
     .FUNCTIONALITY
         BloxOneDDI

@@ -13,7 +13,8 @@ Generic Wrapper for removing existing objects from the CSP (Cloud Services Porta
 ## SYNTAX
 
 ```
-Remove-B1Object [-_ref] <String> [-id] <String> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-B1Object [-_ref] <String> [-id] <String> [-Force] [-ProgressAction <ActionPreference>] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,11 +24,11 @@ It is recommended this is used via Pipeline
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-This example shows removing several address block objects based on tag
-```
+```powershell
+## This example shows removing several address block objects based on tag
 
-Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
+PS> Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
+```
 
 ## PARAMETERS
 
@@ -99,6 +100,21 @@ Prompts you for confirmation before running the cmdlet.
 Type: SwitchParameter
 Parameter Sets: (All)
 Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

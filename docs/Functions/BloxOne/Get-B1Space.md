@@ -23,7 +23,7 @@ This function is used to query a list of BloxOneDDI IPAM/DHCP Spaces
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Space -Name "Global"
 ```
 

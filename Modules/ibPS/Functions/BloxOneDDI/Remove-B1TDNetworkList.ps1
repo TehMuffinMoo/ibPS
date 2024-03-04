@@ -13,10 +13,10 @@
         The id of the network list to remove
 
     .EXAMPLE
-        Remove-B1TDNetworkList -Name "My Network List"
+        PS> Remove-B1TDNetworkList -Name "My Network List"
 
     .EXAMPLE
-        Get-B1TDNetworkList -Name "My Network List" | Remove-B1TDNetworkList
+        PS> Get-B1TDNetworkList -Name "My Network List" | Remove-B1TDNetworkList
    
     .FUNCTIONALITY
         BloxOneDDI

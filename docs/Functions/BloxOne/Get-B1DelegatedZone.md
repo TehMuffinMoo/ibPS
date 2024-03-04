@@ -23,7 +23,7 @@ This function is used to query a list delegated zones from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DelegatedZone -FQDN "prod.mydomain.corp"
 ```
 

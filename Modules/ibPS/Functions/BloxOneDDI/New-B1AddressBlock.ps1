@@ -24,19 +24,18 @@
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the new address block.
         
-        Example usage when combined with Get-B1DHCPOptionCode
-
-        $DHCPOptions = @()
-        $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-
     .PARAMETER DDNSDomain
         The DDNS Domain to apply to the new address block
 
     .PARAMETER Tags
         Any tags you want to apply to the address block
 
-    .Example
-        New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
+    .EXAMPLE
+        ##Example usage when combined with Get-B1DHCPOptionCode
+        $DHCPOptions = @()
+        $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+        
+        PS> New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
     
     .FUNCTIONALITY
         BloxOneDDI

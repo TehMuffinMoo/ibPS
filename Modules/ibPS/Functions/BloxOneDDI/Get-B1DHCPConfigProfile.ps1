@@ -31,7 +31,7 @@
         Return results based on DHCP Config Profile id
 
     .EXAMPLE
-        Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
+        PS> Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -22,7 +22,7 @@ This function will query a list of threat classes
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideThreatClass -id "Bot"
 ```
 

@@ -31,7 +31,7 @@
         Return results based on DNS Config Profile id
 
     .EXAMPLE
-        Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
+        PS> Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
     
     .FUNCTIONALITY
         BloxOneDDI

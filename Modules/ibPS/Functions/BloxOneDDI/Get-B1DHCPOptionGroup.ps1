@@ -15,8 +15,8 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
-    .Example
-        Get-B1DHCPOptionGroup -Name "Telephony Options"
+    .EXAMPLE
+        PS> Get-B1DHCPOptionGroup -Name "Telephony Options"
     
     .FUNCTIONALITY
         BloxOneDDI

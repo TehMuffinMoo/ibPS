@@ -23,7 +23,7 @@ This is useful for determining the option code required when submitting options 
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPOptionCode -Name "routers"
 ```
 

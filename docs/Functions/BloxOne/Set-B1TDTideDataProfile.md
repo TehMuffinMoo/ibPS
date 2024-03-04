@@ -14,7 +14,7 @@ Updates an existing TIDE Data Profile
 
 ```
 Set-B1TDTideDataProfile [-Name] <String> [[-Description] <String>] [[-RPZFeed] <String>] [[-State] <String>]
- [[-DefaultTTL] <String>] [<CommonParameters>]
+ [[-DefaultTTL] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to update an existing TIDE Data Profile from BloxOne Threa
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1TDTideDataProfile -Name "My Profile" -Description "New Description" -RPZFeed "New RPZ Feed" -Active $true -DefaultTTL $false
 ```
 
@@ -99,6 +99,21 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -14,12 +14,12 @@ Removes a DHCP Config Profile
 
 ### notid (Default)
 ```
-Remove-B1DHCPConfigProfile [-Name <String>] [<CommonParameters>]
+Remove-B1DHCPConfigProfile [-Name <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1DHCPConfigProfile -id <String> [<CommonParameters>]
+Remove-B1DHCPConfigProfile -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,12 +28,12 @@ This function is used to remove a DHCP Config Profile
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1DHCPConfigProfile -Name "My Config Profile"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1DHCPConfigProfile -Name "My Config Profile" | Remove-B1DHCPConfigProfile
 ```
 
@@ -67,6 +67,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

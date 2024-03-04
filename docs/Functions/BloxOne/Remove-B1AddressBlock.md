@@ -15,12 +15,13 @@ Removes an address block from BloxOneDDI IPAM
 ### noID
 ```
 Remove-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Recurse] [-NoWarning]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1AddressBlock [-Recurse] [-NoWarning] -id <String> [<CommonParameters>]
+Remove-B1AddressBlock [-Recurse] [-NoWarning] -id <String> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,7 +30,7 @@ This function is used to remove an address block from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1AddressBlock -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
 ```
 
@@ -128,6 +129,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

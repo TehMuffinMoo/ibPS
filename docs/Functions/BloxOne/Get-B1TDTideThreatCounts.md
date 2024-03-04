@@ -22,12 +22,12 @@ This function will query the threat counts TIDE API which returns threat counts 
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideThreatCounts
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1TDTideThreatCounts -Historical
 ```
 

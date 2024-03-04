@@ -23,7 +23,7 @@ This function is used to query a list of HA Group(s) from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1HAGroup -Name "MyHAGroup" -Strict
 ```
 

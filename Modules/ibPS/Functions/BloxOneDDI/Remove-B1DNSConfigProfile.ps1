@@ -13,10 +13,10 @@ function Remove-B1DNSConfigProfile {
         The id of the DNS Config Profile to remove. Accepts pipeline input
 
     .EXAMPLE
-        Remove-B1DNSConfigProfile -Name "My Config Profile"
+        PS> Remove-B1DNSConfigProfile -Name "My Config Profile"
 
     .EXAMPLE
-        Get-B1DNSConfigProfile -Name "My Config Profile" | Remove-B1DNSConfigProfile
+        PS> Get-B1DNSConfigProfile -Name "My Config Profile" | Remove-B1DNSConfigProfile
    
     .FUNCTIONALITY
         BloxOneDDI

@@ -14,12 +14,13 @@ Removes a subnet from BloxOneDDI IPAM
 
 ### noID
 ```
-Remove-B1Subnet -Subnet <String> -CIDR <Int32> [-Name <String>] -Space <String> [<CommonParameters>]
+Remove-B1Subnet -Subnet <String> -CIDR <Int32> [-Name <String>] -Space <String>
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1Subnet [-Name <String>] -id <String> [<CommonParameters>]
+Remove-B1Subnet [-Name <String>] -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,12 +29,12 @@ This function is used to remove a subnet from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global" | Remove-B1Subnet
 ```
 
@@ -112,6 +113,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

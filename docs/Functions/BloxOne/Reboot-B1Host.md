@@ -14,12 +14,12 @@ Reboots a BloxOneDDI Host
 
 ### noID
 ```
-Reboot-B1Host -OnPremHost <String> [-NoWarning] [<CommonParameters>]
+Reboot-B1Host -OnPremHost <String> [-NoWarning] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Reboot-B1Host [-NoWarning] -id <String> [<CommonParameters>]
+Reboot-B1Host [-NoWarning] -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +28,7 @@ This function is used to initiate a reboot of a BloxOneDDI Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
 ```
 
@@ -77,6 +77,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

@@ -22,7 +22,7 @@ This function is used to query an IP Address against the BloxOneDDI IPAM and ret
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DNSUsage -Address "10.10.100.30" -Space "Global" -ParseDetails
 ```
 

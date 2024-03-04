@@ -14,12 +14,13 @@ Updates an existing BloxOne Cloud API Key
 
 ### noID
 ```
-Set-B1APIKey -Name <Object> [-User <Object>] [-Type <Object>] [-State <Object>] [<CommonParameters>]
+Set-B1APIKey -Name <Object> [-User <Object>] [-Type <Object>] [-State <Object>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Set-B1APIKey [-State <Object>] -id <String> [<CommonParameters>]
+Set-B1APIKey [-State <Object>] -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +29,7 @@ This function is used to update an existing API Key from the BloxOne Cloud, such
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 ```
 
@@ -107,6 +108,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

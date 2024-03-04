@@ -34,7 +34,7 @@
         Return results based on Delegated Zone id
 
     .EXAMPLE
-        Get-B1DelegatedZone -FQDN "prod.mydomain.corp"
+        PS> Get-B1DelegatedZone -FQDN "prod.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

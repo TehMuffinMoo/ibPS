@@ -16,7 +16,7 @@ Used to copy/migrate Authoritative Zone data from NIOS to BloxOneDDI
 Copy-NIOSSubzoneToBloxOne [[-Server] <String>] [-Subzone] <String> [-NIOSView] <String> [-B1View] <String>
  [[-RecordTypes] <String[]>] [[-Confirm] <Boolean>] [-IncludeDHCP] [-Test] [-CreateZones]
  [[-DNSHosts] <Object>] [[-AuthNSGs] <Object>] [[-Creds] <PSCredential>] [-SkipCertificateCheck]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,17 +25,17 @@ This function is used to copy/migrate Authoritative Zone data from NIOS to BloxO
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Test
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Confirm:$false
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group"
 ```
 
@@ -235,6 +235,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

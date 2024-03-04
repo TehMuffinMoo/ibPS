@@ -6,8 +6,22 @@ function Set-B1CSPUrl {
     .DESCRIPTION
         This function will set/update the BloxOneDDI CSP Url. This is used when using an alternate CSP Region (i.e EU)
 
-    .Example
-        Set-B1CSPUrl
+    .PARAMETER Region
+        Specify the CSP Region to use (i.e EU for the EMEA instance)
+
+    .PARAMETER URL
+        Optionally specify a URL manually
+
+    .EXAMPLE
+        PS> Set-B1CSPUrl -Region EU
+                                                                                                                  
+        BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
+        You can make the CSP URL persistent for this user on this machine by using the -persist parameter.
+
+    .EXAMPLE
+        PS> Set-B1CSPUrl -Region EU -Persist
+        
+        BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored permenantly for user on computername.
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -16,11 +30,11 @@ function Set-B1CSPUrl {
         API
     #>
     param(
-        [Parameter(ParameterSetName="URL")]
-        [String]$URL,
         [Parameter(ParameterSetName="Region")]
         [ValidateSet("US","EU")]
         [String]$Region,
+        [Parameter(ParameterSetName="URL")]
+        [String]$URL,
         [switch]$Persist
       )
 

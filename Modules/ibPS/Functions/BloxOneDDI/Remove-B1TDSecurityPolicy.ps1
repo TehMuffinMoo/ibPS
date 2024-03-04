@@ -13,10 +13,10 @@
         The name of the BloxOne Threat Defense Security Policy to delete.
 
     .EXAMPLE
-        Remove-B1TDSecurityPolicy -Name "Remote Users"
+        PS> Remove-B1TDSecurityPolicy -Name "Remote Users"
 
     .EXAMPLE
-        Get-B1TDSecurityPolicy -Name "Remote Users" | Remove-B1TDSecurityPolicy
+        PS> Get-B1TDSecurityPolicy -Name "Remote Users" | Remove-B1TDSecurityPolicy
    
     .FUNCTIONALITY
         BloxOneDDI

@@ -14,7 +14,8 @@ Generic Wrapper for interaction with the CSP (Cloud Services Portal) via GET req
 
 ```
 Get-B1Object [-Product] <String> [-App] <String> [-Endpoint] <String> [[-Fields] <String[]>]
- [[-Filters] <Object>] [[-tfilter] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
+ [[-Filters] <Object>] [[-tfilter] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +24,7 @@ This is a Generic Wrapper for getting objects from the BloxOne CSP (Cloud Servic
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
 ```
 
@@ -151,6 +152,21 @@ Aliases:
 Required: False
 Position: 8
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

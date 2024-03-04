@@ -16,9 +16,9 @@ function Remove-B1Object {
         This is used to suppress the confirmation prompt if run non-interactively
 
     .EXAMPLE
-        This example shows removing several address block objects based on tag
+        ## This example shows removing several address block objects based on tag
 
-        Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
+        PS> Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
 
     .FUNCTIONALITY
         BloxOneDDI

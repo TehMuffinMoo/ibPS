@@ -28,7 +28,7 @@
         Use the id parameter to filter the results by ID
 
     .EXAMPLE
-        Get-B1FixedAddress -IP 10.10.100.12
+        PS> Get-B1FixedAddress -IP 10.10.100.12
     
     .FUNCTIONALITY
         BloxOneDDI

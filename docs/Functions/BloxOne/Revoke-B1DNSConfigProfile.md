@@ -13,7 +13,7 @@ Removes a DNS Config Profile from one or more BloxOneDDI hosts
 ## SYNTAX
 
 ```
-Revoke-B1DNSConfigProfile [-Hosts] <Object> [<CommonParameters>]
+Revoke-B1DNSConfigProfile [-Hosts] <Object> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +22,7 @@ This function is used to remove a DNS Config Profile from one or more BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 ```
 
@@ -38,6 +38,21 @@ Aliases:
 
 Required: True
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

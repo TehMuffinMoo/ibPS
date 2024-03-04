@@ -14,7 +14,8 @@ Creates a new Authoritative Zone in BloxOneDDI
 
 ```
 New-B1AuthoritativeZone [-Type] <String> [-FQDN] <String> [-View] <Object> [[-DNSHosts] <Object>]
- [[-AuthNSGs] <Object>] [[-DNSACL] <String>] [[-Description] <String>] [[-Tags] <Object>] [<CommonParameters>]
+ [[-AuthNSGs] <Object>] [[-DNSACL] <String>] [[-Description] <String>] [[-Tags] <Object>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +24,7 @@ This function is used to create a new Authoritative Zone in BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1AuthoritativeZone -Type Primary -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
 ```
 
@@ -144,6 +145,21 @@ Aliases:
 
 Required: False
 Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

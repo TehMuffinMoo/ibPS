@@ -23,7 +23,7 @@ This function is used to retrieve a list of Forward Zones from NIOS
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-NIOSForwardZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
 ```
 

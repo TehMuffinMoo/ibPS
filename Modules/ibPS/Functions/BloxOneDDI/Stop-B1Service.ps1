@@ -12,8 +12,8 @@
     .PARAMETER id
         The id of the BloxOneDDI Service to stop. Accepts pipeline input
 
-    .Example
-        Stop-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+    .EXAMPLE
+        PS> Stop-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

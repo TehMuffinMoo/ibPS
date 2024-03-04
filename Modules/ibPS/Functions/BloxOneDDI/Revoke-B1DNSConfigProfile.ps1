@@ -12,8 +12,8 @@
     .PARAMETER Hosts
         A list of BloxOneDDI Hosts to remove the DNS Config Profile from
 
-    .Example
-        Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+    .EXAMPLE
+        PS> Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

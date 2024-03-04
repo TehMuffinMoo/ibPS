@@ -14,22 +14,23 @@ Retrieves details about a BloxOne Threat Defense Dossier Lookup
 
 ### None (Default)
 ```
-Get-B1TDDossierLookup -job_id <String> [<CommonParameters>]
+Get-B1TDDossierLookup -job_id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Pending
 ```
-Get-B1TDDossierLookup -job_id <String> [-Pending] [<CommonParameters>]
+Get-B1TDDossierLookup -job_id <String> [-Pending] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Results
 ```
-Get-B1TDDossierLookup -job_id <String> [-Results] [<CommonParameters>]
+Get-B1TDDossierLookup -job_id <String> [-Results] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### TaskID
 ```
-Get-B1TDDossierLookup -job_id <String> [-task_id <String>] [<CommonParameters>]
+Get-B1TDDossierLookup -job_id <String> [-task_id <String>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,17 +39,17 @@ This function is used to retrieve details about a BloxOne Threat Defense Dossier
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
 ```
 
@@ -107,6 +108,21 @@ Used to filter the results by individual task ID
 Type: String
 Parameter Sets: TaskID
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

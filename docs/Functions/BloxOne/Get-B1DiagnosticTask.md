@@ -13,7 +13,7 @@ Query a list of BloxOneDDI Diagnostic Tasks
 ## SYNTAX
 
 ```
-Get-B1DiagnosticTask [-id] <String> [-download] [<CommonParameters>]
+Get-B1DiagnosticTask [-id] <String> [-download] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,7 +22,7 @@ This function is used to query a list of BloxOneDDI Diagnostic Tasks
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DiagnosticTask -id diagnostic/task/abcde634-2113-ddef-4d05-d35ffs1sa4 -download
 ```
 
@@ -54,6 +54,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

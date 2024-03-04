@@ -24,12 +24,12 @@ This function is used to query a list of Subnets from the BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Subnet -Subnet 10.10.100.0 -CIDR 24 -IncludeInheritance
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1Subnet -Name "subnet-1" -Space "Global" -Strict
 ```
 

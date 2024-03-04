@@ -13,7 +13,7 @@ Query the BloxOneDDI CSP Global Search
 ## SYNTAX
 
 ```
-Search-B1 [-query] <String> [<CommonParameters>]
+Search-B1 [-query] <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,12 +22,12 @@ This function is used to query the BloxOneDDI CSP Global Search
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Search-B1 "10.10.100.1"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Search-B1 "mysubzone.corp.com"
 ```
 
@@ -43,6 +43,21 @@ Aliases:
 
 Required: True
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

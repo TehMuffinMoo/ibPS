@@ -14,12 +14,14 @@ Updates a Forward DNS Server Group in BloxOneDDI
 
 ### noID
 ```
-Set-B1ForwardNSG -Name <String> [-AddHosts] [-RemoveHosts] [-Hosts <Object>] [<CommonParameters>]
+Set-B1ForwardNSG -Name <String> [-AddHosts] [-RemoveHosts] [-Hosts <Object>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Set-B1ForwardNSG [-AddHosts] [-RemoveHosts] [-Hosts <Object>] -id <String> [<CommonParameters>]
+Set-B1ForwardNSG [-AddHosts] [-RemoveHosts] [-Hosts <Object>] -id <String> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +30,7 @@ This function is used to update a Forward DNS Server Group in BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1ForwardNSG -Name "InfoBlox DTC" -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 ```
 
@@ -107,6 +109,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

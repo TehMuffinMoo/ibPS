@@ -27,13 +27,13 @@
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
-* Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](https://github.com/TehMuffinMoo/ibPS?tab=readme-ov-file#custom-bloxone-functions-generic-wrapper).
+* Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](#custom-bloxone-functions-generic-wrapper).
 * Automate the world!
 
 ## Limitations
 
 * Cmdlets have not yet been created for all BloxOne API endpoints. This is still being actively developed with the aim to have most, if not all api endpoints integrated eventually.  
-  * You can however also use this module as a generic wrapper by leveraging these [Wrapper Cmdlets](https://github.com/TehMuffinMoo/ibPS?tab=readme-ov-file#custom-bloxone-functions-generic-wrapper).
+  * You can however also use this module as a generic wrapper by leveraging these [Wrapper Cmdlets](#custom-bloxone-functions-generic-wrapper).
 * A [PowerShell module already exists for InfoBlox NIOS](https://www.powershellgallery.com/packages/Posh-IBWAPI/3.2.2) and so limited Cmdlets will be built into this module. Any NIOS cmdlets built in are primarily for the purpose of migration to BloxOneDDI and may be deprecated.
 
 ## How To Use
@@ -105,6 +105,7 @@ All Cmdlets are listed in the left-hand menu. You can also use the `Get-Help` cm
 Get-Help New-B1AddressBlock -Detailed
 ```
 
+### Common Parameters
 Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-Limit` & `-Offset` parameters. Their use is described below.
 
 <table>
@@ -161,7 +162,46 @@ The -Offset parameter will offset the results returned by the amount specified. 
 <pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000 -Offset 1000</pre>
     </td>
   </tr>
+  <tr>
+    <td>
+      -CustomFilters
+    </td>
+    <td>
+The -CustomFilters parameter allows you to use custom filters when interacting with the API and supports inputs as String, Object or ArrayList. See the [Custom Filters](#custom-filters) section for usage information.
+    </td>
+  </tr>
 </table>
+
+#### -CustomFilters
+The `-CustomFilters` parameter can be used to apply custom filtering to API calls. It supports inputs as either String, Object or ArrayList as shown below;
+
+##### String
+```powershell
+$CustomFilters = 'name~"10.1.2.3" and state=="enabled"'
+```
+
+##### Object
+```powershell
+$CustomFilters = @(
+  @{
+    "Property"="name"
+    "Operator"="~"
+    "Value"="postman"
+  }
+  @{
+    "Property"="state"
+    "Operator"="=="
+    "Value"="enabled"
+  }
+)
+```
+
+##### ArrayList
+```powershell
+[System.Collections.ArrayList]$CustomFilters = @()
+$CustomFilters.Add('name~"postman"') | Out-Null
+$CustomFilters.Add('state=="enabled"') | Out-Null
+```
 
 ### Custom BloxOne Functions (Generic Wrapper)
 You can also create custom functions by using the generic wrapper cmdlets.
@@ -295,7 +335,7 @@ Get-B1Schema -Product {Product Name} -App {App} -Endpoint {API Endpoint} -Method
       post                           Use this method to create application configurations in data connector.
 ```
 
-### Custom NIOS Functions
+## Custom NIOS Functions
 You can also create custom functions by using the `Query-NIOS` cmdlet.
 ```bash
 Query-NIOS -Method <String> -Server <String> -Uri <String> -ApiVersion <String> -Creds <PSCredential> -Data <String> -SkipCertificateCheck <Switch>

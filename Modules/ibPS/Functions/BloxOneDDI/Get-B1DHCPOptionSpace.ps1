@@ -18,8 +18,8 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
         
-    .Example
-        Get-B1DHCPOptionSpace -Name dhcp4 -Protocol ip4 -Strict
+    .EXAMPLE
+        PS> Get-B1DHCPOptionSpace -Name dhcp4 -Protocol ip4 -Strict
     
     .FUNCTIONALITY
         BloxOneDDI

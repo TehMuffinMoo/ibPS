@@ -9,8 +9,8 @@ function Get-B1TDTideThreatClass {
     .PARAMETER id
         Filter the results by class ID
 
-    .Example
-        Get-B1TDTideThreatClass -id "Bot"
+    .EXAMPLE
+        PS> Get-B1TDTideThreatClass -id "Bot"
 
     .FUNCTIONALITY
         BloxOneDDI

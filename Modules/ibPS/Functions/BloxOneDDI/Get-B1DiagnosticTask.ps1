@@ -12,8 +12,8 @@
     .PARAMETER download
         This switch indicates if to download the results returned
 
-    .Example
-        Get-B1DiagnosticTask -id diagnostic/task/abcde634-2113-ddef-4d05-d35ffs1sa4 -download
+    .EXAMPLE
+        PS> Get-B1DiagnosticTask -id diagnostic/task/abcde634-2113-ddef-4d05-d35ffs1sa4 -download
    
     .FUNCTIONALITY
         BloxOneDDI

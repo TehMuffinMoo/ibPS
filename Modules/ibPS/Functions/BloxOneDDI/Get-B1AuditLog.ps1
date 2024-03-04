@@ -44,33 +44,10 @@ function Get-B1AuditLog {
 
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
-        ## String
-        $CustomFilters = 'action=="update" and user_name=="some.email@domain.corp"'
-
-
-        ## Object
-        $CustomFilters = @(
-           @{
-             "Property"="action"
-             "Operator"="=="
-             "Value"="update"
-           }
-           @{
-             "Property"="user_name"
-             "Operator"="=="
-             "Value"="some.email@domain.corp"
-           }
-        )
-
-
-        ## ArrayList
-        [System.Collections.ArrayList]$CustomFilters = @()
-        $CustomFilters.Add('action=="update"') | Out-Null
-        $CustomFilters.Add('user_name=="some.email@domain.corp"') | Out-Null
-
-    .Example
-        Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
+    .EXAMPLE
+        PS> Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -23,7 +23,7 @@ This function is used to retrieve information on lookalike domains
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDLookalikes -Domain google.com -Reason "phishing"
 ```
 

@@ -23,7 +23,7 @@ The Lookalike Target Candidates are second-level domains BloxOne uses to detect 
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDLookalikeTargetCandidates
 ```
 

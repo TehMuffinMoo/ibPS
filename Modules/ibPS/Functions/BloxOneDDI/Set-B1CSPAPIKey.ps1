@@ -13,8 +13,8 @@ function Set-B1CSPAPIKey {
     .PARAMETER Persist
         Using the -Persist switch will save the API Key across powershell sessions. Without using this switch, the API Key will only be stored for the current powershell session.
 
-    .Example
-        Set-B1CSPAPIKey -APIKey "mylongapikeyfromcsp" -Persist
+    .EXAMPLE
+        PS> Set-B1CSPAPIKey -APIKey "mylongapikeyfromcsp" -Persist
 
     .FUNCTIONALITY
         BloxOneDDI

@@ -27,8 +27,8 @@
     .PARAMETER Tags
         Any tags you want to apply to the DHCP Range
 
-    .Example
-        New-B1Range -Name "Client Range" -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global" -Description "Range for Client IPs"
+    .EXAMPLE
+        PS> New-B1Range -Name "Client Range" -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global" -Description "Range for Client IPs"
     
     .FUNCTIONALITY
         BloxOneDDI

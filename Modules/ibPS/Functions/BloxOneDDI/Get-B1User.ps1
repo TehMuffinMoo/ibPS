@@ -31,13 +31,13 @@ function Get-B1User {
         The id of the authoritative zone to filter by
 
     .EXAMPLE
-        Get-B1User -Name "MyName"
+        PS> Get-B1User -Name "MyName"
 
     .EXAMPLE
-        Get-B1User -Email "MyName@domain.corp"
+        PS> Get-B1User -Email "MyName@domain.corp"
 
     .EXAMPLE
-        Get-B1User -State Inactive
+        PS> Get-B1User -State Inactive
 
     .FUNCTIONALITY
         BloxOneDDI

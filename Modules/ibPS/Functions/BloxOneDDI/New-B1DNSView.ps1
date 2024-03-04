@@ -19,7 +19,7 @@
         The IP Space to assign the new DNS View to
 
     .EXAMPLE
-        New-B1DNSView -Name "Global"
+        PS> New-B1DNSView -Name "Global"
     
     .FUNCTIONALITY
         BloxOneDDI

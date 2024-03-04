@@ -22,8 +22,22 @@ This function is used query a list of supported BloxOneDDI Applications/Services
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Applications
+
+dfp
+dns
+dhcp
+cdc
+anycast
+orpheus
+msad
+authn
+ntp
+rip
+bgp
+ospf
+discovery
 ```
 
 ## PARAMETERS

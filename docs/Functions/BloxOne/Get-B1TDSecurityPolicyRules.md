@@ -22,7 +22,7 @@ Use this cmdlet to retrieve information on of security policy rules
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDSecurityPolicyRules
 ```
 

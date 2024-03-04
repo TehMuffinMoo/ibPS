@@ -12,8 +12,8 @@ function Get-B1TDTideInfoRank {
     .PARAMETER Strict
         Return results for this domain name only, by default all related domains will be returned
 
-    .Example
-        Get-B1TDTideInfoRank -Domain "amazonaws.com" -Strict
+    .EXAMPLE
+        PS> Get-B1TDTideInfoRank -Domain "amazonaws.com" -Strict
 
     .FUNCTIONALITY
         BloxOneDDI

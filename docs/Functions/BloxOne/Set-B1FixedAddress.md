@@ -15,13 +15,15 @@ Updates an existing fixed addresses in BloxOneDDI IPAM
 ### noID
 ```
 Set-B1FixedAddress -IP <String> -Space <String> [-Name <String>] [-Description <String>] [-MatchType <String>]
- [-MatchValue <String>] [-DHCPOptions <Object>] [-Tags <Object>] [<CommonParameters>]
+ [-MatchValue <String>] [-DHCPOptions <Object>] [-Tags <Object>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1FixedAddress [-Name <String>] [-Description <String>] [-MatchType <String>] [-MatchValue <String>]
- [-DHCPOptions <Object>] [-Tags <Object>] [-id <String>] [<CommonParameters>]
+ [-DHCPOptions <Object>] [-Tags <Object>] [-id <String>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,13 +32,23 @@ This function is used to update an existing fixed addresses in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1FixedAddress -IP 10.10.100.12 | Set-B1FixedAddress -MatchValue "ab:cd:ef:ab:cd:ef"
+```
+
+### EXAMPLE 3
+```powershell
+## Example usage when combined with Get-B1DHCPOptionCode
+
+$DHCPOptions = @()
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+
+PS> Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description" -DHCPOptions $DHCPOptions
 ```
 
 ## PARAMETERS
@@ -135,11 +147,6 @@ Accept wildcard characters: False
 A list of DHCP Options you want to apply to the existing fixed address.
 This will overwrite any existing DHCP options.
 
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-
 ```yaml
 Type: Object
 Parameter Sets: (All)
@@ -180,6 +187,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

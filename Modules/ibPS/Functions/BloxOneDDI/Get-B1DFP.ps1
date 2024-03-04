@@ -31,10 +31,10 @@ function Get-B1DFP {
         Specify a list of fields to return. The default is to return all fields.
         
     .EXAMPLE
-        Get-B1DFP -Name "My DFP" -Strict
+        PS> Get-B1DFP -Name "My DFP" -Strict
 
     .EXAMPLE
-        Get-B1DFP -DefaultSecurityPolicy
+        PS> Get-B1DFP -DefaultSecurityPolicy
 
     .FUNCTIONALITY
         BloxOneDDI

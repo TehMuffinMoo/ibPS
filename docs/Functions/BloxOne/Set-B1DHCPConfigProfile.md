@@ -15,13 +15,13 @@ Updates an existing DHCP Config Profiles from BloxOneDDI
 ### noID
 ```
 Set-B1DHCPConfigProfile -Name <String> [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>]
- -DNSView <String> [<CommonParameters>]
+ -DNSView <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1DHCPConfigProfile [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>] -id <String>
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,7 +30,7 @@ This function is used to update an existing DHCP Config Profiles from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
 ```
 
@@ -124,6 +124,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

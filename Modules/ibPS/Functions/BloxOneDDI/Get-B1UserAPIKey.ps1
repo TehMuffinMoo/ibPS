@@ -26,10 +26,10 @@ function Get-B1UserAPIKey {
         The id of the authoritative zone to filter by
 
     .EXAMPLE
-        Get-B1UserAPIKey -Name "somename" -State Enabled
+        PS> Get-B1UserAPIKey -Name "somename" -State Enabled
 
     .EXAMPLE
-        Get-B1UserAPIKey -Name "apikeyname" -Strict
+        PS> Get-B1UserAPIKey -Name "apikeyname" -Strict
 
     .FUNCTIONALITY
         BloxOneDDI

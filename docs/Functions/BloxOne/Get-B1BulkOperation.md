@@ -22,7 +22,7 @@ This function is used to query BloxOne Bulk Operations
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1BulkOperation -Name "Backup of all CSP data"
 ```
 

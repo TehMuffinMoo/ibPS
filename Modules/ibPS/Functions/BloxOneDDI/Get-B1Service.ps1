@@ -31,7 +31,7 @@
         Use the id parameter to filter the results by ID
 
     .EXAMPLE
-        Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
+        PS> Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
     
     .FUNCTIONALITY
         BloxOneDDI

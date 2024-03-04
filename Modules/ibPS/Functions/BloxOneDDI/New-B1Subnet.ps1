@@ -34,7 +34,7 @@
         Any tags you want to apply to the subnet
 
     .EXAMPLE
-        New-B1Subnet -Subnet "10.30.5.0" -CIDR "24" -Space "Global" -Name "My Subnet" -Description "My Production Subnet"
+        PS> New-B1Subnet -Subnet "10.30.5.0" -CIDR "24" -Space "Global" -Name "My Subnet" -Description "My Production Subnet"
 
     .EXAMPLE
         ## Example showing building DHCP options using Get-B1DHCPOptionCode

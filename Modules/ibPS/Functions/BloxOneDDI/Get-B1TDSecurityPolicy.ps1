@@ -15,8 +15,8 @@
     .PARAMETER id
         Filter the results by id
 
-    .Example
-        Get-B1TDSecurityPolicy -Name "Remote Users"
+    .EXAMPLE
+        PS> Get-B1TDSecurityPolicy -Name "Remote Users"
    
     .FUNCTIONALITY
         BloxOneDDI

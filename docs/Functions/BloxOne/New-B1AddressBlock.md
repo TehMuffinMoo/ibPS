@@ -15,7 +15,7 @@ Creates a new address block in BloxOneDDI IPAM
 ```
 New-B1AddressBlock [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [-Name] <String>
  [[-Description] <String>] [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>] [[-Tags] <Object>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,8 +24,12 @@ This function is used to create a new address block in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
+```powershell
+##Example usage when combined with Get-B1DHCPOptionCode
+$DHCPOptions = @()
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+
+PS> New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
 ```
 
 ## PARAMETERS
@@ -108,11 +112,6 @@ Accept wildcard characters: False
 ### -DHCPOptions
 A list of DHCP Options you want to apply to the new address block.
 
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-
 ```yaml
 Type: Object
 Parameter Sets: (All)
@@ -150,6 +149,21 @@ Aliases:
 
 Required: False
 Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -22,8 +22,10 @@ This function will retrieve the saved BloxOneDDI CSP Url from the local user/mac
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1CSPUrl
+
+https://csp.infoblox.com
 ```
 
 ## PARAMETERS

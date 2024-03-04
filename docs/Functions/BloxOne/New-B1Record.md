@@ -15,7 +15,7 @@ Creates a new DNS record in BloxOneDDI
 ```
 New-B1Record [-Type] <String> [-Name] <String> [-Zone] <String> [-view] <String> [[-TTL] <Int32>]
  [[-Description] <String>] [[-CreatePTR] <Boolean>] [[-Tags] <Object>] [-SkipExistsErrors] [-IgnoreExists]
- -rdata <String> [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] -rdata <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,7 +24,7 @@ This function is used to create a new DNS record in BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.30.10" -TTL 300
 ```
 
@@ -178,6 +178,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

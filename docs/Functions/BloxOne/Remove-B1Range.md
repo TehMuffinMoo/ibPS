@@ -14,12 +14,13 @@ Removes a DHCP Range from BloxOneDDI
 
 ### noID
 ```
-Remove-B1Range -StartAddress <String> -EndAddress <String> -Space <String> [<CommonParameters>]
+Remove-B1Range -StartAddress <String> -EndAddress <String> -Space <String> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1Range -id <String> [<CommonParameters>]
+Remove-B1Range -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +29,7 @@ This function is used to remove a DHCP Range from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Range -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global"
 ```
 
@@ -92,6 +93,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

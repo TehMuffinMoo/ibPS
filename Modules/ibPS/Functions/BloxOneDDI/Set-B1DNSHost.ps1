@@ -15,8 +15,8 @@
     .PARAMETER DNSName
         The DNS FQDN to use for this DNS Server. This will overwrite the existing value.
 
-    .Example
-        Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
+    .EXAMPLE
+        PS> Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

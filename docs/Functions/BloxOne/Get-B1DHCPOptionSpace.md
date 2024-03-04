@@ -22,7 +22,7 @@ This function is used to query a list DHCP option spaces from BloxOneDDI.
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPOptionSpace -Name dhcp4 -Protocol ip4 -Strict
 ```
 

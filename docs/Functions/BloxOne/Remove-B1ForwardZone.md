@@ -8,28 +8,28 @@ schema: 2.0.0
 # Remove-B1ForwardZone
 
 ## SYNOPSIS
-Removes a Authoritative Zone from BloxOneDDI
+Removes a Forward Zone from BloxOneDDI
 
 ## SYNTAX
 
 ### noID
 ```
-Remove-B1ForwardZone -FQDN <String> -View <Object> [<CommonParameters>]
+Remove-B1ForwardZone -FQDN <String> -View <Object> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1ForwardZone -id <String> [<CommonParameters>]
+Remove-B1ForwardZone -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to remove a Authoritative Zone from BloxOneDDI
+This function is used to remove a Forward Zone from BloxOneDDI
 
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
+```powershell
+Remove-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default"
 ```
 
 ## PARAMETERS
@@ -65,7 +65,7 @@ Accept wildcard characters: False
 ```
 
 ### -id
-The id of the authoritative zone.
+The id of the forward zone.
 Accepts pipeline input
 
 ```yaml
@@ -77,6 +77,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

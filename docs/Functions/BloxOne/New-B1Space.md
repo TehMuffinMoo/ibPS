@@ -14,7 +14,7 @@ Creates a new BloxOneDDI IPAM/DHCP Space
 
 ```
 New-B1Space [-Name] <String> [-Description] <String> [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>]
- [[-Tags] <Object>] [<CommonParameters>]
+ [[-Tags] <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to create a new BloxOneDDI IPAM/DHCP Space
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1Space -Name "Global"
 ```
 
@@ -99,6 +99,21 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -14,7 +14,7 @@ Creates a new TIDE Data Profile
 
 ```
 New-B1TDTideDataProfile [-Name] <String> [-Description] <String> [[-RPZFeed] <String>]
- [[-DefaultTTL] <Boolean>] [<CommonParameters>]
+ [[-DefaultTTL] <Boolean>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to create a new TIDE Data Profile in BloxOne Threat Defens
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $false
 ```
 
@@ -85,6 +85,21 @@ Aliases:
 Required: False
 Position: 4
 Default value: True
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

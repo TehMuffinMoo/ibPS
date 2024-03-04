@@ -23,11 +23,11 @@
 
     .EXAMPLE
         ## Create a DNS Service
-        New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+        PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
 
     .EXAMPLE
         ## Create a DHCP Service
-        New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+        PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

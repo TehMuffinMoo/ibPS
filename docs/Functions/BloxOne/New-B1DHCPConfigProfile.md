@@ -14,7 +14,7 @@ Creates a new DHCP Config Profile in BloxOneDDI
 
 ```
 New-B1DHCPConfigProfile [-Name] <String> [[-Description] <String>] [[-DHCPOptions] <Object>]
- [[-DDNSZones] <Object>] [[-Tags] <Object>] [<CommonParameters>]
+ [[-DDNSZones] <Object>] [[-Tags] <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to create a new DHCP Config Profile in BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions @() -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
 ```
 
@@ -104,6 +104,21 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

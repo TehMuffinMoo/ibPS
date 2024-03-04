@@ -33,8 +33,8 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
-    .Example
-          Get-B1DFPLog -Source "10.10.132.10" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
+    .EXAMPLE
+          PS> Get-B1DFPLog -Source "10.10.132.10" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
     
     .FUNCTIONALITY
         BloxOneDDI

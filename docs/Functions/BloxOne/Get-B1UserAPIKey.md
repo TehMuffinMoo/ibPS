@@ -24,12 +24,12 @@ The actual API Key is only available during initial creation and cannot be retri
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1UserAPIKey -Name "somename" -State Enabled
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1UserAPIKey -Name "apikeyname" -Strict
 ```
 

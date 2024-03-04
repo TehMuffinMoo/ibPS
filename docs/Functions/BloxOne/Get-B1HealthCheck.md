@@ -13,7 +13,8 @@ Performs a health check on a BloxOneDDI Host
 ## SYNTAX
 
 ```
-Get-B1HealthCheck [-OnPremHost] <String> [-Type] <String> [<CommonParameters>]
+Get-B1HealthCheck [-OnPremHost] <String> [-Type] <String> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,8 +23,8 @@ This function is used to perform a health check on a BloxOneDDI Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Get-B1NTPGlobalConfig
+```powershell
+Get-B1HealthCheck -OnPremHost "B1DDI-01" -Type "ApplicationHealth"
 ```
 
 ## PARAMETERS
@@ -53,6 +54,21 @@ Aliases:
 
 Required: True
 Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

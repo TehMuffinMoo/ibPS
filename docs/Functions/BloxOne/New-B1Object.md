@@ -13,8 +13,8 @@ Generic Wrapper for creating new objects within the CSP (Cloud Services Portal)
 ## SYNTAX
 
 ```
-New-B1Object [-Product] <String> [-App] <String> [-Endpoint] <String> [-Data] <PSObject> [[-Method] <Object>]
- [<CommonParameters>]
+New-B1Object [-Product] <String> [-App] <String> [-Endpoint] <String> [-Data] <PSObject> [-JSON]
+ [[-Method] <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,19 +23,19 @@ This is a Generic Wrapper for creating new objects within the CSP (Cloud Service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-This example will create a new DNS Record
-```
+```powershell
+##This example will create a new DNS Record
 
-$Splat = @{
- "name_in_zone" = "MyNewRecord"
- "zone" = "dns/auth_zone/12345678-8989-4833-abcd-12345678" ### The DNS Zone ID
- "type" = "A"
- "rdata" = @{
-   "address" = "10.10.10.10"
+PS> $Splat = @{
+        "name_in_zone" = "MyNewRecord"
+        "zone" = "dns/auth_zone/12345678-8989-4833-abcd-12345678" ### The DNS Zone ID
+        "type" = "A"
+        "rdata" = @{
+            "address" = "10.10.10.10"
+        }
     }
-}
-New-B1Object -Product 'BloxOne DDI' -App DnsData -Endpoint /dns/record -Data $Splat
+PS> New-B1Object -Product 'BloxOne DDI' -App DnsData -Endpoint /dns/record -Data $Splat
+```
 
 ## PARAMETERS
 
@@ -102,6 +102,21 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
+### -JSON
+Use this switch if the -Data parameter contains JSON data instead of a PSObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Method
 The method to use when creating new object.
 Defaults to POST
@@ -114,6 +129,21 @@ Aliases:
 Required: False
 Position: 5
 Default value: POST
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -18,11 +18,11 @@
     .PARAMETER DNSView
         The DNS View the Authoritative DDNS Zones are located in
 
-    .Example
-        Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
-
     .PARAMETER id
         The id of the DHCP config profile to update. Accepts pipeline input
+
+    .EXAMPLE
+        PS> Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
 
     .FUNCTIONALITY
         BloxOneDDI

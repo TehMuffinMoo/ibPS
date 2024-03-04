@@ -18,8 +18,8 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
         
-    .Example
-        Get-B1BulkOperation -Name "Backup of all CSP data"
+    .EXAMPLE
+        PS> Get-B1BulkOperation -Name "Backup of all CSP data"
    
     .FUNCTIONALITY
         BloxOneDDI

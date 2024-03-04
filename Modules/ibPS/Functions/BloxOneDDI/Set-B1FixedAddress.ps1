@@ -23,11 +23,6 @@
 
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the existing fixed address. This will overwrite any existing DHCP options.
-        
-        Example usage when combined with Get-B1DHCPOptionCode
-
-        $DHCPOptions = @()
-        $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
     .PARAMETER Tags
         Any tags you want to apply to the fixed address
@@ -38,11 +33,19 @@
     .PARAMETER id
         The id of the fixed address. Accepts pipeline input
 
-    .Example
-        Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
+    .EXAMPLE
+        PS> Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 
-    .Example
-        Get-B1FixedAddress -IP 10.10.100.12 | Set-B1FixedAddress -MatchValue "ab:cd:ef:ab:cd:ef"
+    .EXAMPLE
+        PS> Get-B1FixedAddress -IP 10.10.100.12 | Set-B1FixedAddress -MatchValue "ab:cd:ef:ab:cd:ef"
+
+    .EXAMPLE
+        ## Example usage when combined with Get-B1DHCPOptionCode
+
+        $DHCPOptions = @()
+        $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+
+        PS> Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description" -DHCPOptions $DHCPOptions
     
     .FUNCTIONALITY
         BloxOneDDI

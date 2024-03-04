@@ -6,8 +6,8 @@
     .DESCRIPTION
         This function is used to retrieve a list of content categories from BloxOne Threat Defense
 
-    .Example
-        Get-B1TDContentCategory
+    .EXAMPLE
+        PS> Get-B1TDContentCategory
    
     .FUNCTIONALITY
         BloxOneDDI

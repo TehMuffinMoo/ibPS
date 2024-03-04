@@ -33,6 +33,7 @@ function Get-B1APIKey {
 
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
     .PARAMETER id
         The id of the API Key to filter by
@@ -40,37 +41,6 @@ function Get-B1APIKey {
     .EXAMPLE
         PS> Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
         
-    .EXAMPLE
-        ## Example using custom filters.
-        ### -CustomFilters supports inputs of type String, Object or ArrayList as described below;
-
-        ## String
-        $CustomFilters = 'name~"10.1.2.3" and state=="enabled"'
-
-
-        ## Object
-        $CustomFilters = @(
-           @{
-             "Property"="name"
-             "Operator"="~"
-             "Value"="postman"
-           }
-           @{
-             "Property"="state"
-             "Operator"="=="
-             "Value"="enabled"
-           }
-        )
-
-
-        ## ArrayList
-        [System.Collections.ArrayList]$CustomFilters = @()
-        $CustomFilters.Add('name~"postman"') | Out-Null
-        $CustomFilters.Add('state=="enabled"') | Out-Null
-        
-
-        PS> Get-B1APIKey -CustomFilters $CustomFilters
-
     .FUNCTIONALITY
         BloxOneDDI
 

@@ -14,12 +14,12 @@ Removes an existing BloxOneDDI Service
 
 ### noID
 ```
-Remove-B1Service -Name <String> [-NoWarning] [<CommonParameters>]
+Remove-B1Service -Name <String> [-NoWarning] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1Service -id <String> [-NoWarning] [<CommonParameters>]
+Remove-B1Service -id <String> [-NoWarning] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +28,7 @@ This function is used to remove an existing BloxOneDDI Service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
 ```
 
@@ -76,6 +76,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

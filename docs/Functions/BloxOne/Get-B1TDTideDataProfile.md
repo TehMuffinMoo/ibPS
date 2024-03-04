@@ -22,7 +22,7 @@ This function is used to query a list of TIDE Data Profiles
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideDataProfiles -Name "My Profile"
 ```
 

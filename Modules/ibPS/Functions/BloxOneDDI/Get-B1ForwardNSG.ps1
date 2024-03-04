@@ -28,7 +28,7 @@
         Filter results by forward DNS server group id
 
     .EXAMPLE
-        Get-B1ForwardNSG -Name "Data Centre" -Strict
+        PS> Get-B1ForwardNSG -Name "Data Centre" -Strict
     
     .FUNCTIONALITY
         BloxOneDDI

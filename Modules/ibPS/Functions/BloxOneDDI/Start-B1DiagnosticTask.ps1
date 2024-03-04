@@ -39,11 +39,11 @@
     .PARAMETER id
         The id of the BloxOneDDI Host to run the diagnostic task on. Accepts pipeline input
 
-    .Example
-        Start-B1DiagnosticTask -DNSTest -FQDN "google.com"
+    .EXAMPLE
+        PS> Start-B1DiagnosticTask -DNSTest -FQDN "google.com"
 
-    .Example
-        Start-B1DiagnosticTask -DHCPConfiguration
+    .EXAMPLE
+        PS> Start-B1DiagnosticTask -DHCPConfiguration
    
     .FUNCTIONALITY
         BloxOneDDI

@@ -23,7 +23,7 @@ This function is used to retrieve a list of Delegated Zones from NIOS
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-NIOSDelegatedZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
 ```
 

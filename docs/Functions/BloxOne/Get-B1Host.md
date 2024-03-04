@@ -15,7 +15,7 @@ Queries a list of BloxOneDDI Hosts
 ```
 Get-B1Host [[-Name] <String>] [[-IP] <String>] [[-OPHID] <String>] [[-Space] <String>] [[-Limit] <String>]
  [[-Status] <String>] [-Detailed] [-BreakOnError] [-Reduced] [-Strict] [-NoIPSpace] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-id] <String>] [<CommonParameters>]
+ [[-Fields] <String[]>] [[-id] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,7 +24,7 @@ This function is used to query a list of BloxOneDDI Hosts
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
 ```
 
@@ -240,6 +240,21 @@ Aliases:
 
 Required: False
 Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

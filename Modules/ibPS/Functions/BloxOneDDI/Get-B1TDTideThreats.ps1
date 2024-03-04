@@ -38,19 +38,19 @@ function Get-B1TDTideThreats {
         Filter the results by Threat ID
 
     .EXAMPLE
-        Get-B1TDTideThreats -Hostname "google.com"
+        PS> Get-B1TDTideThreats -Hostname "google.com"
 
     .EXAMPLE
-        Get-B1TDTideThreats -IP "1.1.1.1"
+        PS> Get-B1TDTideThreats -IP "1.1.1.1"
 
     .EXAMPLE
-        Get-B1TDTideThreats -Hostname eicar.co -Limit 10
+        PS> Get-B1TDTideThreats -Hostname eicar.co -Limit 10
 
     .EXAMPLE
-        Get-B1TDTideThreats -Type Host -Value eicar.co -Distinct Profile
+        PS> Get-B1TDTideThreats -Type Host -Value eicar.co -Distinct Profile
 
     .EXAMPLE
-        Get-B1TDTideThreats -Type URL -Age Recent
+        PS> Get-B1TDTideThreats -Type URL -Age Recent
 
     .FUNCTIONALITY
         BloxOneDDI

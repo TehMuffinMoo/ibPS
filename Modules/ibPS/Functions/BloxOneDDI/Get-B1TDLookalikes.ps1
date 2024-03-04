@@ -24,8 +24,8 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
-    .Example
-        Get-B1TDLookalikes -Domain google.com -Reason "phishing"
+    .EXAMPLE
+        PS> Get-B1TDLookalikes -Domain google.com -Reason "phishing"
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -28,7 +28,7 @@
         Return results based on DNS Config Profile id
 
     .EXAMPLE
-        Get-B1DNSConfigProfile -Name "Data Centre" -Strict
+        PS> Get-B1DNSConfigProfile -Name "Data Centre" -Strict
     
     .FUNCTIONALITY
         BloxOneDDI

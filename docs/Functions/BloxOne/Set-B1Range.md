@@ -15,13 +15,14 @@ Updates an existing DHCP Range in BloxOneDDI IPAM
 ### noID
 ```
 Set-B1Range -StartAddress <String> [-EndAddress <String>] -Space <String> [-Name <String>]
- [-Description <String>] [-HAGroup <String>] [-Tags <Object>] [<CommonParameters>]
+ [-Description <String>] [-HAGroup <String>] [-Tags <Object>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1Range [-Name <String>] [-Description <String>] [-HAGroup <String>] [-Tags <Object>] -id <String>
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,7 +31,7 @@ This function is used to update an existing DHCP Range in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description -Tags @{"siteCode"="12345"}
 ```
 
@@ -156,6 +157,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

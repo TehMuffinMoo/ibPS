@@ -15,8 +15,8 @@
     .PARAMETER DNSView
         The DNS View for applying the configuration to
 
-    .Example
-        Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -DNSView "default"
+    .EXAMPLE
+        PS> Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -DNSView "default"
    
     .FUNCTIONALITY
         BloxOneDDI

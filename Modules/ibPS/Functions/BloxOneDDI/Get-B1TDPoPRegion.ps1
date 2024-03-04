@@ -15,8 +15,8 @@
     .PARAMETER id
         Filter the results by id
 
-    .Example
-        Get-B1TDPoPRegion
+    .EXAMPLE
+        PS> Get-B1TDPoPRegion
    
     .FUNCTIONALITY
         BloxOneDDI

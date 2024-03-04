@@ -22,7 +22,7 @@ This function will query a list of threat properties
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideThreatProperty -Name "CamelCase" -ThreatLevel 100
 ```
 

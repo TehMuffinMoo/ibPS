@@ -16,13 +16,14 @@ Updates an existing address block in BloxOneDDI IPAM
 ```
 Set-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Name <String>] [-DHCPOptions <Object>]
  [-Description <String>] [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1AddressBlock [-Name <String>] [-DHCPOptions <Object>] [-Description <String>]
- [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] -id <String> [<CommonParameters>]
+ [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] -id <String>
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,8 +32,13 @@ This function is used to update an existing address block in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
-Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+```powershell
+## Example usage when combined with Get-B1DHCPOptionCode
+$DHCPOptions = @()
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="10.10.10.10,10.10.10.11";}
+
+PS> Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
 ```
 
 ## PARAMETERS
@@ -100,12 +106,6 @@ Accept wildcard characters: False
 ### -DHCPOptions
 A list of DHCP Options you want to update the address block with.
 This will overwrite existing options.
-
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="10.10.10.10,10.10.10.11";}
 
 ```yaml
 Type: Object
@@ -193,6 +193,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

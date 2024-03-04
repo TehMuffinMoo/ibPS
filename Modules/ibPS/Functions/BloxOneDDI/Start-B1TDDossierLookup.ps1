@@ -19,11 +19,11 @@
     .PARAMETER Wait
         If this switch is set, the API call will wait for job completion before returning
 
-    .Example
-        Start-B1TDDossierLookup -Type ip -Value 1.1.1.1
+    .EXAMPLE
+        PS> Start-B1TDDossierLookup -Type ip -Value 1.1.1.1
 
     .EXAMPLE
-        Start-B1TDDossierLookup -Type host -Value eicar.co
+        PS> Start-B1TDDossierLookup -Type host -Value eicar.co
    
     .FUNCTIONALITY
         BloxOneDDI

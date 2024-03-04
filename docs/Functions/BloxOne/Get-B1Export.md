@@ -13,7 +13,8 @@ Retrieves a BloxOneDDI Export/Backup
 ## SYNTAX
 
 ```
-Get-B1Export [-data_ref] <String> [-filePath] <String> [<CommonParameters>]
+Get-B1Export [-data_ref] <String> [-filePath] <String> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,26 +23,26 @@ This function is used to retrieve a BloxOneDDI Export/Backup
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Export -data_ref (Get-B1BulkOperation -Name "Backup of all CSP data").data_ref -filePath "C:\Backups"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1Export -Name "Backup" -Description "Backup of all CSP data" -BackupAll -data_ref $data_ref
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 $ExportName = "B1-Export-$((Get-Date).ToString('dd-MM-yy hh-mm-ss'))"
-```
 
-Start-B1Export -Name $ExportName -BackupAll
-while (($BulkOp = Get-B1BulkOperation -Name $ExportName -Strict).overall_status -ne "Completed") {
-    Write-Host "Waiting for export to complete.."
-    Wait-Event -Timeout 5
-}
-$BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
+PS> Start-B1Export -Name $ExportName -BackupAll
+PS> while (($BulkOp = Get-B1BulkOperation -Name $ExportName -Strict).overall_status -ne "Completed") {
+      Write-Host "Waiting for export to complete.."
+      Wait-Event -Timeout 5
+    }
+PS> $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
+```
 
 ## PARAMETERS
 
@@ -71,6 +72,21 @@ Aliases:
 
 Required: True
 Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

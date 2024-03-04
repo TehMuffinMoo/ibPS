@@ -12,7 +12,7 @@
     .PARAMETER Persist
         Using the -Persist switch will save the NIOS Credentials across powershell sessions. Without using this switch, they will only be stored for the current powershell session.
 
-    .Example
+    .EXAMPLE
         Store-NIOSCredentials -Credentials ${CredentialObject} -Persist
 
     .FUNCTIONALITY

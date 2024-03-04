@@ -6,7 +6,7 @@ function Get-NIOSCredentials {
     .DESCRIPTION
         This function will retrieve the saved NIOS Credentials from the local user/machine if it has previously been stored.
 
-    .Example
+    .EXAMPLE
         Get-NIOSCredentials
 
     .FUNCTIONALITY

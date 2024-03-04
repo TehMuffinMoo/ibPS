@@ -15,8 +15,8 @@ function Get-B1TDSecurityPolicyRules {
     .PARAMETER CategoryFilterID
         Filter results by category_filter_id
     
-    .Example
-        Get-B1TDSecurityPolicyRules 
+    .EXAMPLE
+        PS> Get-B1TDSecurityPolicyRules 
     
     .FUNCTIONALITY
         BloxOneDDI

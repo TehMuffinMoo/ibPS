@@ -14,18 +14,19 @@ Removes an existing DNS record in BloxOneDDI
 
 ### noID-FQDN
 ```
-Remove-B1Record -Type <String> -View <String> -rdata <String> -FQDN <String> [<CommonParameters>]
+Remove-B1Record -Type <String> -View <String> -rdata <String> -FQDN <String>
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### noID
 ```
 Remove-B1Record -Type <String> -Name <String> -Zone <String> -View <String> -rdata <String>
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1Record -id <String> [<CommonParameters>]
+Remove-B1Record -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,7 +35,7 @@ This function is used to remove an existing DNS record in BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default"
 ```
 
@@ -143,6 +144,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

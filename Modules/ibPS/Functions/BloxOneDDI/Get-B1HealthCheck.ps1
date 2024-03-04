@@ -12,8 +12,8 @@
     .PARAMETER Type
         The type of health check to perform
 
-    .Example
-        Get-B1NTPGlobalConfig
+    .EXAMPLE
+        PS> Get-B1HealthCheck -OnPremHost "B1DDI-01" -Type "ApplicationHealth"
    
     .FUNCTIONALITY
         BloxOneDDI

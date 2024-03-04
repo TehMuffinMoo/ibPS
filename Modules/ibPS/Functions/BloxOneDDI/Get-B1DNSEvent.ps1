@@ -36,8 +36,8 @@ function Get-B1DNSEvent {
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
         
-    .Example
-        Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
+    .EXAMPLE
+        PS> Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -14,7 +14,8 @@ Creates a new fixed addresses in BloxOneDDI IPAM
 
 ```
 New-B1FixedAddress [-IP] <String> [-Name] <String> [[-Description] <String>] [-MatchType] <String>
- [-MatchValue] <String> [-Space] <String> [[-DHCPOptions] <Object>] [[-Tags] <Object>] [<CommonParameters>]
+ [-MatchValue] <String> [-Space] <String> [[-DHCPOptions] <Object>] [[-Tags] <Object>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +24,7 @@ This function is used to create a new fixed addresses in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 ```
 
@@ -149,6 +150,21 @@ Aliases:
 
 Required: False
 Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

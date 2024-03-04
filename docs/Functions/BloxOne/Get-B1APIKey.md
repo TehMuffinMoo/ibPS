@@ -25,13 +25,8 @@ The actual API Key is only available during initial creation and cannot be retri
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
-```
-
-### EXAMPLE 2
-```
-Get-B1APIKey -CustomFilters $CustomFilters
 ```
 
 ## PARAMETERS
@@ -177,30 +172,7 @@ Accept wildcard characters: False
 
 ### -CustomFilters
 Accepts either an Object, ArrayList or String containing one or more custom filters.
-
-## String
-$CustomFilters = 'name~"10.1.2.3" and state=="enabled"'
-
-
-## Object
-$CustomFilters = @(
-   @{
-     "Property"="name"
-     "Operator"="~"
-     "Value"="postman"
-   }
-   @{
-     "Property"="state"
-     "Operator"="=="
-     "Value"="enabled"
-   }
-)
-
-
-## ArrayList
-\[System.Collections.ArrayList\]$CustomFilters = @()
-$CustomFilters.Add('name~"postman"') | Out-Null
-$CustomFilters.Add('state=="enabled"') | Out-Null
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
 ```yaml
 Type: Object

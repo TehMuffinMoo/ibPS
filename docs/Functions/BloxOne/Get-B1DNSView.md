@@ -23,7 +23,7 @@ This function is used to query a list of BloxOneDDI DNS Views
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DNSView -Name "default"
 ```
 
