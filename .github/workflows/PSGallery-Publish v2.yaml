@@ -100,24 +100,31 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
         shell: pwsh
         run: |
-          if ("{{ env.Version }}" -gt $(Find-Module ibPS).Version) {
+          if ("${{ env.Version }}" -gt $(Find-Module ibPS).Version) {
             Write-Host "Publishing v$($Manifest.Version.ToString()).."
             #Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
             Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           } else {
             Write-Host "Version number is the same, skipping publishing.."
             Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+            $Branch = ("Branch="+(git rev-parse --abbrev-ref HEAD))
+            Write-Output $Branch | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+            if ($Branch -ne "main") {
+              Write-Output "TagName=$($Branch)-${{ env.Version }}" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+              Write-Output "ReleaseName=$($Branch) - Release ${{ env.Version }}" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+            }
           }
 
       - name: Update Repository
         run: |
-          git config --global user.name 'TehMuffinMoo'
+          git config --global user.name ${{ github.actor }}
           git config --global user.password ${{ secrets.GIT_ACTIONS }}
           git config --global user.email 'mat.cox@tmmn.uk'
           git add .
           git status
           git commit -m "Update Module to ${{ env.Version }}"
           git push
+          echo ("Branch="+(git rev-parse --abbrev-ref HEAD)) >> "$GITHUB_ENV"
 
       #- name: Create Release
       #  if: ${{ env.ReleaseUpdated == 'true' }}
@@ -126,8 +133,9 @@ jobs:
       #  env:
       #    GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
       #  with:
-      #    tag_name: ${{ env.Version }}
-      #    release_name: Release ${{ env.Version }}
+      #    tag_name: ${{ env.TagName }}
+      #    release_name: ${{ env.ReleaseName }}
       #    body: ${{ env.ReleaseNotes }}
-      #    draft: false
       #    prerelease: false
+      #    draft: false
+      #    makeLatest: 
