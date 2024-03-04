@@ -12,7 +12,7 @@
 <p align="center">
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#cmdlets">Cmdlets</a> •
+  <a href="https://ibps.readthedocs.io" target="_blank">Documentation</a> •
   <a href="#resources">Resources</a> •
   <a href="#license">License</a> •
   <a href="https://www.powershellgallery.com/packages/ibPS/" target="_blank">Powershell Gallery</a>
@@ -99,9 +99,9 @@ Set-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>"
 ```
 
 ## BloxOne Cmdlets
-All Cmdlets are listed below, but the list does not currently contain all possible parameters.
+All Cmdlets are available here: [ibPS Documentation](https://ibps.readthedocs.io)
 
-Use the `Get-Help` cmdlet to get detailed information on usage. Example;
+You can also use the `Get-Help` cmdlet to get the same detailed information on usage. Example;
 
 ```powershell
 Get-Help New-B1AddressBlock -Detailed
@@ -165,7 +165,7 @@ The -Offset parameter will offset the results returned by the amount specified. 
   </tr>
 </table>
 
-
+### Cmdlets
 ```
 Set-B1CSPAPIKey -APIKey "longapikeystringgoeshere" -Persist
   Stores API Key for BloxOne within environment variables. Using -Persist will persist those credentials for that user on that machine.
