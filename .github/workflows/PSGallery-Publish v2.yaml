@@ -87,7 +87,7 @@ jobs:
                   Write-Host "BaseName: Misc"
                 }
               }
-              Write-Host "Moving $($DocsToFind) to ./docs/Functions/$($BaseName)/"
+              Write-Host "Moving $($DocToFind) to ./docs/Functions/$($BaseName)/"
               Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
             }
           }
