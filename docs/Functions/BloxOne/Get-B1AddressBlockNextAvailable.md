@@ -27,12 +27,12 @@ This function is used to get one or more next available address blocks from IPAM
 Get-B1AddressBlockNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space mcox-ipspace -SubnetCIDRSize 24 -SubnetCount 5 | ft address,cidr
 
 address  cidr
-    -------  ----
-    10.0.0.0   24
-    10.0.2.0   24
-    10.0.3.0   24
-    10.0.4.0   24
-    10.0.5.0   24
+-------  ----
+10.0.0.0   24
+10.0.2.0   24
+10.0.3.0   24
+10.0.4.0   24
+10.0.5.0   24
 ```
 
 ## PARAMETERS
