@@ -14,7 +14,7 @@ Creates a new BloxOneDDI IPAM/DHCP Space
 
 ```
 New-B1Space [-Name] <String> [-Description] <String> [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>]
- [[-Tags] <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [[-Tags] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -99,21 +99,6 @@ Aliases:
 
 Required: False
 Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -14,8 +14,7 @@ Creates a new DHCP Range in BloxOneDDI IPAM
 
 ```
 New-B1Range [-Name] <String> [-StartAddress] <String> [-EndAddress] <String> [-Space] <String>
- [[-Description] <String>] [[-HAGroup] <String>] [[-Tags] <Object>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+ [[-Description] <String>] [[-HAGroup] <String>] [[-Tags] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -130,21 +129,6 @@ Aliases:
 
 Required: False
 Position: 7
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

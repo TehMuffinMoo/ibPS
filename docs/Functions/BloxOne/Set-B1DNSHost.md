@@ -13,8 +13,7 @@ Updates an existing DNS Host
 ## SYNTAX
 
 ```
-Set-B1DNSHost [-Name] <String> [[-DNSConfigProfile] <String>] [[-DNSName] <String>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Set-B1DNSHost [-Name] <String> [[-DNSConfigProfile] <String>] [[-DNSName] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -71,21 +70,6 @@ Aliases:
 
 Required: False
 Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

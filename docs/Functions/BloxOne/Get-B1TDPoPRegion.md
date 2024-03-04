@@ -14,13 +14,12 @@ Retrieves a list of BloxOne Threat Defense PoP Regions
 
 ### notid (Default)
 ```
-Get-B1TDPoPRegion [-Region <String>] [-Location <String>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Get-B1TDPoPRegion [-Region <String>] [-Location <String>] [<CommonParameters>]
 ```
 
 ### id
 ```
-Get-B1TDPoPRegion [-id <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-B1TDPoPRegion [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -72,21 +71,6 @@ Filter the results by id
 Type: String
 Parameter Sets: id
 Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
 
 Required: False
 Position: Named

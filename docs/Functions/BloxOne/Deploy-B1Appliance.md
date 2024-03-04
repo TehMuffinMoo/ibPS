@@ -16,7 +16,7 @@ Deploys a BloxOneDDI Virtual Appliance to VMware or Hyper-V
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
  [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
  [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -279,21 +279,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

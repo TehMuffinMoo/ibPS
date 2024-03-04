@@ -15,7 +15,7 @@ Creates a new DNS record in BloxOneDDI
 ```
 New-B1Record [-Type] <String> [-Name] <String> [-Zone] <String> [-view] <String> [[-TTL] <Int32>]
  [[-Description] <String>] [[-CreatePTR] <Boolean>] [[-Tags] <Object>] [-SkipExistsErrors] [-IgnoreExists]
- [-ProgressAction <ActionPreference>] -rdata <String> [<CommonParameters>]
+ -rdata <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -178,21 +178,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

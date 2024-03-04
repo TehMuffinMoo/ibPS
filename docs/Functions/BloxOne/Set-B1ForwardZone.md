@@ -15,13 +15,13 @@ Updates an existing Forward Zone in BloxOneDDI
 ### noID
 ```
 Set-B1ForwardZone -FQDN <String> [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>]
- -View <Object> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ -View <Object> [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1ForwardZone [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>] -id <String>
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -127,21 +127,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

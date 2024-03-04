@@ -14,8 +14,7 @@ Generic Wrapper for interaction with the CSP (Cloud Services Portal) via GET req
 
 ```
 Get-B1Object [-Product] <String> [-App] <String> [-Endpoint] <String> [[-Fields] <String[]>]
- [[-Filters] <Object>] [[-tfilter] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [[-Filters] <Object>] [[-tfilter] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -152,21 +151,6 @@ Aliases:
 Required: False
 Position: 8
 Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

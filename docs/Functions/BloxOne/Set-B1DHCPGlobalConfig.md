@@ -14,7 +14,7 @@ Updates the BloxOneDDI Global DHCP Configuration
 
 ```
 Set-B1DHCPGlobalConfig [-AddDDNSZones] [-RemoveDDNSZones] [[-DDNSZones] <Object>] [-DNSView] <String>
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -84,21 +84,6 @@ Aliases:
 
 Required: True
 Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

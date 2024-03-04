@@ -15,13 +15,13 @@ Updates an existing HA Group in BloxOneDDI
 ### noID
 ```
 Set-B1HAGroup -Name <String> [-Mode <String>] [-PrimaryNode <String>] [-SecondaryNode <String>]
- [-Description <String>] [-Tags <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [-Description <String>] [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1HAGroup [-Mode <String>] [-PrimaryNode <String>] [-SecondaryNode <String>] [-Description <String>]
- [-Tags <Object>] -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [-Tags <Object>] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -138,21 +138,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

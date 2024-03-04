@@ -14,13 +14,12 @@ Applies a DHCP Config Profile to one or most BloxOneDDI Hosts
 
 ### noID
 ```
-Grant-B1DHCPConfigProfile -Name <String> -Hosts <Object> [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Grant-B1DHCPConfigProfile -Name <String> -Hosts <Object> [<CommonParameters>]
 ```
 
 ### ID
 ```
-Grant-B1DHCPConfigProfile -Name <String> -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Grant-B1DHCPConfigProfile -Name <String> -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -77,21 +76,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

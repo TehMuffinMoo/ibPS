@@ -14,19 +14,18 @@ Removes an existing DNS record in BloxOneDDI
 
 ### noID-FQDN
 ```
-Remove-B1Record -Type <String> -View <String> -rdata <String> -FQDN <String>
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Remove-B1Record -Type <String> -View <String> -rdata <String> -FQDN <String> [<CommonParameters>]
 ```
 
 ### noID
 ```
 Remove-B1Record -Type <String> -Name <String> -Zone <String> -View <String> -rdata <String>
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1Record -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Remove-B1Record -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -144,21 +143,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

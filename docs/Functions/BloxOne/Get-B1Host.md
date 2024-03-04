@@ -15,7 +15,7 @@ Queries a list of BloxOneDDI Hosts
 ```
 Get-B1Host [[-Name] <String>] [[-IP] <String>] [[-OPHID] <String>] [[-Space] <String>] [[-Limit] <String>]
  [[-Status] <String>] [-Detailed] [-BreakOnError] [-Reduced] [-Strict] [-NoIPSpace] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-id] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [[-Fields] <String[]>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -240,21 +240,6 @@ Aliases:
 
 Required: False
 Position: 9
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

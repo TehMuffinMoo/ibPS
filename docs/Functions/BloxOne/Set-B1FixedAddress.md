@@ -15,15 +15,13 @@ Updates an existing fixed addresses in BloxOneDDI IPAM
 ### noID
 ```
 Set-B1FixedAddress -IP <String> -Space <String> [-Name <String>] [-Description <String>] [-MatchType <String>]
- [-MatchValue <String>] [-DHCPOptions <Object>] [-Tags <Object>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+ [-MatchValue <String>] [-DHCPOptions <Object>] [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1FixedAddress [-Name <String>] [-Description <String>] [-MatchType <String>] [-MatchValue <String>]
- [-DHCPOptions <Object>] [-Tags <Object>] [-id <String>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+ [-DHCPOptions <Object>] [-Tags <Object>] [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -187,21 +185,6 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

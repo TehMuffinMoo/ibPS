@@ -14,7 +14,7 @@ Gets one or more next available address blocks from IPAM
 
 ```
 Get-B1AddressBlockNextAvailable [-ParentAddressBlock] <String> [-Space] <String> [-SubnetCIDRSize] <Int32>
- [[-SubnetCount] <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [[-SubnetCount] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -93,21 +93,6 @@ Aliases:
 Required: False
 Position: 4
 Default value: 1
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -14,12 +14,12 @@ Reboots a BloxOneDDI Host
 
 ### noID
 ```
-Reboot-B1Host -OnPremHost <String> [-NoWarning] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Reboot-B1Host -OnPremHost <String> [-NoWarning] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Reboot-B1Host [-NoWarning] -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Reboot-B1Host [-NoWarning] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -77,21 +77,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
