@@ -28,12 +28,12 @@ This function is used to remove a DNS Config Profile
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1DNSConfigProfile -Name "My Config Profile"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1DNSConfigProfile -Name "My Config Profile" | Remove-B1DNSConfigProfile
 ```
 

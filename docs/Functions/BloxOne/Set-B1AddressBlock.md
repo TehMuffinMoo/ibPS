@@ -32,7 +32,7 @@ This function is used to update an existing address block in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
 ```
 

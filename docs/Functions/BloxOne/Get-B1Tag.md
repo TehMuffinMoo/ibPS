@@ -22,7 +22,7 @@ This function is used to query a list of BloxOneDDI Tags
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Tag -Name "siteCode"
 ```
 

@@ -28,12 +28,12 @@ This function is used to remove a BloxOne Threat Defense Security Policy
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1TDSecurityPolicy -Name "Remote Users"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1TDSecurityPolicy -Name "Remote Users" | Remove-B1TDSecurityPolicy
 ```
 

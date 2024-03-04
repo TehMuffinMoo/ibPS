@@ -25,7 +25,7 @@ This log contains web server information relating to the Cloud Services Portal W
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "nginx" -Type "nginx.access" -Domain "domain.com"
 ```
 

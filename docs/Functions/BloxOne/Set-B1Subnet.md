@@ -32,8 +32,24 @@ This function is used to update an existing subnet in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
+```powershell
+Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description"
 ```
-Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+
+### EXAMPLE 2
+```powershell
+## Example usage when combined with Get-B1DHCPOptionCode
+
+$DHCPOptions = @()
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+```
+
+### EXAMPLE 3
+```powershell
+## Example updating the HA Group and DDNSDomain properties of a subnet
+
+PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Space "Global" -DDNSDomain "myddns.domain.corp" -HAGroup "MyDHCPHAGroup"
 ```
 
 ## PARAMETERS
@@ -116,11 +132,6 @@ Accept wildcard characters: False
 ### -DHCPOptions
 A list of DHCP Options you want to apply to the existing subnet.
 This will overwrite existing DHCP options for this subnet.
-
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
 ```yaml
 Type: Object

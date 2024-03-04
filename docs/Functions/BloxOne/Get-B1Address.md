@@ -37,7 +37,7 @@ This function is used to query a list of address objects from the BloxOneDDI IPA
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
 ```
 

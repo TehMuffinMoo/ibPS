@@ -23,9 +23,8 @@ This is a Generic Wrapper for creating new objects within the CSP (Cloud Service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 This example will create a new DNS Record
-```
 
 $Splat = @{
  "name_in_zone" = "MyNewRecord"
@@ -36,6 +35,7 @@ $Splat = @{
     }
 }
 New-B1Object -Product 'BloxOne DDI' -App DnsData -Endpoint /dns/record -Data $Splat
+```
 
 ## PARAMETERS
 

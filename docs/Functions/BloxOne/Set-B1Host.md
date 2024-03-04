@@ -30,7 +30,7 @@ This function is used to update an existing BloxOneDDI Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
 ```
 

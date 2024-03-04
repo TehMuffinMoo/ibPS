@@ -28,7 +28,7 @@ This is the log which contains all security policy hits.
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
 ```
 

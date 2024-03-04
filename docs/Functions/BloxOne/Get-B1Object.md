@@ -24,7 +24,7 @@ This is a Generic Wrapper for getting objects from the BloxOne CSP (Cloud Servic
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
 ```
 

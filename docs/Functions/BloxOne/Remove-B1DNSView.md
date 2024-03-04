@@ -28,12 +28,12 @@ This function is used to remove a DNS View from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1DNSView -Name "My DNS View"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1DNSView -Name "My DNS View" | Remove-B1DNSView
 ```
 

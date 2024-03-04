@@ -24,7 +24,7 @@ This function is used to create a new Authoritative Zone in BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1AuthoritativeZone -Type Primary -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
 ```
 

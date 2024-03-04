@@ -28,7 +28,7 @@ This function is used to remove an existing BloxOneDDI Service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
 ```
 

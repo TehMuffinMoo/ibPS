@@ -22,7 +22,7 @@ This function is used to query a list of BloxOneDDI DNS Access Control Lists
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DNSACL -Name "Servers_ACL"
 ```
 

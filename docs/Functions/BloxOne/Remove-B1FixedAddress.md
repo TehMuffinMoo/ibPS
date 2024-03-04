@@ -28,12 +28,12 @@ This function is used to remove a fixed address from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1FixedAddress -IP 10.10.10.200 -Space Global
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1FixedAddress -IP 10.10.10.200 | Remove-B1FixedAddress
 ```
 

@@ -28,12 +28,12 @@ This function is used to remove a DHCP Config Profile
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1DHCPConfigProfile -Name "My Config Profile"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1DHCPConfigProfile -Name "My Config Profile" | Remove-B1DHCPConfigProfile
 ```
 

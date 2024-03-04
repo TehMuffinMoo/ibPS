@@ -23,7 +23,7 @@ This function is used to query a list forward zones from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1ForwardZone -FQDN "prod.mydomain.corp"
 ```
 

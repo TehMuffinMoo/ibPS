@@ -37,12 +37,12 @@ This function is used to query a list of DHCP Leases from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPLease -Range -RangeStart 10.10.100.20 -RangeEnd 10.10.100.50 -Limit 100
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1DHCPLease -Address "10.10.100.30"
 ```
 

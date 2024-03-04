@@ -42,12 +42,12 @@ This function is used to retrieve top metrics from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1TopMetrics -TopDNSServers -Start (Get-Date).AddDays(-31)
 ```
 

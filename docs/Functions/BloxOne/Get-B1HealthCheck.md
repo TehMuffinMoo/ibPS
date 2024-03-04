@@ -23,7 +23,7 @@ This function is used to perform a health check on a BloxOneDDI Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1NTPGlobalConfig
 ```
 

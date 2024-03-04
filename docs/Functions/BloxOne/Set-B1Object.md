@@ -24,20 +24,19 @@ It is recommended this is used via Pipeline
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 This example will update the comment/description against multiple DNS Records
-```
 
 $Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields comment
 foreach ($Record in $Records) {
     $Record.comment = "Updated Comment"
 }
 $Records | Set-B1Object
+```
 
 ### EXAMPLE 2
-```
+```powershell
 This example will update the multiple DHCP Options against multiple Subnets
-```
 
 $Subnets = Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
 foreach ($Subnet in $Subnets) {
@@ -55,6 +54,7 @@ foreach ($Subnet in $Subnets) {
     )
 }
 $Subnets | Set-B1Object
+```
 
 ## PARAMETERS
 

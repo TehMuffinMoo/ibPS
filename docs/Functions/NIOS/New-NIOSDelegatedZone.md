@@ -23,7 +23,7 @@ This function is used to create a new delegated zone within NIOS
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN my-dns.zone -Hosts "1.2.3.4","2.3.4.5"
 ```
 

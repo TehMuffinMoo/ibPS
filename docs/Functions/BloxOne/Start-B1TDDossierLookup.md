@@ -23,12 +23,12 @@ This function is used to perform a single lookup against the BloxOne Threat Defe
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Start-B1TDDossierLookup -Type ip -Value 1.1.1.1
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Start-B1TDDossierLookup -Type host -Value eicar.co
 ```
 

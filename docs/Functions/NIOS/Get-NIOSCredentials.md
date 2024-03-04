@@ -22,7 +22,7 @@ This function will retrieve the saved NIOS Credentials from the local user/machi
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-NIOSCredentials
 ```
 

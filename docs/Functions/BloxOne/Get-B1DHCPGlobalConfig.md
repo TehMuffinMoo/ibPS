@@ -22,7 +22,7 @@ This function is used to retrieve the BloxOneDDI Global DHCP Configuration
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPGlobalConfig
 ```
 

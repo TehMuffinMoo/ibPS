@@ -29,12 +29,12 @@ This function is used to remove a subnet from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global" | Remove-B1Subnet
 ```
 

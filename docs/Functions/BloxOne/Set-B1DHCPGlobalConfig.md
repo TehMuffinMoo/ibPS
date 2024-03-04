@@ -23,7 +23,7 @@ This function is used to update the BloxOneDDI Global DHCP Configuration
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -DNSView "default"
 ```
 

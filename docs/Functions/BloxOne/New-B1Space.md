@@ -23,7 +23,7 @@ This function is used to create a new BloxOneDDI IPAM/DHCP Space
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1Space -Name "Global"
 ```
 

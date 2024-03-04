@@ -30,7 +30,7 @@ This function is used to update an existing DHCP Config Profiles from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
 ```
 

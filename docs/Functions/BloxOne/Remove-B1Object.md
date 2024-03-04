@@ -24,11 +24,11 @@ It is recommended this is used via Pipeline
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 This example shows removing several address block objects based on tag
-```
 
 Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
+```
 
 ## PARAMETERS
 

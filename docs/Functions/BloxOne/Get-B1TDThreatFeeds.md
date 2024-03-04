@@ -26,7 +26,7 @@ A threat feed subscription for RPZ updates offers protection against malicious h
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDThreatFeeds -Name "FarSightNOD","AntiMalware"
 ```
 

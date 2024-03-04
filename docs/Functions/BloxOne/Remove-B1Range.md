@@ -29,7 +29,7 @@ This function is used to remove a DHCP Range from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Range -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global"
 ```
 

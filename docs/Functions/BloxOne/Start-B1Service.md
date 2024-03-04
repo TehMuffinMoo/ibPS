@@ -28,7 +28,7 @@ This function is used to start a BloxOneDDI Service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Start-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
 ```
 

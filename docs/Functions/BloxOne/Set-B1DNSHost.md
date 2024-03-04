@@ -23,7 +23,7 @@ This function is used to updates an existing DNS Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
 ```
 

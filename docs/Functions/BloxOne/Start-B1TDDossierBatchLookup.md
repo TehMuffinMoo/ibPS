@@ -23,7 +23,7 @@ This function is used to perform multiple simultaneous lookups against the BloxO
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Start-B1TDDossierBatchLookup -Type ip -Target "1.1.1.1","1.0.0.1" -Source "apt","mandiant"
 ```
 

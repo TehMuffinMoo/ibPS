@@ -23,7 +23,7 @@ This function is used to create a new TIDE Data Profile in BloxOne Threat Defens
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $false
 ```
 

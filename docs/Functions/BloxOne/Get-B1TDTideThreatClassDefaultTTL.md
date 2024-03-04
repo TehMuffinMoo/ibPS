@@ -22,7 +22,7 @@ This function will query the default TTL applied to threat classes
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideThreatClassDefaultTTL
 ```
 

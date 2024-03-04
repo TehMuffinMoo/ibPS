@@ -23,12 +23,12 @@ This function is used to query a list of BloxOneDDI DHCP Hosts
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 $AssociatedSubnets = (Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -Associations).Subnets
 $AssociatedSubnets | ft name,address,cidr,comment
 ```

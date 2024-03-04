@@ -22,7 +22,7 @@ This function will retrieve the saved NIOS Configuration from the local user/mac
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-NIOSConfiguration
 ```
 

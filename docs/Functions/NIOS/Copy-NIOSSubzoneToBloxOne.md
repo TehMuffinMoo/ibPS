@@ -25,17 +25,17 @@ This function is used to copy/migrate Authoritative Zone data from NIOS to BloxO
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Test
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -Confirm:$false
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group"
 ```
 

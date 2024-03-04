@@ -23,7 +23,7 @@ If a previous API Key exists, it will be overwritten.
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1CSPAPIKey -APIKey "mylongapikeyfromcsp" -Persist
 ```
 

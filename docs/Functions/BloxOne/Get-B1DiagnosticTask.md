@@ -22,7 +22,7 @@ This function is used to query a list of BloxOneDDI Diagnostic Tasks
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DiagnosticTask -id diagnostic/task/abcde634-2113-ddef-4d05-d35ffs1sa4 -download
 ```
 

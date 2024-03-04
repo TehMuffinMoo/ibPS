@@ -30,7 +30,7 @@ This function is used to remove an address block from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1AddressBlock -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
 ```
 

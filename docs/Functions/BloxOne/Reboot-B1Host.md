@@ -28,7 +28,7 @@ This function is used to initiate a reboot of a BloxOneDDI Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
 ```
 

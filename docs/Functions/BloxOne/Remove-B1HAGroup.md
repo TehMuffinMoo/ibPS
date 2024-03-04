@@ -28,12 +28,12 @@ This function is used to remove a DHCP HA Group
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1HAGroup -Name "My HA Group"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1HAGroup -Name "My HA Group" | Remove-B1HAGroup
 ```
 

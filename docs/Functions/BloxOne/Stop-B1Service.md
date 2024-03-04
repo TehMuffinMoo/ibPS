@@ -28,7 +28,7 @@ This function is used to stop a BloxOneDDI Service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Stop-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
 ```
 

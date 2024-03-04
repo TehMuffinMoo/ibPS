@@ -48,12 +48,12 @@ This function is used to initiate a BloxOneDDI Diagnostic Task
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Start-B1DiagnosticTask -DNSTest -FQDN "google.com"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Start-B1DiagnosticTask -DHCPConfiguration
 ```
 

@@ -23,7 +23,7 @@ This function is used to retrieve the NTP configuration for a particular service
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
 ```
 

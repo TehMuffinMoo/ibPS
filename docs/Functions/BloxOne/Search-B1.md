@@ -22,12 +22,12 @@ This function is used to query the BloxOneDDI CSP Global Search
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Search-B1 "10.10.100.1"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Search-B1 "mysubzone.corp.com"
 ```
 

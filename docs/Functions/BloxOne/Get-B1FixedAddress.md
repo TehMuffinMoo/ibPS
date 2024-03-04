@@ -23,7 +23,7 @@ This function is used to query a list of Fixed Addresses in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1FixedAddress -IP 10.10.100.12
 ```
 

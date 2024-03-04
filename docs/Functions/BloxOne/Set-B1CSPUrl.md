@@ -29,7 +29,7 @@ This is used when using an alternate CSP Region (i.e EU)
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1CSPUrl
 ```
 

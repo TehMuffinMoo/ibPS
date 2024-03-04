@@ -22,7 +22,7 @@ The Dossier Indicators cmdlet returns a list of all Dossier (sometimes referred 
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDDossierSupportedFeedback
 ```
 

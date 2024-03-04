@@ -24,7 +24,7 @@ This function is used to query a list authoritative zones from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1AuthoritativeZone -FQDN "prod.mydomain.corp"
 ```
 

@@ -29,7 +29,7 @@ This function is used to retrieve network lists from BloxOne Threat Defense
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDNetworkList -Name "something"
 ```
 

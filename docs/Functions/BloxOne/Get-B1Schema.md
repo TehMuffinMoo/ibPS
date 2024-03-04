@@ -23,17 +23,17 @@ This is used for obtaining API Schema information for use with generic wrapper c
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Schema -Product 'BloxOne DDI'
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1Schema -Product 'BloxOne DDI' -App DnsConfig
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 Get-B1Schema -Product 'BloxOne Cloud' -App 'CDC' -Endpoint /v2/flows/data -Method get -ListParameters
 ```
 

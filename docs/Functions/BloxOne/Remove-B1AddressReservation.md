@@ -29,7 +29,7 @@ This function is used to remove an address reservation from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1AddressReservation -Address "10.0.0.1" -Space "Global"
 ```
 

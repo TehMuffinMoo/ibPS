@@ -35,7 +35,7 @@ This function is used to remove an existing DNS record in BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default"
 ```
 

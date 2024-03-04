@@ -22,7 +22,7 @@ This function is used to remove a DHCP Config Profile from one or more BloxOneDD
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Revoke-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 ```
 

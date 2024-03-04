@@ -23,7 +23,7 @@ This function is used to create a new Forward Zone in BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -Description "My Forward Zone"
 ```
 

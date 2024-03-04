@@ -22,7 +22,7 @@ The Dossier Sources cmdlet returns a list of all Dossier (sometimes referred to 
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDDossierSupportedSources -Target ip
 ```
 

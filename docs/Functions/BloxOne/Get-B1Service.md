@@ -23,7 +23,7 @@ This function is used to query a list of deployed BloxOneDDI Services/Containers
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
 ```
 

@@ -24,17 +24,17 @@ This function is used to retrieve a list of users from the BloxOne Cloud
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1User -Name "MyName"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1User -Email "MyName@domain.corp"
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 Get-B1User -State Inactive
 ```
 

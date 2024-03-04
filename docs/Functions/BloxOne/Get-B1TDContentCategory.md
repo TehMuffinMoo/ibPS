@@ -22,7 +22,7 @@ This function is used to retrieve a list of content categories from BloxOne Thre
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDContentCategory
 ```
 

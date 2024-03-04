@@ -29,7 +29,7 @@ This function is used to update an existing API Key from the BloxOne Cloud, such
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 ```
 

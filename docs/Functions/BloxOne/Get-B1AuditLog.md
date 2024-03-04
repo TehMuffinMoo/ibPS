@@ -25,7 +25,7 @@ This gives you visibility on changes made both via the WebUI and API, along with
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
 ```
 

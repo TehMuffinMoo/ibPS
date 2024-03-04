@@ -23,7 +23,7 @@ This function is used to retrieve threat enrichment data from BloxOne Threat Def
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideDataProfiles -Name "My Profile"
 ```
 

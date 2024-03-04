@@ -24,7 +24,7 @@ This function is used to create a new fixed addresses in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 ```
 

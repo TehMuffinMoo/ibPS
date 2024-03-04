@@ -23,7 +23,7 @@ This function is used to create a new BloxOneDDI Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1Host -Name "bloxoneddihost1.mydomain.corp" -Description "My BloxOneDDI Host" -Space "Global"
 ```
 

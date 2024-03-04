@@ -22,7 +22,7 @@ This function will query the InfoRank List for specific or related domains
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideInfoRank -Domain "amazonaws.com" -Strict
 ```
 

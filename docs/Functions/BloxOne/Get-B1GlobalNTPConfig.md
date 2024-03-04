@@ -22,7 +22,7 @@ This function is used to retrieve the BloxOneDDI Global NTP Configuration
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1NTPGlobalConfig
 ```
 

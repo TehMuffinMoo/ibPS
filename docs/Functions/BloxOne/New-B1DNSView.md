@@ -23,7 +23,7 @@ This function is used to create a new BloxOneDDI DNS View
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1DNSView -Name "Global"
 ```
 

@@ -28,12 +28,12 @@ This function is used to remove a network list from BloxOne Threat Defense
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1TDNetworkList -Name "My Network List"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1TDNetworkList -Name "My Network List" | Remove-B1TDNetworkList
 ```
 

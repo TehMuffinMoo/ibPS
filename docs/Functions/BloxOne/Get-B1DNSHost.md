@@ -23,7 +23,7 @@ This function is used to query a list of BloxOneDDI DNS Hosts
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
 ```
 

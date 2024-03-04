@@ -23,7 +23,7 @@ This function is used to query a list Forward DNS Server Groups from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1ForwardNSG -Name "Data Centre" -Strict
 ```
 

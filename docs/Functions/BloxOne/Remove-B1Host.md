@@ -28,7 +28,7 @@ This function is used to remove an existing BloxOneDDI Host
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
 ```
 

@@ -22,7 +22,7 @@ This function will retrieve the saved BloxOneDDI API Key from the local user/mac
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1CSPAPIKey
 ```
 

@@ -28,7 +28,7 @@ This function is used to remove a Authoritative Zone from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
 ```
 

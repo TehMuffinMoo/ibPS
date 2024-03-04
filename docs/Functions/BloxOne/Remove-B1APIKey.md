@@ -30,12 +30,12 @@ The API Key must be disabled prior to deleting
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1APIKey -Name "MyAPIKey" | Set-B1APIKey -State Disabled | Remove-B1APIKey
 ```
 

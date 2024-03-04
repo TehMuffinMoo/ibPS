@@ -22,17 +22,17 @@ This function is used check the current version of ibPS, with the option to chec
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-ibPSVersion
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-ibPSVersion -CheckForUpdates
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 Get-ibPSVersion -Update
 ```
 

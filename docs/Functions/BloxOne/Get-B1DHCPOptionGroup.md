@@ -22,7 +22,7 @@ This function is used to query a list DHCP option groups from BloxOneDDI.
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPOptionGroup -Name "Telephony Options"
 ```
 

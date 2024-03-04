@@ -23,7 +23,7 @@ If previous NIOS Credentials exist, they will be overwritten.
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Store-NIOSCredentials -Credentials ${CredentialObject} -Persist
 ```
 

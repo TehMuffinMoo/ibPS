@@ -31,7 +31,7 @@ This function is used to update an existing DHCP Range in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description -Tags @{"siteCode"="12345"}
 ```
 

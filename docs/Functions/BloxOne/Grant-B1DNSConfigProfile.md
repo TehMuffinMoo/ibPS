@@ -23,7 +23,7 @@ This function is used to apply a DNS Config Profile to one or most BloxOneDDI Ho
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Grant-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 ```
 

@@ -29,7 +29,7 @@ This function is used to query a list of BloxOne Threat Defense Point of Presenc
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDPoPRegion
 ```
 

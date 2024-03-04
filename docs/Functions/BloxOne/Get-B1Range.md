@@ -23,7 +23,7 @@ This function is used to get one or more next available address blocks from IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
 ```
 

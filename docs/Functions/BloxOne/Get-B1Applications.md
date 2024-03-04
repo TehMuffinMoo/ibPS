@@ -22,7 +22,7 @@ This function is used query a list of supported BloxOneDDI Applications/Services
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Applications
 ```
 

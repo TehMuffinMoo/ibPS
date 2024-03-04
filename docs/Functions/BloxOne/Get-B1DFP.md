@@ -23,12 +23,12 @@ Use this method query a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DFP -Name "My DFP" -Strict
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1DFP -DefaultSecurityPolicy
 ```
 

@@ -23,7 +23,7 @@ This function is used to query a list of DHCP Config Profiles from BloxOneDDI
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
 ```
 

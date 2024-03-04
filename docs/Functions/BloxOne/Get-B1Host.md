@@ -24,7 +24,7 @@ This function is used to query a list of BloxOneDDI Hosts
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
 ```
 

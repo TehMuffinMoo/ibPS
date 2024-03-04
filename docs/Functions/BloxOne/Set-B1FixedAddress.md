@@ -32,12 +32,12 @@ This function is used to update an existing fixed addresses in BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1FixedAddress -IP 10.10.100.12 | Set-B1FixedAddress -MatchValue "ab:cd:ef:ab:cd:ef"
 ```
 

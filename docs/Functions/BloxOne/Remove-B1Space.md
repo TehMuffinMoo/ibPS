@@ -28,12 +28,12 @@ This function is used to remove an IP Space from BloxOneDDI IPAM
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Remove-B1Space -Name "My IP Space"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1Space -Name "My IP Space" | Remove-B1Space
 ```
 

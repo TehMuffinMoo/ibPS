@@ -29,7 +29,7 @@ This function is used to apply a DHCP Config Profile to one or most BloxOneDDI H
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 ```
 

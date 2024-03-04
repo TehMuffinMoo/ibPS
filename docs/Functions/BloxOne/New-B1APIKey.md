@@ -23,12 +23,12 @@ This function is used to create a new API Key from the BloxOne Cloud.
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 New-B1APIKey -Name "somename" -Type Interactive
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 New-B1APIKey -Name "serviceapikey" -Type Service -UserName "svc-account-name"
 ```
 

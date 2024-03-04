@@ -23,7 +23,7 @@ This function is used to retrieve a list of Authoritative Zones from NIOS
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-NIOSAuthoritativeZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
 ```
 

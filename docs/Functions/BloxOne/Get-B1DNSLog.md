@@ -25,12 +25,12 @@ This is the log which contains all generic DNS request information.
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1DNSLog -Source "10.10.172.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1DNSLog -Source "10.10.172.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
 ```
 

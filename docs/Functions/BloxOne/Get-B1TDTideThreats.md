@@ -56,27 +56,27 @@ This function will query the active threats from the TIDE API
 ## EXAMPLES
 
 ### EXAMPLE 1
-```
+```powershell
 Get-B1TDTideThreats -Hostname "google.com"
 ```
 
 ### EXAMPLE 2
-```
+```powershell
 Get-B1TDTideThreats -IP "1.1.1.1"
 ```
 
 ### EXAMPLE 3
-```
+```powershell
 Get-B1TDTideThreats -Hostname eicar.co -Limit 10
 ```
 
 ### EXAMPLE 4
-```
+```powershell
 Get-B1TDTideThreats -Type Host -Value eicar.co -Distinct Profile
 ```
 
 ### EXAMPLE 5
-```
+```powershell
 Get-B1TDTideThreats -Type URL -Age Recent
 ```
 
