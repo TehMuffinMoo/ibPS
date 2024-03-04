@@ -1,4 +1,4 @@
-name: Publish PowerShell Module
+name: Publish PowerShell Module v2
 
 on: workflow_dispatch
 #  push:
