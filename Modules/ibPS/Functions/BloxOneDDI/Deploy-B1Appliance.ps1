@@ -35,12 +35,12 @@
 
     .PARAMETER OVAPath
         The path to the BloxOneDDI OVA
-        Only used when `-Type` is VMware
-        `-OVAPath` and `-DownloadLatestImage` are mutually exclusive. `-ImagesPath` should be used for selecting the appropriate image cache location.
+          Only used when -Type is VMware
+          -OVAPath and -DownloadLatestImage are mutually exclusive. -ImagesPath should be used for selecting the appropriate image cache location.
 
     .PARAMETER vCenter
         The Hostname, IP or FQDN of the vCenter you want to deploy to
-          Only used when `-Type` is VMware
+          Only used when -Type is VMware
 
     .PARAMETER Cluster
         The name of the cluster in vCenter
@@ -48,57 +48,57 @@
 
     .PARAMETER Datastore
         The name of the cluster in Datastore
-          Only used when `-Type` is VMware
+          Only used when -Type is VMware
 
     .PARAMETER PortGroupType
         The type of port group used for the virtual networks
-          Only used when `-Type` is VMware
+          Only used when -Type is VMware
 
     .PARAMETER Creds
         The credentials used for connecting to vCenter.
-          Only used when `-Type` is VMware
+          Only used when -Type is VMware
 
     .PARAMETER VHDPath
         The full path to the BloxOne VHD/VHDX file
-          Only used when `-Type` is Hyper-V
+          Only used when -Type is Hyper-V
           -VHDPath and -DownloadLatestImage are mutually exclusive. -ImagesPath should be used for selecting the appropriate image cache location.
           
     .PARAMETER HyperVServer
         The FQDN for the Hyper-V server where the BloxOne appliance will be deployed to
-          Only used when `-Type` is Hyper-V
+          Only used when -Type is Hyper-V
 
     .PARAMETER HyperVGeneration
         The generation of the Hyper-V VM to be created (1 or 2)
-          Only used when `-Type` is Hyper-V
+          Only used when -Type is Hyper-V
 
     .PARAMETER VMPath
         The VMPath parameter is used to define the base path for the VM to be created in. A folder will be created within this path with the VM name.
-          Only used when `-Type` is Hyper-V
+          Only used when -Type is Hyper-V
 
     .PARAMETER VirtualNetwork
         The VirtualNetwork parameter is used to define the name of the Virtual Network to connect the VM to.
-          Only used when `-Type` is Hyper-V
+          Only used when -Type is Hyper-V
 
     .PARAMETER VirtualNetworkVLAN
         The VirtualNetworkVLAN parameter is used to define the VLAN number to assign to the interface, if applicable.
-          Only used when `-Type` is Hyper-V
+          Only used when -Type is Hyper-V
 
     .PARAMETER CPU
         The CPU parameter is used to define the number of CPUs to assign to the VM. The default is 8.
-          Only used when `-Type` is Hyper-V
+          Only used when -Type is Hyper-V
 
     .PARAMETER Memory
         The Memory parameter is used to define the amount of memory to assign to the VM. The default is 16GB.
-          Only used when `-Type` is Hyper-V
+          Only used when -Type is Hyper-V
 
     .PARAMETER DownloadLatestImage
         Using this parameter will download the latest relevant image prior to deployment.
-        `-DownloadLatestImage`, `-OVAPath` & `-VHDPath` are mutually exclusive.
-        When `-DownloadLatestImage` is used in combination with `-ImagesPath`, the latest image will be downloaded to this location prior to deployment if it does not already exist. If used consistently, this will always deploy the latest image but only need to download it once; effectively caching.
+            -DownloadLatestImage, -OVAPath & -VHDPath are mutually exclusive.
+            When -DownloadLatestImage is used in combination with -ImagesPath, the latest image will be downloaded to this location prior to deployment if it does not already exist. If used consistently, this will always deploy the latest image but only need to download it once; effectively caching.
 
     .PARAMETER ImagesPath
         Use this parameter to define the base path for images to be cached in, when using the -DownloadLatestImage parameter.
-        This cannot be used in conjunction with `-OVAPath` or `-VHDPath`
+        This cannot be used in conjunction with -OVAPath or -VHDPath
 
     .PARAMETER SkipCloudChecks
         Using this parameter will mean the deployment will not wait for the BloxOneDDI Host to become registered/available within the Cloud Services Portal
@@ -111,10 +111,10 @@
         Using this parameter will leave the VM in a powered off state once deployed
 
     .EXAMPLE
-        Deploy-B1Appliance -Type "VMware" -Name "bloxoneddihost1" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
+        PS> Deploy-B1Appliance -Type "VMware" -Name "bloxoneddihost1" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
     
     .EXAMPLE
-        Deploy-B1Appliance -Type Hyper-V -Name "bloxoneddihost1" -IP 10.10.100.10 -Netmask 255.255.255.0 -Gateway 10.10.100.1 -DNSServers 10.10.100.1 -NTPServers ntp.ubuntu.com -DNSSuffix mydomain.corp -JoinToken "JoinTokenGoesHere" -VHDPath ".\BloxOne_OnPrem_VHDX_v3.8.1.vhdx" -HyperVServer "Host1.mycompany.corp" -HyperVGeneration 2 -VMPath "A:\VMs" -VirtualNetwork "Virtual Network 1" -VirtualNetworkVLAN 101
+        PS> Deploy-B1Appliance -Type Hyper-V -Name "bloxoneddihost1" -IP 10.10.100.10 -Netmask 255.255.255.0 -Gateway 10.10.100.1 -DNSServers 10.10.100.1 -NTPServers ntp.ubuntu.com -DNSSuffix mydomain.corp -JoinToken "JoinTokenGoesHere" -VHDPath ".\BloxOne_OnPrem_VHDX_v3.8.1.vhdx" -HyperVServer "Host1.mycompany.corp" -HyperVGeneration 2 -VMPath "A:\VMs" -VirtualNetwork "Virtual Network 1" -VirtualNetworkVLAN 101
 
     .FUNCTIONALITY
         BloxOneDDI
