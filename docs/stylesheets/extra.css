@@ -10,4 +10,5 @@
 }
 .md-sidebar--primary {
     width: 15rem !important;
+    left: -15rem !important;
 }
