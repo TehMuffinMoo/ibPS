@@ -1,0 +1,37 @@
+name: Rebuild Documentation
+
+on: workflow_dispatch
+#  push:
+#    branches: [main]
+
+jobs:
+  Publish-Release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Import Module
+        shell: pwsh
+        run: |
+          $Manifest = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1" -ErrorAction Stop
+          $Version = "v$($Manifest.Version.ToString())"
+          Write-Output "ModuleVersion=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+
+          $ReleaseNotes = Get-Content -Path './RELEASE.md' -Raw
+          Write-Output "ReleaseNotes<<EOF" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "$($ReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "EOF" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
+        with:
+          tag_name: ${{ env.ModuleVersion }}
+          release_name: Release ${{ env.ModuleVersion }}
+          body: ${{ env.ReleaseNotes }}
+          prerelease: false
+          draft: false
+          makeLatest: true
