@@ -30,7 +30,6 @@
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
-      [Parameter(Mandatory=$true)]
       [String]$Description,
       [System.Object]$DHCPOptions,
       [String]$DDNSDomain,
@@ -63,7 +62,7 @@
             $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
         }
 
-        $splat = $splat | ConvertTo-Json -Depth 4
+        $splat = $splat | ConvertTo-Json -Depth 4 -Compress
         if ($Debug) {$splat}
 
         $Result = Query-CSP -Method POST -Uri "ipam/ip_space" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
