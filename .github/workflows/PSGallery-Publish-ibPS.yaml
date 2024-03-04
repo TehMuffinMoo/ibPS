@@ -5,7 +5,7 @@ on: workflow_dispatch
 #    branches: [main]
 
 jobs:
-  PSGallery-Publish:
+  ibPS-Build-And-Publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
