@@ -50,9 +50,6 @@ jobs:
           Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "ReleaseNotes=$($ModuleReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
 
-          $ModuleRelease = (Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1").ReleaseNotes
-          Write-Host $ModuleRelease
-
       - name: Install platyPS module
         shell: pwsh
         run: |
@@ -108,10 +105,11 @@ jobs:
         run: |
           git config --global user.name 'TehMuffinMoo'
           git config --global user.email 'mat.cox@tmmn.uk'
+          git branch -M dev-test
           git add .
           git status
-          #git commit -m "Update Module to v${{ env.version }}"
-          #git push
+          git commit -m "Update Module to v${{ env.version }}"
+          git push
 
       #- name: Create Release
       #  if: ${{ env.ReleaseUpdated == 'true' }}
