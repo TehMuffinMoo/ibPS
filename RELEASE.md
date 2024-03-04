@@ -1,1 +1,2 @@
 - New documentation available at [https://ibps.readthedocs.io](ibPS)
+- Update comment-based help of various cmdlets

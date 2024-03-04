@@ -40,10 +40,12 @@ jobs:
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
           Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $ModuleReleaseNotes
 
+          Write-Host "Updating CHANGELOG.."
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw
           $ModuleVersionString = "## $($ModuleVersion.ToString())"
           Set-Content -Path './CHANGELOG.md' -Value ($ModuleVersionString + "`r`n" + $ReleaseNotes + "`r`n`r`n" + $ChangeHistory)
 
+          Write-Host "Export Github Actions Environment Variables.."
           $Version = "v$($ModuleVersion.ToString())"
           Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "ReleaseNotes=$($ModuleReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
@@ -54,15 +56,20 @@ jobs:
       - name: Install platyPS module
         shell: pwsh
         run: |
+          Write-Host "Installing platyPS Powershell Module.."
           Set-PSRepository PSGallery -InstallationPolicy Trusted
           Install-Module platyPS -ErrorAction Stop
 
       - name: Update Documentation
         shell: pwsh
         run: |
+          Write-Host "Creating temporary docs directory.."
           New-Item -ItemType Directory './docs-temp'
+
+          Write-Host "Importing ibPS Module.."
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
 
+          Write-Host "Removing temporary docs directory.."
           New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion 1.9.2.5 -Force
 
           foreach ($F in Get-ChildItem './Modules/ibPS/Functions/' -Recurse) {
@@ -71,7 +78,7 @@ jobs:
               Write-Host "Found $DocToFind"
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
-                "BloxOneDDI" = {
+                "BloxOneDDI" {
                   $BaseName = "BloxOne"
                 }
               }
@@ -79,6 +86,7 @@ jobs:
             }
           }
 
+          Write-Host "Removing temporary docs directory.."
           Remove-Item './docs-temp' -Recurse -Force -Confirm:$false
 
       - name: Build and Publish
@@ -95,6 +103,15 @@ jobs:
             Write-Host "Version number is the same, skipping publishing.."
             Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           }
+
+      - name: Update Repository
+        run: |
+          git config --global user.name 'TehMuffinMoo'
+          git config --global user.email 'mat.cox@tmmn.uk'
+          git add .
+          git status
+          #git commit -m "Update Module to v${{ env.version }}"
+          #git push
 
       #- name: Create Release
       #  if: ${{ env.ReleaseUpdated == 'true' }}
