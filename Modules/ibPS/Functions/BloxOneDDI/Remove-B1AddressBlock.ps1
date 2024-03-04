@@ -25,8 +25,8 @@
     .PARAMETER id
         The id of the address block. Accepts pipeline input
 
-    .Example
-        Remove-B1AddressBlock -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
+    .EXAMPLE
+        PS> Remove-B1AddressBlock -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
     
     .FUNCTIONALITY
         BloxOneDDI

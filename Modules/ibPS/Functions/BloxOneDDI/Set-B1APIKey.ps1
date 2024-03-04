@@ -22,7 +22,7 @@ function Set-B1APIKey {
         The id of the API Key. Accepts pipeline input
 
     .EXAMPLE
-        Set-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
+        PS> Set-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
     .FUNCTIONALITY
         BloxOneDDI

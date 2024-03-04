@@ -18,8 +18,8 @@
     .PARAMETER id
         The id of the range. Accepts pipeline input
 
-    .Example
-        Remove-B1Range -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global"
+    .EXAMPLE
+        PS> Remove-B1Range -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global"
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -16,7 +16,7 @@
         Any tags you want to apply to the new IP Space
 
     .EXAMPLE
-        New-B1Space -Name "Global"
+        PS> New-B1Space -Name "Global"
     
     .FUNCTIONALITY
         BloxOneDDI

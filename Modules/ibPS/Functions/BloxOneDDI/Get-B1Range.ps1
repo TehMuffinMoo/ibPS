@@ -37,7 +37,7 @@
         Filter the results by range id
 
     .EXAMPLE
-        Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
+        PS> Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
     
     .FUNCTIONALITY
         BloxOneDDI

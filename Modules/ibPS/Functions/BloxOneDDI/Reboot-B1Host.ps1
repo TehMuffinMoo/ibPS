@@ -15,8 +15,8 @@
     .PARAMETER id
         The id of the BloxOneDDI Host. Accepts pipeline input
 
-    .Example
-        Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
+    .EXAMPLE
+        PS> Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
    
     .FUNCTIONALITY
         BloxOneDDI

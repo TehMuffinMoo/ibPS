@@ -34,7 +34,7 @@
         Filter the results by forward zone id
 
     .EXAMPLE
-        Get-B1ForwardZone -FQDN "prod.mydomain.corp"
+        PS> Get-B1ForwardZone -FQDN "prod.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

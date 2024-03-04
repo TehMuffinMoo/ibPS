@@ -6,8 +6,10 @@ function Get-B1CSPUrl {
     .DESCRIPTION
         This function will retrieve the saved BloxOneDDI CSP Url from the local user/machine if it has previously been set.
 
-    .Example
-        Get-B1CSPUrl
+    .EXAMPLE
+        PS> Get-B1CSPUrl
+        
+        https://csp.infoblox.com
 
     .FUNCTIONALITY
         BloxOneDDI

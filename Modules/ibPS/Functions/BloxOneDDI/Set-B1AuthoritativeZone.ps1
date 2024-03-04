@@ -27,8 +27,8 @@
     .PARAMETER id
         The id of the authoritative zone to update. Accepts pipeline input
 
-    .Example
-        Set-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -AddAuthNSGs "Data Centre"
+    .EXAMPLE
+        PS> Set-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -AddAuthNSGs "Data Centre"
    
     .FUNCTIONALITY
         BloxOneDDI

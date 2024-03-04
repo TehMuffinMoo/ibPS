@@ -6,8 +6,8 @@ function Get-B1TDDossierSupportedFeedback {
     .DESCRIPTION
         The Dossier Indicators cmdlet returns a list of all Dossier (sometimes referred to as Intel Lookup) feedback types.
 
-    .Example
-        Get-B1TDDossierSupportedFeedback
+    .EXAMPLE
+        PS> Get-B1TDDossierSupportedFeedback
     
     .FUNCTIONALITY
         BloxOneDDI

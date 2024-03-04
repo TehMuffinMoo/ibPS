@@ -34,7 +34,7 @@ function Get-B1Object {
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
     .EXAMPLE
-        Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
+        PS> Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
 
     .FUNCTIONALITY
         BloxOneDDI

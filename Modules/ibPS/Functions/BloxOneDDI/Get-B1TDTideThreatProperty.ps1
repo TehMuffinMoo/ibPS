@@ -18,8 +18,8 @@ function Get-B1TDTideThreatProperty {
     .PARAMETER ThreatLevel
         Filter the results by property threat level
 
-    .Example
-        Get-B1TDTideThreatProperty -Name "CamelCase" -ThreatLevel 100
+    .EXAMPLE
+        PS> Get-B1TDTideThreatProperty -Name "CamelCase" -ThreatLevel 100
 
     .FUNCTIONALITY
         BloxOneDDI

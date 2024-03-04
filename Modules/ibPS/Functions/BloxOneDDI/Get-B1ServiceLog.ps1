@@ -21,8 +21,8 @@ function Get-B1ServiceLog {
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 100.
 
-    .Example
-        Get-B1ServiceLog -OnPremHost "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
+    .EXAMPLE
+        PS> Get-B1ServiceLog -OnPremHost "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -18,10 +18,10 @@ function Query-CSP {
     .PARAMETER InFile
         File path of data to submit as part of POST request
 
-    .Example
+    .EXAMPLE
         Query-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
 
-    .Example
+    .EXAMPLE
         Query-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
 
     .FUNCTIONALITY

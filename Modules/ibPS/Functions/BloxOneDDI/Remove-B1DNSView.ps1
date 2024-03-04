@@ -12,11 +12,11 @@
     .PARAMETER id
         The id of the DNS View. Accepts pipeline input
 
-    .Example
-        Remove-B1DNSView -Name "My DNS View"
+    .EXAMPLE
+        PS> Remove-B1DNSView -Name "My DNS View"
 
-    .Example
-        Get-B1DNSView -Name "My DNS View" | Remove-B1DNSView
+    .EXAMPLE
+        PS> Get-B1DNSView -Name "My DNS View" | Remove-B1DNSView
     
     .FUNCTIONALITY
         BloxOneDDI

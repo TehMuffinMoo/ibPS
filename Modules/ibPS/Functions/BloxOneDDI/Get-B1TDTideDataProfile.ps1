@@ -9,8 +9,8 @@
     .PARAMETER Name
         Use this parameter to filter by Name
 
-    .Example
-        Get-B1TDTideDataProfiles -Name "My Profile"
+    .EXAMPLE
+        PS> Get-B1TDTideDataProfiles -Name "My Profile"
     
     .FUNCTIONALITY
         BloxOneDDI

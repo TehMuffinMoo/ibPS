@@ -9,11 +9,11 @@ function Get-B1TDTideThreatCounts {
     .PARAMETER Historical
         Specify this switch to retrieve historical threat counts
 
-    .Example
-        Get-B1TDTideThreatCounts
+    .EXAMPLE
+        PS> Get-B1TDTideThreatCounts
 
-    .Example
-        Get-B1TDTideThreatCounts -Historical
+    .EXAMPLE
+        PS> Get-B1TDTideThreatCounts -Historical
 
     .FUNCTIONALITY
         BloxOneDDI

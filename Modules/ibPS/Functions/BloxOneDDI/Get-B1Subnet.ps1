@@ -40,10 +40,10 @@
         Use this parameter to query a particular subnet id
 
     .EXAMPLE
-        Get-B1Subnet -Subnet 10.10.100.0 -CIDR 24 -IncludeInheritance
+        PS> Get-B1Subnet -Subnet 10.10.100.0 -CIDR 24 -IncludeInheritance
 
     .EXAMPLE
-        Get-B1Subnet -Name "subnet-1" -Space "Global" -Strict
+        PS> Get-B1Subnet -Name "subnet-1" -Space "Global" -Strict
     
     .FUNCTIONALITY
         BloxOneDDI

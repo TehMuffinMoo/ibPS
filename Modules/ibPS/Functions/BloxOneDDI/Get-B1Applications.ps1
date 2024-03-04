@@ -6,8 +6,22 @@
     .DESCRIPTION
         This function is used query a list of supported BloxOneDDI Applications/Services
 
-    .Example
-        Get-B1Applications
+    .EXAMPLE
+        PS> Get-B1Applications                                                                                
+        
+        dfp
+        dns
+        dhcp
+        cdc
+        anycast
+        orpheus
+        msad
+        authn
+        ntp
+        rip
+        bgp
+        ospf
+        discovery
     
     .FUNCTIONALITY
         BloxOneDDI

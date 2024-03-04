@@ -26,8 +26,8 @@
     .PARAMETER Tags
         Any tags you want to apply to the new DHCP Config Profile
 
-    .Example
-        New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions @() -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
+    .EXAMPLE
+        PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions @() -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
     
     .FUNCTIONALITY
         BloxOneDDI

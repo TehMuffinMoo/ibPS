@@ -24,7 +24,7 @@ function New-B1APIKey {
         New-B1APIKey -Name "somename" -Type Interactive
 
     .EXAMPLE
-        New-B1APIKey -Name "serviceapikey" -Type Service -UserName "svc-account-name"
+        PS> New-B1APIKey -Name "serviceapikey" -Type Service -UserName "svc-account-name"
 
     .FUNCTIONALITY
         BloxOneDDI

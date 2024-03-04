@@ -39,8 +39,8 @@ function Get-B1SecurityLog {
     .PARAMETER Raw
         Return results as raw without additional parsing
 
-    .Example
-        Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "nginx" -Type "nginx.access" -Domain "domain.com"
+    .EXAMPLE
+        PS> Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "nginx" -Type "nginx.access" -Domain "domain.com"
     
     .FUNCTIONALITY
         BloxOneDDI

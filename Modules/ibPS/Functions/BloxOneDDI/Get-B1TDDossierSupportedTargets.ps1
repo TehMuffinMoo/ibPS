@@ -6,8 +6,8 @@ function Get-B1TDDossierSupportedTargets {
     .DESCRIPTION
         The Dossier Indicators cmdlet returns a list of all Dossier (sometimes referred to as Intel Lookup) indicator types and whether or not they are available for the caller.
 
-    .Example
-        Get-B1TDDossierSupportedTargets
+    .EXAMPLE
+        PS> Get-B1TDDossierSupportedTargets
     
     .FUNCTIONALITY
         BloxOneDDI

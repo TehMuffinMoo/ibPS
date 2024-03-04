@@ -16,8 +16,8 @@
         The sources to query. Multiple sources can be specified.
         A list of supported sources can be obtained by using the Get-B1TDDossierSupportedSources cmdlet
 
-    .Example
-        Start-B1TDDossierBatchLookup -Type ip -Target "1.1.1.1","1.0.0.1" -Source "apt","mandiant"
+    .EXAMPLE
+        PS> Start-B1TDDossierBatchLookup -Type ip -Target "1.1.1.1","1.0.0.1" -Source "apt","mandiant"
    
     .FUNCTIONALITY
         BloxOneDDI

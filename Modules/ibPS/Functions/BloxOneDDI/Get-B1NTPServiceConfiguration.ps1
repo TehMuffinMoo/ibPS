@@ -15,8 +15,8 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
-    .Example
-        Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
+    .EXAMPLE
+        PS> Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
     
     .FUNCTIONALITY
         BloxOneDDI

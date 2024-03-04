@@ -7,8 +7,8 @@
         Use this method to retrieve information on all Lookalike Target Candidates.
         The Lookalike Target Candidates are second-level domains BloxOne uses to detect lookalike FQDNs against.
 
-    .Example
-        Get-B1TDLookalikeTargetCandidates
+    .EXAMPLE
+        PS> Get-B1TDLookalikeTargetCandidates
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -6,8 +6,8 @@
     .DESCRIPTION
         This function is used to query a list of Bring Your Own File RPZ threat feeds
 
-    .Example
-        Get-B1TDTideFeeds
+    .EXAMPLE
+        PS> Get-B1TDTideFeeds
     
     .FUNCTIONALITY
         BloxOneDDI

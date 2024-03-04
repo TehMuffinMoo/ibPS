@@ -9,11 +9,11 @@
     .PARAMETER query
         Search query
 
-    .Example
-        Search-B1 "10.10.100.1"
+    .EXAMPLE
+        PS> Search-B1 "10.10.100.1"
 
-    .Example
-        Search-B1 "mysubzone.corp.com"
+    .EXAMPLE
+        PS> Search-B1 "mysubzone.corp.com"
    
     .FUNCTIONALITY
         BloxOneDDI

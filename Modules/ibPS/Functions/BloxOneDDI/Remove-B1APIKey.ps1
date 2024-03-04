@@ -23,10 +23,10 @@ function Remove-B1APIKey {
         The id of the API Key. Accepts pipeline input
 
     .EXAMPLE
-        Remove-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
+        PS> Remove-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
     .EXAMPLE
-        Get-B1APIKey -Name "MyAPIKey" | Set-B1APIKey -State Disabled | Remove-B1APIKey
+        PS> Get-B1APIKey -Name "MyAPIKey" | Set-B1APIKey -State Disabled | Remove-B1APIKey
 
     .FUNCTIONALITY
         BloxOneDDI

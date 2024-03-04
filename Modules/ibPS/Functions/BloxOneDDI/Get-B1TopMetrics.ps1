@@ -34,10 +34,10 @@
         The end date/time for searching aggregated metrics
 
     .EXAMPLE
-        Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)
+        PS> Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)
 
 	.EXAMPLE
-	    Get-B1TopMetrics -TopDNSServers -Start (Get-Date).AddDays(-31)
+	    PS> Get-B1TopMetrics -TopDNSServers -Start (Get-Date).AddDays(-31)
    
     .FUNCTIONALITY
         BloxOneDDI

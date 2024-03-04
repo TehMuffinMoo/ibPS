@@ -42,11 +42,11 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
-    .Example
-        Get-B1DHCPLease -Range -RangeStart 10.10.100.20 -RangeEnd 10.10.100.50 -Limit 100
+    .EXAMPLE
+        PS> Get-B1DHCPLease -Range -RangeStart 10.10.100.20 -RangeEnd 10.10.100.50 -Limit 100
 
-    .Example
-        Get-B1DHCPLease -Address "10.10.100.30"
+    .EXAMPLE
+        PS> Get-B1DHCPLease -Address "10.10.100.30"
     
     .FUNCTIONALITY
         BloxOneDDI

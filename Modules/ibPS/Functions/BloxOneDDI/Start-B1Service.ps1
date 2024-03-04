@@ -12,8 +12,8 @@
     .PARAMETER id
         The id of the BloxOneDDI Service to start. Accepts pipeline input
 
-    .Example
-        Start-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+    .EXAMPLE
+        PS> Start-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

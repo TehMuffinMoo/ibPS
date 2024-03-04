@@ -30,8 +30,8 @@
     .PARAMETER Tags
         Any tags you want to apply to the authoritative zone
 
-    .Example
-        New-B1AuthoritativeZone -Type Primary -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
+    .EXAMPLE
+       PS> New-B1AuthoritativeZone -Type Primary -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
    
     .FUNCTIONALITY
         BloxOneDDI

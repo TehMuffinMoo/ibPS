@@ -35,8 +35,8 @@
     .PARAMETER Space
         Use this parameter to filter the list of fixed addresses by Space
 
-    .Example
-        New-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
+    .EXAMPLE
+        PS> New-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
     
     .FUNCTIONALITY
         BloxOneDDI

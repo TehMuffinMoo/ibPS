@@ -13,10 +13,10 @@ function Remove-B1DHCPConfigProfile {
         The id of the DHCP Config Profile to remove. Accepts pipeline input
 
     .EXAMPLE
-        Remove-B1DHCPConfigProfile -Name "My Config Profile"
+        PS> Remove-B1DHCPConfigProfile -Name "My Config Profile"
 
     .EXAMPLE
-        Get-B1DHCPConfigProfile -Name "My Config Profile" | Remove-B1DHCPConfigProfile
+        PS> Get-B1DHCPConfigProfile -Name "My Config Profile" | Remove-B1DHCPConfigProfile
    
     .FUNCTIONALITY
         BloxOneDDI

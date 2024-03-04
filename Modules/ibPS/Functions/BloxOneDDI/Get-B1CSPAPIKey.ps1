@@ -9,8 +9,8 @@ function Get-B1CSPAPIKey {
     .PARAMETER NoBreak
         If this is set, the function will not break if the API Key is not found
 
-    .Example
-        Get-B1CSPAPIKey
+    .EXAMPLE
+        PS> Get-B1CSPAPIKey
 
     .FUNCTIONALITY
         BloxOneDDI

@@ -22,7 +22,7 @@
         Return results based on the authoritative NSG id
 
     .EXAMPLE
-        Get-B1AuthoritativeNSG -Name "Data Centre" -Strict
+        PS> Get-B1AuthoritativeNSG -Name "Data Centre" -Strict
     
     .FUNCTIONALITY
         BloxOneDDI

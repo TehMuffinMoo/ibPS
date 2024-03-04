@@ -31,7 +31,7 @@
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .EXAMPLE
-        Get-B1HAGroup -Name "MyHAGroup" -Strict
+        PS> Get-B1HAGroup -Name "MyHAGroup" -Strict
     
     .FUNCTIONALITY
         BloxOneDDI

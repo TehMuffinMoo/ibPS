@@ -12,8 +12,8 @@
     .PARAMETER Space
         The IPAM space the reservation is contained in
 
-    .Example
-        Remove-B1AddressReservation -Address "10.0.0.1" -Space "Global"
+    .EXAMPLE
+        PS> Remove-B1AddressReservation -Address "10.0.0.1" -Space "Global"
 
     .FUNCTIONALITY
         BloxOneDDI

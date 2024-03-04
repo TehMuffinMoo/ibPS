@@ -13,8 +13,8 @@ function Get-B1TDTideThreatEnrichment {
         Use this parameter to specify the indicator to search by. This will be either the domain name, URL or IP.
         When using the Threat Actor lookup, the indicator should be the name of the Threat Actor, e.g "APT1","Carbanak","FIN6", etc.
 
-    .Example
-        Get-B1TDTideDataProfiles -Name "My Profile"
+    .EXAMPLE
+        PS> Get-B1TDTideDataProfiles -Name "My Profile"
     
     .FUNCTIONALITY
         BloxOneDDI

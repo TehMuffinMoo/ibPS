@@ -24,8 +24,8 @@
     .PARAMETER id
         The id of the forward zone to update. Accepts pipeline input
 
-    .Example
-        Set-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
+    .EXAMPLE
+        PS> Set-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
    
     .FUNCTIONALITY
         BloxOneDDI

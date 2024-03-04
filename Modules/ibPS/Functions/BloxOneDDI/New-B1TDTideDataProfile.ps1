@@ -18,8 +18,8 @@ function New-B1TDTideDataProfile {
     .PARAMETER DefaultTTL
         This boolean value indicates if to use the default TTL for threats (default is true)
 
-    .Example
-        New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $false
+    .EXAMPLE
+        PS> New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $false
     
     .FUNCTIONALITY
         BloxOneDDI

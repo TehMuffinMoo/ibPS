@@ -49,7 +49,7 @@
         Use the id parameter to filter the results by ID
 
     .EXAMPLE
-        Get-B1Record -Name "myArecord" -Zone "corp.mydomain.com" -View "default" | ft name_in_zone,rdata,type
+        PS> Get-B1Record -Name "myArecord" -Zone "corp.mydomain.com" -View "default" | ft name_in_zone,rdata,type
    
     .FUNCTIONALITY
         BloxOneDDI

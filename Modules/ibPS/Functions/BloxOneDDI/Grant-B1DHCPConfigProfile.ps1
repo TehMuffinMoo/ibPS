@@ -12,8 +12,8 @@
     .PARAMETER Hosts
         A list of BloxOneDDI Hosts to apply the DHCP Config Profile to
 
-    .Example
-        Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+    .EXAMPLE
+        PS> Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI

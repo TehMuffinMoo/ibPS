@@ -12,11 +12,11 @@
     .PARAMETER id
         The id of the IP Space. Accepts pipeline input
 
-    .Example
-        Remove-B1Space -Name "My IP Space"
+    .EXAMPLE
+        PS> Remove-B1Space -Name "My IP Space"
 
-    .Example
-        Get-B1Space -Name "My IP Space" | Remove-B1Space
+    .EXAMPLE
+        PS> Get-B1Space -Name "My IP Space" | Remove-B1Space
     
     .FUNCTIONALITY
         BloxOneDDI

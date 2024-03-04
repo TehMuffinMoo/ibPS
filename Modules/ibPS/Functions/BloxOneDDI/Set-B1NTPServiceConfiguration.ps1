@@ -15,8 +15,8 @@
     .PARAMETER UseGlobalNTPConfig
         Use this parameter to apply the NTP Configuration from the Global NTP Configuration
 
-    .Example
-        Set-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict -UseGlobalNTPConfig
+    .EXAMPLE
+        PS> Set-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict -UseGlobalNTPConfig
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -34,11 +34,17 @@
         Return results based on DHCP Host id
 
     .EXAMPLE
-        Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
+        PS> Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
 
     .EXAMPLE
-        $AssociatedSubnets = (Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -Associations).Subnets
-        $AssociatedSubnets | ft name,address,cidr,comment
+        PS> $AssociatedSubnets = (Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -Associations).Subnets
+        PS> $AssociatedSubnets | ft name,address,cidr,comment
+
+        name      address   cidr  comment
+        --------  -------   ----  -------
+        My Subnet 10.0.1.0  24    My Subnet Description
+        Other Sub 10.10.2.0 24    Other Subnet Description
+
     
     .FUNCTIONALITY
         BloxOneDDI

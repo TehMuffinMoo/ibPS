@@ -39,8 +39,8 @@
     .PARAMETER Port
         Used to update the port for applicable records. (i.e SRV)
 
-    .Example
-        Set-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.50.10" -TTL 600
+    .EXAMPLE
+        PS> Set-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.50.10" -TTL 600
    
     .FUNCTIONALITY
         BloxOneDDI

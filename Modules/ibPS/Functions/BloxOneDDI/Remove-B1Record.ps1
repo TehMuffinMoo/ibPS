@@ -30,8 +30,8 @@
     .PARAMETER id
         The id of the record. Accepts pipeline input
 
-    .Example
-        Remove-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default"
+    .EXAMPLE
+        PS> Remove-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default"
    
     .FUNCTIONALITY
         BloxOneDDI

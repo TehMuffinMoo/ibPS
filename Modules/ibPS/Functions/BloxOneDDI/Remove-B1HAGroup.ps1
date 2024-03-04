@@ -13,10 +13,10 @@ function Remove-B1HAGroup {
         The id of the HA Group to remove. Accepts pipeline input
 
     .EXAMPLE
-        Remove-B1HAGroup -Name "My HA Group"
+        PS> Remove-B1HAGroup -Name "My HA Group"
 
     .EXAMPLE
-        Get-B1HAGroup -Name "My HA Group" | Remove-B1HAGroup
+        PS> Get-B1HAGroup -Name "My HA Group" | Remove-B1HAGroup
    
     .FUNCTIONALITY
         BloxOneDDI

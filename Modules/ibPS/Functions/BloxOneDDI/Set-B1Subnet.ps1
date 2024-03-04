@@ -44,9 +44,9 @@
 
     .EXAMPLE
         ## Example usage when combined with Get-B1DHCPOptionCode
-
         $DHCPOptions = @()
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+
         PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
     
     .EXAMPLE

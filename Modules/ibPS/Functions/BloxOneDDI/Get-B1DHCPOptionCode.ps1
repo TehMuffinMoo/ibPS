@@ -18,8 +18,8 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
-    .Example
-        Get-B1DHCPOptionCode -Name "routers"
+    .EXAMPLE
+        PS> Get-B1DHCPOptionCode -Name "routers"
     
     .FUNCTIONALITY
         BloxOneDDI

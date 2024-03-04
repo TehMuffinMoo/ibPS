@@ -44,10 +44,10 @@
         Filter by the id of the address block
 
     .EXAMPLE
-        Get-B1AddressBlock -Subnet "10.10.100.0/12" -Space "Global"
+        PS> Get-B1AddressBlock -Subnet "10.10.100.0/12" -Space "Global"
 
     .EXAMPLE
-        Get-B1AddressBlock -tfilter '("sometagname"=="sometagvalue" or "someothertagname"=="someothertagvalue")'
+        PS> Get-B1AddressBlock -tfilter '("sometagname"=="sometagvalue" or "someothertagname"=="someothertagvalue")'
     
     .FUNCTIONALITY
         BloxOneDDI

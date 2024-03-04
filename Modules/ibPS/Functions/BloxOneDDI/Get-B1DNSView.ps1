@@ -28,7 +28,7 @@
         Return results based on DNS View id
 
     .EXAMPLE
-        Get-B1DNSView -Name "default"
+        PS> Get-B1DNSView -Name "default"
     
     .FUNCTIONALITY
         BloxOneDDI

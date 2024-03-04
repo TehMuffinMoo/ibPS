@@ -15,8 +15,8 @@
     .PARAMETER id
         The id of the authoritative zone. Accepts pipeline input
 
-    .Example
-        Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
+    .EXAMPLE
+        PS> Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
    
     .FUNCTIONALITY
         BloxOneDDI

@@ -15,11 +15,11 @@
     .PARAMETER id
         The id of the fixed address. Accepts pipeline input
 
-    .Example
-        Remove-B1FixedAddress -IP 10.10.10.200 -Space Global
+    .EXAMPLE
+        PS> Remove-B1FixedAddress -IP 10.10.10.200 -Space Global
 
-    .Example
-        Get-B1FixedAddress -IP 10.10.10.200 | Remove-B1FixedAddress
+    .EXAMPLE
+        PS> Get-B1FixedAddress -IP 10.10.10.200 | Remove-B1FixedAddress
     
     .FUNCTIONALITY
         BloxOneDDI

@@ -21,11 +21,11 @@
     .PARAMETER id
         The id of the subnet. Accepts pipeline input
 
-    .Example
-        Remove-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global"
+    .EXAMPLE
+        PS> Remove-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global"
 
-    .Example
-        Get-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global" | Remove-B1Subnet
+    .EXAMPLE
+        PS> Get-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global" | Remove-B1Subnet
     
     .FUNCTIONALITY
         BloxOneDDI
