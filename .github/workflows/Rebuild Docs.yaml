@@ -22,7 +22,7 @@ jobs:
         run: |
           Write-Host "Importing platyPS Module.."
           Import-Module '/tmp/platyPS/src/platyPS/platyPS.psd1' -ErrorAction Stop
-          
+
           Write-Host "Creating temporary docs directory.."
           New-Item -ItemType Directory './docs-temp'
 
@@ -69,5 +69,7 @@ jobs:
           git config --global user.email 'mat.cox@tmmn.uk'
           git add .
           git status
-          git commit -m "Updated Documentation (${{ env.Version }})"
-          git push
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Updated Documentation (${{ env.Version }})"
+            git push
+          fi
