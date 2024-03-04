@@ -1,0 +1,67 @@
+name: Rebuild Documentation
+
+on: workflow_dispatch
+#  push:
+#    branches: [main]
+
+jobs:
+  PSGallery-Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install platyPS module
+        shell: pwsh
+        run: |
+          Write-Host "Installing platyPS Powershell Module.."
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module platyPS -ErrorAction Stop
+
+      - name: Update Documentation
+        shell: pwsh
+        run: |
+          Write-Host "Creating temporary docs directory.."
+          New-Item -ItemType Directory './docs-temp'
+
+          Write-Host "Importing ibPS Module.."
+          Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
+
+          Write-Host "Updating documentation.."
+          New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion 1.9.2.5 -Force
+
+          Write-Host "Cleaning up old documentation.."
+          Get-ChildItem ./docs/Functions -Recurse -File | Remove-Item -Force
+
+          Write-Host "Relocating documentation.."
+          foreach ($F in Get-ChildItem './Modules/ibPS/Functions/' -Recurse) {
+            $DocToFind = "./docs-temp/$($F.BaseName).md"
+            if (Test-Path $DocToFind) {
+              $BaseName = (Get-Item $F.DirectoryName).BaseName
+              switch ($BaseName) {
+                "BloxOneDDI" {
+                  $BaseName = "BloxOne"
+                }
+                "Private" {
+                  $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
+                }
+                "Misc" {
+                  $BaseName = "General"
+                }
+              }
+              Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
+            }
+          }
+
+          Write-Host "Removing temporary docs directory.."
+          Remove-Item './docs-temp' -Recurse -Force -Confirm:$false
+
+      - name: Update Repository
+        run: |
+          git config --global user.name ${{ github.actor }}
+          git config --global user.password ${{ secrets.GIT_ACTIONS }}
+          git config --global user.email 'mat.cox@tmmn.uk'
+          git add .
+          git status
+          git commit -m "Update Module to ${{ env.Version }}"
+          git push

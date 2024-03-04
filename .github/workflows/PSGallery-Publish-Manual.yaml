@@ -1,8 +1,6 @@
-name: Publish PowerShell Module
+name: Publish PowerShell Module (Gallery Only)
 
-on:
-  push:
-    branches: [main]
+on: workflow_dispatch
 
 jobs:
   PSGallery-Publish:
