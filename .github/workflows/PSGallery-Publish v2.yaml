@@ -112,6 +112,7 @@ jobs:
       - name: Update Repository
         run: |
           git config --global user.name 'TehMuffinMoo'
+          git config --global user.password {{ secrets.GIT_ACTIONS }}
           git config --global user.email 'mat.cox@tmmn.uk'
           git add .
           git status
