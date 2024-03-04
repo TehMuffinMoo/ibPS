@@ -116,37 +116,37 @@
 
     .EXAMPLE
         PS> Deploy-B1Appliance -Type "VMware" `
-                               -Name "bloxoneddihost1" -IP "10.10.100.10" `
-                               -Netmask "255.255.255.0" `
-                               -Gateway "10.10.100.1" `
-                               -DNSServers "10.30.10.10,10.30.10.10" `
-                               -NTPServers "time.mydomain.corp" `
-                               -DNSSuffix "prod.mydomain.corp" `
-                               -JoinToken "JoinTokenGoesHere" `
-                               -ImagesPath .\Images `
-                               -DownloadLatestImage `
-                               -vCenter "vcenter.mydomain.corp" `
-                               -Cluster "CLUSTER-001" `
-                               -Datastore "DATASTORE-001" `
-                               -PortGroup "PORTGROUP" `
-                               -PortGroupType "VDS"
+                           -Name "bloxoneddihost1" -IP "10.10.100.10" `
+                           -Netmask "255.255.255.0" `
+                           -Gateway "10.10.100.1" `
+                           -DNSServers "10.30.10.10,10.30.10.10" `
+                           -NTPServers "time.mydomain.corp" `
+                           -DNSSuffix "prod.mydomain.corp" `
+                           -JoinToken "JoinTokenGoesHere" `
+                           -ImagesPath .\Images `
+                           -DownloadLatestImage `
+                           -vCenter "vcenter.mydomain.corp" `
+                           -Cluster "CLUSTER-001" `
+                           -Datastore "DATASTORE-001" `
+                           -PortGroup "PORTGROUP" `
+                           -PortGroupType "VDS"
     
     .EXAMPLE
         PS> Deploy-B1Appliance -Type Hyper-V `
-                               -Name "bloxoneddihost1" `
-                               -IP 10.10.100.10 `
-                               -Netmask 255.255.255.0 `
-                               -Gateway 10.10.100.1 `
-                               -DNSServers 10.10.100.1 `
-                               -NTPServers ntp.ubuntu.com `
-                               -DNSSuffix mydomain.corp `
-                               -JoinToken "JoinTokenGoesHere" `
-                               -VHDPath ".\BloxOne_OnPrem_VHDX_v3.8.1.vhdx" `
-                               -HyperVServer "Host1.mycompany.corp" `
-                               -HyperVGeneration 2 `
-                               -VMPath "A:\VMs" `
-                               -VirtualNetwork "Virtual Network 1" `
-                               -VirtualNetworkVLAN 101
+                           -Name "bloxoneddihost1" `
+                           -IP 10.10.100.10 `
+                           -Netmask 255.255.255.0 `
+                           -Gateway 10.10.100.1 `
+                           -DNSServers 10.10.100.1 `
+                           -NTPServers ntp.ubuntu.com `
+                           -DNSSuffix mydomain.corp `
+                           -JoinToken "JoinTokenGoesHere" `
+                           -VHDPath ".\BloxOne_OnPrem_VHDX_v3.8.1.vhdx" `
+                           -HyperVServer "Host1.mycompany.corp" `
+                           -HyperVGeneration 2 `
+                           -VMPath "A:\VMs" `
+                           -VirtualNetwork "Virtual Network 1" `
+                           -VirtualNetworkVLAN 101
 
     .FUNCTIONALITY
         BloxOneDDI
