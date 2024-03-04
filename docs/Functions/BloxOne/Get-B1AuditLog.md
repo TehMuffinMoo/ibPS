@@ -202,30 +202,7 @@ Accept wildcard characters: False
 
 ### -CustomFilters
 Accepts either an Object, ArrayList or String containing one or more custom filters.
-
-## String
-$CustomFilters = 'action=="update" and user_name=="some.email@domain.corp"'
-
-
-## Object
-$CustomFilters = @(
-   @{
-     "Property"="action"
-     "Operator"="=="
-     "Value"="update"
-   }
-   @{
-     "Property"="user_name"
-     "Operator"="=="
-     "Value"="some.email@domain.corp"
-   }
-)
-
-
-## ArrayList
-\[System.Collections.ArrayList\]$CustomFilters = @()
-$CustomFilters.Add('action=="update"') | Out-Null
-$CustomFilters.Add('user_name=="some.email@domain.corp"') | Out-Null
+See here for usage: https://ibps.readthedocs.io/en/latest/#custom-filters
 
 ```yaml
 Type: Object

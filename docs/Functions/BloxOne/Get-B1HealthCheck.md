@@ -24,7 +24,7 @@ This function is used to perform a health check on a BloxOneDDI Host
 
 ### EXAMPLE 1
 ```powershell
-Get-B1NTPGlobalConfig
+Get-B1HealthCheck -OnPremHost "B1DDI-01" -Type "ApplicationHealth"
 ```
 
 ## PARAMETERS

@@ -41,6 +41,16 @@ Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new descrip
 Get-B1FixedAddress -IP 10.10.100.12 | Set-B1FixedAddress -MatchValue "ab:cd:ef:ab:cd:ef"
 ```
 
+### EXAMPLE 3
+```powershell
+## Example usage when combined with Get-B1DHCPOptionCode
+
+$DHCPOptions = @()
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+
+PS> Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description" -DHCPOptions $DHCPOptions
+```
+
 ## PARAMETERS
 
 ### -IP
@@ -136,11 +146,6 @@ Accept wildcard characters: False
 ### -DHCPOptions
 A list of DHCP Options you want to apply to the existing fixed address.
 This will overwrite any existing DHCP options.
-
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
 ```yaml
 Type: Object

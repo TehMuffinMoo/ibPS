@@ -33,7 +33,12 @@ This function is used to update an existing address block in BloxOneDDI IPAM
 
 ### EXAMPLE 1
 ```powershell
-Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+## Example usage when combined with Get-B1DHCPOptionCode
+$DHCPOptions = @()
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="10.10.10.10,10.10.10.11";}
+
+PS> Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
 ```
 
 ## PARAMETERS
@@ -101,12 +106,6 @@ Accept wildcard characters: False
 ### -DHCPOptions
 A list of DHCP Options you want to update the address block with.
 This will overwrite existing options.
-
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="10.10.10.10,10.10.10.11";}
 
 ```yaml
 Type: Object

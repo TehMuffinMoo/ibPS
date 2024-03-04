@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1ForwardZone
 
 ## SYNOPSIS
-Removes a Authoritative Zone from BloxOneDDI
+Removes a Forward Zone from BloxOneDDI
 
 ## SYNTAX
 
@@ -23,13 +23,13 @@ Remove-B1ForwardZone -id <String> [-ProgressAction <ActionPreference>] [<CommonP
 ```
 
 ## DESCRIPTION
-This function is used to remove a Authoritative Zone from BloxOneDDI
+This function is used to remove a Forward Zone from BloxOneDDI
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
+Remove-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default"
 ```
 
 ## PARAMETERS
@@ -65,7 +65,7 @@ Accept wildcard characters: False
 ```
 
 ### -id
-The id of the authoritative zone.
+The id of the forward zone.
 Accepts pipeline input
 
 ```yaml

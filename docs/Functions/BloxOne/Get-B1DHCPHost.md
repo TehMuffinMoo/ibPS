@@ -30,7 +30,12 @@ Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
 ### EXAMPLE 2
 ```powershell
 $AssociatedSubnets = (Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -Associations).Subnets
-$AssociatedSubnets | ft name,address,cidr,comment
+PS> $AssociatedSubnets | ft name,address,cidr,comment
+
+name      address   cidr  comment
+--------  -------   ----  -------
+My Subnet 10.0.1.0  24    My Subnet Description
+Other Sub 10.10.2.0 24    Other Subnet Description
 ```
 
 ## PARAMETERS

@@ -25,35 +25,35 @@ It is recommended this is used via Pipeline
 
 ### EXAMPLE 1
 ```powershell
-This example will update the comment/description against multiple DNS Records
+## This example will update the comment/description against multiple DNS Records
 
-$Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields comment
-foreach ($Record in $Records) {
-    $Record.comment = "Updated Comment"
-}
-$Records | Set-B1Object
+PS> $Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields comment
+PS> foreach ($Record in $Records) {
+        $Record.comment = "Updated Comment"
+    }
+PS> $Records | Set-B1Object
 ```
 
 ### EXAMPLE 2
 ```powershell
-This example will update the multiple DHCP Options against multiple Subnets
+## This example will update the multiple DHCP Options against multiple Subnets
 
-$Subnets = Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
-foreach ($Subnet in $Subnets) {
-    $Subnet.dhcp_options = @(
-        @{
-            "type"="option"
-            "option_code"=(Get-B1DHCPOptionCode -Name "routers").id
-            "option_value"="10.10.100.254"
-        }
-        @{
-            "type"="option"
-            "option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id
-            "option_value"="10.1.1.100,10.3.1.100"
-        }
-    )
-}
-$Subnets | Set-B1Object
+PS> $Subnets = Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
+PS> foreach ($Subnet in $Subnets) {
+        $Subnet.dhcp_options = @(
+            @{
+                "type"="option"
+                "option_code"=(Get-B1DHCPOptionCode -Name "routers").id
+                "option_value"="10.10.100.254"
+            }
+            @{
+                "type"="option"
+                "option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id
+                "option_value"="10.1.1.100,10.3.1.100"
+            }
+        )
+    }
+PS> $Subnets | Set-B1Object
 ```
 
 ## PARAMETERS

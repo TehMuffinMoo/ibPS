@@ -25,13 +25,13 @@ This function is used to create a new BloxOneDDI Service
 ### EXAMPLE 1
 ```powershell
 ## Create a DNS Service
-New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
 ```
 
 ### EXAMPLE 2
 ```powershell
 ## Create a DHCP Service
-New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS

@@ -25,7 +25,11 @@ This function is used to create a new address block in BloxOneDDI IPAM
 
 ### EXAMPLE 1
 ```powershell
-New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
+##Example usage when combined with Get-B1DHCPOptionCode
+$DHCPOptions = @()
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+
+PS> New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
 ```
 
 ## PARAMETERS
@@ -107,11 +111,6 @@ Accept wildcard characters: False
 
 ### -DHCPOptions
 A list of DHCP Options you want to apply to the new address block.
-
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
 ```yaml
 Type: Object

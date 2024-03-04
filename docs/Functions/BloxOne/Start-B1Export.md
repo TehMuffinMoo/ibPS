@@ -37,12 +37,12 @@ Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -BackupAll
 ```powershell
 $ExportName = "B1-Export-$((Get-Date).ToString('dd-MM-yy hh-mm-ss'))"
 
-Start-B1Export -Name $ExportName -BackupAll
-while (($BulkOp = Get-B1BulkOperation -Name $ExportName -Strict).overall_status -ne "Completed") {
-    Write-Host "Waiting for export to complete.."
-    Wait-Event -Timeout 5
-}
-$BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
+PS> Start-B1Export -Name $ExportName -BackupAll
+PS> while (($BulkOp = Get-B1BulkOperation -Name $ExportName -Strict).overall_status -ne "Completed") {
+        Write-Host "Waiting for export to complete.."
+        Wait-Event -Timeout 5
+    }
+PS> $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
 ```
 
 ## PARAMETERS
