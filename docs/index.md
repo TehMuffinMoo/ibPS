@@ -105,6 +105,7 @@ All Cmdlets are listed in the left-hand menu. You can also use the `Get-Help` cm
 Get-Help New-B1AddressBlock -Detailed
 ```
 
+### Common Parameters
 Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-Limit` & `-Offset` parameters. Their use is described below.
 
 <table>
