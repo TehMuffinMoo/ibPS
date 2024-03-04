@@ -110,6 +110,7 @@ jobs:
           if ($($Manifest).Version -gt $(Find-Module ibPS).Version) {
             if ($Branch -eq "main") {
               Write-Host "Publishing v$($Manifest.Version.ToString()).."
+              Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
               Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
               Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
             } else {
