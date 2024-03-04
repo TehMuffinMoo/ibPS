@@ -92,6 +92,11 @@ jobs:
             }
           }
 
+          Get-ChildItem ./docs/Functions
+          Get-ChildItem ./docs/Functions/BloxOne
+          Get-ChildItem ./docs/Functions/NIOS
+          Get-ChildItem ./docs/Functions/General
+
           Write-Host "Removing temporary docs directory.."
           Remove-Item './docs-temp' -Recurse -Force -Confirm:$false
 
