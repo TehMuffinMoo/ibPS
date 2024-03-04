@@ -101,27 +101,22 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
         shell: pwsh
         run: |
+          $Branch = git rev-parse --abbrev-ref HEAD
+          Write-Output ("Branch=$($Branch)") | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+
           $Manifest = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
           if ($($Manifest).Version -gt $(Find-Module ibPS).Version) {
-            Write-Host "Publishing v$($Manifest.Version.ToString()).."
-            #Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
-            Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+            if ($Branch -eq "main") {
+              Write-Host "Publishing v$($Manifest.Version.ToString()).."
+              Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
+              Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+            } else {
+              Write-Host "Running on $($Branch) branch. Skipping publishing.."
+              Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+            }
           } else {
             Write-Host "Version number is the same, skipping publishing.."
             Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-          }
-          $Branch = git rev-parse --abbrev-ref HEAD
-          Write-Output ("Branch=$($Branch)") | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-          if ($Branch -eq "main") {
-            Write-Output "TagName=${{ env.Version }}" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-            Write-Output "ReleaseName=Release ${{ env.Version }}" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-            Write-Output "LatestRelease=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-            Write-Output "PreRelease=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-          } else {
-            Write-Output "TagName=$($Branch)-${{ env.Version }}" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-            Write-Output "ReleaseName=$($Branch) - Release ${{ env.Version }}" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-            Write-Output "LatestRelease=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-            Write-Output "PreRelease=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
           }
 
       - name: Update Repository
@@ -141,9 +136,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
         with:
-          tag_name: ${{ env.TagName }}
-          release_name: ${{ env.ReleaseName }}
+          tag_name: ${{ env.Version }}
+          release_name: Release ${{ env.Version }}
           body: ${{ env.ReleaseNotes }}
-          prerelease: ${{ env.PreRelease }}
+          prerelease: false
           draft: false
-          makeLatest: ${{ env.LatestRelease }}
+          makeLatest: true
