@@ -94,6 +94,8 @@ jobs:
             }
           }
 
+          Copy-Item './CHANGELOG.md' './docs/' -Force
+
           Write-Host "Removing temporary docs directory.."
           Remove-Item './docs-temp' -Recurse -Force -Confirm:$false
 
