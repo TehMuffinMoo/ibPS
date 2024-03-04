@@ -67,7 +67,7 @@ jobs:
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
 
           Write-Host "Updating documentation.."
-          New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion 1.9.2.5 -Force
+          New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion ${{ env.Version }} -Force
 
           Write-Host "Cleaning up old documentation.."
           Get-ChildItem ./docs/Functions -Recurse -File | Remove-Item -Force
