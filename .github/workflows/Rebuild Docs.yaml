@@ -28,8 +28,7 @@ jobs:
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
 
           Write-Host "Updating documentation.."
-          Get-Module ibPS -ListAvailable
-          $DocumentationVersion = (Get-Module ibPS -ListAvailable).Version.ToString()
+          $DocumentationVersion = (Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1").Version.ToString()
           New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion $($DocumentationVersion) -Force
 
           Write-Host "Cleaning up old documentation.."
