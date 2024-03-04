@@ -1,4 +1,4 @@
-name: Rebuild Documentation
+name: Publish Release
 
 on: workflow_dispatch
 #  push:
