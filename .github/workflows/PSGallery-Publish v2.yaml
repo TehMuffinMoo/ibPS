@@ -87,16 +87,9 @@ jobs:
                   $BaseName = "General"
                 }
               }
-
-              ## Add new docs
               Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
             }
           }
-
-          Get-ChildItem ./docs/Functions
-          Get-ChildItem ./docs/Functions/BloxOne
-          Get-ChildItem ./docs/Functions/NIOS
-          Get-ChildItem ./docs/Functions/General
 
           Write-Host "Removing temporary docs directory.."
           Remove-Item './docs-temp' -Recurse -Force -Confirm:$false
@@ -124,7 +117,7 @@ jobs:
           git add .
           git status
           git commit -m "Update Module to v${{ env.version }}"
-          git push origin/dev-test
+          git push
 
       #- name: Create Release
       #  if: ${{ env.ReleaseUpdated == 'true' }}
