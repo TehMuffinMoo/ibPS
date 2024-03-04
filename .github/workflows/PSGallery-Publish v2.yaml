@@ -14,10 +14,10 @@ jobs:
       - name: Update Module Manifest & Change Tracking
         shell: pwsh
         run: |
-          Write-Host "Updating changes to Module.." -ForegroundColor Yellow
+          Write-Host "Updating changes to Module.."
           Copy-Item "./Modules/BloxOne-Main.ps1" "./Modules/ibPS/BloxOne-Main.psm1" -Force
 
-          Write-Host "Testing Module Manifest.." -ForegroundColor Yellow
+          Write-Host "Testing Module Manifest.."
           $Module = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
 
           $ModuleVersion = [version]$Module.Version
@@ -34,10 +34,10 @@ jobs:
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
           $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
 
-          Write-Host "Updating Module Manifest to v$ModuleVersion.." -ForegroundColor Yellow
-          Update-ModuleManifest "$Base\Modules\ibPS\ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $ModuleReleaseNotes
+          Write-Host "Updating Module Manifest to v$ModuleVersion.."
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $ModuleReleaseNotes
 
-          Write-Host "Updating release notes" -ForegroundColor Yellow
+          Write-Host "Updating release notes"
           $ModuleReleaseNotes = "$($ReleaseNotes)"
           
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw
