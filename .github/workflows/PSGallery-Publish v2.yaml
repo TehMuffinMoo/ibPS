@@ -76,14 +76,18 @@ jobs:
               switch ($BaseName) {
                 "BloxOneDDI" {
                   $BaseName = "BloxOne"
+                  Write-Host "BaseName: BloxOne"
                 }
                 "Private" {
                   $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
+                  Write-Host "BaseName: Private"
                 }
                 "Misc" {
                   $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
+                  Write-Host "BaseName: Misc"
                 }
               }
+              Write-Host "Moving $($DocsToFind) to ./docs/Functions/$($BaseName)/"
               Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
             }
           }
