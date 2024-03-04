@@ -116,7 +116,7 @@ jobs:
           git config --global user.email 'mat.cox@tmmn.uk'
           git add .
           git status
-          git commit -m "Update Module to v${{ env.version }}"
+          git commit -m "Update Module to v${{ env.Version }}"
           git push
 
       #- name: Create Release
