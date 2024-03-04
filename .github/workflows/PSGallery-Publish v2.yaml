@@ -1,0 +1,78 @@
+name: Publish PowerShell Module v2
+
+on: workflow_dispatch
+#  push:
+#    branches: [main]
+
+jobs:
+  PSGallery-Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update Module Manifest & Change Tracking
+        shell: pwsh
+        run: |
+          Write-Host "Updating changes to Module.." -ForegroundColor Yellow
+          Copy-Item "./Modules/BloxOne-Main.ps1" "./Modules/ibPS/BloxOne-Main.psm1" -Force
+
+          Write-Host "Testing Module Manifest.." -ForegroundColor Yellow
+          $Module = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
+
+          $ModuleVersion = [version]$Module.Version
+          if ((Find-Module -Name ibPS).Version -eq $ModuleVersion) {
+            $IsCurrentVersion = $true
+          }
+
+          $ModuleVersion = [version]::New($ModuleVersion.Major,$ModuleVersion.Minor,$ModuleVersion.Build,$ModuleVersion.Revision+1)
+          
+          $ReleaseNotes = Get-Content -Path './RELEASE.md' -Raw
+
+          ## Functions to export
+          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOneDDI/*.ps1"
+          $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
+          $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
+
+          Write-Host "Updating Module Manifest to v$ModuleVersion.." -ForegroundColor Yellow
+          Update-ModuleManifest "$Base\Modules\ibPS\ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $ModuleReleaseNotes
+
+          Write-Host "Updating release notes" -ForegroundColor Yellow
+          $ModuleReleaseNotes = "$($ReleaseNotes)"
+          
+          $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw
+          $ModuleVersionString = "## $($ModuleVersion.ToString())"
+          Set-Content -Path './CHANGELOG.md' -Value ($ModuleVersionString + "`r`n" + $ReleaseNotes + "`r`n`r`n" + $ChangeHistory)
+
+      - name: Build and Publish
+        id: build
+        env:
+          NUGET_KEY: ${{ secrets.NUGET_KEY }}
+        shell: pwsh
+        run: |
+          Copy-Item './Modules/ibPS' '/home/runner/.local/share/powershell/Modules/' -Recurse
+          $Manifest = Test-ModuleManifest './Modules/ibPS/ibPS.psd1'
+          if ($($Manifest.Version) -gt $(Find-Module ibPS).Version) {
+            Write-Host "Publishing v$($Manifest.Version.ToString()).."
+            #Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
+            Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          } else {
+            Write-Host "Version number is the same, skipping publishing.."
+            Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          }
+          $Version = "v$($Manifest.Version.ToString())"
+          Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "ReleaseNotes=$($Manifest.ReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+
+      #- name: Create Release
+      #  if: ${{ env.ReleaseUpdated == 'true' }}
+      #  id: create_release
+      #  uses: actions/create-release@v1
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
+      #  with:
+      #    tag_name: ${{ env.Version }}
+      #    release_name: Release ${{ env.Version }}
+      #    body: ${{ env.ReleaseNotes }}
+      #    draft: false
+      #    prerelease: false

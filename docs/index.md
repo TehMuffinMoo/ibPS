@@ -105,7 +105,7 @@ All Cmdlets are listed in the left-hand menu. You can also use the `Get-Help` cm
 Get-Help New-B1AddressBlock -Detailed
 ```
 
-All supported `Get-*` cmdlets have a `-Strict` and `-tfilter` parameter.
+Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-Limit` & `-Offset` parameters. Their use is described below.
 
 <table>
   <tr>
@@ -125,13 +125,40 @@ This is used to apply strict name checking when querying objects.
 The default is to perform wildcard/lazy matches based on submitted query parameters.
     </td>
   </tr>
+  <tr>
     <td>
       -tfilter
     </td>
     <td>
 This is used to filter results of your query by tags.
-An example may be;
 <pre>Get-B1Record -tfilter '("myTag"=="val1" or "myOtherTag"~"partvalue")'</pre>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      -Fields
+    </td>
+    <td>
+This is used to filter the fields returned by the API
+<pre>Get-B1Record -Fields name_in_zone,absolute_zone_name,rdata </pre>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      -Limit
+    </td>
+    <td>
+This is used to specify the number of results to return from the API.
+<pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000</pre>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      -Offset
+    </td>
+    <td>
+The -Offset parameter will offset the results returned by the amount specified. This is used in combination with -Limit to achieve pagination of API results.
+<pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000 -Offset 1000</pre>
     </td>
   </tr>
 </table>
@@ -268,36 +295,6 @@ Get-B1Schema -Product {Product Name} -App {App} -Endpoint {API Endpoint} -Method
       post                           Use this method to create application configurations in data connector.
 ```
 
-## NIOS Cmdlets
-```powershell
-Store-NIOSCredentials -Credentials ${$CredentialObject} -Persist
- # Stores NIOS Credentials encrypted, can be run without -Credentials parameter for it to prompt instead. The optional -Persist parameter will persist the credentials for that user on that machine. This requires a restart of the powershell session before credentials can be used.
-
-Get-NIOSCredentials
- # Retrieves stored NIOS Credentials
-
-Set-NIOSConfiguration -Server gridmaster.domain.corp -APIVersion 2.10
- # Used to set the Grid Master FQDN and/or API Version, optionally persisting using -Persist. The default API Version for WAPI is 2.12.
- # This is useful to save having to enter the server address every time.
-
-Get-NIOSConfiguration
- # Retrieves stored NIOS Configuration, if available.
-
-Get-NIOSAuthoritativeZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
- # Retrieves a list of authoritative zones from NIOS
-
-Get-NIOSForwardZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
- # Retrieves a list of forward zones from NIOS
-
-Get-NIOSDelegatedZone -Server gridmaster.domain.corp -View External -FQDN my-dns.zone
- # Retrieves a list of delegated zones from NIOS
-
-New-NIOSDelegatedZone -Server gridmaster.domain.corp -FQDN delegated.my-dns.zone -Hosts @(@{"address"="1.2.3.4";"name"="bloxoneddihost1.dev.mydomain.corp";},@{"address"="2.3.4.5";"name"="bloxoneddihost2.dev.mydomain.corp";}) -View External
- # Used to create a new delegated zone within NIOS
-
-Copy-NIOSSubzoneToBloxOne -Server gridmaster.domain.corp -Subzone my-dns.zone -NIOSView External -B1View my-b1dnsview -CreateZones -AuthNSGs "Core DNS Group" -Confirm:$false
- # Used to copy/migrate Authoritative Subzones from NIOS to BloxOneDDI
-```
 ### Custom NIOS Functions
 You can also create custom functions by using the `Query-NIOS` cmdlet.
 ```bash
@@ -316,12 +313,9 @@ Get-ibPSVersion -CheckForUpdates
   # Using -Force will force the update/replacement of ibPS, regardless of the current version
 ```
 
-## To-Do
-
-All work below will be committed to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until updates are posted to main.
-
-### Implement pipeline input for all Set- & Remove- cmdlets
+## Pipeline Support
 Pipeline input for Set- & Remove- cmdlets is being developed, to allow more flexible usage of ibPS. The table below shows the current support for this feature.
+
 Cmdlet                           | Pipeline Input Supported                                           | Supported Input Cmdlets
 -------------------------------- | ------------------------------------------------------------------ | ----------------------------
 Reboot-B1Host                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
@@ -362,6 +356,8 @@ Remove-B1TDNetworkList           | ![Implemented](https://badgen.net/badge/Statu
 Get-B1TDDossierLookup            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1TTDDossierLookup
 Set-B1Object                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Object
 
+## To-Do
+All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested, where updates are then posted to main.
 
 
 ### Replace old for new APIs

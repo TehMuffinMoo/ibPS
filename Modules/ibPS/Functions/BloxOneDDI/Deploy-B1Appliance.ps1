@@ -6,8 +6,6 @@
     .DESCRIPTION
         This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/cluster or Hyper-V
 
-        Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
-
     .PARAMETER Type
         The type of deployment to perform (VMware / Hyper-V)
 
@@ -113,16 +111,19 @@
         Using this parameter will leave the VM in a powered off state once deployed
 
     .EXAMPLE
-        Deploy-B1Appliance -Type "VMware" -Name "bloxoneddihost1" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
+        PS> Deploy-B1Appliance -Type "VMware" -Name "bloxoneddihost1" -IP "10.10.100.10" -Netmask "255.255.255.0" -Gateway "10.10.100.1" -DNSServers "10.30.10.10,10.30.10.10" -NTPServers "time.mydomain.corp" -DNSSuffix "prod.mydomain.corp" -JoinToken "JoinTokenGoesHere" -OVAPath .\BloxOne_OnPrem_VMWare_v3.1.0-4.3.10.ova -vCenter "vcenter.mydomain.corp" -Cluster "CLUSTER-001" -Datastore "DATASTORE-001" -PortGroup "PORTGROUP" -PortGroupType "VDS"
     
     .EXAMPLE
-        Deploy-B1Appliance -Type Hyper-V -Name "bloxoneddihost1" -IP 10.10.100.10 -Netmask 255.255.255.0 -Gateway 10.10.100.1 -DNSServers 10.10.100.1 -NTPServers ntp.ubuntu.com -DNSSuffix mydomain.corp -JoinToken "JoinTokenGoesHere" -VHDPath ".\BloxOne_OnPrem_VHDX_v3.8.1.vhdx" -HyperVServer "Host1.mycompany.corp" -HyperVGeneration 2 -VMPath "A:\VMs" -VirtualNetwork "Virtual Network 1" -VirtualNetworkVLAN 101
+        PS> Deploy-B1Appliance -Type Hyper-V -Name "bloxoneddihost1" -IP 10.10.100.10 -Netmask 255.255.255.0 -Gateway 10.10.100.1 -DNSServers 10.10.100.1 -NTPServers ntp.ubuntu.com -DNSSuffix mydomain.corp -JoinToken "JoinTokenGoesHere" -VHDPath ".\BloxOne_OnPrem_VHDX_v3.8.1.vhdx" -HyperVServer "Host1.mycompany.corp" -HyperVGeneration 2 -VMPath "A:\VMs" -VirtualNetwork "Virtual Network 1" -VirtualNetworkVLAN 101
 
     .FUNCTIONALITY
         BloxOneDDI
     
     .FUNCTIONALITY
         VMware
+
+    .NOTES
+        Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
     #>
     param(
       [Parameter(Mandatory=$true)]

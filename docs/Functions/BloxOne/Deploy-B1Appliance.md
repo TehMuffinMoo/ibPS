@@ -22,8 +22,6 @@ Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <
 ## DESCRIPTION
 This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/cluster or Hyper-V
 
-Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
-
 ## EXAMPLES
 
 ### EXAMPLE 1
@@ -175,8 +173,8 @@ Accept wildcard characters: False
 
 ### -DownloadLatestImage
 Using this parameter will download the latest relevant image prior to deployment.
-    -DownloadLatestImage, -OVAPath & -VHDPath are mutually exclusive.
-    When -DownloadLatestImage is used in combination with -ImagesPath, the latest image will be downloaded to this location prior to deployment if it does not already exist.
+\`-DownloadLatestImage\`, \`-OVAPath\` & \`-VHDPath\` are mutually exclusive.
+When \`-DownloadLatestImage\` is used in combination with \`-ImagesPath\`, the latest image will be downloaded to this location prior to deployment if it does not already exist.
 If used consistently, this will always deploy the latest image but only need to download it once; effectively caching.
 
 ```yaml
@@ -193,7 +191,7 @@ Accept wildcard characters: False
 
 ### -ImagesPath
 Use this parameter to define the base path for images to be cached in, when using the -DownloadLatestImage parameter.
-This cannot be used in conjunction with -OVAPath or -VHDPath
+This cannot be used in conjunction with \`-OVAPath\` or \`-VHDPath\`
 
 ```yaml
 Type: String
@@ -261,5 +259,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
 
 ## RELATED LINKS
