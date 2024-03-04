@@ -26,11 +26,6 @@
 
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the existing subnet. This will overwrite existing DHCP options for this subnet.
-        
-        Example usage when combined with Get-B1DHCPOptionCode
-
-        $DHCPOptions = @()
-        $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
     .PARAMETER DDNSDomain
         The DDNS Domain to update the subnet to
@@ -44,9 +39,21 @@
     .PARAMETER id
         The id of the subnet to update. Accepts pipeline input
 
-    .Example
-        Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+    .EXAMPLE
+        PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description"
+
+    .EXAMPLE
+        ## Example usage when combined with Get-B1DHCPOptionCode
+
+        $DHCPOptions = @()
+        $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+        PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
     
+    .EXAMPLE
+        ## Example updating the HA Group and DDNSDomain properties of a subnet
+
+        PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Space "Global" -DDNSDomain "myddns.domain.corp" -HAGroup "MyDHCPHAGroup"
+
     .FUNCTIONALITY
         BloxOneDDI
     

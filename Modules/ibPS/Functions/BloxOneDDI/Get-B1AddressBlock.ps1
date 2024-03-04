@@ -38,30 +38,7 @@
 
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
-
-        ## String
-        $CustomFilters = 'address=="10.1.2.0" and cidr=="24"'
-
-
-        ## Object
-        $CustomFilters = @(
-           @{
-             "Property"="address"
-             "Operator"="=="
-             "Value"="10.1.2.0"
-           }
-           @{
-             "Property"="cidr"
-             "Operator"="=="
-             "Value"="24"
-           }
-        )
-
-
-        ## ArrayList
-        [System.Collections.ArrayList]$CustomFilters = @()
-        $CustomFilters.Add('address=="10.1.2.0"') | Out-Null
-        $CustomFilters.Add('cidr=="24"') | Out-Null
+        See here for usage: https://ibps.readthedocs.io/en/latest/#custom-filters
 
     .PARAMETER id
         Filter by the id of the address block

@@ -14,9 +14,9 @@ jobs:
       - name: Install platyPS module
         shell: pwsh
         run: |
+          git clone https://github.com/TehMuffinMoo/platyPS /tmp/platyPS
           Write-Host "Installing platyPS Powershell Module.."
-          Set-PSRepository PSGallery -InstallationPolicy Trusted
-          Install-Module platyPS -ErrorAction Stop
+          Import-Module '/tmp/platyPS/src/platyPS/platyPS.psd1' -ErrorAction Stop
 
       - name: Update Documentation
         shell: pwsh
