@@ -172,15 +172,15 @@ The -CustomFilters parameter allows you to use custom filters when interacting w
   </tr>
 </table>
 
-### -CustomFilters
+#### -CustomFilters
 The `-CustomFilters` parameter can be used to apply custom filtering to API calls. It supports inputs as either String, Object or ArrayList as shown below;
 
-#### String
+##### String
 ```powershell
 $CustomFilters = 'name~"10.1.2.3" and state=="enabled"'
 ```
 
-#### Object
+##### Object
 ```powershell
 $CustomFilters = @(
   @{
@@ -196,7 +196,7 @@ $CustomFilters = @(
 )
 ```
 
-#### ArrayList
+##### ArrayList
 ```powershell
 [System.Collections.ArrayList]$CustomFilters = @()
 $CustomFilters.Add('name~"postman"') | Out-Null
@@ -335,7 +335,7 @@ Get-B1Schema -Product {Product Name} -App {App} -Endpoint {API Endpoint} -Method
       post                           Use this method to create application configurations in data connector.
 ```
 
-### Custom NIOS Functions
+## Custom NIOS Functions
 You can also create custom functions by using the `Query-NIOS` cmdlet.
 ```bash
 Query-NIOS -Method <String> -Server <String> -Uri <String> -ApiVersion <String> -Creds <PSCredential> -Data <String> -SkipCertificateCheck <Switch>
