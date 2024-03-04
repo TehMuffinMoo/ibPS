@@ -44,7 +44,7 @@ function Get-B1AuditLog {
 
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
-        See here for usage: https://ibps.readthedocs.io/en/latest/#custom-filters
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
     .EXAMPLE
         PS> Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"

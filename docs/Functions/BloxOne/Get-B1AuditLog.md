@@ -202,7 +202,7 @@ Accept wildcard characters: False
 
 ### -CustomFilters
 Accepts either an Object, ArrayList or String containing one or more custom filters.
-See here for usage: https://ibps.readthedocs.io/en/latest/#custom-filters
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
 ```yaml
 Type: Object
