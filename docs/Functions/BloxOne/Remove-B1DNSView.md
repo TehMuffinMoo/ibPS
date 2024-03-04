@@ -14,12 +14,12 @@ Removes a DNS View from BloxOneDDI
 
 ### noID
 ```
-Remove-B1DNSView -Name <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Remove-B1DNSView -Name <String> [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1DNSView -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Remove-B1DNSView -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -67,21 +67,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

@@ -14,40 +14,38 @@ Queries active threats from the TIDE API
 
 ### host (Default)
 ```
-Get-B1TDTideThreats [-Hostname <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Get-B1TDTideThreats [-Hostname <String>] [-Limit <Int32>] [<CommonParameters>]
 ```
 
 ### ip
 ```
-Get-B1TDTideThreats [-IP <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-B1TDTideThreats [-IP <String>] [-Limit <Int32>] [<CommonParameters>]
 ```
 
 ### url
 ```
-Get-B1TDTideThreats [-URL <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-B1TDTideThreats [-URL <String>] [-Limit <Int32>] [<CommonParameters>]
 ```
 
 ### email
 ```
-Get-B1TDTideThreats [-Email <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Get-B1TDTideThreats [-Email <String>] [-Limit <Int32>] [<CommonParameters>]
 ```
 
 ### hash
 ```
-Get-B1TDTideThreats [-Hash <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-B1TDTideThreats [-Hash <String>] [-Limit <Int32>] [<CommonParameters>]
 ```
 
 ### type
 ```
 Get-B1TDTideThreats [-Type <String>] [-Value <String>] [-Age <String>] [-Distinct <String>] [-Limit <Int32>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ### id
 ```
-Get-B1TDTideThreats [-Id <String>] [-Limit <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-B1TDTideThreats [-Id <String>] [-Limit <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -248,21 +246,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: 100
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

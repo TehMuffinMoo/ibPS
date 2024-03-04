@@ -13,8 +13,7 @@ Applies a DNS Config Profile to one or most BloxOneDDI Hosts
 ## SYNTAX
 
 ```
-Grant-B1DNSConfigProfile [-Name] <String> [-Hosts] <Object> [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Grant-B1DNSConfigProfile [-Name] <String> [-Hosts] <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,21 +53,6 @@ Aliases:
 
 Required: True
 Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

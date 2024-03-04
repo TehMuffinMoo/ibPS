@@ -14,12 +14,12 @@ Stops a BloxOneDDI Service
 
 ### noID
 ```
-Stop-B1Service -Name <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Stop-B1Service -Name <String> [<CommonParameters>]
 ```
 
 ### ID
 ```
-Stop-B1Service -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Stop-B1Service -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -62,21 +62,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

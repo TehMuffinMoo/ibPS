@@ -15,7 +15,7 @@ Creates a new address block in BloxOneDDI IPAM
 ```
 New-B1AddressBlock [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [-Name] <String>
  [[-Description] <String>] [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>] [[-Tags] <Object>]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -149,21 +149,6 @@ Aliases:
 
 Required: False
 Position: 8
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

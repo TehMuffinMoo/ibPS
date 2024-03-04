@@ -14,7 +14,7 @@ Updates an existing TIDE Data Profile
 
 ```
 Set-B1TDTideDataProfile [-Name] <String> [[-Description] <String>] [[-RPZFeed] <String>] [[-State] <String>]
- [[-DefaultTTL] <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [[-DefaultTTL] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -99,21 +99,6 @@ Aliases:
 
 Required: False
 Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

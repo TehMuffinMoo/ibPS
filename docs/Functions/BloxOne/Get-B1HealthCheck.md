@@ -13,8 +13,7 @@ Performs a health check on a BloxOneDDI Host
 ## SYNTAX
 
 ```
-Get-B1HealthCheck [-OnPremHost] <String> [-Type] <String> [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Get-B1HealthCheck [-OnPremHost] <String> [-Type] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,21 +53,6 @@ Aliases:
 
 Required: True
 Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

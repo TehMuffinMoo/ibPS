@@ -16,7 +16,7 @@ Used to copy/migrate Authoritative Zone data from NIOS to BloxOneDDI
 Copy-NIOSSubzoneToBloxOne [[-Server] <String>] [-Subzone] <String> [-NIOSView] <String> [-B1View] <String>
  [[-RecordTypes] <String[]>] [[-Confirm] <Boolean>] [-IncludeDHCP] [-Test] [-CreateZones]
  [[-DNSHosts] <Object>] [[-AuthNSGs] <Object>] [[-Creds] <PSCredential>] [-SkipCertificateCheck]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -235,21 +235,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

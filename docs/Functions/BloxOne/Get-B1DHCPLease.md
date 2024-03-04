@@ -14,21 +14,19 @@ Retrieves a list of DHCP Leases from BloxOneDDI IPAM
 
 ### st (Default)
 ```
-Get-B1DHCPLease [-Space <String>] [-Limit <String>] [-Fields <String[]>] [-Strict]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+Get-B1DHCPLease [-Space <String>] [-Limit <String>] [-Fields <String[]>] [-Strict] [<CommonParameters>]
 ```
 
 ### htree
 ```
 Get-B1DHCPLease [-Range] -RangeStart <String> [-RangeEnd <String>] [-Space <String>] [-Limit <String>]
- [-Fields <String[]>] [-Strict] [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [-Fields <String[]>] [-Strict] [<CommonParameters>]
 ```
 
 ### std
 ```
 Get-B1DHCPLease [-Address <String>] [-MACAddress <String>] [-Hostname <String>] [-HAGroup <String>]
- [-DHCPServer <String>] [-Space <String>] [-Limit <String>] [-Fields <String[]>] [-Strict]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [-DHCPServer <String>] [-Space <String>] [-Limit <String>] [-Fields <String[]>] [-Strict] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -227,21 +225,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

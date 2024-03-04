@@ -15,13 +15,12 @@ Removes an address block from BloxOneDDI IPAM
 ### noID
 ```
 Remove-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Recurse] [-NoWarning]
- [-ProgressAction <ActionPreference>] [<CommonParameters>]
+ [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1AddressBlock [-Recurse] [-NoWarning] -id <String> [-ProgressAction <ActionPreference>]
- [<CommonParameters>]
+Remove-B1AddressBlock [-Recurse] [-NoWarning] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -129,21 +128,6 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -ProgressAction
-{{ Fill ProgressAction Description }}
-
-```yaml
-Type: ActionPreference
-Parameter Sets: (All)
-Aliases: proga
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
