@@ -2,25 +2,16 @@
 .SYNOPSIS
    BloxOne REST API for PowerShell
 .DESCRIPTION
-   A collection of PowerShell Cmdlets to interact with the InfoBlox BloxOne DDI REST API located at https://csp.infoblox.com/apidocs
+   A collection of PowerShell Cmdlets to interact with the InfoBlox BloxOne DDI & BloxOne Threat Defense REST API located at https://csp.infoblox.com/apidocs
    Also supports some limited Cmdlets for InfoBlox NIOS (Grid).
 .NOTES
-   Work in progress, some cmdlets are limited in their nature.
+   Documentation located at: https://ibps.readthedocs.io
 .AUTHOR
    Mat Cox
 .VERSION
-   v1.9
+   https://github.com/TehMuffinMoo/ibPS/releases
 .CHANGELOG
-   v0.1 - 17/05/2022 - Initial commit
-   v0.2 - 18/05/2022 - Addition of a number of new Cmdlets, still developing..
-   v0.3 - 26/05/2022 - Bug fixes, addition of Set-B1Subnet & Set-B1AddressBlock
-   v0.4 - 30/05/2022 - Added hard dependency to check API key for BloxOne is stored.
-   v0.5 - 06/07/2022 - Various changes, cleanup, update cmdlet docs, etc.
-   v0.6 - 26/07/2022 - Finally a new release.. lots of changes :)
-   v0.7 - 24/10/2022 - I guess it's that time again
-   v0.8 - 20/04/2023 - Definitely in need of a new version no.
-   v0.9 - 25/08/2023 - Complete re-write/re-structure, add contextual help info (Get-Help) for all cmdlets & basic prep for implementing pipeline input
-   v1.9 - 25/08/2023 - Align version numbers with module
+   https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/CHANGELOG.md
 #>
 
 ## Enable Debug Logging (Mainly @splat outputs)
