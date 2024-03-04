@@ -1,4 +1,13 @@
 /* Maximum space for center grid */
 .md-grid {
     max-width: 85rem !important; /* or 100%, if you want to stretch to full-width */
-}  
+}
+.md-sidebar {
+    max-width: 100% !important;
+}
+.md-sidebar__inner {
+    padding-right: 5px !important;
+}
+.md-sidebar--primary {
+    width: 15rem !important;
+}
