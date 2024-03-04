@@ -13,7 +13,8 @@ Retrieves the bootstrap configuration for a BloxOneDDI Host
 ## SYNTAX
 
 ```
-Get-B1BootstrapConfig [-OnPremHost] <String> [-Strict] [<CommonParameters>]
+Get-B1BootstrapConfig [-OnPremHost] <String> [-Strict] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -56,6 +57,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

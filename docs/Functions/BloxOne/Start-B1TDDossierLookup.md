@@ -13,7 +13,8 @@ Performs a single lookup against the BloxOne Threat Defense Dossier
 ## SYNTAX
 
 ```
-Start-B1TDDossierLookup [-Type] <String> [-Value] <String> [[-Source] <String[]>] [-Wait] [<CommonParameters>]
+Start-B1TDDossierLookup [-Type] <String> [-Value] <String> [[-Source] <String[]>] [-Wait]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -91,6 +92,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

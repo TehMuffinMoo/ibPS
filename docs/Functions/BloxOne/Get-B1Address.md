@@ -15,19 +15,20 @@ Queries a list of address objects from the BloxOneDDI IPAM
 ### None (Default)
 ```
 Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-CustomFilters <Object>] [<CommonParameters>]
+ [-CustomFilters <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### noID
 ```
 Get-B1Address [-Address <String>] [-State <String>] [-Reserved] [-Limit <Int32>] [-Offset <Int32>]
- [-tfilter <String>] [-Fields <String[]>] [-CustomFilters <Object>] [<CommonParameters>]
+ [-tfilter <String>] [-Fields <String[]>] [-CustomFilters <Object>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### ID
 ```
 Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-CustomFilters <Object>] [-id <String>] [<CommonParameters>]
+ [-CustomFilters <Object>] [-id <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -195,6 +196,21 @@ Return results based on the address id
 Type: String
 Parameter Sets: ID
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

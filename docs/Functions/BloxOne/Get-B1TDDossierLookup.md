@@ -14,22 +14,23 @@ Retrieves details about a BloxOne Threat Defense Dossier Lookup
 
 ### None (Default)
 ```
-Get-B1TDDossierLookup -job_id <String> [<CommonParameters>]
+Get-B1TDDossierLookup -job_id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Pending
 ```
-Get-B1TDDossierLookup -job_id <String> [-Pending] [<CommonParameters>]
+Get-B1TDDossierLookup -job_id <String> [-Pending] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### Results
 ```
-Get-B1TDDossierLookup -job_id <String> [-Results] [<CommonParameters>]
+Get-B1TDDossierLookup -job_id <String> [-Results] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### TaskID
 ```
-Get-B1TDDossierLookup -job_id <String> [-task_id <String>] [<CommonParameters>]
+Get-B1TDDossierLookup -job_id <String> [-task_id <String>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -107,6 +108,21 @@ Used to filter the results by individual task ID
 Type: String
 Parameter Sets: TaskID
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

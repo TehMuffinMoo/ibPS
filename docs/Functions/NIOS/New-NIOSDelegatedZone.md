@@ -14,7 +14,7 @@ Used to create a new delegated zone within NIOS
 
 ```
 New-NIOSDelegatedZone [[-Server] <String>] [-Hosts] <Object> [-FQDN] <String> [-View] <String>
- [[-Creds] <PSCredential>] [-SkipCertificateCheck] [<CommonParameters>]
+ [[-Creds] <PSCredential>] [-SkipCertificateCheck] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -115,6 +115,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

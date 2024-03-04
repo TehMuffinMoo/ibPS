@@ -13,7 +13,8 @@ Used to retrieve threat enrichment data from BloxOne Threat Defense
 ## SYNTAX
 
 ```
-Get-B1TDTideThreatEnrichment [-Type] <String> [-Indicator] <String> [<CommonParameters>]
+Get-B1TDTideThreatEnrichment [-Type] <String> [-Indicator] <String> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -55,6 +56,21 @@ Aliases:
 
 Required: True
 Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -16,13 +16,14 @@ Updates an existing address block in BloxOneDDI IPAM
 ```
 Set-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Name <String>] [-DHCPOptions <Object>]
  [-Description <String>] [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1AddressBlock [-Name <String>] [-DHCPOptions <Object>] [-Description <String>]
- [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] -id <String> [<CommonParameters>]
+ [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] -id <String>
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -193,6 +194,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

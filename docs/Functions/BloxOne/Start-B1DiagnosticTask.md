@@ -15,30 +15,31 @@ Initiates a BloxOneDDI Diagnostic Task
 ### traceroute
 ```
 Start-B1DiagnosticTask [-OnPremHost <String>] [-Traceroute] -Target <String> [-Port <String>] [-WaitForOutput]
- [-id <String>] [<CommonParameters>]
+ [-id <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### dnstest
 ```
 Start-B1DiagnosticTask [-OnPremHost <String>] [-DNSTest] -FQDN <String> [-WaitForOutput] [-id <String>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ntptest
 ```
-Start-B1DiagnosticTask [-OnPremHost <String>] [-NTPTest] [-WaitForOutput] [-id <String>] [<CommonParameters>]
+Start-B1DiagnosticTask [-OnPremHost <String>] [-NTPTest] [-WaitForOutput] [-id <String>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### dnsconf
 ```
 Start-B1DiagnosticTask [-OnPremHost <String>] [-DNSConfiguration] [-WaitForOutput] [-id <String>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### dhcpconf
 ```
 Start-B1DiagnosticTask [-OnPremHost <String>] [-DHCPConfiguration] [-WaitForOutput] [-id <String>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -222,6 +223,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

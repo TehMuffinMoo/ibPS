@@ -14,25 +14,26 @@ Retrieves top metrics from BloxOneDDI
 
 ### default (Default)
 ```
-Get-B1TopMetrics [-TopCount <Int32>] [-Start <DateTime>] [-End <DateTime>] [<CommonParameters>]
+Get-B1TopMetrics [-TopCount <Int32>] [-Start <DateTime>] [-End <DateTime>] [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ### topQueries
 ```
 Get-B1TopMetrics [-TopQueries] -QueryType <String> [-TopCount <Int32>] [-Start <DateTime>] [-End <DateTime>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### topClients
 ```
 Get-B1TopMetrics [-TopClients] [-TopClientLogType <String>] [-TopCount <Int32>] [-Start <DateTime>]
- [-End <DateTime>] [<CommonParameters>]
+ [-End <DateTime>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### topDNSServers
 ```
 Get-B1TopMetrics [-TopDNSServers] [-Granularity <String>] [-TopCount <Int32>] [-Start <DateTime>]
- [-End <DateTime>] [<CommonParameters>]
+ [-End <DateTime>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -183,6 +184,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-Date)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

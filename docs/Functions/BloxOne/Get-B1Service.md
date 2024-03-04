@@ -14,7 +14,7 @@ Retrieves a list of BloxOneDDI Services
 
 ```
 Get-B1Service [-Name <String>] [-Type <String>] [-Detailed] [-Limit <String>] [-Strict] [-Fields <String[]>]
- [-id <String>] [<CommonParameters>]
+ [-id <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -130,6 +130,21 @@ Use the id parameter to filter the results by ID
 Type: String
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
 
 Required: False
 Position: Named

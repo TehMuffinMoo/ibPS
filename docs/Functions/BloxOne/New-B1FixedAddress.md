@@ -14,7 +14,8 @@ Creates a new fixed addresses in BloxOneDDI IPAM
 
 ```
 New-B1FixedAddress [-IP] <String> [-Name] <String> [[-Description] <String>] [-MatchType] <String>
- [-MatchValue] <String> [-Space] <String> [[-DHCPOptions] <Object>] [[-Tags] <Object>] [<CommonParameters>]
+ [-MatchValue] <String> [-Space] <String> [[-DHCPOptions] <Object>] [[-Tags] <Object>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -149,6 +150,21 @@ Aliases:
 
 Required: False
 Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

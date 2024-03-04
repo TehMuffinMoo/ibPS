@@ -15,12 +15,12 @@ Retrieves network lists from BloxOne Threat Defense
 ### notid (Default)
 ```
 Get-B1TDNetworkList [-Name <String>] [-Description <String>] [-PolicyID <Int32>] [-DefaultSecurityPolicy]
- [-Strict] [<CommonParameters>]
+ [-Strict] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### id
 ```
-Get-B1TDNetworkList [-id <Int32>] [<CommonParameters>]
+Get-B1TDNetworkList [-id <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -123,6 +123,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

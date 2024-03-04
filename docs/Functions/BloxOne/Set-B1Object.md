@@ -13,7 +13,8 @@ Generic Wrapper for updating existing objects within the CSP (Cloud Services Por
 ## SYNTAX
 
 ```
-Set-B1Object [-Data] <Object> [-_ref] <String> [-id] <String> [<CommonParameters>]
+Set-B1Object [-Data] <Object> [-_ref] <String> [-id] <String> [-ProgressAction <ActionPreference>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -99,6 +100,21 @@ Required: True
 Position: 3
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

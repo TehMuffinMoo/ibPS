@@ -14,12 +14,13 @@ Removes a BloxOne Cloud API Key
 
 ### noID
 ```
-Remove-B1APIKey -Name <Object> [-User <Object>] [-Type <Object>] [-State <Object>] [<CommonParameters>]
+Remove-B1APIKey -Name <Object> [-User <Object>] [-Type <Object>] [-State <Object>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1APIKey -id <String> [<CommonParameters>]
+Remove-B1APIKey -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -113,6 +114,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

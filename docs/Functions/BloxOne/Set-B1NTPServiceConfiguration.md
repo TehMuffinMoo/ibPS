@@ -13,7 +13,8 @@ Updates the NTP configuration for a particular service
 ## SYNTAX
 
 ```
-Set-B1NTPServiceConfiguration [-Name] <String> [-Strict] [-UseGlobalNTPConfig] [<CommonParameters>]
+Set-B1NTPServiceConfiguration [-Name] <String> [-Strict] [-UseGlobalNTPConfig]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -71,6 +72,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: True
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

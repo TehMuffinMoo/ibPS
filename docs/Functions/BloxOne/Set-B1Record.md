@@ -15,14 +15,14 @@ Updates an existing DNS record in BloxOneDDI
 ### ID
 ```
 Set-B1Record -Type <String> [-rdata <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>]
- [-Weight <Int32>] [-Port <Int32>] -id <String> [<CommonParameters>]
+ [-Weight <Int32>] [-Port <Int32>] -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### noID
 ```
 Set-B1Record -Type <String> -Name <String> -Zone <String> [-rdata <String>] -view <String>
  [-CurrentRDATA <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>] [-Weight <Int32>]
- [-Port <Int32>] [<CommonParameters>]
+ [-Port <Int32>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -230,6 +230,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

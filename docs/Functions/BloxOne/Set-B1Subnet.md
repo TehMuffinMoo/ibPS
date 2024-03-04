@@ -16,13 +16,14 @@ Updates an existing subnet in BloxOneDDI IPAM
 ```
 Set-B1Subnet -Subnet <String> -CIDR <Int32> -Space <String> [-Name <String>] [-HAGroup <String>]
  [-DHCPOptions <Object>] [-Description <String>] [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>]
- [-Tags <Object>] [<CommonParameters>]
+ [-Tags <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1Subnet [-Name <String>] [-HAGroup <String>] [-DHCPOptions <Object>] [-Description <String>]
- [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] [-id <String[]>] [<CommonParameters>]
+ [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] [-id <String[]>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -206,6 +207,21 @@ Required: False
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

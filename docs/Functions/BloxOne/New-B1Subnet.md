@@ -15,7 +15,7 @@ Creates a new subnet in BloxOneDDI IPAM
 ```
 New-B1Subnet [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [-Name] <String> [[-HAGroup] <Object>]
  [[-Description] <String>] [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>] [[-Tags] <Object>]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,8 +25,17 @@ This function is used to create a new subnet in BloxOneDDI IPAM
 
 ### EXAMPLE 1
 ```
-New-B1Subnet -Subnet "10.30.5.0" -CIDR "24" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
+New-B1Subnet -Subnet "10.30.5.0" -CIDR "24" -Space "Global" -Name "My Subnet" -Description "My Production Subnet"
 ```
+
+### EXAMPLE 2
+```
+## Example showing building DHCP options using Get-B1DHCPOptionCode
+$DHCPOptions = @()
+$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+```
+
+PS\> New-B1Subnet -Subnet "10.30.5.0" -CIDR "24" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
 
 ## PARAMETERS
 
@@ -123,11 +132,6 @@ Accept wildcard characters: False
 ### -DHCPOptions
 A list of DHCP Options you want to apply to the new subnet.
 
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-
 ```yaml
 Type: Object
 Parameter Sets: (All)
@@ -165,6 +169,21 @@ Aliases:
 
 Required: False
 Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

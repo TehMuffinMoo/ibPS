@@ -13,7 +13,8 @@ Perform multiple simultaneous lookups against the BloxOne Threat Defense Dossier
 ## SYNTAX
 
 ```
-Start-B1TDDossierBatchLookup [-Type] <String> [-Target] <String[]> [-Source] <String[]> [<CommonParameters>]
+Start-B1TDDossierBatchLookup [-Type] <String> [-Target] <String[]> [-Source] <String[]>
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -70,6 +71,21 @@ Aliases:
 
 Required: True
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

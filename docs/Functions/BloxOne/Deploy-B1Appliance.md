@@ -16,7 +16,7 @@ Deploys a BloxOneDDI Virtual Appliance to VMware or Hyper-V
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
  [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
  [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -173,8 +173,8 @@ Accept wildcard characters: False
 
 ### -DownloadLatestImage
 Using this parameter will download the latest relevant image prior to deployment.
-\`-DownloadLatestImage\`, \`-OVAPath\` & \`-VHDPath\` are mutually exclusive.
-When \`-DownloadLatestImage\` is used in combination with \`-ImagesPath\`, the latest image will be downloaded to this location prior to deployment if it does not already exist.
+    -DownloadLatestImage, -OVAPath & -VHDPath are mutually exclusive.
+    When -DownloadLatestImage is used in combination with -ImagesPath, the latest image will be downloaded to this location prior to deployment if it does not already exist.
 If used consistently, this will always deploy the latest image but only need to download it once; effectively caching.
 
 ```yaml
@@ -191,7 +191,7 @@ Accept wildcard characters: False
 
 ### -ImagesPath
 Use this parameter to define the base path for images to be cached in, when using the -DownloadLatestImage parameter.
-This cannot be used in conjunction with \`-OVAPath\` or \`-VHDPath\`
+This cannot be used in conjunction with -OVAPath or -VHDPath
 
 ```yaml
 Type: String
@@ -247,6 +247,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

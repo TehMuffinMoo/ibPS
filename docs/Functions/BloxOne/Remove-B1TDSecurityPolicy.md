@@ -14,12 +14,12 @@ Removes a BloxOne Threat Defense Security Policy
 
 ### NoID (Default)
 ```
-Remove-B1TDSecurityPolicy [-Name <String>] [<CommonParameters>]
+Remove-B1TDSecurityPolicy [-Name <String>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Remove-B1TDSecurityPolicy -id <String> [<CommonParameters>]
+Remove-B1TDSecurityPolicy -id <String> [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -67,6 +67,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

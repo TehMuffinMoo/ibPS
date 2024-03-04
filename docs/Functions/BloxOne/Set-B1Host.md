@@ -15,13 +15,13 @@ Updates an existing BloxOneDDI Host
 ### noID
 ```
 Set-B1Host [-Name <String>] [-IP <String>] [-Space <String>] [-TimeZone <String>] [-Description <String>]
- [-NoIPSpace] [-Tags <Object>] [<CommonParameters>]
+ [-NoIPSpace] [-Tags <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ### ID
 ```
 Set-B1Host [-Space <String>] [-TimeZone <String>] [-Description <String>] [-Tags <Object>] -id <String>
- [<CommonParameters>]
+ [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -156,6 +156,21 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

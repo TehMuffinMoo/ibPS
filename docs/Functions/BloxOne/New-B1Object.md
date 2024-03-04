@@ -13,8 +13,8 @@ Generic Wrapper for creating new objects within the CSP (Cloud Services Portal)
 ## SYNTAX
 
 ```
-New-B1Object [-Product] <String> [-App] <String> [-Endpoint] <String> [-Data] <PSObject> [[-Method] <Object>]
- [<CommonParameters>]
+New-B1Object [-Product] <String> [-App] <String> [-Endpoint] <String> [-Data] <PSObject> [-JSON]
+ [[-Method] <Object>] [-ProgressAction <ActionPreference>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -102,6 +102,21 @@ Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
+### -JSON
+Use this switch if the -Data parameter contains JSON data instead of a PSObject
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Method
 The method to use when creating new object.
 Defaults to POST
@@ -114,6 +129,21 @@ Aliases:
 Required: False
 Position: 5
 Default value: POST
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ProgressAction
+{{ Fill ProgressAction Description }}
+
+```yaml
+Type: ActionPreference
+Parameter Sets: (All)
+Aliases: proga
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
