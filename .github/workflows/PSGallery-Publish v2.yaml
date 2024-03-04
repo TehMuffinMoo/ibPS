@@ -65,17 +65,20 @@ jobs:
           Write-Host "Importing ibPS Module.."
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
 
-          Write-Host "Removing temporary docs directory.."
+          Write-Host "Updating documentation.."
           New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion 1.9.2.5 -Force
 
+          Write-Host "Relocating documentation.."
           foreach ($F in Get-ChildItem './Modules/ibPS/Functions/' -Recurse) {
             $DocToFind = "./docs-temp/$($F.BaseName).md"
             if (Test-Path $DocToFind) {
-              Write-Host "Found $DocToFind"
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
                 "BloxOneDDI" {
                   $BaseName = "BloxOne"
+                }
+                "Private" {
+                  $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
                 }
               }
               Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
