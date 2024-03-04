@@ -11,6 +11,15 @@
 ## 1.9.2.4
 - Update New-B1Service & Get-B1Service to replace service specific parameters to a dynamically generated -Type parameter.
 
+> [!WARNING]  
+> Breaking Change!
+>
+> The -DNS, -DHCP & -NTP parameters have been removed from New-B1Service in favour of a -Type parameter where the options are generated automatically.
+>
+> The syntax would now be something like;
+> 
+> `New-B1Service -Type dns -Name "dns_myb1host -OnPremHost "myb1host"`
+
 
 ## 1.9.2.3
 - Fix issue deploying BloxOne OVA with Infoblox self-signed certificate
