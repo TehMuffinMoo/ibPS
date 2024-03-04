@@ -1,4 +1,4 @@
-name: Publish PowerShell Module (v2)
+name: Publish ibPS PowerShell Module
 
 on: workflow_dispatch
 #  push:
@@ -27,6 +27,7 @@ jobs:
 
           $ModuleVersion = [version]::New($ModuleVersion.Major,$ModuleVersion.Minor,$ModuleVersion.Build,$ModuleVersion.Revision+1)
           
+          Write-Host "Updating release notes"
           $ReleaseNotes = Get-Content -Path './RELEASE.md' -Raw
 
           ## Functions to export
@@ -34,11 +35,8 @@ jobs:
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
           $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
 
-          Write-Host "Updating release notes"
-          $ModuleReleaseNotes = "$($ReleaseNotes)"
-
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
-          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $ModuleReleaseNotes
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $($ReleaseNotes)
 
           Write-Host "Updating CHANGELOG.."
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw
@@ -48,6 +46,9 @@ jobs:
           Write-Host "Export Github Actions Environment Variables.."
           $Version = "v$($ModuleVersion.ToString())"
           Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "ReleaseNotes<<EOF" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "$($ReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "EOF" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Install platyPS module
         shell: pwsh
@@ -100,10 +101,19 @@ jobs:
           NUGET_KEY: ${{ secrets.NUGET_KEY }}
         shell: pwsh
         run: |
-          if ("{{ env.Version }}" -gt $(Find-Module ibPS).Version) {
-            Write-Host "Publishing v$($Manifest.Version.ToString()).."
-            #Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
-            Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          $Branch = git rev-parse --abbrev-ref HEAD
+          Write-Output ("Branch=$($Branch)") | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+
+          $Manifest = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
+          if ($($Manifest).Version -gt $(Find-Module ibPS).Version) {
+            if ($Branch -eq "main") {
+              Write-Host "Publishing v$($Manifest.Version.ToString()).."
+              Publish-Module -Name "ibPS" -NuGetApiKey $env:NUGET_KEY -SkipAutomaticTags -Verbose
+              Write-Output "ReleaseUpdated=true" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+            } else {
+              Write-Host "Running on $($Branch) branch. Skipping publishing.."
+              Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+            }
           } else {
             Write-Host "Version number is the same, skipping publishing.."
             Write-Output "ReleaseUpdated=false" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
@@ -111,23 +121,24 @@ jobs:
 
       - name: Update Repository
         run: |
-          git config --global user.name 'TehMuffinMoo'
+          git config --global user.name ${{ github.actor }}
           git config --global user.password ${{ secrets.GIT_ACTIONS }}
           git config --global user.email 'mat.cox@tmmn.uk'
           git add .
           git status
-          git commit -m "Update Module to v${{ env.version }}"
+          git commit -m "Update Module to ${{ env.Version }}"
           git push
 
-      #- name: Create Release
-      #  if: ${{ env.ReleaseUpdated == 'true' }}
-      #  id: create_release
-      #  uses: actions/create-release@v1
-      #  env:
-      #    GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
-      #  with:
-      #    tag_name: ${{ env.Version }}
-      #    release_name: Release ${{ env.Version }}
-      #    body: ${{ env.ReleaseNotes }}
-      #    draft: false
-      #    prerelease: false
+      - name: Create Release
+        if: ${{ env.ReleaseUpdated == 'true' }}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
+        with:
+          tag_name: ${{ env.Version }}
+          release_name: Release ${{ env.Version }}
+          body: ${{ env.ReleaseNotes }}
+          prerelease: false
+          draft: false
+          makeLatest: true
