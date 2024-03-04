@@ -48,7 +48,7 @@ jobs:
           Write-Host "Export Github Actions Environment Variables.."
           $Version = "v$($ModuleVersion.ToString())"
           Write-Output "Version=$($Version)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "ReleaseNotes=$($ModuleReleaseNotes)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "ReleaseNotes="$($ModuleReleaseNotes)"" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Install platyPS module
         shell: pwsh
