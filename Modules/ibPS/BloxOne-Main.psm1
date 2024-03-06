@@ -21,11 +21,12 @@ $Debug = $false
 $MiscellaneousFunctions = Get-ChildItem "$PSScriptRoot\Functions\Misc\*.ps1"
 $B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneDDI\*.ps1"
 $B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneDDI\Private\*.ps1"
+$B1TDPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneTD\*.ps1"
 $NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\*.ps1"
 $NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1"
 $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
 
-foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $NIOSPublicFunctions + $NIOSPrivateFunctions + $MiscellaneousFunctions)) {
+foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $B1TDPublicFunctions + $NIOSPublicFunctions + $NIOSPrivateFunctions + $MiscellaneousFunctions)) {
   try {
     . $FunctionToImport.fullname
   } catch {
