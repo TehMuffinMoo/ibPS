@@ -81,7 +81,10 @@ jobs:
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
                 "BloxOneDDI" {
-                  $BaseName = "BloxOne"
+                  $BaseName = "BloxOne DDI"
+                }
+                "BloxOneTD" {
+                  $BaseName = "BloxOne Threat Defense"
                 }
                 "Private" {
                   $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName

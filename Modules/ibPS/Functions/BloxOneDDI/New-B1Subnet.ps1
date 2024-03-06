@@ -57,7 +57,6 @@
       [Int]$CIDR,
       [Parameter(Mandatory=$true)]
       [String]$Space,
-      [Parameter(Mandatory=$true)]
       [String]$Name,
       [System.Object]$HAGroup,
       [String]$Description,
@@ -104,10 +103,10 @@
         $splat = $splat | ConvertTo-Json -Depth 4
         if ($Debug) {$splat}
 
-        $Result = Query-CSP -Method POST -Uri "ipam/subnet" -Data $splat
-        
-        if (($Result | Select-Object -ExpandProperty result).address -eq $Subnet) {
+        $Result = Query-CSP -Method POST -Uri "ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+        if ($Result.address -eq $Subnet) {
             Write-Host "Subnet $Subnet/$CIDR created successfully." -ForegroundColor Green
+            return $Result
         } else {
             Write-Host "Failed to create subnet $Subnet/$CIDR." -ForegroundColor Red
             break
