@@ -6,6 +6,9 @@ function Get-B1TDDossierSupportedSources {
     .DESCRIPTION
         The Dossier Sources cmdlet returns a list of all Dossier (sometimes referred to as Intel Lookup) sources and whether or not they are available for the caller.
 
+    .PARAMETER Target
+        List the supported sources relating to the target type (ip/host/url/etc.)
+
     .EXAMPLE
         PS> Get-B1TDDossierSupportedSources -Target ip
 

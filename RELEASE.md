@@ -1,2 +1,3 @@
 - Remove mandatory flag in the `New-B1Subnet` & `New-B1Space` cmdlets for the `-Name` parameter
 - Split BloxOne DDI & BloxOne Threat Defense functions to aid better documentation separation
+- Updated most of the BloxOne Threat Defense Help Information/Documentation
