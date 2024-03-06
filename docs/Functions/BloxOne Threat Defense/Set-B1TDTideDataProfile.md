@@ -25,6 +25,14 @@ This function is used to update an existing TIDE Data Profile from BloxOne Threa
 ### EXAMPLE 1
 ```powershell
 Set-B1TDTideDataProfile -Name "My Profile" -Description "New Description" -RPZFeed "New RPZ Feed" -Active $true -DefaultTTL $false
+
+id          : 1133454765324:My-Profile
+name        : My Profile
+description : New Description
+policy      : default-csp
+default_ttl : False
+active      : True
+rpzfeedname : New RPZ Feed
 ```
 
 ## PARAMETERS

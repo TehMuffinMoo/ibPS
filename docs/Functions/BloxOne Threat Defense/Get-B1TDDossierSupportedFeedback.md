@@ -24,6 +24,12 @@ The Dossier Indicators cmdlet returns a list of all Dossier (sometimes referred 
 ### EXAMPLE 1
 ```powershell
 Get-B1TDDossierSupportedFeedback
+
+False Positive, This indicator is NOT a threat
+False Negative, This indicator is a threat
+Infoblox Web Category is Incorrect
+Lookalike Detection is incorrect
+Application Detection is incorrect
 ```
 
 ## PARAMETERS

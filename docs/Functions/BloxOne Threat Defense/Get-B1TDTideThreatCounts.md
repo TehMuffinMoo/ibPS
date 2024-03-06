@@ -28,7 +28,17 @@ Get-B1TDTideThreatCounts
 
 ### EXAMPLE 2
 ```powershell
-Get-B1TDTideThreatCounts -Historical
+Get-B1TDTideThreatCounts | Select-Object -ExpandProperty class_counts | Select-Object -ExpandProperty ip | Select-Object -ExpandProperty iid
+
+APT                    : 1010
+Cryptocurrency         : 6
+InternetInfrastructure : 209
+MalwareC2              : 61
+MalwareDownload        : 5
+Phishing               : 5
+Proxy                  : 4113
+Suspicious             : 192
+UnwantedContent        : 8
 ```
 
 ## PARAMETERS

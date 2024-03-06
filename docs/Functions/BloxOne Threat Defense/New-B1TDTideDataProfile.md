@@ -24,7 +24,17 @@ This function is used to create a new TIDE Data Profile in BloxOne Threat Defens
 
 ### EXAMPLE 1
 ```powershell
-New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $false
+New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $true
+
+Successfully created TIDE Data Profile: My Profile
+
+id          : 01234546567563324:My-Profile
+name        : My Profile
+description : My Data Profile
+policy      : default-csp
+default_ttl : True
+active      : True
+rpzfeedname : threat_feed_one
 ```
 
 ## PARAMETERS

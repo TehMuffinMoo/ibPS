@@ -52,6 +52,26 @@ Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
 Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
 ```
 
+### EXAMPLE 4
+```powershell
+$Lookup = Start-B1TDDossierLookup -Type ip 1.1.1.1
+PS> $Lookup | Get-B1TDDossierLookup -Results
+
+task_id : 86655f48-944b-4871-9483-de1f0f0f820f
+params  : @{type=ip; target=1.1.1.1; source=whois}
+status  : success
+time    : 47
+v       : 3.0.0
+data    : @{response=}
+
+task_id : fa7b0d3e-68a5-4d15-a2e1-42e791fc76d1
+params  : @{type=ip; target=1.1.1.1; source=atp}
+status  : success
+time    : 230
+v       : 3.0.0
+data    : @{record_count=2771; threat=System.Object[]}
+```
+
 ## PARAMETERS
 
 ### -job_id

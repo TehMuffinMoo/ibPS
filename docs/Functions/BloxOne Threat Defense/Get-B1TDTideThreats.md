@@ -71,11 +71,50 @@ Get-B1TDTideThreats -Hostname eicar.co -Limit 10
 ### EXAMPLE 4
 ```powershell
 Get-B1TDTideThreats -Type Host -Value eicar.co -Distinct Profile
+
+id                      : d123456-f9d4-11ed-9fe7-123456789
+type                    : HOST
+host                    : eicar.co
+domain                  : eicar.co
+tld                     : co
+profile                 : IID
+property                : MaliciousNameserver_Generic
+class                   : MaliciousNameserver
+threat_level            : 100
+confidence              : 100
+detected                : 5/24/2023 1:45:30AM
+received                : 5/24/2023 1:46:36AM
+imported                : 5/24/2023 1:46:36AM
+expiration              : 5/24/2043 1:45:30AM
+dga                     : false
+up                      : true
+batch_id                : d123456-f9d4-11ed-9fe7-123456789
+threat_score            : 6.3
+threat_score_rating     : Medium
+threat_score_vector     : TSIS:1.0/AV:N/AC:L/PR:L/UI:N/EX:L/MOD:L/AVL:L/CI:N/ASN:N/TLD:N/DOP:N/P:F
+confidence_score        : 8
+confidence_score_rating : High
+confidence_score_vector : COSIS:1.0/SR:H/POP:N/TLD:N/CP:F
+risk_score              : 7.9
+risk_score_rating       : High
+risk_score_vector       : RSIS:1.0/TSS:M/TLD:N/CVSS:M/EX:L/MOD:L/AVL:L/T:M/DT:M
+extended                : @{cyberint_guid=0718b50d524c42a70eb459c28d9891bf; notes=This is an artificial indicator created by Infoblox for monitoring and testing the health of Infoblox managed services. It is also used in security demonstrations by the Infoblox sales and tech support 
+                        teams. The "EICAR" name was inspired by the European Institute for Computer Antivirus Research (EICAR) antivirus test file called EICAR. This is not an inherently malicious domain.}
 ```
 
 ### EXAMPLE 5
 ```powershell
-Get-B1TDTideThreats -Type URL -Age Recent
+Get-B1TDTideThreats -Type URL -Age Hourly | ft detected,type,host,threat_level,tld,url -AutoSize
+
+detected            type host                                                                      threat_level tld             url
+--------            ---- ----                                                                      ------------ ---             ---
+3/6/2024 6:56:10AM  URL  themes-app.netlify.app                                                              80 netlify.app     http://themes-app.netlify.app/img/yt.png
+3/6/2024 3:55:10AM  URL  trsfr.com                                                                           80 com             https://trsfr.com/PDF/paid.exe
+3/6/2024 4:56:10AM  URL  dev-zimba.pantheonsite.io                                                           80 pantheonsite.io https://dev-zimba.pantheonsite.io/loginpage/Epdf.php
+3/6/2024 6:56:10AM  URL  themes-app.netlify.app                                                              80 netlify.app     https://themes-app.netlify.app/img/yt.png
+3/5/2024 9:55:10PM  URL  bafkreih7azguzaxjuphwrbrak4r2cv4gvz3mkh2uxrj3aaddfisglbi3t4.ipfs.w3s.link           80 link            https://bafkreih7azguzaxjuphwrbrak4r2cv4gvz3mkh2uxrj3aaddfisglbi3t4.ipfs.w3s.link/?filename=save.js
+3/6/2024 6:56:10AM  URL  themes-app.netlify.app                                                              80 netlify.app     https://themes-app.netlify.app/img/tw.png
+...
 ```
 
 ## PARAMETERS

@@ -24,6 +24,20 @@ This function will query the InfoRank List for specific or related domains
 ### EXAMPLE 1
 ```powershell
 Get-B1TDTideInfoRank -Domain "amazonaws.com" -Strict
+
+domain        rank interval
+------        ---- --------
+amazonaws.com    1 [1, 1]
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1TDTideInfoRank -Domain amazonaws.com
+
+domain           rank interval
+------           ---- --------
+amazonaws.com       1 [1, 1]
+amazonaws.com.cn  401 [393, 408]
 ```
 
 ## PARAMETERS

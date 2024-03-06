@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1TDNetworkList
 
 ## SYNOPSIS
-Retrieves network lists from BloxOne Threat Defense
+Retrieves network lists (External Networks) from BloxOne Threat Defense
 
 ## SYNTAX
 
@@ -24,13 +24,34 @@ Get-B1TDNetworkList [-id <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve network lists from BloxOne Threat Defense
+This function is used to retrieve network lists from BloxOne Threat Defense.
+These are referred to and displayed as "External Networks" within the CSP.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
 Get-B1TDNetworkList -Name "something"
+
+created_time : 12/23/2021 9:29:20AM
+description  : something
+id           : 123456
+items        : {88.88.88.88/32}
+name         : something
+policy_id    : 654321
+updated_time : 9/6/2023 9:49:10PM
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1TDNetworkList | ft -AutoSize
+
+created_time          description                                            id items                                                                     name                               policy_id updated_time
+------------          -----------                                            -- -----                                                                     ----                               --------- ------------
+7/5/2020 5:02:01PM    Site A Network List                                123456 {1.2.3.4/32, 1.0.0.0/29, 134.1.2.3/32…}                                   site-a-network                         12345 1/27/2024 2:23:21PM
+7/21/2020 10:36:16AM  Site B Network List                                234567 {9.4.2.6/32}                                                              site-b-network                         23456 10/13/2023 11:26:51AM
+10/7/2020 6:37:33PM   Site C Network List                                345678 {123.234.123.234}                                                         site-c-network                         34567 9/6/2023 9:53:51PM
+...
 ```
 
 ## PARAMETERS

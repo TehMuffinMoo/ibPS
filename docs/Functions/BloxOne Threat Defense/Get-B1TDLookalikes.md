@@ -24,7 +24,20 @@ This function is used to retrieve information on lookalike domains
 
 ### EXAMPLE 1
 ```powershell
-Get-B1TDLookalikes -Domain google.com -Reason "phishing"
+Get-B1TDLookalikes -Domain google.com -Reason "phishing" | ft registration_date,lookalike_domain,type,categories,reason -AutoSize
+
+registration_date lookalike_domain                type   categories       reason
+----------------- ----------------                ----   ----------       ------
+2024-02-07        adsbygoogle.top                 common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-02-07.
+2023-11-27        apps-ai-assist-goo-gle.shop     common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2023-11-27.
+2024-03-01        gdgoogle.cn                     common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-03-01.
+2024-01-03        gogogle.cn                      common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-01-03.
+2024-02-16        googelphotos.life               common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-02-16.
+2024-02-21        google-com.top                  common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-02-21.
+2024-02-21        googlegames.vip                 common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-02-21.
+2024-02-29        googlehop.cn                    common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-02-29.
+2024-01-30        googleoglasi.top                common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-01-30.
+...
 ```
 
 ## PARAMETERS

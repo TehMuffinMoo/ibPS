@@ -24,6 +24,19 @@ This function will query the default TTL applied to threat classes
 ### EXAMPLE 1
 ```powershell
 Get-B1TDTideThreatClassDefaultTTL
+
+class                  property                              ttl
+-----                  --------                              ---
+APT                                                          2 years
+Bot                                                          7 days
+CompromisedHost                                              30 days
+Cryptocurrency                                               1 year
+Cryptocurrency         Cryptocurrency_Coinhive               60 days
+Cryptocurrency         Cryptocurrency_Cryptojacking          60 days
+Cryptocurrency         Cryptocurrency_Exchange               60 days
+Cryptocurrency         Cryptocurrency_Generic                14 days
+Cryptocurrency         Cryptocurrency_GenericThreat          14 days
+...
 ```
 
 ## PARAMETERS
