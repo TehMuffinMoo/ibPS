@@ -8,7 +8,28 @@
         The Lookalike Target Candidates are second-level domains BloxOne uses to detect lookalike FQDNs against.
 
     .EXAMPLE
-        PS> Get-B1TDLookalikeTargetCandidates
+        PS> Get-B1TDLookalikeTargetCandidates                                                                                                
+
+        name                             description    items_described                                                                                                                     item_count
+        ----                             -----------    ---------------                                                                                                                     ----------
+        Global Lookalike Candidates List Auto-generated {@{item=accuweather.com; selected=True}, @{item=active.aero}, @{item=adobe.com; selected=True}, @{item=airbnb.com; selected=True}…}        123
+
+    .EXAMPLE
+        PS> Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described
+
+        item                        selected
+        ----                        --------
+        accuweather.com                 True
+        active.aero                         
+        adobe.com                       True
+        airbnb.com                      True
+        alibaba.com                         
+        aliexpress.com                  True
+        amazonaws.com                   True
+        amazon.com                      True
+        americafirst.com                True
+        americanexpressbusiness.com         
+        ...
     
     .FUNCTIONALITY
         BloxOneDDI

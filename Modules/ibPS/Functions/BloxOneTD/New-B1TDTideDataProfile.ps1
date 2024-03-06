@@ -19,8 +19,18 @@ function New-B1TDTideDataProfile {
         This boolean value indicates if to use the default TTL for threats (default is true)
 
     .EXAMPLE
-        PS> New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $false
-    
+        PS> New-B1TDTideDataProfile -Name "My Profile" -Description "My Data Profile" -RPZFeed "threat_feed_one" -DefaultTTL $true
+        
+        Successfully created TIDE Data Profile: My Profile
+        
+        id          : 01234546567563324:My-Profile
+        name        : My Profile
+        description : My Data Profile
+        policy      : default-csp
+        default_ttl : True
+        active      : True
+        rpzfeedname : threat_feed_one
+
     .FUNCTIONALITY
         BloxOneDDI
     

@@ -25,7 +25,22 @@
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
     .EXAMPLE
-        PS> Get-B1TDLookalikeDomains -Domain google.com
+        PS> Get-B1TDLookalikeDomains -Domain google.com | ft detected_at,lookalike_domain,reason -AutoSize
+
+        detected_at         lookalike_domain                                               reason
+        -----------         ----------------                                               ------
+        2/6/2024 6:40:48PM  googletah.shop                                                 Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2023-11-09.
+        2/6/2024 6:41:09PM  cdn-google-tag.info                                            Domain is a lookalike to google.com and has suspicious registration, behavior, or associations with known threats. The creation or first seen date is 2024-01-16.
+        2/6/2024 6:41:09PM  comgoogle.email                                                Domain is a lookalike to google.com and has suspicious registration, behavior, or associations with known threats. The creation or first seen date is 2023-11-12.
+        2/6/2024 6:41:09PM  geminigoogle.xyz                                               Domain is a lookalike to google.com and has suspicious registration, behavior, or associations with known threats. The creation or first seen date is 2023-12-08.
+        2/6/2024 6:41:36PM  123googleplaykarte.de                                          Domain is a lookalike to google.com. The creation date is unknown.
+        2/6/2024 6:41:36PM  adsgoogle.gt                                                   Domain is a lookalike to google.com. The creation date is unknown.
+        2/6/2024 6:41:36PM  a-googleseo.com                                                Domain is a lookalike to google.com. The creation date is 2023-10-27.
+        2/6/2024 6:41:36PM  app-google.de                                                  Domain is a lookalike to google.com. The creation date is unknown.
+        2/6/2024 6:41:36PM  bardgoogler.com                                                Domain is a lookalike to google.com. The creation date is 2023-04-02.
+        2/6/2024 6:41:36PM  bestgoogles.shop                                               Domain is a lookalike to google.com. The creation date is 2023-11-09.
+        2/6/2024 6:41:36PM  brightcastweightlossttgoogleuk.today                           Domain is a lookalike to google.com. The creation date is 2023-06-18.
+        ...
     
     .FUNCTIONALITY
         BloxOneDDI

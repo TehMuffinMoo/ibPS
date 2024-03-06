@@ -8,6 +8,12 @@ function Get-B1TDDossierSupportedFeedback {
 
     .EXAMPLE
         PS> Get-B1TDDossierSupportedFeedback
+
+        False Positive, This indicator is NOT a threat
+        False Negative, This indicator is a threat
+        Infoblox Web Category is Incorrect
+        Lookalike Detection is incorrect
+        Application Detection is incorrect
     
     .FUNCTIONALITY
         BloxOneDDI

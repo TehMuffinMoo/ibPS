@@ -14,7 +14,7 @@ function Get-B1TDTideThreatEnrichment {
         When using the Threat Actor lookup, the indicator should be the name of the Threat Actor, e.g "APT1","Carbanak","FIN6", etc.
 
     .EXAMPLE
-        PS> Get-B1TDTideDataProfiles -Name "My Profile"
+        PS> Get-B1TDTideThreatEnrichment
     
     .FUNCTIONALITY
         BloxOneDDI

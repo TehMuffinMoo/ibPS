@@ -16,7 +16,20 @@ function Get-B1TDSecurityPolicyRules {
         Filter results by category_filter_id
     
     .EXAMPLE
-        PS> Get-B1TDSecurityPolicyRules 
+        PS> Get-B1TDSecurityPolicyRules | Select -First 10 | ft -AutoSize
+
+        action                    data                                                                list_id policy_id policy_name           redirect_name rule_tags            type
+        ------                    ----                                                                ------- --------- -----------           ------------- ---------            ----
+        action_block              antimalware-ip                                                            0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
+        action_block              ext-antimalware-ip                                                        0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
+        action_block              Threat Insight - Data Exfiltration                                        0    123456 corporate-policy                                         @{tag_scope=; tags=} custom_list
+        action_log                Threat Insight - Notional Data Exfiltration                               0    123456 corporate-policy                                         @{tag_scope=; tags=} custom_list
+        action_block              Threat Insight - DNS Messenger                                            0    123456 corporate-policy                                         @{tag_scope=; tags=} custom_list
+        action_block              Threat Insight - Fast Flux                                                0    123456 corporate-policy                                         @{tag_scope=; tags=} custom_list
+        action_block              suspicious                                                                0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
+        action_block              suspicious-lookalikes                                                     0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
+        action_block              suspicious-noed                                                           0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
+        ...
     
     .FUNCTIONALITY
         BloxOneDDI

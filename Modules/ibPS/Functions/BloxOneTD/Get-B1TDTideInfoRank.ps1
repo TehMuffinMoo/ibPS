@@ -15,6 +15,18 @@ function Get-B1TDTideInfoRank {
     .EXAMPLE
         PS> Get-B1TDTideInfoRank -Domain "amazonaws.com" -Strict
 
+        domain        rank interval
+        ------        ---- --------
+        amazonaws.com    1 [1, 1]
+
+    .EXAMPLE
+        PS> Get-B1TDTideInfoRank -Domain amazonaws.com
+
+        domain           rank interval
+        ------           ---- --------
+        amazonaws.com       1 [1, 1]
+        amazonaws.com.cn  401 [393, 408]
+
     .FUNCTIONALITY
         BloxOneDDI
     

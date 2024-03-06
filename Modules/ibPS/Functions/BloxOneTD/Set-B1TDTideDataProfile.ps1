@@ -23,6 +23,14 @@ function Set-B1TDTideDataProfile {
 
     .EXAMPLE
         PS> Set-B1TDTideDataProfile -Name "My Profile" -Description "New Description" -RPZFeed "New RPZ Feed" -Active $true -DefaultTTL $false
+
+        id          : 1133454765324:My-Profile
+        name        : My Profile
+        description : New Description
+        policy      : default-csp
+        default_ttl : False
+        active      : True
+        rpzfeedname : New RPZ Feed
     
     .FUNCTIONALITY
         BloxOneDDI

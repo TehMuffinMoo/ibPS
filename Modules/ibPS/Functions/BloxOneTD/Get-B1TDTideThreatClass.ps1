@@ -10,7 +10,15 @@ function Get-B1TDTideThreatClass {
         Filter the results by class ID
 
     .EXAMPLE
-        PS> Get-B1TDTideThreatClass -id "Bot"
+        PS> Get-B1TDTideThreatClass
+
+        link                                                            id                     name                      updated
+        ----                                                            --                     ----                      -------
+        {@{href=/data/threat_classes/APT; rel=self}}                    APT                    APT                       3/2/2016 6:57:24PM
+        {@{href=/data/threat_classes/Bot; rel=self}}                    Bot                    Bot                       3/2/2016 6:57:24PM
+        {@{href=/data/threat_classes/CompromisedDomain; rel=self}}      CompromisedDomain      Compromised Domain        
+        {@{href=/data/threat_classes/CompromisedHost; rel=self}}        CompromisedHost        Compromised Host          
+        ...
 
     .FUNCTIONALITY
         BloxOneDDI

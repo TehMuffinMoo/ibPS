@@ -21,6 +21,21 @@ function Get-B1TDTideThreatProperty {
     .EXAMPLE
         PS> Get-B1TDTideThreatProperty -Name "CamelCase" -ThreatLevel 100
 
+    .EXAMPLE
+        PS> Get-B1TDTideThreatProperty | ft -AutoSize
+
+        link                                                                                id                                             name                           threat_level class                  active added                 updated               reference
+        ----                                                                                --                                             ----                           ------------ -----                  ------ -----                 -------               ---------
+        {@{href=/data/properties/APT_EmdiviC2; rel=self}}                                   APT_EmdiviC2                                   EmdiviC2                                100 APT                    true   10/28/2016 9:54:36PM  10/28/2016 9:54:36PM  {}
+        {@{href=/data/properties/APT_ExploitKit; rel=self}}                                 APT_ExploitKit                                 Exploit Kit                             100 APT                    true                         1/28/2020 2:29:36AM   {}
+        {@{href=/data/properties/APT_Generic; rel=self}}                                    APT_Generic                                    Generic                                 100 APT                    true                         4/23/2016 12:01:53AM  {}
+        {@{href=/data/properties/APT_MalwareC2; rel=self}}                                  APT_MalwareC2                                  Malware C2                              100 APT                    true                         7/16/2018 6:37:50PM   {}
+        {@{href=/data/properties/APT_MalwareDownload; rel=self}}                            APT_MalwareDownload                            Malware Download                        100 APT                    true                         3/2/2016 6:57:24PM    {}
+        {@{href=/data/properties/Bot_Bankpatch; rel=self}}                                  Bot_Bankpatch                                  Bankpatch                               100 Bot                    true                         1/29/2020 5:12:49PM   {}
+        {@{href=/data/properties/Bot_Citadel; rel=self}}                                    Bot_Citadel                                    Citadel                                 100 Bot                    true                         3/2/2016 6:57:24PM    {}
+        {@{href=/data/properties/Bot_Cridex; rel=self}}                                     Bot_Cridex                                     Cridex                                  100 Bot                    true                         3/2/2016 6:57:24PM    {}
+        ...
+
     .FUNCTIONALITY
         BloxOneDDI
     

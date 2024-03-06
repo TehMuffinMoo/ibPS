@@ -9,6 +9,19 @@ function Get-B1TDTideThreatClassDefaultTTL {
     .EXAMPLE
         PS> Get-B1TDTideThreatClassDefaultTTL
 
+        class                  property                              ttl
+        -----                  --------                              ---
+        APT                                                          2 years
+        Bot                                                          7 days
+        CompromisedHost                                              30 days
+        Cryptocurrency                                               1 year
+        Cryptocurrency         Cryptocurrency_Coinhive               60 days
+        Cryptocurrency         Cryptocurrency_Cryptojacking          60 days
+        Cryptocurrency         Cryptocurrency_Exchange               60 days
+        Cryptocurrency         Cryptocurrency_Generic                14 days
+        Cryptocurrency         Cryptocurrency_GenericThreat          14 days
+        ...
+
     .FUNCTIONALITY
         BloxOneDDI
     
