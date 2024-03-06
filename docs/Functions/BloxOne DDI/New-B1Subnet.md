@@ -13,7 +13,7 @@ Creates a new subnet in BloxOneDDI IPAM
 ## SYNTAX
 
 ```
-New-B1Subnet [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [-Name] <String> [[-HAGroup] <Object>]
+New-B1Subnet [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [[-Name] <String>] [[-HAGroup] <Object>]
  [[-Description] <String>] [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>] [[-Tags] <Object>]
  [<CommonParameters>]
 ```
@@ -92,7 +92,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 4
 Default value: None
 Accept pipeline input: False

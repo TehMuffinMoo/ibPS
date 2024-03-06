@@ -13,7 +13,7 @@ Creates a new BloxOneDDI IPAM/DHCP Space
 ## SYNTAX
 
 ```
-New-B1Space [-Name] <String> [-Description] <String> [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>]
+New-B1Space [-Name] <String> [[-Description] <String>] [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>]
  [[-Tags] <Object>] [<CommonParameters>]
 ```
 
@@ -52,7 +52,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
