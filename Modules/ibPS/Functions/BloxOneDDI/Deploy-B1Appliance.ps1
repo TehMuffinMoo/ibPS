@@ -116,7 +116,8 @@
 
     .EXAMPLE
         PS> Deploy-B1Appliance -Type "VMware" `
-                           -Name "bloxoneddihost1" -IP "10.10.100.10" `
+                           -Name "bloxoneddihost1" `
+                           -IP "10.10.100.10" `
                            -Netmask "255.255.255.0" `
                            -Gateway "10.10.100.1" `
                            -DNSServers "10.30.10.10,10.30.10.10" `
