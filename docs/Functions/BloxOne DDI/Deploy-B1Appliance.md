@@ -297,7 +297,7 @@ Accept wildcard characters: False
 ## DYNAMIC PARAMETERS
 
 ### VMware
-> !!! warning "Important Information"
+!!! warning "Important Information"
     **These parameters are only required when `-Type` is VMware**
 
 #### -OVAPath
@@ -312,7 +312,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False
@@ -342,7 +342,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False
@@ -411,7 +411,7 @@ Accept wildcard characters: False
 
 
 ### Hyper-V
-> !!! warning "Important Information"
+!!! warning "Important Information"
     **These parameters are only required when `-Type` is Hyper-V**
 
 #### -VHDPath
@@ -491,7 +491,7 @@ Type: Int
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False
@@ -506,7 +506,7 @@ Type: Int
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False
@@ -523,7 +523,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: False
 Accept pipeline input: False
