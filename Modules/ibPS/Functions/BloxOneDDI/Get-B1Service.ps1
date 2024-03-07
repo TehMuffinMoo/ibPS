@@ -40,7 +40,7 @@
         Service
     #>
     param(
-        [Parameter(ParameterSetName="noID",Mandatory=$false)]
+        [Parameter(ParameterSetName="Default",Mandatory=$false)]
         [String]$Name,
         [String]$Type,
         [Switch]$Detailed,

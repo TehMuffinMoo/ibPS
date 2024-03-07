@@ -37,7 +37,7 @@
         DHCP
     #>
     param(
-        [Parameter(ParameterSetName="noID",Mandatory=$true)]
+        [Parameter(ParameterSetName="Default",Mandatory=$true)]
         [String]$Name,
         [ValidateSet("active-active", "active-passive", "advanced-active-passive")]
         [String]$Mode,

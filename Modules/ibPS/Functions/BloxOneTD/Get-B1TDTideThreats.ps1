@@ -120,7 +120,7 @@ function Get-B1TDTideThreats {
         [parameter(ParameterSetName="type")]
         [ValidateSet("Property","Profile")]
         [String]$Distinct = "Property",
-        [parameter(ParameterSetName="id")]
+        [parameter(ParameterSetName="With ID")]
         [String]$Id,
         [int]$Limit = 100
     )

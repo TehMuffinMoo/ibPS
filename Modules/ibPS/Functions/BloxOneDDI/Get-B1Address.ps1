@@ -45,9 +45,9 @@
     #>
     [CmdletBinding(DefaultParameterSetName = 'None')]
     param(
-      [Parameter(ParameterSetName="noID")]
+      [Parameter(ParameterSetName="Default")]
       [String]$Address,
-      [Parameter(ParameterSetName="noID")]
+      [Parameter(ParameterSetName="Default")]
       [String]$State,
       [Switch]$Reserved,
       [Int]$Limit = 1000,
@@ -55,7 +55,7 @@
       [String]$tfilter,
       [String[]]$Fields,
       $CustomFilters,
-      [Parameter(ParameterSetName="ID")]
+      [Parameter(ParameterSetName="With ID")]
       [String]$id
     )
 

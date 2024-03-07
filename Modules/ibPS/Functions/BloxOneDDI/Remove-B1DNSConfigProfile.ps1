@@ -28,7 +28,7 @@ function Remove-B1DNSConfigProfile {
       [String]$Name,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

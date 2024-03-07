@@ -37,17 +37,17 @@
         DNS
     #>
     param(
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$FQDN,
       [System.Object]$DNSHosts,
       [System.Object]$AddAuthNSGs,
       [System.Object]$RemoveAuthNSGs,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [System.Object]$View,
       [String]$Description,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

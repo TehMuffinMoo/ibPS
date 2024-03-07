@@ -36,18 +36,18 @@
     #>
     param(
       [Parameter(
-        ParameterSetName="noID",
+        ParameterSetName="Default",
         Mandatory=$true
       )]
       [String]$Subnet,
       [Parameter(
-        ParameterSetName="noID",
+        ParameterSetName="Default",
         Mandatory=$true
       )]
       [ValidateRange(0,32)]
       [Int]$CIDR,
       [Parameter(
-        ParameterSetName="noID",
+        ParameterSetName="Default",
         Mandatory=$true
       )]
       [String]$Space,
@@ -55,7 +55,7 @@
       [Switch]$NoWarning,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

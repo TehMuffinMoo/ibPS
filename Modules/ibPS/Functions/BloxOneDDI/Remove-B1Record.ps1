@@ -40,25 +40,25 @@
         DNS
     #>
     param(
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
-      [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
       [ValidateSet("A","AAAA","CAA","CNAME","HTTPS","MX","NAPTR","NS","PTR","SRV","SVCB","TXT")]
       [String]$Type,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Zone,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
-      [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
       [String]$View,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
-      [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
       [String]$rdata,
-      [Parameter(ParameterSetName="noID-FQDN",Mandatory=$true)]
+      [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
       [String]$FQDN,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

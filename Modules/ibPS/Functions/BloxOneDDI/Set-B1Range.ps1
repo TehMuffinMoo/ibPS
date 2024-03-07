@@ -43,11 +43,11 @@
         DHCP
     #>
     param(
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$StartAddress,
-      [Parameter(ParameterSetName="noID",Mandatory=$false)]
+      [Parameter(ParameterSetName="Default",Mandatory=$false)]
       [String]$EndAddress,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [string]$Space,
       [String]$Name,
       [String]$Description,
@@ -55,7 +55,7 @@
       [System.Object]$Tags,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id
