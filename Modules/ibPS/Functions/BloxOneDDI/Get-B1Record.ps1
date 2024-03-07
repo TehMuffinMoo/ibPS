@@ -22,7 +22,7 @@
         The record FQDN to filter by
 
     .PARAMETER Source
-        Use this to filter by the IP address of the source making the DNS request
+        Use this to filter by the record source type (i.e Static/Dynamic)
 
     .PARAMETER View
         The DNS View to filter by

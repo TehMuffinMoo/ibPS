@@ -13,8 +13,8 @@ Queries the BloxOneDDI DFP Log
 ## SYNTAX
 
 ```
-Get-B1DFPLog [[-Query] <String>] [[-Source] <String>] [[-Type] <String>] [[-Response] <String>]
- [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>] [[-Offset] <Int32>]
+Get-B1DFPLog [[-Query] <String>] [[-IP] <String>] [[-Type] <String>] [[-Response] <String>]
+ [[-Source] <String[]>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>] [[-Offset] <Int32>]
 ```
 
 ## DESCRIPTION
@@ -25,13 +25,18 @@ This is the log which contains all DNS Security related events.
 
 ### EXAMPLE 1
 ```powershell
-Get-B1DFPLog -Source "10.10.132.10" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
+Get-B1DFPLog -IP "10.10.132.10" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1DFPLog -Source "MyB1Host (DFP)" -Start (Get-Date).AddHours(-6) Limit 10
 ```
 
 ## PARAMETERS
 
 ### -Query
-Use this parameter to filter the DNS Logs by hostname or FQDN
+Use this parameter to filter the DFP Logs by hostname or FQDN
 
 ```yaml
 Type: String
@@ -45,8 +50,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Source
-Used to filter the DNS Log by IP Address
+### -IP
+Used to filter the DFP Log by IP Address
 
 ```yaml
 Type: String
@@ -61,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -Type
-Used to filter the DNS Log by query type, such as "A" or "CNAME"
+Used to filter the DFP Log by query type, such as "A" or "CNAME"
 
 ```yaml
 Type: String
@@ -76,7 +81,7 @@ Accept wildcard characters: False
 ```
 
 ### -Response
-Use this parameter to filter the DNS Log by the response, i.e "NXDOMAIN"
+Use this parameter to filter the DFP Log by the response, i.e "NXDOMAIN"
 
 ```yaml
 Type: String
@@ -85,6 +90,21 @@ Aliases:
 
 Required: False
 Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Source
+Filter the DFP Logs by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "mybloxoneddihost.mydomain.corp (DFP)" or "mybloxoneddihost1.mydomain.corp (DFP)","mybloxoneddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,7 +121,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: (Get-Date).AddDays(-1)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -116,7 +136,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: (Get-Date)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -132,7 +152,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -147,7 +167,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
