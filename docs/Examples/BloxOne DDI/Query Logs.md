@@ -78,6 +78,24 @@ nb-heraplast-26.hera.local. Fujitsu:LIFEBOOK E5512A:Windows Default             
 ```
 
 
+### DHCP Log
+The DHCP Log details all lease issuance, expirations, etc.
+
+The example below shows querying the DHCP Log for those which have been assigned/issued by a pair of DHCP Servers in the last 6 hours.
+
+```powershell
+PS> Get-B1DHCPLog -State Assignments -Start (Get-Date).AddHours(-6) | ft -AutoSize
+
+timestamp           dhcp_server              protocol     state       lease_ip        mac_address       client_hostname                     lease_start         lease_end            dhcp_fingerprint
+---------           -----------              --------     -----       --------        -----------       ---------------                     -----------         ---------            ----------------
+3/7/2024 11:51:01AM dc-b101                  IPv4 Address Assignments 192.168.1.110   BE:03:71:B6:07:7A                                     3/7/2024 11:51:01AM 3/14/2024 11:51:01AM Apple OS
+3/7/2024 11:49:41AM dc-b102                  IPv4 Address Assignments 192.168.1.132   00:68:EB:D3:02:EB hpd302eb                            3/7/2024 11:49:41AM 3/7/2024 1:49:41PM   HP Printer
+3/7/2024 11:49:11AM dc-b101                  IPv4 Address Assignments 192.168.1.42    F0:70:4F:6D:85:50 samsung                             3/7/2024 11:49:11AM 3/7/2024 1:49:11PM   Samsung
+3/7/2024 11:46:57AM dc-b102                  IPv4 Address Assignments 192.168.1.74    04:5D:4B:33:FC:C3 myhost-192-168-0-200                3/7/2024 11:46:57AM 3/7/2024 1:46:57PM   Android OS
+...
+```
+
+
 ### Audit Log
 This example showcases retrieving the last 100 events from the Audit Log, where the action was `DELETE` and was performed within the last 36 Hours.
 
