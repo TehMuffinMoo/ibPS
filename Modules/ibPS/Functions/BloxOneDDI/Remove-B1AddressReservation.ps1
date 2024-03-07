@@ -12,6 +12,9 @@
     .PARAMETER Space
         The IPAM space the reservation is contained in
 
+    .PARAMETER id
+        The id of the Address Reservation to remove. Accepts pipeline input.
+
     .EXAMPLE
         PS> Remove-B1AddressReservation -Address "10.0.0.1" -Space "Global"
 

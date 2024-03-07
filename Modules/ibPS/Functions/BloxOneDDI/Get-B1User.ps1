@@ -15,6 +15,12 @@ function Get-B1User {
     .PARAMETER State
         Filter the results by the state of the user
 
+    .PARAMETER Type
+        Filter the results by the user type
+
+    .PARAMETER Authenticator
+        Filter the results by the user's authenticator
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results returned. The default number of results is 100.
 

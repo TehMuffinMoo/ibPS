@@ -12,6 +12,9 @@ function Set-B1CSPUrl {
     .PARAMETER URL
         Optionally specify a URL manually
 
+    .PARAMETER Persist
+        Setting the -Persist parameter will save the URL peremenantly for your user on this device.
+
     .EXAMPLE
         PS> Set-B1CSPUrl -Region EU
                                                                                                                   

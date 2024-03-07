@@ -39,6 +39,9 @@
     .PARAMETER Port
         Used to update the port for applicable records. (i.e SRV)
 
+    .PARAMETER id
+        The id of the DNS record to update. Accepts pipeline input
+
     .EXAMPLE
         PS> Set-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.50.10" -TTL 600
    

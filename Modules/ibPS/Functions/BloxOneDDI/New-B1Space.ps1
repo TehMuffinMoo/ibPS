@@ -12,6 +12,12 @@
     .PARAMETER Description
         The description of the IP Space you are creating
 
+    .PARAMETER DHCPOptions
+        A list of DHCP Options you want to apply to the new IP Space. These will be inherited by any child Address Blocks, Subnets & Ranges.
+
+    .PARAMETER DDNSDomain
+        The DDNS Domain to apply to the new IP Space. This will be inherited by any child Address Blocks, Subnets & Ranges.
+
     .PARAMETER Tags
         Any tags you want to apply to the new IP Space
 

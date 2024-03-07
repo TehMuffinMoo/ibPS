@@ -10,6 +10,9 @@ function Get-B1APIKey {
     .PARAMETER User
         Filter the results by user_email
 
+    .PARAMETER CreatedBy
+        Filter the results by the original creator of the API Key
+
     .PARAMETER Name
         Filter the results by the name of the API Key
 

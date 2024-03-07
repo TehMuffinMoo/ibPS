@@ -27,7 +27,7 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
-    .PARAMETER Assosications
+    .PARAMETER Associations
         Obtain a list of associated subnets/ranges with this host
 
     .PARAMETER id

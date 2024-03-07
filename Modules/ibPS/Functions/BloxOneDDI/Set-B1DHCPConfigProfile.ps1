@@ -9,6 +9,11 @@
     .PARAMETER Name
         The name of the DHCP Config Profile
 
+    .PARAMETER -DDNSZones
+        Provide a list of DDNS Zones to add or remove to/from the the DHCP Config Profile.
+        
+        This is to be used in conjunction with -AddDDNSZones and -RemoveDDNSZones respectively.
+
     .PARAMETER AddDDNSZones
         This switch determines if you want to add DDNS Zones using the -DDNSZones parameter
 

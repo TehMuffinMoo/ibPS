@@ -12,6 +12,9 @@
     .PARAMETER Code
         The code of the DHCP option to filter by
 
+    .PARAMETER Source
+        The source parameter is used to filter by the DHCP option source
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 

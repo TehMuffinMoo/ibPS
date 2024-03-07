@@ -24,6 +24,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the HA Group
 
+    .PARAMETER id
+        The id of the HA Group to update. Accepts pipeline input
+
     .EXAMPLE
           PS> Set-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group" -Tags @{"TagName"="TagValue"}
     
