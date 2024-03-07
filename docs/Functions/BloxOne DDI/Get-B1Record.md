@@ -106,7 +106,7 @@ Accept wildcard characters: False
 ```
 
 ### -Source
-Use this to filter by the IP address of the source making the DNS request
+Use this to filter by the record source type (i.e Static/Dynamic)
 
 ```yaml
 Type: String
