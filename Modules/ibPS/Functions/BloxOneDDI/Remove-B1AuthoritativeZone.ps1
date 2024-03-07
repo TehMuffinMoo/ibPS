@@ -25,13 +25,13 @@
         DNS
     #>
     param(
-      [Parameter(Mandatory=$true,ParameterSetName="noID")]
+      [Parameter(Mandatory=$true,ParameterSetName="Default")]
       [String]$FQDN,
-      [Parameter(Mandatory=$true,ParameterSetName="noID")]
+      [Parameter(Mandatory=$true,ParameterSetName="Default")]
       [System.Object]$View,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

@@ -24,13 +24,13 @@
     .FUNCTIONALITY
         Threat Defense
     #>
-    [CmdletBinding(DefaultParameterSetName="NoID")]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
-      [parameter(ParameterSetName="NoID")]
+      [parameter(ParameterSetName="Default")]
       [String]$Name,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

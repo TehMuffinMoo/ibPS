@@ -12,13 +12,13 @@ Updates an existing DHCP Config Profiles from BloxOneDDI
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1DHCPConfigProfile -Name <String> [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>]
  -DNSView <String> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1DHCPConfigProfile [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>] -id <String>
  [<CommonParameters>]
@@ -41,7 +41,7 @@ The name of the DHCP Config Profile
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -101,7 +101,7 @@ The DNS View the Authoritative DDNS Zones are located in
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -117,7 +117,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

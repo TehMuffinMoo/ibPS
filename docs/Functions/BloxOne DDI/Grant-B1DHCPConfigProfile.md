@@ -12,12 +12,12 @@ Applies a DHCP Config Profile to one or most BloxOneDDI Hosts
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Grant-B1DHCPConfigProfile -Name <String> -Hosts <Object> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Grant-B1DHCPConfigProfile -Name <String> -id <String> [<CommonParameters>]
 ```
@@ -54,7 +54,7 @@ A list of BloxOneDDI Hosts to apply the DHCP Config Profile to
 
 ```yaml
 Type: Object
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -69,7 +69,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

@@ -31,18 +31,18 @@ function Set-B1APIKey {
         Authentication
     #>
     param(
-        [Parameter(Mandatory=$true,ParameterSetName="noID")]
+        [Parameter(Mandatory=$true,ParameterSetName="Default")]
         $Name,
-        [Parameter(ParameterSetName="noID")]
+        [Parameter(ParameterSetName="Default")]
         $User,
-        [Parameter(ParameterSetName="noID")]
+        [Parameter(ParameterSetName="Default")]
         [ValidateSet("Interactive", "Legacy", "Service")]
         $Type,
         [ValidateSet("Enabled", "Disabled")]
         $State,
         [Parameter(
           ValueFromPipelineByPropertyName = $true,
-          ParameterSetName="ID",
+          ParameterSetName="With ID",
           Mandatory=$true
         )]
         [String]$id

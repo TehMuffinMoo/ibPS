@@ -28,16 +28,16 @@
         BloxOneDDI
     #>
     param(
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
       [Switch]$AddDDNSZones,
       [Switch]$RemoveDDNSZones,
       [System.Object]$DDNSZones,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$DNSView,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

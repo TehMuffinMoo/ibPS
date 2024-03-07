@@ -12,13 +12,13 @@ Updates an existing Forward Zone in BloxOneDDI
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1ForwardZone -FQDN <String> [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>]
  -View <Object> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1ForwardZone [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>] -id <String>
  [<CommonParameters>]
@@ -41,7 +41,7 @@ The FQDN of the zone to update
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -104,7 +104,7 @@ The DNS View the zone is located in
 
 ```yaml
 Type: Object
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -120,7 +120,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

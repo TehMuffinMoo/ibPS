@@ -55,12 +55,12 @@
     #>
     param(
       [Parameter(
-        ParameterSetName="noID",
+        ParameterSetName="Default",
         Mandatory=$true
       )]
       [String]$IP = $null,
       [Parameter(
-        ParameterSetName="noID",
+        ParameterSetName="Default",
         Mandatory=$true
       )]
       [String]$Space,
@@ -73,7 +73,7 @@
       [System.Object]$Tags,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID"
+        ParameterSetName="With ID"
       )]
       [String]$id
     )

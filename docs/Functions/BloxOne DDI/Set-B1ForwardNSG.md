@@ -12,12 +12,12 @@ Updates a Forward DNS Server Group in BloxOneDDI
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1ForwardNSG -Name <String> [-AddHosts] [-RemoveHosts] [-Hosts <Object>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1ForwardNSG [-AddHosts] [-RemoveHosts] [-Hosts <Object>] -id <String> [<CommonParameters>]
 ```
@@ -39,7 +39,7 @@ The name of the Forward DNS Server Group
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -100,7 +100,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

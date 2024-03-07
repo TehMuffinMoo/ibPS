@@ -28,13 +28,13 @@
         DHCP
     #>
     param(
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$IP = $null,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Space,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

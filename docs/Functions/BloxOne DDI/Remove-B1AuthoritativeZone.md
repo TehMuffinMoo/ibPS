@@ -12,12 +12,12 @@ Removes a Authoritative Zone from BloxOneDDI
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1AuthoritativeZone -FQDN <String> -View <Object> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1AuthoritativeZone -id <String> [<CommonParameters>]
 ```
@@ -39,7 +39,7 @@ The FQDN of the zone to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -54,7 +54,7 @@ The DNS View the zone is located in
 
 ```yaml
 Type: Object
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -70,7 +70,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

@@ -61,7 +61,7 @@
       [Int]$PolicyID,
       [parameter(ParameterSetName="notid")]
       [Switch]$DefaultSecurityPolicy,
-      [parameter(ParameterSetName="id")]
+      [parameter(ParameterSetName="With ID")]
       [Int]$id,
       [parameter(ParameterSetName="notid")]
       [Switch]$Strict

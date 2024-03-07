@@ -31,14 +31,14 @@
         DNS
     #>
     param(
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
       [Switch]$AddHosts,
       [Switch]$RemoveHosts,
       [System.Object]$Hosts,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

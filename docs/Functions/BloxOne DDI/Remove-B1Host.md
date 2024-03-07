@@ -12,12 +12,12 @@ Removes an existing BloxOneDDI Host
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1Host -Name <String> [-NoWarning] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1Host -id <String> [-NoWarning] [<CommonParameters>]
 ```
@@ -39,7 +39,7 @@ The name of the BloxOneDDI host to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -55,7 +55,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

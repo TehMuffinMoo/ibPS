@@ -40,19 +40,19 @@
         Host
     #>
     param(
-      [Parameter(ParameterSetName="noID")]
+      [Parameter(ParameterSetName="Default")]
       [String]$Name,
-      [Parameter(ParameterSetName="noID")]
+      [Parameter(ParameterSetName="Default")]
       [String]$IP,
       [String]$Space,
       [String]$TimeZone,
       [String]$Description,
-      [Parameter(ParameterSetName="noID")]
+      [Parameter(ParameterSetName="Default")]
       [switch]$NoIPSpace,
       [System.Object]$Tags,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

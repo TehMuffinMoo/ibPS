@@ -45,7 +45,7 @@
       [String]$Region,
       [parameter(ParameterSetName="notid")]
       [String]$Location,
-      [parameter(ParameterSetName="id")]
+      [parameter(ParameterSetName="With ID")]
       [String]$id
     )
 

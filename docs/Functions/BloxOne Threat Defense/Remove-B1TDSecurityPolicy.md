@@ -12,12 +12,12 @@ Removes a BloxOne Threat Defense Security Policy
 
 ## SYNTAX
 
-### NoID (Default)
+### Default (Default)
 ```
 Remove-B1TDSecurityPolicy [-Name <String>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1TDSecurityPolicy -id <String> [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The name of the BloxOne Threat Defense Security Policy to delete.
 
 ```yaml
 Type: String
-Parameter Sets: NoID
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -60,7 +60,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

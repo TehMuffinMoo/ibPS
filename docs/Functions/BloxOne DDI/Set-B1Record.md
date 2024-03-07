@@ -12,13 +12,13 @@ Updates an existing DNS record in BloxOneDDI
 
 ## SYNTAX
 
-### ID
+### With ID
 ```
 Set-B1Record -Type <String> [-rdata <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>]
  [-Weight <Int32>] [-Port <Int32>] -id <String> [<CommonParameters>]
 ```
 
-### noID
+### Default
 ```
 Set-B1Record -Type <String> -Name <String> -Zone <String> [-rdata <String>] -view <String>
  [-CurrentRDATA <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>] [-Weight <Int32>]
@@ -42,7 +42,7 @@ The type of the record to update
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True
@@ -54,7 +54,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -69,7 +69,7 @@ The name of the record to update
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -84,7 +84,7 @@ The zone of the record to update
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -114,7 +114,7 @@ The DNS View the record exists in
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -130,7 +130,7 @@ Will be deprecated once pipeline input is implemented.
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -223,7 +223,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

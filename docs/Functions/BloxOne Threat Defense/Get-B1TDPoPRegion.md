@@ -17,7 +17,7 @@ Retrieves a list of BloxOne Threat Defense PoP Regions
 Get-B1TDPoPRegion [-Region <String>] [-Location <String>] [<CommonParameters>]
 ```
 
-### id
+### With ID
 ```
 Get-B1TDPoPRegion [-id <String>] [<CommonParameters>]
 ```
@@ -84,7 +84,7 @@ Filter the results by id
 
 ```yaml
 Type: String
-Parameter Sets: id
+Parameter Sets: With ID
 Aliases:
 
 Required: False

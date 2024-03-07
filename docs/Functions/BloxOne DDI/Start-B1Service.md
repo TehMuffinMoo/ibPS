@@ -12,12 +12,12 @@ Starts a BloxOneDDI Service
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Start-B1Service -Name <String> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Start-B1Service -id <String> [<CommonParameters>]
 ```
@@ -39,7 +39,7 @@ The name of the BloxOneDDI Service to start
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -55,7 +55,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

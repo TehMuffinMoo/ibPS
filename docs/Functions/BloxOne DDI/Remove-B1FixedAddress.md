@@ -12,12 +12,12 @@ Removes a fixed address from BloxOneDDI IPAM
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1FixedAddress -IP <String> -Space <String> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1FixedAddress -id <String> [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The IP of the fixed address
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -59,7 +59,7 @@ Use this parameter to filter the list of fixed addresses by Space
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -75,7 +75,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

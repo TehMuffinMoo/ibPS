@@ -12,12 +12,12 @@ Removes a DHCP Range from BloxOneDDI
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1Range -StartAddress <String> -EndAddress <String> -Space <String> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1Range -id <String> [<CommonParameters>]
 ```
@@ -39,7 +39,7 @@ The start address of the DHCP Range
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -54,7 +54,7 @@ The end address of the DHCP Range
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -69,7 +69,7 @@ Use this parameter to filter the list of Address Blocks by Space
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -85,7 +85,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

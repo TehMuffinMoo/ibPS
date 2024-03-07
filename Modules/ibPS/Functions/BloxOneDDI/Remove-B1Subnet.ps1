@@ -34,17 +34,17 @@
         IPAM
     #>
     param(
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Subnet,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [ValidateRange(0,32)]
       [Int]$CIDR,
       [String]$Name,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Space,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

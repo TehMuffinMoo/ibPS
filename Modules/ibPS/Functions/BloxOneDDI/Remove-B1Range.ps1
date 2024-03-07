@@ -31,15 +31,15 @@
         DHCP
     #>
     param(
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$StartAddress,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$EndAddress,
-      [Parameter(ParameterSetName="noID",Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Space,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="ID",
+        ParameterSetName="With ID",
         Mandatory=$true
       )]
       [String]$id

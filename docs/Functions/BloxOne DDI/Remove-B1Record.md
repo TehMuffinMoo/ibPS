@@ -12,18 +12,18 @@ Removes an existing DNS record in BloxOneDDI
 
 ## SYNTAX
 
-### noID-FQDN
+### FQDN
 ```
 Remove-B1Record -Type <String> -View <String> -rdata <String> -FQDN <String> [<CommonParameters>]
 ```
 
-### noID
+### Default
 ```
 Remove-B1Record -Type <String> -Name <String> -Zone <String> -View <String> -rdata <String>
  [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1Record -id <String> [<CommonParameters>]
 ```
@@ -45,7 +45,7 @@ The type of the record to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID-FQDN, noID
+Parameter Sets: FQDN, Default
 Aliases:
 
 Required: True
@@ -60,7 +60,7 @@ The name of the record to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -75,7 +75,7 @@ The zone of the record to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -90,7 +90,7 @@ The DNS View the record exists in
 
 ```yaml
 Type: String
-Parameter Sets: noID-FQDN, noID
+Parameter Sets: FQDN, Default
 Aliases:
 
 Required: True
@@ -105,7 +105,7 @@ The RDATA of the record to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID-FQDN, noID
+Parameter Sets: FQDN, Default
 Aliases:
 
 Required: True
@@ -120,7 +120,7 @@ The FQDN of the record to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID-FQDN
+Parameter Sets: FQDN
 Aliases:
 
 Required: True
@@ -136,7 +136,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

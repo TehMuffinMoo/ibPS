@@ -12,8 +12,14 @@ Creates a new BloxOne Cloud API Key
 
 ## SYNTAX
 
+### Interactive
 ```
 New-B1APIKey [[-Type] <String>] [-Name] <String> [[-Expires] <DateTime>] [<CommonParameters>]
+```
+
+### Service
+```
+New-B1APIKey [[-Type] <String>] [-Name] <String> [[-Expires] <DateTime>] [-UserEmail] <String> [-UserName] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -66,7 +72,7 @@ Accept wildcard characters: False
 ```
 
 ### -Expires
-The date/time when the key will expire
+The date/time when the key will expire. Defaults to 1 year.
 
 ```yaml
 Type: DateTime
@@ -76,6 +82,43 @@ Aliases:
 Required: False
 Position: 3
 Default value: $(Get-Date).AddYears(1)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+## DYNAMIC PARAMETERS
+!!! info
+    **These parameters are only available when `-Type` is Service**
+
+!!! warning
+    **The `-UserEmail` and `-UserName` parameters are mutually exclusive, with `-UserEmail` taking preference if both are specified**
+
+### -UserEmail
+    The UserEmail parameter is used in conjunction with '-Type Service' to specify which user to associate with the key
+
+```yaml
+Type: string
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UserName
+    The UserName parameter is used in conjunction with '-Type Service' to specify which user to associate with the key
+
+```yaml
+Type: string
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -12,12 +12,12 @@ Removes an IP Space from BloxOneDDI IPAM
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1Space -Name <String> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1Space -id <String> [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The name of the IP Space to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -60,7 +60,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

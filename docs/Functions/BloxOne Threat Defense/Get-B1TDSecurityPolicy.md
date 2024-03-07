@@ -17,7 +17,7 @@ Retrieves a list of BloxOne Threat Defense Security Policies
 Get-B1TDSecurityPolicy [-Name <String>] [-Strict] [<CommonParameters>]
 ```
 
-### id
+### With ID
 ```
 Get-B1TDSecurityPolicy [-id <String>] [<CommonParameters>]
 ```
@@ -96,7 +96,7 @@ Filter the results by id
 
 ```yaml
 Type: String
-Parameter Sets: id
+Parameter Sets: With ID
 Aliases:
 
 Required: False

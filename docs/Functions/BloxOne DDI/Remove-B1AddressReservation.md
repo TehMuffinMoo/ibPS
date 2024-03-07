@@ -12,12 +12,12 @@ Removes an address reservation from BloxOneDDI IPAM
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1AddressReservation -Address <String> -Space <String> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1AddressReservation -id <String> [<CommonParameters>]
 ```
@@ -39,7 +39,7 @@ The IP address of the reservation to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -54,7 +54,7 @@ The IPAM space the reservation is contained in
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -69,7 +69,7 @@ Accept wildcard characters: False
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

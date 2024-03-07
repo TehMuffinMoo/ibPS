@@ -12,14 +12,14 @@ Updates an existing address block in BloxOneDDI IPAM
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Name <String>] [-DHCPOptions <Object>]
  [-Description <String>] [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>]
  [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1AddressBlock [-Name <String>] [-DHCPOptions <Object>] [-Description <String>]
  [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] -id <String> [<CommonParameters>]
@@ -47,7 +47,7 @@ The network address of the address block you want to update
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -62,7 +62,7 @@ The CIDR suffix of the address block you want to update
 
 ```yaml
 Type: Int32
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -77,7 +77,7 @@ The IPAM space where the address block is located
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -185,7 +185,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

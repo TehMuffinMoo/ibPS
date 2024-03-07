@@ -55,7 +55,7 @@
       [String]$Name,
       [parameter(ParameterSetName="notid")]
       [Switch]$Strict,
-      [parameter(ParameterSetName="id")]
+      [parameter(ParameterSetName="With ID")]
       [String]$id
     )
 

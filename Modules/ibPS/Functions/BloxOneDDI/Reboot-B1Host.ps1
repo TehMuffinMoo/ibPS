@@ -25,12 +25,12 @@
         Host
     #>
   param(
-    [Parameter(ParameterSetName="noID",Mandatory=$true)]
+    [Parameter(ParameterSetName="Default",Mandatory=$true)]
     [String]$OnPremHost,
     [Switch]$NoWarning,
     [Parameter(
       ValueFromPipelineByPropertyName = $true,
-      ParameterSetName="ID",
+      ParameterSetName="With ID",
       Mandatory=$true
     )]
     [String]$id
