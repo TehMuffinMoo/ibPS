@@ -24,7 +24,7 @@ This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS 
 
 ### EXAMPLE 1
 ```powershell
-Query-CSP -Method GET -Uri "zone_delegated?return_as_object=1"
+Query-NIOS -Method GET -Uri "zone_delegated?return_as_object=1"
 ```
 
 ## PARAMETERS
