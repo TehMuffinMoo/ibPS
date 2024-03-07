@@ -9,7 +9,7 @@
     .PARAMETER Type
         The indicator type to search on
 
-    .PARAMETER Value
+    .PARAMETER Target
         The indicator target(s) to search on
 
     .PARAMETER Source
