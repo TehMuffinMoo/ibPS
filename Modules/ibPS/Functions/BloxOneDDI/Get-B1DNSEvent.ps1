@@ -83,7 +83,6 @@ function Get-B1DNSEvent {
       [String]$IP,
       [String[]]$Response,
       [ValidateSet("RPZ","Analytic","Category")]
-      [String[]]$Source,
       [String[]]$Network,
       [String[]]$Policy,
       [ValidateSet("Info","Low","Medium","High")]
@@ -122,9 +121,6 @@ function Get-B1DNSEvent {
     }
     if ($IP) {
       $Filters += "qip=$IP"
-    }
-    if ($Source) {
-      $Filters += "source=$Source"
     }
     if ($Network) {
       $Filters += "network=$Network"
