@@ -68,16 +68,20 @@ jobs:
           Write-Host "Importing ibPS Module.."
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
 
+          Write-Host "Obtaining list of excluded docs.."
+          $ExcludedDocs = Import-Csv ./docs/exclusions.csv -Header 'doc'
+
           Write-Host "Updating documentation.."
-          New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion ${{ env.ModuleVersion }} -Force
+          $DocumentationVersion = (Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1").Version.ToString()
+          New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion $($DocumentationVersion) -Force
 
           Write-Host "Cleaning up old documentation.."
-          Get-ChildItem ./docs/Functions -Recurse -File | Remove-Item -Force
+          $OldDocs = Get-ChildItem ./docs/Functions -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
 
           Write-Host "Relocating documentation.."
           foreach ($F in Get-ChildItem './Modules/ibPS/Functions/' -Recurse) {
             $DocToFind = "./docs-temp/$($F.BaseName).md"
-            if (Test-Path $DocToFind) {
+            if (Test-Path $DocToFind -and "$($F.BaseName).md" -notin $($ExcludedDocs.doc)) {
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
                 "BloxOneDDI" {

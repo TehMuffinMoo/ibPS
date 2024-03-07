@@ -50,6 +50,10 @@
         The name of the cluster in Datastore
           Only used when -Type is VMware
 
+    .PARAMETER PortGroup
+        The name of the port group to connect the VM's network adapters to
+          Only used when -Type is VMware
+
     .PARAMETER PortGroupType
         The type of port group used for the virtual networks
           Only used when -Type is VMware
