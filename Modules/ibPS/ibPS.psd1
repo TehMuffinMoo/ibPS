@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.2.8'
+ModuleVersion = '1.9.2.9'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -108,9 +108,24 @@ FunctionsToExport = 'Deploy-B1Appliance', 'Get-B1Address', 'Get-B1AddressBlock',
                'Set-B1NTPServiceConfiguration', 'Set-B1Object', 'Set-B1Range', 
                'Set-B1Record', 'Set-B1Subnet', 'Start-B1DiagnosticTask', 
                'Start-B1Export', 'Start-B1Service', 'Stop-B1Service', 
-               'Copy-NIOSSubzoneToBloxOne', 'Get-NIOSAuthoritativeZone', 
-               'Get-NIOSConfiguration', 'Get-NIOSCredentials', 
-               'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
+               'Get-B1TDContentCategory', 'Get-B1TDDossierLookup', 
+               'Get-B1TDDossierSupportedFeedback', 
+               'Get-B1TDDossierSupportedSources', 
+               'Get-B1TDDossierSupportedTargets', 'Get-B1TDLookalikeDomains', 
+               'Get-B1TDLookalikes', 'Get-B1TDLookalikeTargetCandidates', 
+               'Get-B1TDLookalikeTargets', 'Get-B1TDNetworkList', 
+               'Get-B1TDPoPRegion', 'Get-B1TDSecurityPolicy', 
+               'Get-B1TDSecurityPolicyRules', 'Get-B1TDThreatFeeds', 
+               'Get-B1TDTideDataProfile', 'Get-B1TDTideFeeds', 
+               'Get-B1TDTideInfoRank', 'Get-B1TDTideThreatClass', 
+               'Get-B1TDTideThreatClassDefaultTTL', 'Get-B1TDTideThreatCounts', 
+               'Get-B1TDTideThreatEnrichment', 'Get-B1TDTideThreatProperty', 
+               'Get-B1TDTideThreats', 'New-B1TDTideDataProfile', 
+               'Remove-B1TDNetworkList', 'Remove-B1TDSecurityPolicy', 
+               'Set-B1TDTideDataProfile', 'Start-B1TDDossierBatchLookup', 
+               'Start-B1TDDossierLookup', 'Copy-NIOSSubzoneToBloxOne', 
+               'Get-NIOSAuthoritativeZone', 'Get-NIOSConfiguration', 
+               'Get-NIOSCredentials', 'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
                'New-NIOSDelegatedZone', 'Set-NIOSConfiguration', 
                'Store-NIOSCredentials', 'Get-ibPSVersion', 'Query-NIOS'
 
@@ -160,7 +175,10 @@ PrivateData = @{
 >
 > A new `-Source` parameter has been created. This is used to specify the Source of the DNS Event (i.e DFP, External Network or Endpoint) and allows multiple values to be inputted
 >
-> See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details'
+> See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details
+
+- v1.9.2.7 & v1.9.2.8 were skipped due to issues with the automated package provisioning.
+'
 
         # Prerelease string of this module
         # Prerelease = ''

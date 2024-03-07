@@ -1,4 +1,4 @@
-## 1.9.2.8
+## 1.9.2.9
 - Remove mandatory flag in the `New-B1Subnet` & `New-B1Space` cmdlets for the `-Name` parameter
 - Split BloxOne DDI & BloxOne Threat Defense functions to aid better documentation separation
 - Updated most of the BloxOne Threat Defense Help Information/Documentation
@@ -10,6 +10,9 @@
 > A new `-Source` parameter has been created. This is used to specify the Source of the DNS Event (i.e DFP, External Network or Endpoint) and allows multiple values to be inputted
 >
 > See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details
+
+- v1.9.2.7 & v1.9.2.8 were skipped due to issues with the automated package provisioning.
+
 
 ## 1.9.2.6
 - New documentation available at <a href="https://ibps.readthedocs.io/">ibPS</a>
@@ -100,5 +103,6 @@
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
