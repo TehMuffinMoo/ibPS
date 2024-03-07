@@ -34,4 +34,4 @@ foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $B1TDP
   }
 }
 
-Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -Alias *
+Export-ModuleMember -Function ($(@($B1PublicFunctions + $B1TDPublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -Alias *
