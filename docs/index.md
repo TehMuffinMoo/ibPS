@@ -1,4 +1,10 @@
 
+<style>
+  .paramName {
+    white-space: nowrap;
+  }
+</style>
+
 <h1 align="center">
   <br>
   <!--<a href=""><img src="" alt="Markdownify" width="200"></a>-->
@@ -118,7 +124,7 @@ Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-Limit` & `-Of
     </th>
   </tr>
   <tr>
-    <td>
+    <td class="paramName">
       -Strict
     </td>
     <td>
@@ -127,7 +133,7 @@ The default is to perform wildcard/lazy matches based on submitted query paramet
     </td>
   </tr>
   <tr>
-    <td>
+    <td class="paramName">
       -tfilter
     </td>
     <td>
@@ -136,7 +142,7 @@ This is used to filter results of your query by tags.
     </td>
   </tr>
   <tr>
-    <td>
+    <td class="paramName">
       -Fields
     </td>
     <td>
@@ -145,7 +151,7 @@ This is used to filter the fields returned by the API
     </td>
   </tr>
   <tr>
-    <td>
+    <td class="paramName">
       -Limit
     </td>
     <td>
@@ -154,7 +160,7 @@ This is used to specify the number of results to return from the API.
     </td>
   </tr>
   <tr>
-    <td>
+    <td class="paramName">
       -Offset
     </td>
     <td>
@@ -163,7 +169,7 @@ The -Offset parameter will offset the results returned by the amount specified. 
     </td>
   </tr>
   <tr>
-    <td>
+    <td class="paramName">
       -CustomFilters
     </td>
     <td>
