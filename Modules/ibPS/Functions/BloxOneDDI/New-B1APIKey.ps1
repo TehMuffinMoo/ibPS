@@ -14,11 +14,18 @@ function New-B1APIKey {
         Interactive will create a user API Key assigned to your user.
         Service will create a service API Key assigned to the selected service user.
 
-    .PARAMETER User
-        The user id to assign to the API Key
+    .PARAMETER UserEmail
+        The UserEmail parameter is used in conjunction with '-Type Service' to specify which user to associate with the key
+
+        The UserEmail & UserName parameters are mutually exclusive, with UserEmail taking preference if both are specified.
+
+    .PARAMETER UserName
+        The UserName parameter is used in conjunction with '-Type Service' to specify which user to associate with the key
+
+        The UserName & UserEmail parameters are mutually exclusive, with UserEmail taking preference if both are specified.
 
     .PARAMETER Expires
-        The date/time when the key will expire
+        The date/time when the key will expire. Defaults to 1 year.
 
     .EXAMPLE
         New-B1APIKey -Name "somename" -Type Interactive
@@ -82,7 +89,7 @@ function New-B1APIKey {
           }
           if ($AttachUser) {
             if ($AttachUser.count -gt 1) {
-              Write-Error "Error. More than one user returned via search for: $($UserEmail)."
+              Write-Error "Error. More than one user returned via search for: $($UserName) $($UserEmail)."
               break
             } else {
               $UserIDSplit = $($AttachUser.id) -split "identity/users/"
