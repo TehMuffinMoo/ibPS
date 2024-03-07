@@ -14,7 +14,7 @@ Queries the BloxOneDDI DFP Log
 
 ```
 Get-B1DFPLog [[-Query] <String>] [[-IP] <String>] [[-Type] <String>] [[-Response] <String>]
- [[-Source] <String[]>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [[-Network] <String[]>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>] [[-Offset] <Int32>]
 ```
 
 ## DESCRIPTION
@@ -30,7 +30,7 @@ Get-B1DFPLog -IP "10.10.132.10" -Query "google.com" -Type "A" -Response "216.58.
 
 ### EXAMPLE 2
 ```powershell
-Get-B1DFPLog -Source "MyB1Host (DFP)" -Start (Get-Date).AddHours(-6) Limit 10
+Get-B1DFPLog -Network "MyB1Host (DFP)" -Start (Get-Date).AddHours(-6) Limit 10
 ```
 
 ## PARAMETERS
@@ -95,7 +95,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Source
+### -Network
 Filter the DFP Logs by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "mybloxoneddihost.mydomain.corp (DFP)" or "mybloxoneddihost1.mydomain.corp (DFP)","mybloxoneddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
 
 ```yaml

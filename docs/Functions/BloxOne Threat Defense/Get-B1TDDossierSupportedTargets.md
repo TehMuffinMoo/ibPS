@@ -35,7 +35,9 @@ email
 ## PARAMETERS
 
 ### -Source
-{{ Fill Source Description }}
+Filter the supported targets based on Source
+
+You can get a list of supported sources using Get-B1TDDossierSupportedSources
 
 ```yaml
 Type: String

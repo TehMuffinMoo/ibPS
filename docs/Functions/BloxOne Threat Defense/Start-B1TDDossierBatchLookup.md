@@ -48,7 +48,7 @@ Accept wildcard characters: False
 ```
 
 ### -Target
-{{ Fill Target Description }}
+The indicator target(s) to search on
 
 ```yaml
 Type: String[]
