@@ -12,7 +12,7 @@
 RootModule = 'BloxOne-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.2.9'
+ModuleVersion = '1.9.2.10'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -177,7 +177,7 @@ PrivateData = @{
 >
 > See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details
 
-- v1.9.2.7 & v1.9.2.8 were skipped due to issues with the automated package provisioning.
+- v1.9.2.7, v1.9.2.8 & v1.9.2.9 were skipped due to issues with the automated package provisioning.
 '
 
         # Prerelease string of this module

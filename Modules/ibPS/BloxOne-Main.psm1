@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
    BloxOne REST API for PowerShell
 .DESCRIPTION
