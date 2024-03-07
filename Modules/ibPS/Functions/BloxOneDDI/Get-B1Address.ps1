@@ -45,9 +45,9 @@
     #>
     [CmdletBinding(DefaultParameterSetName = 'None')]
     param(
-      [Parameter(ParameterSetName="Default")]
+      [Parameter(ParameterSetName="With Address")]
       [String]$Address,
-      [Parameter(ParameterSetName="Default")]
+      [Parameter(ParameterSetName="With Address")]
       [String]$State,
       [Switch]$Reserved,
       [Int]$Limit = 1000,
