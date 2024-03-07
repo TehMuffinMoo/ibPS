@@ -12,12 +12,12 @@ Updates an existing BloxOne Cloud API Key
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1APIKey -Name <Object> [-User <Object>] [-Type <Object>] [-State <Object>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1APIKey [-State <Object>] -id <String> [<CommonParameters>]
 ```
@@ -39,7 +39,7 @@ Filter the results by the name of the API Key
 
 ```yaml
 Type: Object
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -54,7 +54,7 @@ Filter the results by user_email
 
 ```yaml
 Type: Object
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -69,7 +69,7 @@ Filter the results by the API Key Type
 
 ```yaml
 Type: Object
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -100,7 +100,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

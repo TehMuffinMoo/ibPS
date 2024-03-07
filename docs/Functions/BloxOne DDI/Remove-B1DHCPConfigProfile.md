@@ -17,7 +17,7 @@ Removes a DHCP Config Profile
 Remove-B1DHCPConfigProfile [-Name <String>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1DHCPConfigProfile -id <String> [<CommonParameters>]
 ```
@@ -60,7 +60,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

@@ -12,7 +12,7 @@ Updates an existing HA Group in BloxOneDDI
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1HAGroup -Name <String> [-Mode <String>] [-PrimaryNode <String>] [-SecondaryNode <String>]
  [-Description <String>] [-Tags <Object>] [<CommonParameters>]
@@ -41,7 +41,7 @@ The name of the HA Group to modify
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True

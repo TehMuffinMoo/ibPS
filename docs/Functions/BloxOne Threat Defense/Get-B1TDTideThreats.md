@@ -43,7 +43,7 @@ Get-B1TDTideThreats [-Type <String>] [-Value <String>] [-Age <String>] [-Distinc
  [<CommonParameters>]
 ```
 
-### id
+### With ID
 ```
 Get-B1TDTideThreats [-Id <String>] [-Limit <Int32>] [<CommonParameters>]
 ```
@@ -264,7 +264,7 @@ Filter the results by Threat ID
 
 ```yaml
 Type: String
-Parameter Sets: id
+Parameter Sets: With ID
 Aliases:
 
 Required: False

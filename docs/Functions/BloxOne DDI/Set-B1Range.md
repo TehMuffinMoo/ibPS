@@ -12,13 +12,13 @@ Updates an existing DHCP Range in BloxOneDDI IPAM
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1Range -StartAddress <String> [-EndAddress <String>] -Space <String> [-Name <String>]
  [-Description <String>] [-HAGroup <String>] [-Tags <Object>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1Range [-Name <String>] [-Description <String>] [-HAGroup <String>] [-Tags <Object>] -id <String>
  [<CommonParameters>]
@@ -41,7 +41,7 @@ The start address of the DHCP Range you want to update
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -56,7 +56,7 @@ The end address of the DHCP Range you want to update
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -71,7 +71,7 @@ The IPAM space where the DHCP Range is to be placed
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -149,7 +149,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

@@ -12,12 +12,12 @@ Removes a DNS View from BloxOneDDI
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1DNSView -Name <String> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1DNSView -id <String> [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The name of the DNS View to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -60,7 +60,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

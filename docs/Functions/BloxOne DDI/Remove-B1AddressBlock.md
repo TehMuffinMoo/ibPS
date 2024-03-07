@@ -12,13 +12,13 @@ Removes an address block from BloxOneDDI IPAM
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Recurse] [-NoWarning]
  [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1AddressBlock [-Recurse] [-NoWarning] -id <String> [<CommonParameters>]
 ```
@@ -40,7 +40,7 @@ The network address of the address block you want to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -55,7 +55,7 @@ The CIDR suffix of the address block you want to remove
 
 ```yaml
 Type: Int32
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -70,7 +70,7 @@ The IPAM space where the address block is located
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -121,7 +121,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

@@ -12,12 +12,12 @@ Reboots a BloxOneDDI Host
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Reboot-B1Host -OnPremHost <String> [-NoWarning] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Reboot-B1Host [-NoWarning] -id <String> [<CommonParameters>]
 ```
@@ -39,7 +39,7 @@ The FQDN of the host to reboot
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -70,7 +70,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

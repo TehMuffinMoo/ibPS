@@ -12,13 +12,13 @@ Updates an existing BloxOneDDI Host
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1Host [-Name <String>] [-IP <String>] [-Space <String>] [-TimeZone <String>] [-Description <String>]
  [-NoIPSpace] [-Tags <Object>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1Host [-Space <String>] [-TimeZone <String>] [-Description <String>] [-Tags <Object>] -id <String>
  [<CommonParameters>]
@@ -42,7 +42,7 @@ If -IP is specified, the Name parameter will overwrite the existing display name
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -57,7 +57,7 @@ The IP of the BloxOneDDI host to update.
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -117,7 +117,7 @@ This parameter is required when applying changes to BloxOneDDI Hosts which are n
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -149,7 +149,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

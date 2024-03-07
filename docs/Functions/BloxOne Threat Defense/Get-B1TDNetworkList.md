@@ -18,7 +18,7 @@ Get-B1TDNetworkList [-Name <String>] [-Description <String>] [-PolicyID <Int32>]
  [-Strict] [<CommonParameters>]
 ```
 
-### id
+### With ID
 ```
 Get-B1TDNetworkList [-id <Int32>] [<CommonParameters>]
 ```
@@ -121,7 +121,7 @@ Filter the results by id
 
 ```yaml
 Type: Int32
-Parameter Sets: id
+Parameter Sets: With ID
 Aliases:
 
 Required: False

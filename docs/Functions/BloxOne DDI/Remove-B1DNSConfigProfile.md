@@ -17,7 +17,7 @@ Removes a DNS Config Profile
 Remove-B1DNSConfigProfile [-Name <String>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1DNSConfigProfile -id <String> [<CommonParameters>]
 ```
@@ -60,7 +60,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

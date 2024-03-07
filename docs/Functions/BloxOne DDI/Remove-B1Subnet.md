@@ -12,12 +12,12 @@ Removes a subnet from BloxOneDDI IPAM
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Remove-B1Subnet -Subnet <String> -CIDR <Int32> [-Name <String>] -Space <String> [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1Subnet [-Name <String>] -id <String> [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The network address of the subnet you want to remove
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -59,7 +59,7 @@ The CIDR suffix of the subnet you want to remove
 
 ```yaml
 Type: Int32
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -89,7 +89,7 @@ The IPAM space where the subnet is located
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -105,7 +105,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

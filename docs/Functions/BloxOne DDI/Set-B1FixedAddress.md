@@ -12,13 +12,13 @@ Updates an existing fixed addresses in BloxOneDDI IPAM
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1FixedAddress -IP <String> -Space <String> [-Name <String>] [-Description <String>] [-MatchType <String>]
  [-MatchValue <String>] [-DHCPOptions <Object>] [-Tags <Object>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1FixedAddress [-Name <String>] [-Description <String>] [-MatchType <String>] [-MatchValue <String>]
  [-DHCPOptions <Object>] [-Tags <Object>] [-id <String>] [<CommonParameters>]
@@ -56,7 +56,7 @@ The IP of the fixed address
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -71,7 +71,7 @@ Use this parameter to filter the list of fixed addresses by Space
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -178,7 +178,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: False

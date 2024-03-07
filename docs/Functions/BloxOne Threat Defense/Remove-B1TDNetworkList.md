@@ -17,7 +17,7 @@ Removes a network list from BloxOne Threat Defense
 Remove-B1TDNetworkList [-Name <String>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Remove-B1TDNetworkList -id <String> [<CommonParameters>]
 ```
@@ -59,7 +59,7 @@ The id of the network list to remove
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True

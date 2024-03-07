@@ -12,13 +12,13 @@ Updates an existing Authoritative Zone in BloxOneDDI
 
 ## SYNTAX
 
-### noID
+### Default
 ```
 Set-B1AuthoritativeZone -FQDN <String> [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
  -View <Object> [-Description <String>] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
 Set-B1AuthoritativeZone [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
  [-Description <String>] -id <String> [<CommonParameters>]
@@ -41,7 +41,7 @@ The FQDN of the zone to update
 
 ```yaml
 Type: String
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -102,7 +102,7 @@ The DNS View the zone is located in
 
 ```yaml
 Type: Object
-Parameter Sets: noID
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -133,7 +133,7 @@ Accepts pipeline input
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
 Required: True
