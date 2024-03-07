@@ -18,7 +18,7 @@ Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>]
  [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
-### Default
+### With Address
 ```
 Get-B1Address [-Address <String>] [-State <String>] [-Reserved] [-Limit <Int32>] [-Offset <Int32>]
  [-tfilter <String>] [-Fields <String[]>] [-CustomFilters <Object>] [<CommonParameters>]
@@ -47,7 +47,7 @@ Use this parameter to filter by IP Address
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: With Address
 Aliases:
 
 Required: False
@@ -62,7 +62,7 @@ Use this parameter to filter by State
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: With Address
 Aliases:
 
 Required: False

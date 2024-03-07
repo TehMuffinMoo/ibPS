@@ -60,7 +60,8 @@ Accept wildcard characters: False
 ```
 
 ### -DHCPOptions
-{{ Fill DHCPOptions Description }}
+A list of DHCP Options you want to apply to the new IP Space.
+These will be inherited by any child Address Blocks, Subnets & Ranges.
 
 ```yaml
 Type: Object
@@ -75,7 +76,8 @@ Accept wildcard characters: False
 ```
 
 ### -DDNSDomain
-{{ Fill DDNSDomain Description }}
+The DDNS Domain to apply to the new IP Space.
+This will be inherited by any child Address Blocks, Subnets & Ranges.
 
 ```yaml
 Type: String

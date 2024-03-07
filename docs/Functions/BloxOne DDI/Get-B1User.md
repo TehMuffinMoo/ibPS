@@ -86,7 +86,7 @@ Accept wildcard characters: False
 ```
 
 ### -Type
-{{ Fill Type Description }}
+Filter the results by the user type
 
 ```yaml
 Type: String
@@ -101,7 +101,7 @@ Accept wildcard characters: False
 ```
 
 ### -Authenticator
-{{ Fill Authenticator Description }}
+Filter the results by the user's authenticator
 
 ```yaml
 Type: String

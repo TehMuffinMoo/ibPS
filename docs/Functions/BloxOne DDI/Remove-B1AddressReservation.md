@@ -65,7 +65,8 @@ Accept wildcard characters: False
 ```
 
 ### -id
-{{ Fill id Description }}
+The id of the Address Reservation to remove.
+Accepts pipeline input.
 
 ```yaml
 Type: String

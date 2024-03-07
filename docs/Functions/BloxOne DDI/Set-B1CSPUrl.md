@@ -76,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -Persist
-{{ Fill Persist Description }}
+Setting the -Persist parameter will save the URL peremenantly for your user on this device.
 
 ```yaml
 Type: SwitchParameter

@@ -15,10 +15,10 @@ Queries the BloxOne Threat Defense DNS Events
 ```
 Get-B1DNSEvent [[-Query] <String>] [[-IP] <String>] [[-Response] <String[]>] [[-Source] <String[]>]
  [[-Network] <String[]>] [[-Policy] <String[]>] [[-ThreatLevel] <String[]>] [[-ThreatClass] <String[]>]
- [[-FeedName] <String[]>] [[-FeedType] <String[]>] [[-UserGroup] <String[]>] [[-AppCategory] <String[]>]
- [[-ThreatProperty] <String[]>] [[-ThreatIndicator] <String[]>] [[-PolicyAction] <String[]>]
- [[-EndpointGroup] <String[]>] [[-AppName] <String[]>] [[-DNSView] <String[]>] [[-Start] <DateTime>]
- [[-End] <DateTime>] [[-Fields] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [[-FeedName] <String[]>] [[-FeedType] <String[]>] [[-AppCategory] <String[]>] [[-ThreatProperty] <String[]>]
+ [[-ThreatIndicator] <String[]>] [[-PolicyAction] <String[]>] [[-EndpointGroup] <String[]>]
+ [[-AppName] <String[]>] [[-DNSView] <String[]>] [[-Start] <DateTime>] [[-End] <DateTime>]
+ [[-Fields] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>]
 ```
 
 ## DESCRIPTION
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -IP
-{{ Fill IP Description }}
+Use the IP parameter to filter the DNS Events by the IP of the source making the query
 
 ```yaml
 Type: String
@@ -80,7 +80,7 @@ Accept wildcard characters: False
 ```
 
 ### -Source
-Used to filter the DNS Events by IP Address
+{{ Fill Source Description }}
 
 ```yaml
 Type: String[]
@@ -95,7 +95,7 @@ Accept wildcard characters: False
 ```
 
 ### -Network
-{{ Fill Network Description }}
+Filter the DNS Events by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "mybloxoneddihost.mydomain.corp (DFP)" or "mybloxoneddihost1.mydomain.corp (DFP)","mybloxoneddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
 
 ```yaml
 Type: String[]
@@ -125,7 +125,7 @@ Accept wildcard characters: False
 ```
 
 ### -ThreatLevel
-{{ Fill ThreatLevel Description }}
+Used to filter the DNS Events by Threat Level
 
 ```yaml
 Type: String[]
@@ -140,7 +140,7 @@ Accept wildcard characters: False
 ```
 
 ### -ThreatClass
-{{ Fill ThreatClass Description }}
+Used to filter the DNS Events by Threat Class
 
 ```yaml
 Type: String[]
@@ -155,7 +155,7 @@ Accept wildcard characters: False
 ```
 
 ### -FeedName
-{{ Fill FeedName Description }}
+Used to filter the DNS Events by Feed Name
 
 ```yaml
 Type: String[]
@@ -170,7 +170,7 @@ Accept wildcard characters: False
 ```
 
 ### -FeedType
-{{ Fill FeedType Description }}
+Used to filter the DNS Events by Feed Type
 
 ```yaml
 Type: String[]
@@ -184,8 +184,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UserGroup
-{{ Fill UserGroup Description }}
+### -AppCategory
+Used to filter the DNS Events by App Category
 
 ```yaml
 Type: String[]
@@ -199,8 +199,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AppCategory
-{{ Fill AppCategory Description }}
+### -ThreatProperty
+Used to filter the DNS Events by Threat Property
 
 ```yaml
 Type: String[]
@@ -214,8 +214,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ThreatProperty
-{{ Fill ThreatProperty Description }}
+### -ThreatIndicator
+Used to filter the DNS Events by Threat Indicator
 
 ```yaml
 Type: String[]
@@ -229,8 +229,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ThreatIndicator
-{{ Fill ThreatIndicator Description }}
+### -PolicyAction
+Used to filter the DNS Events by Policy Action
 
 ```yaml
 Type: String[]
@@ -244,8 +244,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -PolicyAction
-{{ Fill PolicyAction Description }}
+### -EndpointGroup
+Used to filter the DNS Events by Endpoint Group
 
 ```yaml
 Type: String[]
@@ -259,8 +259,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EndpointGroup
-{{ Fill EndpointGroup Description }}
+### -AppName
+Used to filter the DNS Events by App Name
 
 ```yaml
 Type: String[]
@@ -274,8 +274,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -AppName
-{{ Fill AppName Description }}
+### -DNSView
+Used to filter the DNS Events by DNS View
 
 ```yaml
 Type: String[]
@@ -284,21 +284,6 @@ Aliases:
 
 Required: False
 Position: 17
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DNSView
-{{ Fill DNSView Description }}
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 18
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -315,7 +300,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 19
+Position: 18
 Default value: $(Get-Date).AddDays(-1)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -330,7 +315,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 20
+Position: 19
 Default value: $(Get-Date)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -346,7 +331,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 21
+Position: 20
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -362,7 +347,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 22
+Position: 21
 Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -377,7 +362,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 23
+Position: 22
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
