@@ -106,8 +106,8 @@ created_at          user_name              message
 ----------          ---------              -------
 3/7/2024 11:02:13AM jbloggs@my.company     Infra-service is deleted
 3/7/2024 9:56:05AM  pbloggs@my.company     Service API Key deleted
-3/4/2024 11:59:22PM mcox@infoblox.com      {"request":{"id":"ipam/ip_space/ferg54ty-da82-11ee-833c-f44v5e4gsr4"}}
-3/4/2024 11:54:47PM mcox@infoblox.com      {"request":{"id":"ipam/subnet/f54tg45g6-da82-11ee-9983-i7768ikyfd4"}}
+3/4/2024 11:59:22PM sbloggs@my.company     {"request":{"id":"ipam/ip_space/ferg54ty-da82-11ee-833c-f44v5e4gsr4"}}
+3/4/2024 11:54:47PM bbloggs@my.company     {"request":{"id":"ipam/subnet/f54tg45g6-da82-11ee-9983-i7768ikyfd4"}}
 ```
 
 

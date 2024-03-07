@@ -25,7 +25,7 @@
         If this parameter is set, SSL Certificates Checks will be ignored
 
     .EXAMPLE
-        Query-CSP -Method GET -Uri "zone_delegated?return_as_object=1"
+        Query-NIOS -Method GET -Uri "zone_delegated?return_as_object=1"
 
     .FUNCTIONALITY
         NIOS
