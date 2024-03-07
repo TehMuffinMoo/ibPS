@@ -1,4 +1,4 @@
-## 1.9.2.7
+## 1.9.2.8
 - Remove mandatory flag in the `New-B1Subnet` & `New-B1Space` cmdlets for the `-Name` parameter
 - Split BloxOne DDI & BloxOne Threat Defense functions to aid better documentation separation
 - Updated most of the BloxOne Threat Defense Help Information/Documentation
@@ -100,4 +100,5 @@
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
