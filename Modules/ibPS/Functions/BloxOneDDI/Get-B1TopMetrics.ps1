@@ -11,15 +11,19 @@
 
     .PARAMETER QueryType
         Use this parameter to specify the query type when using -TopQueries
+		
+		Available options: NXDOMAIN, NXRRSET, DNS & DFP
 
     .PARAMETER TopClients
         Use this parameter to select Top Clients as the top metric category
 
     .PARAMETER TopClientLogType
         Use this parameter to specify the top client log type when using -TopClients
+		
+		Available options: DNS, DFP & DHCP
 
     .PARAMETER TopCount
-        Use this parameter to return X results for the top metric selected
+        Use this parameter to return X results for the top metric selected. Default is 20.
 
 	.PARAMETER TopDNSServers
 	    Use this parameter to return a list of DNS Servers by query count
@@ -27,11 +31,13 @@
 	.PARAMETER Granularity
 	    Use this parameter to return results based on intervals instead of aggregated across the whole time period
 
+		Available options: Minute, Hour, Day, Week, Month & Year
+
     .PARAMETER Start
-        The start date/time for searching aggregated metrics
+        The start date/time for searching aggregated metrics. Default is 1 day ago.
 
     .PARAMETER End
-        The end date/time for searching aggregated metrics
+        The end date/time for searching aggregated metrics. Default is now.
 
     .EXAMPLE
         PS> Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)

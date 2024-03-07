@@ -70,6 +70,8 @@ Accept wildcard characters: False
 ### -QueryType
 Use this parameter to specify the query type when using -TopQueries
 
+Available options: NXDOMAIN, NXRRSET, DNS & DFP
+
 ```yaml
 Type: String
 Parameter Sets: topQueries
@@ -99,6 +101,8 @@ Accept wildcard characters: False
 
 ### -TopClientLogType
 Use this parameter to specify the top client log type when using -TopClients
+
+Available options: DNS, DFP & DHCP
 
 ```yaml
 Type: String
@@ -130,6 +134,8 @@ Accept wildcard characters: False
 ### -Granularity
 Use this parameter to return results based on intervals instead of aggregated across the whole time period
 
+Available options: Minute, Hour, Day, Week, Month & Year
+
 ```yaml
 Type: String
 Parameter Sets: topDNSServers
@@ -143,7 +149,8 @@ Accept wildcard characters: False
 ```
 
 ### -TopCount
-Use this parameter to return X results for the top metric selected
+Use this parameter to return X results for the top metric selected.
+Default is 20.
 
 ```yaml
 Type: Int32
@@ -158,7 +165,8 @@ Accept wildcard characters: False
 ```
 
 ### -Start
-The start date/time for searching aggregated metrics
+The start date/time for searching aggregated metrics.
+Default is 1 day ago.
 
 ```yaml
 Type: DateTime
@@ -173,7 +181,8 @@ Accept wildcard characters: False
 ```
 
 ### -End
-The end date/time for searching aggregated metrics
+The end date/time for searching aggregated metrics.
+Default is now.
 
 ```yaml
 Type: DateTime
