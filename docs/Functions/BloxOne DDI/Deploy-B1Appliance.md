@@ -17,7 +17,8 @@ Deploys a BloxOneDDI Virtual Appliance to VMware or Hyper-V
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
  [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
  [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
- [-OVAPath] [-vCenter] [-Cluster] [-Datastore] [-PortGroup] [-PortGroupType] [-Creds]
+ [-OVAPath] <String> [-vCenter] <String> [-Cluster] <String> [-Datastore] <String> [-PortGroup] <String>
+ [-PortGroupType] <String> [-Creds] <PSCredential>
  [<CommonParameters>]
 ```
 
@@ -26,7 +27,8 @@ Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
  [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
  [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
- [-VHDPath] [-HyperVServer] [-HyperVGeneration] [-VMPath] [-VirtualNetwork] [-VirtualNetworkVLAN] [-CPU] [-Memory]
+ [-VHDPath] <String> [-HyperVServer] <String> [-HyperVGeneration] <Int> [-VMPath] <String> [-VirtualNetwork]<String>
+ [-VirtualNetworkVLAN] <Int> [-CPU] <Int> [-Memory] <String>
  [<CommonParameters>]
 ```
 
@@ -298,7 +300,7 @@ Accept wildcard characters: False
 
 ### VMware
 !!! warning "Important Information"
-    **These parameters are only required when `-Type` is VMware**
+    **These parameters are only available when `-Type` is VMware**
 
 #### -OVAPath
 The path to the BloxOneDDI OVA
@@ -412,7 +414,7 @@ Accept wildcard characters: False
 
 ### Hyper-V
 !!! warning "Important Information"
-    **These parameters are only required when `-Type` is Hyper-V**
+    **These parameters are only available when `-Type` is Hyper-V**
 
 #### -VHDPath
 The full path to the BloxOne VHD/VHDX file.
