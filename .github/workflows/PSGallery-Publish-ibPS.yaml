@@ -81,7 +81,7 @@ jobs:
           Write-Host "Relocating documentation.."
           foreach ($F in Get-ChildItem './Modules/ibPS/Functions/' -Recurse) {
             $DocToFind = "./docs-temp/$($F.BaseName).md"
-            if (Test-Path $DocToFind -and "$($F.BaseName).md" -notin $($ExcludedDocs.doc)) {
+            if ((Test-Path $DocToFind) -and "$($F.BaseName).md" -notin $($ExcludedDocs.doc)) {
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
                 "BloxOneDDI" {
