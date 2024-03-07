@@ -88,7 +88,7 @@ whois               : True
 ## PARAMETERS
 
 ### -Target
-List the supported sources relating to the target type (ip/host/url/etc.)
+List the supported sources relating to the target type (ip/host/url/email/hash)
 
 ```yaml
 Type: String

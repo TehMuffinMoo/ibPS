@@ -50,6 +50,10 @@
         The name of the cluster in Datastore
           Only used when -Type is VMware
 
+    .PARAMETER PortGroup
+        The name of the port group to connect the VM's network adapters to
+          Only used when -Type is VMware
+
     .PARAMETER PortGroupType
         The type of port group used for the virtual networks
           Only used when -Type is VMware
@@ -116,7 +120,8 @@
 
     .EXAMPLE
         PS> Deploy-B1Appliance -Type "VMware" `
-                           -Name "bloxoneddihost1" -IP "10.10.100.10" `
+                           -Name "bloxoneddihost1" `
+                           -IP "10.10.100.10" `
                            -Netmask "255.255.255.0" `
                            -Gateway "10.10.100.1" `
                            -DNSServers "10.30.10.10,10.30.10.10" `
