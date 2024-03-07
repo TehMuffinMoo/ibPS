@@ -1,0 +1,68 @@
+## Here are some examples of retrieving various logs from the BloxOne CSP
+
+### Service Log
+This example showcases retrieving the last 10,000 events for the `DNS` container located on a specific BloxOne Host. It also shows how you can use the -Start & -End parameters to limit the search window to specific dates/times.
+
+```powershell
+PS> Get-B1ServiceLog -OnPremHost "my-host.corp.local" -Container DNS -Start (Get-Date).AddHours(-12) -Limit 10000 | where {$_.msg -like "*xfer*"} | ft -AutoSize
+
+timestamp                      onpremhost         container_name msg
+---------                      ----------         -------------- ---
+2024-03-07T10:56:57.006946304Z my-host.corp.local ns:dns          07-Mar-2024 10:56:57.035 xfer-in: info: transfer of '1.168.192.in-addr.arpa/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u' from 127.0.0.1#1853: Transfer completed: 1 messages, 6 records, 681 bytes, 0.111 secs…
+2024-03-07T10:56:57.006946303Z my-host.corp.local ns:dns          07-Mar-2024 10:56:57.035 xfer-in: info: transfer of '1.168.192.in-addr.arpa/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u' from 127.0.0.1#1853: Transfer status: success
+2024-03-07T10:56:57.006946302Z my-host.corp.local ns:dns          07-Mar-2024 10:56:57.035 xfer-in: info: zone 1.168.192.in-addr.arpa/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u: transferred serial 393944
+2024-03-07T10:56:56.006946301Z my-host.corp.local ns:dns          07-Mar-2024 10:56:56.923 xfer-in: info: transfer of '1.168.192.in-addr.arpa/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u' from 127.0.0.1#1853: connected using 127.0.0.1#1853
+2024-03-07T10:56:56.006946300Z my-host.corp.local ns:dns          07-Mar-2024 10:56:56.923 xfer-in: info: zone 1.168.192.in-addr.arpa/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u: Transfer started.
+2024-03-07T10:56:49.006946286Z my-host.corp.local ns:dns          07-Mar-2024 10:56:49.975 xfer-in: info: transfer of 'corp.local/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u' from 127.0.0.1#1853: Transfer completed: 1 messages, 12 records, 1019 bytes, 0.135 secs (7548 bytes…
+2024-03-07T10:56:49.006946285Z my-host.corp.local ns:dns          07-Mar-2024 10:56:49.975 xfer-in: info: transfer of 'corp.local/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u' from 127.0.0.1#1853: Transfer status: success
+2024-03-07T10:56:49.006946284Z my-host.corp.local ns:dns          07-Mar-2024 10:56:49.975 xfer-in: info: zone corp.local/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u: transferred serial 618609
+2024-03-07T10:56:49.006946283Z my-host.corp.local ns:dns          07-Mar-2024 10:56:49.839 xfer-in: info: transfer of 'corp.local/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u' from 127.0.0.1#1853: connected using 127.0.0.1#1853
+2024-03-07T10:56:49.006946282Z my-host.corp.local ns:dns          07-Mar-2024 10:56:49.839 xfer-in: info: zone corp.local/IN/dsfwef4344-0e02-1532-b33a-fwefkndsfg4u: Transfer started.
+```
+
+
+### DNS Log
+...
+
+```powershell
+
+```
+
+
+### DNS Forwarding Proxy (DFP) Log
+...
+
+```powershell
+
+```
+
+
+### DNS Security Log
+...
+
+```powershell
+
+```
+
+
+### Audit Log
+This example showcases retrieving the last 100 events from the Audit Log, where the action was `DELETE` and was performed within the last 36 Hours.
+
+```powershell
+PS> Get-B1AuditLog -Method DELETE -Start (Get-Date).AddHours(-36) -End (Get-Date) | ft created_at,user_name,message
+
+created_at          user_name              message
+----------          ---------              -------
+3/7/2024 11:02:13AM jbloggs@my.company     Infra-service is deleted
+3/7/2024 9:56:05AM  pbloggs@my.company     Service API Key deleted
+3/4/2024 11:59:22PM mcox@infoblox.com      {"request":{"id":"ipam/ip_space/ferg54ty-da82-11ee-833c-f44v5e4gsr4"}}
+3/4/2024 11:54:47PM mcox@infoblox.com      {"request":{"id":"ipam/subnet/f54tg45g6-da82-11ee-9983-i7768ikyfd4"}}
+```
+
+
+### Security (Web Server) Log
+...
+
+```powershell
+
+```
