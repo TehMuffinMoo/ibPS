@@ -1,4 +1,4 @@
-## Here are some examples of retrieving various logs from the BloxOne CSP
+Here are some examples of retrieving various logs from the BloxOne CSP
 
 ### Service Log
 This example showcases retrieving the last 10,000 events for the `DNS` container located on a specific BloxOne Host.
