@@ -183,7 +183,9 @@ Accept wildcard characters: False
 ```
 
 ### -rdata
-Record Value
+!!! warning ""
+    **The `-rdata` parameter is excluded when `-Type` is MX or CAA**
+The record value/data
 
 ```yaml
 Type: String
@@ -196,6 +198,139 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+## DYNAMIC PARAMETERS
+### SRV Records
+!!! info
+    **These parameters are only available when `-Type` is SRV**
+
+#### -Priority
+The Priority parameter is required when creating an SRV Record and sets the record priority attribute.
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Weight
+The Weight parameter is required when creating an SRV Record and sets the record weight attribute.
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Port
+The Port parameter is required when creating an SRV Record and sets the record port attribute.
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### MX Records
+!!! info
+    **These parameters are only available when `-Type` is MX**
+
+#### -Preference
+The Preference parameter is required when creating an MX Record and sets the record preference attribute.
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Exchange
+The Exchange parameter is required when creating an MX Record. This is the mail server (exchange) assosiated with the MX record.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+``` 
+
+### CAA Records
+!!! info
+    **These parameters are only available when `-Type` is CAA**
+
+#### -CAFlag
+The CAFlag parameter is required when creating a CAA Record and sets the CA Flag attribute.
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -CATag
+The CATag parameter is required when creating a CAA Record and sets the CA Tag attribute.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+``` 
+
+#### -CAValue
+The CAValue parameter is required when creating a CAA Record and sets the CAA record value.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+``` 
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
