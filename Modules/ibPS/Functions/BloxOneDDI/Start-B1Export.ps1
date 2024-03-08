@@ -12,37 +12,37 @@
     .PARAMETER Description
         The description to give the export/backup
 
-    .PARAMETER $DNSConfig
+    .PARAMETER DNSConfig
         Use this switch to enable DNS Configuration to be included in the export/backup
 
-    .PARAMETER $DNSData
+    .PARAMETER DNSData
         Use this switch to enable DNS Data to be included in the export/backup
 
-    .PARAMETER $NTPData
+    .PARAMETER NTPData
         Use this switch to enable NTP Data to be included in the export/backup
 
-    .PARAMETER $IPAMData
+    .PARAMETER IPAMData
         Use this switch to enable IPAM Data to be included in the export/backup
 
-    .PARAMETER $KeyData
+    .PARAMETER KeyData
         Use this switch to enable Key Data to be included in the export/backup
 
-    .PARAMETER $ThreatDefense
+    .PARAMETER ThreatDefense
         Use this switch to enable Threat Defense Configuration to be included in the export/backup
 
-    .PARAMETER $Bootstrap
+    .PARAMETER Bootstrap
         Use this switch to enable BloxOne Host Bootstrap Configuration to be included in the export/backup
 
-    .PARAMETER $OnPremHosts
+    .PARAMETER OnPremHosts
         Use this switch to enable BloxOne Host Configuration to be included in the export/backup
 
-    .PARAMETER $Redirects
+    .PARAMETER Redirects
         Use this switch to enable Custom Redirects to be included in the export/backup
 
-    .PARAMETER $Tags
+    .PARAMETER Tags
         Use this switch to enable Tag Configuration to be included in the export/backup
 
-    .PARAMETER $BackupAll
+    .PARAMETER BackupAll
         Use this switch to enable all configuration & data types to be included in the export/backup
 
     .EXAMPLE
