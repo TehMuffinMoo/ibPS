@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to update the BloxOneDDI Global DHCP Configuration
 
-    .PARAMETER -DDNSZones
+    .PARAMETER DDNSZones
         Provide a list of DDNS Zones to add or remove to/from the Global DHCP Configuration.
         
         This is to be used in conjunction with -AddDDNSZones and -RemoveDDNSZones respectively.
