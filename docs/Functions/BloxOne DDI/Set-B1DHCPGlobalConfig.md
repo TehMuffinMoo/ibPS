@@ -60,7 +60,9 @@ Accept wildcard characters: False
 ```
 
 ### -DDNSZones
-{{ Fill DDNSZones Description }}
+Provide a list of DDNS Zones to add or remove to/from the Global DHCP Configuration.
+
+This is to be used in conjunction with -AddDDNSZones and -RemoveDDNSZones respectively.
 
 ```yaml
 Type: Object

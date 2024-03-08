@@ -82,7 +82,9 @@ Accept wildcard characters: False
 ```
 
 ### -DDNSZones
-{{ Fill DDNSZones Description }}
+Provide a list of DDNS Zones to add or remove to/from the the DHCP Config Profile.
+
+This is to be used in conjunction with -AddDDNSZones and -RemoveDDNSZones respectively.
 
 ```yaml
 Type: Object
