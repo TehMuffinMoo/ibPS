@@ -1,0 +1,43 @@
+name: Export Cmdlets
+
+on: workflow_dispatch
+#  push:
+#    branches: [main]
+
+jobs:
+  Export_Cmdlets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update Module Manifest
+        shell: pwsh
+        run: |
+          Write-Host "Updating changes to Module.."
+          Copy-Item "./Modules/BloxOne-Main.ps1" "./Modules/ibPS/BloxOne-Main.psm1" -Force
+
+          Write-Host "Testing Module Manifest.."
+          $Module = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
+
+          ## Functions to export
+          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOneDDI/*.ps1"
+          $B1TDPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOneTD/*.ps1"
+          $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
+          $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
+
+          ## Export Functions
+          Write-Host "Exporting functions.."
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -FunctionsToExport ($(@($B1PublicFunctions + $B1TDPublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*'
+
+      - name: Update Repository
+        run: |
+          git config --global user.name ${{ github.actor }}
+          git config --global user.password ${{ secrets.GIT_ACTIONS }}
+          git config --global user.email 'mat.cox@tmmn.uk'
+          git add .
+          git status
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Update Module to ${{ env.ModuleVersion }}"
+            git push
+          fi
