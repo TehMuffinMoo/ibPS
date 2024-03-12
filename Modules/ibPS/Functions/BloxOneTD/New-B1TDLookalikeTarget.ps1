@@ -4,7 +4,8 @@ function New-B1TDLookalikeTarget {
     Adds a new lookalike target domain for the account
 
   .DESCRIPTION
-    This function is used to add a new lookalike target domain for the account
+    This function is used to add a new lookalike target domain for the account.
+    
     The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
   .PARAMETER Domain
