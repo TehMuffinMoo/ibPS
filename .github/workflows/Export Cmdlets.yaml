@@ -38,6 +38,6 @@ jobs:
           git add .
           git status
           if ! git diff-index --quiet HEAD; then
-            git commit -m "Update Module to ${{ env.ModuleVersion }}"
+            git commit -m "Update Exported Module Cmdlets"
             git push
           fi
