@@ -27,6 +27,9 @@ function Get-B1TDTideThreats {
     .PARAMETER Type
         Use the -Type parameter to search by threat type and optionally indicator. Must be used in conjunction with the -Value parameter
 
+    .PARAMETER Age
+        Filter the results by the age of the threat
+
     .PARAMETER Value
         The value to search based on the -Type selected
 

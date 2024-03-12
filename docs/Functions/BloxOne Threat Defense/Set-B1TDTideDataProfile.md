@@ -98,7 +98,7 @@ Accept wildcard characters: False
 ```
 
 ### -DefaultTTL
-{{ Fill DefaultTTL Description }}
+This value indicates if to use the default TTL for threats
 
 ```yaml
 Type: String

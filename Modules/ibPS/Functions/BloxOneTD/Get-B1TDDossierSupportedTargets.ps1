@@ -6,6 +6,11 @@ function Get-B1TDDossierSupportedTargets {
     .DESCRIPTION
         The Dossier Indicators cmdlet returns a list of all Dossier (sometimes referred to as Intel Lookup) indicator types and whether or not they are available for the caller.
 
+    .PARAMETER Source
+        Filter the supported targets based on Source
+
+        You can get a list of supported sources using Get-B1TDDossierSupportedSources
+
     .EXAMPLE
         PS> Get-B1TDDossierSupportedTargets           
 

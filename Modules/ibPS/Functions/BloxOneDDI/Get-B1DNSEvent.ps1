@@ -9,14 +9,47 @@ function Get-B1DNSEvent {
     .PARAMETER Query
         Use this parameter to filter the DNS Events by hostname or FQDN
 
-    .PARAMETER Source
-        Used to filter the DNS Events by IP Address
+    .PARAMETER IP
+        Use the IP parameter to filter the DNS Events by the IP of the source making the query
+
+    .PARAMETER Network
+        Filter the DNS Events by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "mybloxoneddihost.mydomain.corp (DFP)" or "mybloxoneddihost1.mydomain.corp (DFP)","mybloxoneddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
 
     .PARAMETER Policy
         Used to filter the DNS Events by Policy Name
 
-    .PARAMETER Policy
+    .PARAMETER ThreatLevel
         Used to filter the DNS Events by Threat Level
+
+    .PARAMETER ThreatClass
+        Used to filter the DNS Events by Threat Class
+
+    .PARAMETER FeedName
+        Used to filter the DNS Events by Feed Name
+
+    .PARAMETER FeedType
+        Used to filter the DNS Events by Feed Type
+
+    .PARAMETER AppCategory
+        Used to filter the DNS Events by App Category
+
+    .PARAMETER ThreatProperty
+        Used to filter the DNS Events by Threat Property
+
+    .PARAMETER ThreatIndicator
+        Used to filter the DNS Events by Threat Indicator
+
+    .PARAMETER PolicyAction
+        Used to filter the DNS Events by Policy Action
+
+    .PARAMETER EndpointGroup
+        Used to filter the DNS Events by Endpoint Group
+      
+    .PARAMETER AppName
+        Used to filter the DNS Events by App Name
+
+    .PARAMETER DNSView
+        Used to filter the DNS Events by DNS View
 
     .PARAMETER Response
         Use this parameter to filter the DNS Log by the response, i.e "NXDOMAIN"
@@ -50,7 +83,6 @@ function Get-B1DNSEvent {
       [String]$IP,
       [String[]]$Response,
       [ValidateSet("RPZ","Analytic","Category")]
-      [String[]]$Source,
       [String[]]$Network,
       [String[]]$Policy,
       [ValidateSet("Info","Low","Medium","High")]
@@ -58,7 +90,6 @@ function Get-B1DNSEvent {
       [String[]]$ThreatClass,
       [String[]]$FeedName,
       [String[]]$FeedType,
-      [String[]]$UserGroup,
       [String[]]$AppCategory,
       [String[]]$ThreatProperty,
       [String[]]$ThreatIndicator,
@@ -91,9 +122,6 @@ function Get-B1DNSEvent {
     if ($IP) {
       $Filters += "qip=$IP"
     }
-    if ($Source) {
-      $Filters += "source=$Source"
-    }
     if ($Network) {
       $Filters += "network=$Network"
     }
@@ -117,9 +145,6 @@ function Get-B1DNSEvent {
     }
     if ($FeedName) {
       $Filters += "feed_name=$FeedName"
-    }
-    if ($UserGroup) {
-      $Filters += "user_group=$UserGroup"
     }
     if ($AppCategory) {
       $Filters += "app_category=$AppCategory"

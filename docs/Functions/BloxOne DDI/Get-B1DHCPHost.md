@@ -150,7 +150,7 @@ Accept wildcard characters: False
 ```
 
 ### -Associations
-{{ Fill Associations Description }}
+Obtain a list of associated subnets/ranges with this host
 
 ```yaml
 Type: SwitchParameter

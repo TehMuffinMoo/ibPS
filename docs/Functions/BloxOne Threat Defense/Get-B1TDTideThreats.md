@@ -226,7 +226,7 @@ Accept wildcard characters: False
 ```
 
 ### -Age
-{{ Fill Age Description }}
+Filter the results by the age of the threat
 
 ```yaml
 Type: String

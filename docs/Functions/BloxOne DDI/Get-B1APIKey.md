@@ -47,7 +47,7 @@ Accept wildcard characters: False
 ```
 
 ### -CreatedBy
-{{ Fill CreatedBy Description }}
+Filter the results by the original creator of the API Key
 
 ```yaml
 Type: String

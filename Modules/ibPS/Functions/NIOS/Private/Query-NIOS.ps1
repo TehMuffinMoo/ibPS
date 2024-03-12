@@ -12,11 +12,20 @@
     .PARAMETER Server
         Specify the NIOS Grid Manager IP or FQDN to use
 
+        This parameter can be ommitted if the Server is stored by using Set-NIOSConfiguration
+
     .PARAMETER Uri
         Specify the Uri, such as "ipam/record", you can also use the full URL and http parameters must be appended here.
 
     .PARAMETER ApiVersion
         The version of the NIOS API to use (WAPI)
+
+        This parameter can be ommitted if the API Version is stored by using Set-NIOSConfiguration
+
+    .PARAMETER Creds
+        The creds parameter can be used to specify credentials as part of the command.
+
+        This parameter can be ommitted if the Credentials are stored by using Store-NIOSCredentials
 
     .PARAMETER Data
         Data to be submitted on POST/PUT/PATCH/DELETE requests

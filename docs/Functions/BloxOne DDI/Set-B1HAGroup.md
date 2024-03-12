@@ -127,7 +127,8 @@ Accept wildcard characters: False
 ```
 
 ### -id
-{{ Fill id Description }}
+The id of the HA Group to update.
+Accepts pipeline input
 
 ```yaml
 Type: String

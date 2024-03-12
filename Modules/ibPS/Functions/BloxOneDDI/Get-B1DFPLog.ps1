@@ -18,7 +18,7 @@
     .PARAMETER Response
         Use this parameter to filter the DFP Log by the response, i.e "NXDOMAIN"
 
-    .PARAMETER Source
+    .PARAMETER Network
         Filter the DFP Logs by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "mybloxoneddihost.mydomain.corp (DFP)" or "mybloxoneddihost1.mydomain.corp (DFP)","mybloxoneddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
 
     .PARAMETER Start
@@ -37,7 +37,7 @@
           PS> Get-B1DFPLog -IP "10.10.132.10" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
 
     .EXAMPLE
-          PS> Get-B1DFPLog -Source "MyB1Host (DFP)" -Start (Get-Date).AddHours(-6) Limit 10
+          PS> Get-B1DFPLog -Network "MyB1Host (DFP)" -Start (Get-Date).AddHours(-6) Limit 10
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -50,7 +50,7 @@
       [string]$IP,
       [string]$Type,
       [string]$Response,
-      [string[]]$Source,
+      [string[]]$Network,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
       [int]$Limit = 100,
@@ -154,13 +154,13 @@
         $splat.filters += $IPSplat
     }
     
-    if ($Source) {
-        $SourceSplat = @{
+    if ($Network) {
+        $NetworkSplat = @{
             "member" = "PortunusDnsLogs.network"
             "operator" = "contains"
-            "values" = $Source
+            "values" = $Network
         }
-        $splat.filters += $SourceSplat
+        $splat.filters += $NetworkSplat
     }
 
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress

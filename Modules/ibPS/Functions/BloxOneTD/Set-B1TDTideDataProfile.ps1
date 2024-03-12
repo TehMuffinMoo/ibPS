@@ -18,8 +18,8 @@ function Set-B1TDTideDataProfile {
     .PARAMETER State
         This value indicates if the Data Profile is activated or deactivated.
     
-    .PARAMETER DefaultTTLs
-        This value indicates if to use the default TTL for threats (default is True)
+    .PARAMETER DefaultTTL
+        This value indicates if to use the default TTL for threats
 
     .EXAMPLE
         PS> Set-B1TDTideDataProfile -Name "My Profile" -Description "New Description" -RPZFeed "New RPZ Feed" -Active $true -DefaultTTL $false

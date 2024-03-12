@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -DNSConfig
-{{ Fill DNSConfig Description }}
+Use this switch to enable DNS Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -92,7 +92,7 @@ Accept wildcard characters: False
 ```
 
 ### -DNSData
-{{ Fill DNSData Description }}
+Use this switch to enable DNS Data to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -107,7 +107,7 @@ Accept wildcard characters: False
 ```
 
 ### -NTPData
-{{ Fill NTPData Description }}
+Use this switch to enable NTP Data to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -122,7 +122,7 @@ Accept wildcard characters: False
 ```
 
 ### -IPAMData
-{{ Fill IPAMData Description }}
+Use this switch to enable IPAM Data to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -137,7 +137,7 @@ Accept wildcard characters: False
 ```
 
 ### -KeyData
-{{ Fill KeyData Description }}
+Use this switch to enable Key Data to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -152,7 +152,7 @@ Accept wildcard characters: False
 ```
 
 ### -ThreatDefense
-{{ Fill ThreatDefense Description }}
+Use this switch to enable Threat Defense Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -167,7 +167,7 @@ Accept wildcard characters: False
 ```
 
 ### -Bootstrap
-{{ Fill Bootstrap Description }}
+Use this switch to enable BloxOne Host Bootstrap Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -182,7 +182,7 @@ Accept wildcard characters: False
 ```
 
 ### -OnPremHosts
-{{ Fill OnPremHosts Description }}
+Use this switch to enable BloxOne Host Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -197,7 +197,7 @@ Accept wildcard characters: False
 ```
 
 ### -Redirects
-{{ Fill Redirects Description }}
+Use this switch to enable Custom Redirects to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -212,7 +212,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tags
-{{ Fill Tags Description }}
+Use this switch to enable Tag Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -227,7 +227,7 @@ Accept wildcard characters: False
 ```
 
 ### -BackupAll
-{{ Fill BackupAll Description }}
+Use this switch to enable all configuration & data types to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
