@@ -35,22 +35,32 @@ function Remove-B1TDLookalikeTarget {
 
   $LookalikeTargetList = Get-B1TDLookalikeTargets
 
-  if ($Domain -in $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
+  foreach ($DomainToRemove in $Domain) {
+      
+    if ($DomainToRemove -in $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
 
-    $LookalikeTargetList.items_described = $LookalikeTargetList.items_described | Where-Object {$_.item -ne $($Domain)}
-    
-    if (!$NoWarning) {
-        Write-Warning "Are you sure you want to delete: $($Domain)?" -WarningAction Inquire
-    }
+      $LookalikeTargetList.items_described = $LookalikeTargetList.items_described | Where-Object {$_.item -ne $($DomainToRemove)}
+      
+      if (!$NoWarning) {
+          Write-Warning "Are you sure you want to delete: $($Domain)?" -WarningAction Inquire
+      }
 
-    Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | Select-Object items_described | ConvertTo-Json -Depth 5)
-
-    if ($Domain -in $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
-      Write-Error "Failed to remove lookalike target: $($Domain)"
+      $Changed = $true
     } else {
-      Write-Host "Successfully removed lookalike target: $($Domain)" -ForegroundColor Green
+      Write-Host "Lookalike target does not exist: $($DomainToRemove)" -ForegroundColor Yellow
     }
-  } else {
-    Write-Host "Lookalike target does not exist: $($Domain)" -ForegroundColor Yellow
+  }
+
+  if ($Changed) {
+    $Result = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | Select-Object items_described | ConvertTo-Json -Depth 5)
+
+    $LookalikeTargetList = Get-B1TDLookalikeTargets
+    foreach ($DomainToRemove in $Domain) {
+      if ($DomainToRemove -in $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
+        Write-Error "Failed to remove lookalike target: $($DomainToRemove)"
+      } else {
+        Write-Host "Successfully removed lookalike target: $($DomainToRemove)" -ForegroundColor Green
+      }
+    }
   }
 }

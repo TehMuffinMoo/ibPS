@@ -16,6 +16,12 @@ function New-B1TDLookalikeTarget {
 
   .EXAMPLE
     PS> New-B1TDLookalikeTarget -Domain "mydomain.com" -Description "Some description.." 
+
+  .EXAMPLE
+    PS> New-B1TDLookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Description 1","Description 2"
+
+  .EXAMPLE
+    PS> New-B1TDLookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Common description"
     
   .FUNCTIONALITY
     BloxOneDDI
@@ -35,23 +41,42 @@ function New-B1TDLookalikeTarget {
   )
 
   $LookalikeTargetList = Get-B1TDLookalikeTargets
+  $NewLookalikes = @()
 
-  if ($Domain -notin $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
-    $NewLookalike = @{
-      "item" = $Domain
-      "description" = $Description
-    }
-
-    $LookalikeTargetList.items_described += $NewLookalike
-
-    Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | ConvertTo-Json -Depth 5)
-
-    if ($Domain -notin $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
-      Write-Error "Failed to create new lookalike target: $($Domain)"
+  if ($Domain.Count -gt 1) {
+    if ($Description.Count -eq 1) {
+      Write-Host "Only one description submitted. The same description will be used for all new target domains." -ForegroundColor Yellow
     } else {
-      Write-Host "Successfully created new lookalike target: $($Domain)" -ForegroundColor Green
+      if ($Description -and ($Domain.Count -ne $Description.Count)) {
+        Write-Host "Domains: $($Domain.Count) - Descriptions: $($Description.Count)"
+        Write-Error "Number of values submitted to -Domain and -Description do not match"
+        break
+      }
     }
-  } else {
-    Write-Host "Lookalike target already exists: $($Domain)" -ForegroundColor Yellow
   }
+
+  foreach ($NewDomain in $Domain) {
+    if ($NewDomain -notin $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
+      $NewEntry = @{
+        "item" = $NewDomain
+        "description" = if ($Description.Count -le 1) {$Description} else {$Description[$Domain.IndexOf($NewDomain)]}
+      }
+      $LookalikeTargetList.items_described += $NewEntry
+      $NewLookalikes += $NewDomain
+    } else {
+      Write-Host "Lookalike target already exists: $($NewDomain)" -ForegroundColor Yellow
+    }
+  }
+
+  $Result = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | ConvertTo-Json -Depth 5)
+
+  $LookalikeTargetList = Get-B1TDLookalikeTargets
+  foreach ($NewLookalike in $NewLookalikes) {
+    if ($NewLookalike -notin $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
+      Write-Error "Failed to create new lookalike target: $($NewLookalike)"
+    } else {
+      Write-Host "Successfully created new lookalike target: $($NewLookalike)" -ForegroundColor Green
+    }
+  }
+
 }

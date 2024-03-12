@@ -393,6 +393,9 @@ Start-B1TDDossierLookup -Type host -Value eicar.co
 New-B1TDTideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
   Creates a new TIDE Data Profile
 
+New-B1TDLookalikeTarget -Domain "mydomain.com" -Description "Some description.."
+  Used to create a new Lookalike target in BloxOne Threat Defense
+
 New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -Host "bloxoneddihost1.mydomain.corp"
   Deploys a new BloxOneDDI Service
 
@@ -488,6 +491,9 @@ Remove-B1TDSecurityPolicy -Name "My Policy"
 
 Remove-B1TDNetworkList
   Used to remove Network Lists from BloxOne Threat Defense
+
+Remove-B1TDLookalikeTarget -Domain "mydomain.com"
+  Used to remove Lookalike Domains from BloxOne Threat Defense
 
 Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
   Newly registered devices are given a random name which is updated when using the -IP and -Name parameters together. -IP is used to reference the object, -Name is used as the updated DNS Name. TimeZone and Space can also be configured using this cmdlet.
