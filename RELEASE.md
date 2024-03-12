@@ -1,3 +1,4 @@
+- Add `New-B1TDLookalikeTarget` and `Remove-B1TDLookalikeTarget` cmdlets
 - Update all parameter set names to something more friendly
 > [!WARNING]  
 > (Another) Breaking Change to Get-B1DFPLog cmdlet!
