@@ -17,7 +17,8 @@ Remove-B1TDLookalikeTarget [-Domain] <String[]> [-NoWarning] [<CommonParameters>
 ```
 
 ## DESCRIPTION
-This function is used to remove a lookalike target domain from the account
+This function is used to remove a lookalike target domain from the account.
+
 The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
 ## EXAMPLES
