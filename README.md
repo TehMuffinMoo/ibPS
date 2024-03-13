@@ -357,6 +357,9 @@ Get-B1TDLookalikes -Domain google.com -Reason "phishing"
 Get-B1TDLookalikeTargets
   Query a list of lookalike target domains (Global Lookalike Target List)
 
+Get-B1TDLookalikeTargetSummary -ThreatClass phishing,malware
+  Retrieve the lookalike target summary which is the same as displayed on the 'Activity' page within the CSP.
+
 Get-B1TDLookalikeTargetCandidates
   Query a list of lookalike target candidates (Global Lookalike Candidates List)
 

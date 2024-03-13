@@ -25,7 +25,7 @@ function Get-B1AuditLog {
         Use this parameter to filter by the Audit Log Action, i.e "Create" or "Update"
 
     .PARAMETER Start
-        A date parameter used as the starting date/time of the log search. By default, the search will start from 24hrs ago and returns the latest results first. You may need to increase the -Limit parameter or reduce the -End date/time to view earlier events.
+        A date parameter used as the starting date/time of the log search. By default, the search will start from 7 days ago and returns the latest results first. You may need to increase the -Limit parameter or reduce the -End date/time to view earlier events.
 
     .PARAMETER End
         A date parameter used as the end date/time of the log search.
