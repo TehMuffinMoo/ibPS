@@ -23,7 +23,7 @@ This function is used to unmute a lookalike domain
 
 ### EXAMPLE 1
 ```powershell
-Disable-B1TDLookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
+Enable-B1TDLookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
 
 Successfully unmuted lookalike: google98.pro
 Successfully unmuted lookalike: return-tax-hmrc.com
