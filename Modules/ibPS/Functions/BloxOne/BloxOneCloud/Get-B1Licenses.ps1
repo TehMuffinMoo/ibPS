@@ -6,6 +6,9 @@
     .DESCRIPTION
         This function is used query a list of licenses associated with the BloxOne Account
 
+    .PARAMETER State
+        Use the -State parameter to filter by license state. (all/active/expired)
+
     .EXAMPLE
         PS> Get-B1Licenses -State all
     
