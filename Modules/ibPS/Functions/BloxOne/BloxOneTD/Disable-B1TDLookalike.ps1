@@ -20,6 +20,9 @@
     
     .FUNCTIONALITY
         Threat Defense
+
+    .NOTES
+        Used in combination with Enable-B1TDLookalike to mute/unmute lookalike domains.
     #>
     param(
       [Parameter(Mandatory=$true)]
