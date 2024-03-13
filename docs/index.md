@@ -33,13 +33,13 @@
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
-* Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](#custom-bloxone-functions-generic-wrapper).
+* Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](/BloxOne/Generic%20Wrapper/).
 * Automate the world!
 
 ## Limitations
 
 * Cmdlets have not yet been created for all BloxOne API endpoints. This is still being actively developed with the aim to have most, if not all api endpoints integrated eventually.  
-  * You can however also use this module as a generic wrapper by leveraging these [Wrapper Cmdlets](#custom-bloxone-functions-generic-wrapper).
+  * You can however also use this module as a generic wrapper by leveraging these [Wrapper Cmdlets](/BloxOne/Generic%20Wrapper/).
 * A [PowerShell module already exists for InfoBlox NIOS](https://www.powershellgallery.com/packages/Posh-IBWAPI/3.2.2) and so limited Cmdlets will be built into this module. Any NIOS cmdlets built in are primarily for the purpose of migration to BloxOneDDI and may be deprecated.
 
 ## How To Use
