@@ -21,14 +21,13 @@ jobs:
           $Module = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
 
           ## Functions to export
-          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOneDDI/*.ps1"
-          $B1TDPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOneTD/*.ps1"
+          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
           $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
 
           ## Export Functions
           Write-Host "Exporting functions.."
-          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -FunctionsToExport ($(@($B1PublicFunctions + $B1TDPublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*'
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*'
 
       - name: Update Repository
         run: |

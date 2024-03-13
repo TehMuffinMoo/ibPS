@@ -19,14 +19,13 @@ $Debug = $false
 
 ## Import Functions
 $MiscellaneousFunctions = Get-ChildItem "$PSScriptRoot\Functions\Misc\*.ps1"
-$B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneDDI\*.ps1"
+$B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
 $B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneDDI\Private\*.ps1"
-$B1TDPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneTD\*.ps1"
 $NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\*.ps1"
 $NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1"
 $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
 
-foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $B1TDPublicFunctions + $NIOSPublicFunctions + $NIOSPrivateFunctions + $MiscellaneousFunctions)) {
+foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $NIOSPublicFunctions + $NIOSPrivateFunctions + $MiscellaneousFunctions)) {
   try {
     . $FunctionToImport.fullname
   } catch {
@@ -34,4 +33,4 @@ foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $B1TDP
   }
 }
 
-Export-ModuleMember -Function ($(@($B1PublicFunctions + $B1TDPublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -Alias *
+Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -Alias *

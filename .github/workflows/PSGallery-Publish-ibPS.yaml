@@ -31,13 +31,12 @@ jobs:
           $ReleaseNotes = Get-Content -Path './RELEASE.md' -Raw
 
           ## Functions to export
-          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOneDDI/*.ps1"
-          $B1TDPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOneTD/*.ps1"
+          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
           $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
 
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
-          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $B1TDPublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $($ReleaseNotes)
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes $($ReleaseNotes)
 
           Write-Host "Updating CHANGELOG.."
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw
@@ -90,6 +89,9 @@ jobs:
                 }
                 "BloxOneTD" {
                   $BaseName = "BloxOne Threat Defense"
+                }
+                "BloxOnePlatform" {
+                  $BaseName = "BloxOne Platform"
                 }
                 "Private" {
                   $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName

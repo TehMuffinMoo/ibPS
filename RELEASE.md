@@ -1,4 +1,6 @@
 - Add `New-B1TDLookalikeTarget`, `Remove-B1TDLookalikeTarget`, `Set-B1TDLookalikeTarget` cmdlets
+- Add `Get-B1Licenses` cmdlet to retrieve license information
+- Split BloxOne Platform cmdlets into separate directory for better documentation structure
 - Update all parameter set names to something more friendly
 > [!WARNING]  
 > (Another) Breaking Change to Get-B1DFPLog cmdlet!
