@@ -96,14 +96,14 @@ jobs:
                 "BloxOneCloud" {
                   $BaseName = "BloxOne/BloxOne Cloud"
                 }
+                "Misc" {
+                  $BaseName = "BloxOne/General"
+                }
                 "Private" {
                   $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
                 }
-                "Misc" {
-                  $BaseName = "General"
-                }
               }
-              Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
+              Move-Item "$($DocToFind)" "./docs/$($BaseName)/" -Force
             }
           }
 
