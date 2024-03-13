@@ -19,8 +19,8 @@ $Debug = $false
 
 ## Import Functions
 $MiscellaneousFunctions = Get-ChildItem "$PSScriptRoot\Functions\Misc\*.ps1"
-$B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
-$B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOneDDI\Private\*.ps1"
+$B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne" -Exclude Private | Get-ChildItem -Recurse
+$B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne\Private\*.ps1"
 $NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\*.ps1"
 $NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1"
 $AdditionalFunctionsToImport = "Get-ibPSVersion","Query-NIOS"
