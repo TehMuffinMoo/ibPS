@@ -10,7 +10,7 @@
         One or more identified lookalikes to unmute
 
     .EXAMPLE
-        PS> Disable-B1TDLookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
+        PS> Enable-B1TDLookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
 
         Successfully unmuted lookalike: google98.pro
         Successfully unmuted lookalike: return-tax-hmrc.com
