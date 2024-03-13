@@ -41,3 +41,15 @@ $LookalikeCandidates = {
     }
 }
 Register-ArgumentCompleter -CommandName Enable-B1TDLookalikeTargetCandidate,Disable-B1TDLookalikeTargetCandidate -ParameterName Domain -ScriptBlock $LookalikeCandidates
+
+$ThreatClasses = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1TDTideThreatClass | Where-Object {$_.id -like "$($wordToComplete)*"}).id
+}
+Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatClass -ScriptBlock $ThreatClasses
+
+$ThreatProperties = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1TDTideThreatProperty | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+}
+Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatProperty -ScriptBlock $ThreatProperties
