@@ -72,7 +72,6 @@ function Submit-B1TDTideData {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-    [CmdletBinding(DefaultParameterSetName = 'None')]
     Param(
         [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
         [Parameter(Mandatory=$true,ParameterSetName=("File"))]
