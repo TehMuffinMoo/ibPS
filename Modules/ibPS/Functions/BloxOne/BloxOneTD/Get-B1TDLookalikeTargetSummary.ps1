@@ -6,6 +6,12 @@
     .DESCRIPTION
         This function is used to retrives the summary metrics from the Lookalike Activity Page within the CSP
 
+    .PARAMETER Domain
+        Filter the results by target domain
+
+    .PARAMETER ThreatClass
+        Filter the results by one or more Threat Class
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 100.
 
