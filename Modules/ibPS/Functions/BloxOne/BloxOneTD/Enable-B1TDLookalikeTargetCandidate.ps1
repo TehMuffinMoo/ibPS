@@ -12,7 +12,10 @@
         This parameter auto-completes based on the current list of disabled domains 
 
     .EXAMPLE
-        PS> Enable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
+        PS> Enable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com" 
+
+        Successfully enabled lookalike candidate: adobe.com
+        Successfully enabled lookalike candidate: airbnb.com
 
     .FUNCTIONALITY
         BloxOneDDI

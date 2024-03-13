@@ -14,6 +14,9 @@
     .EXAMPLE
         PS> Disable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
 
+        Successfully disabled lookalike candidate: adobe.com
+        Successfully disabled lookalike candidate: airbnb.com
+
     .FUNCTIONALITY
         BloxOneDDI
     
@@ -41,9 +44,9 @@
         $Candidates = Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described
         foreach ($DisabledDomain in $DisabledDomains) {
             if (($Candidates | Where-Object {$_.item -eq $DisabledDomain}).selected -ne "True") {
-                Write-Host "Successfully enabled lookalike candidate: $($DisabledDomain)" -ForegroundColor Green
+                Write-Host "Successfully disabled lookalike candidate: $($DisabledDomain)" -ForegroundColor Green
             } else {
-                Write-Host "Failed to enabled lookalike candidate: $($DisabledDomain)" -ForegroundColor Red
+                Write-Host "Failed to disabled lookalike candidate: $($DisabledDomain)" -ForegroundColor Red
             }
         }
     }
