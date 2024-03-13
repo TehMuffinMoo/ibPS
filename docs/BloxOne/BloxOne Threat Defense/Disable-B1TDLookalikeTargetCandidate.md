@@ -29,6 +29,16 @@ Successfully disabled lookalike candidate: adobe.com
 Successfully disabled lookalike candidate: airbnb.com
 ```
 
+### EXAMPLE 2
+```powershell
+Disable-B1TDLookalikeTargetCandidate -Domain <TabComplete>
+
+accuweather.com        barclays.co.uk         craigslist.org         googledoc.com          microsoft.com          tripadvisor.com
+active.aero            blackberry.com         cyber.mil.pl           googledocs.com         microsoftonline.com    tumblr.com
+adobe.com              blogger.com            dropbox.com            googledrive.com        mozilla.org            twitch.tv
+...
+```
+
 ## PARAMETERS
 
 ### -Domain
