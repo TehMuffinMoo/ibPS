@@ -46,19 +46,25 @@ jobs:
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
                 "BloxOneDDI" {
-                  $BaseName = "BloxOne DDI"
+                  $BaseName = "BloxOne/BloxOne DDI"
                 }
                 "BloxOneTD" {
-                  $BaseName = "BloxOne Threat Defense"
+                  $BaseName = "BloxOne/BloxOne Threat Defense"
                 }
                 "BloxOnePlatform" {
-                  $BaseName = "BloxOne Platform"
+                  $BaseName = "BloxOne/BloxOne Platform"
+                }
+                "BloxOneCloud" {
+                  $BaseName = "BloxOne/BloxOne Cloud"
                 }
                 "Private" {
                   $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
                 }
                 "Misc" {
                   $BaseName = "General"
+                }
+                "NIOS" {
+                  $BaseName = "NIOS/Functions"
                 }
               }
               Move-Item "$($DocToFind)" "./docs/Functions/$($BaseName)/" -Force
