@@ -57,6 +57,9 @@ jobs:
                 "BloxOneCloud" {
                   $BaseName = "BloxOne/BloxOne Cloud"
                 }
+                "Wrapper" {
+                  $BaseName = "BloxOne/Generic Wrapper"
+                }
                 "Misc" {
                   $BaseName = "General"
                 }
