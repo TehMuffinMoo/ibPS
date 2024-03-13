@@ -17,6 +17,14 @@
         Successfully enabled lookalike candidate: adobe.com
         Successfully enabled lookalike candidate: airbnb.com
 
+    .EXAMPLE
+        PS> Enable-B1TDLookalikeTargetCandidate -Domain <TabComplete>
+
+        alibaba.com                  flickr.com                   navyfederal.org              secureserver.net
+        americanexpressbusiness.com  fortisbc.com                 nytimes.com                  sedoparking.com
+        arrow.com                    foxnews.com                  odnoklassniki.ru             squarespace.com
+        ...
+
     .FUNCTIONALITY
         BloxOneDDI
     
