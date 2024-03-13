@@ -37,7 +37,9 @@ jobs:
           New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion $($DocumentationVersion) -Force
 
           Write-Host "Cleaning up old documentation.."
-          $OldDocs = Get-ChildItem ./docs/Functions -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
+          $OldDocs = Get-ChildItem ./docs/BloxOne -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
+          $OldDocs = Get-ChildItem ./docs/General -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
+          $OldDocs = Get-ChildItem ./docs/NIOS -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
 
           Write-Host "Relocating documentation.."
           foreach ($F in Get-ChildItem './Modules/ibPS/Functions/' -Recurse) {
