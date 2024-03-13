@@ -1,4 +1,4 @@
-## Custom Functions
+# Custom Functions
 
 You can create custom functions for NIOS by using the `Query-NIOS` cmdlet.
 
