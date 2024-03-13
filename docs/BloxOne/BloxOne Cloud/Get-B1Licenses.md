@@ -29,7 +29,8 @@ Get-B1Licenses -State all
 ## PARAMETERS
 
 ### -State
-{{ Fill State Description }}
+Use the -State parameter to filter by license state.
+(all/active/expired)
 
 ```yaml
 Type: String
