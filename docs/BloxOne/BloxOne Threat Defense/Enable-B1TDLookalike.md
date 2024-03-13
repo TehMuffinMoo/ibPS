@@ -54,5 +54,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+Used in combination with Disable-B1TDLookalike to mute/unmute lookalike domains.
 
 ## RELATED LINKS
