@@ -57,14 +57,14 @@ jobs:
                 "BloxOneCloud" {
                   $BaseName = "BloxOne/BloxOne Cloud"
                 }
-                "Wrapper" {
-                  $BaseName = "BloxOne/Generic Wrapper"
-                }
                 "Misc" {
-                  $BaseName = "General"
+                  $BaseName = "BloxOne/General"
+                }
+                "NIOS" {
+                  $BaseName = "NIOS/Functions"
                 }
                 "Private" {
-                  $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
+                  $BaseName = "NIOS/$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)"
                 }
               }
               Move-Item "$($DocToFind)" "./docs/$($BaseName)/" -Force
