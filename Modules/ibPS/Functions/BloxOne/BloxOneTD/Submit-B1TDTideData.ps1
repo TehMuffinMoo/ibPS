@@ -84,7 +84,7 @@ function Submit-B1TDTideData {
         [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
         [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$RecordValue,
-        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
         [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$external_id,
         [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
@@ -95,27 +95,27 @@ function Submit-B1TDTideData {
         [Parameter(Mandatory=$true,ParameterSetName="Property")]
         [String]$ThreatProperty,
         [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
-        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [ValidateRange(1, 100)]
         [int]$Confidence,
         [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
-        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [String]$Domain,
         [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
-        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [String]$Duration,
         [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
-        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [datetime]$Expiration,
         [ValidateRange(1, 100)]
         [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
-        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [String]$ThreatLevel,
         [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
-        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [String]$Target,
         [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
-        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [String]$TLD,
         [Parameter(Mandatory=$true,ParameterSetName="File")]
         [String]$File
