@@ -12,31 +12,23 @@ Used to submit threat indicators into a TIDE Data Profile
 
 ## SYNTAX
 
-### None (Default)
-```
-Submit-B1TDTideData [<CommonParameters>]
-```
-
 ### File
 ```
 Submit-B1TDTideData -Profile <String> -File <String> [<CommonParameters>]
 ```
 
-### Class Property
+### Property
 ```
-Submit-B1TDTideData -Profile <String> -RecordType <String> -RecordValue <String> [-external_id <String>]
- -Detected <DateTime> [-Confidence <Int32>] [-Domain <String>] [-Duration <String>] [-Expiration <DateTime>]
- [-ThreatLevel <String>] [-Target <String>] [-TLD <String>] [<CommonParameters>]
+Submit-B1TDTideData -Profile <String> -RecordType <String> -RecordValue <String> -external_id <String>
+ -Detected <DateTime> -ThreatProperty <String> -Confidence <Int32> -Domain <String> -Duration <String>
+ -Expiration <DateTime> -ThreatLevel <String> -Target <String> -TLD <String> [<CommonParameters>]
 ```
 
 ### Class
 ```
-Submit-B1TDTideData -ThreatClass <String> [<CommonParameters>]
-```
-
-### Property
-```
-Submit-B1TDTideData -ThreatProperty <String> [<CommonParameters>]
+Submit-B1TDTideData -Profile <String> -RecordType <String> -RecordValue <String> [-external_id <String>]
+ -Detected <DateTime> -ThreatClass <String> [-Confidence <Int32>] [-Domain <String>] [-Duration <String>]
+ [-Expiration <DateTime>] [-ThreatLevel <String>] [-Target <String>] [-TLD <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -58,7 +50,7 @@ This is the data profile name to submit the TIDE data to
 
 ```yaml
 Type: String
-Parameter Sets: File, Class Property
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -74,7 +66,7 @@ This can be host, ip, url, email, or hash.
 
 ```yaml
 Type: String
-Parameter Sets: Class Property
+Parameter Sets: Property, Class
 Aliases:
 
 Required: True
@@ -90,7 +82,7 @@ This is the threat/indicator Hostname, IP, URL, Email or Hash value to submit.
 
 ```yaml
 Type: String
-Parameter Sets: Class Property
+Parameter Sets: Property, Class
 Aliases:
 
 Required: True
@@ -105,7 +97,19 @@ This is a string indicating an external ID to assign to the batch (optional).
 
 ```yaml
 Type: String
-Parameter Sets: Class Property
+Parameter Sets: Property
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Class
 Aliases:
 
 Required: False
@@ -121,7 +125,7 @@ This is converted to ISO8601 format prior to submission.
 
 ```yaml
 Type: DateTime
-Parameter Sets: Class Property
+Parameter Sets: Property, Class
 Aliases:
 
 Required: True
@@ -170,7 +174,19 @@ The threat's confidence score ranging from 0 - 100 (optional).
 
 ```yaml
 Type: Int32
-Parameter Sets: Class Property
+Parameter Sets: Property
+Aliases:
+
+Required: True
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: Int32
+Parameter Sets: Class
 Aliases:
 
 Required: False
@@ -185,7 +201,19 @@ The domain string (optional).
 
 ```yaml
 Type: String
-Parameter Sets: Class Property
+Parameter Sets: Property
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Class
 Aliases:
 
 Required: False
@@ -202,7 +230,19 @@ The expiration date will be set to the detected date + this duration (optional).
 
 ```yaml
 Type: String
-Parameter Sets: Class Property
+Parameter Sets: Property
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Class
 Aliases:
 
 Required: False
@@ -217,7 +257,19 @@ The expiration is the date & time that the threat will expire.
 
 ```yaml
 Type: DateTime
-Parameter Sets: Class Property
+Parameter Sets: Property
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: DateTime
+Parameter Sets: Class
 Aliases:
 
 Required: False
@@ -232,7 +284,19 @@ The threat's level ranging from 0 - 100 as an integer (optional).
 
 ```yaml
 Type: String
-Parameter Sets: Class Property
+Parameter Sets: Property
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Class
 Aliases:
 
 Required: False
@@ -248,7 +312,19 @@ For example: "fakeamazon.com" is a threat targeting "amazon.com".
 
 ```yaml
 Type: String
-Parameter Sets: Class Property
+Parameter Sets: Property
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Class
 Aliases:
 
 Required: False
@@ -263,7 +339,19 @@ The top-level domain, string (optional).
 
 ```yaml
 Type: String
-Parameter Sets: Class Property
+Parameter Sets: Property
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: Class
 Aliases:
 
 Required: False
