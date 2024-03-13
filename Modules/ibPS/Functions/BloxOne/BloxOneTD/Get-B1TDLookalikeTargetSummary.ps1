@@ -20,6 +20,9 @@
 
     .PARAMETER Start
         A date parameter used as the starting date/time of the lookalike search. By default, the search will start from 30 days ago and returns the latest results first. You may need to increase the -Limit parameter or increase the -Start date/time to view earlier events.
+
+    .PARAMETER Strict
+        Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
  
     .EXAMPLE
         PS> Get-B1TDLookalikeTargetSummary
