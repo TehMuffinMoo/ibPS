@@ -24,6 +24,15 @@
     .EXAMPLE
         PS> Get-B1TDLookalikeTargetSummary -Start (Get-Date).AddDays(-7) -Domain 'google.com'
 
+        detected_at                     : 3/12/2024 5:42:32PM
+        lookalike_count_threats         : 32
+        lookalike_count_total           : 925
+        lookalike_threat_types          : {phishing, suspicious}
+        target_domain                   : google.com
+        target_domain_content_category  : {Search Engines}
+        target_domain_registration_date : 1997-09-15
+        target_domain_type              : common
+
     .FUNCTIONALITY
         BloxOneDDI
     
