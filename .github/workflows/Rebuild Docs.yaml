@@ -69,7 +69,7 @@ jobs:
                   $BaseName = "NIOS/Functions"
                 }
                 "Private" {
-                  $BaseName = "NIOS/$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
                 }
               }
               Move-Item "$($DocToFind)" "./docs/$($BaseName)/" -Force
