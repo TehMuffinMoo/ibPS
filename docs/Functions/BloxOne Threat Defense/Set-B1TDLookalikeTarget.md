@@ -5,19 +5,19 @@ online version:
 schema: 2.0.0
 ---
 
-# New-B1TDLookalikeTarget
+# Set-B1TDLookalikeTarget
 
 ## SYNOPSIS
-Adds a new lookalike target domain for the account
+Updates an existing lookalike target domain for the account
 
 ## SYNTAX
 
 ```
-New-B1TDLookalikeTarget [-Domain] <String[]> [[-Description] <String[]>] [<CommonParameters>]
+Set-B1TDLookalikeTarget [-Domain] <String[]> [-Description] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to add a new lookalike target domain for the account.
+This function is used to update an existing lookalike target domain for the account.
 
 The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
@@ -25,23 +25,23 @@ The Lookalike Target Domains are second-level domains BloxOne uses to detect loo
 
 ### EXAMPLE 1
 ```powershell
-New-B1TDLookalikeTarget -Domain "mydomain.com" -Description "Some description.."
+Set-B1TDLookalikeTarget -Domain "mydomain.com" -Description "New description.."
 ```
 
 ### EXAMPLE 2
 ```powershell
-New-B1TDLookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Description 1","Description 2"
+Set-B1TDLookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "New Description 1","New Description 2"
 ```
 
 ### EXAMPLE 3
 ```powershell
-New-B1TDLookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Common description"
+Set-B1TDLookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "New Common description"
 ```
 
 ## PARAMETERS
 
 ### -Domain
-This is the domain to be added to the watched lookalike domain list
+This is the domain to be updated from the watched lookalike domain list
 
 ```yaml
 Type: String[]
@@ -56,14 +56,14 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description to apply to the selected domain
+The updated description from the selected domain
 
 ```yaml
 Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: False
+Required: True
 Position: 2
 Default value: None
 Accept pipeline input: False
