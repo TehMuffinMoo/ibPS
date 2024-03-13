@@ -33,10 +33,10 @@ $LookalikeCandidates = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     switch($commandName) {
         "Enable-B1TDLookalikeTargetCandidate" {
-            (Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -eq "True"}) | Select-Object -ExpandProperty item
+            (Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -ne "True"}) | Select-Object -ExpandProperty item
         }
         "Disable-B1TDLookalikeTargetCandidate" {
-            (Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -ne "True"}) | Select-Object -ExpandProperty item
+            (Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -eq "True"}) | Select-Object -ExpandProperty item
         }
     }
 }
