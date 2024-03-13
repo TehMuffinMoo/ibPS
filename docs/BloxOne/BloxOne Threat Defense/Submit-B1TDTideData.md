@@ -36,12 +36,46 @@ This function is used to submit threat indicators into a TIDE Data Profile
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
-PS C:\> {{ Add example code here }}
+Submit-B1TDTideData -Profile my-dataprofile -ThreatClass Malicious -RecordType host -RecordValue superbaddomain.com -Detected (Get-Date).AddHours(-7) -ThreatLevel 10 -Confidence 30
+
+link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self}, 
+                @{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74/detail; rel=detail}}
+id             : csdv8d8s-fdss-14fe-vsee-cdsuddcs74
+submitted      : 3/13/2024 9:41:39PM
+imported       : 3/13/2024 9:41:39PM
+profile        : 0015J44662GhD3jFGF:my-dataprofile
+status         : DONE
+user           : user.service.dsjcdvse-dssd-dsvc-e83d-csd8cuds3d@infoblox.invalid
+organization   : 0015J44662GhD3jFGF
+method         : ui
+type           : HOST
+total          : 1
+num_successful : 1
+num_errors     : 0
 ```
 
-{{ Add example description here }}
+### EXAMPLE 2
+```powershell
+## This supports all file types supported by TIDE, including CSV/TSV/PSV, JSON & XML
+PS> Submit-B1TDTideData -Profile my-dataprofile -File ../tide.csv
+
+link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self}, 
+                @{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74/detail; rel=detail}}
+id             : csdv8d8s-fdss-14fe-vsee-cdsuddcs74
+submitted      : 3/13/2024 9:42:14PM
+imported       : 3/13/2024 9:42:14PM
+profile        : 0015J44662GhD3jFGF:my-dataprofile
+status         : DONE
+user           : user.service.dsjcdvse-dssd-dsvc-e83d-csd8cuds3d@infoblox.invalid
+organization   : 0015J44662GhD3jFGF
+method         : ui
+type           : HOST
+total          : 1422
+num_successful : 1422
+num_errors     : 0
+```
 
 ## PARAMETERS
 
