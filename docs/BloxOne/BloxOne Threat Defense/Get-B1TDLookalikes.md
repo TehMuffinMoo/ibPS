@@ -119,7 +119,7 @@ Accept wildcard characters: False
 ```
 
 ### -Muted
-Using the -Muted switch will only return lookalike domains which have been muted
+Using the -Muted parameter allows you to filter results based on muted status
 
 ```yaml
 Type: String

@@ -32,7 +32,7 @@ Successfully unmuted lookalike: return-tax-hmrc.com
 ## PARAMETERS
 
 ### -LookalikeDomain
-{{ Fill LookalikeDomain Description }}
+One or more identified lookalikes to unmute
 
 ```yaml
 Type: String[]
