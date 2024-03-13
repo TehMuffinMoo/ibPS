@@ -58,7 +58,7 @@ jobs:
                   $BaseName = "BloxOne/BloxOne Cloud"
                 }
                 "Misc" {
-                  $BaseName = "BloxOne/General"
+                  $BaseName = "General"
                 }
                 "Private" {
                   $BaseName = (Get-Item (Split-Path $($F.DirectoryName))).BaseName
