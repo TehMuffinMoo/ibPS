@@ -49,7 +49,7 @@ target_domain_type              : common
 ## PARAMETERS
 
 ### -Domain
-{{ Fill Domain Description }}
+Filter the results by target domain
 
 ```yaml
 Type: String
@@ -64,7 +64,7 @@ Accept wildcard characters: False
 ```
 
 ### -ThreatClass
-{{ Fill ThreatClass Description }}
+Filter the results by one or more Threat Class
 
 ```yaml
 Type: String[]
