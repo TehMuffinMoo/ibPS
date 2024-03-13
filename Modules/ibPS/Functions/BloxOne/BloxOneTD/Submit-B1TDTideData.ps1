@@ -73,37 +73,49 @@ function Submit-B1TDTideData {
         BloxOne Threat Defense
     #>
     Param(
-        [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [Parameter(Mandatory=$true,ParameterSetName=("File"))]
         [String]$Profile,
-        [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [ValidateSet('host','ip','url','email','hash')]
         [String]$RecordType,
-        [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$RecordValue,
-        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$external_id,
-        [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [datetime]$Detected,
         [Parameter(Mandatory=$true,ParameterSetName="Class")]
         [String]$ThreatClass,
         [Parameter(Mandatory=$true,ParameterSetName="Property")]
         [String]$ThreatProperty,
-        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [ValidateRange(1, 100)]
         [int]$Confidence,
-        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$Domain,
-        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$Duration,
-        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [datetime]$Expiration,
         [ValidateRange(1, 100)]
-        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$ThreatLevel,
-        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$Target,
-        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
         [String]$TLD,
         [Parameter(Mandatory=$true,ParameterSetName="File")]
         [String]$File
