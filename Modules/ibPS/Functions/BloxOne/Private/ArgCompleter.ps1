@@ -28,3 +28,16 @@ $applications = {
     Get-B1Applications | Where-Object {$_ -like "$wordToComplete*"}
 }
 Register-ArgumentCompleter -CommandName Get-B1Service,New-B1Service -ParameterName Type -ScriptBlock $applications
+
+$LookalikeCandidates = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    switch($commandName) {
+        "Enable-B1TDLookalikeTargetCandidate" {
+            (Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -eq "True"}) | Select-Object -ExpandProperty item
+        }
+        "Disable-B1TDLookalikeTargetCandidate" {
+            (Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -ne "True"}) | Select-Object -ExpandProperty item
+        }
+    }
+}
+Register-ArgumentCompleter -CommandName Enable-B1TDLookalikeTargetCandidate,Disable-B1TDLookalikeTargetCandidate -ParameterName Domain -ScriptBlock $LookalikeCandidates
