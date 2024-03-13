@@ -37,7 +37,8 @@ function Query-CSP {
       [Parameter(Mandatory=$true)]
       [String]$Uri,
       [String]$Data,
-      [String]$InFile
+      [String]$InFile,
+      [String]$ContentType = 'application/json'
     )
 
     ## Get Stored API Key
@@ -49,7 +50,7 @@ function Query-CSP {
     ## Set Headers
     $CSPHeaders = @{
         'Authorization' = "Token $B1ApiKey"
-        'Content-Type' = 'application/json'
+        'Content-Type' = $ContentType
     }
 
     $ErrorOnEmpty = $true

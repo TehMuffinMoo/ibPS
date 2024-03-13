@@ -50,6 +50,21 @@ function Submit-B1TDTideData {
 
     .PARAMETER TLD
         The top-level domain, string (optional). 
+
+    .PARAMETER ThreatClass
+        The Threat/Indicator class and supports tab-completion.
+        
+        This is mutually exclusive with -ThreatProperty
+
+    .PARAMETER ThreatProperty
+        The Threat/Indicator property and supports tab-completion.
+        
+        This is mutually exclusive with -ThreatClass
+
+    .PARAMETER File
+        The -File parameter accepts a CSV/TSV/PSV, JSON or XML file.
+
+        This should conform to the formats listed here: https://docs.infoblox.com/space/BloxOneThreatDefense/35434535/TIDE+Data+Submission+Overview
         
     .FUNCTIONALITY
         BloxOneDDI
@@ -59,54 +74,99 @@ function Submit-B1TDTideData {
     #>
     [CmdletBinding(DefaultParameterSetName = 'None')]
     Param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
+        [Parameter(Mandatory=$true,ParameterSetName=("File"))]
         [String]$Profile,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
         [ValidateSet('host','ip','url','email','hash')]
         [String]$RecordType,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
         [String]$RecordValue,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
         [String]$external_id,
-        [Parameter(Mandatory=$true)]
+        [Parameter(Mandatory=$true,ParameterSetName=("Class","Property"))]
         [datetime]$Detected,
         [Parameter(Mandatory=$true,ParameterSetName="Class")]
         [String]$ThreatClass,
         [Parameter(Mandatory=$true,ParameterSetName="Property")]
         [String]$ThreatProperty,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
         [ValidateRange(1, 100)]
         [int]$Confidence,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
         [String]$Domain,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
         [String]$Duration,
-        [Parameter(Mandatory=$false)]
-        [String]$Expiration,
+        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [datetime]$Expiration,
         [ValidateRange(1, 100)]
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
         [String]$ThreatLevel,
-        [Parameter(Mandatory=$false)]
+        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
         [String]$Target,
-        [Parameter(Mandatory=$false)]
-        [String]$TLD
+        [Parameter(Mandatory=$false,ParameterSetName=("Class","Property"))]
+        [String]$TLD,
+        [Parameter(Mandatory=$true,ParameterSetName="File")]
+        [String]$File
 	  )
 
     Process {
-      $Detected = $Detected.ToUniversalTime()
-      $DetectedTime = $Detected.ToString("yyyy-MM-ddTHH:mm:ssZ")
-      
-      $Feed = @{
-        "Feed" = @{
-          "profile" = "$($Profile)"
-          "record_type" = "$($RecordType)"
-          "record" = @{
-            "$($RecordType)" = "$($RecordValue)"
-            "property" = "$($ThreatProperty)"
-            "detected" = "$($DetectedTime)"
-          }
-        }
+
+      if (!(Get-B1TDTideDataProfile -Name $($Profile))) {
+        Write-Error "Error. TIDE Data Profile does not exist: $($Profile)"
+        break
       }
-      $Feed | ConvertTo-Json
+
+      if ($File) {
+        $FileContents = Get-Content $($File) -Raw
+        Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -ContentType 'text/plain'
+      } else {
+
+        $DetectedTime = $Detected.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.000Z")
+        
+        $Feed = @{
+            "feed" = @{
+            "profile" = "$($Profile)"
+            "record_type" = "$($RecordType)"
+            "record" = @(@{
+                "$($RecordType)" = "$($RecordValue)"
+                "detected" = "$($DetectedTime)"
+            })
+            }
+        }
+
+        if ($ThreatClass) {
+            $Feed.feed.record[0].class = "$($ThreatClass)"
+        }
+        if ($ThreatProperty) {
+            $Feed.feed.record[0].property = "$($ThreatProperty)"
+        }
+        if ($Confidence) {
+            $Feed.feed.record[0].confidence = "$($Confidence)"
+        }
+        if ($Domain) {
+            $Feed.feed.record[0].domain = "$($Domain)"
+        }
+        if ($Duration) {
+            $Feed.feed.record[0].duration = "$($Duration)"
+        }
+        if ($Expiration) {
+            $ExpirationTime = $Detected.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.000Z")
+            $Feed.feed.record[0].expiration = "$($ExpirationTime)"
+        }
+        if ($ThreatLevel) {
+            $Feed.feed.record[0].threat_level = "$($ThreatLevel)"
+        }
+        if ($Target) {
+            $Feed.feed.record[0].target = "$($Target)"
+        }
+        if ($TLD) {
+            $Feed.feed.record[0].tld = "$($TLD)"
+        }
+
+        $JSONFeed = $Feed | ConvertTo-Json -Depth 5
+
+        Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $JSONFeed
+      }
     }
 }
