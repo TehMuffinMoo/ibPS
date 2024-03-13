@@ -127,7 +127,9 @@ Accept wildcard characters: False
 ```
 
 ### -Strict
-{{ Fill Strict Description }}
+Use strict filter matching.
+By default, filters are searched using wildcards where possible.
+Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
 ```yaml
 Type: SwitchParameter
