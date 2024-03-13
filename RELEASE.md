@@ -7,9 +7,8 @@
 - Added tab-completion to the `-ThreatClass` and `-ThreatProperty` parameters on `Get-B1DNSEvent` 
 - Split BloxOne Platform cmdlets into separate directory for better documentation structure
 - Update all parameter set names to something more friendly
-> [!WARNING]  
-> (Another) Breaking Change to Get-B1DFPLog cmdlet!
->
-> The new `-Source` parameter has been renamed to `-Network` to make it consistent with `Get-B1DNSEvent` and the underlying API naming scheme
->
-> See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details
+
+| :warning: Breaking Changes - **`Get-B1DFPLog`**     |
+|:--------------------------------------------------|
+| The new `-Source` parameter has been renamed to `-Network` to make it consistent with `Get-B1DNSEvent` and the underlying API naming scheme |
+| See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details |
