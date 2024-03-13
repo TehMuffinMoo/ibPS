@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to mute a lookalike domain
 
-    .PARAMETER Domain
+    .PARAMETER LookalikeDomain
         One or more identified lookalikes to mute
 
     .EXAMPLE

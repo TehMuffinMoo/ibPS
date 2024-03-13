@@ -25,7 +25,7 @@
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
     .PARAMETER Muted
-        Using the -Muted switch will only return lookalike domains which have been muted
+        Using the -Muted parameter allows you to filter results based on muted status
 
     .EXAMPLE
         PS> Get-B1TDLookalikes -Domain google.com -Reason "phishing" | ft registration_date,lookalike_domain,type,categories,reason -AutoSize
