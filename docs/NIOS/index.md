@@ -1,5 +1,6 @@
-## Custom NIOS Functions
-You can create custom functions by using the `Query-NIOS` cmdlet.
+## Custom Functions
+
+You can create custom functions for NIOS by using the `Query-NIOS` cmdlet.
 
 This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs.
 

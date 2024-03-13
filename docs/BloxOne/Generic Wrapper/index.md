@@ -1,4 +1,4 @@
-# Custom BloxOne Functions (Generic Wrapper)
+# Custom Functions
 
 You can create custom functions by using the generic wrapper cmdlets.
 
