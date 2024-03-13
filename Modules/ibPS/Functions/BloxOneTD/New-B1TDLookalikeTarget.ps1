@@ -12,7 +12,7 @@ function New-B1TDLookalikeTarget {
     This is the domain to be added to the watched lookalike domain list
 
   .PARAMETER Description
-    The description to apply to the above domain
+    The description to apply to the selected domain
 
   .EXAMPLE
     PS> New-B1TDLookalikeTarget -Domain "mydomain.com" -Description "Some description.." 
