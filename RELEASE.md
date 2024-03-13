@@ -2,6 +2,7 @@
 - Add `Get-B1Licenses` cmdlet to retrieve license information
 - Add `Get-B1TDLookalikeTargetSummary` cmdlet for lookalike summary, the same as the Activity page within the CSP.
 - Add `Enable-B1TDLookalikeTargetCandidate` & `Disable-B1TDLookalikeTargetCandidate` cmdlets. The -Domain parameter auto-completes based on available domains.
+- Add `Enable-B1TDLookalike` and `Disable-B1TDLookalike` for Unmuting/Muting lookalike domains
 - Split BloxOne Platform cmdlets into separate directory for better documentation structure
 - Update all parameter set names to something more friendly
 > [!WARNING]  
