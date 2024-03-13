@@ -24,6 +24,9 @@ This function is used to enable a lookalike from the Common Watched Domains list
 ### EXAMPLE 1
 ```powershell
 Enable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
+
+Successfully enabled lookalike candidate: adobe.com
+Successfully enabled lookalike candidate: airbnb.com
 ```
 
 ## PARAMETERS

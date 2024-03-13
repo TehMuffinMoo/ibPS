@@ -24,6 +24,9 @@ This function is used to disable a lookalike from the Common Watched Domains lis
 ### EXAMPLE 1
 ```powershell
 Disable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
+
+Successfully disabled lookalike candidate: adobe.com
+Successfully disabled lookalike candidate: airbnb.com
 ```
 
 ## PARAMETERS
