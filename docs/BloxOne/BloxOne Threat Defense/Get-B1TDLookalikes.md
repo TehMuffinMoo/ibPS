@@ -14,7 +14,7 @@ Queries a list of lookalike domains
 
 ```
 Get-B1TDLookalikes [[-Domain] <String>] [[-LookalikeDomain] <String>] [[-Reason] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [-Strict]
+ [[-Offset] <Int32>] [[-Muted] <String>] [-Strict]
 ```
 
 ## DESCRIPTION
@@ -114,6 +114,21 @@ Aliases:
 Required: False
 Position: 5
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Muted
+Using the -Muted switch will only return lookalike domains which have been muted
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
