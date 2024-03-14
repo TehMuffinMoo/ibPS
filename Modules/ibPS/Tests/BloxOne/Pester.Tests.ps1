@@ -7,35 +7,35 @@ $Tags = @{
 Describe 'New-*' {
     Context 'B1DDI-General' {
         It 'Create IP Space' {
-            (New-B1Space -Name $Name -Description $Description -Tags $Tags).Name | Should -Be $Name
+            (New-B1Space -Name $Name -Description $Description -Tags $Tags 6>$null).Name | Should -Be $Name
         }
         It 'Create DNS View' {
-            (New-B1DNSView -Name $Name -Description $Description -Tags $Tags).Name | Should -Be $Name
+            (New-B1DNSView -Name $Name -Description $Description -Tags $Tags 6>$null).Name | Should -Be $Name
         }
         It 'Create Address Block' {
             (New-B1AddressBlock -Name $Name -Description $Description -Tags $Tags `
             -Subnet 123.123.123.0 -CIDR 24 -Space $Name `
-            -DHCPOptions @(@{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="123.123.123.10,132.132.132.10";})).Name | Should -Be $Name
+            -DHCPOptions @(@{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="123.123.123.10,132.132.132.10";}) 6>$null).Name | Should -Be $Name
         }
         It 'Create Subnet' {
             (New-B1Subnet -Name $Name -Description $Description -Tags $Tags `
             -Subnet 123.123.123.0 -CIDR 26 -Space $Name `
-            -DHCPOptions @(@{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="123.123.123.1";})).Name | Should -Be $Name
+            -DHCPOptions @(@{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="123.123.123.1";}) 6>$null).Name | Should -Be $Name
         }
         It 'Create DHCP Range' {
             (New-B1Range -Name $Name -Description $Description -Tags $Tags `
             -StartAddress 123.123.123.10 -EndAddress 123.123.123.30 `
-            -Space $Name).Name | Should -Be $Name
+            -Space $Name 6>$null).Name | Should -Be $Name
         }
         It 'Create Address Reservation' {
             (New-B1AddressReservation -Name $Name -Description $Description `
-            -Address 123.123.123.5 -Space $Name).Address | Should -Be 123.123.123.5
+            -Address 123.123.123.5 -Space $Name 6>$null).Address | Should -Be 123.123.123.5
             ## Implement Tags
         }
         It 'Create Fixed Address' {
             (New-B1FixedAddress -Name $Name -Description $Description `
             -IP 123.123.123.6 -Space $Name -MatchType mac `
-            -MatchValue "ab:cd:ef:12:34:56" -Tags $Tags).Address | Should -Be 123.123.123.6
+            -MatchValue "ab:cd:ef:12:34:56" -Tags $Tags 6>$null).Address | Should -Be 123.123.123.6
         }
     }
 }
@@ -86,25 +86,25 @@ Describe 'Get-*' {
 Describe 'Remove-*' {
     Context 'B1DDI-General' {
         It 'Remove Fixed Address' {
-            Remove-B1FixedAddress -IP 123.123.123.6 -Space $Name
+            Remove-B1FixedAddress -IP 123.123.123.6 -Space $Name 6>$null
         }
         It 'Remove Address Reservation' {
-            Remove-B1AddressReservation -Address 123.123.123.5 -Space $Name
+            Remove-B1AddressReservation -Address 123.123.123.5 -Space $Name 6>$null
         }
         It 'Remove DHCP Range' {
-            Remove-B1Range -StartAddress 123.123.123.10 -EndAddress 123.123.123.30 -Space $Name
+            Remove-B1Range -StartAddress 123.123.123.10 -EndAddress 123.123.123.30 -Space $Name 6>$null
         }
         It 'Remove Subnet' {
-            Remove-B1Subnet -Subnet 123.123.123.0 -CIDR 26 -Space $Name
+            Remove-B1Subnet -Subnet 123.123.123.0 -CIDR 26 -Space $Name 6>$null
         }
         It 'Remove Address Block' {
-            Remove-B1AddressBlock -Subnet 123.123.123.0 -CIDR 24 -Space $Name
+            Remove-B1AddressBlock -Subnet 123.123.123.0 -CIDR 24 -Space $Name 6>$null
         }
         It 'Remove IP Space' {
-            Remove-B1Space -Name $Name
+            Remove-B1Space -Name $Name 6>$null
         }
         It 'Remove DNS View' {
-            Remove-B1DNSView -Name $Name
+            Remove-B1DNSView -Name $Name 6>$null
         }
     }
 }
