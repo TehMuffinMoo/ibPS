@@ -29,7 +29,7 @@ $applications = {
 }
 Register-ArgumentCompleter -CommandName Get-B1Service,New-B1Service -ParameterName Type -ScriptBlock $applications
 
-$LookalikeCandidates = {
+$B1TDLookalikeTargetCandidates = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     switch($commandName) {
         "Enable-B1TDLookalikeTargetCandidate" {
@@ -40,16 +40,23 @@ $LookalikeCandidates = {
         }
     }
 }
-Register-ArgumentCompleter -CommandName Enable-B1TDLookalikeTargetCandidate,Disable-B1TDLookalikeTargetCandidate -ParameterName Domain -ScriptBlock $LookalikeCandidates
+Register-ArgumentCompleter -CommandName Enable-B1TDLookalikeTargetCandidate,Disable-B1TDLookalikeTargetCandidate -ParameterName Domain -ScriptBlock $B1TDLookalikeTargetCandidates
 
-$ThreatClasses = {
+$B1TDTideThreatClass = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1TDTideThreatClass | Where-Object {$_.id -like "$($wordToComplete)*"}).id
 }
-Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatClass -ScriptBlock $ThreatClasses
+Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatClass -ScriptBlock $B1TDTideThreatClass
 
-$ThreatProperties = {
+$B1TDTideThreatProperty = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1TDTideThreatProperty | Where-Object {$_.name -like "$($wordToComplete)*"}).name
 }
-Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatProperty -ScriptBlock $ThreatProperties
+Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatProperty -ScriptBlock $B1TDTideThreatProperty
+
+$B1TDTideDataProfile = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1TDTideDataProfile | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+}
+Register-ArgumentCompleter -CommandName Submit-B1TDTideData -ParameterName Profile -ScriptBlock $B1TDTideDataProfile
+Register-ArgumentCompleter -CommandName Get-B1TDTideDataProfile -ParameterName Name -ScriptBlock $B1TDTideDataProfile

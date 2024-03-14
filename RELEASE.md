@@ -8,7 +8,7 @@
 - Split BloxOne Platform cmdlets into separate directory for better documentation structure
 - Update all parameter set names to something more friendly
 
-| :warning: Breaking Changes - **`Get-B1DFPLog`**     |
+| Breaking Changes - **`Get-B1DFPLog`**     |
 |:--------------------------------------------------|
 | The new `-Source` parameter has been renamed to `-Network` to make it consistent with `Get-B1DNSEvent` and the underlying API naming scheme |
 | See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details |

@@ -7,7 +7,7 @@
         This function is used to query a list of TIDE Data Profiles
 
     .PARAMETER Name
-        Use this parameter to filter by Name
+        Use this parameter to filter by Name. Supports tab-completion.
 
     .EXAMPLE
         PS> Get-B1TDTideDataProfiles -Name "My Profile"

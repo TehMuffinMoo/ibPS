@@ -3,7 +3,7 @@
 - Split BloxOne DDI & BloxOne Threat Defense functions to aid better documentation separation
 - Updated most of the BloxOne Threat Defense Help Information/Documentation
 
-| :warning: Breaking Changes - **`Get-B1DFPLog`**     |
+| Breaking Changes - **`Get-B1DFPLog`**     |
 |:--------------------------------------------------|
 |The `-Source` parameter has been renamed to `-IP` to make it consistent with `Get-B1DNSLog`<br>A new `-Source` parameter has been created. This is used to specify the Source of the DNS Event (i.e DFP, External Network or Endpoint) and allows multiple values to be inputted |
 | See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details |
