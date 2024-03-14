@@ -13,7 +13,7 @@ Creates a new fixed addresses in BloxOneDDI IPAM
 ## SYNTAX
 
 ```
-New-B1FixedAddress [-IP] <String> [-Name] <String> [[-Description] <String>] [-MatchType] <String>
+New-B1FixedAddress [-IP] <String> [[-Name] <String>] [[-Description] <String>] [-MatchType] <String>
  [-MatchValue] <String> [-Space] <String> [[-DHCPOptions] <Object>] [[-Tags] <Object>] [<CommonParameters>]
 ```
 
@@ -52,7 +52,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
