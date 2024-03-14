@@ -80,7 +80,8 @@ num_errors     : 0
 ## PARAMETERS
 
 ### -Profile
-This is the data profile name to submit the TIDE data to
+This is the data profile name to submit the TIDE data to.
+Supports tab-completion.
 
 ```yaml
 Type: String
@@ -158,7 +159,8 @@ Accept wildcard characters: False
 ```
 
 ### -ThreatClass
-The Threat/Indicator class and supports tab-completion.
+The Threat/Indicator class i.e: Sinkhole.
+Supports tab-completion.
 
 This is mutually exclusive with -ThreatProperty
 
@@ -175,7 +177,8 @@ Accept wildcard characters: False
 ```
 
 ### -ThreatProperty
-The Threat/Indicator property and supports tab-completion.
+The Threat/Indicator property i.e: Sinkhole_SinkholedHost. 
+Supports tab-completion.
 
 This is mutually exclusive with -ThreatClass
 
