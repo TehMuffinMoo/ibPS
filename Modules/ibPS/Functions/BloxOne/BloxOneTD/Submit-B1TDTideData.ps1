@@ -7,7 +7,7 @@ function Submit-B1TDTideData {
         This function is used to submit threat indicators into a TIDE Data Profile
 
     .PARAMETER Profile
-        This is the data profile name to submit the TIDE data to
+        This is the data profile name to submit the TIDE data to. Supports tab-completion.
 
     .PARAMETER RecordType
         The record type indicates the type of indicator you are submitting. This can be host, ip, url, email, or hash.
@@ -21,12 +21,6 @@ function Submit-B1TDTideData {
 
     .PARAMETER Detected
         The date/time the threat was detected in as a Date/Time object. This is converted to ISO8601 format prior to submission.
-
-    .PARAMETER Class
-        The threat's class. For example: Sinkhole.  Note: Either "class" or "property" is required, but not both.
-
-    .PARAMETER Property
-        The threat's property, For example, Sinkhole_SinkholedHost. Note: Either "class" or "property" is required, but not both.
 
     .PARAMETER Confidence
         The threat's confidence score ranging from 0 - 100 (optional).
@@ -52,12 +46,12 @@ function Submit-B1TDTideData {
         The top-level domain, string (optional). 
 
     .PARAMETER ThreatClass
-        The Threat/Indicator class and supports tab-completion.
+        The Threat/Indicator class i.e: Sinkhole. Supports tab-completion.
         
         This is mutually exclusive with -ThreatProperty
 
     .PARAMETER ThreatProperty
-        The Threat/Indicator property and supports tab-completion.
+        The Threat/Indicator property i.e: Sinkhole_SinkholedHost.  Supports tab-completion.
         
         This is mutually exclusive with -ThreatClass
 
