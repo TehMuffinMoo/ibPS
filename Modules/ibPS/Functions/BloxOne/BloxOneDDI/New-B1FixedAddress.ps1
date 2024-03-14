@@ -47,8 +47,9 @@
     param(
       [Parameter(Mandatory=$true)]
       [String]$IP,
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$false)]
       [String]$Name,
+      [Parameter(Mandatory=$false)]
       [String]$Description,
       [Parameter(Mandatory=$true)]
       [ValidateSet("mac","client_text","client_hex","relay_text","relay_hex")]

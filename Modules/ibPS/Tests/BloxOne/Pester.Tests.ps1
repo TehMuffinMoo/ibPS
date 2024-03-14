@@ -29,8 +29,7 @@ Describe 'New-*' {
         }
         It 'Create Address Reservation' {
             (New-B1AddressReservation -Name $Name -Description $Description `
-            -Address 123.123.123.5 -Space $Name 6>$null).Address | Should -Be 123.123.123.5
-            ## Implement Tags
+            -Address 123.123.123.5 -Space $Name -Tags $Tags 6>$null).Address | Should -Be 123.123.123.5
         }
         It 'Create Fixed Address' {
             (New-B1FixedAddress -Name $Name -Description $Description `
