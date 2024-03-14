@@ -6,10 +6,10 @@ on:
       customVersion:
         type: choice
         description: 'Custom Version'
-        default: 'No'
+        default: 'false'
         options: 
-          - Yes
-          - No
+          - true
+          - false
       versionNumber:
         type: string
         description: 'Define Version Number'
@@ -36,7 +36,7 @@ jobs:
           }
 
           $CustomModuleVersion = "${{ inputs.customVersion }}"
-          if ($CustomModuleVersion -eq "Yes") {
+          if ($CustomModuleVersion -eq "true") {
             $ModuleVersion = "${{ inputs.versionNumber }}"
           } else {
             $ModuleVersion = [version]::New($ModuleVersion.Major,$ModuleVersion.Minor,$ModuleVersion.Build,$ModuleVersion.Revision+1)
