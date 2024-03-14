@@ -24,6 +24,9 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER Muted
+        Using the -Muted parameter allows you to filter results based on muted status
+
     .EXAMPLE
         PS> Get-B1TDLookalikes -Domain google.com -Reason "phishing" | ft registration_date,lookalike_domain,type,categories,reason -AutoSize
 
@@ -52,6 +55,8 @@
       [String]$Reason,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [ValidateSet('true','false')]
+      [String]$Muted,
       [Switch]$Strict
     )
 
@@ -66,6 +71,9 @@
     }
     if ($Reason) {
       $Filters += "reason$($MatchType)`"$Reason`""
+    }
+    if ($Muted) {
+        $Filters += "hidden==`"$($Muted)`""
     }
 
     if ($Filters) {

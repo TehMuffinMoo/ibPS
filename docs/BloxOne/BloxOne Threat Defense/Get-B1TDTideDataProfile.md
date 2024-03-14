@@ -42,7 +42,8 @@ id                                           name                      descripti
 ## PARAMETERS
 
 ### -Name
-Use this parameter to filter by Name
+Use this parameter to filter by Name.
+Supports tab-completion.
 
 ```yaml
 Type: String

@@ -123,7 +123,7 @@ Accept wildcard characters: False
 
 ### -Start
 A date parameter used as the starting date/time of the log search.
-By default, the search will start from 24hrs ago and returns the latest results first.
+By default, the search will start from 7 days ago and returns the latest results first.
 You may need to increase the -Limit parameter or reduce the -End date/time to view earlier events.
 
 ```yaml

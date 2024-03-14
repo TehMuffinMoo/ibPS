@@ -188,13 +188,13 @@ Get-B1ServiceLog -OnPremHost "bloxoneddihost1.mydomain.corp" -Container "DNS" -S
 Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "nginx" -Type "nginx.access" -Domain "prod.mydomain.corp"
   Retrieves CSP security logs, optionally limiting the number of results by using an offset or the various filters.
 
-Get-B1DNSLog -Source "10.177.18.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 100 -Offset 0
+Get-B1DNSLog -IP "10.177.18.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 100 -Offset 0
   Retrieves all DNS logs from BloxOneDDI with various filter options.
 
 Get-B1DNSEvent -Start (Get-Date).AddDays(-7) -AppName iCloud -FeedName Public_DOH -ThreatIndicator mask.icloud.com -Response NXDOMAIN
   Retrieves DNS queries which have triggered an event based on a security policy
 
-Get-B1DFPLog -Source "10.177.18.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 100 -Offset 0
+Get-B1DFPLog -IP "10.177.18.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 100 -Offset 0
   Retrieves all DNS Forwarding Proxy logs from BloxOneDDI with various filter options.
   
 Get-B1DHCPLog -Hostname "dhcpclient.mydomain.corp" -State "Assignments" -IP "10.10.10.100" -Protocol "IPv4 Address" -DHCPServer "bloxoneddihost1.mydomain.corp" -Start (Get-Date).AddHours(-24) -End (Get-Date) -Limit 100 -Offset 0
@@ -357,6 +357,9 @@ Get-B1TDLookalikes -Domain google.com -Reason "phishing"
 Get-B1TDLookalikeTargets
   Query a list of lookalike target domains (Global Lookalike Target List)
 
+Get-B1TDLookalikeTargetSummary -ThreatClass phishing,malware
+  Retrieve the lookalike target summary which is the same as displayed on the 'Activity' page within the CSP.
+
 Get-B1TDLookalikeTargetCandidates
   Query a list of lookalike target candidates (Global Lookalike Candidates List)
 
@@ -392,6 +395,9 @@ Start-B1TDDossierLookup -Type host -Value eicar.co
 
 New-B1TDTideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false
   Creates a new TIDE Data Profile
+
+New-B1TDLookalikeTarget -Domain "mydomain.com" -Description "Some description.."
+  Used to create a new Lookalike target in BloxOne Threat Defense
 
 New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -Host "bloxoneddihost1.mydomain.corp"
   Deploys a new BloxOneDDI Service
@@ -489,6 +495,9 @@ Remove-B1TDSecurityPolicy -Name "My Policy"
 Remove-B1TDNetworkList
   Used to remove Network Lists from BloxOne Threat Defense
 
+Remove-B1TDLookalikeTarget -Domain "mydomain.com"
+  Used to remove Lookalike Domains from BloxOne Threat Defense
+
 Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
   Newly registered devices are given a random name which is updated when using the -IP and -Name parameters together. -IP is used to reference the object, -Name is used as the updated DNS Name. TimeZone and Space can also be configured using this cmdlet.
 
@@ -525,8 +534,11 @@ Set-B1DHCPConfigProfile -AddDDNSZones -DDNSZones "prod.mydomain.corp","100.10.in
 Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "prod.mydomain.corp","dev.mydomain.corp" -DNSView "default"
   Used for setting global DHCP configuration. Primarily for Adding/Removing internal DDNS Zones. -RemoveDDNSZones can be used to remove zones instead.
 
-Set-B1TideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false -State "Activated"
+Set-B1TDTideDataProfile -Name "My Profile" -Description "My TIDE Data Profile" -RPZFeed "my-rpz-feed" -DefaultTTL $false -State "Activated"
   Updates an existing TIDE Data Profile. The -State parameter can be used to enable/disable the profile.
+
+Set-B1TDLookalikeTarget -Domain "mydomain.corp" -Description "New description.."
+  Updates an existing target lookalike domain
 
 Set-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group" -Tags @{"TagName"="TagValue"}
   Updates the configuration of an existing HA Group

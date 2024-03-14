@@ -18,7 +18,8 @@
 function Combine-Filters {
     param(
     [parameter(Mandatory=$true)]  
-    $Filters
+    $Filters,
+    $Type = "and"
     )
     $combinedFilter = $null
     $FilterCount = $Filters.Count
@@ -28,7 +29,7 @@ function Combine-Filters {
           if ($FilterCount -le 1) {
               $combinedFilter += $Filter
           } else {
-              $combinedFilter += $Filter+" and "
+              $combinedFilter += $Filter+" $($Type) "
           }
           $FilterCount = $FilterCount - 1
         }
@@ -38,7 +39,7 @@ function Combine-Filters {
           if ($FilterCount -le 1) {
             $combinedFilter += "$($Filter.Property)$($Filter.Operator)`"$($Filter.Value)`""
           } else {
-            $combinedFilter += "$($Filter.Property)$($Filter.Operator)`"$($Filter.Value)`" and "
+            $combinedFilter += "$($Filter.Property)$($Filter.Operator)`"$($Filter.Value)`" $($Type) "
           }
           $FilterCount = $FilterCount - 1
         }
