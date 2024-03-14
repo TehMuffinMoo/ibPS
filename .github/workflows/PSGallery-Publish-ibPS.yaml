@@ -1,8 +1,18 @@
 name: Publish ibPS PowerShell Module
 
-on: workflow_dispatch
-#  push:
-#    branches: [main]
+on:
+  workflow_dispatch:
+    inputs:
+      customVersion:
+        type: choice
+        description: 'Custom Version'
+        options: 
+        - Yes
+        - No
+        default: 'No'
+      versionNumber:
+        type: string
+        description: 'Define Version Number'
 
 jobs:
   ibPS-Build-And-Publish:
@@ -25,7 +35,12 @@ jobs:
             $IsCurrentVersion = $true
           }
 
-          $ModuleVersion = [version]::New($ModuleVersion.Major,$ModuleVersion.Minor,$ModuleVersion.Build,$ModuleVersion.Revision+1)
+          $CustomModuleVersion = "${{ inputs.customVersion }}"
+          if ($CustomModuleVersion -ne "") {
+            $ModuleVersion = "${{ inputs.versionNumber }}"
+          } else {
+            $ModuleVersion = [version]::New($ModuleVersion.Major,$ModuleVersion.Minor,$ModuleVersion.Build,$ModuleVersion.Revision+1)
+          }
           
           Write-Host "Updating release notes"
           $ReleaseNotes = Get-Content -Path './RELEASE.md' -Raw
