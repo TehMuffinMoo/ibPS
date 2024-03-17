@@ -195,9 +195,11 @@ function Get-NetworkInfo {
       https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
   #>
   param ( 
-      [parameter(ValueFromPipeline)]
+      [parameter(ValueFromPipelineByPropertyName)]
+      [Alias('Address')]
       [string]
       $IP,
+      [parameter(ValueFromPipelineByPropertyName)]
       [ValidateRange(0, 32)]
       [Alias('CIDR')]
       [int]
@@ -207,7 +209,6 @@ function Get-NetworkInfo {
       $Force
   )
   process {
-
       if ($PSBoundParameters.ContainsKey('MaskBits')) { 
           $Mask = $MaskBits 
       }
