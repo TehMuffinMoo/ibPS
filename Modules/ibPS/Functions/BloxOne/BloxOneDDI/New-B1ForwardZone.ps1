@@ -21,6 +21,9 @@
     .PARAMETER Description
         The description for the new zone
 
+    .PARAMETER ForwardOnly
+        Setting the -ForwardOnly switch will enable forward only mode for this zone
+
     .EXAMPLE
         PS> New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -Description "My Forward Zone"
    
@@ -39,6 +42,7 @@
       [System.Object]$Forwarders,
       [System.Object]$DNSHosts,
       [String]$Description,
+      [Switch]$ForwardOnly,
       [System.Object]$Tags
     )
 
@@ -63,7 +67,7 @@
         $splat = @{
 	        "fqdn" = $FQDN
 	        "disabled" = $false
-            "forward_only" = $true
+            "forward_only" = if ($ForwardOnly) {$true} else {$false}
 	        "external_forwarders" = $ExternalHosts
 	        "view" = $ViewUUID
             "tags" = $Tags

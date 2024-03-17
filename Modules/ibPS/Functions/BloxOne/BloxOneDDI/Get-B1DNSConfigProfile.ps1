@@ -69,7 +69,7 @@
     }
 
     if ($QueryString) {
-        Query-CSP -Method GET -Uri "dns/server$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CspUrl)/api/ddi/v1/dns/server$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }else {
         Query-CSP -Method GET -Uri "dns/server" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

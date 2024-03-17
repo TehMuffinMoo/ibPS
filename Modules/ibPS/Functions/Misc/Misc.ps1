@@ -204,6 +204,8 @@ function Get-NetworkInfo {
       [Alias('CIDR')]
       [int]
       $MaskBits,
+      [ValidateSet('First','Last')]
+      $RouterAddress,
 
       [switch]
       $Force

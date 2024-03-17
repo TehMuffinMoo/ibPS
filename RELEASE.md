@@ -1,3 +1,5 @@
+- Add `New-B1DelegatedZone` and `Remove-B1DelegatedZone` functions
+- Add `-ForwardOnly` flag to `New-B1ForwardZone` function
 - Add `-Tags` parameter to `New-B1AddressReservation`, `New-B1ForwardZone`, `Set-B1Record`, `Set-B1ForwardZone` & `Set-B1DHCPConfigProfile`
 - Remove mandatory flag for `-Name` and `-Description` parameters on `New-B1AddressReservation` & `New-B1FixedAddress`
 - Add `-DevelopmentMode` parameter to `Get-ibPSVersion` to enable exporting private functions for the purpose of development
