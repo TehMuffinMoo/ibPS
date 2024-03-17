@@ -49,22 +49,22 @@ Describe 'New-*' {
         It 'Create Forward DNS Zone' {
             (New-B1ForwardZone -FQDN 'forward.ibps.pester.tests' -Description $Description `
             -View $Name -Forwarders '123.123.123.100','123.123.123.200' -Tags $Tags).fqdn `
-            | Should -Be 'forward.ibps.pester.tests'
+            | Should -Be 'forward.ibps.pester.tests.'
         }
         It 'Create New DNS A Record' {
             (New-B1Record -Type 'A' -Name 'A' -Zone 'primary.ibps.pester.tests' -rdata '123.123.123.25' `
             -view $Name -Description $Description -Tags $Tags).absolute_name_spec `
-            | Should -Be 'A.primary.ibps.pester.tests'
+            | Should -Be 'A.primary.ibps.pester.tests.'
         }
         It 'Create New DNS CNAME Record' {
             (New-B1Record -Type 'CNAME' -Name 'CNAME' -Zone 'primary.ibps.pester.tests' -rdata 'A.primary.ibps.pester.tests' `
             -view $Name -Description $Description -Tags $Tags).absolute_name_spec `
-            | Should -Be 'CNAME.primary.ibps.pester.tests'
+            | Should -Be 'CNAME.primary.ibps.pester.tests.'
         }
         It 'Create New DNS SRV Record' {
             (New-B1Record -Type 'SRV' -Name 'SRV' -Zone 'primary.ibps.pester.tests' -view $Name -Tags $Tags `
-            -Priority 0 -Weight 0 -Port 123 -rdata '123.123.123.35').absolute_name_spec `
-            | Should -Be 'SRV.primary.ibps.pester.tests'
+            -Priority 0 -Weight 0 -Port 123 -rdata 'target.srv.com').absolute_name_spec `
+            | Should -Be 'SRV.primary.ibps.pester.tests.'
         }
         It 'Create New DHCP Config Profile' {
             (New-B1DHCPConfigProfile -Name $Name -Description $Description -Tags $Tags).Name | Should -Be $Name
@@ -75,7 +75,7 @@ Describe 'New-*' {
     }
     Context 'B1TD-General' {
         It 'Create New Lookalike Target' {
-            (New-B1TDLookalikeTarget -Domain 'ibps.pester.test' -Description $Description).domain | Should -Be 'ibps.pester.test'
+            (New-B1TDLookalikeTarget -Domain 'pester.test' -Description $Description).domain | Should -Be 'pester.test'
         }
     }
 }
@@ -172,37 +172,37 @@ Describe 'Remove-*' {
         It 'Remove IP Space' {
             Remove-B1Space -Name $Name 6>$null
         }
+        It 'Remove Authoritative Primary DNS Zone' {
+            Remove-B1AuthoritativeZone -FQDN 'primary.ibps.pester.tests.' -View $Name 6>$null
+        }
+        It 'Remove Authoritative Secondary DNS Zone' {
+            Remove-B1AuthoritativeZone -FQDN 'secondary.ibps.pester.tests.' -View $Name 6>$null
+        }
+        It 'Remove Forward DNS Zone' {
+            Remove-B1ForwardZone -FQDN 'forward.ibps.pester.tests.' -View $Name 6>$null
+        }
+        It 'Remove DNS A Record' {
+            Get-B1Record -Type 'A' -FQDN 'A.primary.ibps.pester.tests' -View $Name | Remove-B1Record 6>$null
+        }
+        It 'Remove DNS CNAME Record' {
+            Get-B1Record -Type 'CNAME' -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name | Remove-B1Record 6>$null
+        }
+        It 'Remove DNS SRV Record' {
+            Get-B1Record -Type 'SRV' -FQDN 'SRV.primary.ibps.pester.tests' -View $Name | Remove-B1Record 6>$null
+        }
         It 'Remove DNS View' {
             Remove-B1DNSView -Name $Name 6>$null
         }
-        It 'Remove Authoritative Primary DNS Zone' {
-            Remove-B1AuthoritativeZone -FQDN 'primary.ibps.pester.tests.' -View $Name
-        }
-        It 'Remove Authoritative Secondary DNS Zone' {
-            Remove-B1AuthoritativeZone -FQDN 'secondary.ibps.pester.tests.' -View $Name
-        }
-        It 'Remove Forward DNS Zone' {
-            Remove-B1ForwardZone -FQDN 'forward.ibps.pester.tests.' -View $Name
-        }
-        It 'Remove DNS A Record' {
-            Get-B1Record -Type 'A' -FQDN 'A.primary.ibps.pester.tests' -View $Name | Remove-B1Record
-        }
-        It 'Remove DNS CNAME Record' {
-            Get-B1Record -Type 'CNAME' -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name | Remove-B1Record
-        }
-        It 'Remove DNS SRV Record' {
-            Get-B1Record -Type 'SRV' -FQDN 'SRV.primary.ibps.pester.tests' -View $Name | Remove-B1Record
-        }
         It 'Remove DHCP Config Profile' {
-            Remove-B1DHCPConfigProfile -Name $Name
+            Remove-B1DHCPConfigProfile -Name $Name 6>$null
         }
         It 'Remove BloxOne Host' {
-            Remove-B1Host -Name $Name -NoWarning
+            Remove-B1Host -Name $Name -NoWarning 6>$null
         }
     }
     Context 'B1TD-General' {
         It 'Remove Lookalike Target' {
-            Remove-B1TDLookalikeTarget -Domain 'ibps.pester.test' -NoWarning
+            Remove-B1TDLookalikeTarget -Domain 'pester.test' -NoWarning 6>$null
         }
     }
 }
