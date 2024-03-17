@@ -21,6 +21,9 @@ function Get-ibPSVersion {
     .PARAMETER Branch
         Use the -Branch parameter to select the github branch to update with.
 
+    .PARAMETER DevelopmentMode
+        Enabling development mode will expose additional functions to allow development of new cmdlets
+
     .EXAMPLE
         Get-ibPSVersion
 
