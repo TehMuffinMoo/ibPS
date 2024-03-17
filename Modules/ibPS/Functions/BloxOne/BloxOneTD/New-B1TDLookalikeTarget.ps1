@@ -76,6 +76,7 @@ function New-B1TDLookalikeTarget {
       Write-Error "Failed to create new lookalike target: $($NewLookalike)"
     } else {
       Write-Host "Successfully created new lookalike target: $($NewLookalike)" -ForegroundColor Green
+      $($LookalikeTargetList) | Select-Object -ExpandProperty items_described | Where-Object {$_.item -eq $NewLookalike}
     }
   }
 
