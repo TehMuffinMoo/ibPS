@@ -24,6 +24,9 @@
     .PARAMETER ForwardOnly
         Setting the -ForwardOnly switch will enable forward only mode for this zone
 
+    .PARAMETER Tags
+        Any tags you want to apply to the forward zone
+
     .EXAMPLE
         PS> New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -Description "My Forward Zone"
    

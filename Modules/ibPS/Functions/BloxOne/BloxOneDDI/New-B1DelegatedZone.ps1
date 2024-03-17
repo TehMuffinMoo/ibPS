@@ -12,17 +12,17 @@
     .PARAMETER View
         The DNS View the zone will be created in
 
-    .PARAMETER Parent
-        The parent DNS Zone to create the delegation in
-
     .PARAMETER DelegationServers
         A list of IPs/FQDNs to delegate requests to
 
     .PARAMETER Description
         The description for the new zone
 
+    .PARAMETER Tags
+        Any tags you want to apply to the delegated zone
+
     .EXAMPLE
-        PS> New-B1DelegatedZone -FQDN "mysubzone.mycompany.corp" -View "default" -Parent "" -Description "My Delegated Zone" -
+        PS> New-B1DelegatedZone -FQDN "mysubzone.mycompany.corp" -View "default" -Description "My Delegated Zone"
    
     .FUNCTIONALITY
         BloxOneDDI
