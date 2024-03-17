@@ -120,7 +120,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tags
-{{ Fill Tags Description }}
+Any tags you want to apply to the forward zone
 
 ```yaml
 Type: Object

@@ -24,7 +24,7 @@ This function is used to create a new Delegated Zone in BloxOneDDI
 
 ### EXAMPLE 1
 ```powershell
-New-B1DelegatedZone -FQDN "mysubzone.mycompany.corp" -View "default" -Parent "" -Description "My Delegated Zone" -
+New-B1DelegatedZone -FQDN "mysubzone.mycompany.corp" -View "default" -Description "My Delegated Zone"
 ```
 
 ## PARAMETERS
@@ -90,7 +90,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tags
-{{ Fill Tags Description }}
+Any tags you want to apply to the delegated zone
 
 ```yaml
 Type: Object
