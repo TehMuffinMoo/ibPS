@@ -14,6 +14,7 @@ Checks the version of ibPS, with the option to update if a version is available
 
 ```
 Get-ibPSVersion [-Details] [-CheckForUpdates] [-Update] [-Force] [[-Branch] <String>]
+ [[-DevelopmentMode] <String>]
 ```
 
 ## DESCRIPTION
@@ -108,6 +109,21 @@ Aliases:
 
 Required: False
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DevelopmentMode
+Enabling development mode will expose additional functions to allow development of new cmdlets
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

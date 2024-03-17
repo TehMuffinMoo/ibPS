@@ -24,7 +24,10 @@ This function is used to create a new DHCP Config Profile in BloxOneDDI
 
 ### EXAMPLE 1
 ```powershell
-New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions @() -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
+$DHCPOptions = @()
+PS> $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+
+PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions $DHCPOptions -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
 ```
 
 ## PARAMETERS
@@ -61,11 +64,6 @@ Accept wildcard characters: False
 
 ### -DHCPOptions
 A list of DHCP Options you want to apply to the new DHCP Config Profile.
-
-Example usage when combined with Get-B1DHCPOptionCode
-
-$DHCPOptions = @()
-$DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
 ```yaml
 Type: Object

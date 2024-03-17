@@ -14,7 +14,7 @@ Creates a new Forward Zone in BloxOneDDI
 
 ```
 New-B1ForwardZone [-FQDN] <String> [-View] <Object> [-Forwarders] <Object> [[-DNSHosts] <Object>]
- [[-Description] <String>] [<CommonParameters>]
+ [[-Description] <String>] [[-Tags] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -99,6 +99,21 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Tags
+{{ Fill Tags Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -15,12 +15,12 @@ Updates an existing DHCP Config Profiles from BloxOneDDI
 ### Default
 ```
 Set-B1DHCPConfigProfile -Name <String> [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>]
- -DNSView <String> [<CommonParameters>]
+ -DNSView <String> [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### With ID
 ```
-Set-B1DHCPConfigProfile [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>] -id <String>
+Set-B1DHCPConfigProfile [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>] [-Tags <Object>] -id <String>
  [<CommonParameters>]
 ```
 
@@ -107,6 +107,21 @@ Parameter Sets: Default
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Tags
+The tags to apply to the DHCP Config Profile
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
