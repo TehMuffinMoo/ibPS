@@ -12,7 +12,7 @@
 | Breaking Changes - **`Get-B1DFPLog`**     |
 |:--------------------------------------------------|
 | The new `-Source` parameter has been renamed to `-Network` to make it consistent with `Get-B1DNSEvent` and the underlying API naming scheme |
-| See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details |
+| See the <a href="https://ibps.readthedocs.io/en/dev/BloxOne/BloxOne%20Cloud/Get-B1DFPLog/">Documentation</a> for further details |
 
 ## 1.9.2.10
 - Remove mandatory flag in the `New-B1Subnet` & `New-B1Space` cmdlets for the `-Name` parameter
@@ -22,7 +22,7 @@
 | Breaking Changes - **`Get-B1DFPLog`**     |
 |:--------------------------------------------------|
 |The `-Source` parameter has been renamed to `-IP` to make it consistent with `Get-B1DNSLog`<br>A new `-Source` parameter has been created. This is used to specify the Source of the DNS Event (i.e DFP, External Network or Endpoint) and allows multiple values to be inputted |
-| See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details |
+| See the <a href="https://ibps.readthedocs.io/en/dev/BloxOne/BloxOne%20Cloud/Get-B1DFPLog/">Documentation</a> for further details |
 
 - v1.9.2.7, v1.9.2.8 & v1.9.2.9 were skipped due to issues with the automated package provisioning.
 
@@ -44,7 +44,7 @@
 |:--------------------------------------------------|
 |The -DNS, -DHCP & -NTP parameters have been removed from New-B1Service in favour of a -Type parameter where the options are generated automatically.<br>The syntax would now be something like; |
 | `New-B1Service -Type dns -Name "dns_myb1host -OnPremHost "myb1host"` |
-| See the <a href="https://ibps.readthedocs.io/en/dev/Functions/BloxOne%20DDI/Get-B1DFPLog/">Documentation</a> for further details |
+| See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Platform/New-B1Service/">Documentation</a> for further details |
 
 
 ## 1.9.2.3
