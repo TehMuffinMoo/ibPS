@@ -479,3 +479,26 @@ function New-ISOFile {
     }
   }
 }
+
+
+
+
+
+function DevelopmentFunctions {
+  return @(
+    "Query-CSP"
+    "Detect-OS"
+    "Combine-Filters"
+    "ConvertTo-QueryString"
+    "Match-Type"
+    "Convert-CIDRToNetmask"
+    "Test-NetmaskString"
+    "Convert-NetmaskToCIDR"
+    "Get-NetworkInfo"
+    "Convert-Int64toIP"
+    "Convert-IPtoInt64"
+    "Get-NetworkClass"
+    "New-B1Metadata"
+    "New-ISOFile"
+  )
+}

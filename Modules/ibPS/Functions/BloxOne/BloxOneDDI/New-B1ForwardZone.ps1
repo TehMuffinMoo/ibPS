@@ -36,9 +36,10 @@
       [Parameter(Mandatory=$true)]
       [System.Object]$View,
       [Parameter(Mandatory=$true)]
-      $Forwarders,
-      $DNSHosts,
-      [String]$Description
+      [System.Object]$Forwarders,
+      [System.Object]$DNSHosts,
+      [String]$Description,
+      [System.Object]$Tags
     )
 
     if (Get-B1ForwardZone -FQDN $FQDN -View $View) {
@@ -65,6 +66,7 @@
             "forward_only" = $true
 	        "external_forwarders" = $ExternalHosts
 	        "view" = $ViewUUID
+            "tags" = $Tags
         }
 
         if ($DNSHosts) {

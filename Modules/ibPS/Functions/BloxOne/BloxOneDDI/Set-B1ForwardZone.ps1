@@ -21,6 +21,9 @@
     .PARAMETER DNSServerGroups
         A list of Forward DNS Server Groups to assign to the zone. This will overwrite existing values
 
+    .PARAMETER Tags
+        Any tags you want to apply to the forward zone
+
     .PARAMETER id
         The id of the forward zone to update. Accepts pipeline input
 
@@ -41,6 +44,7 @@
       [String]$DNSServerGroups,
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [System.Object]$View,
+      [System.Object]$Tags,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
         ParameterSetName="With ID",
@@ -89,6 +93,7 @@
 
           if ($ExternalHosts) {$ForwardZonePatch.external_forwarders = $ExternalHosts}
           if ($B1Hosts) {$ForwardZonePatch.hosts = $B1Hosts}
+          if ($Tags) {$ForwardZonePatch.tags = $Tags}
           if ($DNSServerGroups) {
               $ForwardZonePatch.nsgs = $B1ForwardNSGs
               $ForwardZonePatch.external_forwarders = @()

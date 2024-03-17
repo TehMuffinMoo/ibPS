@@ -1,2 +1,4 @@
-- Add `-Tags` parameter to New-B1AddressReservation
+- Add `-Tags` parameter to `New-B1AddressReservation`, `New-B1ForwardZone`, `Set-B1Record`, `Set-B1ForwardZone` & `Set-B1DHCPConfigProfile`
 - Remove mandatory flag for `-Name` and `-Description` parameters on New-B1AddressReservation & New-B1FixedAddress
+- Add `-DevelopmentMode` parameter to Get-ibPSVersion to enable exporting private functions for the purpose of development
+- Add numerous pester tests

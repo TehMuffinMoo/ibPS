@@ -14,11 +14,6 @@
 
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the new DHCP Config Profile.
-        
-        Example usage when combined with Get-B1DHCPOptionCode
-
-        $DHCPOptions = @()
-        $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
     .PARAMETER DDNSZones
         A list of DDNS Zones to apply to this DHCP Config Profile
@@ -27,7 +22,10 @@
         Any tags you want to apply to the new DHCP Config Profile
 
     .EXAMPLE
-        PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions @() -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
+        PS> $DHCPOptions = @()
+        PS> $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
+
+        PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions $DHCPOptions -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -112,10 +110,11 @@
         $splat = $splat | ConvertTo-Json -Depth 4
         if ($Debug) {$splat}
 
-        $Result = Query-CSP -Method POST -Uri "dhcp/server" -Data $splat
+        $Result = Query-CSP -Method POST -Uri "dhcp/server" -Data $splat | Select-Object -ExpandProperty result
         
-        if (($Result | Select-Object -ExpandProperty result).name -eq $Name) {
+        if ($($Result).name -eq $Name) {
             Write-Host "DHCP Config Profile: $Name created successfully." -ForegroundColor Green
+            return $Result
         } else {
             Write-Host "Failed to create DHCP Config Profile: $Name" -ForegroundColor Red
             break

@@ -39,8 +39,36 @@ function Get-ibPSVersion {
     [Switch]$Update,
     [Switch]$Force,
     [ValidateSet("main", "dev")]
-    [String]$Branch
+    [String]$Branch,
+    [ValidateSet('Enabled','Disabled')]
+    [String]$DevelopmentMode
   )
+
+  if ($DevelopmentMode) {
+    if ($DevelopmentMode -eq 'Enabled') {
+      Write-Host "Enabling Development Mode.." -ForegroundColor Cyan
+      $ModulePath = (Get-Module ibPS -ListAvailable).Path
+      $Keys = (Test-ModuleManifest $ModulePath).ExportedCommands.Keys
+      $Keys += DevelopmentFunctions
+      Update-ModuleManifest $ModulePath -FunctionsToExport $Keys
+      Import-Module $ModulePath -Force -DisableNameChecking
+      Write-Host "Enabled Development Mode. A restart of the Powershell session is required for this to take effect." -ForegroundColor Green
+    } elseif ($DevelopmentMode -eq 'Disabled') {
+      Write-Host "Disabling Development Mode.." -ForegroundColor Cyan
+      $ModulePath = (Get-Module ibPS -ListAvailable).Path
+      $Keys = (Test-ModuleManifest $ModulePath).ExportedCommands.Keys | Where-Object {$_ -notin $(DevelopmentFunctions)}
+      Update-ModuleManifest $ModulePath -FunctionsToExport $Keys
+      Import-Module $ModulePath -Force -DisableNameChecking
+      Write-Host "Disabled Development Mode. A restart of the Powershell session is required for this to take effect." -ForegroundColor Green
+    }
+    if (!(Test-Path ~/.zshenv)) {
+      touch ~/.zshenv
+    }
+    sed -i '' -e '/IBPSDevelopment/d' ~/.zshenv
+    echo "export IBPSDevelopment=$DevelopmentMode" >> ~/.zshenv
+    $ENV:IBPSDevelopment = $DevelopmentMode
+    break
+  }
 
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path.Count -gt 1) {
