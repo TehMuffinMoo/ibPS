@@ -45,6 +45,17 @@ function Get-ibPSVersion {
   )
 
   if ($DevelopmentMode) {
+    $Platform = Detect-OS
+    if ($Platform -eq "Windows") {
+      [System.Environment]::SetEnvironmentVariable('IBPSDevelopment',$DevelopmentMode,[System.EnvironmentVariableTarget]::User)
+    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+      if (!(Test-Path ~/.zshenv)) {
+        touch ~/.zshenv
+      }
+      sed -i '' -e '/IBPSDevelopment/d' ~/.zshenv
+      echo "export IBPSDevelopment=$DevelopmentMode" >> ~/.zshenv
+      $ENV:IBPSDevelopment = $DevelopmentMode
+    }
     if ($DevelopmentMode -eq 'Enabled') {
       Write-Host "Enabling Development Mode.." -ForegroundColor Cyan
       $ModulePath = (Get-Module ibPS -ListAvailable).Path
@@ -60,17 +71,6 @@ function Get-ibPSVersion {
       Update-ModuleManifest $ModulePath -FunctionsToExport $Keys
       Import-Module $ModulePath -Force -DisableNameChecking
       Write-Host "Disabled Development Mode. A restart of the Powershell session is required for this to take effect." -ForegroundColor Green
-    }
-    $Platform = Detect-OS
-    if ($Platform -eq "Windows") {
-      [System.Environment]::SetEnvironmentVariable('IBPSDevelopment',$DevelopmentMode,[System.EnvironmentVariableTarget]::User)
-    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-      if (!(Test-Path ~/.zshenv)) {
-        touch ~/.zshenv
-      }
-      sed -i '' -e '/IBPSDevelopment/d' ~/.zshenv
-      echo "export IBPSDevelopment=$DevelopmentMode" >> ~/.zshenv
-      $ENV:IBPSDevelopment = $DevelopmentMode
     }
     break
   }
