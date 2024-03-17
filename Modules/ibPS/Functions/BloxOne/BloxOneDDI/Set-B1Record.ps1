@@ -190,9 +190,9 @@
 
         Write-Host "Updating $($Record.type) Record for $($Record.absolute_name_spec)" -ForegroundColor Gray
         $splat = $splat | ConvertTo-Json
-        if ($Debug) {$splat}
+        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
         $Result = Query-CSP -Method PATCH -Uri $($Record.id) -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        if ($Debug) {$Result}
+        if ($ENV:IBPSDebug -eq "Enabled") {$Result}
         if ($Result.dns_rdata -match $rdata) {
           Write-Host "DNS $($Record.type) Record has been successfully updated for $($Record.absolute_name_spec)" -ForegroundColor Green
         } else {

@@ -108,7 +108,7 @@
         }
         
         $splat = $splat | ConvertTo-Json -Depth 4
-        if ($Debug) {$splat}
+        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
         $Result = Query-CSP -Method POST -Uri "dhcp/server" -Data $splat | Select-Object -ExpandProperty result
         

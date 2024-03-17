@@ -473,7 +473,7 @@
                 
                     if ($VM) {
                         Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
-                        if ($Debug) {$VM | Format-Table -AutoSize}
+                        if ($ENV:IBPSDebug -eq "Enabled") {$VM | Format-Table -AutoSize}
                         if (!($SkipPowerOn)) {
                         Write-Host "Powering on $Name.." -ForegroundColor Cyan
                         $VMStart = Start-VM -VM $VM

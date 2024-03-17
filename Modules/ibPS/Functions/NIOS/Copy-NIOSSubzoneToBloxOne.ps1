@@ -114,7 +114,7 @@ function Copy-NIOSSubzoneToBloxOne {
             $SubzoneItem._ref -match "(record\:\w+)\/.*" | Out-Null
             $RecordType = $Matches[1]
 
-            if ($Debug) {Write-Host "$($RecordType)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1"}
+            if ($ENV:IBPSDebug -eq "Enabled") {Write-Host "$($RecordType)?name=$($SubzoneItem.name+"."+$SubzoneItem.zone)&_return_as_object=1"}
 
             switch ($RecordType) {
                 "record:host" {
