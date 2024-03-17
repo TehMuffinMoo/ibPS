@@ -33,8 +33,4 @@ foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $NIOSP
   }
 }
 
-if ($ENV:IBPSDevelopment -eq "Enabled") {
-   $AdditionalFunctionsToImport += DevelopmentFunctions
-}
-
 Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -Alias *
