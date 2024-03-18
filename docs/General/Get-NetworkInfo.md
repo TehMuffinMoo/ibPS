@@ -1,7 +1,7 @@
 ---
 external help file: BloxOne-Main-help.xml
 Module Name: ibPS
-online version: https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
+online version:
 schema: 2.0.0
 ---
 
@@ -55,8 +55,8 @@ HostAddressCount : 30
 
 ### EXAMPLE 3
 ```powershell
-Get-B1AddressBlock -Limit 1 | Get-NetworkInfo                                                                                                                                                                 
-                                                                                                                  
+Get-B1AddressBlock -Limit 1 | Get-NetworkInfo -GatewayAddress First
+                                                                                                                
 IPAddress        : 10.41.163.0
 MaskBits         : 24
 NetworkAddress   : 10.41.163.0
@@ -66,6 +66,7 @@ NetworkClass     : A
 Range            : 10.41.163.0 ~ 10.41.163.255
 HostAddresses    : {10.41.163.1, 10.41.163.2, 10.41.163.3, 10.41.163.4…}
 HostAddressCount : 254
+Gateway          : 10.41.163.1
 ```
 
 ## PARAMETERS
@@ -144,8 +145,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
+Credit: https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
 
 ## RELATED LINKS
-
-[https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1](https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1)
-
