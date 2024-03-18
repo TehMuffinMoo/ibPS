@@ -51,8 +51,8 @@ function Get-NetworkInfo {
         HostAddressCount : 30
   
     .EXAMPLE
-        PS> Get-B1AddressBlock -Limit 1 | Get-NetworkInfo                                                                                                                                                                 
-                                                                                                                          
+        PS> Get-B1AddressBlock -Limit 1 | Get-NetworkInfo -GatewayAddress First
+                                                                                                                        
         IPAddress        : 10.41.163.0
         MaskBits         : 24
         NetworkAddress   : 10.41.163.0
@@ -62,9 +62,10 @@ function Get-NetworkInfo {
         Range            : 10.41.163.0 ~ 10.41.163.255
         HostAddresses    : {10.41.163.1, 10.41.163.2, 10.41.163.3, 10.41.163.4…}
         HostAddressCount : 254
+        Gateway          : 10.41.163.1
    
-    .LINK
-      https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
+    .NOTES
+      Credit: https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
     #>
     param ( 
         [parameter(Mandatory=$true,ValueFromPipelineByPropertyName)]
