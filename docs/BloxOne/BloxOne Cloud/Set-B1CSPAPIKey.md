@@ -1,7 +1,7 @@
 ---
 external help file: BloxOne-Main-help.xml
 Module Name: ibPS
-online version:
+online version: https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
 schema: 2.0.0
 ---
 
