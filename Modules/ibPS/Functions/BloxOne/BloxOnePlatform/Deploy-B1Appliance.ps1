@@ -174,7 +174,7 @@
       [ValidateScript({Test-NetmaskString $_})]
       [String]$Netmask,
       [Parameter(Mandatory=$true)]
-      [String]$Gateway,
+      [IPAddress]$Gateway,
       [Parameter(Mandatory=$false)]
       [IPAddress[]]$DNSServers = "52.119.40.100",
       [Parameter(Mandatory=$false)]
@@ -461,8 +461,8 @@
                     if ($OVFConfig) {
                         Write-Host "Generating OVFConfig file for BloxOne Appliance: $Name .." -ForegroundColor Cyan
             
-                        $OVFConfig.Common.address.Value = $($IP.IPAddressToString)
-                        $OVFConfig.Common.gateway.Value = $Gateway
+                        $OVFConfig.Common.address.Value = $IP.IPAddressToString
+                        $OVFConfig.Common.gateway.Value = $Gateway.IPAddressToString
                         $OVFConfig.Common.netmask.Value = $Netmask
                         $OVFConfig.Common.nameserver.Value = $DNSServers.IPAddressToString -join ','
                         $OVFConfig.Common.ntp_servers.Value = $NTPServers -join ','
@@ -509,7 +509,7 @@
                     }
                 }
                 Write-Host "Generating customization metadata" -ForegroundColor Cyan
-                $VMMetadata = New-B1Metadata -IP $($IP.IPAddressToString) -Netmask $Netmask -Gateway $Gateway -DNSServers $($DNSServers.IPAddressToString -join ',') -JoinToken $JoinToken -DNSSuffix $DNSSuffix
+                $VMMetadata = New-B1Metadata -IP $($IP.IPAddressToString) -Netmask $Netmask -Gateway $($Gateway.IPAddressToString) -DNSServers $($DNSServers.IPAddressToString -join ',') -JoinToken $JoinToken -DNSSuffix $DNSSuffix
                 if ($VMMetadata) {
                     Write-Host "Customization metadata generated successfully." -ForegroundColor Cyan
                 } else {
