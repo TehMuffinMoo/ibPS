@@ -8,5 +8,5 @@
 - Removed mandatory flag for `-DNSServers`, `-NTPServers` & `-DNSSuffix` parameters on `Deploy-B1Appliance`
 | Breaking Changes - **Deploy-B1Appliance**|
 |:--------------------------------------------------|
-| The `-DNSServers` parameter has had its type changed to `[IPAddress[]]`, so should now be entered as a list rather than a comma-separated string |
+| The `-DNSServers` parameter has had its type changed to `[IPAddress[]]` and `-NTPServers` has changed to `[String[]]` and so both should now be entered as a list rather than a comma-separated string |
 | See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Platform/Deploy-B1Appliance/#example-1">Documentation</a> for further details |
