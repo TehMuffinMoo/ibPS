@@ -465,7 +465,7 @@
                         $OVFConfig.Common.gateway.Value = $Gateway
                         $OVFConfig.Common.netmask.Value = $Netmask
                         $OVFConfig.Common.nameserver.Value = $DNSServers.IPAddressToString -join ','
-                        $OVFConfig.Common.ntp_servers.Value = $NTPServers
+                        $OVFConfig.Common.ntp_servers.Value = $NTPServers -join ','
                         $OVFConfig.Common.jointoken.Value = $JoinToken
                         $OVFConfig.Common.search.Value = $DNSSuffix
                         $OVFConfig.Common.v4_mode.Value = "static"
