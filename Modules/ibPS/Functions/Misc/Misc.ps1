@@ -238,9 +238,11 @@ function New-B1Metadata {
       [IPAddress]$Gateway,
       [Parameter(Mandatory=$true)]
       [String]$DNSServers,
+      [Parameter(Mandatory=$false)]
       [String]$DNSSuffix,
       [Parameter(Mandatory=$true)]
       [String]$JoinToken,
+      [Parameter(Mandatory=$false)]
       [String]$LocalDebug
   )
   $CIDR = Convert-NetmaskToCIDR $Netmask

@@ -124,7 +124,7 @@
                            -IP "10.10.100.10" `
                            -Netmask "255.255.255.0" `
                            -Gateway "10.10.100.1" `
-                           -DNSServers "10.30.10.10,10.30.10.10" `
+                           -DNSServers "10.30.10.10","10.30.20.10" `
                            -NTPServers "time.mydomain.corp" `
                            -DNSSuffix "prod.mydomain.corp" `
                            -JoinToken "JoinTokenGoesHere" `
@@ -169,23 +169,29 @@
       [Parameter(Mandatory=$true)]
       [String]$Name,
       [Parameter(Mandatory=$true)]
-      [System.Object]$IP,
+      [IPAddress]$IP,
       [Parameter(Mandatory=$true)]
-      [System.Object]$Netmask,
+      [ValidateScript({Test-NetmaskString $_})]
+      [String]$Netmask,
       [Parameter(Mandatory=$true)]
-      [System.Object]$Gateway,
+      [String]$Gateway,
+      [Parameter(Mandatory=$false)]
+      [IPAddress[]]$DNSServers = "52.119.40.100",
+      [Parameter(Mandatory=$false)]
+      [String[]]$NTPServers = "ntp.ubuntu.com",
+      [Parameter(Mandatory=$false)]
+      [String]$DNSSuffix,
       [Parameter(Mandatory=$true)]
-      [System.Object]$DNSServers = "52.119.40.100",
-      [Parameter(Mandatory=$true)]
-      [System.Object]$NTPServers,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$DNSSuffix,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$JoinToken,
+      [String]$JoinToken,
+      [Parameter(Mandatory=$false)]
       [Switch]$DownloadLatestImage,
+      [Parameter(Mandatory=$false)]
       [String]$ImagesPath,
+      [Parameter(Mandatory=$false)]
       [Switch]$SkipCloudChecks,
+      [Parameter(Mandatory=$false)]
       [Switch]$SkipPingChecks,
+      [Parameter(Mandatory=$false)]
       [Switch]$SkipPowerOn
     )
 
@@ -316,8 +322,9 @@
    }
 
     process {
+
         if (!($SkipPingChecks)) {
-            if ((Test-NetConnection $IP -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
+            if ((Test-NetConnection $($IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
                 Write-Error "Error. IP Address already in use."
                 break
             }
@@ -454,10 +461,10 @@
                     if ($OVFConfig) {
                         Write-Host "Generating OVFConfig file for BloxOne Appliance: $Name .." -ForegroundColor Cyan
             
-                        $OVFConfig.Common.address.Value = $IP
+                        $OVFConfig.Common.address.Value = $($IP.IPAddressToString)
                         $OVFConfig.Common.gateway.Value = $Gateway
                         $OVFConfig.Common.netmask.Value = $Netmask
-                        $OVFConfig.Common.nameserver.Value = $DNSServers
+                        $OVFConfig.Common.nameserver.Value = $DNSServers.IPAddressToString -join ','
                         $OVFConfig.Common.ntp_servers.Value = $NTPServers
                         $OVFConfig.Common.jointoken.Value = $JoinToken
                         $OVFConfig.Common.search.Value = $DNSSuffix
@@ -502,7 +509,7 @@
                     }
                 }
                 Write-Host "Generating customization metadata" -ForegroundColor Cyan
-                $VMMetadata = New-B1Metadata -IP $IP -Netmask $Netmask -Gateway $Gateway -DNSServers $DNSServers -JoinToken $JoinToken -DNSSuffix $DNSSuffix
+                $VMMetadata = New-B1Metadata -IP $($IP.IPAddressToString) -Netmask $Netmask -Gateway $Gateway -DNSServers $($DNSServers.IPAddressToString -join ',') -JoinToken $JoinToken -DNSSuffix $DNSSuffix
                 if ($VMMetadata) {
                     Write-Host "Customization metadata generated successfully." -ForegroundColor Cyan
                 } else {
@@ -623,19 +630,19 @@
         if ($VM) {
             if (!($SkipPowerOn)) {
                 if (!($SkipPingChecks)) {
-                    while (!(Test-NetConnection $IP -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
+                    while (!(Test-NetConnection $($IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
                         $PingStartCount = $PingStartCount + 10
                         Write-Host "Waiting for network to become reachable. Elapsed Time: $PingStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
                         if ($PingStartCount -gt 120) {
-                            Write-Error "Error. Network Failed to become reachable on $IP."
+                            Write-Error "Error. Network Failed to become reachable on $($IP.IPAddressToString)."
                             break
                         }
                     }
                 }
 
                 if (!($SkipCloudChecks)) {
-                    while (!(Get-B1Host -IP $IP)) {
+                    while (!(Get-B1Host -IP $($IP.IPAddressToString))) {
                         $CSPStartCount = $CSPStartCount + 10
                         Write-Host "Waiting for BloxOne Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
@@ -655,7 +662,7 @@
                     Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Gray
 
                     if (!($SkipCloudChecks)) {
-                        Get-B1Host -IP $IP | Format-Table display_name,ip_address,host_version -AutoSize
+                        Get-B1Host -IP $($IP.IPAddressToString) | Format-Table display_name,ip_address,host_version -AutoSize
                     }
                     Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
                 } else {
