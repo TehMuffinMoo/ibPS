@@ -32,7 +32,6 @@ function Get-B1ServiceLog {
     #>
     param(
       [string]$OnPremHost,
-      [ValidateSet("DNS","DHCP","DFP", "NGC", "NTP","Host","Kube","NetworkMonitor","CDC-OUT","CDC-IN")]
       [string]$Container,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
@@ -48,37 +47,11 @@ function Get-B1ServiceLog {
         $Filters += "ophid=$OPHID"
     }
     if ($Container) {
-        switch ($Container) {
-            "DNS" {
-                $ContainerName = "ns:dns"
-            }
-            "DHCP" {
-                $ContainerName = "ns-dhcp:dhcp"
-            }
-            "DFP" {
-                $ContainerName = "dfp_coredns_1"
-            }
-            "NGC" {
-                $ContainerName = "ns:niosgridconnector"
-            }
-            "NTP" {
-                $ContainerName = "ntp_ntp"
-            }
-            "Host" {
-                $ContainerName = "host/init.scope"
-            }
-            "Kube" {
-                $ContainerName = "k3s.service"
-            }
-            "NetworkMonitor" {
-                $ContainerName = "host/network-monitor.service"
-            }
-            "CDC-OUT" {
-                $ContainerName = "cdc_siem_out"
-            }
-            "CDC-IN" {
-                $ContainerName = "cdc_rpz_in"
-            }
+        $Applications = Get-B1ServiceLogApplications
+        if ($SelectedApp = $Applications | Where-Object {$_.label -eq $Container}) {
+            $ContainerName = $SelectedApp.container_name
+        } else {
+            $ContainerName = $Container
         }
         $Filters += "container_name=$ContainerName"
     }
@@ -104,7 +77,7 @@ function Get-B1ServiceLog {
     if ($Results) {
         return $Results
     } else {
-        Write-Host "Error. Unable to find any audit logs." -ForegroundColor Red
+        Write-Host "Error. Unable to find any service logs." -ForegroundColor Red
         break
     }
 }

@@ -4,3 +4,4 @@
 - Remove mandatory flag for `-Name` and `-Description` parameters on `New-B1AddressReservation` & `New-B1FixedAddress`
 - Add `-DevelopmentMode` parameter to `Get-ibPSVersion` to enable exporting private functions for the purpose of development
 - Add numerous pester tests
+- Add auto/tab completion for `-Container` parameter on `Get-B1ServiceLog`

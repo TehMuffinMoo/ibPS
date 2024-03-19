@@ -390,9 +390,32 @@ function New-ISOFile {
   }
 }
 
-
-
-
+function Get-B1ServiceLogApplications {
+  $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
+  $Result += @(
+    [PSCustomObject]@{
+      "type" = 1000
+      "label" = "Kube"
+      "container_name" = "k3s.service"
+    }
+    [PSCustomObject]@{
+      "type" = 1001
+      "label" = "NetworkMonitor"
+      "container_name" = "host/network-monitor.service"
+    }
+    [PSCustomObject]@{
+      "type" = 1002
+      "label" = "CDC-OUT"
+      "container_name" = "cdc_siem_out"
+    }
+    [PSCustomObject]@{
+      "type" = 1003
+      "label" = "CDC-IN"
+      "container_name" = "cdc_rpz_in"
+    }
+  )
+  return $Result
+}
 
 function DevelopmentFunctions {
   return @(

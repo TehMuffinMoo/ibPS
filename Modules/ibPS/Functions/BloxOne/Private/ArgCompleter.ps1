@@ -60,3 +60,10 @@ $B1TDTideDataProfile = {
 }
 Register-ArgumentCompleter -CommandName Submit-B1TDTideData -ParameterName Profile -ScriptBlock $B1TDTideDataProfile
 Register-ArgumentCompleter -CommandName Get-B1TDTideDataProfile -ParameterName Name -ScriptBlock $B1TDTideDataProfile
+
+$ServiceLogApplications = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1ServiceLogApplications | Where-Object {$_.label -like "$($wordToComplete)*"}).label
+    
+}
+Register-ArgumentCompleter -CommandName Get-B1ServiceLog -ParameterName Container -ScriptBlock $ServiceLogApplications
