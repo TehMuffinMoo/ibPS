@@ -6,6 +6,10 @@
 - Add numerous pester tests
 - Add auto/tab completion for `-Container` parameter on `Get-B1ServiceLog`
 - Removed mandatory flag for `-DNSServers`, `-NTPServers` & `-DNSSuffix` parameters on `Deploy-B1Appliance`
+- Add `-Offset` parameter to `Get-B1DHCPLease`
+- Add new `Get-B1DHCPHardwareFilter` function
+- When specifying >10K and <50K as the `-Limit` parameter on `Get-B1DNSLog`, the function will now call the **export** API endpoint allowing retrieval of larger datasets.
+
 | Breaking Changes - **Deploy-B1Appliance**|
 |:--------------------------------------------------|
 | The `-DNSServers` parameter has had its type changed to `[IPAddress[]]` and `-NTPServers` has changed to `[String[]]` and so both should now be entered as a list rather than a comma-separated string |

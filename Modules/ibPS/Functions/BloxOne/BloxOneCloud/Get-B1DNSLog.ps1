@@ -57,9 +57,14 @@ function Get-B1DNSLog {
       [string[]]$DNSServers,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
+      [ValidateRange(1,50000)]
       [int]$Limit = 100,
       [int]$Offset = 0
     )
+
+    if ($Limit -ge 5000) {
+        $UseExport = $true
+    }
 
     $DNSServices = Get-B1DNSHost
 
@@ -165,23 +170,32 @@ function Get-B1DNSLog {
     }
 
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-    $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-    if ($Result.result.data) {
-        $Result.result.data | Select-Object @{name="ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
-                                     @{name="name";Expression={$_.'NstarDnsActivity.device_name'}},`
-                                     @{name="dhcp_fingerprint";Expression={$_.'NstarDnsActivity.dhcp_fingerprint'}},`
-                                     @{name="dns_view";Expression={$_.'NstarDnsActivity.dns_view'}},`
-                                     @{name="mac_address";Expression={$_.'NstarDnsActivity.mac_address'}},`
-                                     @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
-                                     @{name="query_nanosec";Expression={$_.'NstarDnsActivity.query_nanosec'}},`
-                                     @{name="query_type";Expression={$_.'NstarDnsActivity.query_type'}},`
-                                     @{name="response";Expression={$_.'NstarDnsActivity.response'}},`
-                                     @{name="timestamp";Expression={$_.'NstarDnsActivity.timestamp'}},
-                                     @{name="dns_server";Expression={$siteId = $_.'NstarDnsActivity.site_id'; (@($DNSServices).where({ $_.site_id -eq $siteId })).name}}
+    if ($UseExport) {
+        $Options = '{"output":"csv","header":{"enabled":true,"display":["timestamp","query","response","query_type","dns_view","device_ip","mac_address","dhcp_fingerprint","name","query_nanosec"]}}'
+        $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/export?query=$Query&options=$Options"
+        $ResultData = ConvertFrom-Csv $Result
+        if ($ResultData) {
+            $ResultData
+        } else {
+            Write-Host "Error: No DNS logs returned." -ForegroundColor Red
+        }
     } else {
-        Write-Host "Error: No DNS logs returned." -ForegroundColor Red
+        $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
+        if ($Result.result.data) {
+            $Result.result.data | Select-Object @{name="ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
+                                         @{name="name";Expression={$_.'NstarDnsActivity.device_name'}},`
+                                         @{name="dhcp_fingerprint";Expression={$_.'NstarDnsActivity.dhcp_fingerprint'}},`
+                                         @{name="dns_view";Expression={$_.'NstarDnsActivity.dns_view'}},`
+                                         @{name="mac_address";Expression={$_.'NstarDnsActivity.mac_address'}},`
+                                         @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
+                                         @{name="query_nanosec";Expression={$_.'NstarDnsActivity.query_nanosec'}},`
+                                         @{name="query_type";Expression={$_.'NstarDnsActivity.query_type'}},`
+                                         @{name="response";Expression={$_.'NstarDnsActivity.response'}},`
+                                         @{name="timestamp";Expression={$_.'NstarDnsActivity.timestamp'}},
+                                         @{name="dns_server";Expression={$siteId = $_.'NstarDnsActivity.site_id'; (@($DNSServices).where({ $_.site_id -eq $siteId })).name}}
+        } else {
+            Write-Host "Error: No DNS logs returned." -ForegroundColor Red
+        }
     }
-
 }

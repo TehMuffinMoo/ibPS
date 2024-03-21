@@ -36,6 +36,9 @@
     .PARAMETER Limit
         Limits the number of results returned, the default is 100
 
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -66,6 +69,7 @@
         [String][parameter(ParameterSetName="std")] $DHCPServer,
         [String]$Space,
         [String]$Limit = 100,
+        [String]$Offset = 0,
         [String[]]$Fields,
         [switch]$Strict
     )
@@ -115,6 +119,7 @@
             $QueryFilters.Add("_filter=$Filter") | Out-Null
         }
         $QueryFilters.Add("_limit=$Limit") | Out-Null
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
         if ($Fields) {
             $Fields += "ha_group,host"
             $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
