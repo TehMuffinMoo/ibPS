@@ -9,6 +9,7 @@
 - Add `-Offset` parameter to `Get-B1DHCPLease`
 - Add new `Get-B1DHCPHardwareFilter` function
 - When specifying >10K and <50K as the `-Limit` parameter on `Get-B1DNSLog`, the function will now call the **export** API endpoint allowing retrieval of larger datasets.
+- Add `Get-B1ZoneChild` and `Get-B1IPAMChild` functions for listing child objects related to IP Spaces, Subnets, Address Blocks, Ranges, DNS Views & Zones.
 
 | Breaking Changes - **Deploy-B1Appliance**|
 |:--------------------------------------------------|
