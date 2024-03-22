@@ -323,10 +323,39 @@
 
     process {
 
+        $CurrentOS = Detect-OS
+
+        switch ($Type) {
+            "VMware" {
+                if (!(Get-Module -ListAvailable -Name VMware.PowerCLI -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+                    Write-Error "You must have the VMware PowerCLI Module installed to deploy to vCenter / ESXi."
+                    return $null
+                }
+            }
+            "Hyper-V" {
+                if (($CurrentOS) -eq "Windows") {
+                    if ((Get-WindowsFeature -Name "Hyper-V-PowerShell").'InstallState' -ne "Installed") {
+                        Write-Error "You must have the Hyper-V PowerShell Module installed to deploy to Hyper-V."
+                        return $null
+                    }
+                } else {
+                    Write-Error "You must be running ibPS on Windows to deploy to Hyper-V"
+                    return $null
+                }
+            }
+        }
+
         if (!($SkipPingChecks)) {
-            if ((Test-NetConnection $($IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
-                Write-Error "Error. IP Address already in use."
-                break
+            if ($CurrentOS -eq "Windows") {
+                if ((Test-NetConnection $($IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
+                    Write-Error "Error. IP Address already in use."
+                    return $null
+                }
+            } else {
+                if ((Test-Connection -IPv4 $($IP.IPAddressToString) -Count 1 -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).Status -eq "Success") {
+                    Write-Error "Error. IP Address already in use."
+                    return $null
+                }
             }
         }
 
@@ -334,6 +363,7 @@
             Write-Host "-DownloadLatestImage is selected. The latest BloxOne image will be used." -ForegroundColor Cyan
             if ($PSBoundParameters['OVAPath'] -or $PSBoundParameters['VHDPath']) {
                 Write-Error "-DownloadLatestImage cannot be used in conjunction with -OVAPath or -VHDPath"
+                return $null
             }
             if ($ImagesPath) {
                 Write-Host "-ImagesPath is selected. Collecting existing cached images.." -ForegroundColor Cyan
@@ -390,9 +420,11 @@
                     }
                 } else {
                     Write-Error "Error. Failed to identify image name."
+                    return $null
                 }
             } else {
                 Write-Error "Error. Failed to find image."
+                return $null
             }
         }
 
@@ -411,25 +443,25 @@
                     Write-Host "Connected to vCenter $($PSBoundParameters['vCenter']) successfully." -ForegroundColor Green
                 } else {
                     Write-Error "Failed to establish session with vCenter $($PSBoundParameters['vCenter'])."
-                    break
+                    return $null
                 }
             
                 $VMCluster = Get-Cluster $($PSBoundParameters['Cluster']) -ErrorAction SilentlyContinue
                 $VMHost = $VMCluster | Get-VMHost -State "Connected" | Select-Object -First 1
                 if (!($VMCluster)) {
                     Write-Error "Error. Failed to get VM Cluster, please check details and try again."
-                    break
+                    return $null
                 }
                 if (!($Datastore = Get-Datastore $($PSBoundParameters['Datastore']) -ErrorAction SilentlyContinue)) {
                     Write-Error "Error. Failed to get VM Datastore, please check details and try again."
-                    break
+                    return $null
                 }
                 switch($($PSBoundParameters['PortGroupType'])) {
                     "vDS" {
                         $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
                         if (!($NetworkMapping)) {
                             Write-Error "Error. Failed to get vDS Port Group, please check details and try again."
-                            break
+                            return $null
                         } else {
                             $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
                         }
@@ -438,19 +470,19 @@
                         $NetworkMapping = Get-VirtualSwitch -VMHost $VMHost | Get-VirtualPortGroup -Name $($PSBoundParameters['PortGroup'])
                         if (!($NetworkMapping)) {
                             Write-Error "Error. Failed to get Virtual Port Group, please check details and try again."
-                            break
+                            return $null
                         } else {
             
                         }
                     }
                     "Default" {
                         Write-Error "Invalid Port Group Type specified. Must be either `"vDS`" or `"Standard`""
-                        break
+                        return $null
                     }
                 }
                 if (!(Test-Path $($ImageFile))) {
                     Write-Error "Error. OVA $($ImageFile) not found."
-                    break
+                    return $null
                 } else {
                     $OVFConfig = Get-OvfConfiguration -Ovf $($ImageFile)
                 }
