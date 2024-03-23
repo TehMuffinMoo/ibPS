@@ -12,11 +12,24 @@ Deploys a BloxOneDDI Virtual Appliance to VMware or Hyper-V
 
 ## SYNTAX
 
+### VMware
 ```
-Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <IPAddress> [-Netmask] <String>
- [-Gateway] <IPAddress> [[-DNSServers] <IPAddress[]>] [[-NTPServers] <String[]>] [[-DNSSuffix] <String>]
- [-JoinToken] <String> [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks]
- [-SkipPowerOn] [<CommonParameters>]
+Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
+ [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
+ [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
+ [-OVAPath] <String> [-vCenter] <String> [-Cluster] <String> [-Datastore] <String> [-PortGroup] <String>
+ [-PortGroupType] <String> [-Creds] <PSCredential>
+ [<CommonParameters>]
+```
+
+### Hyper-V
+```
+Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
+ [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
+ [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
+ [-VHDPath] <String> [-HyperVServer] <String> [-HyperVGeneration] <Int> [-VMPath] <String> [-VirtualNetwork]<String>
+ [-VirtualNetworkVLAN] <Int> [-CPU] <Int> [-Memory] <String>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -284,12 +297,250 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+## DYNAMIC PARAMETERS
+
+### VMware
+!!! warning "Important Information"
+    **These parameters are only available when `-Type` is VMware**
+
+#### -OVAPath
+The path to the BloxOneDDI OVA
+
+`-OVAPath` and `-DownloadLatestImage` are mutually exclusive.
+
+`-ImagesPath` should be used for selecting the appropriate image cache location.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -vCenter
+The IP, Hostname or FQDN of the vCenter you want to deploy to.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Cluster
+The name of the VMware cluster in vCenter to deploy to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Datastore
+The name of the VMware datastore to deploy to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -PortGroup
+The name of the port group to connect the VM's network adapters to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -PortGroupType
+The type of port group you are using. This can be `Standard` or `vDS`
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Creds
+The credentials used to connect to vCenter. If not specified, you will be prompted to enter the credentials.
+
+```yaml
+Type: PSCredential
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+
+### Hyper-V
+!!! warning "Important Information"
+    **These parameters are only available when `-Type` is Hyper-V**
+
+#### -VHDPath
+The full path to the BloxOne VHD/VHDX file.
+
+`-VHDPath` and `-DownloadLatestImage` are mutually exclusive.
+
+`-ImagesPath` should be used for selecting the appropriate image cache location.
+
+#### -HyperVServer
+The IP, Hostname or FQDN of the Hyper-V Server for the new VM to be deployed to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -HyperVGeneration
+The generation of the Hyper-V VM to create. (Generation 1 or 2)
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -VMPath
+The full path where the VM should be stored. I.e `A:\VMs\`
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -VirtualNetwork
+The name of the Virtual Network defined in Hyper-V to connect the VM to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -VirtualNetworkVLAN
+The name of the VLAN number to assosciate the new VM with.
+
+This is optional and to be used only if attaching the VM to a trunked port.
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -CPU
+The CPU parameter is used to define the amount of CPUs to assign to the VM. The default is 8.
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Memory
+The Memory parameter is used to define the amount of Memory to assign to the VM. The default is 16GB
+
+The `GB` suffix is required when using this parameter.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
+BloxOne Host build attributes
 
 ## OUTPUTS
+BloxOne DDI Host Object
 
 ## NOTES
 Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
