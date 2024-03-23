@@ -12,24 +12,11 @@ Deploys a BloxOneDDI Virtual Appliance to VMware or Hyper-V
 
 ## SYNTAX
 
-### VMware
 ```
-Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
- [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
- [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
- [-OVAPath] <String> [-vCenter] <String> [-Cluster] <String> [-Datastore] <String> [-PortGroup] <String>
- [-PortGroupType] <String> [-Creds] <PSCredential>
- [<CommonParameters>]
-```
-
-### Hyper-V
-```
-Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
- [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
- [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
- [-VHDPath] <String> [-HyperVServer] <String> [-HyperVGeneration] <Int> [-VMPath] <String> [-VirtualNetwork]<String>
- [-VirtualNetworkVLAN] <Int> [-CPU] <Int> [-Memory] <String>
- [<CommonParameters>]
+Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <IPAddress> [-Netmask] <String>
+ [-Gateway] <IPAddress> [[-DNSServers] <IPAddress[]>] [[-NTPServers] <String[]>] [[-DNSSuffix] <String>]
+ [-JoinToken] <String> [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks]
+ [-SkipPowerOn] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,21 +27,21 @@ This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/
 ### EXAMPLE 1
 ```powershell
 Deploy-B1Appliance -Type "VMware" `
-                       -Name "bloxoneddihost1" `
-                       -IP "10.10.100.10" `
-                       -Netmask "255.255.255.0" `
-                       -Gateway "10.10.100.1" `
-                       -DNSServers "10.30.10.10","10.30.20.10" `
-                       -NTPServers "time.mydomain.corp","time2.mydomain.corp" `
-                       -DNSSuffix "prod.mydomain.corp" `
-                       -JoinToken "JoinTokenGoesHere" `
-                       -ImagesPath .\Images `
-                       -DownloadLatestImage `
-                       -vCenter "vcenter.mydomain.corp" `
-                       -Cluster "CLUSTER-001" `
-                       -Datastore "DATASTORE-001" `
-                       -PortGroup "PORTGROUP" `
-                       -PortGroupType "VDS"
+                    -Name "bloxoneddihost1" `
+                    -IP "10.10.100.10" `
+                    -Netmask "255.255.255.0" `
+                    -Gateway "10.10.100.1" `
+                    -DNSServers "10.30.10.10","10.30.20.10" `
+                    -NTPServers "time.mydomain.corp","time2.mydomain.corp" `
+                    -DNSSuffix "prod.mydomain.corp" `
+                    -JoinToken "JoinTokenGoesHere" `
+                    -ImagesPath .\Images `
+                    -DownloadLatestImage `
+                    -vCenter "vcenter.mydomain.corp" `
+                    -Cluster "CLUSTER-001" `
+                    -Datastore "DATASTORE-001" `
+                    -PortGroup "PORTGROUP" `
+                    -PortGroupType "VDS"
 ```
 
 ### EXAMPLE 2
@@ -112,7 +99,7 @@ Accept wildcard characters: False
 The IP Address for the primary network interface of the virtual machine
 
 ```yaml
-Type: Object
+Type: IPAddress
 Parameter Sets: (All)
 Aliases:
 
@@ -127,7 +114,7 @@ Accept wildcard characters: False
 The Netmask for the primary network interface of the virtual machine
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -142,7 +129,7 @@ Accept wildcard characters: False
 The Gateway for the primary network interface of the virtual machine
 
 ```yaml
-Type: Object
+Type: IPAddress
 Parameter Sets: (All)
 Aliases:
 
@@ -157,11 +144,11 @@ Accept wildcard characters: False
 One or more DNS Servers for the virtual machine
 
 ```yaml
-Type: Object
+Type: IPAddress[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 6
 Default value: 52.119.40.100
 Accept pipeline input: False
@@ -172,13 +159,13 @@ Accept wildcard characters: False
 One or more NTP Servers for the virtual machine
 
 ```yaml
-Type: Object
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 7
-Default value: None
+Default value: Ntp.ubuntu.com
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -187,11 +174,11 @@ Accept wildcard characters: False
 The DNS Suffix for the virtual machine
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 8
 Default value: None
 Accept pipeline input: False
@@ -202,7 +189,7 @@ Accept wildcard characters: False
 The Join Token for registration of the BloxOneDDI Host into the Cloud Services Portal
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -297,250 +284,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-## DYNAMIC PARAMETERS
-
-### VMware
-!!! warning "Important Information"
-    **These parameters are only available when `-Type` is VMware**
-
-#### -OVAPath
-The path to the BloxOneDDI OVA
-
-`-OVAPath` and `-DownloadLatestImage` are mutually exclusive.
-
-`-ImagesPath` should be used for selecting the appropriate image cache location.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -vCenter
-The IP, Hostname or FQDN of the vCenter you want to deploy to.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -Cluster
-The name of the VMware cluster in vCenter to deploy to
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -Datastore
-The name of the VMware datastore to deploy to
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -PortGroup
-The name of the port group to connect the VM's network adapters to
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -PortGroupType
-The type of port group you are using. This can be `Standard` or `vDS`
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -Creds
-The credentials used to connect to vCenter. If not specified, you will be prompted to enter the credentials.
-
-```yaml
-Type: PSCredential
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-
-### Hyper-V
-!!! warning "Important Information"
-    **These parameters are only available when `-Type` is Hyper-V**
-
-#### -VHDPath
-The full path to the BloxOne VHD/VHDX file.
-
-`-VHDPath` and `-DownloadLatestImage` are mutually exclusive.
-
-`-ImagesPath` should be used for selecting the appropriate image cache location.
-
-#### -HyperVServer
-The IP, Hostname or FQDN of the Hyper-V Server for the new VM to be deployed to
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -HyperVGeneration
-The generation of the Hyper-V VM to create. (Generation 1 or 2)
-
-```yaml
-Type: Int
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -VMPath
-The full path where the VM should be stored. I.e `A:\VMs\`
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -VirtualNetwork
-The name of the Virtual Network defined in Hyper-V to connect the VM to
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -VirtualNetworkVLAN
-The name of the VLAN number to assosciate the new VM with.
-
-This is optional and to be used only if attaching the VM to a trunked port.
-
-```yaml
-Type: Int
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -CPU
-The CPU parameter is used to define the amount of CPUs to assign to the VM. The default is 8.
-
-```yaml
-Type: Int
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-#### -Memory
-The Memory parameter is used to define the amount of Memory to assign to the VM. The default is 16GB
-
-The `GB` suffix is required when using this parameter.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
-BloxOne Host build attributes
 
 ## OUTPUTS
-BloxOne DDI Host Object
 
 ## NOTES
 Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
