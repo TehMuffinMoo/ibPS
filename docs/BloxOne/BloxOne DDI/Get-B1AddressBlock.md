@@ -25,7 +25,7 @@ This function is used to query a list of Address Blocks from the BloxOneDDI IPAM
 
 ### EXAMPLE 1
 ```powershell
-Get-B1AddressBlock -Subnet "10.10.100.0/12" -Space "Global"
+Get-B1AddressBlock -Subnet "10.10.0.0/12" -Space "Global"
 ```
 
 ### EXAMPLE 2

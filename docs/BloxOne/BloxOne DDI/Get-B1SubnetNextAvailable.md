@@ -5,32 +5,32 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1AddressBlockNextAvailable
+# Get-B1SubnetNextAvailable
 
 ## SYNOPSIS
-Gets one or more next available address blocks from IPAM
+Gets one or more next available subnets from IPAM
 
 ## SYNTAX
 
 ### Default
 ```
-Get-B1AddressBlockNextAvailable -CIDRSize <Int32> [-Count <Int32>] -ParentAddressBlock <String> -Space <String>
+Get-B1SubnetNextAvailable -CIDRSize <Int32> [-Count <Int32>] -ParentAddressBlock <String> -Space <String>
  [<CommonParameters>]
 ```
 
 ### ID
 ```
-Get-B1AddressBlockNextAvailable -CIDRSize <Int32> [-Count <Int32>] -ID <String[]> [<CommonParameters>]
+Get-B1SubnetNextAvailable -CIDRSize <Int32> [-Count <Int32>] -ID <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to get one or more next available address blocks from IPAM based on the criteria entered
+This function is used to get one or more next available subnets from IPAM based on the criteria entered
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1AddressBlockNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space my-ipspace -CIDRSize 24 -Count 5 | ft address,cidr
+Get-B1SubnetNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space my-ipspace -CIDRSize 24 -Count 5 | ft address,cidr
 
 address  cidr
 -------  ----
@@ -43,7 +43,15 @@ address  cidr
 
 ### EXAMPLE 2
 ```powershell
-Get-B1AddressBlock -Subnet 10.10.10.0/16 -Space my-ipspace | Get-B1AddressBlockNextAvailable -CIDRSize 29 -Count 2
+Get-B1AddressBlock -Subnet 10.10.10.0/16 -Space my-ipspace | Get-B1SubnetNextAvailable -CIDRSize 24 -Count 5 | ft address,cidr
+
+address  cidr
+-------  ----
+10.0.0.0   24
+10.0.2.0   24
+10.0.3.0   24
+10.0.4.0   24
+10.0.5.0   24
 ```
 
 ## PARAMETERS
@@ -94,7 +102,7 @@ Accept wildcard characters: False
 ```
 
 ### -Space
-Use this parameter to filter the list of Address Blocks by Space
+Use the -Space parameter to determine which IP Space the parent is located in
 
 ```yaml
 Type: String

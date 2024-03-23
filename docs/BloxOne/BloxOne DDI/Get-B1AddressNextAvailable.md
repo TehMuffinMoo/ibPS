@@ -5,26 +5,32 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1AddressBlockNextAvailable
+# Get-B1AddressNextAvailable
 
 ## SYNOPSIS
-Gets one or more next available address blocks from IPAM
+Gets one or more next available IP addresses from IPAM
 
 ## SYNTAX
 
-### Default
+### Address Block
 ```
-Get-B1AddressBlockNextAvailable -CIDRSize <Int32> [-Count <Int32>] -ParentAddressBlock <String> -Space <String>
+Get-B1AddressNextAvailable [-Count <Int32>] [-Contiguous] -ParentAddressBlock <String> -Space <String>
+ [<CommonParameters>]
+```
+
+### Subnet
+```
+Get-B1AddressNextAvailable [-Count <Int32>] [-Contiguous] -ParentSubnet <String> -Space <String>
  [<CommonParameters>]
 ```
 
 ### ID
 ```
-Get-B1AddressBlockNextAvailable -CIDRSize <Int32> [-Count <Int32>] -ID <String[]> [<CommonParameters>]
+Get-B1AddressNextAvailable [-Count <Int32>] [-Contiguous] -ID <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to get one or more next available address blocks from IPAM based on the criteria entered
+This function is used to get one or more next available IP addresses from IPAM based on the criteria entered
 
 ## EXAMPLES
 
@@ -48,23 +54,8 @@ Get-B1AddressBlock -Subnet 10.10.10.0/16 -Space my-ipspace | Get-B1AddressBlockN
 
 ## PARAMETERS
 
-### -CIDRSize
-The size of the desired subnet specified using CIDR suffix
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: Named
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Count
-The desired number of subnets to return
+The desired number of IP addresses to return
 
 ```yaml
 Type: Int32
@@ -78,12 +69,47 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Contiguous
+Use the -Contiguous switch to indicate whether the IP addresses should belong to a contiguous block.
+Default is false
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -ParentAddressBlock
 Parent Address Block in CIDR format (i.e 10.0.0.0/8)
 
+-ParentAddressBlock and -ParentSubnet are mutually exclusive parameters.
+
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Address Block
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ParentSubnet
+Parent Subnet in CIDR format (i.e 10.0.0.0/8)
+
+-ParentSubnet and -ParentAddressBlock are mutually exclusive parameters.
+
+```yaml
+Type: String
+Parameter Sets: Subnet
 Aliases:
 
 Required: True
@@ -94,11 +120,11 @@ Accept wildcard characters: False
 ```
 
 ### -Space
-Use this parameter to filter the list of Address Blocks by Space
+Use the -Space parameter to determine which IP Space the parent Subnet or Address Block is in
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Address Block, Subnet
 Aliases:
 
 Required: True
