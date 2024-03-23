@@ -10,6 +10,8 @@
 - Add new `Get-B1DHCPHardwareFilter` function
 - When specifying >10K and <50K as the `-Limit` parameter on `Get-B1DNSLog`, the function will now call the **export** API endpoint allowing retrieval of larger datasets.
 - Add `Get-B1ZoneChild` and `Get-B1IPAMChild` functions for listing child objects related to IP Spaces, Subnets, Address Blocks, Ranges, DNS Views & Zones.
+- Add pipeline support for `Get-B1AddressBlock` into `Get-B1AddressBlockNextAvailable`
+- Add support for entering fully qualified CIDR addresses using the `-Subnet` parameter on `Get-B1AddressBlock` and `Get-B1Subnet`
 
 | Breaking Changes - **Deploy-B1Appliance**|
 |:--------------------------------------------------|
