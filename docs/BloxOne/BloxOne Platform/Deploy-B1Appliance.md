@@ -40,20 +40,21 @@ This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/
 ### EXAMPLE 1
 ```powershell
 Deploy-B1Appliance -Type "VMware" `
-                   -Name "bloxoneddihost1" -IP "10.10.100.10" `
-                   -Netmask "255.255.255.0" `
-                   -Gateway "10.10.100.1" `
-                   -DNSServers "10.30.10.10,10.30.10.10" `
-                   -NTPServers "time.mydomain.corp" `
-                   -DNSSuffix "prod.mydomain.corp" `
-                   -JoinToken "JoinTokenGoesHere" `
-                   -ImagesPath .\Images `
-                   -DownloadLatestImage `
-                   -vCenter "vcenter.mydomain.corp" `
-                   -Cluster "CLUSTER-001" `
-                   -Datastore "DATASTORE-001" `
-                   -PortGroup "PORTGROUP" `
-                   -PortGroupType "VDS"
+                       -Name "bloxoneddihost1" `
+                       -IP "10.10.100.10" `
+                       -Netmask "255.255.255.0" `
+                       -Gateway "10.10.100.1" `
+                       -DNSServers "10.30.10.10","10.30.20.10" `
+                       -NTPServers "time.mydomain.corp","time2.mydomain.corp" `
+                       -DNSSuffix "prod.mydomain.corp" `
+                       -JoinToken "JoinTokenGoesHere" `
+                       -ImagesPath .\Images `
+                       -DownloadLatestImage `
+                       -vCenter "vcenter.mydomain.corp" `
+                       -Cluster "CLUSTER-001" `
+                       -Datastore "DATASTORE-001" `
+                       -PortGroup "PORTGROUP" `
+                       -PortGroupType "VDS"
 ```
 
 ### EXAMPLE 2
