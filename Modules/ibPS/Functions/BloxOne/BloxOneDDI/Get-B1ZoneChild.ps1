@@ -51,6 +51,12 @@
     )
 
     process {
+        $PermittedInputs = "view","auth_zone","forward_zone"
+        if (($ID.split('/')[1]) -notin $PermittedInputs) {
+            Write-Error "Error. Unsupported pipeline object. Supported inputs are ip_space, address_block, subnet & range"
+            return $null
+        }
+
         if ($Limit) {
         $LimitString = "_limit=$($Limit)&"
         }
