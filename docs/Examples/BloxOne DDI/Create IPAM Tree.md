@@ -19,7 +19,7 @@ New-B1Space -Name $IPSpace -Description $IPSpace -Tags $Tags
 New-B1AddressBlock -Subnet $ParentSubnet.Split('/')[0] -CIDR $ParentSubnet.Split('/')[1] -Name $ParentSubnetName -Space $IPSpace -Tags $Tags
 
 ## Create Child Subnets
-$NextAvailable = Get-B1AddressBlockNextAvailable -ParentAddressBlock $ParentSubnet -Space $IPSpace -SubnetCount $ChildSubnetCount -SubnetCIDRSize $ChildSubnetSize
+$NextAvailable = Get-B1AddressBlockNextAvailable -ParentAddressBlock $ParentSubnet -Space $IPSpace -Count $ChildSubnetCount -CIDRSize $ChildSubnetSize
 foreach ($NextSN in $NextAvailable) {
     New-B1Subnet -Subnet $NextSN.address -CIDR $NextSN.cidr -Space $IPSpace -Tags $Tags
 }

@@ -1,16 +1,16 @@
-﻿function Get-B1AddressBlockNextAvailable {
+﻿function Get-B1SubnetNextAvailable {
     <#
     .SYNOPSIS
-        Gets one or more next available address blocks from IPAM
+        Gets one or more next available subnets from IPAM
 
     .DESCRIPTION
-        This function is used to get one or more next available address blocks from IPAM based on the criteria entered
+        This function is used to get one or more next available subnets from IPAM based on the criteria entered
 
     .PARAMETER ParentAddressBlock
         Parent Address Block in CIDR format (i.e 10.0.0.0/8)
 
     .PARAMETER Space
-        Use this parameter to filter the list of Address Blocks by Space
+        Use the -Space parameter to determine which IP Space the parent is located in
 
     .PARAMETER CIDRSize
         The size of the desired subnet specified using CIDR suffix
@@ -19,7 +19,7 @@
         The desired number of subnets to return
 
     .EXAMPLE
-        PS> Get-B1AddressBlockNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space my-ipspace -CIDRSize 24 -Count 5 | ft address,cidr
+        PS> Get-B1SubnetNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space my-ipspace -CIDRSize 24 -Count 5 | ft address,cidr
         
         address  cidr
         -------  ----
@@ -30,7 +30,16 @@
         10.0.5.0   24
     
     .EXAMPLE
-        PS> Get-B1AddressBlock -Subnet 10.10.10.0/16 -Space my-ipspace | Get-B1AddressBlockNextAvailable -CIDRSize 29 -Count 2
+        PS> Get-B1AddressBlock -Subnet 10.10.10.0/16 -Space my-ipspace | Get-B1SubnetNextAvailable -CIDRSize 24 -Count 5 | ft address,cidr
+
+        address  cidr
+        -------  ----
+        10.0.0.0   24
+        10.0.2.0   24
+        10.0.3.0   24
+        10.0.4.0   24
+        10.0.5.0   24
+
     .FUNCTIONALITY
         BloxOneDDI
     
@@ -73,7 +82,7 @@
         }
 
         if ($Parent) {
-            Query-CSP -Method "GET" -Uri "$($Parent.id)/nextavailableaddressblock?cidr=$CIDRSize&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            Query-CSP -Method "GET" -Uri "$($Parent.id)/nextavailablesubnet?cidr=$CIDRSize&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
             Write-Host "Unable to find Parent Address Block: $ParentAddressBlock" -ForegroundColor Red
         }

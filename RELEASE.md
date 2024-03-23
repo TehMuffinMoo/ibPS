@@ -12,6 +12,7 @@
 - Add `Get-B1ZoneChild` and `Get-B1IPAMChild` functions for listing child objects related to IP Spaces, Subnets, Address Blocks, Ranges, DNS Views & Zones.
 - Add pipeline support for `Get-B1AddressBlock` into `Get-B1AddressBlockNextAvailable`
 - Add support for entering fully qualified CIDR addresses using the `-Subnet` parameter on `Get-B1AddressBlock` and `Get-B1Subnet`
+- Add `Get-B1SubnetNextAvailable` and `Get-B1AddressNextAvailable` for next available subnets and IP addresses respectively.
 
 | Breaking Changes - **Deploy-B1Appliance**|
 |:--------------------------------------------------|
