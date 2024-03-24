@@ -13,6 +13,7 @@
 - Add pipeline support for `Get-B1AddressBlock` into `Get-B1AddressBlockNextAvailable`
 - Add support for entering fully qualified CIDR addresses using the `-Subnet` parameter on `Get-B1AddressBlock` and `Get-B1Subnet`
 - Add `Get-B1SubnetNextAvailable` and `Get-B1AddressNextAvailable` for next available subnets and IP addresses respectively.
+- Add `ConvertTo-RNAME` and `ConvertTo-PunyCode` functions
 
 | Breaking Changes - **Deploy-B1Appliance**|
 |:--------------------------------------------------|
