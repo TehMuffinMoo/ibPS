@@ -23,7 +23,11 @@ This function uses the BloxOne API to convert an email address to RNAME format
 
 ### EXAMPLE 1
 ```powershell
-ConvertTo-RNAME -Email 'admin@company.corp'
+ConvertTo-RNAME -Email 'admin.user@company.corp'
+
+Email                   RNAME
+-----                   -----
+admin.user@company.corp admin\.user.company.corp
 ```
 
 ## PARAMETERS
