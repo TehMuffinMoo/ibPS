@@ -11,6 +11,10 @@ function ConvertTo-RNAME {
 
     .EXAMPLE
         PS> ConvertTo-RNAME -Email 'admin@company.corp'
+
+        Email              RNAME
+        -----              -----
+        admin@company.corp admin.company.corp
     
     .FUNCTIONALITY
         BloxOneDDI
