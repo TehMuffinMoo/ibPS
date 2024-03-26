@@ -24,7 +24,14 @@ This function is used to query a list of comments related to a specific SOC Insi
 
 ### EXAMPLE 1
 ```powershell
-Get-B1TDSOCInsight -Priority CRITICAL | Get-B1TDSOCInsightComments
+Get-B1TDSOCInsight -Priority LOW | Get-B1TDSOCInsightComments
+
+commentsChanger                                                     newComment       dateChanged          status
+---------------                                                     ----------       -----------          ------
+me@company.corp                                                     Investigating    3/26/2024 12:25:07PM Active
+me@company.corp                                                     Closed Insight   3/26/2024 12:21:49PM Active
+me@company.corp                                                     Opened Insight   3/26/2024 12:20:49PM Closed
+...
 ```
 
 ## PARAMETERS

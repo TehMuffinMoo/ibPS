@@ -29,19 +29,19 @@ Get-B1TDSOCInsight -Priority CRITICAL | Get-B1TDSOCInsightEvents | ft -AutoSize
 
 confidenceLevel deviceName           macAddress        source           osVersion    action         policy                   deviceIp       query                                                                                                   queryType
 --------------- ----------           ----------        ------           ---------    ------         ------                   --------       -----                                                                                                   ---------
-High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 shrijyotishgurukulam.com                                                                                A
-High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.187.83.226  shrijyotishgurukulam.com                                                                                A
-High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.187.83.226  shrijyotishgurukulam.com                                                                                A
-High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 652.0b47e9309fb5620e056948650f7555d2603ab1f3b003fa2c07ed52.dxkeu0.scrn.586a62459e.veryfastsecureweb.com SRV
-High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 638.e23d3d370f0dfd11bed838eaa21a7f40dff881736ea3d693cd1d23.dxkeu0.scrn.586a62459e.youfastsecureweb.com  A
-High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 640.ca7a785bcb1c518c35a3d4b6111111111111111111111111111111.dxkeu0.scrn.586a62459e.veryfastsecureweb.com CNAME
+High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 gdgdxsrgbxdfbgcxv.com                                                                                   A
+High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.153.81.224  fsfsef4wetrfeswg.com                                                                                    A
+High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.153.81.224  fsfsef4wetrfeswg.com                                                                                    A
+High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   SRV
+High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   A
+High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   CNAME
 ...
 ```
 
 ## PARAMETERS
 
 ### -ThreatLevel
-{{ Fill ThreatLevel Description }}
+Filter events by Threat Level
 
 ```yaml
 Type: String
@@ -56,7 +56,7 @@ Accept wildcard characters: False
 ```
 
 ### -ConfidenceLevel
-{{ Fill ConfidenceLevel Description }}
+Filter events by Confidence Level
 
 ```yaml
 Type: String
@@ -71,7 +71,7 @@ Accept wildcard characters: False
 ```
 
 ### -Query
-{{ Fill Query Description }}
+Filter events by DNS Query
 
 ```yaml
 Type: String
@@ -86,7 +86,7 @@ Accept wildcard characters: False
 ```
 
 ### -QueryType
-{{ Fill QueryType Description }}
+Filter events by DNS Query Type
 
 ```yaml
 Type: String
@@ -101,7 +101,7 @@ Accept wildcard characters: False
 ```
 
 ### -Source
-{{ Fill Source Description }}
+Filter events by Network Source (i.e BloxOne Endpoint or specific DNS Forwarding Proxies)
 
 ```yaml
 Type: String
@@ -116,7 +116,7 @@ Accept wildcard characters: False
 ```
 
 ### -IP
-{{ Fill IP Description }}
+Filter events by the Source IP
 
 ```yaml
 Type: String
@@ -131,7 +131,7 @@ Accept wildcard characters: False
 ```
 
 ### -Indicator
-{{ Fill Indicator Description }}
+Filter events by the indicator
 
 ```yaml
 Type: String
@@ -146,7 +146,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+Set the limit for the quantity of event results (defaults to 100)
 
 ```yaml
 Type: String
@@ -155,7 +155,7 @@ Aliases:
 
 Required: False
 Position: 8
-Default value: None
+Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
