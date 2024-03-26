@@ -13,6 +13,7 @@
 - Add `ConvertTo-RNAME` and `ConvertTo-PunyCode` functions
 - Add `detail=true` to API call for `Get-B1TDTideThreatClass` to additionally obtain threat class description where available
 - Add `Get-B1TDSOCInsight`,`Get-B1TDSOCInsightAssets`,`Get-B1TDSOCInsightComments`,`Get-B1TDSOCInsightEvents`,`Get-B1TDSOCInsightIndicators` functions for querying a list of Insights & associated data from SOC Insights
+- Add `Set-B1TDSOCInsight` to allow adding comments or toggling the Insight state between Active & Closed
 - Add threat insight classes both as a function `Get-B1TDTideThreatInsightClasses` and also as part of the `-ThreatClass` auto-completion
 - When specifying >10K and <50K as the `-Limit` parameter on `Get-B1DNSLog`, the function will now call the **export** API endpoint allowing retrieval of larger datasets.
 - Remove mandatory flag for `-Name` and `-Description` parameters on `New-B1AddressReservation` & `New-B1FixedAddress`

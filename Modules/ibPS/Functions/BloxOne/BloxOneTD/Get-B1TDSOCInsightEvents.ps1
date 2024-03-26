@@ -12,6 +12,30 @@
     .PARAMETER End
         Filter events which were added before the -End date
 
+    .PARAMETER ThreatLevel
+        Filter events by Threat Level
+
+    .PARAMETER ConfidenceLevel
+        Filter events by Confidence Level
+
+    .PARAMETER Query
+        Filter events by DNS Query
+
+    .PARAMETER QueryType
+        Filter events by DNS Query Type
+
+    .PARAMETER Source
+        Filter events by Network Source (i.e BloxOne Endpoint or specific DNS Forwarding Proxies)
+
+    .PARAMETER IP
+        Filter events by the Source IP
+
+    .PARAMETER Indicator
+        Filter events by the indicator
+
+    .PARAMETER Limit
+        Set the limit for the quantity of event results (defaults to 100)
+
     .PARAMETER insightId
         The insightId of the Insight to retrieve impacted events for.  Accepts pipeline input (See examples)
 
@@ -20,12 +44,12 @@
 
         confidenceLevel deviceName           macAddress        source           osVersion    action         policy                   deviceIp       query                                                                                                   queryType
         --------------- ----------           ----------        ------           ---------    ------         ------                   --------       -----                                                                                                   ---------
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 shrijyotishgurukulam.com                                                                                A
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.187.83.226  shrijyotishgurukulam.com                                                                                A
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.187.83.226  shrijyotishgurukulam.com                                                                                A
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 652.0b47e9309fb5620e056948650f7555d2603ab1f3b003fa2c07ed52.dxkeu0.scrn.586a62459e.veryfastsecureweb.com SRV
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 638.e23d3d370f0dfd11bed838eaa21a7f40dff881736ea3d693cd1d23.dxkeu0.scrn.586a62459e.youfastsecureweb.com  A
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 640.ca7a785bcb1c518c35a3d4b6111111111111111111111111111111.dxkeu0.scrn.586a62459e.veryfastsecureweb.com CNAME
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 gdgdxsrgbxdfbgcxv.com                                                                                   A
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.153.81.224  fsfsef4wetrfeswg.com                                                                                    A
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.153.81.224  fsfsef4wetrfeswg.com                                                                                    A
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   SRV
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   A
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   CNAME
         ...
 
     .FUNCTIONALITY
@@ -45,7 +69,7 @@
       [String]$Source,
       [String]$IP,
       [String]$Indicator,
-      [String]$Limit,
+      [String]$Limit = 100,
       [DateTime]$Start = (Get-Date).AddDays(-1),
       [DateTime]$End = (Get-Date),
       [Parameter(
