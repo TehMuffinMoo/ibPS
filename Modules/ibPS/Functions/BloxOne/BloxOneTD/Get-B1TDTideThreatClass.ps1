@@ -32,9 +32,9 @@ function Get-B1TDTideThreatClass {
     )
 
     if ($id) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat_classes/$id" -Method GET -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat_classes/$($id)?detail=true" -Method GET -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat_classes" -Method GET | Select-Object -ExpandProperty threat_class -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat_classes?detail=true" -Method GET | Select-Object -ExpandProperty threat_class -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
 
     if ($Results) {

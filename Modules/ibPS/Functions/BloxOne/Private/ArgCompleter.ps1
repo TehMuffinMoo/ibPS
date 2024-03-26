@@ -44,7 +44,14 @@ Register-ArgumentCompleter -CommandName Enable-B1TDLookalikeTargetCandidate,Disa
 
 $B1TDTideThreatClass = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (Get-B1TDTideThreatClass | Where-Object {$_.id -like "$($wordToComplete)*"}).id
+    [System.Collections.ArrayList]$ReturnArr = @()
+    if ($TideClasses = (Get-B1TDTideThreatClass | Where-Object {$_.id -like "$($wordToComplete)*"}).id) {
+        $ReturnArr += $TideClasses
+    }
+    if ($ThreatInsightClasses = (Get-B1TDTideThreatInsightClass | Where-Object {$_.class -like "$($wordToComplete)*"}).class) {
+        $ReturnArr += $ThreatInsightClasses
+    }
+    return $ReturnArr
 }
 Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatClass -ScriptBlock $B1TDTideThreatClass
 

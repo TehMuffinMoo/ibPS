@@ -14,6 +14,9 @@
 - Add support for entering fully qualified CIDR addresses using the `-Subnet` parameter on `Get-B1AddressBlock` and `Get-B1Subnet`
 - Add `Get-B1SubnetNextAvailable` and `Get-B1AddressNextAvailable` for next available subnets and IP addresses respectively.
 - Add `ConvertTo-RNAME` and `ConvertTo-PunyCode` functions
+- Add `detail=true` to API call for `Get-B1TDTideThreatClass` to additionally obtain threat class description where available
+- Add `Get-B1TDSOCInsight`,`Get-B1TDSOCInsightAssets`,`Get-B1TDSOCInsightComments`,`Get-B1TDSOCInsightEvents`,`Get-B1TDSOCInsightIndicators` functions for querying a list of Insights & associated data from SOC Insights
+- Include threat insight classes both as a function `Get-B1TDTideThreatInsightClasses` and also as part of the `-ThreatClass` auto-completion
 
 | Breaking Changes - **Deploy-B1Appliance**|
 |:--------------------------------------------------|
