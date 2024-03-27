@@ -1,4 +1,4 @@
-﻿function Remove-B1TDNetworkList {
+﻿function Remove-B1NetworkList {
     <#
     .SYNOPSIS
         Removes a network list from BloxOne Threat Defense
@@ -13,10 +13,10 @@
         The id of the network list to remove
 
     .EXAMPLE
-        PS> Remove-B1TDNetworkList -Name "My Network List"
+        PS> Remove-B1NetworkList -Name "My Network List"
 
     .EXAMPLE
-        PS> Get-B1TDNetworkList -Name "My Network List" | Remove-B1TDNetworkList
+        PS> Get-B1NetworkList -Name "My Network List" | Remove-B1NetworkList
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -38,9 +38,9 @@
 
     process {
       if ($Name) {
-        $NetworkList = Get-B1TDNetworkList -Name $Name -Strict
+        $NetworkList = Get-B1NetworkList -Name $Name -Strict
       } elseif ($id) {
-        $NetworkList = Get-B1TDNetworkList -id $id
+        $NetworkList = Get-B1NetworkList -id $id
       } else {
         Write-Error "Neither -Name or -id were specified in the request."
       }
@@ -48,9 +48,9 @@
       if ($NetworkList) {
         Query-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists/$($NetworkList.id)"
         if ($Name) {
-            $NetworkListCheck = Get-B1TDNetworkList -Name $Name -Strict
+            $NetworkListCheck = Get-B1NetworkList -Name $Name -Strict
         } elseif ($id) {
-            $NetworkListCheck = Get-B1TDNetworkList -id $id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
+            $NetworkListCheck = Get-B1NetworkList -id $id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
         }
         if ($NetworkListCheck) {
             Write-Error "Failed to delete network list: $($NetworkList.name)"

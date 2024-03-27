@@ -1,4 +1,4 @@
-﻿function Get-B1TDContentCategory {
+﻿function Get-B1ContentCategory {
     <#
     .SYNOPSIS
         Retrieves a list of content categories from BloxOne Threat Defense
@@ -7,7 +7,7 @@
         This function is used to retrieve a list of content categories from BloxOne Threat Defense
 
     .EXAMPLE
-        PS> Get-B1TDContentCategory
+        PS> Get-B1ContentCategory
 
         category_code category_name                        functional_group
         ------------- -------------                        ----------------

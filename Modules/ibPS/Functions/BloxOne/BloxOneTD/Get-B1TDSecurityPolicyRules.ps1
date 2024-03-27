@@ -1,4 +1,4 @@
-function Get-B1TDSecurityPolicyRules {
+function Get-B1SecurityPolicyRules {
     <#
     .SYNOPSIS
         Use this cmdlet to retrieve a list of security policy rules
@@ -16,7 +16,7 @@ function Get-B1TDSecurityPolicyRules {
         Filter results by category_filter_id
     
     .EXAMPLE
-        PS> Get-B1TDSecurityPolicyRules | Select -First 10 | ft -AutoSize
+        PS> Get-B1SecurityPolicyRules | Select -First 10 | ft -AutoSize
 
         action                    data                                                                list_id policy_id policy_name           redirect_name rule_tags            type
         ------                    ----                                                                ------- --------- -----------           ------------- ---------            ----

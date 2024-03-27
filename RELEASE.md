@@ -11,15 +11,23 @@
 - Add support for entering fully qualified CIDR addresses using the `-Subnet` parameter on `Get-B1AddressBlock` and `Get-B1Subnet`
 - Add `Get-B1SubnetNextAvailable` and `Get-B1AddressNextAvailable` for next available subnets and IP addresses respectively.
 - Add `ConvertTo-RNAME` and `ConvertTo-PunyCode` functions
-- Add `detail=true` to API call for `Get-B1TDTideThreatClass` to additionally obtain threat class description where available
-- Add `Get-B1TDSOCInsight`,`Get-B1TDSOCInsightAssets`,`Get-B1TDSOCInsightComments`,`Get-B1TDSOCInsightEvents`,`Get-B1TDSOCInsightIndicators` functions for querying a list of Insights & associated data from SOC Insights
-- Add `Set-B1TDSOCInsight` to allow adding comments or toggling the Insight state between Active & Closed
-- Add threat insight classes both as a function `Get-B1TDTideThreatInsightClasses` and also as part of the `-ThreatClass` auto-completion
+- Add `detail=true` to API call for `Get-B1TideThreatClass` to additionally obtain threat class description where available
+- Add `Get-B1SOCInsight`,`Get-B1SOCInsightAssets`,`Get-B1SOCInsightComments`,`Get-B1SOCInsightEvents`,`Get-B1SOCInsightIndicators` functions for querying a list of Insights & associated data from SOC Insights
+- Add `Set-B1SOCInsight` to allow adding comments or toggling the Insight state between Active & Closed
+- Add threat insight classes both as a function `Get-B1TideThreatInsightClasses` and also as part of the `-ThreatClass` auto-completion
 - When specifying >10K and <50K as the `-Limit` parameter on `Get-B1DNSLog`, the function will now call the **export** API endpoint allowing retrieval of larger datasets.
 - Remove mandatory flag for `-Name` and `-Description` parameters on `New-B1AddressReservation` & `New-B1FixedAddress`
 - Removed mandatory flag for `-DNSServers`, `-NTPServers` & `-DNSSuffix` parameters on `Deploy-B1Appliance`
 
-| Breaking Changes - **Deploy-B1Appliance**|
-|:--------------------------------------------------|
+|   Breaking Changes   |
+|:---------------------|
+|**Deploy-B1Appliance**|
+|:---------------------|
 | The `-DNSServers` parameter has had its type changed to `[IPAddress[]]` and `-NTPServers` has changed to `[String[]]` and so both should now be entered as a list rather than a comma-separated string |
+| See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Platform/Deploy-B1Appliance/#example-1">Documentation</a> for further details |
+|:-------------------------|
+|**BloxOne Threat Defense**|
+|:-------------------------|
+| All BloxOne Threat Defense related functions have been renamed to remove the `TD` part of the command suffix. |
+| Functions previously using `Get-B1TD...` `Set-B1TD...` etc. will now move to `Get-B1...` and `Set-B1...`.This is to align with the rest of the module. |
 | See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Platform/Deploy-B1Appliance/#example-1">Documentation</a> for further details |

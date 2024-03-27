@@ -1,4 +1,4 @@
-﻿function Get-B1TDPoPRegion {
+﻿function Get-B1PoPRegion {
     <#
     .SYNOPSIS
         Retrieves a list of BloxOne Threat Defense PoP Regions
@@ -16,7 +16,7 @@
         Filter the results by id
 
     .EXAMPLE
-        PS> Get-B1TDPoPRegion                 
+        PS> Get-B1PoPRegion                 
 
         addresses                   id location             region
         ---------                   -- --------             ------

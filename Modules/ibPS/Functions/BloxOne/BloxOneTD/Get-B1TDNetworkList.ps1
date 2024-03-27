@@ -1,4 +1,4 @@
-﻿function Get-B1TDNetworkList {
+﻿function Get-B1NetworkList {
     <#
     .SYNOPSIS
         Retrieves network lists (External Networks) from BloxOne Threat Defense
@@ -25,7 +25,7 @@
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .EXAMPLE
-        PS> Get-B1TDNetworkList -Name "something"
+        PS> Get-B1NetworkList -Name "something"
 
         created_time : 12/23/2021 9:29:20AM
         description  : something
@@ -36,7 +36,7 @@
         updated_time : 9/6/2023 9:49:10PM
 
     .EXAMPLE
-        PS> Get-B1TDNetworkList | ft -AutoSize
+        PS> Get-B1NetworkList | ft -AutoSize
 
         created_time          description                                            id items                                                                     name                               policy_id updated_time
         ------------          -----------                                            -- -----                                                                     ----                               --------- ------------
