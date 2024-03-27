@@ -19,15 +19,15 @@
 - Remove mandatory flag for `-Name` and `-Description` parameters on `New-B1AddressReservation` & `New-B1FixedAddress`
 - Removed mandatory flag for `-DNSServers`, `-NTPServers` & `-DNSSuffix` parameters on `Deploy-B1Appliance`
 
-|   Breaking Changes   |
-|:---------------------|
-|**Deploy-B1Appliance**|
-|:---------------------|
+## Breaking Changes
+
+|  **Deploy-B1Appliance**  |
+|:-------------------------|
 | The `-DNSServers` parameter has had its type changed to `[IPAddress[]]` and `-NTPServers` has changed to `[String[]]` and so both should now be entered as a list rather than a comma-separated string |
 | See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Platform/Deploy-B1Appliance/#example-1">Documentation</a> for further details |
-|:-------------------------|
+
 |**BloxOne Threat Defense**|
 |:-------------------------|
 | All BloxOne Threat Defense related functions have been renamed to remove the `TD` part of the command suffix. |
 | Functions previously using `Get-B1TD...` `Set-B1TD...` etc. will now move to `Get-B1...` and `Set-B1...`.This is to align with the rest of the module. |
-| See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Platform/Deploy-B1Appliance/#example-1">Documentation</a> for further details |
+| See the <a href="https://ibps.readthedocs.io/en/dev/Change%20Log/#:~:text=BloxOne%20Platform-,BloxOne%20Threat%20Defense,-Generic%20Wrapper">Documentation</a> for further details |
