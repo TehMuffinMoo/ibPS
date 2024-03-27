@@ -31,7 +31,6 @@
     .FUNCTIONALITY
         Threat Defense
     #>
-    [Alias("Enable-B1TDLookalikeTargetCandidate")]
     param(
       [Parameter(Mandatory=$true)]
       [String[]]$Domain
@@ -50,7 +49,7 @@
         } | ConvertTo-Json
         $Results = Query-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/lookalike_target_candidates" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
-        $Candidates = Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described
+        $Candidates = Get-B1LookalikeTargetCandidates | Select-Object -ExpandProperty items_described
         foreach ($EnabledDomain in $EnabledDomains) {
             if (($Candidates | Where-Object {$_.item -eq $EnabledDomain}).selected -eq "True") {
                 Write-Host "Successfully enabled lookalike candidate: $($EnabledDomain)" -ForegroundColor Green

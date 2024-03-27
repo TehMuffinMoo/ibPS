@@ -22,9 +22,8 @@
         Threat Defense
 
     .NOTES
-        Used in combination with Disable-B1TDLookalike to mute/unmute lookalike domains.
+        Used in combination with Disable-B1Lookalike to mute/unmute lookalike domains.
     #>
-    [Alias("Enable-B1TDLookalike")]
     param(
       [Parameter(Mandatory=$true)]
       [String[]]$LookalikeDomain
@@ -43,7 +42,7 @@
         $Results = Query-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atclad/v1/lookalikes" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
         foreach ($UnmutedDomain in $UnmutedDomains) {
-            if (Get-B1TDLookalikes -LookalikeDomain $($UnmutedDomain) -Muted false) {
+            if (Get-B1Lookalikes -LookalikeDomain $($UnmutedDomain) -Muted false) {
                 Write-Host "Successfully unmuted lookalike domain: $($UnmutedDomain)" -ForegroundColor Green
             } else {
                 Write-Host "Failed to unmute lookalike domain: $($UnmutedDomain)" -ForegroundColor Red

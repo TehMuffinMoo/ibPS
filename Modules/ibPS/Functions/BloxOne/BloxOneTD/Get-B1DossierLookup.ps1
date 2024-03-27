@@ -7,7 +7,7 @@
         This function is used to retrieve details about a BloxOne Threat Defense Dossier Lookup
 
     .PARAMETER job_id
-        The job ID given when starting the lookup using Start-B1TDDossierLookup. Accepts pipeline input from Start-B1TDDossierLookup cmdlet
+        The job ID given when starting the lookup using Start-B1DossierLookup. Accepts pipeline input from Start-B1DossierLookup cmdlet
 
     .PARAMETER Pending
         Using this switch will return whether the job has completed or is still pending
@@ -28,7 +28,7 @@
         PS> Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
 
     .EXAMPLE
-        PS> $Lookup = Start-B1TDDossierLookup -Type ip 1.1.1.1
+        PS> $Lookup = Start-B1DossierLookup -Type ip 1.1.1.1
         PS> $Lookup | Get-B1DossierLookup -Results
 
         task_id : 86655f48-944b-4871-9483-de1f0f0f820f
@@ -51,7 +51,6 @@
     .FUNCTIONALITY
         Threat Defense
     #>
-    [Alias("Get-B1TDDossierLookup")]
     [CmdletBinding(DefaultParameterSetName = 'None')]
     param(
       [Parameter(
