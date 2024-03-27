@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Disable-B1TDLookalikeTargetCandidate
+# Disable-B1LookalikeTargetCandidate
 
 ## SYNOPSIS
 Disables a lookalike from the Common Watched Domains list
@@ -13,7 +13,7 @@ Disables a lookalike from the Common Watched Domains list
 ## SYNTAX
 
 ```
-Disable-B1TDLookalikeTargetCandidate [-Domain] <String[]> [<CommonParameters>]
+Disable-B1LookalikeTargetCandidate [-Domain] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to disable a lookalike from the Common Watched Domains lis
 
 ### EXAMPLE 1
 ```powershell
-Disable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
+Disable-B1LookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
 
 Successfully disabled lookalike candidate: adobe.com
 Successfully disabled lookalike candidate: airbnb.com
@@ -31,7 +31,7 @@ Successfully disabled lookalike candidate: airbnb.com
 
 ### EXAMPLE 2
 ```powershell
-Disable-B1TDLookalikeTargetCandidate -Domain <TabComplete>
+Disable-B1LookalikeTargetCandidate -Domain <TabComplete>
 
 accuweather.com        barclays.co.uk         craigslist.org         googledoc.com          microsoft.com          tripadvisor.com
 active.aero            blackberry.com         cyber.mil.pl           googledocs.com         microsoftonline.com    tumblr.com

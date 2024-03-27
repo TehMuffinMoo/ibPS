@@ -5,34 +5,34 @@ online version:
 schema: 2.0.0
 ---
 
-# Disable-B1TDLookalike
+# Enable-B1Lookalike
 
 ## SYNOPSIS
-Mutes a lookalike domain
+Unmutes a lookalike domain
 
 ## SYNTAX
 
 ```
-Disable-B1TDLookalike [-LookalikeDomain] <String[]> [<CommonParameters>]
+Enable-B1Lookalike [-LookalikeDomain] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to mute a lookalike domain
+This function is used to unmute a lookalike domain
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Disable-B1TDLookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
+Enable-B1Lookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
 
-Successfully muted lookalike: google98.pro
-Successfully muted lookalike: return-tax-hmrc.com
+Successfully unmuted lookalike: google98.pro
+Successfully unmuted lookalike: return-tax-hmrc.com
 ```
 
 ## PARAMETERS
 
 ### -LookalikeDomain
-One or more identified lookalikes to mute
+One or more identified lookalikes to unmute
 
 ```yaml
 Type: String[]
@@ -54,6 +54,6 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 ## OUTPUTS
 
 ## NOTES
-Used in combination with Enable-B1TDLookalike to mute/unmute lookalike domains.
+Used in combination with Disable-B1TDLookalike to mute/unmute lookalike domains.
 
 ## RELATED LINKS

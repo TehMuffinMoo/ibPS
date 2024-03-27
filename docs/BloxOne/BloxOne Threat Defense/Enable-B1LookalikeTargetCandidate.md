@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Enable-B1TDLookalikeTargetCandidate
+# Enable-B1LookalikeTargetCandidate
 
 ## SYNOPSIS
 Enables a lookalike from the Common Watched Domains list
@@ -13,7 +13,7 @@ Enables a lookalike from the Common Watched Domains list
 ## SYNTAX
 
 ```
-Enable-B1TDLookalikeTargetCandidate [-Domain] <String[]> [<CommonParameters>]
+Enable-B1LookalikeTargetCandidate [-Domain] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to enable a lookalike from the Common Watched Domains list
 
 ### EXAMPLE 1
 ```powershell
-Enable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
+Enable-B1LookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
 
 Successfully enabled lookalike candidate: adobe.com
 Successfully enabled lookalike candidate: airbnb.com
@@ -31,7 +31,7 @@ Successfully enabled lookalike candidate: airbnb.com
 
 ### EXAMPLE 2
 ```powershell
-Enable-B1TDLookalikeTargetCandidate -Domain <TabComplete>
+Enable-B1LookalikeTargetCandidate -Domain <TabComplete>
 
 alibaba.com                  flickr.com                   navyfederal.org              secureserver.net
 americanexpressbusiness.com  fortisbc.com                 nytimes.com                  sedoparking.com

@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1TDDossierLookup
+# Get-B1DossierLookup
 
 ## SYNOPSIS
 Retrieves details about a BloxOne Threat Defense Dossier Lookup
@@ -14,22 +14,22 @@ Retrieves details about a BloxOne Threat Defense Dossier Lookup
 
 ### None (Default)
 ```
-Get-B1TDDossierLookup -job_id <String> [<CommonParameters>]
+Get-B1DossierLookup -job_id <String> [<CommonParameters>]
 ```
 
 ### Pending
 ```
-Get-B1TDDossierLookup -job_id <String> [-Pending] [<CommonParameters>]
+Get-B1DossierLookup -job_id <String> [-Pending] [<CommonParameters>]
 ```
 
 ### Results
 ```
-Get-B1TDDossierLookup -job_id <String> [-Results] [<CommonParameters>]
+Get-B1DossierLookup -job_id <String> [-Results] [<CommonParameters>]
 ```
 
 ### TaskID
 ```
-Get-B1TDDossierLookup -job_id <String> [-task_id <String>] [<CommonParameters>]
+Get-B1DossierLookup -job_id <String> [-task_id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -39,23 +39,23 @@ This function is used to retrieve details about a BloxOne Threat Defense Dossier
 
 ### EXAMPLE 1
 ```powershell
-Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
+Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
 ```
 
 ### EXAMPLE 2
 ```powershell
-Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
+Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
 ```
 
 ### EXAMPLE 3
 ```powershell
-Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
+Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
 ```
 
 ### EXAMPLE 4
 ```powershell
 $Lookup = Start-B1TDDossierLookup -Type ip 1.1.1.1
-PS> $Lookup | Get-B1TDDossierLookup -Results
+PS> $Lookup | Get-B1DossierLookup -Results
 
 task_id : 86655f48-944b-4871-9483-de1f0f0f820f
 params  : @{type=ip; target=1.1.1.1; source=whois}
