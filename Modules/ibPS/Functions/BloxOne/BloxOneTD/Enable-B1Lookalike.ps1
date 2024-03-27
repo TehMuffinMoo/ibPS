@@ -1,4 +1,4 @@
-﻿function Enable-B1TDLookalike {
+﻿function Enable-B1Lookalike {
     <#
     .SYNOPSIS
         Unmutes a lookalike domain
@@ -10,7 +10,7 @@
         One or more identified lookalikes to unmute
 
     .EXAMPLE
-        PS> Enable-B1TDLookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
+        PS> Enable-B1Lookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
 
         Successfully unmuted lookalike: google98.pro
         Successfully unmuted lookalike: return-tax-hmrc.com
@@ -24,6 +24,7 @@
     .NOTES
         Used in combination with Disable-B1TDLookalike to mute/unmute lookalike domains.
     #>
+    [Alias("Enable-B1TDLookalike")]
     param(
       [Parameter(Mandatory=$true)]
       [String[]]$LookalikeDomain

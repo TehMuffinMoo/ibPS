@@ -1,4 +1,4 @@
-﻿function Get-B1TDDossierLookup {
+﻿function Get-B1DossierLookup {
     <#
     .SYNOPSIS
         Retrieves details about a BloxOne Threat Defense Dossier Lookup
@@ -19,17 +19,17 @@
         Used to filter the results by individual task ID
 
     .EXAMPLE
-        PS> Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
+        PS> Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
 
     .EXAMPLE
-        PS> Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
+        PS> Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
 
     .EXAMPLE
-        PS> Get-B1TDDossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
+        PS> Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
 
     .EXAMPLE
         PS> $Lookup = Start-B1TDDossierLookup -Type ip 1.1.1.1
-        PS> $Lookup | Get-B1TDDossierLookup -Results
+        PS> $Lookup | Get-B1DossierLookup -Results
 
         task_id : 86655f48-944b-4871-9483-de1f0f0f820f
         params  : @{type=ip; target=1.1.1.1; source=whois}
@@ -51,6 +51,7 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [Alias("Get-B1TDDossierLookup")]
     [CmdletBinding(DefaultParameterSetName = 'None')]
     param(
       [Parameter(

@@ -1,4 +1,4 @@
-﻿function Disable-B1TDLookalikeTargetCandidate {
+﻿function Disable-B1LookalikeTargetCandidate {
     <#
     .SYNOPSIS
         Disables a lookalike from the Common Watched Domains list
@@ -12,13 +12,13 @@
         This parameter auto-completes based on the current list of enabled domains
 
     .EXAMPLE
-        PS> Disable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
+        PS> Disable-B1LookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
 
         Successfully disabled lookalike candidate: adobe.com
         Successfully disabled lookalike candidate: airbnb.com
 
     .EXAMPLE
-        PS> Disable-B1TDLookalikeTargetCandidate -Domain <TabComplete>
+        PS> Disable-B1LookalikeTargetCandidate -Domain <TabComplete>
 
         accuweather.com        barclays.co.uk         craigslist.org         googledoc.com          microsoft.com          tripadvisor.com
         active.aero            blackberry.com         cyber.mil.pl           googledocs.com         microsoftonline.com    tumblr.com
@@ -31,6 +31,7 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [Alias("Disable-B1TDLookalikeTargetCandidate")]
     param(
       [Parameter(Mandatory=$true)]
       [String[]]$Domain

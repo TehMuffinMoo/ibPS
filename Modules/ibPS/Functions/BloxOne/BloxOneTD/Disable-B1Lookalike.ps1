@@ -1,4 +1,4 @@
-﻿function Disable-B1TDLookalike {
+﻿function Disable-B1Lookalike {
     <#
     .SYNOPSIS
         Mutes a lookalike domain
@@ -10,7 +10,7 @@
         One or more identified lookalikes to mute
 
     .EXAMPLE
-        PS> Disable-B1TDLookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
+        PS> Disable-B1Lookalike -LookalikeDomain "google98.pro","return-tax-hmrc.com"
 
         Successfully muted lookalike: google98.pro
         Successfully muted lookalike: return-tax-hmrc.com
@@ -24,6 +24,7 @@
     .NOTES
         Used in combination with Enable-B1TDLookalike to mute/unmute lookalike domains.
     #>
+    [Alias("Disable-B1TDLookalike")]
     param(
       [Parameter(Mandatory=$true)]
       [String[]]$LookalikeDomain

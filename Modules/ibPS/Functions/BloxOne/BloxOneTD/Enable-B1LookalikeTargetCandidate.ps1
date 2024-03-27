@@ -1,4 +1,4 @@
-﻿function Enable-B1TDLookalikeTargetCandidate {
+﻿function Enable-B1LookalikeTargetCandidate {
     <#
     .SYNOPSIS
         Enables a lookalike from the Common Watched Domains list
@@ -12,13 +12,13 @@
         This parameter auto-completes based on the current list of disabled domains 
 
     .EXAMPLE
-        PS> Enable-B1TDLookalikeTargetCandidate -Domain "adobe.com","airbnb.com" 
+        PS> Enable-B1LookalikeTargetCandidate -Domain "adobe.com","airbnb.com" 
 
         Successfully enabled lookalike candidate: adobe.com
         Successfully enabled lookalike candidate: airbnb.com
 
     .EXAMPLE
-        PS> Enable-B1TDLookalikeTargetCandidate -Domain <TabComplete>
+        PS> Enable-B1LookalikeTargetCandidate -Domain <TabComplete>
 
         alibaba.com                  flickr.com                   navyfederal.org              secureserver.net
         americanexpressbusiness.com  fortisbc.com                 nytimes.com                  sedoparking.com
@@ -31,6 +31,7 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [Alias("Enable-B1TDLookalikeTargetCandidate")]
     param(
       [Parameter(Mandatory=$true)]
       [String[]]$Domain
