@@ -75,7 +75,7 @@ Describe 'New-*' {
     }
     Context 'B1TD-General' {
         It 'Create New Lookalike Target' {
-            (New-B1TDLookalikeTarget -Domain 'pester.test' -Description $Description).item | Should -Be 'pester.test'
+            (New-B1LookalikeTarget -Domain 'pester.test' -Description $Description).item | Should -Be 'pester.test'
         }
     }
 }
@@ -202,7 +202,7 @@ Describe 'Remove-*' {
     }
     Context 'B1TD-General' {
         It 'Remove Lookalike Target' {
-            Remove-B1TDLookalikeTarget -Domain 'pester.test' -NoWarning 6>$null
+            Remove-B1LookalikeTarget -Domain 'pester.test' -NoWarning 6>$null
         }
     }
 }
