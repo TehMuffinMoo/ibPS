@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1TDContentCategory
+# Get-B1ContentCategory
 
 ## SYNOPSIS
 Retrieves a list of content categories from BloxOne Threat Defense
@@ -13,7 +13,7 @@ Retrieves a list of content categories from BloxOne Threat Defense
 ## SYNTAX
 
 ```
-Get-B1TDContentCategory
+Get-B1ContentCategory
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to retrieve a list of content categories from BloxOne Thre
 
 ### EXAMPLE 1
 ```powershell
-Get-B1TDContentCategory
+Get-B1ContentCategory
 
 category_code category_name                        functional_group
 ------------- -------------                        ----------------
