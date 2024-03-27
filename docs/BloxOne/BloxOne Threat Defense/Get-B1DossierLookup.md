@@ -54,7 +54,7 @@ Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234
 
 ### EXAMPLE 4
 ```powershell
-$Lookup = Start-B1TDDossierLookup -Type ip 1.1.1.1
+$Lookup = Start-B1DossierLookup -Type ip 1.1.1.1
 PS> $Lookup | Get-B1DossierLookup -Results
 
 task_id : 86655f48-944b-4871-9483-de1f0f0f820f
@@ -75,8 +75,8 @@ data    : @{record_count=2771; threat=System.Object[]}
 ## PARAMETERS
 
 ### -job_id
-The job ID given when starting the lookup using Start-B1TDDossierLookup.
-Accepts pipeline input from Start-B1TDDossierLookup cmdlet
+The job ID given when starting the lookup using Start-B1DossierLookup.
+Accepts pipeline input from Start-B1DossierLookup cmdlet
 
 ```yaml
 Type: String
