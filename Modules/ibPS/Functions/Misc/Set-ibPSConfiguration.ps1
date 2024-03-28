@@ -12,6 +12,9 @@ function Set-ibPSConfiguration {
     .PARAMETER DebugMode
         Enabling Debug Mode will return additional debug data when using the module
 
+    .PARAMETER Branch
+        Use the -Branch parameter to select the github branch to update with. Only works when installed from Github, not from PowerShell Gallery.
+
     .EXAMPLE
         Set-ibPSConfiguration -DebugMode Enabled
 
@@ -25,7 +28,9 @@ function Set-ibPSConfiguration {
     [ValidateSet('Enabled','Disabled')]
     [String]$DevelopmentMode,
     [ValidateSet('Enabled','Disabled')]
-    [String]$DebugMode
+    [String]$DebugMode,
+    [ValidateSet("main", "dev")]
+    [String]$Branch
   )
 
   if ($DevelopmentMode) {
@@ -71,6 +76,20 @@ function Set-ibPSConfiguration {
       $ENV:IBPSDebug = $DebugMode
     }
     Write-Host "$($DebugMode) Development Mode." -ForegroundColor Green
+  }
+
+  if ($Branch) {
+    $Platform = Detect-OS
+    if ($Platform -eq "Windows") {
+      [System.Environment]::SetEnvironmentVariable('IBPSBranch',$Branch,[System.EnvironmentVariableTarget]::User)
+    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+      if (!(Test-Path ~/.zshenv)) {
+        touch ~/.zshenv
+      }
+      sed -i '' -e '/IBPSBranch/d' ~/.zshenv
+      echo "export IBPSBranch=$Branch" >> ~/.zshenv
+    }
+    $ENV:IBPSBranch = $Branch
   }
 
 }

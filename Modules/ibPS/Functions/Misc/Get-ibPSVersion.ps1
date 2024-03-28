@@ -18,9 +18,6 @@ function Get-ibPSVersion {
     .PARAMETER Force
         This switch will force an update, whether or not one is available
 
-    .PARAMETER Branch
-        Use the -Branch parameter to select the github branch to update with.
-
     .EXAMPLE
         Get-ibPSVersion
 
@@ -37,10 +34,14 @@ function Get-ibPSVersion {
     [Switch]$Details,
     [Switch]$CheckForUpdates,
     [Switch]$Update,
-    [Switch]$Force,
-    [ValidateSet("main", "dev")]
-    [String]$Branch
+    [Switch]$Force
   )
+
+  if ($($ENV:IBPSBranch)) {
+    $Branch = $($ENV:IBPSBranch)
+  } else {
+    $Branch = 'main'
+  }
 
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path.Count -gt 1) {
@@ -55,30 +56,6 @@ function Get-ibPSVersion {
     [System.Version]$CurrentVersion = $PSGalleryModule.Version.ToString()
   } else {
     [System.Version]$CurrentVersion = $InstalledModule.Version.ToString()
-  }
-
-  if (!($Branch) -and !$($ENV:IBPSBranch)) {
-    $Branch = "main"
-  } else {
-    if ($($ENV:IBPSBranch)) {
-      if (!($Branch)) {
-        $Branch = $($ENV:IBPSBranch)
-      }
-    }
-  }
-
-  if ($Branch) {
-    $Platform = Detect-OS
-    if ($Platform -eq "Windows") {
-      [System.Environment]::SetEnvironmentVariable('IBPSBranch',$Branch,[System.EnvironmentVariableTarget]::User)
-    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-      if (!(Test-Path ~/.zshenv)) {
-        touch ~/.zshenv
-      }
-      sed -i '' -e '/IBPSBranch/d' ~/.zshenv
-      echo "export IBPSBranch=$Branch" >> ~/.zshenv
-      $ENV:IBPSBranch = $Branch
-    }
   }
 
   if ($CheckForUpdates -or $Update) {
