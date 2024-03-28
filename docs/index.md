@@ -156,7 +156,7 @@ This is used to filter the fields returned by the API
     </td>
     <td>
 This is used to specify the number of results to return from the API.
-<pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000</pre>
+<pre>Get-B1ServiceLog -B1Host MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000</pre>
     </td>
   </tr>
   <tr>
@@ -165,7 +165,7 @@ This is used to specify the number of results to return from the API.
     </td>
     <td>
 The -Offset parameter will offset the results returned by the amount specified. This is used in combination with -Limit to achieve pagination of API results.
-<pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000 -Offset 1000</pre>
+<pre>Get-B1ServiceLog -B1Host MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000 -Offset 1000</pre>
     </td>
   </tr>
   <tr>

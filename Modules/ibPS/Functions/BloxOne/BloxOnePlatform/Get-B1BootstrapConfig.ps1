@@ -25,7 +25,7 @@
         Specify the -GetConfig parameter to return only the BloxOne Hosts current config
 
     .EXAMPLE
-        PS> Get-B1BootstrapConfig -OnPremHost "myonpremhost.corp.domain.com"
+        PS> Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"
     
     .FUNCTIONALITY
         BloxOneDDI
