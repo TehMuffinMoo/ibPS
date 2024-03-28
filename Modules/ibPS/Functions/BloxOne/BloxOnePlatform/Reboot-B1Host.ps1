@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to initiate a reboot of a BloxOneDDI Host
 
-    .PARAMETER OnPremHost
+    .PARAMETER B1Host
         The FQDN of the host to reboot
 
     .PARAMETER NoWarning
@@ -16,7 +16,7 @@
         The id of the BloxOneDDI Host. Accepts pipeline input
 
     .EXAMPLE
-        PS> Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
+        PS> Reboot-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -26,7 +26,8 @@
     #>
   param(
     [Parameter(ParameterSetName="Default",Mandatory=$true)]
-    [String]$OnPremHost,
+    [Alias('OnPremHost')]
+    [String]$B1Host,
     [Switch]$NoWarning,
     [Parameter(
       ValueFromPipelineByPropertyName = $true,
@@ -39,7 +40,7 @@
   if ($id) {
     $OPH = Get-B1Host -id $id
   } else {
-    $OPH = Get-B1Host -Name $OnPremHost
+    $OPH = Get-B1Host -Name $B1Host
   }
 
   if ($OPH.id) {
@@ -56,6 +57,6 @@
     $splat = $splat | ConvertTo-Json
     Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
   } else {
-    Write-Host "BloxOne Host $OnPremHost$id not found" -ForegroundColor Red
+    Write-Host "BloxOne Host $B1Host$id not found" -ForegroundColor Red
   }
 }

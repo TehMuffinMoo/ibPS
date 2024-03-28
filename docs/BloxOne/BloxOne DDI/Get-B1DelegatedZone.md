@@ -13,8 +13,9 @@ Retrieves a list of delegated zones from BloxOneDDI
 ## SYNTAX
 
 ```
-Get-B1DelegatedZone [[-FQDN] <String>] [[-Disabled] <Boolean>] [-Strict] [[-View] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-id] <String>]
+Get-B1DelegatedZone [[-FQDN] <String>] [[-Disabled] <Boolean>] [-Strict] [[-View] <String>]
+ [[-ParentId] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>]
+ [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -25,6 +26,11 @@ This function is used to query a list delegated zones from BloxOneDDI
 ### EXAMPLE 1
 ```powershell
 Get-B1DelegatedZone -FQDN "prod.mydomain.corp"
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1DelegatedZone -ParentId (Get-B1AuthoritativeZone -FQDN 'parent.zone' -View 'my-dnsview' -Strict).id
 ```
 
 ## PARAMETERS
@@ -77,7 +83,10 @@ Accept wildcard characters: False
 ```
 
 ### -View
-The DNS View where the delegated zone(s) are located
+The DNS View where the delegated zone(s) are located.
+
+Filtering by DNS View is not supported by this API endpoint, so the filtering is done in postprocessing after the query is made.
+This means if the -View parameter is specified, it will only filter on already returned results.
 
 ```yaml
 Type: String
@@ -86,6 +95,22 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ParentId
+You can use the -ParentId parameter to provide the Parent Authoritative DNS Zone's ID to filter by.
+See examples.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,7 +126,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -116,7 +141,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -131,7 +156,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -147,7 +172,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -162,7 +187,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

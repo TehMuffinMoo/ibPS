@@ -33,7 +33,7 @@
     .PARAMETER Bootstrap
         Use this switch to enable BloxOne Host Bootstrap Configuration to be included in the export/backup
 
-    .PARAMETER OnPremHosts
+    .PARAMETER B1Hosts
         Use this switch to enable BloxOne Host Configuration to be included in the export/backup
 
     .PARAMETER Redirects
@@ -46,7 +46,7 @@
         Use this switch to enable all configuration & data types to be included in the export/backup
 
     .EXAMPLE
-        PS> Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -DNSConfig -DNSData -IPAMData -KeyData -ThreatDefense -Bootstrap -OnPremHosts -Redirects -Tags
+        PS> Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -DNSConfig -DNSData -IPAMData -KeyData -ThreatDefense -Bootstrap -B1Hosts -Redirects -Tags
 
     .EXAMPLE
         PS> Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -BackupAll
@@ -78,7 +78,8 @@
       [Switch]$KeyData,
       [Switch]$ThreatDefense,
       [Switch]$Bootstrap,
-      [Switch]$OnPremHosts,
+      [Alias('OnPremHosts')]
+      [Switch]$B1Hosts,
       [Switch]$Redirects,
       [Switch]$Tags,
       [Switch]$BackupAll
@@ -137,7 +138,7 @@
     if ($Bootstrap -or $BackupAll) {
         $dataTypes.Add("bootstrap.bulk.infoblox.com/v1alpha1/hostconfigs.v1alpha1.bootstrap.bulk.infoblox.com") | Out-Null
     }
-    if ($OnPremHosts -or $BackupAll) {
+    if ($B1Hosts -or $BackupAll) {
         $dataTypes.Add("onprem.bulk.infoblox.com/v1alpha1/hosts.v1alpha1.onprem.bulk.infoblox.com") | Out-Null
     }
     if ($Redirects -or $BackupAll) {
@@ -151,7 +152,7 @@
         $splat | Add-Member -Name "data_types" -Value $dataTypes -MemberType NoteProperty
     }
     $splat = $splat | ConvertTo-Json
-    if ($Debug) {$splat}
+    if ($ENV:IBPSDebug -eq "Enabled") {$splat}
     $Export = Query-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
 
     if ($Export.success.message -eq "Export pending") {

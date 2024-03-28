@@ -13,8 +13,8 @@ Creates a new address reservation in BloxOneDDI IPAM
 ## SYNTAX
 
 ```
-New-B1AddressReservation [-Address] <String> [-Name] <String> [-Description] <String> [-Space] <String>
- [<CommonParameters>]
+New-B1AddressReservation [-Address] <String> [[-Name] <String>] [[-Description] <String>] [-Space] <String>
+ [[-Tags] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,7 +52,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
@@ -67,7 +67,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: False
@@ -84,6 +84,21 @@ Aliases:
 
 Required: True
 Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Tags
+Any tags you want to apply to the address reservation
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

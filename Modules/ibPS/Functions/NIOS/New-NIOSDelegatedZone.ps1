@@ -54,11 +54,11 @@ function New-NIOSDelegatedZone {
             "view" = $View
         }
         $splat = $splat | ConvertTo-Json
-        if ($Debug) {$splat}
+        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
         try {
             $Result = Query-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat -SkipCertificateCheck:$SkipCertificateCheck 
             $Successful = $true
-            if ($Debug) {$Result}
+            if ($ENV:IBPSDebug -eq "Enabled") {$Result}
         } catch {
             Write-Host "Failed to create NIOS DNS Zone Delegation." -ForegroundColor Red
             $Successful = $false

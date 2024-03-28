@@ -21,6 +21,12 @@
     .PARAMETER Description
         The description for the new zone
 
+    .PARAMETER ForwardOnly
+        Setting the -ForwardOnly switch will enable forward only mode for this zone
+
+    .PARAMETER Tags
+        Any tags you want to apply to the forward zone
+
     .EXAMPLE
         PS> New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -Description "My Forward Zone"
    
@@ -36,9 +42,11 @@
       [Parameter(Mandatory=$true)]
       [System.Object]$View,
       [Parameter(Mandatory=$true)]
-      $Forwarders,
-      $DNSHosts,
-      [String]$Description
+      [System.Object]$Forwarders,
+      [System.Object]$DNSHosts,
+      [String]$Description,
+      [Switch]$ForwardOnly,
+      [System.Object]$Tags
     )
 
     if (Get-B1ForwardZone -FQDN $FQDN -View $View) {
@@ -62,9 +70,10 @@
         $splat = @{
 	        "fqdn" = $FQDN
 	        "disabled" = $false
-            "forward_only" = $true
+            "forward_only" = if ($ForwardOnly) {$true} else {$false}
 	        "external_forwarders" = $ExternalHosts
 	        "view" = $ViewUUID
+            "tags" = $Tags
         }
 
         if ($DNSHosts) {
@@ -76,7 +85,7 @@
         }
 
         $splat = $splat | ConvertTo-Json
-        if ($Debug) {$splat}
+        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
         $Result = Query-CSP -Method POST -Uri "dns/forward_zone" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 

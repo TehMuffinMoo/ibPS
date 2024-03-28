@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to initiate a BloxOneDDI Diagnostic Task
 
-    .PARAMETER OnPremHost
+    .PARAMETER B1Host
         The name/fqdn of the BloxOneDDI Host to run the task against
 
     .PARAMETER Traceroute
@@ -52,7 +52,8 @@
         Tasks
     #>
   param(
-    [String]$OnPremHost,
+    [Alias('OnPremHost')]
+    [String]$B1Host,
     [parameter(ParameterSetName="traceroute",Mandatory=$true)]
     [Switch]$Traceroute,
     [parameter(ParameterSetName="dnstest")]
@@ -78,18 +79,18 @@
   )
 
   process {
-    if ($OnPremHost -and $id) {
-      Write-Host "Error. -OnPremHost and -id are mutually exclusive. Please select only one parameter" -ForegroundColor Red
+    if ($B1Host -and $id) {
+      Write-Host "Error. -B1Host and -id are mutually exclusive. Please select only one parameter" -ForegroundColor Red
       break
-    } elseif (!$OnPremHost -and !$id) {
-      Write-Host "Error. You must specify either -OnPremHost or -id" -ForegroundColor Red
+    } elseif (!$B1Host -and !$id) {
+      Write-Host "Error. You must specify either -B1Host or -id" -ForegroundColor Red
       break
     }
   
     if ($id) {
       $OPH = Get-B1Host -id $id
     } else {
-      $OPH = Get-B1Host -Name $OnPremHost -Strict
+      $OPH = Get-B1Host -Name $B1Host -Strict
     }
   
     if ($OPH.ophid) {
@@ -147,7 +148,7 @@
       }
 
       $splat = $splat | ConvertTo-Json
-      if ($Debug) {$splat}
+      if ($ENV:IBPSDebug -eq "Enabled") {$splat}
       $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
       if ($Result) {
         if ($WaitForOutput) {

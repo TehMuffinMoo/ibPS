@@ -61,66 +61,66 @@
     process {
 
       if ($id) {
-        $OnPremHost = Get-B1Host -id $id
+        $B1Host = Get-B1Host -id $id
       } else {
         if ($IP) {
           if ($NoIPSpace) {
-              $OnPremHost = Get-B1Host -IP $IP -NoIPSpace:$NoIPSpace
+              $B1Host = Get-B1Host -IP $IP -NoIPSpace:$NoIPSpace
           } else {
-              $OnPremHost = Get-B1Host -IP $IP -Space $Space
+              $B1Host = Get-B1Host -IP $IP -Space $Space
           }
-          if (!($OnPremHost)) {
+          if (!($B1Host)) {
               Write-Host "On-Prem Host $IP does not exist." -ForegroundColor Gray
           }
         } elseif ($Name) {
           if ($NoIPSpace) {
-              $OnPremHost = Get-B1Host -Name $Name -NoIPSpace:$NoIPSpace -Strict
+              $B1Host = Get-B1Host -Name $Name -NoIPSpace:$NoIPSpace -Strict
           } else {
-              $OnPremHost = Get-B1Host -Name $Name -Space $Space -Strict
+              $B1Host = Get-B1Host -Name $Name -Space $Space -Strict
           }
-          if (!($OnPremHost)) {
+          if (!($B1Host)) {
               Write-Host "On-Prem Host $Name does not exist." -ForegroundColor Gray
           }
         }
       }
 
-      if ($OnPremHost) {
+      if ($B1Host) {
 
         if ($Name) {
-          $OnPremHost.display_name = $Name
+          $B1Host.display_name = $Name
         }
-        if ($TimeZone) {$OnPremHost.timezone = $TimeZone}
+        if ($TimeZone) {$B1Host.timezone = $TimeZone}
         if ($Space) {
-          if ($OnPremHost.ip_space) {
-              $OnPremHost.ip_space = (Get-B1Space -Name $Space -Strict).id
+          if ($B1Host.ip_space) {
+              $B1Host.ip_space = (Get-B1Space -Name $Space -Strict).id
           } else {
-              $OnPremHost | Add-Member -MemberType NoteProperty -Name "ip_space" -Value (Get-B1Space -Name $Space -Strict).id
+              $B1Host | Add-Member -MemberType NoteProperty -Name "ip_space" -Value (Get-B1Space -Name $Space -Strict).id
           }
         }
         if ($Description) {
-          if ($OnPremHost.description) {
-              $OnPremHost.description = $Description
+          if ($B1Host.description) {
+              $B1Host.description = $Description
           } else {
-              $OnPremHost | Add-Member -MemberType NoteProperty -Name "description" -Value $Description
+              $B1Host | Add-Member -MemberType NoteProperty -Name "description" -Value $Description
           }
         }
         if ($Tags) {
-          if ($OnPremHost.tags) {
-              $OnPremHost.tags = $Tags
+          if ($B1Host.tags) {
+              $B1Host.tags = $Tags
           } else {
-              $OnPremHost | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
+              $B1Host | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
           }
         }
 
-        $hostID = $OnPremHost.id.replace("infra/host/","")
+        $hostID = $B1Host.id.replace("infra/host/","")
 
-        $splat = $OnPremHost | Select-Object * -ExcludeProperty configs,created_at | ConvertTo-Json -Depth 10 -Compress
-        if ($Debug) {$splat}
+        $splat = $B1Host | Select-Object * -ExcludeProperty configs,created_at | ConvertTo-Json -Depth 10 -Compress
+        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
         $Results = Query-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$hostID" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        if ($($Results.id) -eq $($OnPremHost.id)) {
-          Write-Host "Updated BloxOneDDI Host Configuration $($OnPremHost.display_name) successfuly." -ForegroundColor Green
+        if ($($Results.id) -eq $($B1Host.id)) {
+          Write-Host "Updated BloxOneDDI Host Configuration $($B1Host.display_name) successfuly." -ForegroundColor Green
         } else {
-          Write-Host "Failed to update BloxOneDDI Host Configuration on $($OnPremHost.display_name)." -ForegroundColor Red
+          Write-Host "Failed to update BloxOneDDI Host Configuration on $($B1Host.display_name)." -ForegroundColor Red
         }
       }
     }

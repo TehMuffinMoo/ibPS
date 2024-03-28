@@ -44,7 +44,7 @@
         Filter by the id of the address block
 
     .EXAMPLE
-        PS> Get-B1AddressBlock -Subnet "10.10.100.0/12" -Space "Global"
+        PS> Get-B1AddressBlock -Subnet "10.10.0.0/12" -Space "Global"
 
     .EXAMPLE
         PS> Get-B1AddressBlock -tfilter '("sometagname"=="sometagvalue" or "someothertagname"=="someothertagvalue")'
@@ -78,6 +78,11 @@
 
         [System.Collections.ArrayList]$Filters = @()
         if ($Subnet) {
+            if ($Subnet -match '/\d') { 
+                $IPandMask = $Subnet -Split '/' 
+                $Subnet = $IPandMask[0]
+                $CIDR = $IPandMask[1]
+            }
             $Filters.Add("address==`"$Subnet`"") | Out-Null
         }
         if ($CIDR) {

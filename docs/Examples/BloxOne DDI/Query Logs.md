@@ -8,7 +8,7 @@ It shows how you can use the -Start & -End parameters to limit the search window
 It also shows how you can post-filter the `msg` response to find specific messages, such as those related to DNS Zone Transfer.
 
 ```powershell
-PS> Get-B1ServiceLog -OnPremHost "my-host.corp.local" -Container DNS -Start (Get-Date).AddHours(-12) -Limit 10000 | where {$_.msg -like "*xfer*"} | ft -AutoSize
+PS> Get-B1ServiceLog -B1Host "my-host.corp.local" -Container DNS -Start (Get-Date).AddHours(-12) -Limit 10000 | where {$_.msg -like "*xfer*"} | ft -AutoSize
 
 timestamp                      onpremhost         container_name msg
 ---------                      ----------         -------------- ---

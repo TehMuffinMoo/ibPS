@@ -14,19 +14,21 @@ Retrieves a list of DHCP Leases from BloxOneDDI IPAM
 
 ### st (Default)
 ```
-Get-B1DHCPLease [-Space <String>] [-Limit <String>] [-Fields <String[]>] [-Strict] [<CommonParameters>]
+Get-B1DHCPLease [-Space <String>] [-Limit <String>] [-Offset <String>] [-Fields <String[]>] [-Strict]
+ [<CommonParameters>]
 ```
 
 ### htree
 ```
 Get-B1DHCPLease [-Range] -RangeStart <String> [-RangeEnd <String>] [-Space <String>] [-Limit <String>]
- [-Fields <String[]>] [-Strict] [<CommonParameters>]
+ [-Offset <String>] [-Fields <String[]>] [-Strict] [<CommonParameters>]
 ```
 
 ### std
 ```
 Get-B1DHCPLease [-Address <String>] [-MACAddress <String>] [-Hostname <String>] [-HAGroup <String>]
- [-DHCPServer <String>] [-Space <String>] [-Limit <String>] [-Fields <String[]>] [-Strict] [<CommonParameters>]
+ [-DHCPServer <String>] [-Space <String>] [-Limit <String>] [-Offset <String>] [-Fields <String[]>] [-Strict]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -192,6 +194,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: 100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

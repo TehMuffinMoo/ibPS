@@ -354,9 +354,9 @@
                 }
 
                 $splat = $splat | ConvertTo-Json
-                if ($Debug) {$splat}
+                if ($ENV:IBPSDebug -eq "Enabled") {$splat}
                 $Result = Query-CSP -Method POST -Uri "dns/record" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-                if ($Debug) {$Result}
+                if ($ENV:IBPSDebug -eq "Enabled") {$Result}
                 if ($Result.dns_rdata -match $rdata) {
                     Write-Host "DNS $Type Record has been successfully created for $FQDN." -ForegroundColor Green
                     return $Result

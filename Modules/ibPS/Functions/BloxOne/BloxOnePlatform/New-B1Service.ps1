@@ -15,7 +15,7 @@
     .PARAMETER Description
         The description of the new BloxOneDDI Service
 
-    .PARAMETER OnPremHost
+    .PARAMETER B1Host
         The name of the BloxOne DDI Host to create the service on
 
     .PARAMETER Strict
@@ -23,11 +23,11 @@
 
     .EXAMPLE
         ## Create a DNS Service
-        PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+        PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
 
     .EXAMPLE
         ## Create a DHCP Service
-        PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+        PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -41,15 +41,16 @@
     [String]$Name,
     [Parameter(Mandatory=$true)]
     [String]$Type,
+    [Alias('OnPremHost')]
     [Parameter(Mandatory=$true)]
-    [String]$OnPremHost,
+    [String]$B1Host,
     [Parameter(Mandatory=$false)]
     [String]$Description = "",
     [Parameter(Mandatory=$false)]
     [Switch]$Strict
   )
   $MatchType = Match-Type $Strict
-  $B1Host = Get-B1Host -Name $OnPremHost -Detailed
+  $B1Host = Get-B1Host -Name $B1Host -Detailed
   if ($B1Host) {
     if ($B1Host.count -gt 1) {
       Write-Host "Too many hosts returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
@@ -71,12 +72,12 @@
         } | ConvertTo-Json -Depth 3
         $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($NewServiceResult.id) {
-          Write-Host "$($Type.ToUpper()) service created successfully on $OnPremHost" -ForegroundColor Green
+          Write-Host "$($Type.ToUpper()) service created successfully on $B1Host" -ForegroundColor Green
           if ($Type -eq "ntp") {
             Set-B1NTPServiceConfiguration -Name $Name -UseGlobalNTPConfig
           }
         } else {
-          Write-Host "Failed to create $($Type.ToUpper()) service on $OnPremHost" -ForegroundColor Red
+          Write-Host "Failed to create $($Type.ToUpper()) service on $B1Host" -ForegroundColor Red
         }
       }
     }

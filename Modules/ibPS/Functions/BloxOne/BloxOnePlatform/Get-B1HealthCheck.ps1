@@ -6,14 +6,14 @@
     .DESCRIPTION
         This function is used to perform a health check on a BloxOneDDI Host
 
-    .PARAMETER OnPremHost
+    .PARAMETER B1Host
         The BloxOneDDI Host name/fqdn
 
     .PARAMETER Type
         The type of health check to perform
 
     .EXAMPLE
-        PS> Get-B1HealthCheck -OnPremHost "B1DDI-01" -Type "ApplicationHealth"
+        PS> Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -22,8 +22,9 @@
         Health
     #>
     param(
+      [Alias('OnPremHost')]
       [Parameter(Mandatory=$true)]
-      [String]$OnPremHost,
+      [String]$B1Host,
       [Parameter(Mandatory=$true)]
       [ValidateSet("ApplicationHealth")]
       [String]$Type
@@ -31,7 +32,7 @@
 
     switch ($Type) {
       "ApplicationHealth" {
-        $Hosts = Get-B1Host -Name $OnPremHost -Detailed
+        $Hosts = Get-B1Host -Name $B1Host -Detailed
         $B1HealthStatus = @()
         foreach ($B1Host in $Hosts) {
             $B1HostHealthStatus = @{}

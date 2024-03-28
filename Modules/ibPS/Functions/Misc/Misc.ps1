@@ -189,96 +189,6 @@ $CompositeStateSpaces = @(
     }
 ) | ConvertTo-Json | ConvertFrom-Json
 
-function Get-NetworkInfo {
-  <#
-    .LINK
-      https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
-  #>
-  param ( 
-      [parameter(ValueFromPipeline)]
-      [string]
-      $IP,
-      [ValidateRange(0, 32)]
-      [Alias('CIDR')]
-      [int]
-      $MaskBits,
-
-      [switch]
-      $Force
-  )
-  process {
-
-      if ($PSBoundParameters.ContainsKey('MaskBits')) { 
-          $Mask = $MaskBits 
-      }
-
-      if (-not $IP) { 
-          $LocalIP = (Get-NetIPAddress | Where-Object { $_.AddressFamily -eq 'IPv4' -and $_.PrefixOrigin -ne 'WellKnown' })
-
-          $IP = $LocalIP.IPAddress
-          If ($Mask -notin 0..32) { $Mask = $LocalIP.PrefixLength }
-      }
-
-      if ($IP -match '/\d') { 
-          $IPandMask = $IP -Split '/' 
-          $IP = $IPandMask[0]
-          $Mask = $IPandMask[1]
-      }
-      
-      $Class = Get-NetworkClass -IP $IP
-
-      if ($Mask -notin 0..32) {
-
-          $Mask = switch ($Class) {
-              'A' { 8 }
-              'B' { 16 }
-              'C' { 24 }
-              default { 
-                  throw "Subnet mask size was not specified and could not be inferred because the address is Class $Class." 
-              }
-          }
-
-          Write-Warning "Subnet mask size was not specified. Using default subnet size for a Class $Class network of /$Mask."
-      }
-
-      $IPAddr = [ipaddress]::Parse($IP)
-      $MaskAddr = [ipaddress]::Parse((Convert-Int64toIP -int ([convert]::ToInt64(("1" * $Mask + "0" * (32 - $Mask)), 2))))        
-      $NetworkAddr = [ipaddress]($MaskAddr.address -band $IPAddr.address) 
-      $BroadcastAddr = [ipaddress](([ipaddress]::parse("255.255.255.255").address -bxor $MaskAddr.address -bor $NetworkAddr.address))
-      
-      $HostStartAddr = (Convert-IPtoInt64 -ip $NetworkAddr.ipaddresstostring) + 1
-      $HostEndAddr = (Convert-IPtoInt64 -ip $broadcastaddr.ipaddresstostring) - 1
-
-      $HostAddressCount = ($HostEndAddr - $HostStartAddr) + 1
-      
-      if ($Mask -ge 16 -or $Force) {
-          
-          Write-Progress "Calculating host addresses for $NetworkAddr/$Mask.."
-
-          $HostAddresses = for ($i = $HostStartAddr; $i -le $HostEndAddr; $i++) {
-              Convert-Int64toIP -int $i
-          }
-
-          Write-Progress -Completed -Activity "Clear Progress Bar"
-      }
-      else {
-          Write-Warning "Host address enumeration was not performed because it would take some time for a /$Mask subnet. `nUse -Force if you want it to occur."
-      }
-
-      [pscustomobject]@{
-          IPAddress        = $IPAddr
-          MaskBits         = $Mask
-          NetworkAddress   = $NetworkAddr
-          BroadcastAddress = $broadcastaddr
-          SubnetMask       = $MaskAddr
-          NetworkClass     = $Class
-          Range            = "$networkaddr ~ $broadcastaddr"
-          HostAddresses    = $HostAddresses
-          HostAddressCount = $HostAddressCount
-      }
-  }
-}
-
 function Convert-Int64toIP ([int64]$int) {
   <#
     .LINK
@@ -328,9 +238,11 @@ function New-B1Metadata {
       [IPAddress]$Gateway,
       [Parameter(Mandatory=$true)]
       [String]$DNSServers,
+      [Parameter(Mandatory=$false)]
       [String]$DNSSuffix,
       [Parameter(Mandatory=$true)]
       [String]$JoinToken,
+      [Parameter(Mandatory=$false)]
       [String]$LocalDebug
   )
   $CIDR = Convert-NetmaskToCIDR $Netmask
@@ -477,5 +389,64 @@ function New-ISOFile {
     "Mac" {
       hdiutil makehybrid -iso -iso-volume-name "$VolumeName" -joliet -joliet-volume-name "$VolumeName" -o "$Destination" "$Source"
     }
+  }
+}
+
+function Get-B1ServiceLogApplications {
+  $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
+  $Result += @(
+    [PSCustomObject]@{
+      "type" = 1000
+      "label" = "Kube"
+      "container_name" = "k3s.service"
+    }
+    [PSCustomObject]@{
+      "type" = 1001
+      "label" = "NetworkMonitor"
+      "container_name" = "host/network-monitor.service"
+    }
+    [PSCustomObject]@{
+      "type" = 1002
+      "label" = "CDC-OUT"
+      "container_name" = "cdc_siem_out"
+    }
+    [PSCustomObject]@{
+      "type" = 1003
+      "label" = "CDC-IN"
+      "container_name" = "cdc_rpz_in"
+    }
+  )
+  return $Result
+}
+
+function DevelopmentFunctions {
+  return @(
+    "Query-CSP"
+    "Detect-OS"
+    "Combine-Filters"
+    "ConvertTo-QueryString"
+    "Match-Type"
+    "Convert-CIDRToNetmask"
+    "Test-NetmaskString"
+    "Convert-NetmaskToCIDR"
+    "Convert-Int64toIP"
+    "Convert-IPtoInt64"
+    "Get-NetworkClass"
+    "New-B1Metadata"
+    "New-ISOFile"
+  )
+}
+
+function DeprecationNotice {
+  param (
+    $Date,
+    $Command,
+    $AlternateCommand
+  )
+  $ParsedDate = [datetime]::parseexact($Date, 'dd/MM/yy', $null)
+  if ($ParsedDate -gt (Get-Date)) {
+    Write-Host "Cmdlet Deprecation Notice! $Command will be deprecated on $Date. Please switch to using $AlternateCommand before this date." -ForegroundColor Yellow
+  } else {
+    Write-Host "Cmdlet was deprecated on $Date. $Command will likely no longer work. Please switch to using $AlternateCommand instead." -ForegroundColor Red
   }
 }

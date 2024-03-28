@@ -27,6 +27,8 @@
     .PARAMETER View
         The DNS View to filter by
 
+        Filtering by DNS View is not supported by this API endpoint, so the filtering is done in postprocessing after the query is made. This means if the -View parameter is specified, it will only filter on already returned results.
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 

@@ -131,7 +131,6 @@ function Get-B1AuditLog {
     if ($Results) {
         return $Results
     } else {
-        Write-Host "Error. Unable to find any audit logs." -ForegroundColor Red
-        break
+        return $null
     }
 }

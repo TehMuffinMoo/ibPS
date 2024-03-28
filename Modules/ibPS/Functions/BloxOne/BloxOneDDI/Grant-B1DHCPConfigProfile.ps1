@@ -59,7 +59,7 @@
         }
 
         $splat = $splat | ConvertTo-Json
-        if ($Debug) {$splat}
+        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
         $Result = Query-CSP -Method "PATCH" -Uri $($LH.id) -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($Result.server -eq $DHCPConfigProfileId) {

@@ -18,6 +18,9 @@
     .PARAMETER Space
         The IPAM space for the new reservation to be placed in
 
+    .PARAMETER Tags
+        Any tags you want to apply to the address reservation
+
     .EXAMPLE
         PS> New-B1AddressReservation -Address "10.0.0.1" -Name "MyReservedHost" -Description "My Reserved Host" -Space "Global"
 
@@ -30,12 +33,13 @@
     param(
       [Parameter(Mandatory=$true)]
       [String]$Address,
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$false)]
       [String]$Name,
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$false)]
       [String]$Description,
       [Parameter(Mandatory=$true)]
-      [String]$Space
+      [String]$Space,
+      [System.Object]$Tags = $null
     )
     if (!(Get-B1Address -Address $Address -Reserved)) {
         $splat = @{
@@ -46,6 +50,7 @@
 			        "name" = $Name
 			        "type" = "user"
 	        })
+            "tags" = $Tags
         }
         $splat = ConvertTo-Json($splat) -Depth 2
         $Result = Query-CSP -Method "POST" -Uri "ipam/address" -Data $splat

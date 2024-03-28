@@ -40,20 +40,21 @@ This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/
 ### EXAMPLE 1
 ```powershell
 Deploy-B1Appliance -Type "VMware" `
-                   -Name "bloxoneddihost1" -IP "10.10.100.10" `
-                   -Netmask "255.255.255.0" `
-                   -Gateway "10.10.100.1" `
-                   -DNSServers "10.30.10.10,10.30.10.10" `
-                   -NTPServers "time.mydomain.corp" `
-                   -DNSSuffix "prod.mydomain.corp" `
-                   -JoinToken "JoinTokenGoesHere" `
-                   -ImagesPath .\Images `
-                   -DownloadLatestImage `
-                   -vCenter "vcenter.mydomain.corp" `
-                   -Cluster "CLUSTER-001" `
-                   -Datastore "DATASTORE-001" `
-                   -PortGroup "PORTGROUP" `
-                   -PortGroupType "VDS"
+                    -Name "bloxoneddihost1" `
+                    -IP "10.10.100.10" `
+                    -Netmask "255.255.255.0" `
+                    -Gateway "10.10.100.1" `
+                    -DNSServers "10.30.10.10","10.30.20.10" `
+                    -NTPServers "time.mydomain.corp","time2.mydomain.corp" `
+                    -DNSSuffix "prod.mydomain.corp" `
+                    -JoinToken "JoinTokenGoesHere" `
+                    -ImagesPath .\Images `
+                    -DownloadLatestImage `
+                    -vCenter "vcenter.mydomain.corp" `
+                    -Cluster "CLUSTER-001" `
+                    -Datastore "DATASTORE-001" `
+                    -PortGroup "PORTGROUP" `
+                    -PortGroupType "VDS"
 ```
 
 ### EXAMPLE 2
@@ -111,7 +112,7 @@ Accept wildcard characters: False
 The IP Address for the primary network interface of the virtual machine
 
 ```yaml
-Type: Object
+Type: IPAddress
 Parameter Sets: (All)
 Aliases:
 
@@ -126,7 +127,7 @@ Accept wildcard characters: False
 The Netmask for the primary network interface of the virtual machine
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -141,7 +142,7 @@ Accept wildcard characters: False
 The Gateway for the primary network interface of the virtual machine
 
 ```yaml
-Type: Object
+Type: IPAddress
 Parameter Sets: (All)
 Aliases:
 
@@ -156,11 +157,11 @@ Accept wildcard characters: False
 One or more DNS Servers for the virtual machine
 
 ```yaml
-Type: Object
+Type: IPAddress[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 6
 Default value: 52.119.40.100
 Accept pipeline input: False
@@ -171,13 +172,13 @@ Accept wildcard characters: False
 One or more NTP Servers for the virtual machine
 
 ```yaml
-Type: Object
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 7
-Default value: None
+Default value: Ntp.ubuntu.com
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -186,11 +187,11 @@ Accept wildcard characters: False
 The DNS Suffix for the virtual machine
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 8
 Default value: None
 Accept pipeline input: False
@@ -201,7 +202,7 @@ Accept wildcard characters: False
 The Join Token for registration of the BloxOneDDI Host into the Cloud Services Portal
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 

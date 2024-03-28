@@ -13,7 +13,7 @@ Creates a new BloxOneDDI Service
 ## SYNTAX
 
 ```
-New-B1Service [-Name] <String> [-Type] <String> [-OnPremHost] <String> [[-Description] <String>] [-Strict]
+New-B1Service [-Name] <String> [-Type] <String> [-B1Host] <String> [[-Description] <String>] [-Strict]
  [<CommonParameters>]
 ```
 
@@ -25,13 +25,13 @@ This function is used to create a new BloxOneDDI Service
 ### EXAMPLE 1
 ```powershell
 ## Create a DNS Service
-PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
 ```
 
 ### EXAMPLE 2
 ```powershell
 ## Create a DHCP Service
-PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -OnPremHost "bloxoneddihost1.mydomain.corp"
+PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
@@ -66,13 +66,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OnPremHost
+### -B1Host
 The name of the BloxOne DDI Host to create the service on
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: OnPremHost
 
 Required: True
 Position: 3

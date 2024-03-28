@@ -32,31 +32,45 @@ Register-ArgumentCompleter -CommandName Get-B1Service,New-B1Service -ParameterNa
 $B1TDLookalikeTargetCandidates = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     switch($commandName) {
-        "Enable-B1TDLookalikeTargetCandidate" {
-            (Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -ne "True"}) | Select-Object -ExpandProperty item
+        "Enable-B1LookalikeTargetCandidate" {
+            (Get-B1LookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -ne "True"}) | Select-Object -ExpandProperty item
         }
-        "Disable-B1TDLookalikeTargetCandidate" {
-            (Get-B1TDLookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -eq "True"}) | Select-Object -ExpandProperty item
+        "Disable-B1LookalikeTargetCandidate" {
+            (Get-B1LookalikeTargetCandidates | Select-Object -ExpandProperty items_described | Where-Object {$_.item -like "$($wordToComplete)*" -and $_.selected -eq "True"}) | Select-Object -ExpandProperty item
         }
     }
 }
-Register-ArgumentCompleter -CommandName Enable-B1TDLookalikeTargetCandidate,Disable-B1TDLookalikeTargetCandidate -ParameterName Domain -ScriptBlock $B1TDLookalikeTargetCandidates
+Register-ArgumentCompleter -CommandName Enable-B1LookalikeTargetCandidate,Disable-B1LookalikeTargetCandidate -ParameterName Domain -ScriptBlock $B1TDLookalikeTargetCandidates
 
 $B1TDTideThreatClass = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (Get-B1TDTideThreatClass | Where-Object {$_.id -like "$($wordToComplete)*"}).id
+    [System.Collections.ArrayList]$ReturnArr = @()
+    if ($TideClasses = (Get-B1TideThreatClass | Where-Object {$_.id -like "$($wordToComplete)*"}).id) {
+        $ReturnArr += $TideClasses
+    }
+    if ($ThreatInsightClasses = (Get-B1TideThreatInsightClass | Where-Object {$_.class -like "$($wordToComplete)*"}).class) {
+        $ReturnArr += $ThreatInsightClasses
+    }
+    return $ReturnArr
 }
-Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatClass -ScriptBlock $B1TDTideThreatClass
+Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TideData -ParameterName ThreatClass -ScriptBlock $B1TDTideThreatClass
 
 $B1TDTideThreatProperty = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (Get-B1TDTideThreatProperty | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+    (Get-B1TideThreatProperty | Where-Object {$_.name -like "$($wordToComplete)*"}).name
 }
-Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TDTideData -ParameterName ThreatProperty -ScriptBlock $B1TDTideThreatProperty
+Register-ArgumentCompleter -CommandName Get-B1DNSEvent,Submit-B1TideData -ParameterName ThreatProperty -ScriptBlock $B1TDTideThreatProperty
 
 $B1TDTideDataProfile = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (Get-B1TDTideDataProfile | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+    (Get-B1TideDataProfile | Where-Object {$_.name -like "$($wordToComplete)*"}).name
 }
-Register-ArgumentCompleter -CommandName Submit-B1TDTideData -ParameterName Profile -ScriptBlock $B1TDTideDataProfile
-Register-ArgumentCompleter -CommandName Get-B1TDTideDataProfile -ParameterName Name -ScriptBlock $B1TDTideDataProfile
+Register-ArgumentCompleter -CommandName Submit-B1TideData -ParameterName Profile -ScriptBlock $B1TDTideDataProfile
+Register-ArgumentCompleter -CommandName Get-B1TideDataProfile -ParameterName Name -ScriptBlock $B1TDTideDataProfile
+
+$ServiceLogApplications = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1ServiceLogApplications | Where-Object {$_.label -like "$($wordToComplete)*"}).label
+    
+}
+Register-ArgumentCompleter -CommandName Get-B1ServiceLog -ParameterName Container -ScriptBlock $ServiceLogApplications

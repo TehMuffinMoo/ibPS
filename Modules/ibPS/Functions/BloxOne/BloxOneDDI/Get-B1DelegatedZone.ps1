@@ -16,7 +16,12 @@
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .PARAMETER View
-        The DNS View where the delegated zone(s) are located
+        The DNS View where the delegated zone(s) are located.
+        
+        Filtering by DNS View is not supported by this API endpoint, so the filtering is done in postprocessing after the query is made. This means if the -View parameter is specified, it will only filter on already returned results.
+
+    .PARAMETER ParentId
+        You can use the -ParentId parameter to provide the Parent Authoritative DNS Zone's ID to filter by. See examples.
 
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
@@ -35,6 +40,9 @@
 
     .EXAMPLE
         PS> Get-B1DelegatedZone -FQDN "prod.mydomain.corp"
+
+    .EXAMPLE
+        PS> Get-B1DelegatedZone -ParentId (Get-B1AuthoritativeZone -FQDN 'parent.zone' -View 'my-dnsview' -Strict).id
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -47,6 +55,7 @@
       [bool]$Disabled,
       [Switch]$Strict = $false,
       [String]$View,
+      [String]$ParentId,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String]$tfilter,
@@ -63,8 +72,8 @@
     if ($Disabled) {
         $Filters.Add("disabled==`"$Disabled`"") | Out-Null
     }
-    if ($ViewUUID) {
-        $Filters.Add("view==`"$ViewUUID`"") | Out-Null
+    if ($ParentId) {
+        $Filters.Add("parent==`"$ParentId`"") | Out-Null
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
@@ -87,8 +96,12 @@
     }
 
     if ($QueryString) {
-        Query-CSP -Method GET -Uri "dns/delegation$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "dns/delegation$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dns/delegation?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "dns/delegation?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
+    if ($View) {
+        $Result = $Result | Where-Object {$_.view -eq $ViewUUID}
+    }
+    return $Result
 }

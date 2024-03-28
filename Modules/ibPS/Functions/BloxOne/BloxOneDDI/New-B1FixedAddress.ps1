@@ -47,8 +47,9 @@
     param(
       [Parameter(Mandatory=$true)]
       [String]$IP,
-      [Parameter(Mandatory=$true)]
+      [Parameter(Mandatory=$false)]
       [String]$Name,
+      [Parameter(Mandatory=$false)]
       [String]$Description,
       [Parameter(Mandatory=$true)]
       [ValidateSet("mac","client_text","client_hex","relay_text","relay_hex")]
@@ -75,7 +76,7 @@
     }
     $splat = $splat | ConvertTo-Json -Depth 10
 
-    if ($Debug) {$splat}
+    if ($ENV:IBPSDebug -eq "Enabled") {$splat}
     $Result = Query-CSP -Method POST -Uri "dhcp/fixed_address" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
     if ($Result.address -eq $IP) {
       Write-Host "Created Fixed Address Successfully." -ForegroundColor Green

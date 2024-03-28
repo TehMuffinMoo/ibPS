@@ -60,7 +60,7 @@ function Query-CSP {
         $Uri = "$B1CSPUrl/api/ddi/v1/"+$Uri
     }
     $Uri = $Uri -replace "\*","``*"
-    if ($Debug) {$Uri}
+    if ($ENV:IBPSDebug -eq "Enabled") {$Uri}
 
     $splat = @{
         "Method" = $Method

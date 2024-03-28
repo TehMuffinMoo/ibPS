@@ -12,14 +12,17 @@
     .PARAMETER Space
         Use this parameter to filter the list of Address Blocks by Space
 
-    .PARAMETER SubnetCIDRSize
+    .PARAMETER CIDRSize
         The size of the desired subnet specified using CIDR suffix
 
-    .PARAMETER SubnetCount
+    .PARAMETER Count
         The desired number of subnets to return
 
+    .PARAMETER ID
+        The ID of the Parent Address Block. This accepts pipeline input from Get-B1AddressBlock
+
     .EXAMPLE
-        PS>  Get-B1AddressBlockNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space mcox-ipspace -SubnetCIDRSize 24 -SubnetCount 5 | ft address,cidr
+        PS> Get-B1AddressBlockNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space my-ipspace -CIDRSize 24 -Count 5 | ft address,cidr
         
         address  cidr
         -------  ----
@@ -29,6 +32,8 @@
         10.0.4.0   24
         10.0.5.0   24
     
+    .EXAMPLE
+        PS> Get-B1AddressBlock -Subnet 10.10.10.0/16 -Space my-ipspace | Get-B1AddressBlockNextAvailable -CIDRSize 29 -Count 2
     .FUNCTIONALITY
         BloxOneDDI
     
@@ -37,23 +42,43 @@
     #>
     param(
       [Parameter(Mandatory=$true)]
+      [Int]$CIDRSize,
+      [Int]$Count = 1,
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$ParentAddressBlock,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Space,
-      [Parameter(Mandatory=$true)]
-      [Int]$SubnetCIDRSize,
-      [Int]$SubnetCount = 1
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName = "ID",
+        Mandatory=$true
+      )]
+      [String[]]$ID
     )
 
-    $ParentAddressBlockCIDRPair = $ParentAddressBlock.Split("/")
-    if ($ParentAddressBlockCIDRPair[0] -and $ParentAddressBlockCIDRPair[1]) {
-        $Parent = Get-B1AddressBlock -Subnet $ParentAddressBlockCIDRPair[0] -CIDR $ParentAddressBlockCIDRPair[1] -Space $Space
+    process {
+        if ($ID) {
+            if (($ID.split('/')[1]) -ne "address_block") {
+                Write-Error "Error. Unsupported pipeline object. The input must be of type: address_block"
+                return $null
+            } else {
+                $Parent = [PSCustomObject]@{
+                    id = $ID
+                }
+            }
+        } else {
+            $ParentAddressBlockCIDRPair = $ParentAddressBlock.Split("/")
+            if ($ParentAddressBlockCIDRPair[0] -and $ParentAddressBlockCIDRPair[1]) {
+                $Parent = Get-B1AddressBlock -Subnet $ParentAddressBlockCIDRPair[0] -CIDR $ParentAddressBlockCIDRPair[1] -Space $Space
+            } else {
+                Write-Host "Invalid Parent Address Block format: $ParentAddressBlock. Ensure you enter it as a full IP including the CIDR notation (i.e 10.192.0.0/12)" -ForegroundColor Red
+            }
+        }
+
         if ($Parent) {
-            Query-CSP -Method "GET" -Uri "$($Parent.id)/nextavailableaddressblock?cidr=$SubnetCIDRSize&count=$SubnetCount" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            Query-CSP -Method "GET" -Uri "$($Parent.id)/nextavailableaddressblock?cidr=$CIDRSize&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
             Write-Host "Unable to find Parent Address Block: $ParentAddressBlock" -ForegroundColor Red
         }
-    } else {
-        Write-Host "Invalid Parent Address Block format: $ParentAddressBlock. Ensure you enter it as a full IP including the CIDR notation (i.e 10.192.0.0/12)" -ForegroundColor Red
     }
 }

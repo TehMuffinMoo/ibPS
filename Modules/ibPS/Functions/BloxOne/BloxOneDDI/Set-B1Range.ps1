@@ -85,7 +85,7 @@
           $DHCPRange.dhcp_host = (Get-B1HAGroup -Name $HAGroup -Strict).id
         }
         $splat = $DHCPRange | Select-Object * -ExcludeProperty utilization,utilization_v6,id,inheritance_assigned_hosts,inheritance_parent,parent,protocol,space,inheritance_sources | ConvertTo-Json -Depth 10
-        if ($Debug) {$splat}
+        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
         $Result = Query-CSP -Method PATCH -Uri $($DHCPRange.id) -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($($Result.id) -eq $($DHCPRange.id)) {
             Write-Host "Updated DHCP Range: $($DHCPRange.name) - $($DHCPRange.start) - $($DHCPRange.end) Successfully." -ForegroundColor Green

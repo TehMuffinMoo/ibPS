@@ -66,6 +66,9 @@ function Get-B1DNSEvent {
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER Page
+        Use this parameter to cycle through pages. If this parameter is not specified, it will default to the first page.
+
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
         
@@ -102,7 +105,8 @@ function Get-B1DNSEvent {
       [datetime]$End = $(Get-Date),
       [String[]]$Fields,
       [int]$Limit = 100,
-      [int]$Offset = 0
+      [int]$Offset = 0,
+      [int]$Page
     )
 
     $StartEpoch = [math]::round($((Get-Date -Date ($Start) -UFormat %s)))
@@ -154,6 +158,9 @@ function Get-B1DNSEvent {
     }
     $Filters += "_limit=$Limit"
     $Filters += "_offset=$Offset"
+    if ($Page) {
+      $Filters += "_page_token=$Page"
+    }
     if ($DNSView) {
       $DNSViewReturned = Get-B1DNSView -Name $DNSView -Strict
       $DNSViewReturnedId = $($DNSViewReturned).id.Substring(9)

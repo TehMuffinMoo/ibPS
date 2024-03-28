@@ -116,7 +116,7 @@
             $HAGroupID = $HAGroup.id
             $HAGroup.PSObject.Properties.Remove('id')
             $splat = $HAGroup | ConvertTo-Json -Depth 5
-            if ($Debug) { $splat }
+            if ($ENV:IBPSDebug -eq "Enabled") { $splat }
 
             $Result = Query-CSP -Method PATCH -Uri $($HAGroupID) -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
             if ($Result.id -eq $HAGroupID) {

@@ -77,6 +77,11 @@
         }
     }
     if ($Subnet) {
+        if ($Subnet -match '/\d') { 
+            $IPandMask = $Subnet -Split '/' 
+            $Subnet = $IPandMask[0]
+            $CIDR = $IPandMask[1]
+        }
         $Filters.Add("address==`"$Subnet`"") | Out-Null
     }
     if ($CIDR) {

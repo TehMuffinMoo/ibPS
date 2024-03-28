@@ -23,6 +23,9 @@
     .PARAMETER DNSView
         The DNS View the Authoritative DDNS Zones are located in
 
+    .PARAMETER Tags
+        The tags to apply to the DHCP Config Profile
+
     .PARAMETER id
         The id of the DHCP config profile to update. Accepts pipeline input
 
@@ -40,6 +43,7 @@
       [System.Object]$DDNSZones,
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$DNSView,
+      [System.Object]$Tags,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
         ParameterSetName="With ID",
@@ -63,6 +67,9 @@
             if (!($ConfigProfile) ) {
                 Write-Host "Error. Config Profile $Name not found" -ForegroundColor Red
             } else {
+                if ($Tags) {
+                    $ConfigProfile.tags = $Tags
+                }
                 if ($AddDDNSZones) {
                     $ConfigProfileJson = @()
                     foreach ($DDNSZone in $DDNSZones) {

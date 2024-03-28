@@ -13,7 +13,7 @@ Performs a health check on a BloxOneDDI Host
 ## SYNTAX
 
 ```
-Get-B1HealthCheck [-OnPremHost] <String> [-Type] <String> [<CommonParameters>]
+Get-B1HealthCheck [-B1Host] <String> [-Type] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,18 +23,18 @@ This function is used to perform a health check on a BloxOneDDI Host
 
 ### EXAMPLE 1
 ```powershell
-Get-B1HealthCheck -OnPremHost "B1DDI-01" -Type "ApplicationHealth"
+Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
 ```
 
 ## PARAMETERS
 
-### -OnPremHost
+### -B1Host
 The BloxOneDDI Host name/fqdn
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: OnPremHost
 
 Required: True
 Position: 1

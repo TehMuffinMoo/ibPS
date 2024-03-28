@@ -44,7 +44,7 @@
 
 ## How To Use
 
-To clone and run this PowerShell Module, you'll be best off with Git. This can be downloaded/extracted and run locally without an issue, but Git is preferred as updates to the Modules can be received with far less effort.
+The easiest option to install the ibPS Module is to use the PowerShell Gallery.
 
 ### Loading ibPS Module
 You can either load the cmdlets directly, or Import/Install it as a PowerShell Module.
@@ -156,7 +156,7 @@ This is used to filter the fields returned by the API
     </td>
     <td>
 This is used to specify the number of results to return from the API.
-<pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000</pre>
+<pre>Get-B1ServiceLog -B1Host MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000</pre>
     </td>
   </tr>
   <tr>
@@ -165,7 +165,7 @@ This is used to specify the number of results to return from the API.
     </td>
     <td>
 The -Offset parameter will offset the results returned by the amount specified. This is used in combination with -Limit to achieve pagination of API results.
-<pre>Get-B1ServiceLog -OnPremHost MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000 -Offset 1000</pre>
+<pre>Get-B1ServiceLog -B1Host MyB1Host -Start (Get-Date).AddHours(-6) -Limit 1000 -Offset 1000</pre>
     </td>
   </tr>
   <tr>
@@ -255,11 +255,14 @@ Set-B1HAGroup                    | ![Implemented](https://badgen.net/badge/Statu
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
-Set-B1TDTideDataProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TDTideDataProfile
-Remove-B1TDSecurityPolicy        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TDSecurityPolicy
-Remove-B1TDNetworkList           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TDNetworkList
-Get-B1TDDossierLookup            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1TTDDossierLookup
+Set-B1TideDataProfile            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TideDataProfile
+Remove-B1SecurityPolicy          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
+Remove-B1NetworkList             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1NetworkList
+Get-B1DossierLookup              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1DossierLookup
 Set-B1Object                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Object
+Get-B1ZoneChild                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSView<br>Get-B1AuthoritativeZone<br>Get-B1ForwardZone
+Get-B1IPAMChild                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Space<br>Get-B1AddressBlock<br>Get-B1Subnet<br>Get-B1Range
+Get-B1AddressBlockNextAvailable  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 
 ## To-Do
 All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested, where updates are then posted to main.

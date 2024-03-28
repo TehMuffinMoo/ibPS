@@ -15,13 +15,13 @@ Updates an existing Forward Zone in BloxOneDDI
 ### Default
 ```
 Set-B1ForwardZone -FQDN <String> [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>]
- -View <Object> [<CommonParameters>]
+ -View <Object> [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### With ID
 ```
-Set-B1ForwardZone [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>] -id <String>
- [<CommonParameters>]
+Set-B1ForwardZone [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>] [-Tags <Object>]
+ -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -108,6 +108,21 @@ Parameter Sets: Default
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Tags
+Any tags you want to apply to the forward zone
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

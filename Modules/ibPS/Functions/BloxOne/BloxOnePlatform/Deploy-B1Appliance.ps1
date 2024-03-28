@@ -120,21 +120,21 @@
 
     .EXAMPLE
         PS> Deploy-B1Appliance -Type "VMware" `
-                           -Name "bloxoneddihost1" `
-                           -IP "10.10.100.10" `
-                           -Netmask "255.255.255.0" `
-                           -Gateway "10.10.100.1" `
-                           -DNSServers "10.30.10.10,10.30.10.10" `
-                           -NTPServers "time.mydomain.corp" `
-                           -DNSSuffix "prod.mydomain.corp" `
-                           -JoinToken "JoinTokenGoesHere" `
-                           -ImagesPath .\Images `
-                           -DownloadLatestImage `
-                           -vCenter "vcenter.mydomain.corp" `
-                           -Cluster "CLUSTER-001" `
-                           -Datastore "DATASTORE-001" `
-                           -PortGroup "PORTGROUP" `
-                           -PortGroupType "VDS"
+                            -Name "bloxoneddihost1" `
+                            -IP "10.10.100.10" `
+                            -Netmask "255.255.255.0" `
+                            -Gateway "10.10.100.1" `
+                            -DNSServers "10.30.10.10","10.30.20.10" `
+                            -NTPServers "time.mydomain.corp","time2.mydomain.corp" `
+                            -DNSSuffix "prod.mydomain.corp" `
+                            -JoinToken "JoinTokenGoesHere" `
+                            -ImagesPath .\Images `
+                            -DownloadLatestImage `
+                            -vCenter "vcenter.mydomain.corp" `
+                            -Cluster "CLUSTER-001" `
+                            -Datastore "DATASTORE-001" `
+                            -PortGroup "PORTGROUP" `
+                            -PortGroupType "VDS"
     
     .EXAMPLE
         PS> Deploy-B1Appliance -Type Hyper-V `
@@ -169,23 +169,29 @@
       [Parameter(Mandatory=$true)]
       [String]$Name,
       [Parameter(Mandatory=$true)]
-      [System.Object]$IP,
+      [IPAddress]$IP,
       [Parameter(Mandatory=$true)]
-      [System.Object]$Netmask,
+      [ValidateScript({Test-NetmaskString $_})]
+      [String]$Netmask,
       [Parameter(Mandatory=$true)]
-      [System.Object]$Gateway,
+      [IPAddress]$Gateway,
+      [Parameter(Mandatory=$false)]
+      [IPAddress[]]$DNSServers = "52.119.40.100",
+      [Parameter(Mandatory=$false)]
+      [String[]]$NTPServers = "ntp.ubuntu.com",
+      [Parameter(Mandatory=$false)]
+      [String]$DNSSuffix,
       [Parameter(Mandatory=$true)]
-      [System.Object]$DNSServers = "52.119.40.100",
-      [Parameter(Mandatory=$true)]
-      [System.Object]$NTPServers,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$DNSSuffix,
-      [Parameter(Mandatory=$true)]
-      [System.Object]$JoinToken,
+      [String]$JoinToken,
+      [Parameter(Mandatory=$false)]
       [Switch]$DownloadLatestImage,
+      [Parameter(Mandatory=$false)]
       [String]$ImagesPath,
+      [Parameter(Mandatory=$false)]
       [Switch]$SkipCloudChecks,
+      [Parameter(Mandatory=$false)]
       [Switch]$SkipPingChecks,
+      [Parameter(Mandatory=$false)]
       [Switch]$SkipPowerOn
     )
 
@@ -316,10 +322,40 @@
    }
 
     process {
+
+        $CurrentOS = Detect-OS
+
+        switch ($Type) {
+            "VMware" {
+                if (!(Get-Module -ListAvailable -Name VMware.PowerCLI -ErrorAction SilentlyContinue -WarningAction SilentlyContinue)) {
+                    Write-Error "You must have the VMware PowerCLI Module installed to deploy to vCenter / ESXi."
+                    return $null
+                }
+            }
+            "Hyper-V" {
+                if (($CurrentOS) -eq "Windows") {
+                    if ((Get-WindowsFeature -Name "Hyper-V-PowerShell").'InstallState' -ne "Installed") {
+                        Write-Error "You must have the Hyper-V PowerShell Module installed to deploy to Hyper-V."
+                        return $null
+                    }
+                } else {
+                    Write-Error "You must be running ibPS on Windows to deploy to Hyper-V"
+                    return $null
+                }
+            }
+        }
+
         if (!($SkipPingChecks)) {
-            if ((Test-NetConnection $IP -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
-                Write-Error "Error. IP Address already in use."
-                break
+            if ($CurrentOS -eq "Windows") {
+                if ((Test-NetConnection $($IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
+                    Write-Error "Error. IP Address already in use."
+                    return $null
+                }
+            } else {
+                if ((Test-Connection -IPv4 $($IP.IPAddressToString) -Count 1 -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).Status -eq "Success") {
+                    Write-Error "Error. IP Address already in use."
+                    return $null
+                }
             }
         }
 
@@ -327,6 +363,7 @@
             Write-Host "-DownloadLatestImage is selected. The latest BloxOne image will be used." -ForegroundColor Cyan
             if ($PSBoundParameters['OVAPath'] -or $PSBoundParameters['VHDPath']) {
                 Write-Error "-DownloadLatestImage cannot be used in conjunction with -OVAPath or -VHDPath"
+                return $null
             }
             if ($ImagesPath) {
                 Write-Host "-ImagesPath is selected. Collecting existing cached images.." -ForegroundColor Cyan
@@ -383,9 +420,11 @@
                     }
                 } else {
                     Write-Error "Error. Failed to identify image name."
+                    return $null
                 }
             } else {
                 Write-Error "Error. Failed to find image."
+                return $null
             }
         }
 
@@ -404,25 +443,25 @@
                     Write-Host "Connected to vCenter $($PSBoundParameters['vCenter']) successfully." -ForegroundColor Green
                 } else {
                     Write-Error "Failed to establish session with vCenter $($PSBoundParameters['vCenter'])."
-                    break
+                    return $null
                 }
             
                 $VMCluster = Get-Cluster $($PSBoundParameters['Cluster']) -ErrorAction SilentlyContinue
                 $VMHost = $VMCluster | Get-VMHost -State "Connected" | Select-Object -First 1
                 if (!($VMCluster)) {
                     Write-Error "Error. Failed to get VM Cluster, please check details and try again."
-                    break
+                    return $null
                 }
                 if (!($Datastore = Get-Datastore $($PSBoundParameters['Datastore']) -ErrorAction SilentlyContinue)) {
                     Write-Error "Error. Failed to get VM Datastore, please check details and try again."
-                    break
+                    return $null
                 }
                 switch($($PSBoundParameters['PortGroupType'])) {
                     "vDS" {
                         $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
                         if (!($NetworkMapping)) {
                             Write-Error "Error. Failed to get vDS Port Group, please check details and try again."
-                            break
+                            return $null
                         } else {
                             $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
                         }
@@ -431,19 +470,19 @@
                         $NetworkMapping = Get-VirtualSwitch -VMHost $VMHost | Get-VirtualPortGroup -Name $($PSBoundParameters['PortGroup'])
                         if (!($NetworkMapping)) {
                             Write-Error "Error. Failed to get Virtual Port Group, please check details and try again."
-                            break
+                            return $null
                         } else {
             
                         }
                     }
                     "Default" {
                         Write-Error "Invalid Port Group Type specified. Must be either `"vDS`" or `"Standard`""
-                        break
+                        return $null
                     }
                 }
                 if (!(Test-Path $($ImageFile))) {
                     Write-Error "Error. OVA $($ImageFile) not found."
-                    break
+                    return $null
                 } else {
                     $OVFConfig = Get-OvfConfiguration -Ovf $($ImageFile)
                 }
@@ -454,11 +493,11 @@
                     if ($OVFConfig) {
                         Write-Host "Generating OVFConfig file for BloxOne Appliance: $Name .." -ForegroundColor Cyan
             
-                        $OVFConfig.Common.address.Value = $IP
-                        $OVFConfig.Common.gateway.Value = $Gateway
+                        $OVFConfig.Common.address.Value = $IP.IPAddressToString
+                        $OVFConfig.Common.gateway.Value = $Gateway.IPAddressToString
                         $OVFConfig.Common.netmask.Value = $Netmask
-                        $OVFConfig.Common.nameserver.Value = $DNSServers
-                        $OVFConfig.Common.ntp_servers.Value = $NTPServers
+                        $OVFConfig.Common.nameserver.Value = $DNSServers.IPAddressToString -join ','
+                        $OVFConfig.Common.ntp_servers.Value = $NTPServers -join ','
                         $OVFConfig.Common.jointoken.Value = $JoinToken
                         $OVFConfig.Common.search.Value = $DNSSuffix
                         $OVFConfig.Common.v4_mode.Value = "static"
@@ -473,7 +512,7 @@
                 
                     if ($VM) {
                         Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
-                        if ($Debug) {$VM | Format-Table -AutoSize}
+                        if ($ENV:IBPSDebug -eq "Enabled") {$VM | Format-Table -AutoSize}
                         if (!($SkipPowerOn)) {
                         Write-Host "Powering on $Name.." -ForegroundColor Cyan
                         $VMStart = Start-VM -VM $VM
@@ -502,7 +541,7 @@
                     }
                 }
                 Write-Host "Generating customization metadata" -ForegroundColor Cyan
-                $VMMetadata = New-B1Metadata -IP $IP -Netmask $Netmask -Gateway $Gateway -DNSServers $DNSServers -JoinToken $JoinToken -DNSSuffix $DNSSuffix
+                $VMMetadata = New-B1Metadata -IP $($IP.IPAddressToString) -Netmask $Netmask -Gateway $($Gateway.IPAddressToString) -DNSServers $($DNSServers.IPAddressToString -join ',') -JoinToken $JoinToken -DNSSuffix $DNSSuffix
                 if ($VMMetadata) {
                     Write-Host "Customization metadata generated successfully." -ForegroundColor Cyan
                 } else {
@@ -623,19 +662,19 @@
         if ($VM) {
             if (!($SkipPowerOn)) {
                 if (!($SkipPingChecks)) {
-                    while (!(Test-NetConnection $IP -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
+                    while (!(Test-NetConnection $($IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
                         $PingStartCount = $PingStartCount + 10
                         Write-Host "Waiting for network to become reachable. Elapsed Time: $PingStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
                         if ($PingStartCount -gt 120) {
-                            Write-Error "Error. Network Failed to become reachable on $IP."
+                            Write-Error "Error. Network Failed to become reachable on $($IP.IPAddressToString)."
                             break
                         }
                     }
                 }
 
                 if (!($SkipCloudChecks)) {
-                    while (!(Get-B1Host -IP $IP)) {
+                    while (!(Get-B1Host -IP $($IP.IPAddressToString))) {
                         $CSPStartCount = $CSPStartCount + 10
                         Write-Host "Waiting for BloxOne Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
@@ -655,7 +694,7 @@
                     Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Gray
 
                     if (!($SkipCloudChecks)) {
-                        Get-B1Host -IP $IP | Format-Table display_name,ip_address,host_version -AutoSize
+                        Get-B1Host -IP $($IP.IPAddressToString) | Format-Table display_name,ip_address,host_version -AutoSize
                     }
                     Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
                 } else {
