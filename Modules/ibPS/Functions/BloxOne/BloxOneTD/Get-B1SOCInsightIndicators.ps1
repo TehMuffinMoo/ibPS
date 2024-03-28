@@ -15,6 +15,21 @@
     .PARAMETER insightId
         The insightId of the Insight to retrieve impacted indicators for.  Accepts pipeline input (See examples)
 
+    .PARAMETER Confidence
+        Filter the indicators by confidence level
+
+    .PARAMETER Indicator
+        Filter the indicator result by a specific indicator
+
+    .PARAMETER Action
+        Filter the indicators by the associated action
+
+    .PARAMETER Actor
+        Filter the indicators by the associated actor
+
+    .PARAMETER Limit
+        Set the limit for the quantity of event results (defaults to 100)
+
     .EXAMPLE
         PS> Get-B1SOCInsight -Priority CRITICAL | Get-B1SOCInsightIndicators | ft -AutoSize            
 

@@ -18,6 +18,9 @@
     .PARAMETER Count
         The desired number of subnets to return
 
+    .PARAMETER ID
+        The ID of the Parent Address Block. This accepts pipeline input from Get-B1AddressBlock
+
     .EXAMPLE
         PS> Get-B1AddressBlockNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space my-ipspace -CIDRSize 24 -Count 5 | ft address,cidr
         

@@ -25,6 +25,9 @@
     .PARAMETER Contiguous
         Use the -Contiguous switch to indicate whether the IP addresses should belong to a contiguous block. Default is false
 
+    .PARAMETER ID
+        The ID of the Subnet or Address Block. This accepts pipeline input from Get-B1AddressBlock & Get-B1Subnet
+
     .EXAMPLE
         PS> Get-B1Subnet -Subnet 10.37.34.0/24 | Get-B1AddressNextAvailable -Count 10 -Contiguous | ft address
 

@@ -6,6 +6,12 @@
     .DESCRIPTION
         This function is used to check the Bootstrap UI Local Access status for the given BloxOne Host
 
+    .PARAMETER B1Host
+        The name of the BloxOne Host to check the current local access status for
+
+    .PARAMETER OPH
+        The BloxOne Host object to check the current local access status for. This accepts pipeline input from Get-B1Host
+
     .EXAMPLE
         PS> Get-B1HostLocalAccess -B1Host "my-host-1"
 
