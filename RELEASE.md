@@ -1,7 +1,6 @@
 - Add `New-B1DelegatedZone` and `Remove-B1DelegatedZone` functions
 - Add `-ForwardOnly` flag to `New-B1ForwardZone` function
 - Add `-Tags` parameter to `New-B1AddressReservation`, `New-B1ForwardZone`, `Set-B1Record`, `Set-B1ForwardZone` & `Set-B1DHCPConfigProfile`
-- Add `-DevelopmentMode` parameter to `Get-ibPSVersion` to enable exporting private functions for the purpose of development
 - Add numerous pester tests
 - Add auto/tab completion for `-Container` parameter on `Get-B1ServiceLog`
 - Add `-Offset` parameter to `Get-B1DHCPLease`
