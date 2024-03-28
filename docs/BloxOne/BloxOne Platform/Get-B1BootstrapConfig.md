@@ -24,7 +24,7 @@ This function is used to retrieve the bootstrap configuration for a BloxOneDDI H
 
 ### EXAMPLE 1
 ```powershell
-Get-B1BootstrapConfig -OnPremHost "myonpremhost.corp.domain.com"
+Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"
 ```
 
 ## PARAMETERS
