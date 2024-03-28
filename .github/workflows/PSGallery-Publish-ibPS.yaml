@@ -31,9 +31,6 @@ jobs:
           $Module = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
 
           $ModuleVersion = [version]$Module.Version
-          if ((Find-Module -Name ibPS).Version -eq $ModuleVersion) {
-            $IsCurrentVersion = $true
-          }
 
           $CustomModuleVersion = "${{ inputs.customVersion }}"
           if ($CustomModuleVersion -eq "true") {
