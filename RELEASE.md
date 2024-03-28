@@ -19,7 +19,7 @@
 - When specifying >10K and <50K as the `-Limit` parameter on `Get-B1DNSLog`, the function will now call the **export** API endpoint allowing retrieval of larger datasets.
 - Remove mandatory flag for `-Name` and `-Description` parameters on `New-B1AddressReservation` & `New-B1FixedAddress`
 - Removed mandatory flag for `-DNSServers`, `-NTPServers` & `-DNSSuffix` parameters on `Deploy-B1Appliance`
-- The -OnPremHost parameter has been renamed to -B1Host for following functions: `Get-B1ServiceLog`, `Start-B1Export`, `Get-B1HealthCheck`, `New-B1Service`, `Reboot-B1Host`, `Start-B1DiagnosticTask`. Parameter alises have been put in place to prevent breaking of existing scripts. These aliases will be deprecated eventually.
+- The -OnPremHost parameter has been renamed to -B1Host for following functions: `Get-B1ServiceLog`, `Start-B1Export`, `Get-B1HealthCheck`, `New-B1Service`, `Reboot-B1Host`, `Start-B1DiagnosticTask`. Parameter aliases have been put in place to prevent breaking of existing scripts. These aliases will be deprecated eventually.
 
 ## Breaking Changes
 
