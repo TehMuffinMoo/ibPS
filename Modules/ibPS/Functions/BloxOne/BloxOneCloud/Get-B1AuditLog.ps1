@@ -42,6 +42,9 @@ function Get-B1AuditLog {
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER OrderBy
+        Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
@@ -67,6 +70,7 @@ function Get-B1AuditLog {
       [datetime]$End = (Get-Date),
       [Int]$Limit = 100,
       [Int]$Offset,
+      [String]$OrderBy,
       [String[]]$Fields,
       $CustomFilters,
       [switch]$Strict
@@ -121,8 +125,15 @@ function Get-B1AuditLog {
         $Fields += "id"
         $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
-    $QueryFilters.Add("_limit=$Limit") | Out-Null
-    $QueryFilters.Add("_offset=$Offset") | Out-Null
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
+    if ($OrderBy) {
+        $QueryFilters.Add("_order_by=$OrderBy") | Out-Null
+    }
     $QueryString = ConvertTo-QueryString $QueryFilters
 
     if ($QueryString) {

@@ -36,6 +36,9 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER OrderBy
+        Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
@@ -67,6 +70,7 @@
       [Int]$Offset = 0,
       [String]$tfilter,
       [String[]]$Fields,
+      [String]$OrderBy,
       $CustomFilters,
       [String]$id
     )
@@ -114,10 +118,19 @@
     if ($Fields) {
         $Fields += "id"
         $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
-      }
-    $QueryFilters.Add("_limit=$Limit") | Out-Null
-    $QueryFilters.Add("_offset=$Offset") | Out-Null
-    $QueryString = ConvertTo-QueryString $QueryFilters
+    }
+    if ($OrderBy) {
+        $QueryFilters.Add("_order_by=$OrderBy") | Out-Null
+    }
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
 
     if ($QueryString) {
         Query-CSP -Uri "ipam/address_block$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue

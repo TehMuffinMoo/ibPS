@@ -17,7 +17,6 @@
 - Add threat insight classes both as a function `Get-B1TideThreatInsightClasses` and also as part of the `-ThreatClass` auto-completion
 - Add `Get-B1HostLocalAccess`, `Enable-B1HostLocalAccess` and `Disable-B1HostLocalAccess` functions to obtain the current state and enable/disable the Local Access Bootstrap UI
 - Add new `Set-ibPSConfiguration` function for enabling Development and/or Debug mode
-- Add `-Page` parameter to `Get-B1DNSEvent` to enable better pagination
 - When specifying >10K and <50K as the `-Limit` parameter on `Get-B1DNSLog`, the function will now call the **export** API endpoint allowing retrieval of larger datasets.
 - Remove mandatory flag for `-Name` and `-Description` parameters on `New-B1AddressReservation` & `New-B1FixedAddress`
 - Removed mandatory flag for `-DNSServers`, `-NTPServers` & `-DNSSuffix` parameters on `Deploy-B1Appliance`

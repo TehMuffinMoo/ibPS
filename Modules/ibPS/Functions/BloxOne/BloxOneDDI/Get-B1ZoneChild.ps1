@@ -23,6 +23,9 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER OrderBy
+        Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
     .EXAMPLE
         PS> Get-B1DNSView -Name "my-dnsview" | Get-B1ZoneChild
 
@@ -47,7 +50,8 @@
         [Switch]$Flat,
         [String]$Limit = 100,
         [String]$Offset = 0,
-        [String[]]$Fields
+        [String[]]$Fields,
+        [String]$OrderBy
     )
 
     process {
@@ -70,10 +74,18 @@
         $QueryFilters.Add("_filter=flat==`"$($FlatVar)`" and parent==`"$($ID)`"") | Out-Null
         $QueryFilters.Add("node=$ID") | Out-Null
         $QueryFilters.Add("view=SPACE") | Out-Null
-        $QueryFilters.Add("_limit=$Limit") | Out-Null
-        $QueryFilters.Add("_offset=$Offset") | Out-Null
+        if ($Limit) {
+            $QueryFilters.Add("_limit=$Limit") | Out-Null
+        }
+        if ($Offset) {
+            $QueryFilters.Add("_offset=$Offset") | Out-Null
+        }
         if ($Fields) {
+            $Fields += "id"
             $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+        }
+        if ($OrderBy) {
+            $QueryFilters.Add("_order_by=$OrderBy") | Out-Null
         }
         if ($QueryFilters) {
             $QueryString = ConvertTo-QueryString $QueryFilters

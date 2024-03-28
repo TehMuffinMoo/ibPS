@@ -27,6 +27,15 @@ function Get-B1DFP {
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results. The default number of results is 100.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
+    .PARAMETER tfilter
+        Use this parameter to filter the results returned by tag.
+
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
         
@@ -49,7 +58,11 @@ function Get-B1DFP {
         [Int]$PolicyID,
         [Switch]$DefaultSecurityPolicy,
         [Switch]$Strict,
+        [Int]$Limit = 100,
+        [Int]$Offset = 0,
+        [String]$tfilter,
         [String[]]$Fields,
+        [String]$OrderBy,
         [String]$id
     )
  
@@ -79,9 +92,18 @@ function Get-B1DFP {
         $Filter = (Combine-Filters $Filters)
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
     if ($Fields) {
-      $Fields += "id"
-      $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+    if ($tfilter) {
+        $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
     if ($QueryFilters) {
       $QueryString = ConvertTo-QueryString $QueryFilters

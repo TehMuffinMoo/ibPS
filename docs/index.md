@@ -152,6 +152,15 @@ This is used to filter the fields returned by the API
   </tr>
   <tr>
     <td class="paramName">
+      -OrderBy
+    </td>
+    <td>
+This is used to order the results returned from the API. It defaults to ascending if no suffix is set, but can be set using 'asc' or 'desc' as shown below.
+<pre>Get-B1Host -OrderBy 'display_name asc'</pre>
+    </td>
+  </tr>
+  <tr>
+    <td class="paramName">
       -Limit
     </td>
     <td>
