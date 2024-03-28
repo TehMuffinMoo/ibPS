@@ -13,7 +13,7 @@ Used to set ibPS specific configuration
 ## SYNTAX
 
 ```
-Set-ibPSConfiguration [[-DevelopmentMode] <String>] [[-DebugMode] <String>]
+Set-ibPSConfiguration [[-DevelopmentMode] <String>] [[-DebugMode] <String>] [[-Branch] <String>]
 ```
 
 ## DESCRIPTION
@@ -58,6 +58,22 @@ Aliases:
 
 Required: False
 Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Branch
+Use the -Branch parameter to select the github branch to update with.
+Only works when installed from Github, not from PowerShell Gallery.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
