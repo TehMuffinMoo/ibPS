@@ -20,7 +20,7 @@ $B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne" -Exclude Pr
 $B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne\Private\*.ps1"
 $NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\*.ps1"
 $NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1"
-$AdditionalFunctionsToImport = "Get-ibPSVersion","Get-NetworkInfo","Query-NIOS"
+$AdditionalFunctionsToImport = "Get-ibPSVersion","Set-ibPSConfiguration","Get-NetworkInfo","Query-NIOS"
 
 foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $NIOSPublicFunctions + $NIOSPrivateFunctions + $MiscellaneousFunctions)) {
   try {
