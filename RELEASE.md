@@ -19,6 +19,7 @@
 - When specifying >10K and <50K as the `-Limit` parameter on `Get-B1DNSLog`, the function will now call the **export** API endpoint allowing retrieval of larger datasets.
 - Remove mandatory flag for `-Name` and `-Description` parameters on `New-B1AddressReservation` & `New-B1FixedAddress`
 - Removed mandatory flag for `-DNSServers`, `-NTPServers` & `-DNSSuffix` parameters on `Deploy-B1Appliance`
+- The -OnPremHost parameter has been renamed to -B1Host for following functions: `Get-B1ServiceLog`, `Start-B1Export`, `Get-B1HealthCheck`, `New-B1Service`, `Reboot-B1Host`, `Start-B1DiagnosticTask`. Parameter alises have been put in place to prevent breaking of existing scripts. These aliases will be deprecated eventually.
 
 ## Breaking Changes
 
@@ -32,3 +33,4 @@
 | All BloxOne Threat Defense related functions have been renamed to remove the `TD` part of the command suffix. |
 | Functions previously using `Get-B1TD...` `Set-B1TD...` etc. will now move to `Get-B1...` and `Set-B1...`.This is to align with the rest of the module. |
 | See the <a href="https://ibps.readthedocs.io/en/dev/Change%20Log/#:~:text=BloxOne%20Platform-,BloxOne%20Threat%20Defense,-Generic%20Wrapper">Documentation</a> for further details |
+

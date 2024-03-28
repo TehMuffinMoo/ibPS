@@ -6,7 +6,7 @@ function Get-B1ServiceLog {
     .DESCRIPTION
         This function is used to query the BloxOneDDI Service Log. This log contains information from all containers on all BloxOneDDI Hosts, allowing you to query various types of diagnostic related data.
 
-    .PARAMETER OnPremHost
+    .PARAMETER B1Host
         Use this parameter to filter the log for events relating to a specific BloxOneDDI Host
 
     .PARAMETER Container
@@ -22,7 +22,7 @@ function Get-B1ServiceLog {
         Use this parameter to limit the quantity of results. The default number of results is 100.
 
     .EXAMPLE
-        PS> Get-B1ServiceLog -OnPremHost "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
+        PS> Get-B1ServiceLog -B1Host "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -31,7 +31,8 @@ function Get-B1ServiceLog {
         Logs
     #>
     param(
-      [string]$OnPremHost,
+      [Alias('OnPremHost')]
+      [string]$B1Host,
       [string]$Container,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
@@ -42,8 +43,8 @@ function Get-B1ServiceLog {
     $End = $End.ToUniversalTime()
 
     $Filters = @()
-    if ($OnPremHost) {
-        $OPHID = (Get-B1Host -Name $OnPremHost).ophid
+    if ($B1Host) {
+        $OPHID = (Get-B1Host -Name $B1Host).ophid
         $Filters += "ophid=$OPHID"
     }
     if ($Container) {
@@ -68,11 +69,11 @@ function Get-B1ServiceLog {
 
     $QueryFilters = ConvertTo-QueryString -Filters $Filters
 
-    $B1OnPremHosts = Get-B1Host -Detailed
+    $B1B1Hosts = Get-B1Host -Detailed
     if ($QueryFilters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET | Select-Object -ExpandProperty logs | Select-Object timestamp,@{Name = 'onpremhost'; Expression = {$ophid = $_.ophid; (@($B1OnPremHosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET | Select-Object -ExpandProperty logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET | Select-Object -ExpandProperty logs | Select-Object timestamp,@{Name = 'onpremhost'; Expression = {$ophid = $_.ophid; (@($B1OnPremHosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET | Select-Object -ExpandProperty logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
     }
     if ($Results) {
         return $Results
