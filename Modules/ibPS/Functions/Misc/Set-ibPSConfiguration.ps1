@@ -35,6 +35,7 @@ function Set-ibPSConfiguration {
 
   if ($DevelopmentMode) {
     $Platform = Detect-OS
+    $ENV:IBPSDevelopment = $DevelopmentMode
     if ($Platform -eq "Windows") {
       [System.Environment]::SetEnvironmentVariable('IBPSDevelopment',$DevelopmentMode,[System.EnvironmentVariableTarget]::User)
     } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
@@ -43,7 +44,6 @@ function Set-ibPSConfiguration {
       }
       sed -i '' -e '/IBPSDevelopment/d' ~/.zshenv
       echo "export IBPSDevelopment=$DevelopmentMode" >> ~/.zshenv
-      $ENV:IBPSDevelopment = $DevelopmentMode
     }
     if ($DevelopmentMode -eq 'Enabled') {
       Write-Host "Enabling Development Mode.." -ForegroundColor Cyan
@@ -73,8 +73,8 @@ function Set-ibPSConfiguration {
       }
       sed -i '' -e '/IBPSDebug/d' ~/.zshenv
       echo "export IBPSDebug=$DebugMode" >> ~/.zshenv
-      $ENV:IBPSDebug = $DebugMode
     }
+    $ENV:IBPSDebug = $DebugMode
     Write-Host "$($DebugMode) Development Mode." -ForegroundColor Green
   }
 
@@ -91,5 +91,4 @@ function Set-ibPSConfiguration {
     }
     $ENV:IBPSBranch = $Branch
   }
-
 }
