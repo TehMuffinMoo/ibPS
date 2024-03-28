@@ -14,7 +14,7 @@ Initiates a BloxOneDDI Export/Backup
 
 ```
 Start-B1Export [-Name] <String> [[-Description] <String>] [-DNSConfig] [-DNSData] [-NTPData] [-IPAMData]
- [-KeyData] [-ThreatDefense] [-Bootstrap] [-OnPremHosts] [-Redirects] [-Tags] [-BackupAll] [<CommonParameters>]
+ [-KeyData] [-ThreatDefense] [-Bootstrap] [-B1Hosts] [-Redirects] [-Tags] [-BackupAll] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -24,7 +24,7 @@ This function is used to initiate a BloxOneDDI Export/Backup
 
 ### EXAMPLE 1
 ```powershell
-Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -DNSConfig -DNSData -IPAMData -KeyData -ThreatDefense -Bootstrap -OnPremHosts -Redirects -Tags
+Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -DNSConfig -DNSData -IPAMData -KeyData -ThreatDefense -Bootstrap -B1Hosts -Redirects -Tags
 ```
 
 ### EXAMPLE 2
@@ -181,13 +181,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OnPremHosts
+### -B1Hosts
 Use this switch to enable BloxOne Host Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases:
+Aliases: OnPremHosts
 
 Required: False
 Position: Named

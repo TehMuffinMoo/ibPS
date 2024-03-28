@@ -13,7 +13,7 @@ Queries the BloxOneDDI Service Log
 ## SYNTAX
 
 ```
-Get-B1ServiceLog [[-OnPremHost] <String>] [[-Container] <String>] [[-Start] <DateTime>] [[-End] <DateTime>]
+Get-B1ServiceLog [[-B1Host] <String>] [[-Container] <String>] [[-Start] <DateTime>] [[-End] <DateTime>]
  [[-Limit] <Int32>]
 ```
 
@@ -25,18 +25,18 @@ This log contains information from all containers on all BloxOneDDI Hosts, allow
 
 ### EXAMPLE 1
 ```powershell
-Get-B1ServiceLog -OnPremHost "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
+Get-B1ServiceLog -B1Host "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
 ```
 
 ## PARAMETERS
 
-### -OnPremHost
+### -B1Host
 Use this parameter to filter the log for events relating to a specific BloxOneDDI Host
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: OnPremHost
 
 Required: False
 Position: 1

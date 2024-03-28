@@ -14,7 +14,7 @@ Reboots a BloxOneDDI Host
 
 ### Default
 ```
-Reboot-B1Host -OnPremHost <String> [-NoWarning] [<CommonParameters>]
+Reboot-B1Host -B1Host <String> [-NoWarning] [<CommonParameters>]
 ```
 
 ### With ID
@@ -29,18 +29,18 @@ This function is used to initiate a reboot of a BloxOneDDI Host
 
 ### EXAMPLE 1
 ```powershell
-Reboot-B1Host -OnPremHost "bloxoneddihost1.mydomain.corp" -NoWarning
+Reboot-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
 ```
 
 ## PARAMETERS
 
-### -OnPremHost
+### -B1Host
 The FQDN of the host to reboot
 
 ```yaml
 Type: String
 Parameter Sets: Default
-Aliases:
+Aliases: OnPremHost
 
 Required: True
 Position: Named

@@ -14,30 +14,30 @@ Initiates a BloxOneDDI Diagnostic Task
 
 ### traceroute
 ```
-Start-B1DiagnosticTask [-OnPremHost <String>] [-Traceroute] -Target <String> [-Port <String>] [-WaitForOutput]
+Start-B1DiagnosticTask [-B1Host <String>] [-Traceroute] -Target <String> [-Port <String>] [-WaitForOutput]
  [-id <String>] [<CommonParameters>]
 ```
 
 ### dnstest
 ```
-Start-B1DiagnosticTask [-OnPremHost <String>] [-DNSTest] -FQDN <String> [-WaitForOutput] [-id <String>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DNSTest] -FQDN <String> [-WaitForOutput] [-id <String>]
  [<CommonParameters>]
 ```
 
 ### ntptest
 ```
-Start-B1DiagnosticTask [-OnPremHost <String>] [-NTPTest] [-WaitForOutput] [-id <String>] [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-NTPTest] [-WaitForOutput] [-id <String>] [<CommonParameters>]
 ```
 
 ### dnsconf
 ```
-Start-B1DiagnosticTask [-OnPremHost <String>] [-DNSConfiguration] [-WaitForOutput] [-id <String>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DNSConfiguration] [-WaitForOutput] [-id <String>]
  [<CommonParameters>]
 ```
 
 ### dhcpconf
 ```
-Start-B1DiagnosticTask [-OnPremHost <String>] [-DHCPConfiguration] [-WaitForOutput] [-id <String>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DHCPConfiguration] [-WaitForOutput] [-id <String>]
  [<CommonParameters>]
 ```
 
@@ -58,13 +58,13 @@ Start-B1DiagnosticTask -DHCPConfiguration
 
 ## PARAMETERS
 
-### -OnPremHost
+### -B1Host
 The name/fqdn of the BloxOneDDI Host to run the task against
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: OnPremHost
 
 Required: False
 Position: Named
