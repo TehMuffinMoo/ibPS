@@ -14,9 +14,6 @@
    https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/CHANGELOG.md
 #>
 
-## Enable Debug Logging (Mainly @splat outputs)
-$Debug = $false
-
 ## Import Functions
 $MiscellaneousFunctions = Get-ChildItem "$PSScriptRoot\Functions\Misc\*.ps1"
 $B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne" -Exclude Private | Get-ChildItem -Recurse
