@@ -177,7 +177,8 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-Use this parameter to offset the results by the value entered for the purpose of pagination
+Use this parameter to offset the results by the value entered for the purpose of pagination.
+Only works if -Limit is less than 10,000 and combined Limit and Offset do not exceed 10,000
 
 ```yaml
 Type: Int32

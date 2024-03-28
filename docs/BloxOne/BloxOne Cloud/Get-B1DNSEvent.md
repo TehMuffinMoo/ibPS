@@ -18,7 +18,7 @@ Get-B1DNSEvent [[-Query] <String>] [[-IP] <String>] [[-Response] <String[]>] [[-
  [[-FeedType] <String[]>] [[-AppCategory] <String[]>] [[-ThreatProperty] <String[]>]
  [[-ThreatIndicator] <String[]>] [[-PolicyAction] <String[]>] [[-EndpointGroup] <String[]>]
  [[-AppName] <String[]>] [[-DNSView] <String[]>] [[-Start] <DateTime>] [[-End] <DateTime>]
- [[-Fields] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [[-Fields] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Page] <Int32>]
 ```
 
 ## DESCRIPTION
@@ -348,6 +348,22 @@ Aliases:
 
 Required: False
 Position: 21
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Page
+Use this parameter to cycle through pages.
+If this parameter is not specified, it will default to the first page.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 22
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
