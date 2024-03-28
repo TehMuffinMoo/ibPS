@@ -48,7 +48,7 @@ jobs:
           ## Functions to export
           $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
-          $AdditionalFunctionsToImport = "Get-ibPSVersion","Get-NetworkInfo","Query-NIOS"
+          $AdditionalFunctionsToImport = "Get-ibPSVersion","Set-ibPSConfiguration","Get-NetworkInfo","Query-NIOS"
 
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
           Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes "https://ibps.readthedocs.io/en/latest/Change%20Log/"
