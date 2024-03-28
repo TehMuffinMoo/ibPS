@@ -52,7 +52,7 @@ time_left   period       enabled   B1Host
 ## PARAMETERS
 
 ### -B1Host
-{{ Fill B1Host Description }}
+The name of the BloxOne Host to check the current local access status for
 
 ```yaml
 Type: String
@@ -67,7 +67,8 @@ Accept wildcard characters: False
 ```
 
 ### -OPH
-{{ Fill OPH Description }}
+The BloxOne Host object to check the current local access status for.
+This accepts pipeline input from Get-B1Host
 
 ```yaml
 Type: PSObject[]

@@ -109,7 +109,8 @@ Accept wildcard characters: False
 ```
 
 ### -ID
-{{ Fill ID Description }}
+The ID of the Parent Address Block.
+This accepts pipeline input from Get-B1AddressBlock
 
 ```yaml
 Type: String[]

@@ -148,7 +148,8 @@ Accept wildcard characters: False
 ```
 
 ### -ID
-{{ Fill ID Description }}
+The ID of the Subnet or Address Block.
+This accepts pipeline input from Get-B1AddressBlock & Get-B1Subnet
 
 ```yaml
 Type: String[]

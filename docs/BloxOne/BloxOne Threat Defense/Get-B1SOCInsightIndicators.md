@@ -39,7 +39,7 @@ Blocked     3             17 2              scrn.dgrdegrdf.veryfastsecureweb.com
 ## PARAMETERS
 
 ### -Confidence
-{{ Fill Confidence Description }}
+Filter the indicators by confidence level
 
 ```yaml
 Type: String
@@ -54,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -Indicator
-{{ Fill Indicator Description }}
+Filter the indicator result by a specific indicator
 
 ```yaml
 Type: String
@@ -69,7 +69,7 @@ Accept wildcard characters: False
 ```
 
 ### -Action
-{{ Fill Action Description }}
+Filter the indicators by the associated action
 
 ```yaml
 Type: String
@@ -84,7 +84,7 @@ Accept wildcard characters: False
 ```
 
 ### -Actor
-{{ Fill Actor Description }}
+Filter the indicators by the associated actor
 
 ```yaml
 Type: String
@@ -99,7 +99,7 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+Set the limit for the quantity of event results (defaults to 100)
 
 ```yaml
 Type: String
