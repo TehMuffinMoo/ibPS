@@ -22,7 +22,7 @@
 - Removed mandatory flag for `-DNSServers`, `-NTPServers` & `-DNSSuffix` parameters on `Deploy-B1Appliance`
 - The `-OnPremHost` parameter has been renamed to `-B1Host` for following functions: `Get-B1ServiceLog`, `Start-B1Export`, `Get-B1HealthCheck`, `New-B1Service`, `Reboot-B1Host`, `Start-B1DiagnosticTask`. Parameter aliases have been put in place to prevent breaking of existing scripts. These aliases will be deprecated eventually.
 
-## Breaking Changes
+### Breaking Changes
 
 |  **Deploy-B1Appliance**  |
 |:-------------------------|
