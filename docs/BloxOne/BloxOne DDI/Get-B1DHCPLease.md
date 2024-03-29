@@ -14,20 +14,20 @@ Retrieves a list of DHCP Leases from BloxOneDDI IPAM
 
 ### st (Default)
 ```
-Get-B1DHCPLease [-Space <String>] [-Limit <String>] [-Offset <String>] [-Fields <String[]>] [-OrderBy <String>]
+Get-B1DHCPLease [-Space <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>]
  [-Strict] [<CommonParameters>]
 ```
 
 ### htree
 ```
-Get-B1DHCPLease [-Range] -RangeStart <String> [-RangeEnd <String>] [-Space <String>] [-Limit <String>]
- [-Offset <String>] [-Fields <String[]>] [-OrderBy <String>] [-Strict] [<CommonParameters>]
+Get-B1DHCPLease [-Range] -RangeStart <String> [-RangeEnd <String>] [-Space <String>] [-Limit <Int32>]
+ [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>] [-Strict] [<CommonParameters>]
 ```
 
 ### std
 ```
 Get-B1DHCPLease [-Address <String>] [-MACAddress <String>] [-Hostname <String>] [-HAGroup <String>]
- [-DHCPServer <String>] [-Space <String>] [-Limit <String>] [-Offset <String>] [-Fields <String[]>]
+ [-DHCPServer <String>] [-Space <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>]
  [-OrderBy <String>] [-Strict] [<CommonParameters>]
 ```
 
@@ -187,7 +187,7 @@ Accept wildcard characters: False
 Limits the number of results returned, the default is 100
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -202,7 +202,7 @@ Accept wildcard characters: False
 Use this parameter to offset the results by the value entered for the purpose of pagination
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 

@@ -13,7 +13,7 @@ Retrieves a list of child objects from a DNS View or Zone
 ## SYNTAX
 
 ```
-Get-B1ZoneChild [-ID] <String> [-Flat] [[-Limit] <String>] [[-Offset] <String>] [[-Fields] <String[]>]
+Get-B1ZoneChild [-ID] <String> [-Flat] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>]
  [[-OrderBy] <String>] [<CommonParameters>]
 ```
 
@@ -75,7 +75,7 @@ Accept wildcard characters: False
 Limits the number of results returned, the default is 100
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -90,7 +90,7 @@ Accept wildcard characters: False
 Use this parameter to offset the results by the value entered for the purpose of pagination
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 

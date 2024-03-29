@@ -13,7 +13,7 @@ Use this cmdlet to retrieve information on all Threat Feed objects for the accou
 ## SYNTAX
 
 ```
-Get-B1ThreatFeeds [[-Name] <String>] [-Strict]
+Get-B1ThreatFeeds [[-Name] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>] [-Strict]
 ```
 
 ## DESCRIPTION
@@ -49,6 +49,53 @@ Aliases:
 
 Required: False
 Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Use this parameter to limit the quantity of results.
+The default number of results is 1000.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: 1000
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Fields
+Specify a list of fields to return.
+The default is to return all fields.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -13,8 +13,8 @@ Retrieves a list of BloxOneDDI Services
 ## SYNTAX
 
 ```
-Get-B1Service [-Name <String>] [-Type <String>] [-Detailed] [-Limit <String>] [-Strict] [-Fields <String[]>]
- [-id <String>] [<CommonParameters>]
+Get-B1Service [-Name <String>] [-Type <String>] [-Detailed] [-Limit <Int32>] [-Offset <Int32>] [-Strict]
+ [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -79,13 +79,28 @@ Use this parameter to limit the quantity of results.
 The default number of results is 10001.
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
 Default value: 10001
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -107,12 +122,44 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -tfilter
+Use this parameter to filter the results returned by tag.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Fields
 Specify a list of fields to return.
 The default is to return all fields.
 
 ```yaml
 Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 

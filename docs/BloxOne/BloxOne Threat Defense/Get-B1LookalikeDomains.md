@@ -14,7 +14,7 @@ Queries a list of detected Lookalike Domain objects with target domains specifie
 
 ```
 Get-B1LookalikeDomains [[-Domain] <String>] [[-LookalikeHost] <String>] [[-Reason] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [-Strict]
+ [[-Offset] <Int32>] [[-Fields] <String[]>] [-Strict]
 ```
 
 ## DESCRIPTION
@@ -116,6 +116,22 @@ Aliases:
 Required: False
 Position: 5
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Fields
+Specify a list of fields to return.
+The default is to return all fields.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

@@ -13,7 +13,7 @@ Queries a list of all lookalike target candidates
 ## SYNTAX
 
 ```
-Get-B1LookalikeTargetCandidates
+Get-B1LookalikeTargetCandidates [-AccountSpecific]
 ```
 
 ## DESCRIPTION
@@ -50,7 +50,33 @@ americanexpressbusiness.com
 ...
 ```
 
+### EXAMPLE 3
+```powershell
+Get-B1LookalikeTargetCandidates -AccountSpecific
+
+name                                      description    items_described                                                item_count
+----                                      -----------    ---------------                                                ----------
+Account Specific Lookalike Candidate List Auto-generated {@{item=infoblox.com; selected=True; query_count_daily=28350}}          1
+```
+
 ## PARAMETERS
+
+### -AccountSpecific
+Determines whether to return account_specific or common candidates.
+Default value is false, i.e.
+returns common candidates.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ## INPUTS
 

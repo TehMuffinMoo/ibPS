@@ -14,7 +14,7 @@ Queries a list of indicators related to a specific SOC Insight
 
 ```
 Get-B1SOCInsightIndicators [[-Confidence] <String>] [[-Indicator] <String>] [[-Action] <String>]
- [[-Actor] <String>] [[-Limit] <String>] [[-Start] <DateTime>] [[-End] <DateTime>] [-insightId] <String[]>
+ [[-Actor] <String>] [[-Limit] <Int32>] [[-Start] <DateTime>] [[-End] <DateTime>] [-insightId] <String[]>
  [<CommonParameters>]
 ```
 
@@ -102,13 +102,13 @@ Accept wildcard characters: False
 Set the limit for the quantity of event results (defaults to 100)
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 5
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
