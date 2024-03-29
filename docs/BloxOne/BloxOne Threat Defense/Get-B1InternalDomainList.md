@@ -30,13 +30,30 @@ This function is used to retrieve information on Internal Domain objects for thi
 
 ### EXAMPLE 1
 ```powershell
-Get-B1
+Get-B1InternalDomainList -IsDefault
+
+created_time     : 4/22/2020 9:21:30PM
+description      : Auto-generated
+id               : 123456
+internal_domains : {example, example.com, example.net, example.org…}
+is_default       : True
+name             : Default Bypass Domains/CIDRs
+tags             : 
+updated_time     : 1/20/2023 1:43:23PM
 ```
 
 ### EXAMPLE 2
 ```powershell
-Get-B1
-...
+Get-B1InternalDomainList -Name 'Default'
+
+created_time     : 4/22/2020 9:21:30PM
+description      : Auto-generated
+id               : 123456
+internal_domains : {example, example.com, example.net, example.org…}
+is_default       : True
+name             : Default Bypass Domains/CIDRs
+tags             : 
+updated_time     : 1/20/2023 1:43:23PM
 ```
 
 ## PARAMETERS
@@ -57,7 +74,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-{{ Fill Description Description }}
+Filter results by Description
 
 ```yaml
 Type: String
@@ -72,7 +89,7 @@ Accept wildcard characters: False
 ```
 
 ### -IsDefault
-{{ Fill IsDefault Description }}
+Filter results by the default domain list
 
 ```yaml
 Type: SwitchParameter
