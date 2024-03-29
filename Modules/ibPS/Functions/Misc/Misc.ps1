@@ -17,9 +17,9 @@
 
 function Combine-Filters {
     param(
-    [parameter(Mandatory=$true)]  
-    $Filters,
-    $Type = "and"
+      [parameter(Mandatory=$true)]  
+      $Filters,
+      $Type = "and"
     )
     $combinedFilter = $null
     $FilterCount = $Filters.Count

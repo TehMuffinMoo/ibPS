@@ -45,7 +45,7 @@
     param(
     )
 
-    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/content_categories" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/content_categories" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {
         return $Results

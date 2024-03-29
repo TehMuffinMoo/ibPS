@@ -44,8 +44,8 @@
             Mandatory=$true
         )]
         [String[]]$ID,
-        [String]$Limit = 100,
-        [String]$Offset = 0,
+        [Int]$Limit = 100,
+        [Int]$Offset = 0,
         [String[]]$Fields,
         [String]$OrderBy
     )

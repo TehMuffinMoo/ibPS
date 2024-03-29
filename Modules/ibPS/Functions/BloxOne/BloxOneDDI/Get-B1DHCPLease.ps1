@@ -71,8 +71,8 @@
         [String][parameter(ParameterSetName="std")] $HAGroup,
         [String][parameter(ParameterSetName="std")] $DHCPServer,
         [String]$Space,
-        [String]$Limit = 100,
-        [String]$Offset = 0,
+        [Int]$Limit = 100,
+        [Int]$Offset = 0,
         [String[]]$Fields,
         [String]$OrderBy,
         [switch]$Strict

@@ -18,6 +18,9 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
     .PARAMETER Start
         A date parameter used as the starting date/time of the lookalike search. By default, the search will start from 30 days ago and returns the latest results first. You may need to increase the -Limit parameter or increase the -Start date/time to view earlier events.
 
@@ -54,6 +57,7 @@
       [String[]]$ThreatClass,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [String[]]$Fields,
       [datetime]$Start = (Get-Date).AddDays(-30),
       [Switch]$Strict
     )
@@ -85,14 +89,19 @@
         $Filter = Combine-Filters $Filters
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-    $QueryFilters.Add("_limit=$Limit") | Out-Null
-    $QueryFilters.Add("_offset=$Offset") | Out-Null
-
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
+    if ($Fields) {
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
-
-    if ($QueryFilters) {
+    if ($QueryString) {
         $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atclad/v1/target_lookalike_summaries$($QueryString)" -Method GET | Select-Object -ExpandProperty results -WA SilentlyContinue -EA SilentlyContinue
     } else {
         $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atclad/v1/target_lookalike_summaries" -Method GET | Select-Object -ExpandProperty results -WA SilentlyContinue -EA SilentlyContinue
