@@ -40,11 +40,28 @@
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .EXAMPLE
-        PS> Get-B1
+        PS> Get-B1InternalDomainList -IsDefault                        
+
+        created_time     : 4/22/2020 9:21:30PM
+        description      : Auto-generated
+        id               : 123456
+        internal_domains : {example, example.com, example.net, example.org…}
+        is_default       : True
+        name             : Default Bypass Domains/CIDRs
+        tags             : 
+        updated_time     : 1/20/2023 1:43:23PM
 
     .EXAMPLE
-        PS> Get-B1
-        ...
+        PS> Get-B1InternalDomainList -Name 'Default'
+
+        created_time     : 4/22/2020 9:21:30PM
+        description      : Auto-generated
+        id               : 123456
+        internal_domains : {example, example.com, example.net, example.org…}
+        is_default       : True
+        name             : Default Bypass Domains/CIDRs
+        tags             : 
+        updated_time     : 1/20/2023 1:43:23PM
    
     .FUNCTIONALITY
         BloxOneDDI
