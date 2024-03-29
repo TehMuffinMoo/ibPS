@@ -38,6 +38,9 @@ function Get-B1DFP {
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
+
+    .PARAMETER OrderBy
+        Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
         
     .EXAMPLE
         PS> Get-B1DFP -Name "My DFP" -Strict

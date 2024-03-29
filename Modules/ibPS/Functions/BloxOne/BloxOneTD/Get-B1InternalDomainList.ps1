@@ -9,6 +9,12 @@
     .PARAMETER Name
         Filter results by Name
 
+    .PARAMETER Description
+        Filter results by Description
+
+    .PARAMETER IsDefault
+        Filter results by the default domain list
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
