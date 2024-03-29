@@ -15,19 +15,19 @@ Queries a list of address objects from the BloxOneDDI IPAM
 ### None (Default)
 ```
 Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-CustomFilters <Object>] [<CommonParameters>]
+ [-OrderBy <String>] [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### With Address
 ```
 Get-B1Address [-Address <String>] [-State <String>] [-Reserved] [-Limit <Int32>] [-Offset <Int32>]
- [-tfilter <String>] [-Fields <String[]>] [-CustomFilters <Object>] [<CommonParameters>]
+ [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### With ID
 ```
 Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-CustomFilters <Object>] [-id <String>] [<CommonParameters>]
+ [-OrderBy <String>] [-CustomFilters <Object>] [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -139,6 +139,23 @@ The default is to return all fields.
 
 ```yaml
 Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 

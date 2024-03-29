@@ -33,7 +33,7 @@
 |:-------------------------|
 | All BloxOne Threat Defense related functions have been renamed to remove the `TD` part of the command suffix. |
 | Functions previously using `Get-B1TD...` `Set-B1TD...` etc. will now move to `Get-B1...` and `Set-B1...`.This is to align with the rest of the module. |
-| See the <a href="https://ibps.readthedocs.io/en/dev/Change%20Log/#:~:text=BloxOne%20Platform-,BloxOne%20Threat%20Defense,-Generic%20Wrapper">Documentation</a> for further details |
+| See the <a href="https://ibps.readthedocs.io/en/latest/Change%20Log/#:~:text=BloxOne%20Platform-,BloxOne%20Threat%20Defense,-Generic%20Wrapper">Documentation</a> for further details |
 
 
 
@@ -51,7 +51,7 @@
 | Breaking Changes - **`Get-B1DFPLog`**     |
 |:--------------------------------------------------|
 | The new `-Source` parameter has been renamed to `-Network` to make it consistent with `Get-B1DNSEvent` and the underlying API naming scheme |
-| See the <a href="https://ibps.readthedocs.io/en/dev/BloxOne/BloxOne%20Cloud/Get-B1DFPLog/">Documentation</a> for further details |
+| See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Cloud/Get-B1DFPLog/">Documentation</a> for further details |
 
 ## 1.9.2.10
 - Remove mandatory flag in the `New-B1Subnet` & `New-B1Space` cmdlets for the `-Name` parameter
@@ -61,7 +61,7 @@
 | Breaking Changes - **`Get-B1DFPLog`**     |
 |:--------------------------------------------------|
 |The `-Source` parameter has been renamed to `-IP` to make it consistent with `Get-B1DNSLog`<br>A new `-Source` parameter has been created. This is used to specify the Source of the DNS Event (i.e DFP, External Network or Endpoint) and allows multiple values to be inputted |
-| See the <a href="https://ibps.readthedocs.io/en/dev/BloxOne/BloxOne%20Cloud/Get-B1DFPLog/">Documentation</a> for further details |
+| See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Cloud/Get-B1DFPLog/">Documentation</a> for further details |
 
 - v1.9.2.7, v1.9.2.8 & v1.9.2.9 were skipped due to issues with the automated package provisioning.
 

@@ -14,7 +14,8 @@ Queries a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
 
 ```
 Get-B1DFP [[-Name] <String[]>] [[-SiteID] <String>] [[-OPHID] <String>] [[-PolicyID] <Int32>]
- [-DefaultSecurityPolicy] [-Strict] [[-Fields] <String[]>] [[-id] <String>]
+ [-DefaultSecurityPolicy] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -126,6 +127,52 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Limit
+Use this parameter to limit the quantity of results.
+The default number of results is 100.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: 100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -tfilter
+Use this parameter to filter the results returned by tag.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Fields
 Specify a list of fields to return.
 The default is to return all fields.
@@ -136,7 +183,22 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderBy
+{{ Fill OrderBy Description }}
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -151,7 +213,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

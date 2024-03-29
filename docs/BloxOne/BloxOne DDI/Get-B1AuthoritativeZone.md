@@ -15,7 +15,7 @@ Retrieves a list of authoritative zones from BloxOneDDI
 ```
 Get-B1AuthoritativeZone [[-FQDN] <String>] [[-Type] <String>] [[-Disabled] <Boolean>] [-Strict]
  [[-View] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>]
- [[-id] <String>]
+ [[-OrderBy] <String>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -169,6 +169,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 The id of the authoritative zone to filter by
 
@@ -178,7 +195,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

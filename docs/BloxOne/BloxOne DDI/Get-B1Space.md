@@ -14,7 +14,7 @@ Queries a list of BloxOneDDI IPAM/DHCP Spaces
 
 ```
 Get-B1Space [[-Name] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-id] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -123,6 +123,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Use this parameter to filter the list of spaces by id
 
@@ -132,7 +149,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

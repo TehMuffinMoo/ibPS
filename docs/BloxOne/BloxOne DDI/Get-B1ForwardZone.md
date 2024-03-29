@@ -14,7 +14,7 @@ Retrieves a list of forward zones from BloxOneDDI
 
 ```
 Get-B1ForwardZone [[-FQDN] <String>] [[-Disabled] <Boolean>] [-Strict] [[-View] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-id] <String>]
+ [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -153,6 +153,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Filter the results by forward zone id
 
@@ -162,7 +179,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

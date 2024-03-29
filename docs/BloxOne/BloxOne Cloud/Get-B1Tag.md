@@ -13,7 +13,8 @@ Retrieves a list of BloxOneDDI Tags
 ## SYNTAX
 
 ```
-Get-B1Tag [[-Name] <String>] [[-Status] <String>] [-Strict] [[-Fields] <String[]>]
+Get-B1Tag [[-Name] <String>] [[-Status] <String>] [-Strict] [[-Fields] <String[]>] [[-Limit] <Int32>]
+ [[-Offset] <Int32>]
 ```
 
 ## DESCRIPTION
@@ -87,6 +88,37 @@ Aliases:
 Required: False
 Position: 3
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Use this parameter to limit the quantity of results.
+The default number of results is 100.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: 100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

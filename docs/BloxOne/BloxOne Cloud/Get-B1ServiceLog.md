@@ -14,7 +14,7 @@ Queries the BloxOneDDI Service Log
 
 ```
 Get-B1ServiceLog [[-B1Host] <String>] [[-Container] <String>] [[-Start] <DateTime>] [[-End] <DateTime>]
- [[-Limit] <Int32>]
+ [[-Limit] <Int32>] [[-Offset] <Int32>]
 ```
 
 ## DESCRIPTION
@@ -104,6 +104,21 @@ Aliases:
 Required: False
 Position: 5
 Default value: 100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
