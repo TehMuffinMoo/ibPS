@@ -278,10 +278,13 @@ Remove-B1SecurityPolicy          | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1NetworkList             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1NetworkList
 Get-B1DossierLookup              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1DossierLookup
 Set-B1Object                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Object
+Get-NetworkInfo                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock<br>Get-B1Subnet<br>Get-B1Range
 Get-B1ZoneChild                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSView<br>Get-B1AuthoritativeZone<br>Get-B1ForwardZone
 Get-B1IPAMChild                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Space<br>Get-B1AddressBlock<br>Get-B1Subnet<br>Get-B1Range
 Get-B1AddressBlockNextAvailable  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 Get-B1SecurityPolicyRules        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
+
+
 
 ## To-Do
 All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested, where updates are then posted to main.
