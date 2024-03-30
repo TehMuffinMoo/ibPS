@@ -15,7 +15,7 @@ Queries DNS records from BloxOneDDI
 ```
 Get-B1Record [[-Type] <String>] [[-Name] <String>] [[-Zone] <String>] [[-rdata] <String>] [[-FQDN] <String>]
  [[-Source] <String>] [[-View] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [-IncludeInheritance]
- [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-id] <String>]
+ [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -249,6 +249,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderByTag
+Optionally return the list ordered by a particular tag value.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 13
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Use the id parameter to filter the results by ID
 
@@ -258,7 +274,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 14
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

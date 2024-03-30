@@ -14,7 +14,8 @@ Retrieves a list of BloxOneDDI DHCP Hosts
 
 ```
 Get-B1DHCPHost [[-Name] <String>] [[-IP] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [-Associations] [[-id] <String>]
+ [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [-Associations]
+ [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -166,6 +167,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderByTag
+Optionally return the list ordered by a particular tag value.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Associations
 Obtain a list of associated subnets/ranges with this host
 
@@ -190,7 +207,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

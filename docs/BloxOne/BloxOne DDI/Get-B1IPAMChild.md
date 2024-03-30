@@ -14,7 +14,7 @@ Retrieves a list of child objects from IPAM
 
 ```
 Get-B1IPAMChild [-ID] <String[]> [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>]
- [[-OrderBy] <String>] [<CommonParameters>]
+ [[-OrderBy] <String>] [[-OrderByTag] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -114,6 +114,22 @@ Aliases:
 
 Required: False
 Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderByTag
+Optionally return the list ordered by a particular tag value.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

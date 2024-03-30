@@ -15,7 +15,7 @@ Queries a list of BloxOneDDI Hosts
 ```
 Get-B1Host [[-Name] <String>] [[-IP] <String>] [[-OPHID] <String>] [[-Space] <String>] [[-Limit] <Int32>]
  [[-Status] <String>] [-Detailed] [-BreakOnError] [-Reduced] [-Strict] [-NoIPSpace] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-OrderBy] <String>] [[-id] <String>] [<CommonParameters>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -247,6 +247,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderByTag
+Optionally return the list ordered by a particular tag value.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Use the id parameter to filter the results by ID
 
@@ -256,7 +272,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -15,12 +15,13 @@ Retrieves information on Internal Domain objects for this account
 ### Default (Default)
 ```
 Get-B1InternalDomainList [-Name <String>] [-Description <String>] [-IsDefault] [-Strict] [-Limit <Int32>]
- [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [<CommonParameters>]
+ [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>]
+ [<CommonParameters>]
 ```
 
 ### With ID
 ```
-Get-B1InternalDomainList [-id <String>] [<CommonParameters>]
+Get-B1InternalDomainList [-OrderByTag <String>] [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -190,6 +191,22 @@ Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as de
 ```yaml
 Type: String
 Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderByTag
+Optionally return the list ordered by a particular tag value.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
 Aliases:
 
 Required: False
