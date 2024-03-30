@@ -161,6 +161,15 @@ This is used to order the results returned from the API. It defaults to ascendin
   </tr>
   <tr>
     <td class="paramName">
+      -OrderByTag
+    </td>
+    <td>
+This is used to order the results returned from the API based on tag. It defaults to ascending if no suffix is set, but can be set using 'asc' or 'desc' as shown below.
+<pre>Get-B1Host -OrderByTag 'nios/grid_name desc'</pre>
+    </td>
+  </tr>
+  <tr>
+    <td class="paramName">
       -Limit
     </td>
     <td>
