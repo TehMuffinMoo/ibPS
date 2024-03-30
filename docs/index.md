@@ -112,7 +112,7 @@ Get-Help New-B1AddressBlock -Detailed
 ```
 
 ### Common Parameters
-Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-Limit` & `-Offset` parameters. Their use is described below.
+Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-OrderBy`, `-OrderByTag`, `-Limit` & `-Offset` parameters. Their use is described below.
 
 <table>
   <tr>
