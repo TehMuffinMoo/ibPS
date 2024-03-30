@@ -81,7 +81,7 @@
 
     process {
         if ($ID) {
-            $PermittedInputs = "address_block","subnet"
+            $PermittedInputs = "address_block","subnet","range"
             if (($ID.split('/')[1]) -notin $PermittedInputs) {
                 Write-Error "Error. Unsupported pipeline object. The input must be of type: address_block or subnet"
                 return $null
