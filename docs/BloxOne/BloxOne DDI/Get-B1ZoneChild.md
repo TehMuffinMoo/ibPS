@@ -13,8 +13,9 @@ Retrieves a list of child objects from a DNS View or Zone
 ## SYNTAX
 
 ```
-Get-B1ZoneChild [-ID] <String> [-Flat] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>]
- [[-OrderBy] <String>] [[-OrderByTag] <String>] [<CommonParameters>]
+Get-B1ZoneChild [[-Type] <String>] [[-Name] <String>] [[-Description] <String>] [-Flat] [[-Limit] <Int32>]
+ [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
+ [[-tfilter] <String>] [-Object] <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,18 +42,48 @@ Get-B1ForwardZone -FQDN "my.dns.zone" | Get-B1ZoneChild
 
 ## PARAMETERS
 
-### -ID
-The ID of the parent DNS View or Zone to list child objects for
+### -Type
+Filter results by the object type
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Name
+Filter results by the object name
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Description
+Filter results by the object description
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
@@ -80,7 +111,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 4
 Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -95,8 +126,25 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 5
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Strict
+Use strict filter matching.
+By default, filters are searched using wildcards where possible.
+Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -111,7 +159,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -128,7 +176,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -144,9 +192,39 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 8
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -tfilter
+Use this parameter to filter the results returned by tag.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+The parent object DNS View or Zone to list child objects for
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 10
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
