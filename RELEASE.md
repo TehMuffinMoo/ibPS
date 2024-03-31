@@ -3,7 +3,15 @@
 - Add `-Offset` parameter to `Get-B1ServiceLog` & `Get-B1Service`
 - Add `-tfilter` parameter to `Get-B1DNSACL`, ,`Get-B1SecurityPolicy` & `Get-B1ThreatFeeds`
 - Add `-Fields` parameter to `Get-B1SecurityPolicy`,`Get-B1ThreatFeeds` & `Get-B1LookalikeTargetSummary`
-- Add `-Limit` & `-Offset` parameters to `Get-B1Tag`,`Get-B1AuthoritativeNSG`,`Get-B1DFP`,`Get-B1DHCPOptionCode`,`Get-B1DHCPOptionGroup`,`Get-B1DHCPOptionSpace`,`Get-B1DNSACL`,`Get-B1PoPRegion`,`Get-B1SecurityPolicy`,`Get-B1ThreatFeeds`
+- Add `-Limit` & `-Offset` parameters to the following functions
+
+|                           |                           |                           |
+|:--------------------------|:--------------------------|:--------------------------|
+| `Get-B1Tag`               | `Get-B1AuthoritativeNSG`  | `Get-B1DFP`               |
+| `Get-B1DHCPOptionCode`    | `Get-B1DHCPOptionGroup`   | `Get-B1DHCPOptionSpace`   |
+| `Get-B1DNSACL`            | `Get-B1PoPRegion`         | `Get-B1SecurityPolicy`    |
+| `Get-B1ThreatFeeds`       |                           |                           |
+
 - Add `-OrderBy` parameter to the following functions
 
 |                           |                           |                           |
