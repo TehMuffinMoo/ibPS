@@ -41,6 +41,16 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
+    .PARAMETER Recurse
+        Setting the -Recurse parameter will make the function perform a recursive call and append all child networks to the '.Children' value in returned objects
+
+        This may take a long time on very large network structures.
+
+    .PARAMETER NetworkTopology
+        This does the same as: Get-B1IPAMChild | Get-B1NetworkTopology
+
+        This uses the -Recurse parameter and so very large network structures may take a long time to generate.
+
     .EXAMPLE
         PS> Get-B1Space -Name "my-ipspace" | Get-B1IPAMChild
 
@@ -67,6 +77,8 @@
         [String]$OrderBy,
         [String]$OrderByTag,
         [String]$tfilter,
+        [Switch]$Recurse,
+        [Switch]$NetworkTopology,
         [Parameter(
             ValueFromPipeline = $true,
             Mandatory=$true
@@ -75,6 +87,16 @@
     )
 
     process {
+        if ($Recurse -or $($NetworkTopology)) {
+            if ($Recurse) {
+                Write-Host "Performing recursive search. This may take a moment.." -ForegroundColor Magenta
+                Build-TopologyChildren($Object)
+                return $Object
+            } elseif ($NetworkTopology) {
+                Get-B1NetworkTopology($Object)
+                return $null
+            }
+        }
         $MatchType = Match-Type $Strict
         $PermittedInputs = "ip_space","address_block","subnet","range"
         if (($Object.id.split('/')[1]) -notin $PermittedInputs) {
