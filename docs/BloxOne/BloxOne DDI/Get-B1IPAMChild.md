@@ -13,7 +13,7 @@ Retrieves a list of child objects from IPAM
 ## SYNTAX
 
 ```
-Get-B1IPAMChild [[-Type] <String>] [[-Label] <String>] [[-Description] <String>] [[-Limit] <Int32>]
+Get-B1IPAMChild [[-Type] <String[]>] [[-Label] <String>] [[-Description] <String>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
  [[-tfilter] <String>] [-Recurse] [-NetworkTopology] [-Object] <Object[]> [<CommonParameters>]
 ```
@@ -43,10 +43,10 @@ Get-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Space "my-ipspace" | Get-B1IPAMChild
 ## PARAMETERS
 
 ### -Type
-Filter results by the object type
+Filter results by the object one or more object types
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 

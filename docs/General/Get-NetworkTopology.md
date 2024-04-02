@@ -13,7 +13,8 @@ Used to build a text or HTML based visual topology of all related child networks
 ## SYNTAX
 
 ```
-Get-NetworkTopology [-IncludeRanges] [-IncludeAddresses] [-HTML] [-Object] <Object[]> [<CommonParameters>]
+Get-NetworkTopology [-IncludeRanges] [-IncludeAddresses] [-IncludeSubnets] [-HTML] [-Object] <Object[]>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -22,13 +23,6 @@ This function is used to build a text or HTML based visual topology of all relat
 ## EXAMPLES
 
 ### EXAMPLE 1
-```powershell
-Get-B1Space mcox-ipspace | Get-NetworkTopology -HTML -IncludeRanges
-```
-
-![Network Topology](../images/Network-Topology.png)
-
-### EXAMPLE 2
 ```powershell
 Get-B1Space my-ipspace | Get-NetworkTopology -IncludeAddresses
 
@@ -92,7 +86,7 @@ Building Network Topology. This may take a moment..
 ## PARAMETERS
 
 ### -IncludeRanges
-Determines whether range objects are included in the topology output.
+Determines whether subnet objects are included in the topology output.
 This may make the results take longer if there are a large number of subnet objects.
 
 ```yaml
@@ -109,7 +103,22 @@ Accept wildcard characters: False
 
 ### -IncludeAddresses
 Determines whether address objects are included in the topology output.
-This will make the results take longer if there are a large number of range objects.
+This will make the results take longer if there are a large number of address objects.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeSubnets
+{{ Fill IncludeSubnets Description }}
 
 ```yaml
 Type: SwitchParameter
