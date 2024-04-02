@@ -15,6 +15,9 @@ function Get-ibPSVersion {
     .PARAMETER Details
         This switch will return installation details, such as module location and install type
 
+    .PARAMETER Cleanup
+        This switch will remove all except the latest version of ibPS automatically
+
     .PARAMETER Force
         This switch will force an update, whether or not one is available
 
@@ -34,6 +37,7 @@ function Get-ibPSVersion {
     [Switch]$Details,
     [Switch]$CheckForUpdates,
     [Switch]$Update,
+    [Switch]$Cleanup,
     [Switch]$Force
   )
 
@@ -48,8 +52,20 @@ function Get-ibPSVersion {
     Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary older versions to avoid issues." -ForegroundColor Yellow
     Write-Host "Installed Versions: " -ForegroundColor Red
     $InstalledModule | Select-Object Version,Name,Description,ModuleBase
+    if ($Cleanup) {
+      $ModulesToRemove = $InstalledModule | Sort-Object Version -Descending | Select-Object -Skip 1
+      $ModulesToRemove | Select-Object Version,Name,Description,ModuleBase -Wait 
+      Write-Warning "Confirmation: Do you want to proceed with removing the listed versions of ibPS?" -WarningAction Inquire
+      foreach ($ModuleToRemove in $ModulesToRemove) {
+        Remove-Item $($ModuleToRemove.ModuleBase) -Recurse -WhatIf
+      }
+    }
     $InstalledModule = $InstalledModule | Sort-Object Version -Descending | Select-Object -First 1
     $MultipleVersions = $true
+  } else {
+    if ($Cleanup) {
+      Write-Host "There were no old ibPS Versions identified for cleanup." -ForegroundColor Green
+    }
   }
   $PSGalleryModule = Get-InstalledModule -Name ibPS -EA SilentlyContinue -WA SilentlyContinue
   if ($PSGalleryModule) {
