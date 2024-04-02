@@ -14,7 +14,7 @@ Retrives the summary metrics from the Lookalike Activity Page within the CSP
 
 ```
 Get-B1LookalikeTargetSummary [[-Domain] <String>] [[-ThreatClass] <String[]>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-Start] <DateTime>] [-Strict]
+ [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Start] <DateTime>] [-Strict]
 ```
 
 ## DESCRIPTION
@@ -109,6 +109,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Fields
+Specify a list of fields to return.
+The default is to return all fields.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Start
 A date parameter used as the starting date/time of the lookalike search.
 By default, the search will start from 30 days ago and returns the latest results first.
@@ -120,7 +136,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: (Get-Date).AddDays(-30)
 Accept pipeline input: False
 Accept wildcard characters: False

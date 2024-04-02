@@ -51,19 +51,19 @@
     .FUNCTIONALITY
         Threat Defense
     #>
-    [CmdletBinding(DefaultParameterSetName="notid")]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [String]$Name,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [String]$Description,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [Int]$PolicyID,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [Switch]$DefaultSecurityPolicy,
       [parameter(ParameterSetName="With ID")]
       [Int]$id,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [Switch]$Strict
     )
 

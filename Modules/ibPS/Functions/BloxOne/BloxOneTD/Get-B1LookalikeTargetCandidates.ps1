@@ -7,6 +7,9 @@
         Use this method to retrieve information on all Lookalike Target Candidates.
         The Lookalike Target Candidates are second-level domains BloxOne uses to detect lookalike FQDNs against.
 
+    .PARAMETER AccountSpecific
+        Determines whether to return account_specific or common candidates. Default value is false, i.e. returns common candidates.
+
     .EXAMPLE
         PS> Get-B1LookalikeTargetCandidates                                                                                                
 
@@ -30,6 +33,13 @@
         americafirst.com                True
         americanexpressbusiness.com         
         ...
+
+    .EXAMPLE
+        PS> Get-B1LookalikeTargetCandidates -AccountSpecific
+
+        name                                      description    items_described                                                item_count
+        ----                                      -----------    ---------------                                                ----------
+        Account Specific Lookalike Candidate List Auto-generated {@{item=infoblox.com; selected=True; query_count_daily=28350}}          1
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -38,10 +48,21 @@
         BloxOne Threat Defense
     #>
     param(
+        [Switch]$AccountSpecific
     )
  
-    $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_target_candidates" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-  
+    [System.Collections.ArrayList]$QueryFilters = @()
+    if ($AccountSpecific) {
+        $QueryFilters.Add("account_specific=$true") | Out-Null
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
+    if ($QueryString) {
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_target_candidates$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    } else {
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_target_candidates" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    }
     if ($Results) {
       return $Results
     }

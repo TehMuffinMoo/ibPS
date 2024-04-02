@@ -12,6 +12,15 @@
     .PARAMETER Location
         Filter results by Location
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
     .PARAMETER id
         Filter the results by id
 
@@ -39,17 +48,24 @@
     .FUNCTIONALITY
         Threat Defense
     #>
-    [CmdletBinding(DefaultParameterSetName="notid")]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [String]$Region,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [String]$Location,
+      [Parameter(ParameterSetName="Default")]
+      [Int]$Limit,
+      [Parameter(ParameterSetName="Default")]
+      [Int]$Offset,
+      [Parameter(ParameterSetName="Default")]
+      [String[]]$Fields,
       [parameter(ParameterSetName="With ID")]
       [String]$id
     )
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Region) {
         $Filters.Add("region==`"$Region`"") | Out-Null
     }
@@ -58,12 +74,25 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
     if ($id) {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/pop_regions/$id" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-    } elseif ($Filter) {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/pop_regions?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    } elseif ($QueryString) {
+        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/pop_regions$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/pop_regions" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

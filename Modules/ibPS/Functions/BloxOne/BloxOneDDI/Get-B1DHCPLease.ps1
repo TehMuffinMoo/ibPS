@@ -45,6 +45,9 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER OrderBy
+        Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
     .EXAMPLE
         PS> Get-B1DHCPLease -Range -RangeStart 10.10.100.20 -RangeEnd 10.10.100.50 -Limit 100
 
@@ -68,22 +71,41 @@
         [String][parameter(ParameterSetName="std")] $HAGroup,
         [String][parameter(ParameterSetName="std")] $DHCPServer,
         [String]$Space,
-        [String]$Limit = 100,
-        [String]$Offset = 0,
+        [Int]$Limit = 100,
+        [Int]$Offset = 0,
         [String[]]$Fields,
+        [String]$OrderBy,
         [switch]$Strict
     )
     $MatchType = Match-Type $Strict
-
-    if ($Limit) {
-      $LimitString = "_limit=$($Limit)&"
-    }
 
     if ($Range -or $RangeStart -or $RangeEnd) {
         $Range = $true
         $B1Range = Get-B1Range -StartAddress $RangeStart -EndAddress $RangeEnd
         if ($Range) {
-            Query-CSP -Method GET -Uri "ipam/htree?$($LimitString)view=SPACE&state=used&node=$($B1Range.id)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
+            [System.Collections.ArrayList]$QueryFilters = @()
+            if ($Limit) {
+                $QueryFilters.Add("_limit=$Limit") | Out-Null
+            }
+            if ($Offset) {
+                $QueryFilters.Add("_offset=$Offset") | Out-Null
+            }
+            if ($OrderBy) {
+                $QueryFilters.Add("_order_by=$OrderBy") | Out-Null
+            }
+            if ($Fields) {
+                $Fields += "ha_group,host"
+                $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+            }
+            $QueryFilters.Add("view=SPACE") | Out-Null
+            $QueryFilters.Add("state=used") | Out-Null
+            $QueryFilters.Add("node=$($B1Range.id)") | Out-Null
+            if ($QueryFilters) {
+                $QueryString = ConvertTo-QueryString $QueryFilters
+            }
+            if ($QueryFilters) {
+                Query-CSP -Method GET -Uri "ipam/htree$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
+            }
         } else {
           Write-Host "Error. Range not found." -ForegroundColor Red
         }
@@ -113,13 +135,19 @@
             $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
             $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
         }
-
         if ($Filters) {
             $Filter = Combine-Filters $Filters
             $QueryFilters.Add("_filter=$Filter") | Out-Null
         }
-        $QueryFilters.Add("_limit=$Limit") | Out-Null
-        $QueryFilters.Add("_offset=$Offset") | Out-Null
+        if ($Limit) {
+            $QueryFilters.Add("_limit=$Limit") | Out-Null
+        }
+        if ($Offset) {
+            $QueryFilters.Add("_offset=$Offset") | Out-Null
+        }
+        if ($OrderBy) {
+            $QueryFilters.Add("_order_by=$OrderBy") | Out-Null
+        }
         if ($Fields) {
             $Fields += "ha_group,host"
             $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null

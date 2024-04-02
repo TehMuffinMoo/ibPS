@@ -21,6 +21,9 @@ function Get-B1ServiceLog {
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 100.
 
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
     .EXAMPLE
         PS> Get-B1ServiceLog -B1Host "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
     
@@ -36,7 +39,8 @@ function Get-B1ServiceLog {
       [string]$Container,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
-      [Int]$Limit = 100
+      [Int]$Limit = 100,
+      [Int]$Offset
     )
 
     $Start = $Start.ToUniversalTime()
@@ -58,6 +62,9 @@ function Get-B1ServiceLog {
     }
 
     if ($Limit) {
+        $Filters += "_limit=$Limit"
+    }
+    if ($Offset) {
         $Filters += "_limit=$Limit"
     }
 

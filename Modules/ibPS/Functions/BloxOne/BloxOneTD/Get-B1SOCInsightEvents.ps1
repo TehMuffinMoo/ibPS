@@ -69,7 +69,7 @@
       [String]$Source,
       [String]$IP,
       [String]$Indicator,
-      [String]$Limit = 100,
+      [Int]$Limit = 100,
       [DateTime]$Start = (Get-Date).AddDays(-1),
       [DateTime]$End = (Get-Date),
       [Parameter(

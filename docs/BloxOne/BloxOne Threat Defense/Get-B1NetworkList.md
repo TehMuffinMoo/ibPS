@@ -12,7 +12,7 @@ Retrieves network lists (External Networks) from BloxOne Threat Defense
 
 ## SYNTAX
 
-### notid (Default)
+### Default (Default)
 ```
 Get-B1NetworkList [-Name <String>] [-Description <String>] [-PolicyID <Int32>] [-DefaultSecurityPolicy]
  [-Strict] [<CommonParameters>]
@@ -61,7 +61,7 @@ Filter results by Name
 
 ```yaml
 Type: String
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -76,7 +76,7 @@ Filter results by Description
 
 ```yaml
 Type: String
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -91,7 +91,7 @@ Filter results by policy_id
 
 ```yaml
 Type: Int32
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -106,7 +106,7 @@ Filter results by those assigned to the default security policy
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -138,7 +138,7 @@ Using strict matching will only return results matching exactly what is entered 
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False

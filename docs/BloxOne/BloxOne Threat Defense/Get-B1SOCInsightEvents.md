@@ -14,7 +14,7 @@ Queries a list of events related to a specific SOC Insight
 
 ```
 Get-B1SOCInsightEvents [[-ThreatLevel] <String>] [[-ConfidenceLevel] <String>] [[-Query] <String>]
- [[-QueryType] <String>] [[-Source] <String>] [[-IP] <String>] [[-Indicator] <String>] [[-Limit] <String>]
+ [[-QueryType] <String>] [[-Source] <String>] [[-IP] <String>] [[-Indicator] <String>] [[-Limit] <Int32>]
  [[-Start] <DateTime>] [[-End] <DateTime>] [-insightId] <String[]> [<CommonParameters>]
 ```
 
@@ -149,7 +149,7 @@ Accept wildcard characters: False
 Set the limit for the quantity of event results (defaults to 100)
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 

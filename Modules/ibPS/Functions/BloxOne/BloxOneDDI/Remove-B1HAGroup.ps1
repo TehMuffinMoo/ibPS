@@ -22,9 +22,9 @@ function Remove-B1HAGroup {
         BloxOneDDI
 
     #>
-    [CmdletBinding(DefaultParameterSetName="notid")]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [String]$Name,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,

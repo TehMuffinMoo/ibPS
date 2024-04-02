@@ -14,21 +14,21 @@ Retrieves a list of DHCP Leases from BloxOneDDI IPAM
 
 ### st (Default)
 ```
-Get-B1DHCPLease [-Space <String>] [-Limit <String>] [-Offset <String>] [-Fields <String[]>] [-Strict]
- [<CommonParameters>]
+Get-B1DHCPLease [-Space <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>]
+ [-Strict] [<CommonParameters>]
 ```
 
 ### htree
 ```
-Get-B1DHCPLease [-Range] -RangeStart <String> [-RangeEnd <String>] [-Space <String>] [-Limit <String>]
- [-Offset <String>] [-Fields <String[]>] [-Strict] [<CommonParameters>]
+Get-B1DHCPLease [-Range] -RangeStart <String> [-RangeEnd <String>] [-Space <String>] [-Limit <Int32>]
+ [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>] [-Strict] [<CommonParameters>]
 ```
 
 ### std
 ```
 Get-B1DHCPLease [-Address <String>] [-MACAddress <String>] [-Hostname <String>] [-HAGroup <String>]
- [-DHCPServer <String>] [-Space <String>] [-Limit <String>] [-Offset <String>] [-Fields <String[]>] [-Strict]
- [<CommonParameters>]
+ [-DHCPServer <String>] [-Space <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>]
+ [-OrderBy <String>] [-Strict] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -187,7 +187,7 @@ Accept wildcard characters: False
 Limits the number of results returned, the default is 100
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -202,7 +202,7 @@ Accept wildcard characters: False
 Use this parameter to offset the results by the value entered for the purpose of pagination
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
@@ -219,6 +219,23 @@ The default is to return all fields.
 
 ```yaml
 Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 

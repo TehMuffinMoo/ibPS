@@ -116,10 +116,11 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Enable-B1Lookalike', 'Enable-B1LookalikeTargetCandidate', 
                'Get-B1ContentCategory', 'Get-B1DossierLookup', 
                'Get-B1DossierSupportedFeedback', 'Get-B1DossierSupportedSources', 
-               'Get-B1DossierSupportedTargets', 'Get-B1LookalikeDomains', 
-               'Get-B1Lookalikes', 'Get-B1LookalikeTargetCandidates', 
-               'Get-B1LookalikeTargets', 'Get-B1LookalikeTargetSummary', 
-               'Get-B1NetworkList', 'Get-B1PoPRegion', 'Get-B1SecurityPolicy', 
+               'Get-B1DossierSupportedTargets', 'Get-B1InternalDomainList', 
+               'Get-B1LookalikeDomains', 'Get-B1Lookalikes', 
+               'Get-B1LookalikeTargetCandidates', 'Get-B1LookalikeTargets', 
+               'Get-B1LookalikeTargetSummary', 'Get-B1NetworkList', 
+               'Get-B1PoPRegion', 'Get-B1SecurityPolicy', 
                'Get-B1SecurityPolicyRules', 'Get-B1SOCInsight', 
                'Get-B1SOCInsightAssets', 'Get-B1SOCInsightComments', 
                'Get-B1SOCInsightEvents', 'Get-B1SOCInsightIndicators', 
@@ -138,8 +139,8 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Get-NIOSAuthoritativeZone', 'Get-NIOSConfiguration', 
                'Get-NIOSCredentials', 'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
                'New-NIOSDelegatedZone', 'Set-NIOSConfiguration', 
-               'Store-NIOSCredentials', 'Get-ibPSVersion', 'Set-ibPSConfiguration', 
-               'Get-NetworkInfo', 'Query-NIOS'
+               'Store-NIOSCredentials', 'Get-ibPSVersion', 'Get-NetworkInfo', 
+               'Get-NetworkTopology', 'Set-ibPSConfiguration'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()

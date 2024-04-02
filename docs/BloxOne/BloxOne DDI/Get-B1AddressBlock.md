@@ -15,7 +15,8 @@ Queries a list of Address Blocks from the BloxOneDDI IPAM
 ```
 Get-B1AddressBlock [[-Subnet] <String>] [[-CIDR] <Int32>] [[-Name] <String>] [[-Space] <String>]
  [-IncludeInheritance] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-CustomFilters] <Object>] [[-id] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>]
+ [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -189,6 +190,39 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderByTag
+Optionally return the list ordered by a particular tag value.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -CustomFilters
 Accepts either an Object, ArrayList or String containing one or more custom filters.
 See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
@@ -199,7 +233,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -214,7 +248,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -14,7 +14,7 @@ Queries a list of lookalike domains
 
 ```
 Get-B1Lookalikes [[-Domain] <String>] [[-LookalikeDomain] <String>] [[-Reason] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-Muted] <String>] [-Strict]
+ [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Muted] <String>] [-Strict]
 ```
 
 ## DESCRIPTION
@@ -118,6 +118,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Fields
+Specify a list of fields to return.
+The default is to return all fields.
+This doesn't currently work due to the API side not filtering as expected.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Muted
 Using the -Muted parameter allows you to filter results based on muted status
 
@@ -127,7 +144,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

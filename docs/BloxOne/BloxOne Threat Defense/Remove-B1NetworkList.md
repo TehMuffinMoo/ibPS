@@ -12,7 +12,7 @@ Removes a network list from BloxOne Threat Defense
 
 ## SYNTAX
 
-### notid (Default)
+### Default (Default)
 ```
 Remove-B1NetworkList [-Name <String>] [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The name of the network list to remove
 
 ```yaml
 Type: String
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False

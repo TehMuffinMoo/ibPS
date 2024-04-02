@@ -15,7 +15,7 @@ Queries a list of Subnets from the BloxOneDDI IPAM
 ```
 Get-B1Subnet [[-Subnet] <String>] [[-CIDR] <Int32>] [[-Space] <String>] [[-Name] <String>]
  [-IncludeInheritance] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-id] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -189,6 +189,39 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderByTag
+Optionally return the list ordered by a particular tag value.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Use this parameter to query a particular subnet id
 
@@ -198,7 +231,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

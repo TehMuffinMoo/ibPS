@@ -5,135 +5,101 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1Record
+# Get-B1InternalDomainList
 
 ## SYNOPSIS
-Queries DNS records from BloxOneDDI
+Retrieves information on Internal Domain objects for this account
 
 ## SYNTAX
 
+### Default (Default)
 ```
-Get-B1Record [[-Type] <String>] [[-Name] <String>] [[-Zone] <String>] [[-rdata] <String>] [[-FQDN] <String>]
- [[-Source] <String>] [[-View] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [-IncludeInheritance]
- [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
+Get-B1InternalDomainList [-Name <String>] [-Description <String>] [-IsDefault] [-Strict] [-Limit <Int32>]
+ [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>]
+ [<CommonParameters>]
+```
+
+### With ID
+```
+Get-B1InternalDomainList [-OrderByTag <String>] [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query DNS records from BloxOneDDI
+This function is used to retrieve information on Internal Domain objects for this account
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1Record -Name "myArecord" -Zone "corp.mydomain.com" -View "default" | ft name_in_zone,rdata,type
+Get-B1InternalDomainList -IsDefault
+
+created_time     : 4/22/2020 9:21:30PM
+description      : Auto-generated
+id               : 123456
+internal_domains : {example, example.com, example.net, example.org…}
+is_default       : True
+name             : Default Bypass Domains/CIDRs
+tags             : 
+updated_time     : 1/20/2023 1:43:23PM
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1InternalDomainList -Name 'Default'
+
+created_time     : 4/22/2020 9:21:30PM
+description      : Auto-generated
+id               : 123456
+internal_domains : {example, example.com, example.net, example.org…}
+is_default       : True
+name             : Default Bypass Domains/CIDRs
+tags             : 
+updated_time     : 1/20/2023 1:43:23PM
 ```
 
 ## PARAMETERS
 
-### -Type
-The record type to filter by
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Name
-The record name to filter by
+Filter results by Name
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Zone
-The record zone to filter by
+### -Description
+Filter results by Description
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -rdata
-The record data to filter by
+### -IsDefault
+Filter results by the default domain list
 
 ```yaml
-Type: String
-Parameter Sets: (All)
+Type: SwitchParameter
+Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -FQDN
-The record FQDN to filter by
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Source
-Use this to filter by the record source type (i.e Static/Dynamic)
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -View
-The DNS View to filter by
-
-Filtering by DNS View is not supported by this API endpoint, so the filtering is done in postprocessing after the query is made.
-This means if the -View parameter is specified, it will only filter on already returned results.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: None
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -145,7 +111,7 @@ Using strict matching will only return results matching exactly what is entered 
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -161,12 +127,12 @@ The default number of results is 1000.
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 8
-Default value: 1000
+Position: Named
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -176,27 +142,12 @@ Use this parameter to offset the results by the value entered for the purpose of
 
 ```yaml
 Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 9
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -IncludeInheritance
-Whether to include inherited properties in the results
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
 Position: Named
-Default value: False
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -206,11 +157,11 @@ Use this parameter to filter the results returned by tag.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 10
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -222,11 +173,11 @@ The default is to return all fields.
 
 ```yaml
 Type: String[]
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 11
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -239,11 +190,11 @@ Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as de
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 12
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -259,26 +210,29 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -id
-Use the id parameter to filter the results by ID
+Filter the results by id
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: With ID
 Aliases:
 
 Required: False
-Position: 14
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

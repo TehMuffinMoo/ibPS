@@ -56,7 +56,7 @@
       [ValidateSet('Blocked','Not Blocked')]
       [String]$Action,
       [String]$Actor,
-      [String]$Limit,
+      [Int]$Limit,
       [DateTime]$Start = (Get-Date).AddDays(-1),
       [DateTime]$End = (Get-Date),
       [Parameter(
