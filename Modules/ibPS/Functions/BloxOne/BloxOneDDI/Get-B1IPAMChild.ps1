@@ -47,7 +47,7 @@
         This may take a long time on very large network structures.
 
     .PARAMETER NetworkTopology
-        This does the same as: Get-B1IPAMChild | Get-B1NetworkTopology
+        This does the same as: Get-B1IPAMChild | Get-NetworkTopology
 
         This uses the -Recurse parameter and so very large network structures may take a long time to generate.
 
@@ -93,7 +93,7 @@
                 Build-TopologyChildren($Object)
                 return $Object
             } elseif ($NetworkTopology) {
-                Get-B1NetworkTopology($Object)
+                Get-NetworkTopology($Object)
                 return $null
             }
         }

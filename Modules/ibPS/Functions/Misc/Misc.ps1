@@ -419,24 +419,6 @@ function Get-B1ServiceLogApplications {
   return $Result
 }
 
-function DevelopmentFunctions {
-  return @(
-    "Query-CSP"
-    "Detect-OS"
-    "Combine-Filters"
-    "ConvertTo-QueryString"
-    "Match-Type"
-    "Convert-CIDRToNetmask"
-    "Test-NetmaskString"
-    "Convert-NetmaskToCIDR"
-    "Convert-Int64toIP"
-    "Convert-IPtoInt64"
-    "Get-NetworkClass"
-    "New-B1Metadata"
-    "New-ISOFile"
-  )
-}
-
 function DeprecationNotice {
   param (
     $Date,
@@ -514,7 +496,8 @@ function Build-TopologyChildren {
   param(
       [System.Object[]]$Object,
       [Switch]$IncludeAddresses,
-      [Switch]$IncludeRanges
+      [Switch]$IncludeRanges,
+      [Int]$Progress = 0
   )
   process {
       $ObjectsToCheck = @("ipam/address_block")
@@ -524,11 +507,14 @@ function Build-TopologyChildren {
       if ($IncludeRanges -or $IncludeAddresses) {
         $ObjectsToCheck += "ipam/subnet"
       }
-      foreach ($ChildObject in $Object) {
-          $Children = $ChildObject | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      $FunctionDefinition = ${function:Build-TopologyChildren}.ToString()
+      $Object | Foreach-Object -ThrottleLimit 5 -Parallel {
+          ${function:Build-TopologyChildren} = $($using:FunctionDefinition)
+          Write-Host -NoNewLine "`rSearched: $($_.label)          "
+          $Children = $_ | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
           if ($Children -ne $null) {
-              $ChildObject | Add-Member -Type NoteProperty -Name 'Children' -Value $Children  -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-              Build-TopologyChildren -Object ($ChildObject.Children | Where-Object {$_.type -in $ObjectsToCheck}) -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
+              $_ | Add-Member -Type NoteProperty -Name 'Children' -Value $Children -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+              Build-TopologyChildren -Object ($_.Children | Where-Object {$_.type -in $($using:ObjectsToCheck)}) -IncludeAddresses:$($using:IncludeAddresses) -IncludeRanges:$($using:IncludeRanges)
           }
       }
   }
@@ -610,4 +596,27 @@ function Build-HTMLTopologyChildren {
     }
     $ParentDescription = $null
   }
+}
+
+function DevelopmentFunctions {
+  return @(
+    "Query-CSP"
+    "Detect-OS"
+    "Combine-Filters"
+    "ConvertTo-QueryString"
+    "Match-Type"
+    "Convert-CIDRToNetmask"
+    "Test-NetmaskString"
+    "Convert-NetmaskToCIDR"
+    "Convert-Int64toIP"
+    "Convert-IPtoInt64"
+    "Get-NetworkClass"
+    "New-B1Metadata"
+    "New-ISOFile"
+    "DeprecationNotice"
+    "Write-NetworkTopology"
+    "Build-TopologyChildren"
+    "Build-HTMLTopologyChildren"
+    "Query-NIOS"
+  )
 }

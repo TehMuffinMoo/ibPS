@@ -1,4 +1,4 @@
-function Get-B1NetworkTopology {
+function Get-NetworkTopology {
     <#
     .SYNOPSIS
         Used to build a text based visual topology of all related child networks
@@ -9,14 +9,17 @@ function Get-B1NetworkTopology {
     .PARAMETER Object
         The IP Space, Address Block, Subnet or Range to build a visual topology from. This parameter expects pipeline input.
     
-    .PARAMETER -IncludeRanges
+    .PARAMETER IncludeRanges
         Determines whether range objects are included in the topology output. This may make the results take longer if there are a large number of subnet objects.
 
-    .PARAMETER -IncludeAddresses
+    .PARAMETER IncludeAddresses
         Determines whether address objects are included in the topology output. This will make the results take longer if there are a large number of range objects.
 
+    .PARAMETER HTML
+        Using the -HTML switch will open a HTML based Network Topology viewer
+
     .EXAMPLE
-        PS> Get-B1Space my-ipspace | Get-B1NetworkTopology -IncludeAddresses
+        PS> Get-B1Space my-ipspace | Get-NetworkTopology -IncludeAddresses
 
         Building Network Topology. This may take a moment..
         [P] / [ip_space]
@@ -81,16 +84,21 @@ function Get-B1NetworkTopology {
         IPAM
     #>
     param(
+        [Switch]$IncludeRanges,
+        [Switch]$IncludeAddresses,
+        [Switch]$HTML,
         [Parameter(
             ValueFromPipeline = $true,
             Mandatory=$true
         )]
-        [System.Object[]]$Object,
-        [Switch]$IncludeRanges,
-        [Switch]$IncludeAddresses,
-        [Switch]$HTML
+        [System.Object[]]$Object
     )
     process {
+        $PermittedInputs = "ip_space","address_block","subnet","range"
+        if (($Object.id.split('/')[1]) -notin $PermittedInputs) {
+            Write-Error "Error. Unsupported pipeline object. Supported inputs are ip_space, address_block, subnet & range"
+            return $null
+        }
         Write-Host "Building Network Topology. This may take a moment.." -ForegroundColor Magenta
         Build-TopologyChildren($Object) -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
         Switch ($Object.id.split('/')[1]) {
@@ -104,6 +112,7 @@ function Get-B1NetworkTopology {
                 $ParentDescription = "$(($Object | Select-Object address).address)/$($Object.cidr)"
             }
         }
+        Write-Host "`r                              "
         Write-Host "[P] $ParentDescription [$($Object.id.split('/')[1])]" -ForegroundColor Yellow
         $Object | Write-NetworkTopology -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
         if ($HTML) {
@@ -112,7 +121,7 @@ function Get-B1NetworkTopology {
                 return $null
             }
             $TableID = Get-Random
-            New-HTML -TitleText 'Network Topology' -UseCssLinks -UseJavaScriptLinks -FilePath $PSScriptRoot\Network-Topology-$($TableID).html -ShowHTML {
+            New-HTML -TitleText 'Network Topology' -Online -ShowHTML {
                 New-HTMLSection -Invisible {
                     # New-HTMLPanel {
                     #     New-HTMLTable -DataTable $Topology -DataTableID $TableID
@@ -120,7 +129,7 @@ function Get-B1NetworkTopology {
                     New-HTMLPanel {
                         New-HTMLDiagram -Height '1000px' {
                             New-DiagramEvent -ID $TableID -ColumnID 1
-                            New-DiagramNode -Label $($ParentDescription) -IconSolid cloud -IconColor TangerineYellow
+                            New-DiagramNode -Label $($ParentDescription) -IconSolid cloud -IconColor TangerineYellow -Size 10
                             Build-HTMLTopologyChildren($Object) -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
                         }
                     }
