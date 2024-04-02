@@ -8,12 +8,15 @@ function Get-NetworkTopology {
 
     .PARAMETER Object
         The IP Space, Address Block, Subnet or Range to build a visual topology from. This parameter expects pipeline input.
+
+    .PARAMETER IncludeRanges
+        Determines whether subnet objects are included in the topology output. This may make the results take longer if there are a large number of subnet objects.
     
     .PARAMETER IncludeRanges
-        Determines whether range objects are included in the topology output. This may make the results take longer if there are a large number of subnet objects.
+        Determines whether range objects are included in the topology output. This may make the results take longer if there are a large number of range objects.
 
     .PARAMETER IncludeAddresses
-        Determines whether address objects are included in the topology output. This will make the results take longer if there are a large number of range objects.
+        Determines whether address objects are included in the topology output. This will make the results take longer if there are a large number of address objects.
 
     .PARAMETER HTML
         Using the -HTML switch will open a HTML based Network Topology viewer
@@ -86,6 +89,7 @@ function Get-NetworkTopology {
     param(
         [Switch]$IncludeRanges,
         [Switch]$IncludeAddresses,
+        [Switch]$IncludeSubnets,
         [Switch]$HTML,
         [Parameter(
             ValueFromPipeline = $true,
@@ -100,7 +104,7 @@ function Get-NetworkTopology {
             return $null
         }
         Write-Host "Building Network Topology. This may take a moment.." -ForegroundColor Magenta
-        Build-TopologyChildren($Object) -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
+        Build-TopologyChildren($Object) -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges -IncludeSubnets:$IncludeSubnets
         Switch ($Object.id.split('/')[1]) {
             "ip_space" {
                 $ParentDescription = "$($Object.name)"
@@ -114,7 +118,7 @@ function Get-NetworkTopology {
         }
         Write-Host "`r                              "
         Write-Host "[P] $ParentDescription [$($Object.id.split('/')[1])]" -ForegroundColor Yellow
-        $Object | Write-NetworkTopology -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
+        $Object | Write-NetworkTopology -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges -IncludeSubnets:$IncludeSubnets
         if ($HTML) {
             if (!(Get-Module PSWriteHTML -ListAvailable)) {
                 Write-Error "Error. You must have the PSWriteHTML PowerShell Module installed to use this feature."
@@ -130,7 +134,7 @@ function Get-NetworkTopology {
                         New-HTMLDiagram -Height '1000px' {
                             New-DiagramEvent -ID $TableID -ColumnID 1
                             New-DiagramNode -Label $($ParentDescription) -IconSolid cloud -IconColor TangerineYellow -Size 10
-                            Build-HTMLTopologyChildren($Object) -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
+                            Build-HTMLTopologyChildren($Object) -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges -IncludeSubnets:$IncludeSubnets
                         }
                     }
                 }

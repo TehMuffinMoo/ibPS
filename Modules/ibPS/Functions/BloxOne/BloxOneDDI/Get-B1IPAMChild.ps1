@@ -9,7 +9,7 @@
         This accepts pipeline input from Get-B1Space, Get-B1AddressBlock, Get-B1Subnet & Get-B1Range
 
     .PARAMETER Type
-        Filter results by the object type
+        Filter results by the object one or more object types
 
     .PARAMETER Label
         Filter results by the object label
@@ -67,7 +67,7 @@
         DHCP
     #>
     param (
-        [String]$Type,
+        [String[]]$Type,
         [String]$Label,
         [String]$Description,
         [Int]$Limit = 100,
@@ -107,7 +107,12 @@
         [System.Collections.ArrayList]$Filters = @()
         [System.Collections.ArrayList]$QueryFilters = @()
         if ($Type) {
-            $Filters.Add("type$($MatchType)`"$($Type)`"") | Out-Null
+            [System.Collections.ArrayList]$TypeFilters = @()
+            foreach ($T in $Type) {
+                $TypeFilters.Add("type$($MatchType)`"$($T)`"") | Out-Null
+            }
+            $TypeFilter = Combine-Filters $TypeFilters -Type 'or'
+            $Filters.Add("($($TypeFilter))") | Out-Null
         }
         if ($Label) {
             $Filters.Add("label$($MatchType)`"$($Label)`"") | Out-Null
@@ -142,7 +147,6 @@
         if ($QueryFilters) {
             $QueryString = ConvertTo-QueryString $QueryFilters
         }
-
         if ($QueryString) {
             Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/htree$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {

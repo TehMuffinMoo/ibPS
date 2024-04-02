@@ -443,7 +443,8 @@ function Write-NetworkTopology {
       [String]$AdditionalSpaces,
       [Int]$Call = 1,
       [Switch]$IncludeAddresses,
-      [Switch]$IncludeRanges
+      [Switch]$IncludeRanges,
+      [Switch]$IncludeSubnets
   )
   process {
     if ($Object.label) {
@@ -457,6 +458,9 @@ function Write-NetworkTopology {
         "subnet" {
           $Colour = 'cyan'
           $Prefix = 'SN'
+          if (!($IncludeSubnets)) {
+            $Include = $false
+          }
         }
         "range" {
           $Colour = 'magenta'
@@ -486,7 +490,7 @@ function Write-NetworkTopology {
             $SpacesToAdd += "    "
         }
         $Call += 1
-        $Object.Children | Write-NetworkTopology -AdditionalSpaces "$($SpacesToAdd)" -Call $Call -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
+        $Object.Children | Write-NetworkTopology -AdditionalSpaces "$($SpacesToAdd)" -Call $Call -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges -IncludeSubnets:$IncludeSubnets
         $Call -= 1
     }
   }
@@ -497,24 +501,31 @@ function Build-TopologyChildren {
       [System.Object[]]$Object,
       [Switch]$IncludeAddresses,
       [Switch]$IncludeRanges,
+      [Switch]$IncludeSubnets,
       [Int]$Progress = 0
   )
   process {
-      $ObjectsToCheck = @("ipam/address_block")
+      $ParentObjectsToCheck = @("ipam/address_block")
+      $ChildObjectsToCheck = @("ipam/address_block")
       if ($IncludeAddresses) {
-        $ObjectsToCheck += "ipam/range"
+        $ParentObjectsToCheck += "ipam/range"
+        $ChildObjectsToCheck += "ipam/address"
       }
-      if ($IncludeRanges -or $IncludeAddresses) {
-        $ObjectsToCheck += "ipam/subnet"
+      if ($IncludeRanges) {
+        $ParentObjectsToCheck += "ipam/subnet"
+        $ChildObjectsToCheck += "ipam/range"
+      }
+      if ($IncludeSubnets) {
+        $ChildObjectsToCheck += "ipam/subnet"
       }
       $FunctionDefinition = ${function:Build-TopologyChildren}.ToString()
-      $Object | Foreach-Object -ThrottleLimit 5 -Parallel {
+      $Object | Foreach-Object -ThrottleLimit 10 -Parallel {
           ${function:Build-TopologyChildren} = $($using:FunctionDefinition)
           Write-Host -NoNewLine "`rSearched: $($_.label)          "
-          $Children = $_ | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          $Children = $_ | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($using:ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
           if ($Children -ne $null) {
               $_ | Add-Member -Type NoteProperty -Name 'Children' -Value $Children -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-              Build-TopologyChildren -Object ($_.Children | Where-Object {$_.type -in $($using:ObjectsToCheck)}) -IncludeAddresses:$($using:IncludeAddresses) -IncludeRanges:$($using:IncludeRanges)
+              Build-TopologyChildren -Object ($_.Children | Where-Object {$_.type -in $($using:ParentObjectsToCheck)}) -IncludeAddresses:$($using:IncludeAddresses) -IncludeRanges:$($using:IncludeRanges) -IncludeSubnets:$($using:IncludeSubnets)
           }
       }
   }
@@ -525,7 +536,8 @@ function Build-HTMLTopologyChildren {
       [System.Object[]]$Object,
       [Int]$Call,
       [Switch]$IncludeAddresses,
-      [Switch]$IncludeRanges
+      [Switch]$IncludeRanges,
+      [Switch]$IncludeSubnets
   )
   process {
     if ($Call -eq 0) {
@@ -557,6 +569,9 @@ function Build-HTMLTopologyChildren {
         "subnet" {
           $Colour = 'LightBlue'
           $Icon = 'network-wired'
+          if (!($IncludeSubnets)) {
+            $Include = $false
+          }
         }
         "range" {
           $Colour = 'Magenta'
@@ -591,7 +606,7 @@ function Build-HTMLTopologyChildren {
         }
       }
       if ($ChildObject.Children -ne $null) {
-        Build-HTMLTopologyChildren -Object $ChildObject -Call $Call -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges
+        Build-HTMLTopologyChildren -Object $ChildObject -Call $Call -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges -IncludeSubnets:$IncludeSubnets
       }
     }
     $ParentDescription = $null

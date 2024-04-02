@@ -20,7 +20,7 @@ $B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne" -Exclude Pr
 $B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne\Private\*.ps1"
 $NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\*.ps1"
 $NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1"
-$AdditionalFunctionsToExport = $MiscellaneousFunctions | Where-Object {$_.BaseName -ne 'Misc'}
+$AdditionalFunctionsToExport = @()
 
 foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $NIOSPublicFunctions + $NIOSPrivateFunctions + $MiscellaneousFunctions)) {
   try {
@@ -34,4 +34,4 @@ if ($ENV:IBPSDevelopment -eq "Enabled") {
    $AdditionalFunctionsToExport += DevelopmentFunctions
 }
 
-Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions + $AdditionalFunctionsToExport) | Select-Object -ExpandProperty BaseName)) -Alias *
+Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions + ($MiscellaneousFunctions | Where-Object {$_.BaseName -ne 'Misc'})) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -Alias *
