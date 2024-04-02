@@ -113,7 +113,7 @@
               $BloxSubnet.dhcp_config.lease_time = $DHCPLeaseSeconds
 
               $BloxSubnetPatch.inheritance_sources = $BloxSubnet.inheritance_sources
-              $BloxSubnetPatch.dhcp_config += $BloxSubnet.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6
+              $BloxSubnetPatch.dhcp_config += $BloxSubnet.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
           }
 
           if ($DDNSDomain) {
@@ -141,6 +141,7 @@
               $Result = $Result | Select-Object -ExpandProperty result
               if ($Result.id -eq $BloxSubnetUri) {
                   Write-Host "Updated Subnet $($Result.address)/$($result.CIDR) successfully." -ForegroundColor Green
+		  return $Result
               } else {
                   Write-Host "Failed to update Subnet $Subnet/$CIDR - $BloxSubnetUri." -ForegroundColor Red
                   break
