@@ -522,16 +522,7 @@ function Build-TopologyChildren {
       }
       $FunctionDefinition = ${function:Build-TopologyChildren}.ToString()
       if ($PSVersionTable.PSVersion -gt [Version]'7.0') {
-        $Splat = @{
-          'ThrottleLimit' = 10
-          'Parallel' = $true
-        }
-      } else {
-        Write-Host 'Warning! Performing recursive searches on versions of PowerShell less than v7 will be considerably slower due to lack of loop parallelisation.' -ForegroundColor Yellow
-        Write-Host 'Upgrade to PowerShell v7+ to take advantage of the performance improvements.' -ForegroundColor Yellow
-        $Splat = @{}
-      }
-      $Object | Foreach-Object @splat {
+        $Object | Foreach-Object -Parallel -ThrottleLimit 10 {
           ${function:Build-TopologyChildren} = $($using:FunctionDefinition)
           Write-Host -NoNewLine "`rSearched: $($_.label)          "
           $Children = $_ | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($using:ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
@@ -539,6 +530,18 @@ function Build-TopologyChildren {
               $_ | Add-Member -Type NoteProperty -Name 'Children' -Value $Children -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
               Build-TopologyChildren -Object ($_.Children | Where-Object {$_.type -in $($using:ParentObjectsToCheck)}) -IncludeAddresses:$($using:IncludeAddresses) -IncludeRanges:$($using:IncludeRanges) -IncludeSubnets:$($using:IncludeSubnets)
           }
+        }
+      } else {
+        Write-Host 'Warning! Performing recursive searches on versions of PowerShell less than v7 will be considerably slower due to lack of loop parallelisation.' -ForegroundColor Yellow
+        Write-Host 'Upgrade to PowerShell v7+ to take advantage of the performance improvements.' -ForegroundColor Yellow
+        foreach ($ChildObject in $Object) {
+          Write-Host -NoNewLine "`rSearched: $($_.label)          "
+          $Children = $ChildObject | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if ($Children -ne $null) {
+            $ChildObject | Add-Member -Type NoteProperty -Name 'Children' -Value $Children -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+            Build-TopologyChildren -Object ($ChildObject.Children | Where-Object {$_.type -in $($using:ParentObjectsToCheck)}) -IncludeAddresses:$($using:IncludeAddresses) -IncludeRanges:$($using:IncludeRanges) -IncludeSubnets:$($using:IncludeSubnets)
+          }
+        }
       }
   }
 }
