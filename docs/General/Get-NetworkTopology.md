@@ -86,8 +86,8 @@ Building Network Topology. This may take a moment..
 ## PARAMETERS
 
 ### -IncludeRanges
-Determines whether subnet objects are included in the topology output.
-This may make the results take longer if there are a large number of subnet objects.
+Determines whether range objects are included in the topology output.
+This may make the results take longer if there are a large number of range objects.
 
 ```yaml
 Type: SwitchParameter
@@ -118,7 +118,8 @@ Accept wildcard characters: False
 ```
 
 ### -IncludeSubnets
-{{ Fill IncludeSubnets Description }}
+Determines whether subnet objects are included in the topology output.
+This may make the results take longer if there are a large number of subnet objects.
 
 ```yaml
 Type: SwitchParameter
