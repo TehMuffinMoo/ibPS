@@ -9,7 +9,7 @@ function Get-NetworkTopology {
     .PARAMETER Object
         The IP Space, Address Block, Subnet or Range to build a visual topology from. This parameter expects pipeline input.
 
-    .PARAMETER IncludeRanges
+    .PARAMETER IncludeSubnets
         Determines whether subnet objects are included in the topology output. This may make the results take longer if there are a large number of subnet objects.
     
     .PARAMETER IncludeRanges
