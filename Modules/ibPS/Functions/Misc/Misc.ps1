@@ -532,8 +532,6 @@ function Build-TopologyChildren {
           }
         }
       } else {
-        Write-Host 'Warning! Performing recursive searches on versions of PowerShell less than v7 will be considerably slower due to lack of loop parallelisation.' -ForegroundColor Yellow
-        Write-Host 'Upgrade to PowerShell v7+ to take advantage of the performance improvements.' -ForegroundColor Yellow
         foreach ($ChildObject in $Object) {
           Write-Host -NoNewLine "`rSearched: $($_.label)          "
           $Children = $ChildObject | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue

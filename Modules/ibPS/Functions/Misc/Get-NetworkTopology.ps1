@@ -101,6 +101,10 @@ function Get-NetworkTopology {
         [System.Object[]]$Object
     )
     process {
+        if ($PSVersionTable.PSVersion -lt [Version]'7.0') {
+            Write-Host 'Warning! Performing recursive searches on versions of PowerShell less than v7 will be considerably slower due to lack of loop parallelisation.' -ForegroundColor Yellow
+            Write-Host 'Upgrade to PowerShell v7+ to take advantage of the performance improvements.' -ForegroundColor Yellow
+        }
         $PermittedInputs = "ip_space","address_block","subnet","range"
         if (($Object.id.split('/')[1]) -notin $PermittedInputs) {
             Write-Error "Error. Unsupported pipeline object. Supported inputs are ip_space, address_block, subnet & range"
