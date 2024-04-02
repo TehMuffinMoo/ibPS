@@ -93,7 +93,7 @@
             $AddressBlock.dhcp_config.lease_time = $DHCPLeaseSeconds
 
             $AddressBlockPatch.inheritance_sources = $AddressBlock.inheritance_sources
-            $AddressBlockPatch.dhcp_config = $AddressBlock.dhcp_config
+            $AddressBlockPatch.dhcp_config = $AddressBlock.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
         }
 
         if ($DDNSDomain) {
