@@ -22,7 +22,10 @@ function Get-NetworkTopology {
         Using the -HTML switch will open a HTML based Network Topology viewer
 
     .EXAMPLE
-        PS> Get-B1Space my-ipspace | Get-NetworkTopology -IncludeAddresses
+        PS> Get-B1Space mcox-ipspace | Get-NetworkTopology -HTML -IncludeSubnets -IncludeRanges
+
+    .EXAMPLE
+        PS> Get-B1Space my-ipspace | Get-NetworkTopology -IncludeSubnets -IncludeAddresses -IncludeRanges
 
         Building Network Topology. This may take a moment..
         [P] / [ip_space]
