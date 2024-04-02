@@ -16,7 +16,7 @@ function Get-ibPSVersion {
         This switch will return installation details, such as module location and install type
 
     .PARAMETER Cleanup
-        This switch will remove all except the latest version of ibPS automatically
+        This switch will remove all except the latest version of ibPS automatically. Best to run as Administrator to avoid permissions issues if modules are installed globally.
 
     .PARAMETER Force
         This switch will force an update, whether or not one is available
@@ -51,9 +51,10 @@ function Get-ibPSVersion {
   if (($InstalledModule).Path.Count -gt 1) {
     Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary older versions to avoid issues." -ForegroundColor Yellow
     Write-Host "Installed Versions: " -ForegroundColor Red
-    $InstalledModule | Select-Object Version,Name,Description,ModuleBase
+    $InstalledModule | Select-Object Version,Name,Description,ModuleBase | Write-Output
     if ($Cleanup) {
       $ModulesToRemove = $InstalledModule | Sort-Object Version -Descending | Select-Object -Skip 1
+      $InstalledModule | Select-Object Version,Name,Description,ModuleBase | Write-Output
       Write-Warning "Confirmation: Do you want to proceed with removing old versions of ibPS?" -WarningAction Inquire
       foreach ($ModuleToRemove in $ModulesToRemove) {
         Remove-Item $($ModuleToRemove.ModuleBase) -Recurse
