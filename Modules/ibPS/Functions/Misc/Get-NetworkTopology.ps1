@@ -128,7 +128,7 @@ function Get-NetworkTopology {
         $Object | Write-NetworkTopology -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges -IncludeSubnets:$IncludeSubnets
         if ($HTML) {
             if (!(Get-Module PSWriteHTML -ListAvailable)) {
-                Write-Error "Error. You must have the PSWriteHTML PowerShell Module installed to use this feature."
+                Write-Error "Error. You must have the PSWriteHTML PowerShell Module installed to use the -HTML parameter."
                 return $null
             }
             $TableID = Get-Random
