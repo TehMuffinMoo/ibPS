@@ -105,6 +105,10 @@ function Get-NetworkTopology {
             Write-Host 'Warning! Performing recursive searches on versions of PowerShell less than v7 will be considerably slower due to lack of loop parallelisation.' -ForegroundColor Yellow
             Write-Host 'Upgrade to PowerShell v7+ to take advantage of the performance improvements.' -ForegroundColor Yellow
         }
+        if ($HTML -and !(Get-Module PSWriteHTML -ListAvailable)) {
+            Write-Error "Error. You must have the PSWriteHTML PowerShell Module installed to use the -HTML parameter."
+            return $null
+        }
         $PermittedInputs = "ip_space","address_block","subnet","range"
         if (($Object.id.split('/')[1]) -notin $PermittedInputs) {
             Write-Error "Error. Unsupported pipeline object. Supported inputs are ip_space, address_block, subnet & range"
