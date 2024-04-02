@@ -47,7 +47,7 @@ jobs:
 
           ## Export Functions
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
-          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $MiscellaneousFunctions) -AliasesToExport '*' -ReleaseNotes "https://ibps.readthedocs.io/en/latest/Change%20Log/"
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName)) -AliasesToExport '*' -ReleaseNotes "https://ibps.readthedocs.io/en/latest/Change%20Log/"
 
           Write-Host "Updating CHANGELOG.."
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw

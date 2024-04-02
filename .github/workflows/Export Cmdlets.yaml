@@ -27,7 +27,7 @@ jobs:
 
           ## Export Functions
           Write-Host "Exporting functions.."
-          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $MiscellaneousFunctions) -AliasesToExport '*'
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName)) -AliasesToExport '*'
 
       - name: Update Repository
         run: |
