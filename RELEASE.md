@@ -1,3 +1,5 @@
+- Add new `Get-NetworkTopology` function to provide either a text or HTML based visual topology of an IP Space, Address Block, Subnet or Range.
+- Add `-Recurse` option to Get-B1IPAMChild to optionally retrieve recursive child objects and append to a new "Children" value
 - Add `-AccountSpecific` parameter to `Get-B1LookalikeTargetCandidates`
 - Add new `Get-B1InternalDomainList` function
 - Add `-Offset` parameter to `Get-B1ServiceLog` & `Get-B1Service`
