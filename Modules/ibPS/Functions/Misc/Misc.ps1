@@ -539,7 +539,7 @@ function Build-TopologyChildren {
           $Children = $ChildObject | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
           if ($Children -ne $null) {
             $ChildObject | Add-Member -Type NoteProperty -Name 'Children' -Value $Children -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-            Build-TopologyChildren -Object ($ChildObject.Children | Where-Object {$_.type -in $($using:ParentObjectsToCheck)}) -IncludeAddresses:$($using:IncludeAddresses) -IncludeRanges:$($using:IncludeRanges) -IncludeSubnets:$($using:IncludeSubnets)
+            Build-TopologyChildren -Object ($ChildObject.Children | Where-Object {$_.type -in $($ParentObjectsToCheck)}) -IncludeAddresses:$($IncludeAddresses) -IncludeRanges:$($IncludeRanges) -IncludeSubnets:$($IncludeSubnets)
           }
         }
       }
