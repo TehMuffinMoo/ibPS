@@ -1,3 +1,7 @@
+## 1.9.4.1
+- Fix bug when updating Subnets/Address blocks [#118](https://github.com/TehMuffinMoo/ibPS/issues/118)
+
+
 ## 1.9.4.0
 - Add `New-B1DelegatedZone` and `Remove-B1DelegatedZone` functions
 - Add `-ForwardOnly` flag to `New-B1ForwardZone` function
@@ -152,4 +156,5 @@
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
