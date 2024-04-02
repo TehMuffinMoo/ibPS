@@ -24,6 +24,13 @@ This function is used to build a text or HTML based visual topology of all relat
 
 ### EXAMPLE 1
 ```powershell
+Get-B1Space mcox-ipspace | Get-NetworkTopology -HTML -IncludeRanges
+```
+
+![Network Topology](../images/Network-Topology.png)
+
+### EXAMPLE 2
+```powershell
 Get-B1Space my-ipspace | Get-NetworkTopology -IncludeAddresses
 
 Building Network Topology. This may take a moment..

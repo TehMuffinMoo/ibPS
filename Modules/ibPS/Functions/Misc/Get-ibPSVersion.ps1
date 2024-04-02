@@ -54,7 +54,8 @@ function Get-ibPSVersion {
     $InstalledModule | Select-Object Version,Name,Description,ModuleBase | Write-Output
     if ($Cleanup) {
       $ModulesToRemove = $InstalledModule | Sort-Object Version -Descending | Select-Object -Skip 1
-      $InstalledModule | Select-Object Version,Name,Description,ModuleBase | Write-Output
+      Write-Host "ibPS versions to remove: " -ForegroundColor Red
+      $ModulesToRemove | Select-Object Version,Name,Description,ModuleBase | Write-Output
       Write-Warning "Confirmation: Do you want to proceed with removing old versions of ibPS?" -WarningAction Inquire
       foreach ($ModuleToRemove in $ModulesToRemove) {
         Remove-Item $($ModuleToRemove.ModuleBase) -Recurse
