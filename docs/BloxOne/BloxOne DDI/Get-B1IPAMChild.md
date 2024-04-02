@@ -15,7 +15,7 @@ Retrieves a list of child objects from IPAM
 ```
 Get-B1IPAMChild [[-Type] <String>] [[-Label] <String>] [[-Description] <String>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-tfilter] <String>] [-Object] <Object[]> [<CommonParameters>]
+ [[-tfilter] <String>] [-Recurse] [-NetworkTopology] [-Object] <Object[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +37,7 @@ Get-B1AddressBlock -Subnet "10.10.10.0" -CIDR 24 -Space "my-ipspace" | Get-B1IPA
 
 ### EXAMPLE 3
 ```powershell
-Get-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Space "my-ipspace" | Get-B1IPAMChild -Type 'ipam/subnet'
+Get-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Space "my-ipspace" | Get-B1IPAMChild -Type 'ipam/record'
 ```
 
 ## PARAMETERS
@@ -194,6 +194,40 @@ Aliases:
 Required: False
 Position: 9
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Recurse
+Setting the -Recurse parameter will make the function perform a recursive call and append all child networks to the '.Children' value in returned objects
+
+This may take a long time on very large network structures.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NetworkTopology
+This does the same as: Get-B1IPAMChild | Get-NetworkTopology
+
+This uses the -Recurse parameter and so very large network structures may take a long time to generate.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
