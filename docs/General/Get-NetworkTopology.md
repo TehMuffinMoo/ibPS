@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-NetworkTopology
 
 ## SYNOPSIS
-Used to build a text based visual topology of all related child networks
+Used to build a text or HTML based visual topology of all related child networks
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-NetworkTopology [-IncludeRanges] [-IncludeAddresses] [-HTML] [-Object] <Obje
 ```
 
 ## DESCRIPTION
-This function is used to build a text based visual topology of all related child networks, based on a parent IP Space, Address Block, Subnet or Range.
+This function is used to build a text or HTML based visual topology of all related child networks, based on a parent IP Space, Address Block, Subnet or Range.
 
 ## EXAMPLES
 
