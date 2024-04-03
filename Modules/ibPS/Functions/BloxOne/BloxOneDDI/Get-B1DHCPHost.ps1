@@ -121,9 +121,9 @@
             $AssociationItem = Query-CSP -Method GET -Uri "$($DHCPHost.id)/associations"
             $AssociationResults += @{
                 "Host" = $DHCPHost.name
-                "HostInfo" = $AssociationItem.host
                 "HAGroups" = $AssociationItem.ha_groups
                 "Subnets" = $AssociationItem.subnets
+                "HostInfo" = $AssociationItem.host
             }
         }
     }
