@@ -107,14 +107,14 @@ function Query-CSP {
       if ($Result) {
         if ($Result.error -ne $null) {
             switch ($StatusCode) {
+                401 {
+                    Write-Error "Authorization required, please store/update your BloxOne API Key using Set-B1CSPAPIKey"
+                }
                 429 {
                     Write-Error "API Request Limit Reached. Use the -Limit and -Offset parameters or make your search more specific."
                 }
-                401 {
-                     Write-Error "Authorization required, please store/update your BloxOne API Key using Set-B1CSPAPIKey"
-                }
-                default {
-                    Write-Error $($Result.error.message)
+                501 {
+                    Write-Error "API Endpoint and/or Method are not supported. Please check syntax and try again."
                 }
             }
         } else {
