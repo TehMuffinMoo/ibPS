@@ -74,7 +74,9 @@
     }
 
     $ErrorOnEmpty = $true
-    $WebSession = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession -Property @{Credentials=$Creds}
+    if (!($script:WebSession)) {
+        $script:WebSession = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession -Property @{Credentials=$Creds}
+    }
 
     ## Set Headers
     $NIOSHeaders = @{
@@ -103,57 +105,38 @@
         ## Build URL
         $Uri = "https://$Server/wapi/v$ApiVersion/"+$Uri
             
-        if ($PSVersionTable.PSVersion.ToString() -lt 7) {
-            switch ($Method) {
-                'GET' { 
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession
-                }
-                'POST' {
-                    if (!($Data)) {
-                        Write-Host "Error. Data parameter not set."
-                        break
-                    }
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
-                }
-                'PUT' {
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
-                }
-                'PATCH' {
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
-                }
-                'DELETE' {
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession
-                    $ErrorOnEmpty = $false
-                }
-                default {
-                    Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
-                }
+        $Splat = @{
+            Method = $Method
+            Uri = $Uri
+            Headers = $NIOSHeaders
+            WebSession = $script:WebSession
+        }
+        if ($SkipCertificateCheck -and ($PSVersionTable.PSVersion.ToString() -gt 7)) {
+            $Splat | Add-Member -MemberType NoteProperty -Name 'SkipCertificateCheck' -Value $SkipCertificateCheck
+        }
+        switch ($Method) {
+            'GET' { 
+                $Result = Invoke-RestMethod @Splat
             }
-        } elseif ($PSVersionTable.PSVersion.ToString() -gt 7) {
-            switch ($Method) {
-                'GET' { 
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
+            'POST' {
+                if (!($Data)) {
+                    Write-Host "Error. Data parameter not set."
+                    break
                 }
-                'POST' {
-                    if (!($Data)) {
-                        Write-Host "Error. Data parameter not set."
-                        break
-                    }
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-                }
-                'PUT' {
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-                }
-                'PATCH' {
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-                }
-                'DELETE' {
-                    $Result = Invoke-RestMethod -Method $Method -Uri $Uri -Headers $NIOSHeaders -Body $Data -WebSession $WebSession -SkipCertificateCheck:$SkipCertificateCheck
-                    $ErrorOnEmpty = $false
-                }
-                default {
-                    Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
-                }
+                $Result = Invoke-RestMethod @Splat -Body $Data
+            }
+            'PUT' {
+                $Result = Invoke-RestMethod @Splat -Body $Data
+            }
+            'PATCH' {
+                $Result = Invoke-RestMethod @Splat -Body $Data
+            }
+            'DELETE' {
+                $Result = Invoke-RestMethod @Splat -Body $Data
+                $ErrorOnEmpty = $false
+            }
+            default {
+                Write-Host "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
             }
         }
         if ($Result) {
