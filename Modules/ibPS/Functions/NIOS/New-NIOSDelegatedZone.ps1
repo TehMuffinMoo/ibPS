@@ -19,7 +19,7 @@ function New-NIOSDelegatedZone {
         The DNS View the delegated zone should be placed in
 
     .PARAMETER Creds
-        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
+        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Set-NIOSCredentials
 
     .PARAMETER SkipCertificateCheck
         If this parameter is set, SSL Certificates Checks will be ignored

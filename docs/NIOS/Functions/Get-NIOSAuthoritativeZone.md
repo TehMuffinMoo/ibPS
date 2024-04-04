@@ -91,7 +91,7 @@ Accept wildcard characters: False
 ```
 
 ### -Creds
-Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
+Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Set-NIOSCredentials
 
 ```yaml
 Type: PSCredential

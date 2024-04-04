@@ -40,7 +40,7 @@ function Copy-NIOSSubzoneToBloxOne {
         Used in combination with -CreateZones to specify which Authoriative Name Server Group(s) the zone should be assigned to.
 
     .PARAMETER Creds
-        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
+        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Set-NIOSCredentials
 
     .PARAMETER SkipCertificateCheck
         If this parameter is set, SSL Certificates Checks will be ignored

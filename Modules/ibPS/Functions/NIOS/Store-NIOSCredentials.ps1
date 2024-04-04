@@ -1,4 +1,4 @@
-﻿function Store-NIOSCredentials {
+﻿function Set-NIOSCredentials {
     <#
     .SYNOPSIS
         Stores NIOS Credentials to the local user/machine
@@ -13,7 +13,7 @@
         Using the -Persist switch will save the NIOS Credentials across powershell sessions. Without using this switch, they will only be stored for the current powershell session.
 
     .EXAMPLE
-        Store-NIOSCredentials -Credentials ${CredentialObject} -Persist
+        Set-NIOSCredentials -Credentials ${CredentialObject} -Persist
 
     .FUNCTIONALITY
         BloxOneDDI

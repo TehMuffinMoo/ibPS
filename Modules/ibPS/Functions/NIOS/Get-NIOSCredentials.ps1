@@ -17,7 +17,7 @@ function Get-NIOSCredentials {
     #>
     $Base64 = $ENV:NIOSCredentials
     if (!$Base64) {
-        Write-Host "Error. Missing NIOS Credentials. Store your Credentials first using the Store-NIOSCredentials Cmdlet and re-run this script." -ForegroundColor Red
+        Write-Host "Error. Missing NIOS Credentials. Store your Credentials first using the Set-NIOSCredentials Cmdlet and re-run this script." -ForegroundColor Red
         break
     } else {
         $UPCombo = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($Base64))

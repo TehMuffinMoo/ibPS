@@ -25,7 +25,7 @@
     .PARAMETER Creds
         The creds parameter can be used to specify credentials as part of the command.
 
-        This parameter can be ommitted if the Credentials are stored by using Store-NIOSCredentials
+        This parameter can be ommitted if the Credentials are stored by using Set-NIOSCredentials
 
     .PARAMETER Data
         Data to be submitted on POST/PUT/PATCH/DELETE requests
