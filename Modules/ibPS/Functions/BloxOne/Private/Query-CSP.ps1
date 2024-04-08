@@ -60,7 +60,6 @@ function Query-CSP {
         $Uri = "$B1CSPUrl/api/ddi/v1/"+$Uri
     }
     $Uri = $Uri -replace "\*","``*"
-    if ($ENV:IBPSDebug -eq "Enabled") {$Uri}
 
     $splat = @{
         "Method" = $Method
@@ -75,7 +74,7 @@ function Query-CSP {
     }
 
     #try {
-      Write-DebugMsg -URI $Uri -Body $Data
+      Write-DebugMsg -URI "$($Method): $Uri" -Body $Data
       switch ($Method) {
         'GET' {
             $Result = Invoke-RestMethod @splat

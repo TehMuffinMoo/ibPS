@@ -79,7 +79,7 @@
         }
 
         $splat = $splat | ConvertTo-Json -Depth 10
-        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
+
         $Result = Query-CSP -Method POST -Uri "ipam/range" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($Result.start -eq $StartAddress -and $Result.end -eq $EndAddress) {
             Write-Host "Created DHCP Range Successfully. Start: $StartAddress - End: $EndAddress" -ForegroundColor Green

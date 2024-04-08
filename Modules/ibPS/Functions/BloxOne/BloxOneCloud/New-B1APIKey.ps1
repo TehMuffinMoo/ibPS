@@ -120,11 +120,6 @@ function New-B1APIKey {
             "name" = $Name
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          if ($ENV:IBPSDebug -eq "Enabled") {
-            Write-Debug "URI: $(Get-B1CSPUrl)/v2/current_api_keys"
-            Write-Debug "Request:"
-            $NewAPIKeyJson
-          }
           $Results = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         }
       }

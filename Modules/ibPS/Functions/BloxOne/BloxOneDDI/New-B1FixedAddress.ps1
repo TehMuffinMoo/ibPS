@@ -76,7 +76,6 @@
     }
     $splat = $splat | ConvertTo-Json -Depth 10
 
-    if ($ENV:IBPSDebug -eq "Enabled") {$splat}
     $Result = Query-CSP -Method POST -Uri "dhcp/fixed_address" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
     if ($Result.address -eq $IP) {
       Write-Host "Created Fixed Address Successfully." -ForegroundColor Green

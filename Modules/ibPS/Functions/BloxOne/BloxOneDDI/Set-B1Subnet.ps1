@@ -135,7 +135,6 @@
               Write-Host "Nothing to update." -ForegroundColor Gray
           } else {
               $splat = $BloxSubnetPatch | ConvertTo-Json -Depth 10
-              if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
               $Result = Query-CSP -Method PATCH -Uri "$BloxSubnetUri" -Data $splat
               $Result = $Result | Select-Object -ExpandProperty result

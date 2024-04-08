@@ -85,7 +85,6 @@
         }
 
         $splat = $splat | ConvertTo-Json
-        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
         $Result = Query-CSP -Method POST -Uri "dns/forward_zone" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 

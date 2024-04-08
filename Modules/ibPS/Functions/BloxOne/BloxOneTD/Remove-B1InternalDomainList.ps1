@@ -57,7 +57,6 @@
           $id
         )
       } | ConvertTo-Json -Depth 2
-      if ($ENV:IBPSDebug -eq "Enabled") {$JSON}
       $Result = Query-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists" -Data $JSON
       if ((Get-B1InternalDomainList -Name $Name -Strict).id) {
         Write-Error "Failed to delete Internal Domain list: $($Name) / $($id)"

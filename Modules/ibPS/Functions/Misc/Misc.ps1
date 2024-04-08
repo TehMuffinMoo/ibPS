@@ -636,7 +636,7 @@ function Write-DebugMsg {
 
   if ($ENV:IBPSDebug -eq "Enabled") {
     if ($URI) {
-      Write-Debug "URI: $($URI)"
+      Write-Debug "$($URI)"
     }
     if ($Filters) {
       Write-Debug "Filter(s):`n$($Filters | Out-String)"

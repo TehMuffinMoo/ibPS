@@ -61,7 +61,6 @@
         }
 
         $splat = $splat | ConvertTo-Json -Depth 4
-        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
         $Result = Query-CSP -Method POST -Uri "dns/view" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         

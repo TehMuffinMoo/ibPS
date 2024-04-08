@@ -52,7 +52,6 @@
       }
 
       $splat = $splat | ConvertTo-Json
-      if ($ENV:IBPSDebug -eq "Enabled") {$splat}
       $Results = Query-CSP -Method PATCH -Uri $($DNSHost.id) -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 
       if ($($Results.id) -eq $($DNSHost.id)) {

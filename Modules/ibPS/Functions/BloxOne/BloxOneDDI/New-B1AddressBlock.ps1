@@ -91,8 +91,6 @@
         }
 
         $splat = $splat | ConvertTo-Json -Depth 4
-        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
-        #return $splat
 
         $Result = Query-CSP -Method POST -Uri "ipam/address_block" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         

@@ -84,7 +84,6 @@
     $Splat = $Object | Select-Object -Exclude created_time,updated_time,id,is_default
 
     $JSON = $Splat | ConvertTo-Json -Depth 4
-    if ($ENV:IBPSDebug -eq "Enabled") {$JSON}
 
     $Result = Query-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
     if ($Result.id -eq $($Object.id)) {

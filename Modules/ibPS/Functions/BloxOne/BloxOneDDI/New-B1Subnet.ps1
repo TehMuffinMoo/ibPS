@@ -101,7 +101,7 @@
         }
 
         $splat = $splat | ConvertTo-Json -Depth 4
-        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
+        
 
         $Result = Query-CSP -Method POST -Uri "ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
         if ($Result.address -eq $Subnet) {
