@@ -13,7 +13,7 @@ Query the BloxOneDDI CSP Global Search
 ## SYNTAX
 
 ```
-Search-B1 [-query] <String> [<CommonParameters>]
+Search-B1 [-Query] <String> [-IncludeQueryDetails] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,7 +33,7 @@ Search-B1 "mysubzone.corp.com"
 
 ## PARAMETERS
 
-### -query
+### -Query
 Search query
 
 ```yaml
@@ -44,6 +44,22 @@ Aliases:
 Required: True
 Position: 1
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeQueryDetails
+Use this parameter to include the query shard, aggregation, state, and duration data.
+By default, the hits property is auto-expanded
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
