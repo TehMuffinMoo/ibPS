@@ -59,7 +59,11 @@
     }
 
     $JSON = $Splat | ConvertTo-Json -Depth 4
-    if ($ENV:IBPSDebug -eq "Enabled") {$JSON}
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists"
+        Write-Debug "Data:"
+        $JSON
+    }
 
     $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
     if ($Result.name -eq $Name) {

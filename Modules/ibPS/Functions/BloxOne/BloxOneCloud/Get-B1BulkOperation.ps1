@@ -50,6 +50,12 @@
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
 
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/bulk/v1/operation$QueryString"
+        Write-Debug "Filter(s):"
+        $QueryFilters
+    }
+
     if ($QueryString) {
         Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {

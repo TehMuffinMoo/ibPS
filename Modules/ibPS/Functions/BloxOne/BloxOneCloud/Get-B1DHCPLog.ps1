@@ -182,6 +182,11 @@
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress
 
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
+        Write-Debug "Request:"
+        $splat | ConvertTo-Json -Depth 4
+    }
     $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
     if ($Result.result.data) {
         $Result.result.data | Select-Object @{name="timestamp";Expression={$_.'NstarLeaseActivity.timestamp'}},`

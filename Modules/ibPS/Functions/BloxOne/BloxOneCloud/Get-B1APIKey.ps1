@@ -114,6 +114,12 @@ function Get-B1APIKey {
     }
     $CombinedFilter += ConvertTo-QueryString($QueryFilters)
 
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/v2/api_keys$CombinedFilter"
+        Write-Debug "Filter(s):"
+        $QueryFilters
+    }
+
     $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/api_keys$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {

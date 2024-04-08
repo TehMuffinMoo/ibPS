@@ -173,6 +173,11 @@ function Get-B1DNSLog {
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
     if ($UseExport) {
         $Options = '{"output":"csv","header":{"enabled":true,"display":["timestamp","query","response","query_type","dns_view","device_ip","mac_address","dhcp_fingerprint","name","query_nanosec"]}}'
+        if ($ENV:IBPSDebug -eq "Enabled") {
+            Write-Debug "URI: $(Get-B1CSPUrl)/api/cubejs/v1/export?query=$Query&options=$Options"
+            Write-Debug "Request:"
+            $splat | ConvertTo-Json -Depth 4
+        }
         $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/export?query=$Query&options=$Options"
         $ResultData = ConvertFrom-Csv $Result
         if ($ResultData) {
@@ -181,6 +186,11 @@ function Get-B1DNSLog {
             Write-Host "Error: No DNS logs returned." -ForegroundColor Red
         }
     } else {
+        if ($ENV:IBPSDebug -eq "Enabled") {
+            Write-Debug "URI: $(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
+            Write-Debug "Request:"
+            $splat | ConvertTo-Json -Depth 4
+        }
         $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
         if ($Result.result.data) {
             $Result.result.data | Select-Object @{name="ip";Expression={$_.'NstarDnsActivity.device_ip'}},`

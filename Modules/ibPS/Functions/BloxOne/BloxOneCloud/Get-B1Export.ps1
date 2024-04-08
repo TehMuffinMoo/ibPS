@@ -43,6 +43,9 @@
         [Parameter(Mandatory=$true)]
         [string]$filePath
     )
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/bulk/v1/storage?data_ref=$data_ref&direction=download"
+    }
     $B1Export = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/storage?data_ref=$data_ref&direction=download"
     if ($B1Export.result.url) {
         $JSON = Invoke-RestMethod -Uri $B1Export.result.url
