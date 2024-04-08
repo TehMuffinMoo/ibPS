@@ -3,7 +3,7 @@
 - Add `-Cleanup` parameter to `Get-ibPSVersion` as a helper to optionally cleanup old versions still lingering around. Best to run as Administrator.
 - Add the ability to enter more than one `-Type` when using `Get-B1IPAMChild`
 - Add `-AccountSpecific` parameter to `Get-B1LookalikeTargetCandidates`
-- Add new `Get-B1InternalDomainList` function
+- Add new `Get-B1InternalDomainList`, `Set-B1InternalDomainList`, `New-B1InternalDomainList` & `Remove-B1InternalDomainList` functions
 - Add `-Offset` parameter to `Get-B1ServiceLog` & `Get-B1Service`
 - Add `-tfilter` parameter to `Get-B1DNSACL`, ,`Get-B1SecurityPolicy` & `Get-B1ThreatFeeds`
 - Add `-Fields` parameter to `Get-B1SecurityPolicy`,`Get-B1ThreatFeeds` & `Get-B1LookalikeTargetSummary`
