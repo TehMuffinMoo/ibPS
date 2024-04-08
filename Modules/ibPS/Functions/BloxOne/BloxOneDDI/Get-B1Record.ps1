@@ -148,9 +148,9 @@
     }
 
     if ($QueryString) {
-        $Result = Query-CSP -Method GET -Uri "dns/record$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Result = Query-CSP -Method GET -Uri "dns/record?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($View) {

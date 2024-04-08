@@ -97,8 +97,8 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Query-CSP -Method GET -Uri "dns/host$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/host$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dns/host" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/host" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

@@ -114,9 +114,9 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        $Result = Query-CSP -Method GET -Uri "dns/delegation$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/delegation$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Result = Query-CSP -Method GET -Uri "dns/delegation?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/delegation" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($View) {
         $Result = $Result | Where-Object {$_.view -eq $ViewUUID}

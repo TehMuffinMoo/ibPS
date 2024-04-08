@@ -93,8 +93,8 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Query-CSP -Method GET -Uri "dhcp/hardware_filter$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/hardware_filter$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "dhcp/hardware_filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/hardware_filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

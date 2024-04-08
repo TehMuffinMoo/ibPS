@@ -104,7 +104,7 @@
                 $QueryString = ConvertTo-QueryString $QueryFilters
             }
             if ($QueryFilters) {
-                Query-CSP -Method GET -Uri "ipam/htree$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
+                Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/htree$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object -ExpandProperty dhcp_info -ErrorAction SilentlyContinue
             }
         } else {
           Write-Host "Error. Range not found." -ForegroundColor Red
@@ -157,9 +157,9 @@
         }
         Write-DebugMsg -Filters $QueryFilters
         if ($QueryString) {
-            Query-CSP -Method GET -Uri "dhcp/lease$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
+            Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/lease$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         } else {
-            Query-CSP -Method GET -Uri "dhcp/lease" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
+            Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/lease" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         }
     }
 }

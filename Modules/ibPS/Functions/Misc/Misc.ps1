@@ -669,6 +669,7 @@ function DevelopmentFunctions {
     "Write-NetworkTopology"
     "Build-TopologyChildren"
     "Build-HTMLTopologyChildren"
+    "Write-DebugMsg"
     "Query-NIOS"
   )
 }
