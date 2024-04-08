@@ -32,9 +32,7 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString($QueryFilters)
     }
-    if ($ENV:IBPSDebug -eq "Enabled") {
-        Write-Debug "URI: $(Get-B1CSPUrl)/licensing/v1/licenses$QueryString"
-    }
+    
     $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/licensing/v1/licenses$QueryString" | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
     
     if ($Results) {

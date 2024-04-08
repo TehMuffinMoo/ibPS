@@ -30,6 +30,7 @@ function ConvertTo-RNAME {
     process {
         $Results = @()
         foreach ($iEmail in $Email) {
+            
             $Result = Query-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/convert_rname/$($iEmail)" -Method GET
             $Results += [PSCustomObject]@{
                 "Email" = $iEmail

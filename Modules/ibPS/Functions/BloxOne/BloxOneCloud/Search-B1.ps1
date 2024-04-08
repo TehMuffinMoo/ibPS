@@ -34,10 +34,6 @@
     $Body = @{
       "query"=$Query
     } | ConvertTo-Json | % { [System.Text.RegularExpressions.Regex]::Unescape($_)}
-    if ($ENV:IBPSDebug -eq "Enabled") {
-        Write-Debug "URI: $(Get-B1CSPUrl)/atlas-search-api/v1/search"
-        Write-Debug "Body:`n$($Body)"
-    }
     $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-search-api/v1/search" -Method "POST" -Data $Body
     if ($IncludeQueryDetails) {
         $Results        

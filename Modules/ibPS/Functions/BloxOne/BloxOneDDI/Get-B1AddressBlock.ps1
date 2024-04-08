@@ -138,8 +138,8 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
-
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Query-CSP -Uri "ipam/address_block$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Query-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address_block$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

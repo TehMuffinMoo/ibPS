@@ -75,6 +75,7 @@ function Query-CSP {
     }
 
     #try {
+      Write-DebugMsg -URI $Uri -Body $Data
       switch ($Method) {
         'GET' {
             $Result = Invoke-RestMethod @splat

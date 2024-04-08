@@ -626,6 +626,30 @@ function Build-HTMLTopologyChildren {
   }
 }
 
+function Write-DebugMsg {
+  param(
+    $URI,
+    $Filters,
+    $Query,
+    $Body
+  )
+
+  if ($ENV:IBPSDebug -eq "Enabled") {
+    if ($URI) {
+      Write-Debug "URI: $($URI)"
+    }
+    if ($Filters) {
+      Write-Debug "Filter(s):`n$($Filters | Out-String)"
+    }
+    if ($Query) {
+      Write-Debug "Query:`n$($Query | Out-String)"
+    }
+    if ($Body) {
+      Write-Debug "Body:`n$($Body | Out-String)"
+    }
+  }
+}
+
 function DevelopmentFunctions {
   return @(
     "Query-CSP"

@@ -152,10 +152,6 @@
         $splat | Add-Member -Name "data_types" -Value $dataTypes -MemberType NoteProperty
     }
     $splat = $splat | ConvertTo-Json
-    if ($ENV:IBPSDebug -eq "Enabled") {
-        Write-Debug "URI: $(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])"
-        Write-Debug "Body:`n$($splat)"
-    }
     $Export = Query-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
 
     if ($Export.success.message -eq "Export pending") {

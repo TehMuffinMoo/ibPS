@@ -75,10 +75,7 @@ function Get-B1ServiceLog {
     $Filters += "end=$EndTime"
 
     $QueryFilters = ConvertTo-QueryString -Filters $Filters
-    if ($ENV:IBPSDebug -eq "Enabled") {
-        Write-Debug "URI: $(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters"
-        Write-Debug "Filter(s):`n$($Filters | Out-String)"
-    }
+    Write-DebugMsg -Filters $Filters
     $B1Hosts = Get-B1Host -Detailed
     if ($QueryFilters) {
         $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET
