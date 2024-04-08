@@ -13,7 +13,7 @@ Checks the version of ibPS, with the option to update if a version is available
 ## SYNTAX
 
 ```
-Get-ibPSVersion [-Details] [-CheckForUpdates] [-Update] [-Force]
+Get-ibPSVersion [-Details] [-CheckForUpdates] [-Update] [-Cleanup] [-Force]
 ```
 
 ## DESCRIPTION
@@ -70,6 +70,22 @@ Accept wildcard characters: False
 
 ### -Update
 This switch will perform an upgrade if one is available
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Cleanup
+This switch will remove all except the latest version of ibPS automatically.
+Best to run as Administrator to avoid permissions issues if modules are installed globally.
 
 ```yaml
 Type: SwitchParameter
