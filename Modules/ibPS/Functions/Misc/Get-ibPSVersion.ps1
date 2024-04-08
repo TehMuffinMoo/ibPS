@@ -50,6 +50,7 @@ function Get-ibPSVersion {
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path.Count -gt 1) {
     Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary older versions to avoid issues." -ForegroundColor Yellow
+    Write-Host "You can run: 'Get-ibPSVersion -Cleanup' to perform this for you." -ForegroundColor Yellow
     Write-Host "Installed Versions: " -ForegroundColor Red
     $InstalledModule | Select-Object Version,Name,Description,ModuleBase | Write-Output
     if ($Cleanup) {
