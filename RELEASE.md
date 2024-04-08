@@ -3,6 +3,7 @@
 - Add `-Recurse` option to `Get-B1IPAMChild` to optionally retrieve recursive child objects and append to a new "Children" value
 - Add `-Cleanup` parameter to `Get-ibPSVersion` as a helper to optionally cleanup old versions still lingering around. Best to run as Administrator.
 - Add the ability to enter more than one `-Type` when using `Get-B1IPAMChild`
+- Standardise and improve the Debug logging when Debug mode is enabled (`Set-ibPSConfiguration -DebugMode Enabled`)
 - Add `-AccountSpecific` parameter to `Get-B1LookalikeTargetCandidates`
 - Add `-Offset` parameter to `Get-B1ServiceLog` & `Get-B1Service`
 - Add `-tfilter` parameter to `Get-B1DNSACL`, ,`Get-B1SecurityPolicy` & `Get-B1ThreatFeeds`
