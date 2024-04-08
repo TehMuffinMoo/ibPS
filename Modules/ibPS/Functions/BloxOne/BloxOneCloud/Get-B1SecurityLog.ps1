@@ -103,6 +103,10 @@ function Get-B1SecurityLog {
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/security-events/v1/security_events$($QueryString)"
+        Write-Debug "Filter(s):`n$($QueryFilters | Out-String)"
+    }
     if ($QueryString) {
         $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

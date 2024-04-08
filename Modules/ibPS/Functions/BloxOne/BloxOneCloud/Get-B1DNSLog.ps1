@@ -188,8 +188,7 @@ function Get-B1DNSLog {
     } else {
         if ($ENV:IBPSDebug -eq "Enabled") {
             Write-Debug "URI: $(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-            Write-Debug "Request:"
-            $splat | ConvertTo-Json -Depth 4
+            Write-Debug "Request:`n$($splat | ConvertTo-Json -Depth 4 | Out-String)"
         }
         $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
         if ($Result.result.data) {

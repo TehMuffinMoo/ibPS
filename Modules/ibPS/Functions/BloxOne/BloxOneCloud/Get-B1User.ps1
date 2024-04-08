@@ -110,7 +110,10 @@ function Get-B1User {
     }
 
     $CombinedFilter += ConvertTo-QueryString($QueryFilters)
-
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/v2/users$CombinedFilter"
+        Write-Debug "Filter(s):`n$($QueryFilters | Out-String)"
+    }
     $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {

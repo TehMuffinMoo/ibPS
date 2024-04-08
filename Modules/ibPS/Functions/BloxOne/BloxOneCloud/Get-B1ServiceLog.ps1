@@ -75,15 +75,18 @@ function Get-B1ServiceLog {
     $Filters += "end=$EndTime"
 
     $QueryFilters = ConvertTo-QueryString -Filters $Filters
-
-    $B1B1Hosts = Get-B1Host -Detailed
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters"
+        Write-Debug "Filter(s):`n$($Filters | Out-String)"
+    }
+    $B1Hosts = Get-B1Host -Detailed
     if ($QueryFilters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET | Select-Object -ExpandProperty logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET | Select-Object -ExpandProperty logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET
     }
     if ($Results) {
-        return $Results
+        return $Results.logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
     } else {
         Write-Host "Error. Unable to find any service logs." -ForegroundColor Red
         break

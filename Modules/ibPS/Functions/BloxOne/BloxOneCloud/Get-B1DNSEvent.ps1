@@ -173,8 +173,7 @@ function Get-B1DNSEvent {
     }
     if ($ENV:IBPSDebug -eq "Enabled") {
       Write-Debug "URI: $(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter"
-      Write-Debug "Filter(s):"
-      $Filters
+      Write-Debug "Filter(s):`n$($Filters | Out-String)"
   }
     if ($Filter) {
       Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue

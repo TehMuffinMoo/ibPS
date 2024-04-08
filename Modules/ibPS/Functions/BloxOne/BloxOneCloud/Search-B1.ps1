@@ -6,8 +6,12 @@
     .DESCRIPTION
         This function is used to query the BloxOneDDI CSP Global Search
 
-    .PARAMETER query
+    .PARAMETER Query
         Search query
+
+    .PARAMETER IncludeQueryDetails
+        Use this parameter to include the query shard, aggregation, state, and duration data.
+        By default, the hits property is auto-expanded
 
     .EXAMPLE
         PS> Search-B1 "10.10.100.1"
@@ -23,20 +27,21 @@
     #>
     param(
         [Parameter(Mandatory=$true)]
-        [string]$query
+        [String]$Query,
+        [Switch]$IncludeQueryDetails
     )
-    ## Get Stored API Key
-    $B1ApiKey = Get-B1CSPAPIKey
-
-    ## Set Headers
-    $CSPHeaders = @{
-        'Authorization' = "Token $B1ApiKey"
-        'Content-Type' = 'application/json'
-    }
 
     $Body = @{
-      "query"=$query
+      "query"=$Query
     } | ConvertTo-Json | % { [System.Text.RegularExpressions.Regex]::Unescape($_)}
-    $Results = Invoke-WebRequest -Uri "$(Get-B1CSPUrl)/atlas-search-api/v1/search" -Method "POST" -Headers $CSPHeaders -Body $Body -UseBasicParsing
-    $Results | ConvertFrom-Json
+    if ($ENV:IBPSDebug -eq "Enabled") {
+        Write-Debug "URI: $(Get-B1CSPUrl)/atlas-search-api/v1/search"
+        Write-Debug "Body:`n$($Body)"
+    }
+    $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-search-api/v1/search" -Method "POST" -Data $Body
+    if ($IncludeQueryDetails) {
+        $Results        
+    } else {
+        $Results.hits | Select-Object -ExpandProperty hits
+    }
 }

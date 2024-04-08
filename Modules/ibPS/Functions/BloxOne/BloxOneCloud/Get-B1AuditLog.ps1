@@ -138,8 +138,7 @@ function Get-B1AuditLog {
 
     if ($ENV:IBPSDebug -eq "Enabled") {
         Write-Debug "URI: $(Get-B1CSPUrl)/api/auditlog/v1/logs$QueryString"
-        Write-Debug "Filter(s):"
-        $QueryFilters
+        Write-Debug "Filter(s):`n$($QueryFilters | Out-String)"
     }
 
     if ($QueryString) {
