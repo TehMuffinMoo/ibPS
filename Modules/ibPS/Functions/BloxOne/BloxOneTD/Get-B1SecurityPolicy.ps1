@@ -108,6 +108,7 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

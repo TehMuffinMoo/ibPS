@@ -73,7 +73,7 @@
         if ($QueryFilters) {
             $QueryString = ConvertTo-QueryString $QueryFilters
         }
-
+        Write-DebugMsg -Filters $QueryFilters
         if ($QueryString) {
             $Results = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/atlas-bootstrap-app/v1/hosts$($QueryString)"
         } else {

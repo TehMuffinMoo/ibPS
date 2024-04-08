@@ -152,7 +152,7 @@
     } else {
         $Result = Query-CSP -Method GET -Uri "dns/record?_limit=$Limit&_offset=$Offset" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
-
+    Write-DebugMsg -Filters $QueryFilters
     if ($View) {
         $Result = $Result | Where-Object {$_.view_name -eq $View}
     }

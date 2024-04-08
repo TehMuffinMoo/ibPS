@@ -155,7 +155,7 @@
         if ($QueryFilters) {
             $QueryString = ConvertTo-QueryString $QueryFilters
         }
-
+        Write-DebugMsg -Filters $QueryFilters
         if ($QueryString) {
             Query-CSP -Method GET -Uri "dhcp/lease$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object @{Name = 'ha_group_name'; Expression = {$ha_group = $_.ha_group; (@($HAGroups).where({ $_.id -eq $ha_group })).name }},@{Name = 'dhcp_server'; Expression = {$dhcpserver = $_.host; (@($DHCPHosts).where({ $_.id -eq $dhcpserver })).name }},*
         } else {

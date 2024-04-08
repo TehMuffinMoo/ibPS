@@ -119,7 +119,7 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
-
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
         Query-CSP -Method GET -Uri "dns/auth_zone$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

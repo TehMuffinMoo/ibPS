@@ -130,7 +130,7 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
-
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
         Query-CSP -Uri "ipam/subnet$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

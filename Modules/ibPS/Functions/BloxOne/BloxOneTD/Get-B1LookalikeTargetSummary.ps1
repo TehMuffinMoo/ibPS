@@ -101,6 +101,7 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
         $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atclad/v1/target_lookalike_summaries$($QueryString)" -Method GET | Select-Object -ExpandProperty results -WA SilentlyContinue -EA SilentlyContinue
     } else {

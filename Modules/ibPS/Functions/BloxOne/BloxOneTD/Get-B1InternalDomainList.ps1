@@ -139,6 +139,7 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

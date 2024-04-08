@@ -112,7 +112,7 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
-
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
         $Result = Query-CSP -Method GET -Uri "dns/delegation$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

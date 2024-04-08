@@ -121,7 +121,7 @@ function Get-B1DFP {
     if ($QueryFilters) {
       $QueryString = ConvertTo-QueryString $QueryFilters
     }
-    
+    Write-DebugMsg -Filters $QueryFilters
     if ($id) {
       $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps/$id$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } elseif ($QueryString) {

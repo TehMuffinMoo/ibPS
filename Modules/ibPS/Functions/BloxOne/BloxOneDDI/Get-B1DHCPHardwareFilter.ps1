@@ -91,7 +91,7 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
-
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
         Query-CSP -Method GET -Uri "dhcp/hardware_filter$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

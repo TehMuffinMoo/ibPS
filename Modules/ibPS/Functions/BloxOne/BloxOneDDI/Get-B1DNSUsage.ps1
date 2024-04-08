@@ -39,6 +39,7 @@
     }
     if ($Filters) {
         $QueryFilter = Combine-Filters $Filters
+        Write-DebugMsg -Filters $Filters
         if ($ParseDetails) {
           $AuthZones = Get-B1AuthoritativeZone
           $Spaces = Get-B1Space

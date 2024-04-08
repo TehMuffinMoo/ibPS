@@ -147,6 +147,7 @@
         if ($QueryFilters) {
             $QueryString = ConvertTo-QueryString $QueryFilters
         }
+        Write-DebugMsg -Filters $QueryFilters
         if ($QueryString) {
             Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/htree$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
