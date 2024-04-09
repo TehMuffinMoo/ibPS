@@ -1,3 +1,4 @@
+- Fix bug when creating new services [#123](https://github.com/TehMuffinMoo/ibPS/issues/123)
 - Add new `Get-NetworkTopology` function to provide either a text or HTML based visual topology of an IP Space, Address Block, Subnet or Range.
 - Add new `Get-B1InternalDomainList`, `Set-B1InternalDomainList`, `New-B1InternalDomainList` & `Remove-B1InternalDomainList` functions
 - Add `-Recurse` option to `Get-B1IPAMChild` to optionally retrieve recursive child objects and append to a new "Children" value
