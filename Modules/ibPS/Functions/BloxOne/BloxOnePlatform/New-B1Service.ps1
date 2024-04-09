@@ -1,4 +1,4 @@
-﻿function New-B1Service {
+function New-B1Service {
     <#
     .SYNOPSIS
         Creates a new BloxOneDDI Service
@@ -50,11 +50,11 @@
     [Switch]$Strict
   )
   $MatchType = Match-Type $Strict
-  $B1Host = Get-B1Host -Name $B1Host -Detailed
-  if ($B1Host) {
-    if ($B1Host.count -gt 1) {
+  $B1HostInfo = Get-B1Host -Name $B1Host -Detailed
+  if ($B1HostInfo) {
+    if ($B1HostInfo.count -gt 1) {
       Write-Host "Too many hosts returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
-      $B1Host | Format-Table -AutoSize
+      $B1HostInfo | Format-Table -AutoSize
     } else {
       if (Get-B1Service -Name $Name -Strict) {
         Write-Host "Service $Name already exists" -ForegroundColor Yellow
@@ -64,7 +64,7 @@
           "description" = $Description
           "service_type" = $Type
           "desired_state" = "start"
-          "pool_id" = $($B1Host.pool.pool_id)
+          "pool_id" = $($B1HostInfo.pool.pool_id)
           "tags" = @{}
           "interface_labels" = @()
           "destinations" = @()
@@ -72,12 +72,12 @@
         } | ConvertTo-Json -Depth 3
         $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($NewServiceResult.id) {
-          Write-Host "$($Type.ToUpper()) service created successfully on $B1Host" -ForegroundColor Green
+          Write-Host "$($Type.ToUpper()) service created successfully on $($B1HostInfo.display_name)" -ForegroundColor Green
           if ($Type -eq "ntp") {
             Set-B1NTPServiceConfiguration -Name $Name -UseGlobalNTPConfig
           }
         } else {
-          Write-Host "Failed to create $($Type.ToUpper()) service on $B1Host" -ForegroundColor Red
+          Write-Host "Failed to create $($Type.ToUpper()) service on $($B1HostInfo.display_name)" -ForegroundColor Red
         }
       }
     }
