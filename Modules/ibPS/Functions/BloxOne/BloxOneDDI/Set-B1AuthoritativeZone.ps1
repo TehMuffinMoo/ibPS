@@ -116,7 +116,6 @@
               break
             }
         }
-        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
        
       } else {
         Write-Host "The Authoritative Zone $FQDN$id does not exist." -ForegroundColor Red

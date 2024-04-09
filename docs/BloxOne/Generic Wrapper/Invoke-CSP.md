@@ -5,26 +5,35 @@ online version:
 schema: 2.0.0
 ---
 
-# Query-NIOS
+# Invoke-CSP
 
 ## SYNOPSIS
-Queries a NIOS Grid Manager via Infoblox WAPI
+Queries the BloxOneDDI Cloud Services Portal
 
 ## SYNTAX
 
 ```
-Query-NIOS [-Method] <String> [[-Server] <String>] [-Uri] <String> [[-ApiVersion] <String>]
- [[-Creds] <PSCredential>] [[-Data] <String>] [-SkipCertificateCheck] [<CommonParameters>]
+Invoke-CSP [-Method] <String> [-Uri] <String> [-Data] <String> [-InFile] <String> [-ContentType] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs.
+This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the BloxOne APIs.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Query-NIOS -Method GET -Uri "zone_delegated?return_as_object=1"
+Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record?_limit=10"
+```
+
+### EXAMPLE 2
+```powershell
+Invoke-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
+```
+
+### EXAMPLE 3
+```powershell
+Invoke-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
 ```
 
 ## PARAMETERS
@@ -44,23 +53,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Server
-Specify the NIOS Grid Manager IP or FQDN to use
-
-This parameter can be ommitted if the Server is stored by using Set-NIOSConfiguration
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Uri
 Specify the Uri, such as "ipam/record", you can also use the full URL and http parameters must be appended here.
 
@@ -70,41 +62,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ApiVersion
-The version of the NIOS API to use (WAPI)
-
-This parameter can be ommitted if the API Version is stored by using Set-NIOSConfiguration
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Creds
-The creds parameter can be used to specify credentials as part of the command.
-
-This parameter can be ommitted if the Credentials are stored by using Store-NIOSCredentials
-
-```yaml
-Type: PSCredential
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -119,23 +77,38 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SkipCertificateCheck
-If this parameter is set, SSL Certificates Checks will be ignored
+### -InFile
+File path of data to submit as part of POST request
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ContentType
+The Content-Type header to be passed in requests. Defaults to 'application/json'
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: application/json
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

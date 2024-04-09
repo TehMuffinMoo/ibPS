@@ -81,7 +81,7 @@
 
     process {
         if ($ID) {
-            $PermittedInputs = "address_block","subnet"
+            $PermittedInputs = "address_block","subnet","range"
             if (($ID.split('/')[1]) -notin $PermittedInputs) {
                 Write-Error "Error. Unsupported pipeline object. The input must be of type: address_block or subnet"
                 return $null
@@ -111,7 +111,7 @@
 
 
         if ($Parent) {
-            Query-CSP -Method "GET" -Uri "$($Parent.id)/nextavailableip?contiguous=$($Contiguous.ToString())&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Parent.id)/nextavailableip?contiguous=$($Contiguous.ToString())&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
             Write-Host "Unable to find Parent: $($ParentAddressBlock)$($ParentSubnet)" -ForegroundColor Red
         }

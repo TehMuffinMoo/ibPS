@@ -14,6 +14,31 @@ function Get-B1SecurityPolicyRules {
 
     .PARAMETER CategoryFilterID
         Filter results by category_filter_id
+
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results. The default number of results is 100.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
+    .PARAMETER SecurityPolicy
+        Optionally pass in a security policy object via pipeline to list rules for.
+
+    .EXAMPLE
+        PS> PS> Get-B1SecurityPolicy -Name 'Default Global Policy' | Get-B1SecurityPolicyRules | ft -AutoSize
+
+        action       data                                                                list_id policy_id policy_name           redirect_name rule_tags            type
+        ------       ----                                                                ------- --------- -----------           ------------- ---------            ----
+        action_allow Default Allow                                                        553567     56924 Default Global Policy               @{tag_scope=; tags=} custom_list
+        action_block Default Block                                                        756742     56924 Default Global Policy               @{tag_scope=; tags=} custom_list
+        action_block CrowdStrike and Cyber threat coalition and Fortinet and Palo Alto 1  423566     56924 Default Global Policy               @{tag_scope=; tags=} custom_list
+        action_allow Default-whitelist                                                    423567     56924 Default Global Policy               @{tag_scope=; tags=} custom_list
+        action_block CrowdStrike and Cyber threat coalition and Fortinet 1                522345     56924 Default Global Policy               @{tag_scope=; tags=} custom_list
+        action_block CrowdStrike and Cyber threat coalition 1                             253356     56924 Default Global Policy               @{tag_scope=; tags=} custom_list
+        ...
     
     .EXAMPLE
         PS> Get-B1SecurityPolicyRules | Select -First 10 | ft -AutoSize
@@ -22,13 +47,9 @@ function Get-B1SecurityPolicyRules {
         ------                    ----                                                                ------- --------- -----------           ------------- ---------            ----
         action_block              antimalware-ip                                                            0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
         action_block              ext-antimalware-ip                                                        0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
-        action_block              Threat Insight - Data Exfiltration                                        0    123456 corporate-policy                                         @{tag_scope=; tags=} custom_list
-        action_log                Threat Insight - Notional Data Exfiltration                               0    123456 corporate-policy                                         @{tag_scope=; tags=} custom_list
-        action_block              Threat Insight - DNS Messenger                                            0    123456 corporate-policy                                         @{tag_scope=; tags=} custom_list
-        action_block              Threat Insight - Fast Flux                                                0    123456 corporate-policy                                         @{tag_scope=; tags=} custom_list
-        action_block              suspicious                                                                0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
-        action_block              suspicious-lookalikes                                                     0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
-        action_block              suspicious-noed                                                           0    123456 corporate-policy                                         @{tag_scope=; tags=} named_feed
+        action_block              Threat Insight - Data Exfiltration                                        0    453532 iot-policy                                               @{tag_scope=; tags=} custom_list
+        action_log                Threat Insight - Notional Data Exfiltration                               0    453532 iot-policy                                               @{tag_scope=; tags=} custom_list
+        action_block              Threat Insight - DNS Messenger                                            0    453532 iot-policy                                               @{tag_scope=; tags=} custom_list
         ...
     
     .FUNCTIONALITY
@@ -38,12 +59,24 @@ function Get-B1SecurityPolicyRules {
         BloxOne Threat Defense
     #>
     param(
+        [parameter(ParameterSetName="Default")]
         [Int]$PolicyID,
         [Int]$ListID,
-        [Int]$CategoryFilterID
+        [Int]$CategoryFilterID,
+        [Int]$Limit = 100,
+        [Int]$Offset,
+        [String[]]$Fields,
+        [Parameter(ValueFromPipeline)]
+        [parameter(ParameterSetName="With ID")]
+        [System.Object]$SecurityPolicy
     )
 
+    if ($SecurityPolicy.id) {
+        $PolicyID = $SecurityPolicy.id
+    }
+
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
 
     if ($PolicyID) {
         $Filters.Add("policy_id==$PolicyID") | Out-Null
@@ -54,13 +87,25 @@ function Get-B1SecurityPolicyRules {
     if ($CategoryFilterID) {
         $Filters.Add("category_filter_id==$CategoryFilterID") | Out-Null
     }
-
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-
-    if ($Filter) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/security_policy_rules?_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
+    if ($Fields) {
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
+    Write-DebugMsg -Filters $QueryFilters
+    if ($QueryString) {
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/security_policy_rules$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
       $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/security_policy_rules" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

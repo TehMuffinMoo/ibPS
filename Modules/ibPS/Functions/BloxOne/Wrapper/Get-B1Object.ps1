@@ -92,6 +92,7 @@ function Get-B1Object {
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
+    Write-DebugMsg -Filters $QueryFilters
     $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
     $Results = Query-CSP -Method GET -Uri $Uri
     if ($Results.results -ne $null) {

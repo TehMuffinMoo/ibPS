@@ -115,7 +115,6 @@
             Write-Host "Nothing to update." -ForegroundColor Gray
         } else {
             $splat = $AddressBlockPatch | ConvertTo-Json -Depth 10
-            if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
             $Result = Query-CSP -Method PATCH -Uri "$AddressBlockUri" -Data $splat
         

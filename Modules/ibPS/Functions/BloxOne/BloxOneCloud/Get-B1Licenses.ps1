@@ -25,7 +25,15 @@
         [ValidateSet('all','active','expired')]
         [String]$State = "all"
     )
-    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/licensing/v1/licenses?state=$($State)" | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+    $QueryFilters = @()
+    if ($State) {
+        $QueryFilters += "state=$($State)"
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString($QueryFilters)
+    }
+    
+    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/licensing/v1/licenses$QueryString" | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
     
     if ($Results) {
       return $Results

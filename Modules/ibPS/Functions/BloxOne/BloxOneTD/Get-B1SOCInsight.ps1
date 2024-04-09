@@ -77,7 +77,7 @@
       if ($QueryFilters) {
         $QueryFilter = ConvertTo-QueryString $QueryFilters
       }
-
+      Write-DebugMsg -Filters $QueryFilters
       $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights$QueryFilter" -Method GET | Select-Object -ExpandProperty insightList -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
   
       if ($Results) {

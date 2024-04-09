@@ -96,7 +96,7 @@
       if ($QueryFilters) {
         $QueryFilter = ConvertTo-QueryString $QueryFilters
       }
-
+      Write-DebugMsg -Filters $QueryFilters
       $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$insightId/assets$QueryFilter" -Method GET | Select-Object -ExpandProperty assets -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
   
       if ($Results) {

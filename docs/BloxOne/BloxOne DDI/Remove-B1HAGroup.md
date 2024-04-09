@@ -12,7 +12,7 @@ Removes a DHCP HA Group
 
 ## SYNTAX
 
-### notid (Default)
+### Default (Default)
 ```
 Remove-B1HAGroup [-Name <String>] [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The name of the HA Group to remove
 
 ```yaml
 Type: String
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False

@@ -43,7 +43,6 @@
     }
 
     $splat = $splat | ConvertTo-Json
-    if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
     $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
     $Result

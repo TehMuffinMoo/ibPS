@@ -19,7 +19,7 @@ function New-NIOSDelegatedZone {
         The DNS View the delegated zone should be placed in
 
     .PARAMETER Creds
-        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
+        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Set-NIOSCredentials
 
     .PARAMETER SkipCertificateCheck
         If this parameter is set, SSL Certificates Checks will be ignored
@@ -54,7 +54,6 @@ function New-NIOSDelegatedZone {
             "view" = $View
         }
         $splat = $splat | ConvertTo-Json
-        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
         try {
             $Result = Query-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat -SkipCertificateCheck:$SkipCertificateCheck 
             $Successful = $true

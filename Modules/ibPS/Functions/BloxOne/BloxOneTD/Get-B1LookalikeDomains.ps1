@@ -24,6 +24,9 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
     .EXAMPLE
         PS> Get-B1LookalikeDomains -Domain google.com | ft detected_at,lookalike_domain,reason -AutoSize
 
@@ -54,12 +57,14 @@
       [String]$Reason,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [String[]]$Fields,
       [Switch]$Strict
     )
 
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Domain) {
       $Filters += "target_domain$($MatchType)`"$Domain`""
     }
@@ -69,15 +74,27 @@
     if ($Reason) {
       $Filters += "reason$($MatchType)`"$Reason`""
     }
-
     if ($Filters) {
-        $Filter = "_filter="+(Combine-Filters $Filters)
+        $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
- 
-    if ($Filter) {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_domains?$Filter&_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
+    if ($Fields) {
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
+    Write-DebugMsg -Filters $QueryFilters
+    if ($QueryString) {
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_domains$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_domains?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_domains" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
   
     if ($Results) {

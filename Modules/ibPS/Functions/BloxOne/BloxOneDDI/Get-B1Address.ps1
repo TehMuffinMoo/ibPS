@@ -27,6 +27,12 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER OrderBy
+        Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+    .PARAMETER OrderByTag
+        Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
@@ -54,6 +60,8 @@
       [Int]$Offset = 0,
       [String]$tfilter,
       [String[]]$Fields,
+      [String]$OrderBy,
+      [String]$OrderByTag,
       $CustomFilters,
       [Parameter(ParameterSetName="With ID")]
       [String]$id
@@ -84,21 +92,31 @@
       if ($Filter) {
         $QueryFilters.Add($Filter) | Out-Null
       }
-      $QueryFilters.Add("_limit=$Limit") | Out-Null
-      $QueryFilters.Add("_offset=$Offset") | Out-Null
+      if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+      }
+      if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+      }
       if ($Fields) {
         $Fields += "id"
         $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
       }
       if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
+      }      
+      if ($OrderBy) {
+        $QueryFilters.Add("_order_by=$OrderBy") | Out-Null
+      }
+      if ($OrderByTag) {
+        $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null
       }
       $QueryString = ConvertTo-QueryString $QueryFilters
-
+      Write-DebugMsg -Filters $QueryFilters
       if ($QueryString) {
-          $Results = Query-CSP -Uri "ipam/address$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+          $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       } else {
-          $Results = Query-CSP -Uri "ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+          $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       }
   
       if ($Results -and $Reserved) {

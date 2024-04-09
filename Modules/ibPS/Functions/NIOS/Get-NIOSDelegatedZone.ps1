@@ -19,7 +19,7 @@ function Get-NIOSDelegatedZone {
         Use this parameter to limit the quantity of results returned. The default number of results is 1000.
 
     .PARAMETER Creds
-        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Store-NIOSCredentials
+        Used when specifying NIOS credentials explicitly, if they have not been pre-defined using Set-NIOSCredentials
 
     .PARAMETER SkipCertificateCheck
         If this parameter is set, SSL Certificates Checks will be ignored

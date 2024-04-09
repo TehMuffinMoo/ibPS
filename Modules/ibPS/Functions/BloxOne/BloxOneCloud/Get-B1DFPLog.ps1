@@ -57,7 +57,7 @@
       [int]$Offset = 0
     )
     
-    $DFPServices = Get-B1DFP
+    $DFPServices = Get-B1DFP -Limit 1000
 
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()
@@ -166,6 +166,7 @@
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress
 
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
+    Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
     $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
     if ($Result.result.data) {
         $Result.result.data | Select-Object @{name="timestamp";Expression={$_.'PortunusDnsLogs.timestamp'}},`

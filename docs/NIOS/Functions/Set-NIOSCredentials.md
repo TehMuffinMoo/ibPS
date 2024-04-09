@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Store-NIOSCredentials
+# Set-NIOSCredentials
 
 ## SYNOPSIS
 Stores NIOS Credentials to the local user/machine
@@ -13,7 +13,7 @@ Stores NIOS Credentials to the local user/machine
 ## SYNTAX
 
 ```
-Store-NIOSCredentials [[-Credentials] <Object>] [-Persist]
+Set-NIOSCredentials [[-Credentials] <Object>] [-Persist]
 ```
 
 ## DESCRIPTION
@@ -24,7 +24,7 @@ If previous NIOS Credentials exist, they will be overwritten.
 
 ### EXAMPLE 1
 ```powershell
-Store-NIOSCredentials -Credentials ${CredentialObject} -Persist
+Set-NIOSCredentials -Credentials ${CredentialObject} -Persist
 ```
 
 ## PARAMETERS

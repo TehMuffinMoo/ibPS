@@ -17,9 +17,9 @@
 
 function Combine-Filters {
     param(
-    [parameter(Mandatory=$true)]  
-    $Filters,
-    $Type = "and"
+      [parameter(Mandatory=$true)]  
+      $Filters,
+      $Type = "and"
     )
     $combinedFilter = $null
     $FilterCount = $Filters.Count
@@ -419,6 +419,237 @@ function Get-B1ServiceLogApplications {
   return $Result
 }
 
+function DeprecationNotice {
+  param (
+    $Date,
+    $Command,
+    $AlternateCommand
+  )
+  $ParsedDate = [datetime]::parseexact($Date, 'dd/MM/yy', $null)
+  if ($ParsedDate -gt (Get-Date)) {
+    Write-Host "Cmdlet Deprecation Notice! $Command will be deprecated on $Date. Please switch to using $AlternateCommand before this date." -ForegroundColor Yellow
+  } else {
+    Write-Host "Cmdlet was deprecated on $Date. $Command will likely no longer work. Please switch to using $AlternateCommand instead." -ForegroundColor Red
+  }
+}
+
+function Write-NetworkTopology {
+  param(
+      [Parameter(
+          ValueFromPipeline = $true,
+          Mandatory=$true
+      )]
+      [System.Object[]]$Object,
+      [String]$AdditionalSpaces,
+      [Int]$Call = 1,
+      [Switch]$IncludeAddresses,
+      [Switch]$IncludeRanges,
+      [Switch]$IncludeSubnets
+  )
+  process {
+    if ($Object.label) {
+      $Include = $true
+      $ObjectType = $($Object.type.split('/'))[1]
+      Switch($ObjectType) {
+        "address_block" {
+          $Colour = 'green'
+          $Prefix = 'AB'
+        }
+        "subnet" {
+          $Colour = 'cyan'
+          $Prefix = 'SN'
+          if (!($IncludeSubnets)) {
+            $Include = $false
+          }
+        }
+        "range" {
+          $Colour = 'magenta'
+          $Prefix = 'RG'
+          if (!($IncludeRanges)) {
+            $Include = $false
+          }
+        }
+        "address" {
+          $Colour = 'DarkYellow'
+          $Prefix = 'AD'
+          if (!($IncludeAddresses)) {
+            $Include = $false
+          }
+        }
+        default {
+          $Colour = 'Red'
+        }
+      }
+      if ($Include) {
+        Write-Host "$($AdditionalSpaces) $($Object.label) [$ObjectType]" -ForegroundColor $Colour
+      }
+    }
+    if ($Object.Children -ne $null) {
+        $SpacesToAdd = ""
+        foreach ($i in 1..$($Call)) {
+            $SpacesToAdd += "    "
+        }
+        $Call += 1
+        $Object.Children | Write-NetworkTopology -AdditionalSpaces "$($SpacesToAdd)" -Call $Call -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges -IncludeSubnets:$IncludeSubnets
+        $Call -= 1
+    }
+  }
+}
+
+function Build-TopologyChildren {
+  param(
+      [System.Object[]]$Object,
+      [Switch]$IncludeAddresses,
+      [Switch]$IncludeRanges,
+      [Switch]$IncludeSubnets,
+      [Int]$Progress = 0
+  )
+  process {
+      $ParentObjectsToCheck = @("ipam/address_block")
+      $ChildObjectsToCheck = @("ipam/address_block")
+      if ($IncludeAddresses) {
+        $ParentObjectsToCheck += "ipam/range","ipam/subnet"
+        $ChildObjectsToCheck += "ipam/address"
+      }
+      if ($IncludeRanges) {
+        if ("ipam/subnet" -notin $ChildObjectsToCheck) {
+          $ParentObjectsToCheck += "ipam/subnet"
+        }
+        $ChildObjectsToCheck += "ipam/range"
+      }
+      if ($IncludeSubnets) {
+        $ChildObjectsToCheck += "ipam/subnet"
+      }
+      $FunctionDefinition = ${function:Build-TopologyChildren}.ToString()
+      if ($PSVersionTable.PSVersion -gt [Version]'7.0') {
+        $Object | Foreach-Object -Parallel -ThrottleLimit 10 {
+          ${function:Build-TopologyChildren} = $($using:FunctionDefinition)
+          Write-Host -NoNewLine "`rSearched: $($_.label)          "
+          $Children = $_ | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($using:ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if ($Children -ne $null) {
+              $_ | Add-Member -Type NoteProperty -Name 'Children' -Value $Children -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+              Build-TopologyChildren -Object ($_.Children | Where-Object {$_.type -in $($using:ParentObjectsToCheck)}) -IncludeAddresses:$($using:IncludeAddresses) -IncludeRanges:$($using:IncludeRanges) -IncludeSubnets:$($using:IncludeSubnets)
+          }
+        }
+      } else {
+        foreach ($ChildObject in $Object) {
+          Write-Host -NoNewLine "`rSearched: $($_.label)          "
+          $Children = $ChildObject | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if ($Children -ne $null) {
+            $ChildObject | Add-Member -Type NoteProperty -Name 'Children' -Value $Children -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+            Build-TopologyChildren -Object ($ChildObject.Children | Where-Object {$_.type -in $($ParentObjectsToCheck)}) -IncludeAddresses:$($IncludeAddresses) -IncludeRanges:$($IncludeRanges) -IncludeSubnets:$($IncludeSubnets)
+          }
+        }
+      }
+  }
+}
+
+function Build-HTMLTopologyChildren {
+  param(
+      [System.Object[]]$Object,
+      [Int]$Call,
+      [Switch]$IncludeAddresses,
+      [Switch]$IncludeRanges,
+      [Switch]$IncludeSubnets
+  )
+  process {
+    if ($Call -eq 0) {
+      Switch ($Object.id.split('/')[1]) {
+        "ip_space" {
+          $ParentDescription = "$($Object.name)"
+        }
+        "address_block" {
+          $ParentDescription = "$(($Object | Select-Object address).address)/$($Object.cidr)"
+        }
+        "subnet" {
+          $ParentDescription = "$(($Object | Select-Object address).address)/$($Object.cidr)"
+        }
+      }
+    } else {
+        $ParentDescription = $null
+    }
+    $Call += 1
+    foreach ($ChildObject in $Object.Children) {
+      $Include = $true
+      $ObjectType = $($ChildObject.type.split('/'))[1]
+      $Colour = $null
+      $Icon = $null
+      Switch($ObjectType) {
+        "address_block" {
+          $Colour = 'LightGreen'
+          $Icon = 'cube'
+        }
+        "subnet" {
+          $Colour = 'LightBlue'
+          $Icon = 'network-wired'
+          if (!($IncludeSubnets)) {
+            $Include = $false
+          }
+        }
+        "range" {
+          $Colour = 'Magenta'
+          $Icon = 'ellipsis-h'
+          if (!($IncludeRanges)) {
+            $Include = $false
+          }
+        }
+        "address" {
+          $Colour = 'LightYellow'
+          if (!($IncludeAddresses)) {
+            $Include = $false
+          }
+        }
+        default {
+          $Colour = 'Red'
+        }
+      }
+      if ($Include) {
+        if ($ParentDescription) {
+          if ($Icon) {
+            New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $ParentDescription -IconColor $Colour -IconSolid $Icon
+          } else {
+            New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $ParentDescription -ColorBackground $Colour
+          }
+        } else {
+          if ($Icon) {
+            New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $($Object.label) -IconColor $Colour -IconSolid $Icon
+          } else {
+            New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $($Object.label) -ColorBackground $Colour           
+          }
+        }
+      }
+      if ($ChildObject.Children -ne $null) {
+        Build-HTMLTopologyChildren -Object $ChildObject -Call $Call -IncludeAddresses:$IncludeAddresses -IncludeRanges:$IncludeRanges -IncludeSubnets:$IncludeSubnets
+      }
+    }
+    $ParentDescription = $null
+  }
+}
+
+function Write-DebugMsg {
+  param(
+    $URI,
+    $Filters,
+    $Query,
+    $Body
+  )
+
+  if ($ENV:IBPSDebug -eq "Enabled") {
+    if ($URI) {
+      Write-Debug "$($URI)"
+    }
+    if ($Filters) {
+      Write-Debug "Filter(s):`n$($Filters | Out-String)"
+    }
+    if ($Query) {
+      Write-Debug "Query:`n$($Query | Out-String)"
+    }
+    if ($Body) {
+      Write-Debug "Body:`n$($Body | Out-String)"
+    }
+  }
+}
+
 function DevelopmentFunctions {
   return @(
     "Query-CSP"
@@ -434,19 +665,11 @@ function DevelopmentFunctions {
     "Get-NetworkClass"
     "New-B1Metadata"
     "New-ISOFile"
+    "DeprecationNotice"
+    "Write-NetworkTopology"
+    "Build-TopologyChildren"
+    "Build-HTMLTopologyChildren"
+    "Write-DebugMsg"
+    "Query-NIOS"
   )
-}
-
-function DeprecationNotice {
-  param (
-    $Date,
-    $Command,
-    $AlternateCommand
-  )
-  $ParsedDate = [datetime]::parseexact($Date, 'dd/MM/yy', $null)
-  if ($ParsedDate -gt (Get-Date)) {
-    Write-Host "Cmdlet Deprecation Notice! $Command will be deprecated on $Date. Please switch to using $AlternateCommand before this date." -ForegroundColor Yellow
-  } else {
-    Write-Host "Cmdlet was deprecated on $Date. $Command will likely no longer work. Please switch to using $AlternateCommand instead." -ForegroundColor Red
-  }
 }

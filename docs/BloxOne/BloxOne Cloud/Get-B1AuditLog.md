@@ -15,7 +15,7 @@ Queries the BloxOneDDI Audit Log
 ```
 Get-B1AuditLog [[-Username] <String>] [[-ResourceType] <String>] [[-Method] <String>] [[-ResponseCode] <Int32>]
  [[-ClientIP] <String>] [[-Action] <String>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-Fields] <String[]>] [[-CustomFilters] <Object>] [-Strict]
+ [[-Offset] <Int32>] [[-OrderBy] <String>] [[-Fields] <String[]>] [[-CustomFilters] <Object>] [-Strict]
 ```
 
 ## DESCRIPTION
@@ -184,6 +184,23 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Fields
 Specify a list of fields to return.
 The default is to return all fields.
@@ -194,7 +211,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -210,7 +227,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

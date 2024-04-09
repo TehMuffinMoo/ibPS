@@ -13,6 +13,16 @@
   <br>
 </h1>
 
+<p align="center">
+  <a href="https://www.powershellgallery.com/packages/ibPS"><img src="https://img.shields.io/powershellgallery/v/ibPS?label=Powershell%20Gallery&style=flat-square"></a>
+  <a href="https://github.com/TehMuffinMoo/ibPS"><img src="https://img.shields.io/github/v/release/TehMuffinMoo/ibPS.svg?label=Github Release&size=flat-square"></a>
+  <a href="https://github.com/TehMuffinMoo/ibPS"><img src="https://img.shields.io/github/languages/code-size/TehMuffinMoo/ibPS.svg?label=Code%20Size&style=flat-square"></a>
+  <a href="https://www.powershellgallery.com/packages/ibPS"><img src="https://img.shields.io/powershellgallery/dt/ibPS?label=Downloads&style=flat-square"></a>
+  <a href="https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE"><img src="https://img.shields.io/github/license/TehMuffinMoo/ibPS?label=License&style=flat-square"></a>
+  <a href="https://www.powershellgallery.com/packages/ibPS"><img src="https://img.shields.io/powershellgallery/p/ibPS?label=Supported Platforms&style=flat-square&color=%236600bf"></a>
+  <a href="https://ibps.readthedocs.io"><img src="https://img.shields.io/readthedocs/ibps?label=Docs&style=flat-square"></a>
+</p>
+
 <h4 align="center">A series of PowerShell Cmdlets used to interact with the InfoBlox BloxOne APIs.</h4>
 
 <p align="center">
@@ -112,7 +122,7 @@ Get-Help New-B1AddressBlock -Detailed
 ```
 
 ### Common Parameters
-Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-Limit` & `-Offset` parameters. Their use is described below.
+Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-OrderBy`, `-OrderByTag`, `-Limit` & `-Offset` parameters. Their use is described below.
 
 <table>
   <tr>
@@ -148,6 +158,24 @@ This is used to filter results of your query by tags.
     <td>
 This is used to filter the fields returned by the API
 <pre>Get-B1Record -Fields name_in_zone,absolute_zone_name,rdata </pre>
+    </td>
+  </tr>
+  <tr>
+    <td class="paramName">
+      -OrderBy
+    </td>
+    <td>
+This is used to order the results returned from the API. It defaults to ascending if no suffix is set, but can be set using 'asc' or 'desc' as shown below.
+<pre>Get-B1Host -OrderBy 'display_name asc'</pre>
+    </td>
+  </tr>
+  <tr>
+    <td class="paramName">
+      -OrderByTag
+    </td>
+    <td>
+This is used to order the results returned from the API based on tag. It defaults to ascending if no suffix is set, but can be set using 'asc' or 'desc' as shown below.
+<pre>Get-B1Host -OrderByTag 'nios/grid_name desc'</pre>
     </td>
   </tr>
   <tr>
@@ -240,6 +268,7 @@ Remove-B1APIKey                  | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1HAGroup                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1HAGroup
 Remove-B1DHCPConfigProfile       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
 Remove-B1DNSConfigProfile        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSConfigProfile
+Remove-B1InternalDomainList      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
 Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
 Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
@@ -256,6 +285,7 @@ Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Statu
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Set-B1TideDataProfile            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TideDataProfile
+Set-B1InternalDomainList         | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
 Remove-B1SecurityPolicy          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
 Remove-B1NetworkList             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1NetworkList
 Get-B1DossierLookup              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1DossierLookup
@@ -263,6 +293,18 @@ Set-B1Object                     | ![Implemented](https://badgen.net/badge/Statu
 Get-B1ZoneChild                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSView<br>Get-B1AuthoritativeZone<br>Get-B1ForwardZone
 Get-B1IPAMChild                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Space<br>Get-B1AddressBlock<br>Get-B1Subnet<br>Get-B1Range
 Get-B1AddressBlockNextAvailable  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
+Get-B1AddressNextAvailable       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Address<br>Get-B1Subnet<br>Get-B1Range
+Get-B1SubnetNextAvailable        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
+Get-NetworkInfo                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock<br>Get-B1Subnet<br>Get-B1AddressBlockNextAvailable<br>Get-B1SubnetNextAvailable
+Get-B1SecurityPolicyRules        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
+Get-B1SOCInsightAssets           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
+Get-B1SOCInsightComments         | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
+Get-B1SOCInsightEvents           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
+Get-B1SOCInsightIndicators       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
+Set-B1SOCInsight                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
+
+
+
 
 ## To-Do
 All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested, where updates are then posted to main.

@@ -104,7 +104,6 @@
               Write-Host "Nothing to update." -ForegroundColor Gray
           } else {
               $splat = $ForwardZonePatch | ConvertTo-Json -Depth 10
-              if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
               $Result = Query-CSP -Method PATCH -Uri "$ForwardZoneUri" -Data $splat
           

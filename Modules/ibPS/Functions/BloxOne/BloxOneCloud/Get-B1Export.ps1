@@ -43,6 +43,7 @@
         [Parameter(Mandatory=$true)]
         [string]$filePath
     )
+    
     $B1Export = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/storage?data_ref=$data_ref&direction=download"
     if ($B1Export.result.url) {
         $JSON = Invoke-RestMethod -Uri $B1Export.result.url

@@ -50,6 +50,8 @@
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
 
+    Write-DebugMsg -Filters $QueryFilters
+
     if ($QueryString) {
         Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/operation$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {

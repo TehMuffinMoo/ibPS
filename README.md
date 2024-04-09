@@ -37,7 +37,7 @@
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
-* Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](https://github.com/TehMuffinMoo/ibPS?tab=readme-ov-file#custom-bloxone-functions-generic-wrapper).
+* Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](https://ibps.readthedocs.io/en/latest/BloxOne/Generic%20Wrapper/).
 * Automate the world!
 
 ## Documentation

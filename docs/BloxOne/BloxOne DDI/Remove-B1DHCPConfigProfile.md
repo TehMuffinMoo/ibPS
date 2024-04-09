@@ -12,7 +12,7 @@ Removes a DHCP Config Profile
 
 ## SYNTAX
 
-### notid (Default)
+### Default (Default)
 ```
 Remove-B1DHCPConfigProfile [-Name <String>] [<CommonParameters>]
 ```
@@ -44,7 +44,7 @@ The name of the DHCP Config Profile to remove
 
 ```yaml
 Type: String
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False

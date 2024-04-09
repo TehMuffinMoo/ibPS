@@ -15,6 +15,9 @@ function Get-ibPSVersion {
     .PARAMETER Details
         This switch will return installation details, such as module location and install type
 
+    .PARAMETER Cleanup
+        This switch will remove all except the latest version of ibPS automatically. Best to run as Administrator to avoid permissions issues if modules are installed globally.
+
     .PARAMETER Force
         This switch will force an update, whether or not one is available
 
@@ -34,6 +37,7 @@ function Get-ibPSVersion {
     [Switch]$Details,
     [Switch]$CheckForUpdates,
     [Switch]$Update,
+    [Switch]$Cleanup,
     [Switch]$Force
   )
 
@@ -46,10 +50,24 @@ function Get-ibPSVersion {
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path.Count -gt 1) {
     Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary older versions to avoid issues." -ForegroundColor Yellow
+    Write-Host "You can run: 'Get-ibPSVersion -Cleanup' to perform this for you." -ForegroundColor Yellow
     Write-Host "Installed Versions: " -ForegroundColor Red
-    $InstalledModule | Select-Object Version,Name,Description,ModuleBase
+    $InstalledModule | Select-Object Version,Name,Description,ModuleBase | Write-Output
+    if ($Cleanup) {
+      $ModulesToRemove = $InstalledModule | Sort-Object Version -Descending | Select-Object -Skip 1
+      Write-Host "ibPS versions to remove: " -ForegroundColor Red
+      $ModulesToRemove | Select-Object Version,Name,Description,ModuleBase | Write-Output
+      Write-Warning "Confirmation: Do you want to proceed with removing old versions of ibPS?" -WarningAction Inquire
+      foreach ($ModuleToRemove in $ModulesToRemove) {
+        Remove-Item $($ModuleToRemove.ModuleBase) -Recurse
+      }
+    }
     $InstalledModule = $InstalledModule | Sort-Object Version -Descending | Select-Object -First 1
     $MultipleVersions = $true
+  } else {
+    if ($Cleanup) {
+      Write-Host "There were no old ibPS Versions identified for cleanup." -ForegroundColor Green
+    }
   }
   $PSGalleryModule = Get-InstalledModule -Name ibPS -EA SilentlyContinue -WA SilentlyContinue
   if ($PSGalleryModule) {

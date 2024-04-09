@@ -12,9 +12,10 @@ Retrieves a list of BloxOne Threat Defense Security Policies
 
 ## SYNTAX
 
-### notid (Default)
+### Default (Default)
 ```
-Get-B1SecurityPolicy [-Name <String>] [-Strict] [<CommonParameters>]
+Get-B1SecurityPolicy [-Name <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>]
+ [-tfilter <String>] [-Strict] [<CommonParameters>]
 ```
 
 ### With ID
@@ -64,7 +65,68 @@ Filter results by Name
 
 ```yaml
 Type: String
-Parameter Sets: notid
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Use this parameter to limit the quantity of results.
+
+```yaml
+Type: Int32
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Fields
+Specify a list of fields to return.
+The default is to return all fields.
+
+```yaml
+Type: String[]
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -tfilter
+Use this parameter to filter the results returned by tag.
+
+```yaml
+Type: String
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -81,7 +143,7 @@ Using strict matching will only return results matching exactly what is entered 
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: notid
+Parameter Sets: Default
 Aliases:
 
 Required: False

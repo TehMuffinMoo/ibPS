@@ -56,7 +56,7 @@
       [ValidateSet('Blocked','Not Blocked')]
       [String]$Action,
       [String]$Actor,
-      [String]$Limit,
+      [Int]$Limit,
       [DateTime]$Start = (Get-Date).AddDays(-1),
       [DateTime]$End = (Get-Date),
       [Parameter(
@@ -97,6 +97,7 @@
       if ($QueryFilters) {
         $QueryFilter = ConvertTo-QueryString $QueryFilters
       }
+      Write-DebugMsg -Filters $QueryFilters
       $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$insightId/indicators$QueryFilter" -Method GET | Select-Object -ExpandProperty indicators -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
   
       if ($Results) {

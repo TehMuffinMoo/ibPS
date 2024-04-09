@@ -135,13 +135,12 @@
               Write-Host "Nothing to update." -ForegroundColor Gray
           } else {
               $splat = $BloxSubnetPatch | ConvertTo-Json -Depth 10
-              if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
               $Result = Query-CSP -Method PATCH -Uri "$BloxSubnetUri" -Data $splat
               $Result = $Result | Select-Object -ExpandProperty result
               if ($Result.id -eq $BloxSubnetUri) {
                   Write-Host "Updated Subnet $($Result.address)/$($result.CIDR) successfully." -ForegroundColor Green
-		  return $Result
+                  return $Result
               } else {
                   Write-Host "Failed to update Subnet $Subnet/$CIDR - $BloxSubnetUri." -ForegroundColor Red
                   break

@@ -1,4 +1,5 @@
 function Query-CSP {
+    [Alias("Invoke-CSP")]
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Cloud Services Portal
@@ -18,11 +19,14 @@ function Query-CSP {
     .PARAMETER InFile
         File path of data to submit as part of POST request
 
-    .EXAMPLE
-        Query-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
+    .PARAMETER ContentType
+        The Content-Type header to be passed in requests. Defaults to 'application/json'
 
     .EXAMPLE
-        Query-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
+        Invoke-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
+
+    .EXAMPLE
+        Invoke-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -56,11 +60,11 @@ function Query-CSP {
     $ErrorOnEmpty = $true
 
     ## Allow full API or only endpoint to be specified.
+    ##  Default to DDI endpoint
     if ($Uri -notlike "$B1CSPUrl/*") {
         $Uri = "$B1CSPUrl/api/ddi/v1/"+$Uri
     }
     $Uri = $Uri -replace "\*","``*"
-    if ($ENV:IBPSDebug -eq "Enabled") {$Uri}
 
     $splat = @{
         "Method" = $Method
@@ -75,6 +79,7 @@ function Query-CSP {
     }
 
     #try {
+      Write-DebugMsg -URI "$($Method): $Uri" -Body $Data
       switch ($Method) {
         'GET' {
             $Result = Invoke-RestMethod @splat
@@ -107,14 +112,14 @@ function Query-CSP {
       if ($Result) {
         if ($Result.error -ne $null) {
             switch ($StatusCode) {
+                401 {
+                    Write-Error "Authorization required, please store/update your BloxOne API Key using Set-B1CSPAPIKey"
+                }
                 429 {
                     Write-Error "API Request Limit Reached. Use the -Limit and -Offset parameters or make your search more specific."
                 }
-                401 {
-                     Write-Error "Authorization required, please store/update your BloxOne API Key using Set-B1CSPAPIKey"
-                }
-                default {
-                    Write-Error $($Result.error.message)
+                501 {
+                    Write-Error "API Endpoint and/or Method are not supported. Please check syntax and try again."
                 }
             }
         } else {

@@ -51,19 +51,19 @@
     .FUNCTIONALITY
         Threat Defense
     #>
-    [CmdletBinding(DefaultParameterSetName="notid")]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [String]$Name,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [String]$Description,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [Int]$PolicyID,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [Switch]$DefaultSecurityPolicy,
       [parameter(ParameterSetName="With ID")]
       [Int]$id,
-      [parameter(ParameterSetName="notid")]
+      [parameter(ParameterSetName="Default")]
       [Switch]$Strict
     )
 
@@ -91,7 +91,7 @@
     if ($Filters) {
         $Filter = Combine-Filters $Filters
     }
-
+    Write-DebugMsg -Filters $Filters
     if ($Filter) {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

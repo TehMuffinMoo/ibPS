@@ -43,10 +43,12 @@ jobs:
           ## Functions to export
           $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
-          $AdditionalFunctionsToImport = "Get-ibPSVersion","Set-ibPSConfiguration","Get-NetworkInfo","Query-NIOS"
+          $MiscellaneousFunctions = Get-ChildItem "./Modules/ibPS/Functions/Misc/*.ps1" | Where-Object {$_.BaseName -ne 'Misc'}
+          $AdditionalFunctionsToExport = @('Invoke-CSP','Invoke-NIOS')
 
+          ## Export Functions
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
-          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToImport) -AliasesToExport '*' -ReleaseNotes "https://ibps.readthedocs.io/en/latest/Change%20Log/"
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -AliasesToExport '*' -ReleaseNotes "https://ibps.readthedocs.io/en/latest/Change%20Log/"
 
           Write-Host "Updating CHANGELOG.."
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw

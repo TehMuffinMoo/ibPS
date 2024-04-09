@@ -148,7 +148,6 @@
       }
 
       $splat = $splat | ConvertTo-Json
-      if ($ENV:IBPSDebug -eq "Enabled") {$splat}
       $Result = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
       if ($Result) {
         if ($WaitForOutput) {

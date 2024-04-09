@@ -69,7 +69,6 @@
         }
 
         $splat = $splat | ConvertTo-Json
-        if ($ENV:IBPSDebug -eq "Enabled") {$splat}
 
         $Result = Query-CSP -Method POST -Uri "dhcp/ha_group" -Data $splat | Select-Object -ExpandProperty result
         if ($Result.name -eq $Name) {

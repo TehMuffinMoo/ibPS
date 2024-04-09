@@ -32,6 +32,9 @@ function Get-B1User {
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
+
+    .PARAMETER OrderBy
+        Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
         
     .PARAMETER id
         The id of the authoritative zone to filter by
@@ -64,6 +67,7 @@ function Get-B1User {
         [Int]$Offset = 0,
         [Switch]$Strict,
         [String[]]$Fields,
+        [String]$OrderBy,
         [String]$id
     )
 
@@ -101,9 +105,12 @@ function Get-B1User {
         $Fields += "id"
         $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
+    if ($OrderBy) {
+        $QueryFilters.Add("_order_by=$($OrderBy)") | Out-Null
+    }
 
     $CombinedFilter += ConvertTo-QueryString($QueryFilters)
-
+    Write-DebugMsg -Filters $QueryFilters
     $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {

@@ -103,6 +103,7 @@ function Get-B1SecurityLog {
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
+    Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
         $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {

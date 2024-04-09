@@ -13,7 +13,8 @@ Retrieves a list of DHCP option codes from BloxOneDDI
 ## SYNTAX
 
 ```
-Get-B1DHCPOptionCode [[-Name] <String>] [[-Code] <Int32>] [[-Source] <String>] [[-Fields] <String[]>] [-Strict]
+Get-B1DHCPOptionCode [[-Name] <String>] [[-Code] <Int32>] [[-Source] <String>] [[-Limit] <Int32>]
+ [[-Offset] <Int32>] [[-Fields] <String[]>] [[-OrderBy] <String>] [-Strict]
 ```
 
 ## DESCRIPTION
@@ -74,6 +75,37 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Limit
+Use this parameter to limit the quantity of results.
+The default number of results is 100.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: 100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Fields
 Specify a list of fields to return.
 The default is to return all fields.
@@ -84,7 +116,24 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

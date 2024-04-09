@@ -102,6 +102,7 @@
                 }
                 $Data = $splat | ConvertTo-Json -Depth 4 -Compress
                 $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
+				Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
                 $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
 
                 $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`

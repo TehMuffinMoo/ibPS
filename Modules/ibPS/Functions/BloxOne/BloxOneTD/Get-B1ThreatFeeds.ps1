@@ -9,6 +9,15 @@ function Get-B1ThreatFeeds {
     .PARAMETER Name
         Use this parameter to filter the list of Subnets by Name
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results. The default number of results is 1000.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -30,23 +39,39 @@ function Get-B1ThreatFeeds {
     #>
     param(
         [String]$Name,
+        [Int]$Limit = 1000,
+        [Int]$Offset,
+        [String[]]$Fields,
         [Switch]$Strict
     )
  
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
 
     if ($Name) {
         $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
     }
-
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-
-    if ($Filter) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds?_filter=$Filter" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
+    if ($Fields) {
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
+    Write-DebugMsg -Filters $QueryFilters
+    if ($QueryString) {
+      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
       $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
