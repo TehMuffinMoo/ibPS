@@ -1,1 +1,2 @@
 - Fix parallelisation bug with new `Get-NetworkTopology` cmdlet when running on PowerShell 7.x
+- Remove old Write-Host debug message from `Get-B1Service`
