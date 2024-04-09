@@ -141,7 +141,7 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Get-NIOSCredentials', 'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
                'Get-NIOSObject', 'New-NIOSDelegatedZone', 'Set-NIOSConfiguration', 
                'Set-NIOSCredentials', 'Get-ibPSVersion', 'Get-NetworkInfo', 
-               'Get-NetworkTopology', 'Set-ibPSConfiguration'
+               'Get-NetworkTopology', 'Set-ibPSConfiguration','Invoke-CSP','Invoke-NIOS'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
