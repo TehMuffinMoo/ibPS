@@ -107,7 +107,6 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Write-Host "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)$($QueryString)"
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
