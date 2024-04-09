@@ -23,7 +23,17 @@ This is a core function used by all cmdlets when querying the CSP (Cloud Service
 
 ### EXAMPLE 1
 ```powershell
-Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record?_limit=10"
+Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record?_limit=10"
+```
+
+### EXAMPLE 2
+```powershell
+Invoke-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
+```
+
+### EXAMPLE 3
+```powershell
+Invoke-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
 ```
 
 ## PARAMETERS

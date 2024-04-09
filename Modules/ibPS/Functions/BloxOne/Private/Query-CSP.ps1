@@ -23,10 +23,10 @@ function Query-CSP {
         The Content-Type header to be passed in requests. Defaults to 'application/json'
 
     .EXAMPLE
-        Query-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
+        Invoke-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
 
     .EXAMPLE
-        Query-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
+        Invoke-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
 
     .FUNCTIONALITY
         BloxOneDDI
