@@ -522,7 +522,7 @@ function Build-TopologyChildren {
       }
       $FunctionDefinition = ${function:Build-TopologyChildren}.ToString()
       if ($PSVersionTable.PSVersion -gt [Version]'7.0') {
-        $Object | Foreach-Object -Parallel -ThrottleLimit 10 {
+        $Object | Foreach-Object -ThrottleLimit 10 -Parallel {
           ${function:Build-TopologyChildren} = $($using:FunctionDefinition)
           Write-Host -NoNewLine "`rSearched: $($_.label)          "
           $Children = $_ | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($using:ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
