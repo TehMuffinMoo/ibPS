@@ -1,4 +1,5 @@
 function Query-CSP {
+    [Alias("Invoke-CSP")]
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Cloud Services Portal
@@ -56,6 +57,7 @@ function Query-CSP {
     $ErrorOnEmpty = $true
 
     ## Allow full API or only endpoint to be specified.
+    ##  Default to DDI endpoint
     if ($Uri -notlike "$B1CSPUrl/*") {
         $Uri = "$B1CSPUrl/api/ddi/v1/"+$Uri
     }
