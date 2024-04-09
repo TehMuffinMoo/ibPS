@@ -19,6 +19,9 @@ function Query-CSP {
     .PARAMETER InFile
         File path of data to submit as part of POST request
 
+    .PARAMETER ContentType
+        The Content-Type header to be passed in requests. Defaults to 'application/json'
+
     .EXAMPLE
         Query-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
 
