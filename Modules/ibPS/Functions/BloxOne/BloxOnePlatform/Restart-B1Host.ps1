@@ -1,7 +1,7 @@
-﻿function Reboot-B1Host {
+﻿function Restart-B1Host {
     <#
     .SYNOPSIS
-        Reboots a BloxOneDDI Host
+        Restarts a BloxOneDDI Host
 
     .DESCRIPTION
         This function is used to initiate a reboot of a BloxOneDDI Host
@@ -16,7 +16,7 @@
         The id of the BloxOneDDI Host. Accepts pipeline input
 
     .EXAMPLE
-        PS> Reboot-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
+        PS> Restart-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
    
     .FUNCTIONALITY
         BloxOneDDI
