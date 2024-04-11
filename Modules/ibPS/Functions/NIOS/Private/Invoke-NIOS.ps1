@@ -1,5 +1,4 @@
 ﻿function Query-NIOS {
-    [Alias("Invoke-NIOS")]
     <#
     .SYNOPSIS
         Queries a NIOS Grid Manager via Infoblox WAPI
