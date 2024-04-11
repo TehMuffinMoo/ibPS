@@ -1,3 +1,10 @@
+## 1.9.4.3
+- Fix parallelisation bug with new `Get-NetworkTopology` cmdlet when running on PowerShell 7.x
+- Remove old Write-Host debug message from `Get-B1Service`
+- Rename `Query-CSP` and `Query-NIOS` to `Invoke-CSP` and `Invoke-NIOS`
+- Export `Invoke-CSP` and `Invoke-NIOS` as usable functions where raw API usage is desired. See [Invoke-CSP](https://ibps.readthedocs.io/en/latest/BloxOne/Generic%20Wrapper/Invoke-CSP/) and [Invoke-NIOS](https://ibps.readthedocs.io/en/latest/NIOS/) for further details on usage.
+- Rename `Reboot-B1Host` to `Restart-B1Host`
+
 ## 1.9.4.2
 - Fix bug when creating new services [#123](https://github.com/TehMuffinMoo/ibPS/issues/123)
 - Add new `Get-NetworkTopology` function to provide either a text or HTML based visual topology of an IP Space, Address Block, Subnet or Range.
@@ -208,6 +215,7 @@
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 
