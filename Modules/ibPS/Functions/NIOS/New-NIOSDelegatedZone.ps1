@@ -55,7 +55,7 @@ function New-NIOSDelegatedZone {
         }
         $splat = $splat | ConvertTo-Json
         try {
-            $Result = Query-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat -SkipCertificateCheck:$SkipCertificateCheck 
+            $Result = Invoke-NIOS -Method POST -Server $Server -Uri "zone_delegated?_return_as_object=1" -Creds $Creds -Data $splat -SkipCertificateCheck:$SkipCertificateCheck 
             $Successful = $true
             if ($ENV:IBPSDebug -eq "Enabled") {$Result}
         } catch {

@@ -56,8 +56,8 @@ function Get-NIOSForwardZone {
     }
 
     if ($Filter) {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_forward$Filter" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results
+        Invoke-NIOS -Method GET -Server $Server -Uri "zone_forward$Filter" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results
     } else {
-        Query-NIOS -Method GET -Server $Server -Uri "zone_forward$Filter" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-NIOS -Method GET -Server $Server -Uri "zone_forward$Filter" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

@@ -103,7 +103,7 @@ function Copy-NIOSSubzoneToBloxOne {
             if ($RT -in "caa") {
                 $ReturnFields = $ReturnFields + ",ca_flag,ca_tag,ca_value"
             }
-            $SubzoneData += Query-NIOS -Method GET -Server $Server -Uri "record:$($RT)?zone=$($Subzone)&view=$($NIOSView)&_return_as_object=1$ReturnFields" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            $SubzoneData += Invoke-NIOS -Method GET -Server $Server -Uri "record:$($RT)?zone=$($Subzone)&view=$($NIOSView)&_return_as_object=1$ReturnFields" -Creds $Creds -SkipCertificateCheck:$SkipCertificateCheck | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
 
         if (!$IncludeDHCP) {
