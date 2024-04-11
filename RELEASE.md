@@ -1,2 +1,4 @@
 - Fix parallelisation bug with new `Get-NetworkTopology` cmdlet when running on PowerShell 7.x
 - Remove old Write-Host debug message from `Get-B1Service`
+- Rename `Query-CSP` and `Query-NIOS` to `Invoke-CSP` and `Invoke-NIOS`
+- Export `Invoke-CSP` and `Invoke-NIOS` as usable functions where raw API usage is desired. See [https://ibps.readthedocs.io/en/latest/BloxOne/Generic%20Wrapper/Invoke-CSP/](Invoke-CSP) and [https://ibps.readthedocs.io/en/latest/NIOS/](Invoke-NIOS) for further details on usage.

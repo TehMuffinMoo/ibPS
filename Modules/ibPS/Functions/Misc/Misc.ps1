@@ -652,7 +652,6 @@ function Write-DebugMsg {
 
 function DevelopmentFunctions {
   return @(
-    "Invoke-CSP"
     "Detect-OS"
     "Combine-Filters"
     "ConvertTo-QueryString"
@@ -670,6 +669,5 @@ function DevelopmentFunctions {
     "Build-TopologyChildren"
     "Build-HTMLTopologyChildren"
     "Write-DebugMsg"
-    "Query-NIOS"
   )
 }
