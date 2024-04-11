@@ -28,7 +28,20 @@ Invoke-NIOS -Method GET -Uri "zone_auth?_return_as_object=1&_max_results=10"
 
 ### EXAMPLE 2
 ```powershell
-Invoke-NIOS -Method GET -Uri "record:a?_return_as_object=1&_max_results=10"
+PS> (Invoke-NIOS -Method GET -Uri "record:a?_return_as_object=1&_max_results=10").result | ft ipv4addr,name,view
+
+ipv4addr       name                           view
+--------       ----                           ----
+10.0.123.39    vsdfgg.company.net             default
+10.10.42.15    gfhgfh.company.net             default
+10.42.45.24    fsasdr.company.net             default
+192.168.41.52  cvbcbj.company.net             default
+192.168.99.236 hfyju6.company.net             default
+192.168.1.21   ngmsth.company.net             default
+10.0.123.21    sghmuv.company.net             default
+192.168.1.1    gjsuyk.company.net             default
+10.0.5.32      lhrdsw.company.net             default
+10.0.10.21     qogfiv.company.net             default
 ```
 
 ## PARAMETERS
