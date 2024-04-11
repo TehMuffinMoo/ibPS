@@ -54,7 +54,7 @@ Accept wildcard characters: False
 ```
 
 ### -Uri
-Specify the Uri, such as "ipam/record", you can also use the full URL and http parameters must be appended here.
+Specify the Uri, such as "ipam/record", you can also use the full URL and http parameters must be appended here. If the full URL is not used, the default base path is `https://<CSPUrl>/api/ddi/v1`
 
 ```yaml
 Type: String
