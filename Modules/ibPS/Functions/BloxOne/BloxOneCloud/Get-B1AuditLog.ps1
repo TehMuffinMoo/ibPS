@@ -139,7 +139,7 @@ function Get-B1AuditLog {
     Write-DebugMsg -Filters $QueryFilters
 
     if ($QueryString) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($Results) {
         return $Results

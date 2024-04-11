@@ -46,7 +46,7 @@
       }
 
       if ($NetworkList) {
-        Query-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists/$($NetworkList.id)"
+        Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists/$($NetworkList.id)"
         if ($Name) {
             $NetworkListCheck = Get-B1NetworkList -Name $Name -Strict
         } elseif ($id) {

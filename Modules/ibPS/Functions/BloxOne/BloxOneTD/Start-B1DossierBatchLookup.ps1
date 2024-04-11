@@ -64,7 +64,7 @@
     $RequestJSON = $RequestBody | ConvertTo-Json -Depth 5
 
     if ($RequestBody) {
-        $Results = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs" -Data $RequestJSON
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs" -Data $RequestJSON
     }
 
     if ($Results) {

@@ -111,7 +111,7 @@ function Get-B1User {
 
     $CombinedFilter += ConvertTo-QueryString($QueryFilters)
     Write-DebugMsg -Filters $QueryFilters
-    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {
         return $Results

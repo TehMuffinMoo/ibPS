@@ -68,7 +68,7 @@
             }
         }
         if ($OPHID) {
-            $LocalAccess = Query-CSP -Method GET -Uri "$(Get-B1CspUrl)/bootstrap-app/v1/host/$($OPHID)/host_info" | Select-Object -ExpandProperty local_access -EA SilentlyContinue -WA SilentlyContinue
+            $LocalAccess = Invoke-CSP -Method GET -Uri "$(Get-B1CspUrl)/bootstrap-app/v1/host/$($OPHID)/host_info" | Select-Object -ExpandProperty local_access -EA SilentlyContinue -WA SilentlyContinue
             if (!($LocalAccess.enabled)) {
                 $LocalAccess | Add-Member -Type NoteProperty -Name "enabled" -Value 'False'
             }

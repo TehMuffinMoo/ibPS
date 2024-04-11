@@ -71,8 +71,8 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

@@ -393,7 +393,7 @@ function New-ISOFile {
 }
 
 function Get-B1ServiceLogApplications {
-  $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
+  $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
   $Result += @(
     [PSCustomObject]@{
       "type" = 1000
@@ -652,7 +652,7 @@ function Write-DebugMsg {
 
 function DevelopmentFunctions {
   return @(
-    "Query-CSP"
+    "Invoke-CSP"
     "Detect-OS"
     "Combine-Filters"
     "ConvertTo-QueryString"

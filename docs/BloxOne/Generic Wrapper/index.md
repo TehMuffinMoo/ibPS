@@ -167,5 +167,5 @@ Get-B1Schema -Product 'BloxOne Cloud' -App 'CDC' -Endpoint /v1/applications
 The `Invoke-CSP` cmdlet can be used as a barebones wrapper for the Cloud Services Portal. This is a core function and is used by every other cmdlet within the ibPS Module.
 
 ```powershell
-Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record?_limit=10"
+Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record?_limit=10"
 ```

@@ -77,7 +77,7 @@
         if ($task_id) {
             $AppendToURI = $AppendToURI + "/tasks/$task_id"
         }
-        $ReturnResults = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs/$job_id$AppendToURI" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $ReturnResults = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs/$job_id$AppendToURI" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
 
     if ($ReturnResults) {

@@ -75,7 +75,7 @@
                     "ddns_zones" = $GlobalConfigJson
                 } | ConvertTo-Json
 
-                $Result = Query-CSP -Method "PATCH" -Uri "$($GlobalConfig.id)" -Data $GlobalConfigSplat | Select-Object -ExpandProperty result
+                $Result = Invoke-CSP -Method "PATCH" -Uri "$($GlobalConfig.id)" -Data $GlobalConfigSplat | Select-Object -ExpandProperty result
             
                 if ($Result) {
                     if ($ToUpdate.count -gt 0) {
@@ -110,7 +110,7 @@
                     "ddns_zones" = $GlobalConfigJson
                 } | ConvertTo-Json
 
-                $Result = Query-CSP -Method "PATCH" -Uri "$($GlobalConfig.id)" -Data $GlobalConfigSplat | Select-Object -ExpandProperty result
+                $Result = Invoke-CSP -Method "PATCH" -Uri "$($GlobalConfig.id)" -Data $GlobalConfigSplat | Select-Object -ExpandProperty result
 
                 if ($Result) {
                     if ($ToUpdate.count -gt 0) {

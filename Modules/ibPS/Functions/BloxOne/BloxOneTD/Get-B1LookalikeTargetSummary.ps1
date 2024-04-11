@@ -103,9 +103,9 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atclad/v1/target_lookalike_summaries$($QueryString)" -Method GET | Select-Object -ExpandProperty results -WA SilentlyContinue -EA SilentlyContinue
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atclad/v1/target_lookalike_summaries$($QueryString)" -Method GET | Select-Object -ExpandProperty results -WA SilentlyContinue -EA SilentlyContinue
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atclad/v1/target_lookalike_summaries" -Method GET | Select-Object -ExpandProperty results -WA SilentlyContinue -EA SilentlyContinue
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atclad/v1/target_lookalike_summaries" -Method GET | Select-Object -ExpandProperty results -WA SilentlyContinue -EA SilentlyContinue
     }
   
     if ($Results) {

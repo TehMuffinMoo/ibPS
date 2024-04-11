@@ -65,9 +65,9 @@ function Get-B1TideThreatProperty {
     }
 
     if ($id) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/properties/$id$filter" -Method GET | Select-Object -ExpandProperty property -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/properties/$id$filter" -Method GET | Select-Object -ExpandProperty property -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/properties$filter" -Method GET | Select-Object -ExpandProperty property -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/properties$filter" -Method GET | Select-Object -ExpandProperty property -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
 
     if ($Results) {

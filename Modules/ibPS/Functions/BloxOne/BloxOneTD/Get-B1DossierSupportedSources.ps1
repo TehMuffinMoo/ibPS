@@ -79,9 +79,9 @@ function Get-B1DossierSupportedSources {
     )
  
     if ($Target) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/sources/target/$Target" -Method GET
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/sources/target/$Target" -Method GET
     } else {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/sources" -Method GET
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/sources" -Method GET
     }
   
     if ($Results) {

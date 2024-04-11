@@ -46,7 +46,7 @@
           $B1Service.desired_state = "Stop"
           $splat = $B1Service | ConvertTo-Json -Depth 3 -Compress
           $ServiceId = $($B1Service.id).replace("infra/service/","") ## ID returned from API doesn't match endpoint? /infra/service not /infra/v1/services
-          $Results = Query-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/services/$ServiceId" -Data $splat
+          $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/services/$ServiceId" -Data $splat
           if ($Results.result.desired_state -eq "Stop") {
             Write-Host "Service stopped successfully" -ForegroundColor Green
           } else {

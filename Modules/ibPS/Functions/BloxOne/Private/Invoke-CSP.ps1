@@ -1,4 +1,4 @@
-function Query-CSP {
+function Invoke-CSP {
     [Alias("Invoke-CSP")]
     <#
     .SYNOPSIS

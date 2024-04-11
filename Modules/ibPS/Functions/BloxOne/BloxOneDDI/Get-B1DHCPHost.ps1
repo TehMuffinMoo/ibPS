@@ -111,14 +111,14 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/host$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/host$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/host" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/host" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($Results -and $Associations) {
         $AssociationResults = @()
         foreach ($DHCPHost in $Results) {
-            $AssociationItem = Query-CSP -Method GET -Uri "$($DHCPHost.id)/associations"
+            $AssociationItem = Invoke-CSP -Method GET -Uri "$($DHCPHost.id)/associations"
             $AssociationResults += @{
                 "Host" = $DHCPHost.name
                 "HAGroups" = $AssociationItem.ha_groups

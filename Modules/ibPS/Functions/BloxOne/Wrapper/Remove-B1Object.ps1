@@ -48,7 +48,7 @@ function Remove-B1Object {
 
         if ($PSCmdlet.ShouldProcess("$($id)")){
             Write-Host "Removing Object: $($_ref)/$($id)" -ForegroundColor Gray
-            Query-CSP -Method DELETE -Uri "$($_ref)/$($id)"
+            Invoke-CSP -Method DELETE -Uri "$($_ref)/$($id)"
         }
     }
 }

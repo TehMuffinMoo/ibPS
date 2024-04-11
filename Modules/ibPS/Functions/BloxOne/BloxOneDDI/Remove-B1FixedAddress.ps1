@@ -48,7 +48,7 @@
       }
 
       if ($FixedAddress) {
-        Query-CSP -Method DELETE -Uri $($FixedAddress.id) | Out-Null
+        Invoke-CSP -Method DELETE -Uri $($FixedAddress.id) | Out-Null
         if (Get-B1FixedAddress -id $($FixedAddress.id)) {
           Write-Host "Error. Failed to delete fixed address: $($FixedAddress.address)" -ForegroundColor Red
         } else {

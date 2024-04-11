@@ -31,9 +31,9 @@ function Get-B1DossierSupportedTargets {
     )
  
     if ($Source) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/source/$Source/targets" -Method GET
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/source/$Source/targets" -Method GET
     } else {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/targets" -Method GET
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/targets" -Method GET
     }
   
     if ($Results) {

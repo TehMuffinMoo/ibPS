@@ -33,7 +33,7 @@
         $QueryString = ConvertTo-QueryString($QueryFilters)
     }
     
-    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/licensing/v1/licenses$QueryString" | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/licensing/v1/licenses$QueryString" | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
     
     if ($Results) {
       return $Results

@@ -161,7 +161,7 @@ function Submit-B1TideData {
 
       if ($File) {
         $FileContents = Get-Content $($File) -Raw
-        Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -ContentType 'text/plain'
+        Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -ContentType 'text/plain'
       } else {
 
         $DetectedTime = $Detected.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.000Z")
@@ -208,7 +208,7 @@ function Submit-B1TideData {
 
         $JSONFeed = $Feed | ConvertTo-Json -Depth 5
 
-        Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $JSONFeed
+        Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $JSONFeed
       }
     }
 }

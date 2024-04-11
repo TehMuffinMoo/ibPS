@@ -173,8 +173,8 @@ function Get-B1DNSEvent {
     }
     Write-DebugMsg -Filters $Filters
     if ($Filter) {
-      Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {
-      Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
 }

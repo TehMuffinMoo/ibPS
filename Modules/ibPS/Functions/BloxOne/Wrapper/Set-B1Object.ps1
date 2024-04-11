@@ -68,7 +68,7 @@ function Set-B1Object {
     process {
         $Data.PSObject.Properties.Remove('_ref')
         $Data.PSObject.Properties.Remove('id')
-        $Results = Query-CSP -Method PATCH -Uri "$($_ref)/$($id)" -Data ($Data | ConvertTo-Json -Depth 10 -Compress) | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+        $Results = Invoke-CSP -Method PATCH -Uri "$($_ref)/$($id)" -Data ($Data | ConvertTo-Json -Depth 10 -Compress) | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
         if ($Results) {
             return $Results
         }

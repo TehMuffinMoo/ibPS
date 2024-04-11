@@ -45,7 +45,7 @@
         $ConfigSplat = @{
           "ntp_config" = $GlobalNTPConfig.ntp_config
         } | ConvertTo-Json -Depth 5 -Compress
-        $NewConfigResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ntp/v1/service/config/$ServiceId" -Data $ConfigSplat | Select-Object -ExpandProperty ntp_service -ErrorAction SilentlyContinue
+        $NewConfigResult = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ntp/v1/service/config/$ServiceId" -Data $ConfigSplat | Select-Object -ExpandProperty ntp_service -ErrorAction SilentlyContinue
         if ($NewConfigResult.id) {
           Write-Host "Global NTP configuration applied successfully on $($B1Service.name)" -ForegroundColor Green
         } else {

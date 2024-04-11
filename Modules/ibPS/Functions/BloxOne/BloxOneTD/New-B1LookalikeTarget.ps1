@@ -68,7 +68,7 @@ function New-B1LookalikeTarget {
     }
   }
 
-  $Result = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | ConvertTo-Json -Depth 5)
+  $Result = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | ConvertTo-Json -Depth 5)
 
   $LookalikeTargetList = Get-B1LookalikeTargets
   foreach ($NewLookalike in $NewLookalikes) {

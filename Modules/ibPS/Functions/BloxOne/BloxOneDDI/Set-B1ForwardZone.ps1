@@ -105,7 +105,7 @@
           } else {
               $splat = $ForwardZonePatch | ConvertTo-Json -Depth 10
 
-              $Result = Query-CSP -Method PATCH -Uri "$ForwardZoneUri" -Data $splat
+              $Result = Invoke-CSP -Method PATCH -Uri "$ForwardZoneUri" -Data $splat
           
               if (($Result | Select-Object -ExpandProperty result).id -eq $ForwardZone.id) {
                   Write-Host "Updated Forward DNS Zone successfully: $($ForwardZone.fqdn)" -ForegroundColor Green

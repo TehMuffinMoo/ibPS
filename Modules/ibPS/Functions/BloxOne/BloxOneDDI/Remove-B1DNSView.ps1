@@ -51,7 +51,7 @@
         $ViewInfo | Format-Table -AutoSize
       } elseif (($ViewInfo | Measure-Object).Count -eq 1) {
         Write-Host "Removing DNS View: $($ViewInfo.Name).." -ForegroundColor Yellow
-        Query-CSP -Method "DELETE" -Uri $($ViewInfo.id) -Data $null | Out-Null
+        Invoke-CSP -Method "DELETE" -Uri $($ViewInfo.id) -Data $null | Out-Null
         $SI = Get-B1DNSView -id $($ViewInfo.id) 6> $null
         if ($SI) {
           Write-Host "Failed to remove DNS View: $($SI.Name)" -ForegroundColor Red

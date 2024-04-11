@@ -75,9 +75,9 @@
         }
         Write-DebugMsg -Filters $QueryFilters
         if ($QueryString) {
-            $Results = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/atlas-bootstrap-app/v1/hosts$($QueryString)"
+            $Results = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/atlas-bootstrap-app/v1/hosts$($QueryString)"
         } else {
-            $Results = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/atlas-bootstrap-app/v1/hosts"
+            $Results = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/atlas-bootstrap-app/v1/hosts"
         }
         if ($GetConfig) {
             return $Results | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue | Select-Object -ExpandProperty current_config -EA SilentlyContinue -WA SilentlyContinue

@@ -43,7 +43,7 @@
       $AddressReservation = Get-B1Address -Address $Address -Reserved
     }
     if ($AddressReservation) {
-        Query-CSP -Method "DELETE" -Uri $($AddressReservation.id) | Out-Null
+        Invoke-CSP -Method "DELETE" -Uri $($AddressReservation.id) | Out-Null
 
         $AR = Get-B1Address -id $($AddressReservation.id) -Reserved
 

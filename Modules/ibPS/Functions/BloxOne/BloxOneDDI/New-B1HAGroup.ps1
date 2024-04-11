@@ -70,7 +70,7 @@
 
         $splat = $splat | ConvertTo-Json
 
-        $Result = Query-CSP -Method POST -Uri "dhcp/ha_group" -Data $splat | Select-Object -ExpandProperty result
+        $Result = Invoke-CSP -Method POST -Uri "dhcp/ha_group" -Data $splat | Select-Object -ExpandProperty result
         if ($Result.name -eq $Name) {
             Write-Host "Created DHCP HA Group $Name Successfully." -ForegroundColor Green
             return $Result

@@ -96,7 +96,7 @@
         if ($DHCPOptions) { $B1FixedAddress.dhcp_options = $DHCPOptions }
         if ($Tags) { $B1FixedAddress.tags = $Tags }
         $B1FixedAddressJSON = $B1FixedAddress | Select-Object -Property * -ExcludeProperty id,inheritance_assigned_hosts,inheritance_parent,inheritance_sources,parent | ConvertTo-Json -Depth 10
-        $Results = Query-CSP -Method PATCH -Uri $B1FixedAddress.id -Data $B1FixedAddressJSON
+        $Results = Invoke-CSP -Method PATCH -Uri $B1FixedAddress.id -Data $B1FixedAddressJSON
         if ($Results) {
           return $Results | Select-Object -ExpandProperty result
         } else {

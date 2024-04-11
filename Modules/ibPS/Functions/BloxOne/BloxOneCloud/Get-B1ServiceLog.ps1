@@ -78,9 +78,9 @@ function Get-B1ServiceLog {
     Write-DebugMsg -Filters $Filters
     $B1Hosts = Get-B1Host -Detailed
     if ($QueryFilters) {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET
+        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET
+        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET
     }
     if ($Results) {
         return $Results.logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue

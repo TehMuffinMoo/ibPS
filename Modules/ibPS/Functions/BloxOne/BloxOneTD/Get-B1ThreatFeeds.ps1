@@ -71,9 +71,9 @@ function Get-B1ThreatFeeds {
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/threat_feeds" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
   
     if ($Results) {

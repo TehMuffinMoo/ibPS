@@ -66,7 +66,7 @@ function Set-B1APIKey {
                   $APIKey.state = $State.toLower()
                 }
                 $APIKeyJson = $APIKey | ConvertTo-Json -Depth 5
-                Query-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])" -Data $APIKeyJson | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+                Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])" -Data $APIKeyJson | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
             }
             if (Get-B1APIkey -id $($APIKey.id)) {
               Write-Host "Successfully updated API Key: $($APIKey.name)" -ForegroundColor Green

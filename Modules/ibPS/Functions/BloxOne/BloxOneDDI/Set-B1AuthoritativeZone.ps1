@@ -108,7 +108,7 @@
             Write-Host "Nothing to update." -ForegroundColor Gray
         } else {
             $splat = $AuthZonePatch | ConvertTo-Json -Depth 10
-            $Result = Query-CSP -Method PATCH -Uri "$AuthZoneUri" -Data $splat
+            $Result = Invoke-CSP -Method PATCH -Uri "$AuthZoneUri" -Data $splat
             if (($Result | Select-Object -ExpandProperty result).id -eq $($AuthZone.id)) {
               Write-Host "Updated Authoritative DNS Zone: $($AuthZone.fqdn) successfully." -ForegroundColor Green
             } else {

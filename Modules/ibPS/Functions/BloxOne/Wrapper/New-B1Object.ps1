@@ -62,13 +62,13 @@ function New-B1Object {
     
     process {
         $B1CSPUrl = Get-B1CSPUrl
-        $BasePath = (Query-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
+        $BasePath = (Invoke-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
 
         $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
         if (!($JSON)) {
             $Data = $Data | ConvertTo-Json -Depth 15 -Compress
         }
-        $Results = Query-CSP -Method $Method -Uri $Uri -Data $Data
+        $Results = Invoke-CSP -Method $Method -Uri $Uri -Data $Data
         if ($Results) {
             return $Results
         }

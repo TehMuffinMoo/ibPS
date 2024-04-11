@@ -114,9 +114,9 @@
       $QueryString = ConvertTo-QueryString $QueryFilters
       Write-DebugMsg -Filters $QueryFilters
       if ($QueryString) {
-          $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+          $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       } else {
-          $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+          $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       }
   
       if ($Results -and $Reserved) {

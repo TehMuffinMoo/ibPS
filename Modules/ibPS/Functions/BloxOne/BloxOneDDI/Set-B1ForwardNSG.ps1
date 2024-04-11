@@ -73,7 +73,7 @@
               }
               if ($Update) {
                 $splat = $NSG | Select-Object * -ExcludeProperty id | ConvertTo-Json -Depth 5 -Compress
-                $Results = Query-CSP -Method PATCH -Uri $NSG.id -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+                $Results = Invoke-CSP -Method PATCH -Uri $NSG.id -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
                 if ($Results.id -eq $NSG.id) {
                   Write-Host "Successfully updated Forward NSG: $($NSG.name)" -ForegroundColor Green
                 } else {
@@ -97,7 +97,7 @@
               }
               if ($Update) {
                 $splat = $NSG | Select-Object * -ExcludeProperty id | ConvertTo-Json -Depth 5 -Compress
-                $Results = Query-CSP -Method PATCH -Uri $NSG.id -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+                $Results = Invoke-CSP -Method PATCH -Uri $NSG.id -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
                 if ($Results.id -eq $NSG.id) {
                   Write-Host "Successfully updated Forward NSG: $($NSG.name)" -ForegroundColor Green
                 } else {

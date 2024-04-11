@@ -35,9 +35,9 @@
 
     process {
       if ($Name) {
-          $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/dataprofiles/$Name" -Method GET -ErrorAction SilentlyContinue | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
+          $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/dataprofiles/$Name" -Method GET -ErrorAction SilentlyContinue | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
       } else {
-          $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/dataprofiles" -Method GET -ErrorAction SilentlyContinue | Select-Object -ExpandProperty profiles -ErrorAction SilentlyContinue
+          $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/dataprofiles" -Method GET -ErrorAction SilentlyContinue | Select-Object -ExpandProperty profiles -ErrorAction SilentlyContinue
       }
   
       if ($Results) {

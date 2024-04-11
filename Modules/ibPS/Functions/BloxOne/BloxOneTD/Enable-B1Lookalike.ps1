@@ -39,7 +39,7 @@
         $JSONData = @{
             "expose" = $UnmutedDomains
         } | ConvertTo-Json
-        $Results = Query-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atclad/v1/lookalikes" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atclad/v1/lookalikes" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
         foreach ($UnmutedDomain in $UnmutedDomains) {
             if (Get-B1Lookalikes -LookalikeDomain $($UnmutedDomain) -Muted false) {

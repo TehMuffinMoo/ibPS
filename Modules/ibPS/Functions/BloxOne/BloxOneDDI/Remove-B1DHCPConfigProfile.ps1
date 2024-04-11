@@ -44,7 +44,7 @@ function Remove-B1DHCPConfigProfile {
       }
 
       if ($ConfigProfile) {
-        Query-CSP -Method DELETE -Uri "$($ConfigProfile.id)"
+        Invoke-CSP -Method DELETE -Uri "$($ConfigProfile.id)"
         if ($Name) {
             $ConfigProfileCheck = Get-B1DHCPConfigProfile -Name $Name -Strict
         } elseif ($id) {

@@ -103,7 +103,7 @@
         $splat = $splat | ConvertTo-Json -Depth 4
         
 
-        $Result = Query-CSP -Method POST -Uri "ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+        $Result = Invoke-CSP -Method POST -Uri "ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
         if ($Result.address -eq $Subnet) {
             Write-Host "Subnet $Subnet/$CIDR created successfully." -ForegroundColor Green
             return $Result

@@ -132,7 +132,7 @@ function Get-B1Schema {
 
             $Uri = "$(Get-B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])"
 
-            $Results = Query-CSP -Method GET -Uri $Uri
+            $Results = Invoke-CSP -Method GET -Uri $Uri
             if ($Results) {
                 if ($Endpoint) {
                     $Return = (($Results.paths.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator() | Where-Object {$_.Name -eq $($PSBoundParameters['Endpoint'])}).Value | Select-Object -ExpandProperty $($Method)
@@ -171,12 +171,12 @@ function Get-B1Schema {
                 }
             }
         } else {
-            $Apps = Query-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products" | Where-Object {$_.title -eq $($PSBoundParameters['Product'])} | Select-Object -ExpandProperty apps
+            $Apps = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products" | Where-Object {$_.title -eq $($PSBoundParameters['Product'])} | Select-Object -ExpandProperty apps
             Write-Host "Available Apps: " -ForegroundColor Green
             $Apps | Format-Table -AutoSize
         }
     } else {
-        $Products = Query-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products"
+        $Products = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products"
         Write-Host "Available Products: " -ForegroundColor Green
         $Products.title
     }

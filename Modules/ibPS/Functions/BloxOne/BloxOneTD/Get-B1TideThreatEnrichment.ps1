@@ -33,35 +33,35 @@ function Get-B1TideThreatEnrichment {
     switch ($Type) {
       "Threat Actor" {
         $Uri = "/tide/threat-enrichment/threat_actor/lookup?name=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET | Select-Object -ExpandProperty description -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET | Select-Object -ExpandProperty description -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       }
       "Nameserver Reputation" {
         $Uri = "/tide/threat-enrichment/nameserver_reputation/search?indicator=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
       }
       "URLHaus" {
         $Uri = "/tide/threat-enrichment/urlhaus/search?indicator=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
       }
       "ThreatFox" {
         $Uri = "/tide/threat-enrichment/threatfox/search?indicator=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
       }
       "TLD Risk" {
         $Uri = "/tide/threat-enrichment/tld_risk/search?indicator=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
       }
       "Mandiant" {
         $Uri = "/tide/threat-enrichment/mandiant/indicator/search?indicator=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET | Select-Object -ExpandProperty matches -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET | Select-Object -ExpandProperty matches -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       }
       "Whois" {
         $Uri = "/tide/threat-enrichment/whois/search?indicator=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
       }
       "Geoinfo" {
         $Uri = "/tide/threat-enrichment/geoinfo/search?ip=$Indicator"
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET # Unable to test due to HTTP403
       }
     }
     if ($Results) {

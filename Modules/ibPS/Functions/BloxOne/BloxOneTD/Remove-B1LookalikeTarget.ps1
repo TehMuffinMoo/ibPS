@@ -52,7 +52,7 @@ function Remove-B1LookalikeTarget {
   }
 
   if ($Changed) {
-    $Result = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | Select-Object items_described | ConvertTo-Json -Depth 5)
+    $Result = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | Select-Object items_described | ConvertTo-Json -Depth 5)
 
     $LookalikeTargetList = Get-B1LookalikeTargets
     foreach ($DomainToRemove in $Domain) {

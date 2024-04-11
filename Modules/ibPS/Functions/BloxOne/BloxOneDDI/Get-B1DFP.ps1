@@ -123,11 +123,11 @@ function Get-B1DFP {
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($id) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps/$id$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps/$id$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } elseif ($QueryString) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
   
     if ($Results) {

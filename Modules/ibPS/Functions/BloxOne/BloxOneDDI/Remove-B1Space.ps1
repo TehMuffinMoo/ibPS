@@ -48,7 +48,7 @@
         $SpaceInfo | Format-Table -AutoSize
       } elseif (($SpaceInfo | Measure-Object).Count -eq 1) {
         Write-Host "Removing IP Space: $($SpaceInfo.Name).." -ForegroundColor Yellow
-        Query-CSP -Method "DELETE" -Uri $($SpaceInfo.id) -Data $null | Out-Null
+        Invoke-CSP -Method "DELETE" -Uri $($SpaceInfo.id) -Data $null | Out-Null
         $SI = Get-B1Space -id $($SpaceInfo.id) 6> $null
         if ($SI) {
           Write-Host "Failed to remove IP Space: $($SI.Name)" -ForegroundColor Red

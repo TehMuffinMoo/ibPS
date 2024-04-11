@@ -70,7 +70,7 @@ function New-B1Service {
           "destinations" = @()
           "source_interfaces" = @()
         } | ConvertTo-Json -Depth 3
-        $NewServiceResult = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        $NewServiceResult = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($NewServiceResult.id) {
           Write-Host "$($Type.ToUpper()) service created successfully on $($B1HostInfo.display_name)" -ForegroundColor Green
           if ($Type -eq "ntp") {

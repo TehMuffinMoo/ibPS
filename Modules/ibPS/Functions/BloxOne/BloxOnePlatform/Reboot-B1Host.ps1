@@ -55,7 +55,7 @@
     }
     Write-Host "Rebooting $($OPH.display_name).." -ForegroundColor Yellow
     $splat = $splat | ConvertTo-Json
-    Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+    Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
   } else {
     Write-Host "BloxOne Host $B1Host$id not found" -ForegroundColor Red
   }

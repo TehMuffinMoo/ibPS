@@ -44,7 +44,7 @@ function Remove-B1DNSConfigProfile {
       }
 
       if ($ConfigProfile) {
-        Query-CSP -Method DELETE -Uri "$($ConfigProfile.id)"
+        Invoke-CSP -Method DELETE -Uri "$($ConfigProfile.id)"
         if ($Name) {
             $ConfigProfileCheck = Get-B1DNSConfigProfile -Name $Name -Strict
         } elseif ($id) {

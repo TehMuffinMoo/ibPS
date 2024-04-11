@@ -47,7 +47,7 @@ function Get-B1TideInfoRank {
     }
 
     if ($Uri) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)$Uri" -Method GET -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       if ($Results) {
         if ($Strict) {
           return $Results

@@ -38,7 +38,7 @@ function Get-B1TideThreatCounts {
 
 
     if ($Historical) {
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat/counts/historical" -Method GET
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat/counts/historical" -Method GET
       if ($Results) {
         $NewResults = @()
         foreach ($r in $Results.data) {
@@ -50,7 +50,7 @@ function Get-B1TideThreatCounts {
         return $NewResults
       }
     } else {
-        $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat/counts" -Method GET | Select-Object -ExpandProperty counts
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/threat/counts" -Method GET | Select-Object -ExpandProperty counts
         if ($Results) {
             return $Results
         }

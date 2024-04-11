@@ -69,7 +69,7 @@
 
         $splat = $splat | ConvertTo-Json
 
-        $Result = Query-CSP -Method POST -Uri "dns/delegation" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        $Result = Invoke-CSP -Method POST -Uri "dns/delegation" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 
         if ($Result) {
             Write-Host "Created Delegated DNS Zone $FQDN successfully." -ForegroundColor Green
