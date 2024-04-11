@@ -30,6 +30,6 @@
         $QueryString = ConvertTo-QueryString $Filters
     }
     Write-DebugMsg -Filters $Filters
-    $Result = Query-CSP -Method "GET" -Uri "dhcp/global$($QueryString)" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+    $Result = Invoke-CSP -Method "GET" -Uri "dhcp/global$($QueryString)" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
     return $Result
 }

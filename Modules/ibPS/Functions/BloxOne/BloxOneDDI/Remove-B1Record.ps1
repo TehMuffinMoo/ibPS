@@ -81,7 +81,7 @@
       }
       if ($Record) {
         Write-Host "Removing record: $($Record.absolute_name_spec)" -ForegroundColor Yellow
-        $Result = Query-CSP -Method "DELETE" -Uri $Record.id
+        $Result = Invoke-CSP -Method "DELETE" -Uri $Record.id
         if ($id) {
           $RC = Get-B1Record -id $id
         } else {

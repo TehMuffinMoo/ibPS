@@ -41,7 +41,7 @@
 
         $splat = $splat | ConvertTo-Json
 
-        $Result = Query-CSP -Method "PATCH" -Uri "$DNSHostId" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        $Result = Invoke-CSP -Method "PATCH" -Uri "$DNSHostId" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($Result.server -eq $null) {
             Write-Host "DNS Config Profiles have been successfully removed from $DNSHost" -ForegroundColor Green
         } else {

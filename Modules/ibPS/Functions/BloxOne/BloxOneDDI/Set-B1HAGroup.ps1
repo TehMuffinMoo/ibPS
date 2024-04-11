@@ -117,7 +117,7 @@
             $HAGroup.PSObject.Properties.Remove('id')
             $splat = $HAGroup | ConvertTo-Json -Depth 5
 
-            $Result = Query-CSP -Method PATCH -Uri $($HAGroupID) -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+            $Result = Invoke-CSP -Method PATCH -Uri $($HAGroupID) -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
             if ($Result.id -eq $HAGroupID) {
                 Write-Host "Updated DHCP HA Group $($HAGroup.name) Successfully." -ForegroundColor Green
                 return $Result

@@ -85,7 +85,7 @@
 
     $JSON = $Splat | ConvertTo-Json -Depth 4
 
-    $Result = Query-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+    $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
     if ($Result.id -eq $($Object.id)) {
         Write-Host "Internal Domain List $Name updated successfully." -ForegroundColor Green
         return $Result

@@ -80,7 +80,7 @@
           $AddressBlock | Format-Table -AutoSize
       } elseif (($AddressBlock | measure).Count -eq 1) {
           Write-Host "Removing Address Block: $($AddressBlock.Address)/$($AddressBlock.cidr).." -ForegroundColor Yellow
-          Query-CSP -Method "DELETE" -Uri $URI | Out-Null
+          Invoke-CSP -Method "DELETE" -Uri $URI | Out-Null
           $AB = Get-B1AddressBlock -id $($AddressBlock.id)
           if ($AB) {
             Write-Host "Failed to remove Address Block: $($AB.Address)/$($AB.cidr)" -ForegroundColor Red

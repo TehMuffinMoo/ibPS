@@ -59,7 +59,7 @@ function Get-B1Object {
     ## Get Saved CSP URL
     $B1CSPUrl = Get-B1CSPUrl
 
-    $BasePath = (Query-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
+    $BasePath = (Invoke-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
 
     [System.Collections.ArrayList]$QueryFilters = @()
     [System.Collections.ArrayList]$B1Filters = @()
@@ -94,7 +94,7 @@ function Get-B1Object {
     }
     Write-DebugMsg -Filters $QueryFilters
     $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
-    $Results = Query-CSP -Method GET -Uri $Uri
+    $Results = Invoke-CSP -Method GET -Uri $Uri
     if ($Results.results -ne $null) {
         $Results = $Results | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
     } elseif ($Results.result -ne $null) {

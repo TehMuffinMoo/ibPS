@@ -72,7 +72,7 @@ function Remove-B1APIKey {
             $APIKeyIdSplit = $APIKey.id -split "identity/apikeys/"
             if ($APIKeyIdSplit[1]) {
                 
-                Query-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])"
+                Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])"
             }
             if (Get-B1APIkey -id $($APIKey.id)) {
               Write-Error "Error. Failed to delete API Key: $($APIKey.name)"

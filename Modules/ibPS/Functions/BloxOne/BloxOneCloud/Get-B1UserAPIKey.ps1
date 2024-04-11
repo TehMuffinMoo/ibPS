@@ -75,7 +75,7 @@ function Get-B1UserAPIKey {
 
     $CombinedFilter += ConvertTo-QueryString($QueryFilters)
     Write-DebugMsg -Filters $QueryFilters
-    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {
         return $Results

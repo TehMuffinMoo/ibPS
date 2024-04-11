@@ -85,7 +85,7 @@
         }
 
         if ($Parent) {
-            Query-CSP -Method "GET" -Uri "$($Parent.id)/nextavailablesubnet?cidr=$CIDRSize&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            Invoke-CSP -Method "GET" -Uri "$($Parent.id)/nextavailablesubnet?cidr=$CIDRSize&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
             Write-Host "Unable to find Parent Address Block: $ParentAddressBlock" -ForegroundColor Red
         }

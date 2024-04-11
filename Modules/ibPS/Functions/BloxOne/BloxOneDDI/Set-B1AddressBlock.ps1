@@ -116,7 +116,7 @@
         } else {
             $splat = $AddressBlockPatch | ConvertTo-Json -Depth 10
 
-            $Result = Query-CSP -Method PATCH -Uri "$AddressBlockUri" -Data $splat
+            $Result = Invoke-CSP -Method PATCH -Uri "$AddressBlockUri" -Data $splat
         
             if (($Result | Select-Object -ExpandProperty result).id -eq $($AddressBlock.id)) {
                 Write-Host "Updated Address Block $($AddressBlock.address)/$($AddressBlock.cidr) successfully." -ForegroundColor Green

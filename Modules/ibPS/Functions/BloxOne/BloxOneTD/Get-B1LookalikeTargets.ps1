@@ -26,7 +26,7 @@
     param(
     )
  
-    $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
   
     if ($Results) {
       return $Results

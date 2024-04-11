@@ -1,5 +1,4 @@
-function Query-CSP {
-    [Alias("Invoke-CSP")]
+function Invoke-CSP {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Cloud Services Portal

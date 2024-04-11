@@ -44,7 +44,7 @@
         $Zone = Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View
       }
       if ($Zone) {
-        Query-CSP -Method "DELETE" -Uri "$($Zone.id)" | Out-Null
+        Invoke-CSP -Method "DELETE" -Uri "$($Zone.id)" | Out-Null
         $B1Zone = Get-B1AuthoritativeZone -id $($Zone.id)
         if ($B1Zone) {
             Write-Host "Error. Failed to delete Authoritative Zone: $($B1Zone.fqdn)" -ForegroundColor Red

@@ -56,7 +56,7 @@
 
       $JSONBody = $Body | ConvertTo-Json -Depth 5
       
-      $Results = Query-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/status" -Method PUT -Data $JSONBody
+      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/status" -Method PUT -Data $JSONBody
 
       if ($Results) {
         return $Results

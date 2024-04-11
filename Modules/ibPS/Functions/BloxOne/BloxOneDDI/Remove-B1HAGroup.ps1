@@ -44,7 +44,7 @@ function Remove-B1HAGroup {
       }
 
       if ($HAGroup) {
-        Query-CSP -Method DELETE -Uri "$($HAGroup.id)"
+        Invoke-CSP -Method DELETE -Uri "$($HAGroup.id)"
         if ($Name) {
             $HAGroupCheck = Get-B1HAGroup -Name $Name -Strict
         } elseif ($id) {

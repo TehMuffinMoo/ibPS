@@ -26,7 +26,7 @@ function Get-B1TideThreatInsightClass {
     param(
     )
 
-    $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/ti_classes" -Method GET | Select-Object -ExpandProperty record -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/ti_classes" -Method GET | Select-Object -ExpandProperty record -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {
         return $Results

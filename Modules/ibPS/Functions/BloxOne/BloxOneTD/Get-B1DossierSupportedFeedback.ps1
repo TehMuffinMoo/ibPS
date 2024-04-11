@@ -24,7 +24,7 @@ function Get-B1DossierSupportedFeedback {
     param(
     )
  
-    $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/feedback/types" -Method GET | Select-Object -ExpandProperty types -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/feedback/types" -Method GET | Select-Object -ExpandProperty types -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
   
     if ($Results) {
       return $Results

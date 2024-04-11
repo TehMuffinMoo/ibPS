@@ -1,5 +1,4 @@
-﻿function Query-NIOS {
-    [Alias("Invoke-NIOS")]
+﻿function Invoke-NIOS {
     <#
     .SYNOPSIS
         Queries a NIOS Grid Manager via Infoblox WAPI
@@ -16,7 +15,7 @@
         This parameter can be ommitted if the Server is stored by using Set-NIOSConfiguration
 
     .PARAMETER Uri
-        Specify the Uri, such as "ipam/record", you can also use the full URL and http parameters must be appended here.
+        Specify the Uri, such as "record:a", you can also use the full URL and http parameters must be appended here.
 
     .PARAMETER ApiVersion
         The version of the NIOS API to use (WAPI)
@@ -35,7 +34,7 @@
         If this parameter is set, SSL Certificates Checks will be ignored
 
     .EXAMPLE
-        Query-NIOS -Method GET -Uri "zone_delegated?return_as_object=1"
+        Invoke-NIOS -Method GET -Uri "zone_delegated?return_as_object=1"
 
     .FUNCTIONALITY
         NIOS

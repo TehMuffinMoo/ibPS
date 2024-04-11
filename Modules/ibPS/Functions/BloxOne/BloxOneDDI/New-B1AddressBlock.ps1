@@ -92,7 +92,7 @@
 
         $splat = $splat | ConvertTo-Json -Depth 4
 
-        $Result = Query-CSP -Method POST -Uri "ipam/address_block" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        $Result = Invoke-CSP -Method POST -Uri "ipam/address_block" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         
         if ($Result.address -eq $Subnet) {
             Write-Host "Address Block $Subnet/$CIDR created successfully." -ForegroundColor Green

@@ -107,9 +107,9 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/ha_group$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/ha_group$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/ha_group" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/ha_group" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     
     if ($Results) {

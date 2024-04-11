@@ -29,7 +29,7 @@
     .FUNCTIONALITY
         Service
     #>
-    $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/applications" | Select-Object -ExpandProperty results | Select-Object -ExpandProperty applications -ErrorAction SilentlyContinue
+    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/applications" | Select-Object -ExpandProperty results | Select-Object -ExpandProperty applications -ErrorAction SilentlyContinue
     
     if ($Results) {
       return $Results

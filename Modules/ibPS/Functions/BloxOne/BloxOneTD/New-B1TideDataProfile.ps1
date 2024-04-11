@@ -57,7 +57,7 @@ function New-B1TideDataProfile {
         "default_ttl" = $DefaultTTL
       }
       $splat = $TIDEDataProfile | ConvertTo-Json -Compress
-      $Result = Query-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/tide/admin/v1/resources/dataprofiles" -Data $splat | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
+      $Result = Invoke-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/tide/admin/v1/resources/dataprofiles" -Data $splat | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
   
       if ($Result) {
         Write-Host "Successfully created TIDE Data Profile: $Name" -ForegroundColor Green

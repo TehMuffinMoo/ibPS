@@ -42,7 +42,7 @@
 
         $splat = $splat | ConvertTo-Json
 
-        $Result = Query-CSP -Method "PATCH" -Uri "$DHCPHostId" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        $Result = Invoke-CSP -Method "PATCH" -Uri "$DHCPHostId" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($Result.server -eq $null) {
             Write-Host "DHCP Config Profiles have been successfully removed from $DHCPHost" -ForegroundColor Green
         } else {

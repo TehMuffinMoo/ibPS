@@ -33,9 +33,9 @@
       }
  
       if ($Filter) {
-          $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/feeds?$Filter" -Method GET | Select-Object -ExpandProperty feeds -ErrorAction SilentlyContinue
+          $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/feeds?$Filter" -Method GET | Select-Object -ExpandProperty feeds -ErrorAction SilentlyContinue
       } else {
-          $Results = Query-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/feeds" -Method GET | Select-Object -ExpandProperty feeds -ErrorAction SilentlyContinue
+          $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/feeds" -Method GET | Select-Object -ExpandProperty feeds -ErrorAction SilentlyContinue
       }
   
       if ($Results) {

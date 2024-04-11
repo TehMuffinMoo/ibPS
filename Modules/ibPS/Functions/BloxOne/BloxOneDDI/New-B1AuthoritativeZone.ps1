@@ -117,7 +117,7 @@
 
         $splat = $splat | ConvertTo-Json
 
-        $Result = Query-CSP -Method POST -Uri "dns/auth_zone" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        $Result = Invoke-CSP -Method POST -Uri "dns/auth_zone" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 
         if ($Result) {
             Write-Host "Created Authorative DNS Zone $FQDN successfully." -ForegroundColor Green

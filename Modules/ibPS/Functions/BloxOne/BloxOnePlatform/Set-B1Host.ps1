@@ -115,7 +115,7 @@
         $hostID = $B1Host.id.replace("infra/host/","")
 
         $splat = $B1Host | Select-Object * -ExcludeProperty configs,created_at | ConvertTo-Json -Depth 10 -Compress
-        $Results = Query-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$hostID" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$hostID" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($($Results.id) -eq $($B1Host.id)) {
           Write-Host "Updated BloxOneDDI Host Configuration $($B1Host.display_name) successfuly." -ForegroundColor Green
         } else {

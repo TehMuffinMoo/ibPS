@@ -160,7 +160,7 @@ function Get-B1TideThreats {
     }
 
     if ($Uri) {
-        $Results = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)$Uri"
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)$Uri"
         if ($Results) {
             if ($Id) {
               return $Results

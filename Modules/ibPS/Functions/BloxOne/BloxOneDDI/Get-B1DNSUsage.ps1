@@ -44,18 +44,18 @@
           $AuthZones = Get-B1AuthoritativeZone
           $Spaces = Get-B1Space
           $Views = Get-B1DNSView
-          Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/dns_usage?_filter=$QueryFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object address,name,type,absolute_name,@{Name = 'zone'; Expression = {$authzone = $_.zone; (@($AuthZones).where({ $_.id -eq $authzone })).fqdn }},@{Name = 'space'; Expression = {$ipamspace = $_.space; (@($Spaces).where({ $_.id -eq $ipamspace })).name }},@{Name = 'view'; Expression = {$dnsview = $_.view; (@($Views).where({ $_.id -eq $dnsview })).name }},* -ErrorAction SilentlyContinue
+          Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/dns_usage?_filter=$QueryFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object address,name,type,absolute_name,@{Name = 'zone'; Expression = {$authzone = $_.zone; (@($AuthZones).where({ $_.id -eq $authzone })).fqdn }},@{Name = 'space'; Expression = {$ipamspace = $_.space; (@($Spaces).where({ $_.id -eq $ipamspace })).name }},@{Name = 'view'; Expression = {$dnsview = $_.view; (@($Views).where({ $_.id -eq $dnsview })).name }},* -ErrorAction SilentlyContinue
         } else {
-          Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/dns_usage?_filter=$QueryFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object address,name,type,absolute_name,zone,space,* -ErrorAction SilentlyContinue
+          Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/dns_usage?_filter=$QueryFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object address,name,type,absolute_name,zone,space,* -ErrorAction SilentlyContinue
         }
     } else {
         if ($ParseDetails) {
           $AuthZones = Get-B1AuthoritativeZone
           $Spaces = Get-B1Space
           $Views = Get-B1DNSView
-          Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/dns_usage" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object address,name,type,absolute_name,@{Name = 'zone'; Expression = {$authzone = $_.zone; (@($AuthZones).where({ $_.id -eq $authzone })).fqdn }},@{Name = 'space'; Expression = {$ipamspace = $_.space; (@($Spaces).where({ $_.id -eq $ipamspace })).name }},@{Name = 'view'; Expression = {$dnsview = $_.view; (@($Views).where({ $_.id -eq $dnsview })).name }},* -ErrorAction SilentlyContinue
+          Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/dns_usage" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object address,name,type,absolute_name,@{Name = 'zone'; Expression = {$authzone = $_.zone; (@($AuthZones).where({ $_.id -eq $authzone })).fqdn }},@{Name = 'space'; Expression = {$ipamspace = $_.space; (@($Spaces).where({ $_.id -eq $ipamspace })).name }},@{Name = 'view'; Expression = {$dnsview = $_.view; (@($Views).where({ $_.id -eq $dnsview })).name }},* -ErrorAction SilentlyContinue
         } else {
-          Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/dns_usage" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object address,name,type,absolute_name,zone,space,* -ErrorAction SilentlyContinue
+          Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/dns_usage" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue | Select-Object address,name,type,absolute_name,zone,space,* -ErrorAction SilentlyContinue
         }
     }
 }

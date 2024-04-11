@@ -108,7 +108,7 @@ function New-B1APIKey {
             "user_id" = $UserID
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          $Results = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         }
         "Interactive" {
             $ExistingAPIKey = Get-B1UserAPIKey -Name $Name -Strict
@@ -120,7 +120,7 @@ function New-B1APIKey {
             "name" = $Name
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          $Results = Query-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         }
       }
 

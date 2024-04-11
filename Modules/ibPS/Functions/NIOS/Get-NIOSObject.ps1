@@ -24,7 +24,7 @@ function Get-NIOSObject {
     )
 
     ## Get Saved CSP URL
-    $Results = Query-NIOS -Method GET -Uri $Object
+    $Results = Invoke-NIOS -Method GET -Uri $Object
     if ($Results) {
         $Results
     }

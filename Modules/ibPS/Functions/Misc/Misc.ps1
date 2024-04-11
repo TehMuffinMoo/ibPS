@@ -393,7 +393,7 @@ function New-ISOFile {
 }
 
 function Get-B1ServiceLogApplications {
-  $Result = Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
+  $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
   $Result += @(
     [PSCustomObject]@{
       "type" = 1000
@@ -522,7 +522,7 @@ function Build-TopologyChildren {
       }
       $FunctionDefinition = ${function:Build-TopologyChildren}.ToString()
       if ($PSVersionTable.PSVersion -gt [Version]'7.0') {
-        $Object | Foreach-Object -Parallel -ThrottleLimit 10 {
+        $Object | Foreach-Object -ThrottleLimit 10 -Parallel {
           ${function:Build-TopologyChildren} = $($using:FunctionDefinition)
           Write-Host -NoNewLine "`rSearched: $($_.label)          "
           $Children = $_ | Get-B1IPAMChild -Limit 10000 -Fields 'id,type,label' -Type $($using:ChildObjectsToCheck) -Strict -OrderBy 'label' -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
@@ -652,7 +652,6 @@ function Write-DebugMsg {
 
 function DevelopmentFunctions {
   return @(
-    "Query-CSP"
     "Detect-OS"
     "Combine-Filters"
     "ConvertTo-QueryString"
@@ -670,6 +669,5 @@ function DevelopmentFunctions {
     "Build-TopologyChildren"
     "Build-HTMLTopologyChildren"
     "Write-DebugMsg"
-    "Query-NIOS"
   )
 }

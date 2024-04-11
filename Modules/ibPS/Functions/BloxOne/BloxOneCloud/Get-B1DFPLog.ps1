@@ -167,7 +167,7 @@
 
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
     Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
-    $Result = Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
+    $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
     if ($Result.result.data) {
         $Result.result.data | Select-Object @{name="timestamp";Expression={$_.'PortunusDnsLogs.timestamp'}},`
                                      @{name="query";Expression={$_.'PortunusDnsLogs.qname'}},`

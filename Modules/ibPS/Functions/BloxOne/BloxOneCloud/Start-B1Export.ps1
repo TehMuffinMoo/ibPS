@@ -152,7 +152,7 @@
         $splat | Add-Member -Name "data_types" -Value $dataTypes -MemberType NoteProperty
     }
     $splat = $splat | ConvertTo-Json
-    $Export = Query-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
+    $Export = Invoke-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
 
     if ($Export.success.message -eq "Export pending") {
         Write-Host "Data Export initalised successfully." -ForegroundColor Green

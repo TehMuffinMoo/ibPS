@@ -109,7 +109,7 @@
         
         $splat = $splat | ConvertTo-Json -Depth 4
 
-        $Result = Query-CSP -Method POST -Uri "dhcp/server" -Data $splat | Select-Object -ExpandProperty result
+        $Result = Invoke-CSP -Method POST -Uri "dhcp/server" -Data $splat | Select-Object -ExpandProperty result
         
         if ($($Result).name -eq $Name) {
             Write-Host "DHCP Config Profile: $Name created successfully." -ForegroundColor Green

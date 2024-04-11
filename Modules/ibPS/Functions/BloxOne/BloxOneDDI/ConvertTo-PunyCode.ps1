@@ -31,7 +31,7 @@ function ConvertTo-PunyCode {
         $Results = @()
         foreach ($iFQDN in $FQDN) {
             
-            $Results += Query-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/convert_domain_name/$($iFQDN)" -Method GET | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+            $Results += Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/convert_domain_name/$($iFQDN)" -Method GET | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
         }
 
         if ($Results) {

@@ -136,7 +136,7 @@
           } else {
               $splat = $BloxSubnetPatch | ConvertTo-Json -Depth 10
 
-              $Result = Query-CSP -Method PATCH -Uri "$BloxSubnetUri" -Data $splat
+              $Result = Invoke-CSP -Method PATCH -Uri "$BloxSubnetUri" -Data $splat
               $Result = $Result | Select-Object -ExpandProperty result
               if ($Result.id -eq $BloxSubnetUri) {
                   Write-Host "Updated Subnet $($Result.address)/$($result.CIDR) successfully." -ForegroundColor Green

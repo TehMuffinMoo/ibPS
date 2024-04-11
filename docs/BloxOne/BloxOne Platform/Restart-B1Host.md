@@ -5,21 +5,21 @@ online version:
 schema: 2.0.0
 ---
 
-# Reboot-B1Host
+# Restart-B1Host
 
 ## SYNOPSIS
-Reboots a BloxOneDDI Host
+Restarts a BloxOneDDI Host
 
 ## SYNTAX
 
 ### Default
 ```
-Reboot-B1Host -B1Host <String> [-NoWarning] [<CommonParameters>]
+Restart-B1Host -B1Host <String> [-NoWarning] [<CommonParameters>]
 ```
 
 ### With ID
 ```
-Reboot-B1Host [-NoWarning] -id <String> [<CommonParameters>]
+Restart-B1Host [-NoWarning] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,7 +29,7 @@ This function is used to initiate a reboot of a BloxOneDDI Host
 
 ### EXAMPLE 1
 ```powershell
-Reboot-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
+Restart-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
 ```
 
 ## PARAMETERS

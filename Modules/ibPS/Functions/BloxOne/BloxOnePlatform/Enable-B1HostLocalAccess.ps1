@@ -140,7 +140,7 @@
                 "password" = $LocalAccessCredentials.Password
             } | ConvertTo-Json
 
-            $Results = Query-CSP -Method POST -Uri "$(Get-B1CspUrl)/bootstrap-app/v1/host/$($OPHID)/enable_local_access" -Data $($JSONData)
+            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CspUrl)/bootstrap-app/v1/host/$($OPHID)/enable_local_access" -Data $($JSONData)
             if ($Results.Count -eq 1) {
                 Write-Host "Local access enable request successfully sent for: $($OPH.display_name)" -ForegroundColor Green
                 if ($Wait) {

@@ -34,7 +34,7 @@
     $Body = @{
       "query"=$Query
     } | ConvertTo-Json | % { [System.Text.RegularExpressions.Regex]::Unescape($_)}
-    $Results = Query-CSP -Uri "$(Get-B1CSPUrl)/atlas-search-api/v1/search" -Method "POST" -Data $Body
+    $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-search-api/v1/search" -Method "POST" -Data $Body
     if ($IncludeQueryDetails) {
         $Results        
     } else {

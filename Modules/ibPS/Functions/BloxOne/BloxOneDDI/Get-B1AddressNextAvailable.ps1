@@ -111,7 +111,7 @@
 
 
         if ($Parent) {
-            Query-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Parent.id)/nextavailableip?contiguous=$($Contiguous.ToString())&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Parent.id)/nextavailableip?contiguous=$($Contiguous.ToString())&count=$Count" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
             Write-Host "Unable to find Parent: $($ParentAddressBlock)$($ParentSubnet)" -ForegroundColor Red
         }

@@ -133,9 +133,9 @@
         }
         Write-DebugMsg -Filters $QueryFilters
         if ($QueryString) {
-            Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/zone_child$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/zone_child$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
-            Query-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/zone_child" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/zone_child" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
     }
 }
