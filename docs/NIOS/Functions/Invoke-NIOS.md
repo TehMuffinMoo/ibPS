@@ -23,12 +23,12 @@ This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS 
 
 ### EXAMPLE 1
 ```powershell
-Invoke-NIOS -Method GET -Uri "zone_delegated?return_as_object=1"
+Invoke-NIOS -Method GET -Uri "zone_auth?_return_as_object=1&_max_results=10"
 ```
 
 ### EXAMPLE 2
 ```powershell
-Invoke-NIOS -Method GET -Uri "record:a?return_as_object=1&_max_results=10"
+Invoke-NIOS -Method GET -Uri "record:a?_return_as_object=1&_max_results=10"
 ```
 
 ## PARAMETERS
