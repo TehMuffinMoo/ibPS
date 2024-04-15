@@ -37,7 +37,7 @@
         Return results based on Policy id
 
     .EXAMPLE
-        PS> Get-B1DTCPolicy                                                                                                                               
+        PS> Get-B1DTCPolicy -Name 'Exchange'
 
         id                  : dtc/policy/fef4g44gh-v44b-gh5g-bg44-g5h5gbhy6jy6jjyg0
         name                : Exchange
