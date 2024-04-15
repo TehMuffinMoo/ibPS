@@ -17,6 +17,24 @@ function Get-B1DTCStatus {
 
     .EXAMPLE
         PS> Get-B1DTCLBDN -Name 'email.domain.corp' | Get-B1DTCStatus
+
+        [LBDN]  email.domain.corp
+        [Policy]  Exchange
+            [B1Host]  B1-01
+            [Pool]  HEALTHY: EXCHANGE-MAIL01
+                [Server]  HEALTHY: Exchange - HTTPS - 04/15/2024 21:10:14
+                [Server]  HEALTHY: ICMP Health Check  - 04/15/2024 21:10:29
+            [Pool]  HEALTHY: EXCHANGE-MAIL02
+                [Server]  HEALTHY: Exchange - HTTPS - 04/15/2024 21:10:09
+                [Server]  HEALTHY: ICMP Health Check  - 04/15/2024 21:10:22
+        [Policy]  Exchange
+            [B1Host]  B1-02
+            [Pool]  HEALTHY: EXCHANGE-MAIL01
+                [Server]  HEALTHY: Exchange - HTTPS - 04/15/2024 21:10:07
+                [Server]  HEALTHY: ICMP Health Check  - 04/15/2024 21:10:15
+            [Pool]  HEALTHY: EXCHANGE-MAIL02
+                [Server]  HEALTHY: Exchange - HTTPS - 04/15/2024 21:10:12
+                [Server]  HEALTHY: ICMP Health Check - 04/15/2024 21:10:07
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -81,15 +99,18 @@ function Get-B1DTCStatus {
                 # }
                 Write-Host "[LBDN]  $($LBDNItem.name)" -ForegroundColor DarkYellow
                 $B1HostCount = 0
-                foreach ($PolicyReportItem in $($Reports.PSObject.Properties.Value)) {
-                    $B1HostName = ($B1Hosts | where {$_.ophid -eq $($Reports.PSObject.Properties.Name)[$B1HostCount]}).display_name
-                    Write-Colour "  [B1Host]  ","$($B1HostName)" -Colour Magenta,Gray
-                    foreach ($PoolReportItem in $($PolicyReportItem.reports.PSObject.Properties.Value)) {
-                        Write-Colour "    [Pool]  ","$($PoolReportItem.status): ","$($PoolReportItem.display_name)" -Colour Cyan,$($Colours[$PoolReportItem.status]),'Gray'
-                        foreach ($ServerReportItem in $($PoolReportItem.reports.PSObject.Properties.Value)) {
-                            Write-Colour "      [Server]  ","$($ServerReportItem.status): ","$($ServerReportItem.display_name)"," - $($ServerReportItem.last_reported)" -Colour DarkBlue,$($Colours[$ServerReportItem.status]),'Gray','Gray'
-                            foreach ($HealthCheckReportItem in $($ServerReportItem.reports.PSObject.Properties.Value)) {
-                                Write-Colour "        [HealthCheck]  ","$($HealthCheckReportItem.status): ","$($HealthCheckReportItem.display_name)"," - $($HealthCheckReportItem.last_reported)" -Colour White,$($Colours[$HealthCheckReportItem.status]),'Gray','Gray'
+                foreach ($PolicyReportItem in $($Results.reports.PSObject.Properties.Value)) {
+                    Write-Colour "  [Policy]  ","$($PolicyReportItem.display_name)" -Colour DarkMagenta,Gray
+                    foreach ($HostReportItem in $($PolicyReportItem.reports.PSObject.Properties.Value)) {
+                        $B1HostName = ($B1Hosts | where {$_.ophid -eq $($Results.reports.PSObject.Properties.Name)[$B1HostCount]}).display_name
+                        Write-Colour "    [B1Host]  ","$($B1HostName)" -Colour Magenta,Gray
+                        foreach ($PoolReportItem in $($HostReportItem.reports.PSObject.Properties.Value)) {
+                            Write-Colour "      [Pool]  ","$($PoolReportItem.status): ","$($PoolReportItem.display_name)" -Colour Cyan,$($Colours[$PoolReportItem.status]),'Gray'
+                            foreach ($ServerReportItem in $($PoolReportItem.reports.PSObject.Properties.Value)) {
+                                Write-Colour "        [Server]  ","$($ServerReportItem.status): ","$($ServerReportItem.display_name)"," - $($ServerReportItem.last_reported)" -Colour DarkBlue,$($Colours[$ServerReportItem.status]),'Gray','Gray'
+                                foreach ($HealthCheckReportItem in $($ServerReportItem.reports.PSObject.Properties.Value)) {
+                                    Write-Colour "          [HealthCheck]  ","$($HealthCheckReportItem.status): ","$($HealthCheckReportItem.display_name)"," - $($HealthCheckReportItem.last_reported)" -Colour White,$($Colours[$HealthCheckReportItem.status]),'Gray','Gray'
+                                }
                             }
                         }
                     }
