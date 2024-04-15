@@ -13,9 +13,9 @@ Retrieves a list BloxOne DTC Servers
 ## SYNTAX
 
 ```
-Get-B1DTCServer [[-Name] <String>] [[-Description] <String>] [[-Address] <String>] [[-Type] <String>] [-Strict]
- [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
- [[-OrderByTag] <String>] [[-id] <String>]
+Get-B1DTCServer [[-Name] <String>] [[-Description] <String>] [[-Address] <String>] [[-FQDN] <String>]
+ [[-Type] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -25,7 +25,12 @@ This function is used to query a list BloxOne DTC Servers
 
 ### EXAMPLE 1
 ```powershell
+Get-B1DTCServer -Name "EXCHANGE" | ft name,address
 
+name        address
+----        -------
+EXCHANGE-MAIL01 10.10.100.38
+EXCHANGE-MAIL02 10.10.100.39
 ```
 
 ## PARAMETERS
@@ -61,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -Address
-Filter by the DTC Server Address
+Filter by the DTC Server IP Address
 
 ```yaml
 Type: String
@@ -70,6 +75,21 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FQDN
+Filter by the DTC Server FQDN
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -84,7 +104,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -117,7 +137,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -132,7 +152,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -147,7 +167,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -163,7 +183,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -180,7 +200,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -196,7 +216,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -211,7 +231,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

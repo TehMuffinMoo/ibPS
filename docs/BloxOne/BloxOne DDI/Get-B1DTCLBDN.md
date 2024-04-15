@@ -25,7 +25,18 @@ This function is used to query a list BloxOne DTC LBDNs
 
 ### EXAMPLE 1
 ```powershell
+Get-B1DTCLBDN
 
+id                  : dtc/lbdn/13fdfsfs-sdff-f8vk-vn09-cfvdij9gfr4
+name                : email.domain.corp.
+view                : dns/view/0f9fdgr4-97d7-sz9c-cv94-sgfdsg94r76
+dtc_policy          : @{policy_id=dtc/policy/ffdsfsf-f4tg-g54y-gg5h-fge765gg6; name=Exchange}
+precedence          : 50
+comment             : 
+disabled            : False
+ttl                 : 0
+tags                : 
+inheritance_sources :
 ```
 
 ## PARAMETERS
