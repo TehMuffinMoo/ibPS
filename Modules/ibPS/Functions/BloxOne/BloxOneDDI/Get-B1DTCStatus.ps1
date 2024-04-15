@@ -23,22 +23,22 @@ function Get-B1DTCStatus {
             [B1Host]  B102
               [Pool]  HEALTHY: Exchange
                 [Server]  HEALTHY: DTC-Exchange - 04/15/2024 21:20:59
-                [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:59
-                [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:59
+                  [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:59
+                  [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:59
               [Pool]  HEALTHY: Exchange
                 [Server]  HEALTHY: DTC-Exchange - 04/15/2024 21:20:57
-                [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:57
-                [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:37
+                  [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:57
+                  [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:37
           [Policy]  Exchange
             [B1Host]  B101
               [Pool]  HEALTHY: Exchange
                 [Server]  HEALTHY: DTC-Exchange - 04/15/2024 21:20:59
-                [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:59
-                [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:59
+                  [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:59
+                  [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:59
               [Pool]  HEALTHY: Exchange
                 [Server]  HEALTHY: DTC-Exchange - 04/15/2024 21:20:57
-                [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:57
-                [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:37
+                  [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:57
+                  [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:37
     
     .FUNCTIONALITY
         BloxOneDDI
