@@ -38,64 +38,65 @@ function Get-B1DTCStatus {
         )]
         [String[]]$id
     )
-    if ($LBDN) {
-        $LBDNItem = Get-B1DTCLBDN -Name $LBDN -Strict
-        if (!($LBDNItem)) {
-            Write-Error "Could not find LBDN with name: $($LBDN)"
-            return $null
-        } else {
-            $LBDNID = $LBDNItem.id
+    process {
+        $Colours = @{
+            "HEALTHY" = "Green"
+            "ERROR" = "Red"
+            "NOTCONFIGURED" = "Gray"
+            "PRESUMEDHEALTHY" = "Gray"
+            "PENDING" = "Gray"
+            "UNHEALTHY" = "Yellow"
+            "WARNING" = "Yellow"
         }
-    }
-    if ($id) {
-        $LBDNID = $id
-    }
-
-    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($LBDNID)/report"
-    if ($Results) {
-        if ($Raw) {
-            return $Results
-        } else {
+        if ($LBDN) {
+            $LBDNItem = Get-B1DTCLBDN -Name $LBDN -Strict
             if (!($LBDNItem)) {
-                $LBDNItem = Get-B1DTCLBDN -id $LBDNID
+                Write-Error "Could not find LBDN with name: $($LBDN)"
+                return $null
+            } else {
+                $LBDNID = $LBDNItem.id
             }
-            $PolicyItem = Get-B1DTCPolicy -id $Results.policy
-            $B1Hosts = @()
-            foreach ($OPHID in $Results.ophids) {
-                $B1Hosts += Get-B1Host -OPHID $OPHID
-            }
-            $Report = [PSCustomObject]@{
-                "LBDN" = $LBDNItem.name
-                "Policy" = $PolicyItem.name
-                "B1 Hosts" = $B1Hosts.display_name
-            }
-            Write-Host "[LBDN]  $($LBDNItem.name)" -ForegroundColor DarkYellow
-            $B1HostCount = 0
-            foreach ($PolicyReportItem in $($Reports.PSObject.Properties.Value)) {
-                $B1HostName = ($B1Hosts | where {$_.ophid -eq $($Reports.PSObject.Properties.Name)[$B1HostCount]}).display_name
-                Write-Host "    [B1Host]  $($B1HostName)" -ForegroundColor Gray
-                foreach ($PoolReportItem in $($PolicyReportItem.reports.PSObject.Properties.Value)) {
-                    Write-Host "      [Pool]  $($PoolReportItem.display_name)" -ForegroundColor Cyan
-                    foreach ($ServerReportItem in $($PoolReportItem.reports.PSObject.Properties.Value)) {
-                        if ($($ServerReportItem.status) -eq "HEALTHY") {
-                            $Colour = "Green"
-                        } else {
-                            $Colour = "Red"
-                        }
-                        Write-Host "        [Server]  $($ServerReportItem.display_name) - $($ServerReportItem.status) - $($ServerReportItem.last_reported)"  -ForegroundColor $Colour
-                        foreach ($HealthCheckReportItem in $($ServerReportItem.reports.PSObject.Properties.Value)) {
-                            if ($($HealthCheckReportItem.status) -eq "HEALTHY") {
-                                $Colour = "Green"
-                            } else {
-                                $Colour = "Red"
+        }
+        if ($id) {
+            $LBDNID = $id
+        }
+
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($LBDNID)/report"
+        if ($Results) {
+            if ($Raw) {
+                return $Results
+            } else {
+                if (!($LBDNItem)) {
+                    $LBDNItem = Get-B1DTCLBDN -id $LBDNID
+                }
+                $PolicyItem = Get-B1DTCPolicy -id $Results.policy
+                $B1Hosts = @()
+                foreach ($OPHID in $Results.ophids) {
+                    $B1Hosts += Get-B1Host -OPHID $OPHID
+                }
+                # $Report = [PSCustomObject]@{
+                #     "LBDN" = $LBDNItem.name
+                #     "Policy" = $PolicyItem.name
+                #     "B1 Hosts" = $B1Hosts.display_name
+                # }
+                Write-Host "[LBDN]  $($LBDNItem.name)" -ForegroundColor DarkYellow
+                $B1HostCount = 0
+                foreach ($PolicyReportItem in $($Reports.PSObject.Properties.Value)) {
+                    $B1HostName = ($B1Hosts | where {$_.ophid -eq $($Reports.PSObject.Properties.Name)[$B1HostCount]}).display_name
+                    Write-Colour "  [B1Host]  ","$($B1HostName)" -Colour Magenta,Gray
+                    foreach ($PoolReportItem in $($PolicyReportItem.reports.PSObject.Properties.Value)) {
+                        Write-Colour "    [Pool]  ","$($PoolReportItem.status): ","$($PoolReportItem.display_name)" -Colour Cyan,$($Colours[$PoolReportItem.status]),'Gray'
+                        foreach ($ServerReportItem in $($PoolReportItem.reports.PSObject.Properties.Value)) {
+                            Write-Colour "      [Server]  ","$($ServerReportItem.status): ","$($ServerReportItem.display_name)"," - $($ServerReportItem.last_reported)" -Colour DarkBlue,$($Colours[$ServerReportItem.status]),'Gray','Gray'
+                            foreach ($HealthCheckReportItem in $($ServerReportItem.reports.PSObject.Properties.Value)) {
+                                Write-Colour "        [HealthCheck]  ","$($HealthCheckReportItem.status): ","$($HealthCheckReportItem.display_name)"," - $($HealthCheckReportItem.last_reported)" -Colour White,$($Colours[$HealthCheckReportItem.status]),'Gray','Gray'
                             }
-                            Write-Host "          [HealthCheck]  $($HealthCheckReportItem.status) - $($HealthCheckReportItem.last_reported) - ($($HealthCheckReportItem.display_name))"  -ForegroundColor $Colour
                         }
                     }
+                    $B1HostCount += 1
                 }
-                $B1HostCount += 1
+                # return $Report
             }
-            return $Report
         }
     }
 }
