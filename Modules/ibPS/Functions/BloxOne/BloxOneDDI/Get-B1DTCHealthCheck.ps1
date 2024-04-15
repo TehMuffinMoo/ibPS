@@ -46,8 +46,13 @@
         Return results based on Server id
 
     .EXAMPLE
-        PS> 
-    
+        PS> Get-B1DTCHealthCheck -Type HTTP | ft -AutoSize
+
+        name                    comment                   type disabled interval timeout retry_up retry_down tags port http request                                                             codes id
+        ----                    -------                   ---- -------- -------- ------- -------- ---------- ---- ---- ---- -------                                                             ----- --
+        HTTP health check       Default HTTP health check http    False       15      10        1          1        80      GET / HTTP/1.1…                                                     200   dtc/health_check_http/ac9htthh-h754-t4hg-45gu-fdsgf98wwd4v
+        Exchange - HTTPS                                  http    False       10      10        3          3       443      GET /owa/auth/logon.aspx HTTP/1.1                                         dtc/health_check_http/dgferhg5-ge5e-g455-gb45-muymkfdsdfcf
+
     .FUNCTIONALITY
         BloxOneDDI
     

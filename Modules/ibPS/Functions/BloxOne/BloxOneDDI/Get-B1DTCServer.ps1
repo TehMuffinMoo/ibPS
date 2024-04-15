@@ -19,7 +19,10 @@
         Filter by the DTC Server Type
 
     .PARAMETER Address
-        Filter by the DTC Server Address
+        Filter by the DTC Server IP Address
+
+    .PARAMETER FQDN
+        Filter by the DTC Server FQDN
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
@@ -46,7 +49,12 @@
         Return results based on Server id
 
     .EXAMPLE
-        PS> 
+        PS> Get-B1DTCServer -Name "EXCHANGE" | ft name,address   
+
+        name        address
+        ----        -------
+        EXCHANGE-MAIL01 10.10.100.38
+        EXCHANGE-MAIL02 10.10.100.39
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -58,6 +66,7 @@
         [String]$Name,
         [String]$Description,
         [String]$Address,
+        [String]$FQDN,
         [String]$Type,
         [Switch]$Strict,
         [Int]$Limit = 1000,
@@ -79,6 +88,9 @@
     }
     if ($Address) {
         $Filters.Add("address$MatchType`"$Address`"") | Out-Null
+    }
+    if ($FQDN) {
+        $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
     }
     if ($Type) {
         $Filters.Add("endpoint_type$MatchType`"$Type`"") | Out-Null
