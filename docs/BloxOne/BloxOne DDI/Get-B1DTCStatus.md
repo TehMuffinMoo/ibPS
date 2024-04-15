@@ -31,23 +31,27 @@ This function is used to query a list BloxOne DTC LBDNs
 ```powershell
 Get-B1DTCLBDN -Name 'email.domain.corp' | Get-B1DTCStatus
 
-[LBDN]  email.domain.corp
-  [Policy]  Exchange
-    [B1Host]  B1-01
-      [Pool]  HEALTHY: EXCHANGE-MAIL01
-        [Server]  HEALTHY: Exchange - HTTPS - 04/15/2024 21:10:14
-        [Server]  HEALTHY: ICMP Health Check  - 04/15/2024 21:10:29
-      [Pool]  HEALTHY: EXCHANGE-MAIL02
-        [Server]  HEALTHY: Exchange - HTTPS - 04/15/2024 21:10:09
-        [Server]  HEALTHY: ICMP Health Check  - 04/15/2024 21:10:22
-  [Policy]  Exchange
-    [B1Host]  B1-02
-      [Pool]  HEALTHY: EXCHANGE-MAIL01
-        [Server]  HEALTHY: Exchange - HTTPS - 04/15/2024 21:10:07
-        [Server]  HEALTHY: ICMP Health Check  - 04/15/2024 21:10:15
-      [Pool]  HEALTHY: EXCHANGE-MAIL02
-        [Server]  HEALTHY: Exchange - HTTPS - 04/15/2024 21:10:12
-        [Server]  HEALTHY: ICMP Health Check - 04/15/2024 21:10:07
+[LBDN]  email.domain.corp.
+[Policy]  Exchange
+    [B1Host]  B102
+    [Pool]  HEALTHY: Exchange
+        [Server]  HEALTHY: DTC-Exchange - 04/15/2024 21:20:59
+        [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:59
+        [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:59
+    [Pool]  HEALTHY: Exchange
+        [Server]  HEALTHY: DTC-Exchange - 04/15/2024 21:20:57
+        [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:57
+        [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:37
+[Policy]  Exchange
+    [B1Host]  B101
+    [Pool]  HEALTHY: Exchange
+        [Server]  HEALTHY: DTC-Exchange - 04/15/2024 21:20:59
+        [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:59
+        [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:59
+    [Pool]  HEALTHY: Exchange
+        [Server]  HEALTHY: DTC-Exchange - 04/15/2024 21:20:57
+        [HealthCheck]  HEALTHY: EXCHANGE-MAIL01 - 04/15/2024 21:20:57
+        [HealthCheck]  HEALTHY: EXCHANGE-MAIL02 - 04/15/2024 21:20:37
 ```
 
 ## PARAMETERS
