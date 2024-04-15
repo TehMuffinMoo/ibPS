@@ -37,7 +37,19 @@
         Return results based on Policy id
 
     .EXAMPLE
-        PS> 
+        PS> Get-B1DTCPolicy                                                                                                                               
+
+        id                  : dtc/policy/fef4g44gh-v44b-gh5g-bg44-g5h5gbhy6jy6jjyg0
+        name                : Exchange
+        comment             : 
+        tags                : 
+        disabled            : False
+        method              : global_availability
+        ttl                 : 0
+        pools               : {@{pool_id=dtc/pool/656yhrft-gdf5-4gfs-tfg5-gg5ghbtg44d9; name=DTC-Exchange; weight=1}}
+        inheritance_sources : 
+        rules               : {}
+        metadata            :
     
     .FUNCTIONALITY
         BloxOneDDI
