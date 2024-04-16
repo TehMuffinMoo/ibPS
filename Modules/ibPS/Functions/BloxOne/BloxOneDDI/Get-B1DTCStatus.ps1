@@ -78,6 +78,10 @@ function Get-B1DTCStatus {
             }
         }
         if ($id) {
+            if (($id.split('/')[1]) -ne "lbdn") {
+                Write-Error "Error. Unsupported pipeline object. Input is only supported from Get-B1DTCLBDN"
+                return $null
+            }
             $LBDNID = $id
         }
 
