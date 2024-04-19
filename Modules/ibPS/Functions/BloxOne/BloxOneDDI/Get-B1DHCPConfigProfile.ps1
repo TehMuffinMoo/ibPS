@@ -82,6 +82,9 @@
     if ($OrderByTag) {
         $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null
     }
+    if ($IncludeInheritance) {
+        $QueryFilters.Add("_inherit=full") | Out-Null
+    }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }

@@ -30,7 +30,10 @@
         The id of the DHCP config profile to update. Accepts pipeline input
 
     .EXAMPLE
-        PS> Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
+        PS> Set-B1DHCPConfigProfile -Name 'Data Centre DHCP' -AddDDNSZones -DDNSZones 'company.corp' -DNSView default
+
+        Overriding Global DHCP Properties for DHCP Config Profile: Data Centre DHCP..
+        company.corp added successfully to DDNS Config for the DHCP Config Profile: Data Centre DHCP
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -41,7 +44,7 @@
       [Switch]$AddDDNSZones,
       [Switch]$RemoveDDNSZones,
       [System.Object]$DDNSZones,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(Mandatory=$true)]
       [String]$DNSView,
       [System.Object]$Tags,
       [Parameter(
