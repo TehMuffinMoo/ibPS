@@ -13,28 +13,39 @@ Used to set ibPS specific configuration
 ## SYNTAX
 
 ```
-Set-ibPSConfiguration [[-DevelopmentMode] <String>] [[-DebugMode] <String>] [[-Branch] <String>]
+Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl] <String>] [-Persist]
+ [[-DevelopmentMode] <String>] [[-DebugMode] <String>] [[-Branch] <String>]
 ```
 
 ## DESCRIPTION
-This function is used to set ibPS specific configuration, such as enabling development or debug mode
+This function is used to set ibPS specific configuration, such as the BloxOne CSP API Key, Region/URL and enabling/disabling development or debug mode
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Set-ibPSConfiguration -DebugMode Enabled
+Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
+                                                                                                          
+BloxOne API key has been stored permenantly for user on MAC-DSD984HG
 ```
 
 ### EXAMPLE 2
 ```powershell
-Set-ibPSConfiguration -DevelopmentMode Enabled
+Set-ibPSConfiguration -CSPRegion EU
+                                                                                                          
+BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
+You can make the CSP URL persistent for this user on this machine by using the -persist parameter.
+```
+
+### EXAMPLE 3
+```powershell
+Set-ibPSConfiguration -DebugMode Enabled -DevelopmentMode Enabled
 ```
 
 ## PARAMETERS
 
-### -DevelopmentMode
-Enabling development mode will expose additional functions to allow development of new cmdlets
+### -CSPAPIKey
+This is the BloxOneDDI API Key retrieves from the Cloud Services Portal
 
 ```yaml
 Type: String
@@ -48,8 +59,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DebugMode
-Enabling Debug Mode will return additional debug data when using the module
+### -CSPRegion
+Optionally configure the the CSP Region to use (i.e EU for the EMEA instance).
+The region defaults to US if not defined.
+You only need to use -CSPRegion OR -CSPUrl.
 
 ```yaml
 Type: String
@@ -63,9 +76,10 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Branch
-Use the -Branch parameter to select the github branch to update with.
-Only works when installed from Github, not from PowerShell Gallery.
+### -CSPUrl
+Optionally configure the the CSP URL to use manually.
+The CSP URL defaults to https://csp.infoblox.com if not defined.
+You only need to use -CSPUrl OR -CSPRegion.
 
 ```yaml
 Type: String
@@ -74,6 +88,73 @@ Aliases:
 
 Required: False
 Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Persist
+Setting the -Persist parameter will save the configuration peremenantly for your user on this device.
+Without using this switch, the settings will only be saved for the duration of the PowerShell session.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DevelopmentMode
+Enabling development mode will expose additional functions to allow development of new cmdlets.
+Enabling development mode will always apply as a persistent setting until it is disabled.
+This is because in some cases it may require a restart of the PowerShell session to fully enable.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DebugMode
+Enabling Debug Mode will return additional debug data when using the module. 
+Enabling debug mode will always apply as a persistent setting until it is disabled.
+This is because in some cases it may require a restart of the PowerShell session to fully enable.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Branch
+Use the -Branch parameter to select the github branch to update with.
+This only works when installed from Github, not from PowerShell Gallery.
+You will additionally need to run Get-ibPSVersion -Update -Force after you have configured the new branch to force an update.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

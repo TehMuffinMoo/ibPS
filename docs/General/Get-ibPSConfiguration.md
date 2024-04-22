@@ -5,31 +5,31 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1CSPAPIKey
+# Get-ibPSConfiguration
 
 ## SYNOPSIS
-Retrieves the stored BloxOneDDI API Key from the local machine, if available.
+Used to get the current configuration for ibPS
 
 ## SYNTAX
 
 ```
-Get-B1CSPAPIKey [-NoBreak]
+Get-ibPSConfiguration [-IncludeAPIKey]
 ```
 
 ## DESCRIPTION
-This function will retrieve the saved BloxOneDDI API Key from the local user/machine if it has previously been stored.
+This function is used to get the current configuration for ibPS
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1CSPAPIKey
+Get-ibPSConfiguration
 ```
 
 ## PARAMETERS
 
-### -NoBreak
-If this is set, the function will not break if the API Key is not found
+### -IncludeAPIKey
+The -IncludeAPIKey indicates whether the API Key should be returned in the response
 
 ```yaml
 Type: SwitchParameter
