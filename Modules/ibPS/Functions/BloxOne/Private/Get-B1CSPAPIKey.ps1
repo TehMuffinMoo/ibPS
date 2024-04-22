@@ -18,7 +18,7 @@ function Get-B1CSPAPIKey {
     $ApiKey = $ENV:B1APIKey
     if (!$ApiKey) {
         Write-Host "Error. Missing API Key. Store your API Key first using 'Set-ibPSConfiguration -CSPAPIKey apikey' and re-run this script." -ForegroundColor Red
-        Write-Colour "See the following link for more information: ","https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/" -Colour Black,Magenta
+        Write-Colour "See the following link for more information: ","https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/" -Colour Gray,Magenta
         break
     } else {
         try {
