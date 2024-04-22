@@ -30,7 +30,7 @@ function Get-B1CSPAPIKey {
         } catch {
             Write-Error 'Unable to decode the API Key. Please set the API Key again using Set-ibPSConfiguration -CSPAPIKey <apikey>'
             Write-Colour 'If you have recently upgraded from a version older than ','v1.9.4.4',', you will need to update your API Key.' -Colour Yellow,Red,Yellow
-            Write-Colour "See the following link for more information: ","https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/" -Colour Black,Magenta
+            Write-Colour "See the following link for more information: ","https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/" -Colour Gray,Magenta
             break
         }
     }
