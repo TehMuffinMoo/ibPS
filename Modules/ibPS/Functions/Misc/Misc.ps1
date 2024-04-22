@@ -670,6 +670,7 @@ function DevelopmentFunctions {
     "Build-HTMLTopologyChildren"
     "Write-DebugMsg"
     "Write-Colour"
+    "Get-B1CSPUrl"
   )
 }
 

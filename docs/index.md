@@ -105,13 +105,13 @@ In order to authenticate against the BloxOne CSP (Cloud Services Portal), you mu
 ##### Persistent
 To store your API Key permenantly for your user, you can specify the <b>-Persist</b> option as shown below.
 ```powershell
-Set-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>" -Persist
+Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>" -Persist
 ```
 
 ##### Single Session
 Alternatively, you can simply store your API Key for the current powershell session only.
 ```powershell
-Set-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>"
+Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>"
 ```
 
 ## BloxOne Cmdlets

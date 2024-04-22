@@ -24,7 +24,7 @@ If a previous API Key exists, it will be overwritten.
 
 ### EXAMPLE 1
 ```powershell
-Set-B1CSPAPIKey -APIKey "mylongapikeyfromcsp" -Persist
+Set-ibPSConfiguration -CSPAPIKey "mylongapikeyfromcsp" -Persist
 ```
 
 ## PARAMETERS
