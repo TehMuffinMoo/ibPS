@@ -95,7 +95,7 @@ function Set-ibPSConfiguration {
   }
 
   if ($CSPAPIKey) {
-    $B1APIKey = $CSPAPIKey | ConvertTo-SecureString -AsPlainText | ConvertFrom-SecureString
+    $B1APIKey = $CSPAPIKey | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString
     $Bytes = [System.Text.Encoding]::Unicode.GetBytes($B1APIKey)
     $Base64 = [Convert]::ToBase64String($Bytes)
     if ($Persist) {
