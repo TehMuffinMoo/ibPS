@@ -652,6 +652,8 @@ function Write-DebugMsg {
 
 function DevelopmentFunctions {
   return @(
+    "Get-B1CSPUrl"
+    "Get-B1CSPAPIKey"
     "Detect-OS"
     "Combine-Filters"
     "ConvertTo-QueryString"
@@ -670,7 +672,6 @@ function DevelopmentFunctions {
     "Build-HTMLTopologyChildren"
     "Write-DebugMsg"
     "Write-Colour"
-    "Get-B1CSPUrl"
   )
 }
 
