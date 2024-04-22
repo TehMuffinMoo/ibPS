@@ -22,8 +22,10 @@ function Get-B1CSPAPIKey {
         break
     } else {
         try {
-            $Bytes = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($ApiKey))
-            $B1APIKey = $Bytes | ConvertTo-SecureString | ConvertFrom-SecureString -AsPlainText
+            $Bytes = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($ApiKey)) | ConvertTo-SecureString
+            $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($Bytes)
+            $B1APIKey = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($BSTR)
+            [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
             if ($B1APIKey) {
                 return $B1APIKey
             }
