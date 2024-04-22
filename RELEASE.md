@@ -1,2 +1,3 @@
 - Add `Get-B1DTCLBDN`, `Get-B1DTCServer`, `Get-B1DTCHealthCheck`, `Get-B1DTCPool`, `Get-B1DTCPolicy` & `Get-B1DTCStatus` functions for new DTC feature
 - Fix regression where `-IncludeInheritance` was not working on `Get-B1DHCPConfigProfile`
+- Add `Get-B1CSPCurrentUser` function to enable querying the user associated with the current API Key
