@@ -10,7 +10,15 @@ function Get-ibPSConfiguration {
         The -IncludeAPIKey indicates whether the API Key should be returned in the response
 
     .EXAMPLE
-        PS> Get-ibPSConfiguration
+        PS> Get-ibPSConfiguration               
+
+        CSP Url          : https://csp.infoblox.com
+        CSP API User     : svc-csp
+        CSP API Key      : ********
+        ibPS Version     : 1.9.4.4
+        ibPS Branch      : main
+        Debug Mode       : Disabled
+        Development Mode : Disabled
 
     .FUNCTIONALITY
         ibPS

@@ -52,11 +52,11 @@ function Get-ibPSVersion {
     Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary older versions to avoid issues." -ForegroundColor Yellow
     Write-Host "You can run: 'Get-ibPSVersion -Cleanup' to perform this for you." -ForegroundColor Yellow
     Write-Host "Installed Versions: " -ForegroundColor Red
-    $InstalledModule | Select-Object Version,Name,Description,ModuleBase | Write-Output
+    $InstalledModule | Select-Object Version,Name,Description,ModuleBase | Format-Table -AutoSize
     if ($Cleanup) {
       $ModulesToRemove = $InstalledModule | Sort-Object Version -Descending | Select-Object -Skip 1
       Write-Host "ibPS versions to remove: " -ForegroundColor Red
-      $ModulesToRemove | Select-Object Version,Name,Description,ModuleBase | Write-Output
+      $ModulesToRemove | Select-Object Version,Name,Description,ModuleBase | Format-Table -AutoSize
       Write-Warning "Confirmation: Do you want to proceed with removing old versions of ibPS?" -WarningAction Inquire
       foreach ($ModuleToRemove in $ModulesToRemove) {
         Remove-Item $($ModuleToRemove.ModuleBase) -Recurse

@@ -11,6 +11,6 @@
 
 |  **API Keys**  |
 |:-------------------------|
-| API Keys are converting to an encrypted format using Secure Strings. Updating to this version will require you to store the CSP API Key again. |
+| API Keys are converting to an encrypted format using Secure Strings. After updating to this version, any existing API keys need to be updated to avoid errors. |
 | The `Set-B1CSPAPIKey` function has been removed in favour of `Set-ibPSConfiguration -CSPAPIKey <ApiKey>` |
 | See the <a href="https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/">Documentation</a> for further details |
