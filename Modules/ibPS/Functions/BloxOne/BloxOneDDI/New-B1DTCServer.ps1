@@ -10,7 +10,7 @@
         The name of the DTC server object to create
 
     .PARAMETER Description
-        The description for the new zone
+        The description for the new DTC server
 
     .PARAMETER FQDN
         The FQDN of the server to associate the DTC object with. The -FQDN and -IP option are mutually exclusive.
@@ -77,6 +77,7 @@
         "endpoint_type" = $(if ($FQDN) { "fqdn" } elseif ($IP) { "address" })
         "auto_create_response_records" = $(if ($AutoCreateResponses) { $true } else { $false })
         "records" = @()
+        "tags" = $Tags
     }
     if ($FQDN) {
         $splat += @{

@@ -71,6 +71,17 @@ Register-ArgumentCompleter -CommandName Get-B1TideDataProfile -ParameterName Nam
 $ServiceLogApplications = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1ServiceLogApplications | Where-Object {$_.label -like "$($wordToComplete)*"}).label
-    
 }
 Register-ArgumentCompleter -CommandName Get-B1ServiceLog -ParameterName Container -ScriptBlock $ServiceLogApplications
+
+$B1DDIDTCServers = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1DTCServer -Name $wordToComplete).name | Where-Object {$_ -notin $fakeBoundParameters['Servers']}
+}
+Register-ArgumentCompleter -CommandName New-B1DTCPool -ParameterName Servers -ScriptBlock $B1DDIDTCServers
+
+$B1DDIDTCHealthChecks = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1DTCHealthCheck -Name $wordToComplete).name | Where-Object {$_ -notin $fakeBoundParameters['HealthChecks']}
+}
+Register-ArgumentCompleter -CommandName New-B1DTCPool -ParameterName HealthChecks -ScriptBlock $B1DDIDTCHealthChecks

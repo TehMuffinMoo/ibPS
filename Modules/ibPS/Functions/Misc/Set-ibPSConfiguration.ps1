@@ -151,31 +151,31 @@ function Set-ibPSConfiguration {
   }
 
   if ($DebugMode) {
-  $Platform = Detect-OS
-  if ($Platform -eq "Windows") {
-    [System.Environment]::SetEnvironmentVariable('IBPSDebug',$DebugMode,[System.EnvironmentVariableTarget]::User)
-  } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-    if (!(Test-Path ~/.zshenv)) {
-      touch ~/.zshenv
+    $Platform = Detect-OS
+    if ($Platform -eq "Windows") {
+      [System.Environment]::SetEnvironmentVariable('IBPSDebug',$DebugMode,[System.EnvironmentVariableTarget]::User)
+    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+      if (!(Test-Path ~/.zshenv)) {
+        touch ~/.zshenv
+      }
+      sed -i '' -e '/IBPSDebug/d' ~/.zshenv
+      echo "export IBPSDebug=$DebugMode" >> ~/.zshenv
     }
-    sed -i '' -e '/IBPSDebug/d' ~/.zshenv
-    echo "export IBPSDebug=$DebugMode" >> ~/.zshenv
-  }
-  $ENV:IBPSDebug = $DebugMode
-  Write-Host "$($DebugMode) Development Mode." -ForegroundColor Green
+    $ENV:IBPSDebug = $DebugMode
+    Write-Host "$($DebugMode) Debug Mode." -ForegroundColor Green
   }
 
   if ($Branch) {
-  $Platform = Detect-OS
-  if ($Platform -eq "Windows") {
-    [System.Environment]::SetEnvironmentVariable('IBPSBranch',$Branch,[System.EnvironmentVariableTarget]::User)
-  } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-    if (!(Test-Path ~/.zshenv)) {
-      touch ~/.zshenv
+    $Platform = Detect-OS
+    if ($Platform -eq "Windows") {
+      [System.Environment]::SetEnvironmentVariable('IBPSBranch',$Branch,[System.EnvironmentVariableTarget]::User)
+    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+      if (!(Test-Path ~/.zshenv)) {
+        touch ~/.zshenv
+      }
+      sed -i '' -e '/IBPSBranch/d' ~/.zshenv
+      echo "export IBPSBranch=$Branch" >> ~/.zshenv
     }
-    sed -i '' -e '/IBPSBranch/d' ~/.zshenv
-    echo "export IBPSBranch=$Branch" >> ~/.zshenv
-  }
-  $ENV:IBPSBranch = $Branch
+    $ENV:IBPSBranch = $Branch
   }
 }
