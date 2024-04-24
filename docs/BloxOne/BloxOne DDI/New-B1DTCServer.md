@@ -66,7 +66,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description for the new zone
+The description for the new DTC server
 
 ```yaml
 Type: String
@@ -175,7 +175,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tags
-Any tags you want to apply to the DTC Server
+Any tags you want to apply to the DTC Server.
 
 ```yaml
 Type: Object
