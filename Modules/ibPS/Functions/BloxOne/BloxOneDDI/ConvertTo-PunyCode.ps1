@@ -10,12 +10,25 @@ function ConvertTo-PunyCode {
         The fully qualified domain name to convert to Punycode
 
     .EXAMPLE
+        This example shows a domain where the 'c' is using a cyrillic character set, which looks identical to a normal 'c'.
+
+        When converting to PunyCode, this becomes obvious.
+
         PS> ConvertTo-PunyCode -FQDN "bbс.co.uk"
 
         idn       punycode
         ---       --------
         bbс.co.uk xn--bb-pmc.co.uk
     
+    .EXAMPLE
+        This example shows the same query as Example #1, but with a standard character set.
+
+        PS> ConvertTo-PunyCode -FQDN "bbc.co.uk"
+
+        idn       punycode
+        ---       --------
+        bbc.co.uk bbc.co.uk
+
     .FUNCTIONALITY
         BloxOneDDI
 
