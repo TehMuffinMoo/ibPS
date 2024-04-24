@@ -12,8 +12,23 @@ Creates a new health check object within BloxOne DTC
 
 ## SYNTAX
 
+### ICMP Health Check
 ```
 New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String> [[-Interval] <Int32>]
+ [[-Timeout] <Int32>] [[-RetryUp] <Int32>] [[-RetryDown] <Int32>] [[-State] <String>] [[-Tags] <Object>]
+ [<CommonParameters>]
+```
+
+### TCP Health Check
+```
+New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String> [-Port] <Int32> [[-Interval] <Int32>]
+ [[-Timeout] <Int32>] [[-RetryUp] <Int32>] [[-RetryDown] <Int32>] [[-State] <String>] [[-Tags] <Object>]
+ [<CommonParameters>]
+```
+
+### HTTP Health Check
+```
+New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String> [-Port] <Int32> [-UseHTTPS] [-HTTPRequest] <String>  [-StatusCodes] <System.Object> [[-Interval] <Int32>]
  [[-Timeout] <Int32>] [[-RetryUp] <Int32>] [[-RetryDown] <Int32>] [[-State] <String>] [[-Tags] <Object>]
  [<CommonParameters>]
 ```
@@ -191,7 +206,80 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### CommonParameters
+## DYNAMIC PARAMETERS
+### -Port
+The -Port parameter is required when creating a HTTP or TCP Health Check.
+
+!!! info
+    **This parameter is only available when `-Type` is HTTP or TCP**
+
+```yaml
+Type: Int
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -UseHTTPS
+The -UseHTTPS parameter is used to create a HTTPS Health Check, instead of HTTP.
+
+!!! info
+    **This parameter is only available when `-Type` is HTTP**
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### --HTTPRequest
+The -HTTPRequest parameter is used to specify the HTTP Request to make during the health check.
+
+!!! info
+    **This parameter is only available when `-Type` is HTTP**
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -StatusCodes
+The -StatusCodes parameter is used to specify the status codes to identify healthy status. This could be `"Any`" or a list of Status Codes
+
+!!! info
+    **This parameter is only available when `-Type` is HTTP**
+
+```yaml
+Type: System.Object
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+## CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
