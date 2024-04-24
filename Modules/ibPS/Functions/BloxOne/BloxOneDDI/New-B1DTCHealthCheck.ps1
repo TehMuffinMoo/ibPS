@@ -51,9 +51,6 @@
                                         Host: webmail.company.corp
         codes                          : 200,401
         metadata                       : 
-
-    .EXAMPLE
-       PS> 
    
     .FUNCTIONALITY
         BloxOneDDI

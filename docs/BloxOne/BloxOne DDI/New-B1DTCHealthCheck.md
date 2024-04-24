@@ -59,11 +59,6 @@ codes                          : 200,401
 metadata                       :
 ```
 
-### EXAMPLE 2
-```powershell
-
-```
-
 ## PARAMETERS
 
 ### -Name
@@ -243,7 +238,7 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### --HTTPRequest
+### -HTTPRequest
 The -HTTPRequest parameter is used to specify the HTTP Request to make during the health check.
 
 !!! info
