@@ -6,6 +6,9 @@ This example will show how you can automate the creation of GSLB objects using B
 New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses
 New-B1DTCServer -Name 'Exchange Server B' -Description 'Exchange Server - Passive Node' -FQDN 'exchange-2.company.corp' -AutoCreateResponses
 
+## Create DTC Health Check
+New-B1DTCHealthCheck -Name 'Exchange HTTPS Check' -Type HTTP -UseHTTPS -Port 443 -HTTPRequest "GET /owa/auth/logon.aspx HTTP/1.1`nHost: webmail.company.corp"
+
 ## Create DTC Pool
 New-B1DTCPool -Name 'Exchange Pool' -Description 'Pool of Exchange Servers' -LoadBalancingType GlobalAvailability -Servers 'Exchange Server A','Exchange Server B' -HealthChecks 'ICMP health check','Exchange HTTPS Check' -TTL 10
 
