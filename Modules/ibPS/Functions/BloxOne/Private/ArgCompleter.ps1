@@ -91,3 +91,10 @@ $B1DDIDTCPolicies = {
     (Get-B1DTCPolicy -Name $wordToComplete).name | Where-Object {$_ -notin $fakeBoundParameters['Policy']}
 }
 Register-ArgumentCompleter -CommandName New-B1DTCLBDN -ParameterName Policy -ScriptBlock $B1DDIDTCPolicies
+
+$B1DDIDTCPools = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1DTCPool -Name $wordToComplete).name | Where-Object {$_ -notin $fakeBoundParameters['Pools']}
+}
+Register-ArgumentCompleter -CommandName New-B1DTCPolicy -ParameterName Pools -ScriptBlock $B1DDIDTCPools
+Register-ArgumentCompleter -CommandName New-B1DTCTopologyRule -ParameterName Pool -ScriptBlock $B1DDIDTCPools
