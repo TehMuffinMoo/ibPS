@@ -44,8 +44,8 @@
       [Parameter(Mandatory=$true)]
       [ValidateSet('Default','Subnet')]
       [String]$Type,
-      [ValidateSet('Pool','NOERROR','NXDOMAIN')]
       [Parameter(Mandatory=$true)]
+      [ValidateSet('Pool','NOERROR','NXDOMAIN')]
       [String]$Destination,
       [String]$Pool,
       [System.Object]$Subnets

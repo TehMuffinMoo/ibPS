@@ -16,7 +16,7 @@ Deploys a BloxOneDDI Virtual Appliance to VMware or Hyper-V
 ```
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
  [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
- [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
+ [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-CloudCheckTimeout] <Int> [-SkipPingChecks] [-SkipPowerOn]
  [-OVAPath] <String> [-vCenter] <String> [-Cluster] <String> [-Datastore] <String> [-PortGroup] <String>
  [-PortGroupType] <String> [-Creds] <PSCredential>
  [<CommonParameters>]
@@ -26,7 +26,7 @@ Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <
 ```
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <Object> [-Netmask] <Object> [-Gateway] <Object>
  [-DNSServers] <Object> [-NTPServers] <Object> [-DNSSuffix] <Object> [-JoinToken] <Object>
- [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-SkipPingChecks] [-SkipPowerOn]
+ [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-CloudCheckTimeout] <Int> [-SkipPingChecks] [-SkipPowerOn]
  [-VHDPath] <String> [-HyperVServer] <String> [-HyperVGeneration] <Int> [-VMPath] <String> [-VirtualNetwork]<String>
  [-VirtualNetworkVLAN] <Int> [-CPU] <Int> [-Memory] <String>
  [<CommonParameters>]
@@ -246,6 +246,21 @@ Aliases:
 Required: False
 Position: 10
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CloudCheckTimeout
+The duration of time allowed for the B1 Host to register with the Cloud Services Portal before timing out. This defaults to 300s (5 Minutes)
+
+```yaml
+Type: Int64
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: 300
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
