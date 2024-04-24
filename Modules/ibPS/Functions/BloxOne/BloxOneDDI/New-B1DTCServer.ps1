@@ -31,7 +31,7 @@
         Whether or not the new server is created as enabled or disabled. Defaults to enabled
 
     .PARAMETER Tags
-        Any tags you want to apply to the DTC Server
+        Any tags you want to apply to the DTC Server.
 
     .EXAMPLE
        PS> New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses

@@ -40,7 +40,7 @@
         The number of DTC Health Checks assigned to the server that are required for the server to be reported as healthy. This is used in conjunction with: -ServerHealthyWhen AtLeast
 
     .PARAMETER TTL
-        The TTL to use for the DTC pool
+        The TTL to use for the DTC pool. This will override inheritance.
 
     .PARAMETER State
         Whether or not the new pool is created as enabled or disabled. Defaults to enabled
@@ -49,7 +49,23 @@
         Any tags you want to apply to the DTC Pool
 
     .EXAMPLE
-       PS> 
+       PS> New-B1DTCPool -Name 'Exchange Pool' -Description 'Pool of Exchange Servers' -LoadBalancingType Ratio -Servers MAILSERVER-01:10,MAILSERVER-02:20 -HealthChecks 'ICMP health check','Exchange HTTPS Check' -TTL 10
+
+        id                          : dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f
+        name                        : Exchange Pool
+        comment                     : Pool of Exchange Servers
+        tags                        : 
+        disabled                    : False
+        method                      : ratio
+        servers                     : {@{server_id=dtc/server/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=MAILSERVER-01; weight=10}, @{server_id=dtc/server/8vdsrnv8-vnnu-777g-gdvd-sdrghjj3b2; name=MAILSERVER-02; weight=20}}
+        ttl                         : 10
+        inheritance_sources         : 
+        pool_availability           : any
+        pool_servers_quorum         : 0
+        server_availability         : any
+        server_health_checks_quorum : 0
+        health_checks               : {@{health_check_id=dtc/health_check_icmp/vdsg4g4-vdg4-4g43-b3d8-c55xseve5b; name=ICMP health check}, @{health_check_id=dtc/health_check_icmp/fset4g4fg-h6hg-878f-ssw3-cdfu894d32; name=Exchange HTTPS Check}}
+        metadata 
    
     .FUNCTIONALITY
         BloxOneDDI

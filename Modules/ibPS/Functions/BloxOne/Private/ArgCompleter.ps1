@@ -85,3 +85,9 @@ $B1DDIDTCHealthChecks = {
     (Get-B1DTCHealthCheck -Name $wordToComplete).name | Where-Object {$_ -notin $fakeBoundParameters['HealthChecks']}
 }
 Register-ArgumentCompleter -CommandName New-B1DTCPool -ParameterName HealthChecks -ScriptBlock $B1DDIDTCHealthChecks
+
+$B1DDIDTCPolicies = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1DTCPolicy -Name $wordToComplete).name | Where-Object {$_ -notin $fakeBoundParameters['Policy']}
+}
+Register-ArgumentCompleter -CommandName New-B1DTCLBDN -ParameterName Policy -ScriptBlock $B1DDIDTCPolicies
