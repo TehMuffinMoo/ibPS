@@ -19,7 +19,7 @@
         The IP of the server to associate the DTC object with. The -IP and -FQDN option are mutually exclusive.
 
     .PARAMETER AutoCreateResponses
-        The DTC response will contain an auto-created A (IPv4), AAAA (IPv6), CNAME(FQDN) record with endpoint defined using -IP or -FQDN.
+        If enabled, DTC response will contain an auto-created A (IPv4), AAAA (IPv6), CNAME(FQDN) record with endpoint defined using -IP or -FQDN.
 
     .PARAMETER SynthesizedCNAME
         The Synthesized CNAME record to add to the DTC Server. This cannot be used in conjunction with -AutoCreateResponses
@@ -62,7 +62,8 @@
       [String]$FQDN,
       [Parameter(ParameterSetName="IP",Mandatory=$true)]
       [IPAddress]$IP,
-      [Switch]$AutoCreateResponses,
+      [ValidateSet("Enabled","Disabled")]
+      [String]$AutoCreateResponses,
       [IPAddress[]]$SynthesizedA,
       [String]$SynthesizedCNAME,
       [ValidateSet("Enabled","Disabled")]
@@ -75,7 +76,7 @@
         "comment" = $Description
         "disabled" = $(if ($State -eq 'Enabled') { $false } else { $true })
         "endpoint_type" = $(if ($FQDN) { "fqdn" } elseif ($IP) { "address" })
-        "auto_create_response_records" = $(if ($AutoCreateResponses) { $true } else { $false })
+        "auto_create_response_records" = $(if ($AutoCreateResponses -eq 'Enabled') { $true } else { $false })
         "records" = @()
         "tags" = $Tags
     }
