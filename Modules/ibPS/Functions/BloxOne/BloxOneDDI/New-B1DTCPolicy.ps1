@@ -117,8 +117,10 @@
         "method" = $MethodArr[$LoadBalancingType]
         "disabled" = $(if ($State -eq 'Enabled') { $false } else { $true })
         "pools" = @()
-        "rules" = $Rules | Sort-Object source -Descending
         "tags" = $Tags
+    }
+    if ($LoadBalancingType -eq "Topology" -and $Rules) {
+        $splat | Add-Member -MemberType NoteProperty -Name "rules" -Value ($Rules | Sort-Object source -Descending)
     }
     if ($Pools) {
         $PoolIDs = @()
