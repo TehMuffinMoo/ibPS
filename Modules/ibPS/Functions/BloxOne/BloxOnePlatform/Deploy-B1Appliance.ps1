@@ -107,6 +107,9 @@
         
         This cannot be used in conjunction with -OVAPath or -VHDPath
 
+    .PARAMETER CloudCheckTimeout
+        The duration of time allowed for the B1 Host to register with the Cloud Services Portal before timing out. This defaults to 300s (5 Minutes)
+
     .PARAMETER SkipCloudChecks
         Using this parameter will mean the deployment will not wait for the BloxOneDDI Host to become registered/available within the Cloud Services Portal
 
@@ -187,6 +190,8 @@
       [Switch]$DownloadLatestImage,
       [Parameter(Mandatory=$false)]
       [String]$ImagesPath,
+      [Parameter(Mandatory=$false)]
+      [Int]$CloudCheckTimeout = 300,
       [Parameter(Mandatory=$false)]
       [Switch]$SkipCloudChecks,
       [Parameter(Mandatory=$false)]
@@ -678,7 +683,7 @@
                         $CSPStartCount = $CSPStartCount + 10
                         Write-Host "Waiting for BloxOne Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
-                        if ($CSPStartCount -gt 120) {
+                        if ($CSPStartCount -gt $CloudCheckTimeout) {
                             Write-Error "Error. VM failed to register with the BloxOne CSP. Please check VM Console for details."
                             $Failed = $true
                             break

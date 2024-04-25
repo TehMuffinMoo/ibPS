@@ -20,6 +20,7 @@
   <a href="https://www.powershellgallery.com/packages/ibPS"><img src="https://img.shields.io/powershellgallery/dt/ibPS?label=Downloads&style=flat-square"></a>
   <a href="https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE"><img src="https://img.shields.io/github/license/TehMuffinMoo/ibPS?label=License&style=flat-square"></a>
   <a href="https://www.powershellgallery.com/packages/ibPS"><img src="https://img.shields.io/powershellgallery/p/ibPS?label=Supported Platforms&style=flat-square&color=%236600bf"></a>
+  <a href="https://github.com/TehMuffinMoo/ibPS/releases"><img src="https://img.shields.io/github/release-date/tehmuffinmoo/ibps?label=Latest%20Release"></a>
   <a href="https://ibps.readthedocs.io"><img src="https://img.shields.io/readthedocs/ibps?label=Docs&style=flat-square"></a>
 </p>
 
@@ -48,8 +49,7 @@
 
 ## Limitations
 
-* Cmdlets have not yet been created for all BloxOne API endpoints. This is still being actively developed with the aim to have most, if not all api endpoints integrated eventually.  
-  * You can however also use this module as a generic wrapper by leveraging these [Wrapper Cmdlets](BloxOne/Generic%20Wrapper/).
+* If the cmdlet you are looking for is not yet built into the Module, you can raise a feature request via Github Issues. You can also use this module as a generic wrapper by leveraging these [Wrapper Cmdlets](BloxOne/Generic%20Wrapper/).
 * A [PowerShell module already exists for InfoBlox NIOS](https://www.powershellgallery.com/packages/Posh-IBWAPI/3.2.2) and so limited Cmdlets will be built into this module. Any NIOS cmdlets built in are primarily for the purpose of migration to BloxOneDDI and may be deprecated.
 
 ## How To Use
@@ -105,13 +105,13 @@ In order to authenticate against the BloxOne CSP (Cloud Services Portal), you mu
 ##### Persistent
 To store your API Key permenantly for your user, you can specify the <b>-Persist</b> option as shown below.
 ```powershell
-Set-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>" -Persist
+Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>" -Persist
 ```
 
 ##### Single Session
 Alternatively, you can simply store your API Key for the current powershell session only.
 ```powershell
-Set-B1CSPAPIKey -ApiKey "<ApiKeyFromCSP>"
+Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>"
 ```
 
 ## BloxOne Cmdlets
@@ -269,6 +269,16 @@ Remove-B1HAGroup                 | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1DHCPConfigProfile       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
 Remove-B1DNSConfigProfile        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSConfigProfile
 Remove-B1InternalDomainList      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
+Remove-B1DTCServer               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCServer
+Remove-B1DTCPool                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPool
+Remove-B1DTCPolicy               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy
+Remove-B1DTCLBDN                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCLBDN
+Remove-B1DTCHealthCheck          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCHealthCheck
+Set-B1DTCServer                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCServer
+Set-B1DTCPool                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPool
+Set-B1DTCPolicy                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy
+Set-B1DTCLBDN                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCLBDN
+Set-B1DTCHealthCheck             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCHealthCheck
 Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
 Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile

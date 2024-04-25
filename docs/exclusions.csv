@@ -5,3 +5,4 @@ New-B1APIKey.md
 Get-NetworkTopology.md
 Invoke-CSP.md
 Invoke-NIOS.md
+New-B1DTCHealthCheck.md

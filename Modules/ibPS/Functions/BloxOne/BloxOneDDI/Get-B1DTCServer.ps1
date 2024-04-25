@@ -1,20 +1,32 @@
-﻿function Get-B1DHCPConfigProfile {
+﻿function Get-B1DTCServer {
     <#
     .SYNOPSIS
-        Retrieves a list of DHCP Config Profiles from BloxOneDDI
+        Retrieves a list BloxOne DTC Servers
 
     .DESCRIPTION
-        This function is used to query a list of DHCP Config Profiles from BloxOneDDI
+        This function is used to query a list BloxOne DTC Servers
 
     .PARAMETER Name
-        The name of the DHCP Config Profile
+        The name of the DTC Server to filter by
+
+    .PARAMETER Description
+        The description of the DTC Server to filter by
+
+    .PARAMETER View
+        Filter by the name of the DNS View the DTC Server is located in
+
+    .PARAMETER Type
+        Filter by the DTC Server Type
+
+    .PARAMETER Address
+        Filter by the DTC Server IP Address
+
+    .PARAMETER FQDN
+        Filter by the DTC Server FQDN
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-
-    .PARAMETER IncludeInheritance
-        Include inherited configuration in results
-
+       
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
@@ -34,18 +46,29 @@
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
     .PARAMETER id
-        Return results based on DHCP Config Profile id
+        Return results based on Server id
 
     .EXAMPLE
-        PS> Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
+        PS> Get-B1DTCServer -Name "EXCHANGE" | ft name,address   
+
+        name        address
+        ----        -------
+        EXCHANGE-MAIL01 10.10.100.38
+        EXCHANGE-MAIL02 10.10.100.39
     
     .FUNCTIONALITY
         BloxOneDDI
+    
+    .FUNCTIONALITY
+        DNS
     #>
     param(
         [String]$Name,
-        [switch]$Strict = $false,
-        [switch]$IncludeInheritance = $false,
+        [String]$Description,
+        [String]$Address,
+        [String]$FQDN,
+        [String]$Type,
+        [Switch]$Strict,
         [Int]$Limit = 1000,
         [Int]$Offset = 0,
         [String]$tfilter,
@@ -60,6 +83,18 @@
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
+    if ($Description) {
+        $Filters.Add("comment$MatchType`"$Description`"") | Out-Null
+    }
+    if ($Address) {
+        $Filters.Add("address$MatchType`"$Address`"") | Out-Null
+    }
+    if ($FQDN) {
+        $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
+    }
+    if ($Type) {
+        $Filters.Add("endpoint_type$MatchType`"$Type`"") | Out-Null
+    }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
     }
@@ -67,8 +102,12 @@
         $Filter = Combine-Filters $Filters
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-    $QueryFilters.Add("_limit=$Limit") | Out-Null
-    $QueryFilters.Add("_offset=$Offset") | Out-Null
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
@@ -82,16 +121,13 @@
     if ($OrderByTag) {
         $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null
     }
-    if ($IncludeInheritance) {
-        $QueryFilters.Add("_inherit=full") | Out-Null
-    }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/server$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/server$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/server" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/dtc/server" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

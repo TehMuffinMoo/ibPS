@@ -652,6 +652,8 @@ function Write-DebugMsg {
 
 function DevelopmentFunctions {
   return @(
+    "Get-B1CSPUrl"
+    "Get-B1CSPAPIKey"
     "Detect-OS"
     "Combine-Filters"
     "ConvertTo-QueryString"
@@ -669,5 +671,19 @@ function DevelopmentFunctions {
     "Build-TopologyChildren"
     "Build-HTMLTopologyChildren"
     "Write-DebugMsg"
+    "Write-Colour"
   )
+}
+
+function Write-Colour {
+  param(
+    [String[]]$Message,
+    [String[]]$Colour
+  )
+  $Count = 0
+  foreach ($M in $Message) {
+    Write-Host "$M" -ForegroundColor $Colour[$Count] -NoNewLine
+    $Count += 1
+  }
+  Write-Host "`r"
 }

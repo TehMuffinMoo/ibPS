@@ -5,58 +5,72 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-B1CSPAPIKey
+# Remove-B1DTCPool
 
 ## SYNOPSIS
-Stores a new BloxOneDDI API Key
+Removes an existing BloxOne DTC Pool
 
 ## SYNTAX
 
+### Default
 ```
-Set-B1CSPAPIKey [-APIKey] <String> [-Persist] [<CommonParameters>]
+Remove-B1DTCPool -Name <String> [<CommonParameters>]
+```
+
+### With ID
+```
+Remove-B1DTCPool -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function will store a new BloxOneDDI API Key for the current user on the local machine.
-If a previous API Key exists, it will be overwritten.
+This function is used to remove an existing BloxOne DTC Pool
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Set-B1CSPAPIKey -APIKey "mylongapikeyfromcsp" -Persist
+Remove-B1DTCPool -Name "Exchange-Pool"
+
+Successfully removed DTC Pool: Exchange-Pool
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1DTCPool -Name "Exchange-Pool"| Remove-B1DTCPool
+
+Successfully removed DTC Pool: Exchange-Pool
 ```
 
 ## PARAMETERS
 
-### -APIKey
-This is the BloxOneDDI API Key retrieves from the Cloud Services Portal
+### -Name
+The name of the DTC Pool to remove
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Persist
-Using the -Persist switch will save the API Key across powershell sessions.
-Without using this switch, the API Key will only be stored for the current powershell session.
+### -Object
+The DTC Pool Object(s) to remove.
+Accepts pipeline input.
 
 ```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
+Type: Object
+Parameter Sets: With ID
 Aliases:
 
-Required: False
+Required: True
 Position: Named
-Default value: False
-Accept pipeline input: False
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

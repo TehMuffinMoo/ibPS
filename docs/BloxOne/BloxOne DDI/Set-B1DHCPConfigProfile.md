@@ -20,8 +20,8 @@ Set-B1DHCPConfigProfile -Name <String> [-AddDDNSZones] [-RemoveDDNSZones] [-DDNS
 
 ### With ID
 ```
-Set-B1DHCPConfigProfile [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>] [-Tags <Object>] -id <String>
- [<CommonParameters>]
+Set-B1DHCPConfigProfile [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>] -DNSView <String>
+ [-Tags <Object>] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,7 +31,10 @@ This function is used to update an existing DHCP Config Profiles from BloxOneDDI
 
 ### EXAMPLE 1
 ```powershell
-Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
+Set-B1DHCPConfigProfile -Name 'Data Centre DHCP' -AddDDNSZones -DDNSZones 'company.corp' -DNSView default
+
+Overriding Global DHCP Properties for DHCP Config Profile: Data Centre DHCP..
+company.corp added successfully to DDNS Config for the DHCP Config Profile: Data Centre DHCP
 ```
 
 ## PARAMETERS
@@ -103,7 +106,7 @@ The DNS View the Authoritative DDNS Zones are located in
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: True

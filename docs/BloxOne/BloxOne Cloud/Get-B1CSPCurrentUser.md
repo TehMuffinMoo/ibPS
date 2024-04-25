@@ -5,31 +5,31 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1CSPAPIKey
+# Get-B1CSPCurrentUser
 
 ## SYNOPSIS
-Retrieves the stored BloxOneDDI API Key from the local machine, if available.
+Retrieves the user associated with the current API key
 
 ## SYNTAX
 
 ```
-Get-B1CSPAPIKey [-NoBreak]
+Get-B1CSPCurrentUser [-Groups]
 ```
 
 ## DESCRIPTION
-This function will retrieve the saved BloxOneDDI API Key from the local user/machine if it has previously been stored.
+This function will retrieve the user associated with the current API key
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1CSPAPIKey
+Get-B1CSPCurrentUser
 ```
 
 ## PARAMETERS
 
-### -NoBreak
-If this is set, the function will not break if the API Key is not found
+### -Groups
+Using the -Groups switch will return a list of Groups associated with the current user
 
 ```yaml
 Type: SwitchParameter

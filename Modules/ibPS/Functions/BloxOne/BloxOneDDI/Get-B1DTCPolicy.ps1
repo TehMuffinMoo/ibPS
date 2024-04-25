@@ -1,20 +1,20 @@
-﻿function Get-B1DHCPConfigProfile {
+﻿function Get-B1DTCPolicy {
     <#
     .SYNOPSIS
-        Retrieves a list of DHCP Config Profiles from BloxOneDDI
+        Retrieves a list BloxOne DTC Policies
 
     .DESCRIPTION
-        This function is used to query a list of DHCP Config Profiles from BloxOneDDI
+        This function is used to query a list BloxOne DTC Policies
 
     .PARAMETER Name
-        The name of the DHCP Config Profile
+        The name of the DTC Policy to filter by
+
+    .PARAMETER Description
+        The description of the DTC Policy to filter by
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-
-    .PARAMETER IncludeInheritance
-        Include inherited configuration in results
-
+       
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
@@ -34,18 +34,33 @@
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
     .PARAMETER id
-        Return results based on DHCP Config Profile id
+        Return results based on Policy id
 
     .EXAMPLE
-        PS> Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
+        PS> Get-B1DTCPolicy -Name 'Exchange'
+
+        id                  : dtc/policy/fef4g44gh-v44b-gh5g-bg44-g5h5gbhy6jy6jjyg0
+        name                : Exchange
+        comment             : 
+        tags                : 
+        disabled            : False
+        method              : global_availability
+        ttl                 : 0
+        pools               : {@{pool_id=dtc/pool/656yhrft-gdf5-4gfs-tfg5-gg5ghbtg44d9; name=DTC-Exchange; weight=1}}
+        inheritance_sources : 
+        rules               : {}
+        metadata            :
     
     .FUNCTIONALITY
         BloxOneDDI
+    
+    .FUNCTIONALITY
+        DNS
     #>
     param(
         [String]$Name,
-        [switch]$Strict = $false,
-        [switch]$IncludeInheritance = $false,
+        [String]$Description,
+        [Switch]$Strict,
         [Int]$Limit = 1000,
         [Int]$Offset = 0,
         [String]$tfilter,
@@ -60,6 +75,9 @@
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
+    if ($Description) {
+        $Filters.Add("comment$MatchType`"$Description`"") | Out-Null
+    }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
     }
@@ -67,8 +85,12 @@
         $Filter = Combine-Filters $Filters
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-    $QueryFilters.Add("_limit=$Limit") | Out-Null
-    $QueryFilters.Add("_offset=$Offset") | Out-Null
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
@@ -82,16 +104,13 @@
     if ($OrderByTag) {
         $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null
     }
-    if ($IncludeInheritance) {
-        $QueryFilters.Add("_inherit=full") | Out-Null
-    }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/server$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/policy$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/server" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/dtc/policy" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }
