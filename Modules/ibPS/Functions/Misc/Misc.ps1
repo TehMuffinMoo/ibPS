@@ -110,6 +110,10 @@ function Test-NetmaskString {
   $MaskString -match $maskPattern
 }
 
+function Test-ValidIPv4Address ($ip) {
+  return ($ip -match "^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$" -and [bool]($ip -as [ipaddress]))
+}
+
 function Convert-NetmaskToCIDR {
   param(
     [parameter(Mandatory=$true)]
@@ -660,6 +664,7 @@ function DevelopmentFunctions {
     "Match-Type"
     "Convert-CIDRToNetmask"
     "Test-NetmaskString"
+    "Test-ValidIPv4Address"
     "Convert-NetmaskToCIDR"
     "Convert-Int64toIP"
     "Convert-IPtoInt64"
