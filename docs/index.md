@@ -274,6 +274,11 @@ Remove-B1DTCPool                 | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1DTCPolicy               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy
 Remove-B1DTCLBDN                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCLBDN
 Remove-B1DTCHealthCheck          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCHealthCheck
+Set-B1DTCServer                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCServer
+Set-B1DTCPool                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPool
+Set-B1DTCPolicy                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy
+Set-B1DTCLBDN                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCLBDN
+Set-B1DTCHealthCheck             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCHealthCheck
 Set-B1AddressBlock               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AddressBlock
 Set-B1AuthoritativeZone          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
 Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
