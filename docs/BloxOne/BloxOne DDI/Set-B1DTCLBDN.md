@@ -5,32 +5,39 @@ online version:
 schema: 2.0.0
 ---
 
-# New-B1DTCLBDN
+# Set-B1DTCLBDN
 
 ## SYNOPSIS
-Creates a new LBDN object within BloxOne DTC
+Updates a LBDN object within BloxOne DTC
 
 ## SYNTAX
 
+### Default
 ```
-New-B1DTCLBDN [-Name] <String> [[-Description] <String>] [-DNSView] <String> [[-Policy] <String>]
- [[-Precedence] <Int32>] [[-TTL] <Int32>] [[-State] <String>] [[-Tags] <Object>] [<CommonParameters>]
+Set-B1DTCLBDN -Name <String> [-NewName <String>] [-Description <String>] [-DNSView <String>] [-Policy <String>]
+ [-Precedence <Int32>] [-TTL <Int32>] [-State <String>] [-Tags <Object>] [<CommonParameters>]
+```
+
+### With ID
+```
+Set-B1DTCLBDN [-NewName <String>] [-Description <String>] [-DNSView <String>] [-Policy <String>]
+ [-Precedence <Int32>] [-TTL <Int32>] [-State <String>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to create a new LBDN object within BloxOne DTC
+This function is used to updates a LBDN object within BloxOne DTC
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-New-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 10
+Set-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 10 -TTL 10
 
 id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
  name                : exchange.company.corp.
  view                : dns/view/cs8f4833-4c44-4c4v-fgvd-jfggdfsta90
  dtc_policy          : @{policy_id=dtc/policy/vduvr743-vcfr-jh9g-vcr3-fdbsv7bcd7; name=Exchange-Policy}
- precedence          : 100
+ precedence          : 10
  comment             : Exchange Servers LBDN
  disabled            : False
  ttl                 : 10
@@ -38,25 +45,56 @@ id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
  inheritance_sources :
 ```
 
+### EXAMPLE 2
+```powershell
+Get-B1DTCLBDN -Name 'exchange.company.corp' | Set-B1DTCLBDN -Description 'NEW LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 60 -State Disabled
+
+id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
+ name                : exchange.company.corp.
+ view                : dns/view/cs8f4833-4c44-4c4v-fgvd-jfggdfsta90
+ dtc_policy          : @{policy_id=dtc/policy/vduvr743-vcfr-jh9g-vcr3-fdbsv7bcd7; name=Exchange-Policy}
+ precedence          : 100
+ comment             : NEW LBDN
+ disabled            : True
+ ttl                 : 60
+ tags                : 
+ inheritance_sources :
+```
+
 ## PARAMETERS
 
 ### -Name
-The name of the DTC LBDN object to create
+The name of the DTC LBDN object to update
+
+```yaml
+Type: String
+Parameter Sets: Default
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+{{ Fill NewName Description }}
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 1
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Description
-The description for the new LBDN object
+The new description for the DTC LBDN object
 
 ```yaml
 Type: String
@@ -64,29 +102,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -DNSView
-The DNS View to assign the new LBDN to
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Policy
-The Load Balancing Policy to use
+The new DNS View to assign to the DTC LBDN object
 
 ```yaml
 Type: String
@@ -94,14 +117,29 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Policy
+The new Load Balancing Policy to assign to the DTC LBDN object
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Precedence
-The LBDN Precedence value
+The new LBDN Precedence value
 
 ```yaml
 Type: Int32
@@ -109,7 +147,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: Named
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -125,15 +163,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: Named
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -State
-Whether or not the new LBDN is created as enabled or disabled.
-Defaults to enabled
+Whether or not the new LBDN is enabled or disabled.
 
 ```yaml
 Type: String
@@ -141,8 +178,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
-Default value: Enabled
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -156,9 +193,24 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+{{ Fill Object Description }}
+
+```yaml
+Type: Object
+Parameter Sets: With ID
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
