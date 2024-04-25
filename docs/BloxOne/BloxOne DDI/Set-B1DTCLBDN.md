@@ -79,7 +79,7 @@ Accept wildcard characters: False
 ```
 
 ### -NewName
-{{ Fill NewName Description }}
+Use -NewName to update the name of the DTC LBDN object
 
 ```yaml
 Type: String
@@ -200,7 +200,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The DTC LBDN Object(s) to update.
+Accepts pipeline input.
 
 ```yaml
 Type: Object
