@@ -13,8 +13,8 @@
 
 ### Breaking Changes
 
-|  **API Keys**  |
+|  **API Keys Will Need Updating!**  |
 |:-------------------------|
-| API Keys are converting to an encrypted format using Secure Strings. After updating to this version, any existing API keys need to be updated to avoid errors. |
-| The `Set-B1CSPAPIKey` function has been removed in favour of `Set-ibPSConfiguration -CSPAPIKey <ApiKey>` |
+| API Keys used by ibPS are converting to an encrypted format. After updating to this version, any existing API keys stored on your machine will need to be updated to avoid errors. |
+| This can be done by using `Set-ibPSConfiguration -CSPAPIKey <ApiKey>` |
 | See the <a href="https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/">Documentation</a> for further details |
