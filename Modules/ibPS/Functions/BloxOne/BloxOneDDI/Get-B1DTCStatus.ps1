@@ -62,8 +62,8 @@ function Get-B1DTCStatus {
         $Colours = @{
             "HEALTHY" = "Green"
             "ERROR" = "Red"
-            "NOTCONFIGURED" = "Gray"
-            "PRESUMEDHEALTHY" = "Gray"
+            "NOT_CONFIGURED" = "Gray"
+            "PRESUMED_HEALTHY" = "DarkYellow"
             "PENDING" = "Gray"
             "UNHEALTHY" = "Yellow"
             "WARNING" = "Yellow"
