@@ -9,6 +9,9 @@
     .PARAMETER Name
         The name of the DTC LBDN object to update
 
+    .PARAMETER NewName
+        Use -NewName to update the name of the DTC LBDN object
+
     .PARAMETER Description
         The new description for the DTC LBDN object
 
@@ -29,6 +32,9 @@
 
     .PARAMETER Tags
         Any tags you want to apply to the DTC LBDN
+
+    .PARAMETER Object
+        The DTC LBDN Object(s) to update. Accepts pipeline input.
 
     .EXAMPLE
        PS> Set-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 10 -TTL 10

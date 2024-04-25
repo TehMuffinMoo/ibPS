@@ -1,6 +1,6 @@
 - Add `Get-B1DTCLBDN`, `Get-B1DTCServer`, `Get-B1DTCHealthCheck`, `Get-B1DTCPool`, `Get-B1DTCPolicy` & `Get-B1DTCStatus` functions for new DTC feature
 - Add `New-B1DTCLBDN`, `New-B1DTCServer`, `New-B1DTCHealthCheck`, `New-B1DTCPool`, `New-B1DTCPolicy` & `New-B1DTCTopologyRule` functions for new DTC feature
-- Add `Set-B1DTCLBDN`, `Set-B1DTCServer`, `Set-B1DTCPool` & `Set-B1DTCPolicy` functions for new DTC feature
+- Add `Set-B1DTCLBDN`, `Set-B1DTCServer`, `Set-B1DTCHealthCheck`, `Set-B1DTCPool` & `Set-B1DTCPolicy` functions for new DTC feature
 - Add `Remove-B1DTCLBDN`, `Remove-B1DTCServer`, `Remove-B1DTCHealthCheck`, `Remove-B1DTCPool` & `Remove-B1DTCPolicy` functions for new DTC feature
 - Add `-CloudCheckTimeout` to `Deploy-B1Appliance`. Default increased from 120s to 300s
 - Fix regression where `-IncludeInheritance` was not working on `Get-B1DHCPConfigProfile`
