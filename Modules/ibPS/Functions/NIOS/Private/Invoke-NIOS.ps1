@@ -112,7 +112,7 @@
             WebSession = $script:WebSession
         }
         if ($SkipCertificateCheck -and ($PSVersionTable.PSVersion.ToString() -gt 7)) {
-            $Splat | Add-Member -MemberType NoteProperty -Name 'SkipCertificateCheck' -Value $SkipCertificateCheck
+            $Splat.SkipCertificateCheck = $SkipCertificateCheck
         }
         switch ($Method) {
             'GET' { 

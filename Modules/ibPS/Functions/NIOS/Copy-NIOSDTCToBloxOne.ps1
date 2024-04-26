@@ -8,7 +8,7 @@ function Copy-NIOSDTCToBloxOne {
     .DESCRIPTION
         This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to BloxOne DTC
 
-        BloxOne DDI only currently supports Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks. Unsupported Load Balancing Methods will fail, but unsupported Health Checks will be skipped gracefully.
+        BloxOne DDI only currently supports Round Robin, Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks. Unsupported Load Balancing Methods will fail, but unsupported Health Checks will be skipped gracefully.
 
     .PARAMETER B1DNSView
         The DNS View within BloxOne DDI in which to assign the new LBDNs to. The LBDNs will not initialise unless the zone(s) exist within the specified DNS View.
@@ -57,6 +57,12 @@ function Copy-NIOSDTCToBloxOne {
         'topology' = 'Topology'
     }
 
+    $ChecksArr = @{
+        'any' = 'Any'
+        'all' = 'All'
+        'quorum' = 'AtLeast'
+    }
+
     Write-Host "Querying BloxOne DNS View: $($B1DNSView)" -ForegroundColor Cyan
     if (!(Get-B1DNSView $B1DNSView -Strict)) {
         Write-Error "Unable to find DNS View: $($B1DNSView)"
@@ -64,7 +70,7 @@ function Copy-NIOSDTCToBloxOne {
     }
 
     Write-Host "Querying DTC LBDN: $($NIOSLBDN)" -ForegroundColor Cyan
-    $LBDNToMigrate = Invoke-NIOS -Method GET -Uri "dtc:lbdn?name=$($NIOSLBDN)&_return_fields%2b=auto_consolidated_monitors,disable,health,lb_method,name,patterns,persistence,pools,priority,types,use_ttl,ttl"
+    $LBDNToMigrate = Invoke-NIOS -Method GET -Uri "dtc:lbdn?name=$($NIOSLBDN)&_return_fields%2b=auto_consolidated_monitors,disable,health,lb_method,name,patterns,persistence,pools,priority,types,use_ttl,ttl" -SkipCertificateCheck
 
     if ($LBDNToMigrate) {
         if ($LBDNToMigrate.lb_method.ToLower() -notin $MethodArr.Keys) {
@@ -75,7 +81,7 @@ function Copy-NIOSDTCToBloxOne {
         $NewLBDNs = @()
         foreach ($Pool in $LBDNToMigrate.pools) {
             Write-Host "Querying DTC Pool: $($Pool.pool)" -ForegroundColor Cyan
-            $NIOSPool = Invoke-NIOS -Method GET -Uri "$($Pool.pool)?_return_fields%2b=auto_consolidated_monitors,availability,consolidated_monitors,monitors,disable,health,lb_alternate_method,lb_dynamic_ratio_alternate,lb_dynamic_ratio_preferred,lb_preferred_method,name,quorum,servers,use_ttl"
+            $NIOSPool = Invoke-NIOS -Method GET -Uri "$($Pool.pool)?_return_fields%2b=auto_consolidated_monitors,availability,consolidated_monitors,monitors,disable,health,lb_alternate_method,lb_dynamic_ratio_alternate,lb_dynamic_ratio_preferred,lb_preferred_method,name,quorum,servers,use_ttl" -SkipCertificateCheck
             if ($NIOSPool.lb_preferred_method.ToLower() -notin $MethodArr.Keys) {
                 Write-Error "Unsupported Pool Load Balancing Method ($($NIOSPool.lb_preferred_method.ToLower())) for: $($Pool)"
             }
@@ -86,10 +92,12 @@ function Copy-NIOSDTCToBloxOne {
                 "monitors" = @()
                 "ttl" = $(if ($($NIOSPool.ttl)) { $NIOSPool.ttl } else { $null } )
                 "ratio" = $Pool.ratio
+                "availability" = $NIOSPool.availability.toLower()
+                "quorum" = $NIOSPool.quorum
             }
             foreach ($Server in $NIOSPool.servers) {
                 Write-Host "Querying DTC Server: $($Server.server)" -ForegroundColor Cyan
-                $NIOSServer = Invoke-NIOS -Method GET -Uri "$($Server.server)?_return_fields%2b=auto_create_host_record,disable,health,host,monitors,name,use_sni_hostname"
+                $NIOSServer = Invoke-NIOS -Method GET -Uri "$($Server.server)?_return_fields%2b=auto_create_host_record,disable,health,host,monitors,name,use_sni_hostname" -SkipCertificateCheck
                 $NewServer = @{
                     "weight" = $Server.ratio
                     "AutoCreateResponses" = $NIOSServer.auto_create_host_record
@@ -126,7 +134,7 @@ function Copy-NIOSDTCToBloxOne {
                 }
                 if ($Process) {
                     Write-Host "Querying DTC Monitor: $($Monitor)" -ForegroundColor Cyan
-                    $NIOSMonitor = Invoke-NIOS -Method GET -Uri "$($Monitor)?_return_fields%2b=$($ReturnFields -join ',')"
+                    $NIOSMonitor = Invoke-NIOS -Method GET -Uri "$($Monitor)?_return_fields%2b=$($ReturnFields -join ',')" -SkipCertificateCheck
                     $NewPool.monitors += $NIOSMonitor
                 }
             }
@@ -159,8 +167,6 @@ function Copy-NIOSDTCToBloxOne {
             "Pools" = $NewPools
         }
         
-        $Results | ConvertTo-Json -Depth 5
-        
         if ($ApplyChanges) {
             ## Create DTC Pool(s), Servers(s) & Associations
             $PoolList = @()
@@ -169,7 +175,7 @@ function Copy-NIOSDTCToBloxOne {
                     $ServerSplat = @{
                         "Name" = $MigrationServer.name
                         "State" = $(if ($($MigrationServer.disable)) { "Disabled" } else { "Enabled" })
-                        "AutoCreateResponses" = $(if ($($MigrationServer.AutoCreateResponses)) { "Disabled" } else { "Enabled" })
+                        "AutoCreateResponses" = $(if ($($MigrationServer.AutoCreateResponses)) { "Enabled" } else { "Disabled" })
                     }
                     if ($MigrationServer.fqdn) {
                         $ServerSplat.FQDN = $MigrationServer.fqdn
@@ -187,6 +193,8 @@ function Copy-NIOSDTCToBloxOne {
                     "Name" = $MigrationPool.name
                     "LoadBalancingType" = $MethodArr[$MigrationPool.method]
                     "Servers" = $(if ($MigrationPool.method -eq "ratio") { ($MigrationPool.Servers | Select *,@{name="ratio-host";expression={"$($_.name):$($_.weight)"}}).'ratio-host' } else { $MigrationPool.Servers.name })
+                    "PoolHealthyWhen" = $ChecksArr[$MigrationPool.availability]
+                    "PoolHealthyCount" = $MigrationPool.quorum
                 }
                 if ($MigrationPool.ttl) {
                     $PoolSplat.TTL = $MigrationPool.ttl
@@ -197,7 +205,7 @@ function Copy-NIOSDTCToBloxOne {
                 } else {
                     Write-Host "Failed to create DTC Pool $($PoolSplat.Name)" -ForegroundColor Red
                 }
-                $PoolName = $(if ($MigrationPool.method -eq 'ratio') { "$($MigrationPool.name):$($MigrationPool.ratio)" } else { $($MigrationPool.name) })
+                $PoolName = $(if ($Results.Policy.LoadBalancingMethod -eq 'ratio') { "$($MigrationPool.name):$($MigrationPool.ratio)" } else { $($MigrationPool.name) })
                 $PoolList += $PoolName
             }
             
@@ -230,6 +238,8 @@ function Copy-NIOSDTCToBloxOne {
     
             ## Need to populate Topology Rulesets where applicable
 
+        } else {
+            $Results | ConvertTo-Json -Depth 5
         }
     } else {
         Write-Error "Error - Unable to find LBDN: $($NIOSLBDN)"
