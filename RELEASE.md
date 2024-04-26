@@ -1,1 +1,2 @@
 - Minor bug fixes
+- Add `Copy-NIOSDTCToBloxOne` function to enable migration of Dynamic Traffic Control (DTC) LBDNs from NIOS to the new DTC in BloxOne DDI.
