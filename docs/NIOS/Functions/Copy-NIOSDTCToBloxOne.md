@@ -98,11 +98,12 @@ Accept wildcard characters: False
 
 ### -LBDNTransform
 Use this parameter to transform the DTC LBDN FQDN from an old to new domain.
+
 Example: -Transform 'dtc.mydomain.com:b1dtc.mydomain.com'
 
 |           NIOS DTC          |        BloxOne DDI DTC        |
 |-----------------------------|-------------------------------|
-| myservice.dtc.mydomain.com --\> myservice.b1dtc.mydomain.com |
+| myservice.dtc.mydomain.com  | myservice.b1dtc.mydomain.com  |
 
 ```yaml
 Type: PSObject
