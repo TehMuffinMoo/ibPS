@@ -16,13 +16,13 @@ THIS IS STILL A WORK IN PROGRESS, IT IS CURRENTLY UNDERGOING SMOKE TESTING AND H
 
 ```
 Copy-NIOSDTCToBloxOne [-NIOSLBDN] <Object> [-B1DNSView] <Object> [[-PolicyName] <String>] [-ApplyChanges]
- [<CommonParameters>]
+ [[-LBDNTransform] <PSObject>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to BloxOne DTC
 
-BloxOne DDI only currently supports Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks.
+BloxOne DDI only currently supports Round Robin, Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks.
 Unsupported Load Balancing Methods will fail, but unsupported Health Checks will be skipped gracefully.
 
 ## EXAMPLES
@@ -92,6 +92,26 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LBDNTransform
+Use this parameter to transform the DTC LBDN FQDN from an old to new domain.
+Example: -Transform 'dtc.mydomain.com:b1dtc.mydomain.com'
+
+|           NIOS DTC          |        BloxOne DDI DTC        |
+|-----------------------------|-------------------------------|
+| myservice.dtc.mydomain.com --\> myservice.b1dtc.mydomain.com |
+
+```yaml
+Type: PSObject
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
