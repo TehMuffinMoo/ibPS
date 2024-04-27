@@ -20,11 +20,13 @@ function Copy-NIOSDTCToBloxOne {
         Optionally specify a DTC Policy name. DTC Policies are new in BloxOne DDI, so by default they will inherit the name of the DTC LBDN if this parameter is not specified.
 
     .PARAMETER LBDNTransform
-        Use this parameter to transform the DTC LBDN FQDN from an old to new domain. Example: -Transform 'dtc.mydomain.com:b1dtc.mydomain.com'
+        Use this parameter to transform the DTC LBDN FQDN from an old to new domain.
+        
+        Example: -Transform 'dtc.mydomain.com:b1dtc.mydomain.com'
 
         |           NIOS DTC          |        BloxOne DDI DTC        |
         |-----------------------------|-------------------------------|
-        | myservice.dtc.mydomain.com --> myservice.b1dtc.mydomain.com |
+        | myservice.dtc.mydomain.com  | myservice.b1dtc.mydomain.com  |
 
     .PARAMETER ApplyChanges
         Using this switch will apply the changes, otherwise the expected changes will just be displayed.
