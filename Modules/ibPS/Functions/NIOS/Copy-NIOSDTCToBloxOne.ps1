@@ -301,8 +301,6 @@ function Copy-NIOSDTCToBloxOne {
                 }
             }
     
-            ## Create the DTC Health Check(s)
-    
             ## Need to populate Topology Rulesets where applicable
 
         } else {
