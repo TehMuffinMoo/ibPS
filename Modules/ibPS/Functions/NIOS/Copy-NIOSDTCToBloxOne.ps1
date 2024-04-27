@@ -47,7 +47,8 @@ function Copy-NIOSDTCToBloxOne {
         [Parameter(Mandatory=$true)]
         $B1DNSView,
         [String]$PolicyName,
-        [Switch]$ApplyChanges
+        [Switch]$ApplyChanges,
+        [PSCustomObject]$LBDNTransform
     )
 
     $MethodArr = @{
@@ -81,7 +82,7 @@ function Copy-NIOSDTCToBloxOne {
         $NewLBDNs = @()
         foreach ($Pool in $LBDNToMigrate.pools) {
             Write-Host "Querying DTC Pool: $($Pool.pool)" -ForegroundColor Cyan
-            $NIOSPool = Invoke-NIOS -Method GET -Uri "$($Pool.pool)?_return_fields%2b=auto_consolidated_monitors,availability,consolidated_monitors,monitors,disable,health,lb_alternate_method,lb_dynamic_ratio_alternate,lb_dynamic_ratio_preferred,lb_preferred_method,name,quorum,servers,use_ttl" -SkipCertificateCheck
+            $NIOSPool = Invoke-NIOS -Method GET -Uri "$($Pool.pool)?_return_fields%2b=auto_consolidated_monitors,availability,consolidated_monitors,monitors,disable,health,lb_alternate_method,lb_dynamic_ratio_alternate,lb_dynamic_ratio_preferred,lb_preferred_method,name,quorum,servers,use_ttl,ttl" -SkipCertificateCheck
             if ($NIOSPool.lb_preferred_method.ToLower() -notin $MethodArr.Keys) {
                 Write-Error "Unsupported Pool Load Balancing Method ($($NIOSPool.lb_preferred_method.ToLower())) for: $($Pool)"
             }
@@ -118,7 +119,7 @@ function Copy-NIOSDTCToBloxOne {
                 $Process = $true
                 Switch -Wildcard ($Monitor) {
                     "dtc:monitor:http*" {
-                        $ReturnFields += @('content_check','content_check_input','content_check_op','content_extract_group','content_extract_type','enable_sni','port','request','result','result_code','validate_cert')
+                        $ReturnFields += @('content_check','content_check_input','content_check_op','content_extract_group','content_extract_type','enable_sni','port','request','result','result_code','validate_cert','secure')
                     }
                     "dtc:monitor:tcp*" {
                         $ReturnFields += @('port')
@@ -142,6 +143,16 @@ function Copy-NIOSDTCToBloxOne {
         }
     
         foreach ($Pattern in $LBDNToMigrate.patterns) {
+            if ($LBDNTransform) {
+                foreach ($LBDNTransformRule in $LBDNTransform) {
+                    $LBDNTransformSplit = $LBDNTransformRule -split ':'
+                    $From = $LBDNTransformSplit[0]
+                    $To = $LBDNTransformSplit[1]
+                    if ($Pattern -like "*$($From)*") {
+                        $Pattern = $Pattern.Replace($From,$To)
+                    }
+                }
+            }
             $NewLBDNs += [PSCustomObject]@{
                 "Name" = $Pattern
                 "Description" = $LBDNToMigrate.name
@@ -189,12 +200,68 @@ function Copy-NIOSDTCToBloxOne {
                         Write-Host "Failed to create DTC Server $($ServerSplat.Name)" -ForegroundColor Red
                     }
                 }
+                $HealthChecks = @()
+                $B1HealthChecks = Get-B1DTCHealthCheck
+                foreach ($MigrationMonitor in $MigrationPool.monitors) {
+                    $UseDefault = $false
+                    switch ($MigrationMonitor.comment) {
+                        "Default ICMP health monitor" {
+                            if ('Default ICMP health check' -in $B1HealthChecks.comment) {
+                                $B1DTCHealthCheckName = 'ICMP health check'
+                                $UseDefault = $true
+                            }
+                        }
+                        "Default HTTP health monitor" {
+                            if ('Default HTTP health check' -in $B1HealthChecks.comment) {
+                                $B1DTCHealthCheckName = 'ICMP health check'
+                                $UseDefault = $true
+                            }
+                        }
+                    }
+                    if (!($UseDefault)) {
+                        $MonitorType = (($MigrationMonitor._ref -split ':')[2] -split '/')[0]
+                        if ($MonitorType -in @('http','icmp','tcp')) {
+                            if ($MigrationMonitor.timeout -gt $MigrationMonitor.interval) {
+                                Write-Host "Health Check timeout exceeds its interval, setting them to match.." -ForegroundColor Magenta
+                                $MigrationMonitor.timeout = $MigrationMonitor.interval
+                            }
+                            $HealthCheckSplat = @{
+                                "Name" = $MigrationMonitor.name
+                                "Description" = $MigrationMonitor.comment
+                                "Type" = $MonitorType
+                                "Interval" = $MigrationMonitor.interval
+                                "Timeout" = $MigrationMonitor.timeout
+                                "RetryUp" =  $MigrationMonitor.retry_up
+                                "RetryDown" =  $MigrationMonitor.retry_down
+                            }
+                            if ($MonitorType -in @('http','tcp')) {
+                                $HealthCheckSplat.Port = $MigrationMonitor.port
+                            }
+                            if ($MonitorType -eq 'http') {
+                                $HealthCheckSplat.HTTPRequest = $MigrationMonitor.request
+                                $HealthCheckSplat.StatusCodes = $MigrationMonitor.result_code
+                                $HealthCheckSplat.UseHTTPS = $MigrationMonitor.secure
+                            }
+                            $B1DTCHealthCheck = New-B1DTCHealthCheck @HealthCheckSplat
+                            $B1DTCHealthCheckName = $B1DTCHealthCheck.name
+                        } else {
+                            Write-Host "Found unsupported DTC Monitor. BloxOne DTC currently supports TCP, HTTP or ICMP Health Checks, so this one will be skipped: $($Monitor)" -ForegroundColor Red
+                        }
+                    }
+                    if ($B1DTCHealthCheck.id) {
+                        Write-Host "Successfully created DTC Health Check: $($B1DTCHealthCheck.name)" -ForegroundColor Green
+                        $HealthChecks += $B1DTCHealthCheckName
+                    } else {
+                        Write-Host "Failed to create DTC Policy $($MigrationMonitor.name)" -ForegroundColor Red
+                    }
+                }
                 $PoolSplat = @{
                     "Name" = $MigrationPool.name
                     "LoadBalancingType" = $MethodArr[$MigrationPool.method]
                     "Servers" = $(if ($MigrationPool.method -eq "ratio") { ($MigrationPool.Servers | Select *,@{name="ratio-host";expression={"$($_.name):$($_.weight)"}}).'ratio-host' } else { $MigrationPool.Servers.name })
                     "PoolHealthyWhen" = $ChecksArr[$MigrationPool.availability]
                     "PoolHealthyCount" = $MigrationPool.quorum
+                    "HealthChecks" = $HealthChecks
                 }
                 if ($MigrationPool.ttl) {
                     $PoolSplat.TTL = $MigrationPool.ttl
