@@ -13,7 +13,7 @@
         Filter results by Description. Whilst this is here, the API does not currently support filtering by description. (01/04/24)
 
     .PARAMETER ReturnItems
-        Optionally return the list of domains contained within the Named List.
+        Optionally return the list of domains contained within the Named List. Only required when -id is not specified.
 
     .PARAMETER Limit
         Use this parameter to limit the quantity of results.
