@@ -31,13 +31,34 @@ These are referred to and displayed as "Custom Lists" within the CSP.
 
 ### EXAMPLE 1
 ```powershell
-Get-B1NamedList -Limit 1
+Get-B1NamedList -Limit 1 -ReturnItems
 
 confidence_level : HIGH
 created_time     : 4/13/2023 12:51:56PM
 description      : 
 id               : 123456
 item_count       : 14
+items            : {somebaddomain.com,anotherbaddomain.com, andanother...}
+items_described  : {@{description=Added from Dossier; item=somebaddomain.com},@{description=Added from Dossier; item=anotherbaddomain.com}}
+name             : main_blacklist
+policies         : {Main, Corporate}
+tags             : 
+threat_level     : HIGH
+type             : custom_list
+updated_time     : 4/3/2024 9:49:28AM
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1NamedList -id 123456
+
+confidence_level : HIGH
+created_time     : 4/13/2023 12:51:56PM
+description      : 
+id               : 123456
+item_count       : 14
+items            : {somebaddomain.com,anotherbaddomain.com, andanother...}
+items_described  : {@{description=Added from Dossier; item=somebaddomain.com},@{description=Added from Dossier; item=anotherbaddomain.com}}
 name             : main_blacklist
 policies         : {Main, Corporate}
 tags             : 
