@@ -1,4 +1,4 @@
-﻿function Get-B1NamedList {
+﻿function Get-B1CustomList {
     <#
     .SYNOPSIS
         Retrieves a named list (Custom List) from BloxOne Threat Defense

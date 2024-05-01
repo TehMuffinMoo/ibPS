@@ -1,31 +1,31 @@
 ﻿function Set-B1Host {
     <#
     .SYNOPSIS
-        Updates an existing BloxOneDDI Host
+        Updates an existing BloxOne Host
 
     .DESCRIPTION
-        This function is used to update an existing BloxOneDDI Host
+        This function is used to update an existing BloxOne Host
 
     .PARAMETER Name
-        The name of the BloxOneDDI host to update. If -IP is specified, the Name parameter will overwrite the existing display name.
+        The name of the BloxOne Host to update. If -IP is specified, the Name parameter will overwrite the existing display name.
 
     .PARAMETER IP
-        The IP of the BloxOneDDI host to update.
+        The IP of the BloxOne Host to update.
 
     .PARAMETER TimeZone
-        The TimeZone to set the BloxOneDDI host to, i.e "Europe/London"
+        The TimeZone to set the BloxOne Host to, i.e "Europe/London"
 
     .PARAMETER Space
-        The IPAM space where the BloxOneDDI host is located
+        The name of the IP Space to assign the BloxOne Host to
 
     .PARAMETER Description
-        The description to update the BloxOneDDI Host to
+        The description to update the BloxOne Host to
 
-    .PARAMETER NoIPSpace
-        This parameter is required when applying changes to BloxOneDDI Hosts which are not assigned to an IPAM Space
+    .PARAMETER Location
+        The updated Location for the specific BloxOne Host. Using the value 'None' will set it to Empty
 
     .PARAMETER Tags
-        A list of tags to apply to this BloxOneDDI Host. This will overwrite existing tags.
+        A list of tags to apply to this BloxOne Host. This will overwrite existing tags.
 
     .PARAMETER id
         The id of the host to update. Accepts pipeline input
@@ -47,37 +47,36 @@
       [String]$Space,
       [String]$TimeZone,
       [String]$Description,
+      [String]$Location,
       [Parameter(ParameterSetName="Default")]
       [switch]$NoIPSpace,
       [System.Object]$Tags,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object
     )
 
     process {
 
-      if ($id) {
-        $B1Host = Get-B1Host -id $id
+      if ($Object) {
+        $SplitID = $Object.id.split('/')
+        if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/host") {
+            Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/host' objects as input"
+            return $null
+        } else {
+          $B1Host = $Object
+        }
       } else {
         if ($IP) {
-          if ($NoIPSpace) {
-              $B1Host = Get-B1Host -IP $IP -NoIPSpace:$NoIPSpace
-          } else {
-              $B1Host = Get-B1Host -IP $IP -Space $Space
-          }
+          $B1Host = Get-B1Host -IP $IP -Strict
           if (!($B1Host)) {
               Write-Host "On-Prem Host $IP does not exist." -ForegroundColor Gray
           }
         } elseif ($Name) {
-          if ($NoIPSpace) {
-              $B1Host = Get-B1Host -Name $Name -NoIPSpace:$NoIPSpace -Strict
-          } else {
-              $B1Host = Get-B1Host -Name $Name -Space $Space -Strict
-          }
+          $B1Host = Get-B1Host -Name $Name -Strict
           if (!($B1Host)) {
               Write-Host "On-Prem Host $Name does not exist." -ForegroundColor Gray
           }
@@ -85,7 +84,6 @@
       }
 
       if ($B1Host) {
-
         if ($Name) {
           $B1Host.display_name = $Name
         }
@@ -104,6 +102,27 @@
               $B1Host | Add-Member -MemberType NoteProperty -Name "description" -Value $Description
           }
         }
+        if ($Location) {
+          if ($Location -eq 'None') {
+            if ($B1Host.location) {
+              $B1Host.location_id = $null
+            } else {
+                $B1Host | Add-Member -MemberType NoteProperty -Name "location_id" -Value $null
+            }
+          } else {
+            $LocationID = (Get-B1Location -Name $Location -Strict).id
+            if ($LocationID) {
+              if ($B1Host.location) {
+                $B1Host.location_id = $LocationID
+              } else {
+                  $B1Host | Add-Member -MemberType NoteProperty -Name "location_id" -Value $LocationID
+              }
+            } else {
+              Write-Error "Unable to find Location: $($Location)"
+              return $null
+            }
+          }
+        }
         if ($Tags) {
           if ($B1Host.tags) {
               $B1Host.tags = $Tags
@@ -114,12 +133,12 @@
 
         $hostID = $B1Host.id.replace("infra/host/","")
 
-        $splat = $B1Host | Select-Object * -ExcludeProperty configs,created_at | ConvertTo-Json -Depth 10 -Compress
+        $splat = $B1Host | Select-Object * -ExcludeProperty id,configs,created_at | ConvertTo-Json -Depth 10 -Compress
         $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$hostID" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($($Results.id) -eq $($B1Host.id)) {
-          Write-Host "Updated BloxOneDDI Host Configuration $($B1Host.display_name) successfuly." -ForegroundColor Green
+          Write-Host "Updated BloxOne Host Configuration $($B1Host.display_name) successfuly." -ForegroundColor Green
         } else {
-          Write-Host "Failed to update BloxOneDDI Host Configuration on $($B1Host.display_name)." -ForegroundColor Red
+          Write-Host "Failed to update BloxOne Host Configuration on $($B1Host.display_name)." -ForegroundColor Red
         }
       }
     }
