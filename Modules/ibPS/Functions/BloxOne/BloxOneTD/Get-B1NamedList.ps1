@@ -12,6 +12,9 @@
     .PARAMETER Description
         Filter results by Description. Whilst this is here, the API does not currently support filtering by description. (01/04/24)
 
+    .PARAMETER ReturnItems
+        Optionally return the list of domains contained within the Named List.
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results.
 
@@ -34,7 +37,19 @@
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .EXAMPLE
-        PS> Get-B1NamedList
+        PS> Get-B1NamedList -Limit 1
+
+        confidence_level : HIGH
+        created_time     : 4/13/2023 12:51:56PM
+        description      : 
+        id               : 123456
+        item_count       : 14
+        name             : main_blacklist
+        policies         : {Main, Corporate}
+        tags             : 
+        threat_level     : HIGH
+        type             : custom_list
+        updated_time     : 4/3/2024 9:49:28AM
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -49,10 +64,11 @@
       [parameter(ParameterSetName="Default")]
       [String]$Description,
       [Parameter(ParameterSetName="Default")]
+      [Switch]$ReturnItems,
+      [Parameter(ParameterSetName="Default")]
       [Int]$Limit,
       [Parameter(ParameterSetName="Default")]
       [Int]$Offset,
-      [Parameter(ParameterSetName="Default")]
       [String[]]$Fields,
       [Parameter(ParameterSetName="Default")]
       [String]$OrderBy,
@@ -60,54 +76,61 @@
       [String]$OrderByTag,
       [parameter(ParameterSetName="Default")]
       [Switch]$Strict,
-      [parameter(ParameterSetName="With ID")]
-      [Int]$id
+      [Parameter(
+        ValueFromPipelineByPropertyName = $true,
+        ParameterSetName="ID",
+        Mandatory=$true
+      )]
+      [String]$id
     )
 
-    $MatchType = Match-Type $Strict
+    process {
+        $MatchType = Match-Type $Strict
 
-    [System.Collections.ArrayList]$Filters = @()
-    [System.Collections.ArrayList]$QueryFilters = @()
-    if ($Name) {
-        $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
-    }
-    if ($Description) {
-        $Filters.Add("description$($MatchType)`"$Description`"") | Out-Null
-    }
-    if ($id) {
-        $Filters.Add("id==$id") | Out-Null
-    }
-    if ($Filters) {
-        $Filter = Combine-Filters $Filters
-        $QueryFilters.Add("_filter=$Filter") | Out-Null
-    }
-    if ($Limit) {
-        $QueryFilters.Add("_limit=$Limit") | Out-Null
-    }
-    if ($Offset) {
-        $QueryFilters.Add("_offset=$Offset") | Out-Null
-    }
-    if ($Fields) {
-        $Fields += "id"
-        $QueryFilters += "_fields=$($Fields -join ",")"
-    }
-    if ($OrderBy) {
-        $QueryFilters += "_order_by=$($OrderBy)"
-    }
-    if ($OrderByTag) {
-        $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null
-    }
-    if ($QueryFilters) {
-        $QueryString = ConvertTo-QueryString $QueryFilters
-    }
-    Write-DebugMsg -Filters $Filters
-    if ($QueryFilters) {
-        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } else {
-        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-
-    if ($Results) {
-        return $Results
+        [System.Collections.ArrayList]$Filters = @()
+        [System.Collections.ArrayList]$QueryFilters = @()
+        if ($Name) {
+            $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
+        }
+        if ($Description) {
+            $Filters.Add("description$($MatchType)`"$Description`"") | Out-Null
+        }
+        if ($Filters) {
+            $Filter = Combine-Filters $Filters
+            $QueryFilters.Add("_filter=$Filter") | Out-Null
+        }
+        if ($Limit) {
+            $QueryFilters.Add("_limit=$Limit") | Out-Null
+        }
+        if ($Offset) {
+            $QueryFilters.Add("_offset=$Offset") | Out-Null
+        }
+        if ($Fields) {
+            $Fields += "id"
+            $QueryFilters += "_fields=$($Fields -join ",")"
+        }
+        if ($OrderBy) {
+            $QueryFilters += "_order_by=$($OrderBy)"
+        }
+        if ($OrderByTag) {
+            $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null
+        }
+        if ($QueryFilters) {
+            $QueryString = ConvertTo-QueryString $QueryFilters
+        }
+        Write-DebugMsg -Filters $Filters
+        if ($id) {
+            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($id)$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        } else {
+            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        }
+    
+        if ($ReturnItems) {
+            $Results = $Results | Get-B1NamedList
+        }
+    
+        if ($Results) {
+            return $Results
+        }
     }
 }
