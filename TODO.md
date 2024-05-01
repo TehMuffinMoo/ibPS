@@ -8,6 +8,9 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] New-B1NamedList
 - [ ] Set-B1NamedList
 - [ ] Remove-B1NamedList
+- [ ] New-B1BypassCode
+- [ ] Set-B1BypassCode
+- [ ] Remove-B1BypassCode
 - [ ] Add discovery APIs when GA
 
 ## Improvements

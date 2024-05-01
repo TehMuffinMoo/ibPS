@@ -3,4 +3,5 @@
 - Add `Get-B1Location`, `New-B1Location`, `Set-B1Location` & `Remove-B1Location` functions for managing Locations within BloxOne DDI
 - Add `-Location` parameter to `Set-B1Host` and `New-B1Host`
 - Add `Get-B1NamedList`
+- Add `Get-B1BypassCode`
 - Removed `-NoIPSpace` parameter from `Set-B1Host`
