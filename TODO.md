@@ -8,6 +8,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] New-B1NamedList
 - [ ] Set-B1NamedList
 - [ ] Remove-B1NamedList
+- [ ] Add discovery APIs when GA
 
 ## Improvements
 - [ ] Add `-Tags` to Set-B1ForwardNSG
