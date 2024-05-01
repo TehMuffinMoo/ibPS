@@ -5,9 +5,9 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] New-B1ForwardNSG
 - [ ] New-B1DNSConfigProfile
 - [ ] Set-B1DNSConfigProfile
-- [ ] New-B1NamedList
-- [ ] Set-B1NamedList
-- [ ] Remove-B1NamedList
+- [ ] New-B1CustomList
+- [ ] Set-B1CustomList
+- [ ] Remove-B1CustomList
 - [ ] New-B1BypassCode
 - [ ] Set-B1BypassCode
 - [ ] Remove-B1BypassCode
