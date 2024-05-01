@@ -28,20 +28,20 @@ This function is used to create a new Location within BloxOne Cloud
 New-B1Location -Name "Madrid" -Description "Real Madrid Museum" -Address "Estadio Santiago Bernabeu Avenida Concha Espina" -PostCode "28036" -State "Madrid" -Country "Spain" -ContactName "Curator" -ContactEmail "Curator@realmadrid.com"
 
 # Address                                                                           City   Country PostCode State               longitude latitude
-    - -------                                                                           ----   ------- -------- -----               --------- --------
-    Santiago Bernabeu Stadium, 1, Avenida de Concha Espina, Hispanoamérica, Chamartín Madrid Spain   28036    Community of Madrid    -3.687   40.453
+- -------                                                                           ----   ------- -------- -----               --------- --------
+Santiago Bernabeu Stadium, 1, Avenida de Concha Espina, Hispanoamérica, Chamartín Madrid Spain   28036    Community of Madrid    -3.687   40.453
 
-    Do you want to replace the address information with those listed? (Yes/No): Yes
+Do you want to replace the address information with those listed? (Yes/No): Yes
 
-    address      : @{address=Santiago Bernabeu Stadium, 1, Avenida de Concha Espina, Hispanoamérica, Chamartín; city=Madrid; country=Spain; postal_code=28036; state=Community of Madrid}
-    contact_info : @{email=Curator@realmadrid.com; name=Curator}
-    created_at   : 2024-05-01T12:22:09.849259517Z
-    description  : Real Madrid Museum
-    id           : infra/location/fsf44f43g45gh45h4g34tgvgrdh6jtrhbcx
-    latitude     : 40.4530225
-    longitude    : -3.68742195874704
-    name         : Madrid
-    updated_at   : 2024-05-01T12:22:09.849259517Z
+address      : @{address=Santiago Bernabeu Stadium, 1, Avenida de Concha Espina, Hispanoamérica, Chamartín; city=Madrid; country=Spain; postal_code=28036; state=Community of Madrid}
+contact_info : @{email=Curator@realmadrid.com; name=Curator}
+created_at   : 2024-05-01T12:22:09.849259517Z
+description  : Real Madrid Museum
+id           : infra/location/fsf44f43g45gh45h4g34tgvgrdh6jtrhbcx
+latitude     : 40.4530225
+longitude    : -3.68742195874704
+name         : Madrid
+updated_at   : 2024-05-01T12:22:09.849259517Z
 ```
 
 ## PARAMETERS
