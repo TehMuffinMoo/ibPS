@@ -1,4 +1,4 @@
-- Minor bug fixes
+- Fix bug with `Get-B1DTCStatus` when objects are in a specific status
 - Add `Copy-NIOSDTCToBloxOne` function to enable migration of Dynamic Traffic Control (DTC) LBDNs from NIOS to the new DTC in BloxOne DDI.
 - Add `Get-B1Location`, `New-B1Location`, `Set-B1Location` & `Remove-B1Location` functions for managing Locations within BloxOne DDI
 - Add `Get-B1NamedList`
