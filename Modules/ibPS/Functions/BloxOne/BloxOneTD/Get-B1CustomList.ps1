@@ -37,7 +37,7 @@
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .EXAMPLE
-        PS> Get-B1NamedList -Limit 1 -ReturnItems
+        PS> Get-B1CustomList -Limit 1 -ReturnItems
 
         confidence_level : HIGH
         created_time     : 4/13/2023 12:51:56PM
@@ -54,7 +54,7 @@
         updated_time     : 4/3/2024 9:49:28AM
 
     .EXAMPLE
-        PS> Get-B1NamedList -id 123456
+        PS> Get-B1CustomList -id 123456
 
         confidence_level : HIGH
         created_time     : 4/13/2023 12:51:56PM
@@ -145,7 +145,7 @@
         }
     
         if ($ReturnItems) {
-            $Results = $Results | Get-B1NamedList
+            $Results = $Results | Get-B1CustomList
         }
     
         if ($Results) {
