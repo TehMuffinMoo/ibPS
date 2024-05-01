@@ -1,3 +1,6 @@
+# To Do List
+The list of items below are those which are not yet implemented within ibPS. Once implemented, they are removed from this list and added to the [release notes](https://github.com/TehMuffinMoo/ibPS/blob/dev/RELEASE.md).
+
 ## New Functions
 - [ ] New-B1ForwardNSG
 - [ ] New-B1DNSConfigProfile
