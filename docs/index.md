@@ -315,23 +315,8 @@ Get-B1SOCInsightEvents           | ![Implemented](https://badgen.net/badge/Statu
 Get-B1SOCInsightIndicators       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
 Set-B1SOCInsight                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
 
-
-
-
-## To-Do
-All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested, where updates are then posted to main.
-
-
-### Replace old for new APIs
-This is a work in progress.
-
-Old Cmdlet           | New Cmdlet        | Old API Endpoint     | New API Endpoint    | Status
----------------------|------------------ | -------------------- | ------------------- | --------
-Get-B1DNSHost        | Get-B1DNSService  | /dns/host            | /dns/service        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1DNSHost        | Set-B1DNSService  | /dns/host            | /dns/service        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Get-B1DHCPHost       | Get-B1DHCPService | /dhcp/host           | /dhcp/service       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Get-B1DHCPHost       | Set-B1DHCPService | /dhcp/host           | /dhcp/service       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-
+## Development Lifecycle
+All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested. Once these changes are merged into [main branch](https://github.com/TehMuffinMoo/ibPS/tree/main), Github actions are used to package both the PowerShell Module and its documentation and subsequently publish to PowerShell Gallery.
 
 ## Resources
 This PowerShell Module makes use of the following InfoBlox APIs;
