@@ -19,7 +19,7 @@ Set-B1Location -Name <String> [-NewName <String>] [-Description <String>] [-Addr
  [-ContactPhone <String>] [<CommonParameters>]
 ```
 
-### With ID
+### Pipeline
 ```
 Set-B1Location [-NewName <String>] [-Description <String>] [-Address <String>] [-City <String>]
  [-State <String>] [-PostCode <String>] [-Country <String>] [-ContactEmail <String>] [-ContactName <String>]
@@ -236,11 +236,12 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The Location Object.
+Accepts pipeline input from Get-B1Location
 
 ```yaml
 Type: Object
-Parameter Sets: With ID
+Parameter Sets: Pipeline
 Aliases:
 
 Required: True
