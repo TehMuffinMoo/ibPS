@@ -269,6 +269,7 @@ Remove-B1HAGroup                 | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1DHCPConfigProfile       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
 Remove-B1DNSConfigProfile        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSConfigProfile
 Remove-B1InternalDomainList      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
+Remove-B1Location                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Location
 Remove-B1DTCServer               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCServer
 Remove-B1DTCPool                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPool
 Remove-B1DTCPolicy               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy
@@ -285,6 +286,7 @@ Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Statu
 Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1FixedAddress
 Set-B1ForwardNSG                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1ForwardNSG
 Set-B1ForwardZone                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1ForwardZone
+Set-B1Location                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Location
 Set-B1Host                       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
 Set-B1Range                      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Range
 Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Record
