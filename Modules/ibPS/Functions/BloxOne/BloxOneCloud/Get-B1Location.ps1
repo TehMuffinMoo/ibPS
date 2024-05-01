@@ -57,15 +57,15 @@ function Get-B1Location {
     .EXAMPLE
         PS> Get-B1Location -Name "Madrid"
 
-            address      : @{address=Santiago Bernabeu Stadium, 1, Avenida de Concha Espina, Hispanoamérica, Chamartín; city=Madrid; country=Spain; postal_code=28036; state=Community of Madrid}
-            contact_info : @{email=Curator@realmadrid.com; name=Curator}
-            created_at   : 2024-05-01T12:22:09.849259517Z
-            description  : Real Madrid Museum
-            id           : infra/location/fsf44f43g45gh45h4g34tgvgrdh6jtrhbcx
-            latitude     : 40.4530225
-            longitude    : -3.68742195874704
-            name         : Madrid
-            updated_at   : 2024-05-01T12:22:09.849259517Z
+        address      : @{address=Santiago Bernabeu Stadium, 1, Avenida de Concha Espina, Hispanoamérica, Chamartín; city=Madrid; country=Spain; postal_code=28036; state=Community of Madrid}
+        contact_info : @{email=Curator@realmadrid.com; name=Curator}
+        created_at   : 2024-05-01T12:22:09.849259517Z
+        description  : Real Madrid Museum
+        id           : infra/location/fsf44f43g45gh45h4g34tgvgrdh6jtrhbcx
+        latitude     : 40.4530225
+        longitude    : -3.68742195874704
+        name         : Madrid
+        updated_at   : 2024-05-01T12:22:09.849259517Z
         
     .FUNCTIONALITY
         BloxOneDDI

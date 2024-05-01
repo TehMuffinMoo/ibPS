@@ -20,7 +20,7 @@ function Remove-B1Location {
     .EXAMPLE
         PS> Get-B1Location -Name "Madrid" | Remove-B1Location
 
-            Successfully deleted Location: Madrid
+        Successfully deleted Location: Madrid
 
     .FUNCTIONALITY
         BloxOneDDI
