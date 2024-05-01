@@ -8,24 +8,24 @@ schema: 2.0.0
 # Set-B1Host
 
 ## SYNOPSIS
-Updates an existing BloxOneDDI Host
+Updates an existing BloxOne Host
 
 ## SYNTAX
 
 ### Default
 ```
 Set-B1Host [-Name <String>] [-IP <String>] [-Space <String>] [-TimeZone <String>] [-Description <String>]
- [-NoIPSpace] [-Tags <Object>] [<CommonParameters>]
+ [-Location <String>] [-NoIPSpace] [-Tags <Object>] [<CommonParameters>]
 ```
 
-### With ID
+### Pipeline
 ```
-Set-B1Host [-Space <String>] [-TimeZone <String>] [-Description <String>] [-Tags <Object>] -id <String>
- [<CommonParameters>]
+Set-B1Host [-Space <String>] [-TimeZone <String>] [-Description <String>] [-Location <String>] [-Tags <Object>]
+ -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to update an existing BloxOneDDI Host
+This function is used to update an existing BloxOne Host
 
 ## EXAMPLES
 
@@ -37,7 +37,7 @@ Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Eu
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI host to update.
+The name of the BloxOne Host to update.
 If -IP is specified, the Name parameter will overwrite the existing display name.
 
 ```yaml
@@ -53,7 +53,7 @@ Accept wildcard characters: False
 ```
 
 ### -IP
-The IP of the BloxOneDDI host to update.
+The IP of the BloxOne Host to update.
 
 ```yaml
 Type: String
@@ -68,7 +68,7 @@ Accept wildcard characters: False
 ```
 
 ### -Space
-The IPAM space where the BloxOneDDI host is located
+The name of the IP Space to assign the BloxOne Host to
 
 ```yaml
 Type: String
@@ -83,7 +83,7 @@ Accept wildcard characters: False
 ```
 
 ### -TimeZone
-The TimeZone to set the BloxOneDDI host to, i.e "Europe/London"
+The TimeZone to set the BloxOne Host to, i.e "Europe/London"
 
 ```yaml
 Type: String
@@ -98,7 +98,23 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description to update the BloxOneDDI Host to
+The description to update the BloxOne Host to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Location
+The updated Location for the specific BloxOne Host.
+Using the value 'None' will set it to Empty
 
 ```yaml
 Type: String
@@ -113,7 +129,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoIPSpace
-This parameter is required when applying changes to BloxOneDDI Hosts which are not assigned to an IPAM Space
+{{ Fill NoIPSpace Description }}
 
 ```yaml
 Type: SwitchParameter
@@ -128,7 +144,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tags
-A list of tags to apply to this BloxOneDDI Host.
+A list of tags to apply to this BloxOne Host.
 This will overwrite existing tags.
 
 ```yaml
@@ -143,19 +159,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the host to update.
-Accepts pipeline input
+### -Object
+{{ Fill Object Description }}
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Pipeline
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

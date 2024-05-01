@@ -5,74 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1NamedList
+# Get-B1BypassCode
 
 ## SYNOPSIS
-Retrieves a named list (Custom List) from BloxOne Threat Defense
+Retrieves a list of Bypass Codes from BloxOne Cloud
 
 ## SYNTAX
 
 ### Default (Default)
 ```
-Get-B1NamedList [-Name <String>] [-Description <String>] [-ReturnItems] [-Limit <Int32>] [-Offset <Int32>]
- [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-Strict] [<CommonParameters>]
+Get-B1BypassCode [-Name <String>] [-Description <String>] [-Limit <Int32>] [-Offset <Int32>]
+ [-Fields <String[]>] [-OrderBy <String>] [-Strict] [<CommonParameters>]
 ```
 
-### ID
+### With ID
 ```
-Get-B1NamedList [-Fields <String[]>] -id <String> [<CommonParameters>]
+Get-B1BypassCode [-Fields <String[]>] [-access_key <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve named lists from BloxOne Threat Defense.
-These are referred to and displayed as "Custom Lists" within the CSP.
+This function is used to query a list of Bypass Codes from BloxOne Cloud
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1NamedList -Limit 1 -ReturnItems
-
-confidence_level : HIGH
-created_time     : 4/13/2023 12:51:56PM
-description      : 
-id               : 123456
-item_count       : 14
-items            : {somebaddomain.com,anotherbaddomain.com, andanother...}
-items_described  : {@{description=Added from Dossier; item=somebaddomain.com},@{description=Added from Dossier; item=anotherbaddomain.com}}
-name             : main_blacklist
-policies         : {Main, Corporate}
-tags             : 
-threat_level     : HIGH
-type             : custom_list
-updated_time     : 4/3/2024 9:49:28AM
-```
-
-### EXAMPLE 2
-```powershell
-Get-B1NamedList -id 123456
-
-confidence_level : HIGH
-created_time     : 4/13/2023 12:51:56PM
-description      : 
-id               : 123456
-item_count       : 14
-items            : {somebaddomain.com,anotherbaddomain.com, andanother...}
-items_described  : {@{description=Added from Dossier; item=somebaddomain.com},@{description=Added from Dossier; item=anotherbaddomain.com}}
-name             : main_blacklist
-policies         : {Main, Corporate}
-tags             : 
-threat_level     : HIGH
-type             : custom_list
-updated_time     : 4/3/2024 9:49:28AM
+Get-B1BypassCode
 ```
 
 ## PARAMETERS
 
 ### -Name
 Filter results by Name.
-Whilst this is here, the API does not currently support filtering by name.
-(01/04/24)
 
 ```yaml
 Type: String
@@ -88,8 +52,6 @@ Accept wildcard characters: False
 
 ### -Description
 Filter results by Description.
-Whilst this is here, the API does not currently support filtering by description.
-(01/04/24)
 
 ```yaml
 Type: String
@@ -99,22 +61,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ReturnItems
-Optionally return the list of domains contained within the Named List.
-Only required when -id is not specified.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Default
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -182,22 +128,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OrderByTag
-Optionally return the list ordered by a particular tag value.
-Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
-
-```yaml
-Type: String
-Parameter Sets: Default
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Strict
 Use strict filter matching.
 By default, filters are searched using wildcards where possible.
@@ -215,18 +145,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-Filter the results by id
+### -access_key
+{{ Fill access_key Description }}
 
 ```yaml
 Type: String
-Parameter Sets: ID
+Parameter Sets: With ID
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
