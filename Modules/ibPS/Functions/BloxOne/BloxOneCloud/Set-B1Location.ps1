@@ -39,6 +39,9 @@ function Set-B1Location {
     .PARAMETER ContactPhone
         The new contact phone number for the specified location
 
+    .PARAMETER Object
+        The Location Object. Accepts pipeline input from Get-B1Location
+
     .EXAMPLE
         PS> Get-B1Location -Name "Madrid" | Set-B1Location -NewName "Rome" -Description "Rome Office (Moved from Madrid)" -Address "1 Via Cavour" -PostCode "00184" -State "Rome" -Country "Italy" -ContactName "Curator" -ContactEmail "Curator@rome.com"
 
@@ -93,7 +96,7 @@ function Set-B1Location {
         [String]$ContactPhone,
         [Parameter(
             ValueFromPipeline = $true,
-            ParameterSetName="With ID",
+            ParameterSetName="Pipeline",
             Mandatory=$true
         )]
         [System.Object]$Object
