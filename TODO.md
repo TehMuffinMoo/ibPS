@@ -10,7 +10,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Remove-B1CustomList
 - [ ] New-B1BypassCode
 - [ ] Set-B1BypassCode
-- [ ] Remove-B1BypassCode
+- [X] Remove-B1BypassCode
 - [ ] Add discovery APIs when GA
 
 ## Improvements
