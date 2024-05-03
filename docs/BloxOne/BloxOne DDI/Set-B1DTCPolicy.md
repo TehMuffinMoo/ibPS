@@ -96,7 +96,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description for the new policy object
+The new description for the policy object
 
 ```yaml
 Type: String

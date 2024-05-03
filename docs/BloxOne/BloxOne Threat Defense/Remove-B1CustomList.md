@@ -5,55 +5,59 @@ online version:
 schema: 2.0.0
 ---
 
-# Remove-B1BypassCode
+# Remove-B1CustomList
 
 ## SYNOPSIS
-Removes a bypass code from BloxOne Cloud
+Removes a Custom List from BloxOne Threat Defense
 
 ## SYNTAX
 
-### Default
+### Default (Default)
 ```
-Remove-B1BypassCode -Name <String> [<CommonParameters>]
+Remove-B1CustomList [-Name <String>] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Remove-B1BypassCode -Access_Key <Object> [<CommonParameters>]
+Remove-B1CustomList -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to remove a bypass code from BloxOne Cloud
+This function is used to remove named lists from BloxOne Threat Defense.
+These are referred to and displayed as Custom Lists within the CSP.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1BypassCode -Name 'My Bypass Code' | Remove-B1BypassCode
-
-Successfully deleted Bypass Code: My Bypass Code
+Get-B1CustomList | Where-Object {$_.name -eq "My Custom List"} | Remove-B1CustomList
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the bypass code to remove
+The name of the Custom List to remove.
+
+Whilst this is here, the API does not currently support filtering by name.
+(01/04/24)
+
+For now, you should instead use pipeline to remove objects as shown in the examples.
 
 ```yaml
 Type: String
 Parameter Sets: Default
 Aliases:
 
-Required: True
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Access_Key
-The Access Key of the bypass code to remove.
-Accepts pipeline input from Get-B1BypassCode
+### -Object
+The Custom List Object.
+This accepts pipeline input from Get-B1CustomList
 
 ```yaml
 Type: Object
@@ -63,7 +67,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
