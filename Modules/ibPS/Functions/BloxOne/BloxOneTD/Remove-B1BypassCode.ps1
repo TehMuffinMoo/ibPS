@@ -9,7 +9,7 @@
     .PARAMETER Name
         The name of the bypass code to remove
 
-    .PARAMETER AccessKey
+    .PARAMETER Access_Key
         The Access Key of the bypass code to remove
 
     .PARAMETER Object
