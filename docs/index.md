@@ -270,6 +270,7 @@ Remove-B1HAGroup                 | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1DHCPConfigProfile       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
 Remove-B1DNSConfigProfile        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSConfigProfile
 Remove-B1InternalDomainList      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
+Remove-B1CustomList              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1CustomList
 Remove-B1Location                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Location
 Remove-B1DTCServer               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCServer
 Remove-B1DTCPool                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPool
@@ -299,6 +300,7 @@ Start-B1Service                  | ![Implemented](https://badgen.net/badge/Statu
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Set-B1TideDataProfile            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TideDataProfile
 Set-B1InternalDomainList         | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
+Set-B1CustomList                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1CustomList
 Remove-B1SecurityPolicy          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
 Remove-B1NetworkList             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1NetworkList
 Get-B1DossierLookup              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1DossierLookup

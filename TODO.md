@@ -3,11 +3,12 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 
 ## New Functions
 - [ ] New-B1ForwardNSG
+- [ ] New-B1AuthoritativeNSG
 - [ ] New-B1DNSConfigProfile
 - [ ] Set-B1DNSConfigProfile
-- [ ] New-B1CustomList
-- [ ] Set-B1CustomList
-- [ ] Remove-B1CustomList
+- [X] New-B1CustomList
+- [X] Set-B1CustomList
+- [X] Remove-B1CustomList
 - [ ] New-B1BypassCode
 - [ ] Set-B1BypassCode
 - [X] Remove-B1BypassCode

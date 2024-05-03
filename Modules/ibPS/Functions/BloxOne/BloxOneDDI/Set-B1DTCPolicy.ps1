@@ -13,7 +13,7 @@
         Use -NewName to update the name of the DTC Policy object
 
     .PARAMETER Description
-        The description for the new policy object
+        The new description for the policy object
 
     .PARAMETER LoadBalancingType
         The Load Balancing Type to use (Round Robin / Ratio / Global Availability)
@@ -185,8 +185,6 @@
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
 
-        $NewObj | ConvertTo-Json -Depth 5
-       
         $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
         if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
             $Results | Select-Object -ExpandProperty result

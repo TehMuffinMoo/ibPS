@@ -58,7 +58,7 @@
         )
       } | ConvertTo-Json -Depth 2
       $Result = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists" -Data $JSON
-      if ((Get-B1InternalDomainList -Name $Name -Strict).id) {
+      if ((Get-B1InternalDomainList -Name $Name -Strict -EA SilentlyContinue -WA SilentlyContinue).id) {
         Write-Error "Failed to delete Internal Domain list: $($Name) / $($id)"
         break
       } else {

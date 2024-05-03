@@ -2,6 +2,6 @@
 - Add `Copy-NIOSDTCToBloxOne` function to enable migration of Dynamic Traffic Control (DTC) LBDNs from NIOS to the new DTC in BloxOne DDI.
 - Add `Get-B1Location`, `New-B1Location`, `Set-B1Location` & `Remove-B1Location` functions for managing Locations within BloxOne DDI
 - Add `-Location` parameter to `Set-B1Host` and `New-B1Host`
-- Add `Get-B1CustomList`
+- Add `Get-B1CustomList`, `New-B1CustomList`, `Set-B1CustomList` & `Remove-B1CustomList`
 - Add `Get-B1BypassCode` & `Remove-B1BypassCode`
 - Removed `-NoIPSpace` parameter from `Set-B1Host`

@@ -43,7 +43,7 @@
       }
 
       $Result = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/access_codes/$($Access_Key)"
-      if (Get-B1BypassCode -Name $Name -Strict) {
+      if (Get-B1BypassCode -Name $Name -Strict -EA SilentlyContinue -WA SilentlyContinue) {
         Write-Error "Failed to delete Bypass Code: $($Access_Key)"
         break
       } else {
