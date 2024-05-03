@@ -27,8 +27,8 @@
     .PARAMETER Tags
         A list of tags to apply to this BloxOne Host. This will overwrite existing tags.
 
-    .PARAMETER id
-        The id of the host to update. Accepts pipeline input
+    .PARAMETER Object
+        The host object to update. Accepts pipeline input from Get-B1Host
 
     .EXAMPLE
         PS> Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
@@ -49,7 +49,6 @@
       [String]$Description,
       [String]$Location,
       [Parameter(ParameterSetName="Default")]
-      [switch]$NoIPSpace,
       [System.Object]$Tags,
       [Parameter(
         ValueFromPipeline = $true,
