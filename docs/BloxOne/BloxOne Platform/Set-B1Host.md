@@ -15,13 +15,13 @@ Updates an existing BloxOne Host
 ### Default
 ```
 Set-B1Host [-Name <String>] [-IP <String>] [-Space <String>] [-TimeZone <String>] [-Description <String>]
- [-Location <String>] [-NoIPSpace] [-Tags <Object>] [<CommonParameters>]
+ [-Location <String>] [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Set-B1Host [-Space <String>] [-TimeZone <String>] [-Description <String>] [-Location <String>] [-Tags <Object>]
- -Object <Object> [<CommonParameters>]
+Set-B1Host [-Space <String>] [-TimeZone <String>] [-Description <String>] [-Location <String>] -Object <Object>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -128,28 +128,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NoIPSpace
-{{ Fill NoIPSpace Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Default
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Tags
 A list of tags to apply to this BloxOne Host.
 This will overwrite existing tags.
 
 ```yaml
 Type: Object
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
@@ -160,7 +145,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The host object to update.
+Accepts pipeline input from Get-B1Host
 
 ```yaml
 Type: Object
