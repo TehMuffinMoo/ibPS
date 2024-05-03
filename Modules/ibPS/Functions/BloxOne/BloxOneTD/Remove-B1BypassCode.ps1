@@ -10,10 +10,7 @@
         The name of the bypass code to remove
 
     .PARAMETER Access_Key
-        The Access Key of the bypass code to remove
-
-    .PARAMETER Object
-        The Bypass Code object to remove. Expects pipeline input from Get-B1BypassCode
+        The Access Key of the bypass code to remove. Accepts pipeline input from Get-B1BypassCode
 
     .EXAMPLE
         PS> Get-B1BypassCode -Name 'My Bypass Code' | Remove-B1BypassCode
