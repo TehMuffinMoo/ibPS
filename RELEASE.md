@@ -4,4 +4,5 @@
 - Add `-Location` parameter to `Set-B1Host` and `New-B1Host` to set the location of the host
 - Add `Get-B1CustomList`, `New-B1CustomList`, `Set-B1CustomList` & `Remove-B1CustomList` functions for managing custom lists
 - Add `Get-B1BypassCode` & `Remove-B1BypassCode` to manage bypass codes
+- Add `Get-B1ApplicationFilter` & `Get-B1CategoryFilter` functions to manage BloxOne Threat Defense filters
 - Removed `-NoIPSpace` parameter from `Set-B1Host` as it was not necessary.

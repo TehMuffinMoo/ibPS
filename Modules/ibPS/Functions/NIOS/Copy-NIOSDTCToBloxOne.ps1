@@ -5,6 +5,8 @@ function Copy-NIOSDTCToBloxOne {
 
         THIS FUNCTION IS CURRENTLY UNDERGOING SMOKE TESTING. FEEDBACK IS WELCOME!
 
+        Health Check HTTP Response Content conversion still to be implemented.
+
     .DESCRIPTION
         This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to BloxOne DTC
 

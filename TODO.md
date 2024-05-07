@@ -13,6 +13,8 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Set-B1BypassCode
 - [X] Remove-B1BypassCode
 - [ ] Add discovery APIs when GA
+- [X] Get-B1CategoryFilter
+- [X] Get-B1ApplicationFilter
 
 ## Improvements
 - [ ] Add `-Tags` to Set-B1ForwardNSG
@@ -22,6 +24,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Improve coverage of Pester Tests
 - [ ] Add `-CustomFilters` parameter to all functions where filters are supported. See [docs](https://ibps.readthedocs.io/en/dev/#-customfilters)
 - [X] Add support for response content filtering when creating or updating DTC health checks
+- [ ] Add support for response content conversion when using Copy-NIOSDTCToBloxOne
 
 ## Bug Fixes
 - [ ] Investigate occasional errors when using `Get-ibPSVersion -Cleanup`
