@@ -28,8 +28,7 @@ New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String>
 
 ### HTTP Health Check
 ```
-New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String> [-Port] <Int32> [-UseHTTPS] [-HTTPRequest] <String>  [-StatusCodes] <System.Object> [[-Interval] <Int32>]
- [[-Timeout] <Int32>] [[-RetryUp] <Int32>] [[-RetryDown] <Int32>] [[-State] <String>] [[-Tags] <Object>]
+New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String> [-Port] <Int32> [-UseHTTPS] [-HTTPRequest] <String> [[-StatusCodes] <Object>] [-ResponseBody] <String> [-ResponseBodyRegex] <String> [-ResponseHeader] <String> [[-ResponseHeaderRegex] <Object>] [[-Interval] <Int32>] [[-Timeout] <Int32>] [[-RetryUp] <Int32>] [[-RetryDown] <Int32>] [[-State] <String>] [[-Tags] <Object>]
  [<CommonParameters>]
 ```
 
@@ -258,6 +257,84 @@ Accept wildcard characters: False
 
 ### -StatusCodes
 The -StatusCodes parameter is used to specify the status codes to identify healthy status. This could be `"Any`" or a list of Status Codes
+
+!!! info
+    **This parameter is only available when `-Type` is HTTP**
+
+```yaml
+Type: System.Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResponseBody
+The -ResponseBody parameter is used to indicate the type of check to perform on the HTTP response body. (Found/Not Found/None)
+
+This is to be used in conjunction with `-ResponseBodyRegex`.
+
+!!! info
+    **This parameter is only available when `-Type` is HTTP**
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResponseBodyRegex
+The -ResponseBodyRegex parameter is used to specify the regular expression to test against the response body.
+
+This should be used in conjunction with `-ResponseBody` to indicate the expected result.
+
+!!! info
+    **This parameter is only available when `-Type` is HTTP**
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResponseHeader
+The -ResponseHeader parameter is used to indicate the type of check to perform on one or more response headers. (Found/Not Found/None)
+
+This is to be used in conjunction with `-ResponseHeaderRegex`.
+
+!!! info
+    **This parameter is only available when `-Type` is HTTP**
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResponseHeaderRegex
+The -ResponseHeaderRegex parameter is used to specify a list of response headers and the associated regular expression to test against it. See examples for usage.
 
 !!! info
     **This parameter is only available when `-Type` is HTTP**
