@@ -13,6 +13,8 @@ Used to migrate LBDNs from NIOS DTC to BloxOne DTC
 THIS FUNCTION IS CURRENTLY UNDERGOING SMOKE TESTING.
 FEEDBACK IS WELCOME!
 
+Health Check HTTP Response Content conversion still to be implemented.
+
 ## SYNTAX
 
 ```
