@@ -21,7 +21,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Replace API calls for `dhcp/host` with `dhcp/service`
 - [ ] Improve coverage of Pester Tests
 - [ ] Add `-CustomFilters` parameter to all functions where filters are supported. See [docs](https://ibps.readthedocs.io/en/dev/#-customfilters)
-- [ ] Add support for response content filtering when creating or updating DTC health checks
+- [X] Add support for response content filtering when creating or updating DTC health checks
 
 ## Bug Fixes
 - [ ] Investigate occasional errors when using `Get-ibPSVersion -Cleanup`

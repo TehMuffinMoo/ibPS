@@ -80,9 +80,7 @@
         port                           : 443
         https                          : True
         request                        : GET /owa/auth/logon.aspx HTTP/1.1
-                                        Host: webmail.company.corp
-                                        
-                                        
+                                         Host: webmail.company.corp
         codes                          : 
         metadata                       : 
         check_response_body            : True
