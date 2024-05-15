@@ -30,6 +30,7 @@ function Get-ibPSConfiguration {
   $CurrentConfig = [PSCustomObject]@{
     "CSP Url" = $(if ($ENV:B1CSPUrl) {$ENV:B1CSPUrl} else {'https://csp.infoblox.com'})
     "CSP API User" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser).name} else {'API Key Not Set'})
+    "CSP Account" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser -Account).name} else {'API Key Not Set'})
     "CSP API Key" = $(if ($ENV:B1APIKey) {if ($IncludeAPIKey) {Get-B1CSPAPIKey} else { "********" }} else {'API Key Not Set'})
     "ibPS Version" = $(Get-ibPSVersion)
     "ibPS Branch" = $(if ($ENV:IBPSBranch) {$ENV:IBPSBranch} else {'Unknown'})
