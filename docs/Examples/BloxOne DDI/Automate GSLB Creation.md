@@ -3,8 +3,8 @@ This example will show how you can automate the creation of GSLB objects using B
 
 ```powershell
 ## Create DTC Servers
-New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses
-New-B1DTCServer -Name 'Exchange Server B' -Description 'Exchange Server - Passive Node' -FQDN 'exchange-2.company.corp' -AutoCreateResponses
+New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses Enabled
+New-B1DTCServer -Name 'Exchange Server B' -Description 'Exchange Server - Passive Node' -FQDN 'exchange-2.company.corp' -AutoCreateResponses Enabled
 
 ## Create DTC Health Check
 New-B1DTCHealthCheck -Name 'Exchange HTTPS Check' -Type HTTP -UseHTTPS -Port 443 -HTTPRequest "GET /owa/auth/logon.aspx HTTP/1.1`nHost: webmail.company.corp"

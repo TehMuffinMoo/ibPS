@@ -35,7 +35,7 @@ function Get-ibPSConfiguration {
     "ibPS Branch" = $(if ($ENV:IBPSBranch) {$ENV:IBPSBranch} else {'Unknown'})
     "Debug Mode" = $(if ($ENV:IBPSDebug) {$ENV:IBPSDebug} else {'Disabled'})
     "Development Mode" = $(if ($ENV:IBPSDevelopment) {$ENV:IBPSDevelopment} else {'Disabled'})
+    "Telemetry Status" = $(if ($ENV:IBPSTelemetry) {$ENV:IBPSTelemetry} else {'Disabled'})
   }
-
   $CurrentConfig
 }

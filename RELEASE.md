@@ -6,3 +6,4 @@
 - Add `Get-B1BypassCode` & `Remove-B1BypassCode` to manage bypass codes
 - Add `Get-B1ApplicationFilter` & `Get-B1CategoryFilter` functions to manage BloxOne Threat Defense filters
 - Removed `-NoIPSpace` parameter from `Set-B1Host` as it was not necessary.
+- Add optional telemetry data, this is DISABLED by default and must be manually enabled using `Set-ibPSConfiguration -Telemetry Enabled`. The only data which is submitted is a random identifier, the ibPS Version and the ibPS function which was called (without arguments).

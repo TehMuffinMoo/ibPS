@@ -265,6 +265,7 @@ function Copy-NIOSDTCToBloxOne {
                 "ratio" = $Pool.ratio
                 "availability" = $NIOSPool.availability.toLower()
                 "quorum" = $NIOSPool.quorum
+                "disable" = $NIOSPool.disable
             }
             ## Build Servers
             foreach ($Server in $NIOSPool.servers) {
@@ -291,7 +292,7 @@ function Copy-NIOSDTCToBloxOne {
                 $Process = $true
                 Switch -Wildcard ($Monitor) {
                     "dtc:monitor:http*" {
-                        $ReturnFields += @('content_check','content_check_input','content_check_op','content_extract_group','content_extract_type','enable_sni','port','request','result','result_code','validate_cert','secure')
+                        $ReturnFields += @('content_check','content_check_input','content_check_op','content_check_regex','content_extract_group','content_extract_type','content_extract_value','enable_sni','port','request','result','result_code','validate_cert','secure')
                     }
                     "dtc:monitor:tcp*" {
                         $ReturnFields += @('port')
@@ -308,7 +309,20 @@ function Copy-NIOSDTCToBloxOne {
                 if ($Process) {
                     Write-Host "Querying DTC Monitor: $($Monitor)" -ForegroundColor Cyan
                     $NIOSMonitor = Invoke-NIOS -Method GET -Uri "$($Monitor)?_return_fields%2b=$($ReturnFields -join ',')" -SkipCertificateCheck
-                    $NewPool.monitors += $NIOSMonitor
+                    if ($NIOSMonitor.content_check -eq "EXTRACT") {
+                        Write-Host "Found unsupported DTC Monitor Regex. BloxOne DTC does not currently support multiple regex capture groups, so this one will be skipped: $($Monitor)" -ForegroundColor Red
+                    } else {
+                        if ($Monitor -like "dtc:monitor:http*") {
+                            if ($NIOSMonitor.content_check_input -eq "HEADERS" -or "ALL") {
+                                Write-Host "Found unsupported DTC Monitor configuration. BloxOne DTC does support checking HTTP Headers, but requires the header name is specified. As this is not available in NIOS, this portion of the health check will not be created: $($Monitor)" -ForegroundColor Yellow
+                                $NIOSMonitor.content_check_input = "BODY"
+                            }
+                            if ($NIOSMonitor.request -notlike "*HTTP/1.*") {
+                                $NIOSMonitor.request = $NIOSMonitor.request -Replace("`n`n$"," HTTP/1.1")
+                            }
+                        }
+                        $NewPool.monitors += $NIOSMonitor
+                    }
                 }
             }
             $NewPools += $NewPool
@@ -341,7 +355,7 @@ function Copy-NIOSDTCToBloxOne {
         }
         $NewPolicy = [PSCustomObject]@{
             "Name" = $PolicyName
-            "LoadBalancingMethod" = $LBDNToMigrate.lb_method.ToLower()
+            "LoadBalancingMethod" = $MethodArr[$LBDNToMigrate.lb_method.ToLower()]
             "rules" = @()
         }
         ## Process Topology Rules (Assigned to LBDN in NIOS)
@@ -445,6 +459,33 @@ function Copy-NIOSDTCToBloxOne {
                                 $HealthCheckSplat.HTTPRequest = $MigrationMonitor.request
                                 $HealthCheckSplat.StatusCodes = $MigrationMonitor.result_code
                                 $HealthCheckSplat.UseHTTPS = $MigrationMonitor.secure
+
+                                if ($MigrationMonitor.content_check -eq "NONE") {
+                                    $HealthCheckSplat.ResponseBody = "None"
+                                } else {
+                                    Switch ($MigrationMonitor.content_check_op) {
+                                        "EQ" {
+                                            $MonitorOp = "Found"
+                                        }
+                                        "NEQ" {
+                                            $MonitorOp = "NotFound"
+                                        }
+                                    }
+                                    Switch ($MigrationMonitor.content_check_input) {
+                                        "ALL" {
+                                            $HealthCheckSplat.ResponseBody = $MonitorOp
+                                            $HealthCheckSplat.ResponseBodyRegex = $MigrationMonitor.content_check_regex
+                                        }
+                                        "BODY" {
+                                            $HealthCheckSplat.ResponseBody = $MonitorOp
+                                            $HealthCheckSplat.ResponseBodyRegex = $MigrationMonitor.content_check_regex
+                                        }
+                                        # "HEADERS" {
+                                        #     $HealthCheckSplat.ResponseHeader = $MonitorOp
+                                        #     $HealthCheckSplat.ResponseHeaderRegexes = $MigrationMonitor.content_check_regex
+                                        # }
+                                    }
+                                }
                             }
                             if ($B1DTCHealthCheck = Get-B1DTCHealthCheck -Name $MigrationMonitor.name -Strict) {
                                 Write-Host "DTC Health Check already exists: $($B1DTCHealthCheck.name) - Skipping.." -ForegroundColor Yellow
@@ -469,6 +510,7 @@ function Copy-NIOSDTCToBloxOne {
                 $PoolSplat = @{
                     "Name" = $MigrationPool.name
                     "LoadBalancingType" = $MethodArr[$MigrationPool.method]
+                    "State" = $(if ($($MigrationPool.disable)) { "Disabled" } else { "Enabled" })
                     "Servers" = $(if ($MigrationPool.method -eq "ratio") { ($MigrationPool.Servers | Select *,@{name="ratio-host";expression={"$($_.name):$($_.weight)"}}).'ratio-host' } else { $MigrationPool.Servers.name })
                     "PoolHealthyWhen" = $ChecksArr[$MigrationPool.availability]
                     "PoolHealthyCount" = $MigrationPool.quorum

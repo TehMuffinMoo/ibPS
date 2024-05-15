@@ -109,6 +109,7 @@ function Invoke-CSP {
             Write-Error "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
         }
       }
+      New-ibPSTelemetry -Method $Method
       if ($Result) {
         if ($Result.error -ne $null) {
             switch ($StatusCode) {
