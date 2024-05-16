@@ -15,14 +15,14 @@ Updates an existing address block in BloxOneDDI IPAM
 ### Default
 ```
 Set-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Name <String>] [-DHCPOptions <Object>]
- [-Description <String>] [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>]
+ [-Description <String>] [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Tags <Object>]
  [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
-Set-B1AddressBlock [-Name <String>] [-DHCPOptions <Object>] [-Description <String>]
- [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] -id <String> [<CommonParameters>]
+Set-B1AddressBlock [-Name <String>] [-DHCPOptions <Object>] [-Description <String>] [-DHCPLeaseSeconds <Int32>]
+ [-DDNSDomain <String>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -137,13 +137,13 @@ Accept wildcard characters: False
 The default DHCP Lease duration in seconds
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -179,19 +179,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the address block to update.
-Accepts pipeline input
+### -Object
+{{ Fill Object Description }}
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

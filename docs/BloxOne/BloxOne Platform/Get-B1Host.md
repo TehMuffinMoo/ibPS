@@ -13,9 +13,10 @@ Queries a list of BloxOneDDI Hosts
 ## SYNTAX
 
 ```
-Get-B1Host [[-Name] <String>] [[-IP] <String>] [[-OPHID] <String>] [[-Space] <String>] [[-Limit] <Int32>]
- [[-Status] <String>] [-Detailed] [-BreakOnError] [-Reduced] [-Strict] [-NoIPSpace] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>] [<CommonParameters>]
+Get-B1Host [[-Name] <String>] [[-IP] <String>] [[-OPHID] <String>] [[-Space] <String>] [[-Status] <String>]
+ [-Detailed] [-Reduced] [-Strict] [-NoIPSpace] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [-BreakOnError] [[-id] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -90,22 +91,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Limit
-Used to limit the number of results.
-The default is 10001
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: 10001
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Status
 Return results based on host status
 
@@ -115,7 +100,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -123,21 +108,6 @@ Accept wildcard characters: False
 
 ### -Detailed
 Include service information with host details
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BreakOnError
-Whether to break out of the script/function if a host does not exist
 
 ```yaml
 Type: SwitchParameter
@@ -199,6 +169,37 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Limit
+Used to limit the number of results.
+The default is 10001
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: 10001
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -tfilter
 Use this parameter to filter the results returned by tag.
 
@@ -208,7 +209,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -224,7 +225,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -241,7 +242,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -257,8 +258,23 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BreakOnError
+Whether to break out of the script/function if a host does not exist
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -272,7 +288,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -14,12 +14,14 @@ Updates a Forward DNS Server Group in BloxOneDDI
 
 ### Default
 ```
-Set-B1ForwardNSG -Name <String> [-AddHosts] [-RemoveHosts] [-Hosts <Object>] [<CommonParameters>]
+Set-B1ForwardNSG -Name <String> [-NewName <String>] [-Description <String>] [-AddHosts] [-RemoveHosts]
+ [-Hosts <Object>] [-Tags <Object>] [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
-Set-B1ForwardNSG [-AddHosts] [-RemoveHosts] [-Hosts <Object>] -id <String> [<CommonParameters>]
+Set-B1ForwardNSG [-NewName <String>] [-Description <String>] [-AddHosts] [-RemoveHosts] [-Hosts <Object>]
+ [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,6 +32,11 @@ This function is used to update a Forward DNS Server Group in BloxOneDDI
 ### EXAMPLE 1
 ```powershell
 Set-B1ForwardNSG -Name "InfoBlox DTC" -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1ForwardNSG -Name "InfoBlox DTC" | Set-B1ForwardNSG -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -NewName "Infoblox DTC New"
 ```
 
 ## PARAMETERS
@@ -43,6 +50,36 @@ Parameter Sets: Default
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+Use -NewName to update the name of the Forward DNS Server Group
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Description
+The new description for the Forward DNS Server Group
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -94,19 +131,34 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the forward DNS server group to update.
-Accepts pipeline input
+### -Tags
+Any tags you want to apply to the forward NSG
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+The Forward DNS Server Group Object to update.
+Accepts pipeline input.
+
+```yaml
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

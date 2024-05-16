@@ -15,13 +15,15 @@ Updates an existing Authoritative Zone in BloxOneDDI
 ### Default
 ```
 Set-B1AuthoritativeZone -FQDN <String> [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
- -View <Object> [-Description <String>] [<CommonParameters>]
+ -View <Object> [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>]
+ [-Tags <Object>] [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
 Set-B1AuthoritativeZone [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
- [-Description <String>] -id <String> [<CommonParameters>]
+ [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>] [-Tags <Object>]
+ -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -127,19 +129,63 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the authoritative zone to update.
-Accepts pipeline input
+### -State
+Set whether the Forward Zone is enabled or disabled.
 
 ```yaml
 Type: String
-Parameter Sets: With ID
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NotifyExternalSecondaries
+Toggle whether to notify external secondary DNS Servers for this zone.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Tags
+{{ Fill Tags Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+{{ Fill Object Description }}
+
+```yaml
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
