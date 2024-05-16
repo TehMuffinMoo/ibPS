@@ -29,7 +29,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
   - [X] Set-B1AuthoritativeZone
   - [X] Set-B1DNSHost
   - [X] Set-B1ForwardNSG
-  - [ ] Set-B1ForwardZone
+  - [X] Set-B1ForwardZone
   - [ ] Set-B1DHCPConfigProfile
   - [ ] Set-B1DHCPGlobalConfig
   - [ ] Set-B1FixedAddress
