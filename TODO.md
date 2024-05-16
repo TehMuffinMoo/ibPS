@@ -38,6 +38,13 @@ The list of items below are those which are not yet implemented within ibPS. Onc
   - [ ] Set-B1Range
   - [ ] Set-B1Record
   - [ ] Set-B1Subnet
-
+  - [ ] Set-B1Location
+  - [ ] Set-B1APIKey
+  - [ ] Set-B1Host
+  - [ ] Set-B1CustomList
+  - [ ] Set-B1InternalDomainList
+  - [ ] Set-B1LookalikeTarget
+  - [ ] Set-B1SOCInsight
+  - [ ] Set-B1TideDataProfile
 ## Bug Fixes
 - [ ] Investigate occasional errors when using `Get-ibPSVersion -Cleanup`

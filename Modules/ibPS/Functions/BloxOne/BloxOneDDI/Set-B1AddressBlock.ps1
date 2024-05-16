@@ -73,14 +73,17 @@
     )
 
     process {
+        $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization')
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "ipam/address_block") {
                 Write-Error "Error. Unsupported pipeline object. This function only supports 'ipam/address_block' objects as input"
                 return $null
             }
-            if ($Object.inheritance_sources -eq $null) {
+            if (($DHCPLeaseSeconds -or $DDNSDomain) -and ($Object.inheritance_sources -eq $null)) {
                 $Object = Get-B1AddressBlock -id $Object.id -IncludeInheritance
+            } else {
+                $ObjectExclusions += "inheritance_sources"
             }
         } else {
             $Object = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance
@@ -89,7 +92,7 @@
                 return $null
             }
         }
-        $NewObj = $Object | Select-Object -ExcludeProperty id,utilization,utilization_v6,updated_at,created_at,federation,federated_realms,address,discovery_attrs,inheritance_parent,parent,protocol,space,usage,dhcp_utilization
+        $NewObj = $Object | Select-Object -ExcludeProperty $ObjectExclusions
         $NewObj.dhcp_config = $NewObj.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
 
         if ($Name) {
