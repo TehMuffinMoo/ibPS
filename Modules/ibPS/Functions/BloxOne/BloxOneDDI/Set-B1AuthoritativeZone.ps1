@@ -30,8 +30,11 @@
     .PARAMETER NotifyExternalSecondaries
         Toggle whether to notify external secondary DNS Servers for this zone.
 
-    .PARAMETER id
-        The id of the authoritative zone to update. Accepts pipeline input
+    .PARAMETER Tags
+        A list of tags to update on the authoritative zone. This will replace existing tags, so would normally be a combined list of existing and new tags
+
+    .PARAMETER Object
+        The Authoritative Zone Object to update. Accepts pipeline input
 
     .EXAMPLE
         PS> Set-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -AddAuthNSGs "Data Centre"

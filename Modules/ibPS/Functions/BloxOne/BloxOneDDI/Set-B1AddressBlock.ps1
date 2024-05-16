@@ -33,8 +33,8 @@
     .PARAMETER Tags
         A list of tags to update on the address block. This will replace existing tags, so would normally be a combined list of existing and new tags
 
-    .PARAMETER id
-        The id of the address block to update. Accepts pipeline input
+    .PARAMETER Object
+        The Address Block Object to update. Accepts pipeline input
 
     .EXAMPLE
         ## Example usage when combined with Get-B1DHCPOptionCode
