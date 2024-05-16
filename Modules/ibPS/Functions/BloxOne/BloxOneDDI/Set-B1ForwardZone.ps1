@@ -84,7 +84,7 @@
                 return $null
             }
         }
-        $NewObj = $Object | Select-Object -ExcludeProperty id,fqdn,mapped_subnet,mapping,parent,protocol_fqdn,updated_at,created_at,warnings,view
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,fqdn,mapped_subnet,mapping,parent,protocol_fqdn,updated_at,created_at,warnings,view
 
         if ($Description) {
             $NewObj.comment = $Description

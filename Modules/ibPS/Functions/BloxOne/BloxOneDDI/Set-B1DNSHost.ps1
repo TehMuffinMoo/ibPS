@@ -61,7 +61,7 @@
             }
         }
         if ($Object) {
-            $NewObj = $Object | Select-Object -ExcludeProperty id,site_id,provider_id,current_version,dfp,dfp_service,external_providers_metadata,ophid,address,name,anycast_addresses,comment,tags,associated_server.name,protocol_absolute_name
+            $NewObj = $Object | Select-Object * -ExcludeProperty id,site_id,provider_id,current_version,dfp,dfp_service,external_providers_metadata,ophid,address,name,anycast_addresses,comment,tags,associated_server.name,protocol_absolute_name
             if ($DNSConfigProfile) {
                 if ($DNSConfigProfile -eq 'None') {
                     $NewObj.associated_server = $null

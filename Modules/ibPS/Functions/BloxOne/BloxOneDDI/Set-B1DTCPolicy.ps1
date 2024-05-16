@@ -119,7 +119,7 @@
             'GlobalAvailability' = 'global_availability'
             'Topology' = 'topology'
         }
-        $NewObj = $Object | Select-Object -ExcludeProperty id,metadata
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,metadata
 
         if ($NewName) {
             $NewObj.name = $NewName
@@ -138,7 +138,7 @@
                 return $null
             }
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty rules
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty rules
         }
         if ($Pools) {
             $PoolIDs = @()
@@ -166,7 +166,7 @@
             }
             $NewObj.pools = $PoolIDs
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty pools
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty pools
         }
         if ($TTL) {
             $NewObj.ttl = $TTL

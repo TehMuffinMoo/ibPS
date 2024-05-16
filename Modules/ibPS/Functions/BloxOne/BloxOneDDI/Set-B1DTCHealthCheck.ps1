@@ -153,7 +153,7 @@
             }
         }
 
-        $NewObj = $Object | Select-Object -ExcludeProperty id,type,metadata
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,type,metadata
 
         $ObjectType = ($Object.id.Split('/')[1]).Split('_')[2]
 

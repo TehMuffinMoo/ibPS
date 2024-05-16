@@ -84,7 +84,7 @@ function Set-B1TideDataProfile {
               }
           }
         }
-        $splat = $TIDEDataProfile | Select-Object -ExcludeProperty id | ConvertTo-Json -Compress
+        $splat = $TIDEDataProfile | Select-Object * -ExcludeProperty id | ConvertTo-Json -Compress
         $Result = Invoke-CSP -Method "PUT" -Uri "$(Get-B1CSPUrl)/tide/admin/v1/resources/dataprofiles/$Name" -Data $splat | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
   
         if ($Result) {

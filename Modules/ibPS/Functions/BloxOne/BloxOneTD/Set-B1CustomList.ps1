@@ -143,7 +143,7 @@
             }
         }
         
-        $NewObj = $Object | Select-Object -ExcludeProperty created_time,updated_time,items,item_count,policies
+        $NewObj = $Object | Select-Object * -ExcludeProperty created_time,updated_time,items,item_count,policies
 
         if ($NewName) {
             $NewObj.name = $NewName

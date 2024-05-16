@@ -83,7 +83,7 @@
       }
 
       if ($Object) {
-        $NewObj = $Object | Select-Object -ExcludeProperty id
+        $NewObj = $Object | Select-Object * -ExcludeProperty id
 
         if ($NewName) {
             $NewObj.name = $NewName

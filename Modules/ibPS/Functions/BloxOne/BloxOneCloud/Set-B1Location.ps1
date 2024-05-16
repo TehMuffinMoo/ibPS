@@ -234,7 +234,7 @@ function Set-B1Location {
             $Object.latitude = $GeoCode.latitude
         }
         
-        $JSON = $Object | Select-Object -ExcludeProperty id,updated_at,created_at | ConvertTo-Json -Depth 5 -Compress
+        $JSON = $Object | Select-Object * -ExcludeProperty id,updated_at,created_at | ConvertTo-Json -Depth 5 -Compress
 
         $ObjectID = ($Object.id -Split ('/'))[2]
         $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))

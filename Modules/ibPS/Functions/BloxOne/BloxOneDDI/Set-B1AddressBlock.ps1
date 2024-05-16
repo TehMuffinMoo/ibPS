@@ -92,7 +92,7 @@
                 return $null
             }
         }
-        $NewObj = $Object | Select-Object -ExcludeProperty $ObjectExclusions
+        $NewObj = $Object | Select-Object * -ExcludeProperty $ObjectExclusions
         $NewObj.dhcp_config = $NewObj.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
 
         if ($Name) {
