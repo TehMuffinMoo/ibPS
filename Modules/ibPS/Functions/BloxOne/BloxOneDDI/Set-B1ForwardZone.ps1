@@ -12,6 +12,9 @@
     .PARAMETER View
         The DNS View the zone is located in
 
+    .PARAMETER Description
+        The new description for the Forward Zone
+
     .PARAMETER Forwarders
         A list of IPs/FQDNs to forward requests to. This will overwrite existing values
 
@@ -21,15 +24,24 @@
     .PARAMETER DNSServerGroups
         A list of Forward DNS Server Groups to assign to the zone. This will overwrite existing values
 
+    .PARAMETER ForwardOnly
+        Toggle the Forwarders Only option for this Forward Zone.
+
+    .PARAMETER State
+        Set whether the Forward Zone is enabled or disabled.
+
     .PARAMETER Tags
         Any tags you want to apply to the forward zone
 
-    .PARAMETER id
-        The id of the forward zone to update. Accepts pipeline input
+    .PARAMETER Object
+        The Forward Zone Object to update. Accepts pipeline input.
 
     .EXAMPLE
         PS> Set-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
    
+    .EXAMPLE
+        PS> Get-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" | Set-B1ForwardZone -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
+
     .FUNCTIONALITY
         BloxOneDDI
     
@@ -39,85 +51,89 @@
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$FQDN,
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [System.Object]$View,
+      [String]$Description,
       $Forwarders,
       [System.Object]$DNSHosts,
       [String]$DNSServerGroups,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
-      [System.Object]$View,
+      [ValidateSet('Enabled','Disabled')]
+      [String]$ForwardOnly,
+      [ValidateSet("Enabled","Disabled")]
+      [String]$State,
       [System.Object]$Tags,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
-
+      [System.Object]$Object
     )
 
     process {
-      if ($id) {
-        $ForwardZone = Get-B1ForwardZone -id $id
-      } else {
-        $ForwardZone = Get-B1ForwardZone -FQDN $FQDN
-      }
- 
-      if ($ForwardZone) {
-          $ForwardZoneUri = $ForwardZone.id
-  
-          $ForwardZonePatch = @{}
+        if ($Object) {
+            $SplitID = $Object.id.split('/')
+            if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/forward_zone") {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'dns/forward_zone' objects as input"
+                return $null
+            }
+        } else {
+            $Object = Get-B1ForwardZone -FQDN $FQDN -Strict
+            if (!($Object)) {
+                Write-Error "Unable to find Forward Zone: $($FQDN)"
+                return $null
+            }
+        }
+        $NewObj = $Object | Select-Object -ExcludeProperty id,fqdn,mapped_subnet,mapping,parent,protocol_fqdn,updated_at,created_at,warnings,view
 
-          if ($Forwarders) {
-              if ($Forwarders.GetType().Name -eq "Object[]") {
-                  $ExternalHosts = New-Object System.Collections.ArrayList
-                  foreach ($Forwarder in $Forwarders) {
-                      $ExternalHosts.Add(@{"address"=$Forwarder;"fqdn"=$Forwarder;}) | Out-Null
-                  }
-              } elseif ($Forwarders.GetType().Name -eq "ArrayList") {
-                  $ExternalHosts = $Forwarders
-              }
-          }
-                
-          if ($DNSHosts) {
-              $B1Hosts = New-Object System.Collections.ArrayList
-              foreach ($DNSHost in $DNSHosts) {
-                  $B1Hosts.Add((Get-B1DNSHost -Name $DNSHost).id) | Out-Null
-              }
-          }
-  
-          if ($DNSServerGroups) {
-              $B1ForwardNSGs = @()
-              foreach ($DNSServerGroup in $DNSServerGroups) {
-                  $B1ForwardNSGs += (Get-B1ForwardNSG -Name $DNSServerGroup).id
-              }
-          }
+        if ($Description) {
+            $NewObj.comment = $Description
+        }
+        if ($ForwardOnly) {
+            $NewObj.forward_only = $(if ($ForwardOnly -eq 'Enabled') { $true } else { $false })
+        }
+        if ($State) {
+            $NewObj.disabled = $(if ($State -eq 'Enabled') { $false } else { $true })
+        }
+        if ($Tags) {
+            $NewObj.tags = $Tags
+        }
+        if ($Forwarders) {
+            if ($Forwarders.GetType().Name -eq "Object[]") {
+                $ExternalHosts = New-Object System.Collections.ArrayList
+                foreach ($Forwarder in $Forwarders) {
+                    $ExternalHosts.Add(@{"address"=$Forwarder;"fqdn"=$Forwarder;}) | Out-Null
+                }
+            } elseif ($Forwarders.GetType().Name -eq "ArrayList") {
+                $ExternalHosts = $Forwarders
+            }
+            if ($ExternalHosts) {$NewObj.external_forwarders = $ExternalHosts}
+        }
+        if ($DNSHosts) {
+            $B1Hosts = New-Object System.Collections.ArrayList
+            foreach ($DNSHost in $DNSHosts) {
+                $B1Hosts.Add((Get-B1DNSHost -Name $DNSHost).id) | Out-Null
+            }
+            if ($B1Hosts) {$NewObj.hosts = $B1Hosts}
+        }
+        if ($DNSServerGroups) {
+            $B1ForwardNSGs = @()
+            foreach ($DNSServerGroup in $DNSServerGroups) {
+                $B1ForwardNSGs += (Get-B1ForwardNSG -Name $DNSServerGroup).id
+            }
+            if ($DNSServerGroups) {
+                $NewObj.nsgs = $B1ForwardNSGs
+                $NewObj.external_forwarders = @()
+                $NewObj.hosts = @()
+            }
+        }
+        $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
 
-          if ($ExternalHosts) {$ForwardZonePatch.external_forwarders = $ExternalHosts}
-          if ($B1Hosts) {$ForwardZonePatch.hosts = $B1Hosts}
-          if ($Tags) {$ForwardZonePatch.tags = $Tags}
-          if ($DNSServerGroups) {
-              $ForwardZonePatch.nsgs = $B1ForwardNSGs
-              $ForwardZonePatch.external_forwarders = @()
-              $ForwardZonePatch.hosts = @()
-          }
-
-          if ($ForwardZonePatch.Count -eq 0) {
-              Write-Host "Nothing to update." -ForegroundColor Gray
-          } else {
-              $splat = $ForwardZonePatch | ConvertTo-Json -Depth 10
-
-              $Result = Invoke-CSP -Method PATCH -Uri "$ForwardZoneUri" -Data $splat
-          
-              if (($Result | Select-Object -ExpandProperty result).id -eq $ForwardZone.id) {
-                  Write-Host "Updated Forward DNS Zone successfully: $($ForwardZone.fqdn)" -ForegroundColor Green
-                  return $Result | Select-Object -ExpandProperty result
-              } else {
-                  Write-Host "Failed to update Forward DNS Zone: $($ForwardZone.fqdn)" -ForegroundColor Red
-                  break
-              }
-          }
-  
-      } else {
-          Write-Host "The Forward Zone $FQDN$id does not exist." -ForegroundColor Red
-      }
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
 }

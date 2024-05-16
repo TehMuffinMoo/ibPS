@@ -10,13 +10,22 @@
         The name of the BloxOneDDI DNS Host
 
     .PARAMETER DNSConfigProfile
-        The name of the DNS Config Profile to apply to the DNS Host. This will overwrite the existing value.
+        The name of the DNS Config Profile to apply to the DNS Host. This will overwrite the existing value. Using the value 'None' will remove the DNS Config Profile from the host.
 
     .PARAMETER DNSName
-        The DNS FQDN to use for this DNS Server. This will overwrite the existing value.
+        The DNS FQDN to use for this DNS Server. This will overwrite the existing value. Using the value 'None' will remove the DNS Name from the host.
+
+    .PARAMETER Tags
+        Any tags you want to apply to the DNS Host
+
+    .PARAMETER Object
+        The DNS Host Object to update. Accepts pipeline input.
 
     .EXAMPLE
         PS> Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
+
+    .EXAMPLE
+        Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" | Set-B1DNSHost -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -25,39 +34,71 @@
         DNS
     #>
     param(
-        [Parameter(Mandatory=$true)]
+        [Parameter(ParameterSetName="Default",Mandatory=$true)]
         [String]$Name,
         [String]$DNSConfigProfile,
-        [String]$DNSName
+        [String]$DNSName,
+        [Parameter(
+          ValueFromPipeline = $true,
+          ParameterSetName="Object",
+          Mandatory=$true
+        )]
+        [System.Object]$Object
     )
-    $DNSHost = Get-B1DNSHost -Name $Name -Strict
-    if ($DNSHost) {
-      $splat = @{}
-        
-      if ($DNSConfigProfile) {
-        $DNSConfigProfileId = (Get-B1DNSConfigProfile -Name $DNSConfigProfile -Strict).id
-        $splat.inheritance_sources = @{
-          "kerberos_keys" = @{
-  	        "action" = "inherit"
+
+    process {
+        if ($Object) {
+          $SplitID = $Object.id.split('/')
+          if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/host") {
+              Write-Error "Error. Unsupported pipeline object. This function only supports 'dns/host' objects as input"
+              return $null
           }
-	    }
-        $splat.type = "bloxone_ddi"
-        $splat.associated_server = @{
-          "id" = $DNSConfigProfileId
+        } else {
+            $Object = Get-B1DNSHost -Name $Name -Strict
+            if (!($Object)) {
+                Write-Error "Unable to find Forward DNS Server Group: $($Name)"
+                return $null
+            }
         }
-      }
-
-      if ($DNSName) {
-        $splat.absolute_name = $DNSName
-      }
-
-      $splat = $splat | ConvertTo-Json
-      $Results = Invoke-CSP -Method PATCH -Uri $($DNSHost.id) -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-
-      if ($($Results.id) -eq $($DNSHost.id)) {
-          Write-Host "DNS Host: $($DNSHost.absolute_name) updated successfully." -ForegroundColor Green
-      } else {
-          Write-Host "Failed to update DNS Host: $($DNSHost.absolute_name)." -ForegroundColor Red
-      }
+        if ($Object) {
+            $NewObj = $Object | Select-Object -ExcludeProperty id,site_id,provider_id,current_version,dfp,dfp_service,external_providers_metadata,ophid,address,name,anycast_addresses,comment,tags,associated_server.name,protocol_absolute_name
+            if ($DNSConfigProfile) {
+                if ($DNSConfigProfile -eq 'None') {
+                    $NewObj.associated_server = $null
+                } else {
+                    $DNSConfigProfileId = (Get-B1DNSConfigProfile -Name $DNSConfigProfile -Strict).id
+                    if ($DNSConfigProfileId) {
+                        $NewObj.inheritance_sources = @{
+                            "kerberos_keys" = @{
+                                "action" = "inherit"
+                            }
+                        }
+                        $NewObj.type = "bloxone_ddi"
+                        $NewObj.associated_server = @{
+                            "id" = $DNSConfigProfileId
+                        }
+                    } else {
+                        Write-Error "DNS Config Profile $($DNSConfigProfile) not found."
+                        return $null
+                    }
+                }
+            }
+            if ($DNSName) {
+                if ($DNSName -eq 'None') {
+                    $NewObj.absolute_name = $null
+                } else {
+                    $NewObj.absolute_name = $DNSName
+                }
+            }
+            $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+      
+            if ($($Results.id) -eq $($Object.id)) {
+                Write-Host "DNS Host: $($NewObj.absolute_name) updated successfully." -ForegroundColor Green
+                return $Results
+            } else {
+                Write-Host "Failed to update DNS Host: $($NewObj.absolute_name)." -ForegroundColor Red
+            }
+        }
     }
 }
