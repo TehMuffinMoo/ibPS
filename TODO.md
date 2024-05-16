@@ -32,7 +32,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
   - [X] Set-B1ForwardZone
   - [X] Set-B1DHCPConfigProfile
   - [X] Set-B1FixedAddress
-  - [ ] Set-B1HAGroup
+  - [X] Set-B1HAGroup
   - [ ] Set-B1NTPServiceConfiguration
   - [ ] Set-B1Range
   - [ ] Set-B1Record

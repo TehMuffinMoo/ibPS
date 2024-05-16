@@ -18,6 +18,9 @@
     .PARAMETER Name
         The new name for the address block
 
+    .PARAMETER NewName
+        Use -NewName to update the name of the address block
+
     .PARAMETER Description
         The new description for the address block
 
@@ -51,14 +54,17 @@
         IPAM
     #>
     param(
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
       [String]$Subnet,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
       [ValidateRange(0,32)]
       [Int]$CIDR,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
+      [Parameter(ParameterSetName="Name",Mandatory=$true)]
       [String]$Space,
+      [Parameter(ParameterSetName="Name",Mandatory=$true)]
       [String]$Name,
+      [String]$NewName,
       [System.Object]$DHCPOptions,
       [String]$Description,
       [Int]$DHCPLeaseSeconds,
@@ -86,7 +92,7 @@
                 $ObjectExclusions += "inheritance_sources"
             }
         } else {
-            $Object = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance
+            $Object = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance -Name $Name -Strict
             if (!($Object)) {
                 Write-Error "Unable to find Address Block: $($Subnet)/$($CIDR) in Space: $($Space)"
                 return $null
@@ -95,8 +101,8 @@
         $NewObj = $Object | Select-Object * -ExcludeProperty $ObjectExclusions
         $NewObj.dhcp_config = $NewObj.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
 
-        if ($Name) {
-            $NewObj.name = $Name
+        if ($NewName) {
+            $NewObj.name = $NewName
         }
         if ($Description) {
             $NewObj.comment = $Description
