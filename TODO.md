@@ -31,8 +31,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
   - [X] Set-B1ForwardNSG
   - [X] Set-B1ForwardZone
   - [X] Set-B1DHCPConfigProfile
-  - [ ] Set-B1DHCPGlobalConfig
-  - [ ] Set-B1FixedAddress
+  - [X] Set-B1FixedAddress
   - [ ] Set-B1HAGroup
   - [ ] Set-B1NTPServiceConfiguration
   - [ ] Set-B1Range
@@ -46,5 +45,6 @@ The list of items below are those which are not yet implemented within ibPS. Onc
   - [ ] Set-B1LookalikeTarget
   - [ ] Set-B1SOCInsight
   - [ ] Set-B1TideDataProfile
+  - [ ] Set-B1DHCPGlobalConfig
 ## Bug Fixes
 - [ ] Investigate occasional errors when using `Get-ibPSVersion -Cleanup`

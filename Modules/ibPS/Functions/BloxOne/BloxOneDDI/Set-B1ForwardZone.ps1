@@ -78,7 +78,7 @@
                 return $null
             }
         } else {
-            $Object = Get-B1ForwardZone -FQDN $FQDN -Strict
+            $Object = Get-B1ForwardZone -FQDN $FQDN -View $View -Strict
             if (!($Object)) {
                 Write-Error "Unable to find Forward Zone: $($FQDN)"
                 return $null
