@@ -9,4 +9,9 @@
 - Removed `-NoIPSpace` parameter from `Set-B1Host` as it was not necessary.
 - Add optional telemetry data, this is DISABLED by default and must be manually enabled using `Set-ibPSConfiguration -Telemetry Enabled`. The only data which is submitted is a random identifier, the ibPS Version and the ibPS function which was called (without arguments).
 - Add the CSP Account name to the output of `Get-ibPSConfiguration`
-- Various improvements to `Set-B1ForwardNSG`, `Set-B1DNSHost`, `Set-B1AuthoritativeZone`, `Set-B1ForwardZone` & `Set-B1AddressBlock`
+- Refactor code on the following functions
+
+|                           |                           |                           |
+|:--------------------------|:--------------------------|:--------------------------|
+| `Set-B1ForwardNSG`        | `Set-B1DNSHost`           | `Set-B1AuthoritativeZone` |
+| `Set-B1ForwardZone`       | `Set-B1AddressBlock`      | `Set-B1DHCPConfigProfile` |

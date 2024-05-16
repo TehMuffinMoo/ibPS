@@ -15,6 +15,9 @@
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the new DHCP Config Profile.
 
+    .PARAMETER DDNSDomain
+        Optionally specify a DDNS Domain for the DHCP Config Profile
+
     .PARAMETER DDNSZones
         A list of DDNS Zones to apply to this DHCP Config Profile
 
@@ -35,6 +38,7 @@
       [String]$Name,
       [String]$Description,
       [System.Object]$DHCPOptions = @(),
+      [String]$DDNSDomain,
       [System.Object]$DDNSZones,
       [System.Object]$Tags
     )
@@ -105,6 +109,10 @@
 
         if ($Tags) {
             $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
+        }
+
+        if ($DDNSDomain) {
+            $splat.ddns_domain = $DDNSDomain
         }
         
         $splat = $splat | ConvertTo-Json -Depth 4
