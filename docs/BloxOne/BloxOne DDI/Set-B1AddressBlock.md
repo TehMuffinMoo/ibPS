@@ -180,7 +180,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The Address Block Object to update.
+Accepts pipeline input
 
 ```yaml
 Type: Object

@@ -160,7 +160,8 @@ Accept wildcard characters: False
 ```
 
 ### -Tags
-{{ Fill Tags Description }}
+A list of tags to update on the authoritative zone.
+This will replace existing tags, so would normally be a combined list of existing and new tags
 
 ```yaml
 Type: Object
@@ -175,7 +176,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The Authoritative Zone Object to update.
+Accepts pipeline input
 
 ```yaml
 Type: Object
