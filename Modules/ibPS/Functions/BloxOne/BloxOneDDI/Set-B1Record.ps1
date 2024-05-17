@@ -15,6 +15,9 @@
     .PARAMETER Zone
         The zone of the record to update
 
+    .PARAMETER FQDN
+        The FQDN of the record to update
+
     .PARAMETER NewName
         Use -NewName to update the name of the record
 
@@ -105,9 +108,10 @@
         }
         $Type = $Object.type
     } else {
-        $Object = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA
+        $Object = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA -FQDN $FQDN
         if (!($Object)) {
-            Write-Error "Unable to find DNS Record: $($StartAddress) - $($EndAddress)"
+            $Msg = $(if ($Name) {": $($Name).$($Zone)"} elseif ($FQDN) {": $($FQDN)"} elseif ($CurrentRDATA) {" with RDATA: $($CurrentRDATA)"})
+            Write-Error "Unable to find DNS Record$($Msg)"
             return $null
         }
         if ($Object.count -gt 1) {
