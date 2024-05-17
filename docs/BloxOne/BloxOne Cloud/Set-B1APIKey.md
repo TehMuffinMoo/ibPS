@@ -95,7 +95,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The API Key Object.
+Accepts pipeline input
 
 ```yaml
 Type: Object
