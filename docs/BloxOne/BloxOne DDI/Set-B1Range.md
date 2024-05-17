@@ -12,15 +12,21 @@ Updates an existing DHCP Range in BloxOneDDI IPAM
 
 ## SYNTAX
 
-### Default
+### Range
 ```
-Set-B1Range -StartAddress <String> [-EndAddress <String>] -Space <String> [-Name <String>]
+Set-B1Range -StartAddress <String> [-EndAddress <String>] -Space <String> [-NewName <String>]
  [-Description <String>] [-HAGroup <String>] [-Tags <Object>] [<CommonParameters>]
 ```
 
-### With ID
+### Name
 ```
-Set-B1Range [-Name <String>] [-Description <String>] [-HAGroup <String>] [-Tags <Object>] -id <String>
+Set-B1Range -Space <String> -Name <String> [-NewName <String>] [-Description <String>] [-HAGroup <String>]
+ [-Tags <Object>] [<CommonParameters>]
+```
+
+### Object
+```
+Set-B1Range [-NewName <String>] [-Description <String>] [-HAGroup <String>] [-Tags <Object>] -Object <Object>
  [<CommonParameters>]
 ```
 
@@ -31,7 +37,12 @@ This function is used to update an existing DHCP Range in BloxOneDDI IPAM
 
 ### EXAMPLE 1
 ```powershell
-Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description -Tags @{"siteCode"="12345"}
+Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description "Some Description" -Tags @{"siteCode"="12345"}
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 | Set-B1Range -Description "Some Description" -Tags @{"siteCode"="12345"}
 ```
 
 ## PARAMETERS
@@ -41,7 +52,7 @@ The start address of the DHCP Range you want to update
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Range
 Aliases:
 
 Required: True
@@ -56,7 +67,7 @@ The end address of the DHCP Range you want to update
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Range
 Aliases:
 
 Required: False
@@ -67,11 +78,11 @@ Accept wildcard characters: False
 ```
 
 ### -Space
-The IPAM space where the DHCP Range is to be placed
+The IPAM space where the DHCP Range is located
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Range, Name
 Aliases:
 
 Required: True
@@ -82,7 +93,23 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-The name to update the DHCP Range to
+The name of the range.
+If more than one range object within the selected space has the same name, this will error and you will need to use Pipe as shown in the second example.
+
+```yaml
+Type: String
+Parameter Sets: Name
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+Use -NewName to update the name of the range
 
 ```yaml
 Type: String
@@ -114,6 +141,7 @@ Accept wildcard characters: False
 ### -HAGroup
 The name of the HA group to apply to this DHCP Range.
 This will overwrite the existing HA Group.
+Using the value 'None' will clear the HA Group.
 
 ```yaml
 Type: String
@@ -143,19 +171,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the range.
+### -Object
+The Range Object to update.
 Accepts pipeline input
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

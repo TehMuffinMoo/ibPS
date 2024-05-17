@@ -121,7 +121,7 @@
             return $null
         }
 
-        $NewObj = $Object | Select-Object -ExcludeProperty id,metadata
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,metadata
         $NewObj.records = @()
         if ($NewName) {
             $NewObj.name = $NewName
@@ -132,12 +132,12 @@
         if ($FQDN) {
             $NewObj.fqdn = $FQDN
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty fqdn
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty fqdn
         }
         if ($IP) {
             $NewObj.address = $IP
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty address
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty address
         }
         if ($AutoCreateResponses) {
             $NewObj.auto_create_response_records = $(if ($AutoCreateResponses -eq 'Enabled') { $true } else { $false })
@@ -171,7 +171,7 @@
             }
         }
         if ($NewObj.records.Count -eq 0) {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty records
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty records
         }
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress

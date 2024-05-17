@@ -14,7 +14,7 @@ Creates a new DHCP Config Profile in BloxOneDDI
 
 ```
 New-B1DHCPConfigProfile [-Name] <String> [[-Description] <String>] [[-DHCPOptions] <Object>]
- [[-DDNSZones] <Object>] [[-Tags] <Object>] [<CommonParameters>]
+ [[-DDNSDomain] <String>] [[-DDNSZones] <Object>] [[-Tags] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -77,6 +77,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DDNSDomain
+Optionally specify a DDNS Domain for the DHCP Config Profile
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -DDNSZones
 A list of DDNS Zones to apply to this DHCP Config Profile
 
@@ -86,7 +101,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -101,7 +116,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -110,6 +110,10 @@ function Test-NetmaskString {
   $MaskString -match $maskPattern
 }
 
+function Test-ValidIPv4Address ($ip) {
+  return ($ip -match "^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$" -and [bool]($ip -as [ipaddress]))
+}
+
 function Convert-NetmaskToCIDR {
   param(
     [parameter(Mandatory=$true)]
@@ -660,6 +664,7 @@ function DevelopmentFunctions {
     "Match-Type"
     "Convert-CIDRToNetmask"
     "Test-NetmaskString"
+    "Test-ValidIPv4Address"
     "Convert-NetmaskToCIDR"
     "Convert-Int64toIP"
     "Convert-IPtoInt64"
@@ -672,6 +677,7 @@ function DevelopmentFunctions {
     "Build-HTMLTopologyChildren"
     "Write-DebugMsg"
     "Write-Colour"
+    "New-ibPSTelemetry"
   )
 }
 
@@ -686,4 +692,47 @@ function Write-Colour {
     $Count += 1
   }
   Write-Host "`r"
+}
+
+function New-ibPSTelemetry {
+  param(
+    $Method = 'GET'
+  )
+  if ($ENV:IBPSTelemetry -eq "Enabled") {
+    $PSCallStack = Get-PSCallStack
+    if (!($ENV:IBPSID)) {
+      $Random = $(Get-Random)
+      $Platform = Detect-OS
+      if ($Platform -eq "Windows") {
+        [System.Environment]::SetEnvironmentVariable('IBPSID',$($Random),[System.EnvironmentVariableTarget]::User)
+      } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+        if (!(Test-Path ~/.zshenv)) {
+          touch ~/.zshenv
+        }
+        sed -i '' -e '/IBPSID/d' ~/.zshenv
+        echo "export IBPSID=$($Random)" >> ~/.zshenv
+      }
+      $ENV:IBPSID = $($Random)
+    }
+    $Query = @(
+      "v=2" ## Version
+      "tid=G-NQTBLB6HTQ" ## Google Analytics Tracking ID
+      "cid=$($ENV:IBPSID)" ## Client ID
+      "_p=$(Get-Random)" ## Random Page Load Hash
+      "ul=en-gb" ## User Language
+      "uafvl=ibPS-v$(Get-ibPSVersion)" ## ibPS Version
+      #"uaa=arm" ## Architecture
+      #"uab=64" ## Architecture bits
+      #"uap=macOS" ## User Agent Platform
+      #"uapv=14.3.1" ## User Agent Platform Version
+      "_s=1" ## Hit Counter
+      "sct=1" ## Session Count
+      "seg=1" ## Session Engagement
+      "dt=$($PSCallStack[2].Command)" ## Document Title
+      "en=$($Method)" ## Event Name
+      "_ee=1" ## External Event
+    )
+    $QueryString = ConvertTo-QueryString $Query
+    $OutNull = Invoke-WebRequest -Method POST -Uri "https://google-analytics.com/g/collect$($QueryString)" -UseBasicParsing | Out-Null
+  }
 }

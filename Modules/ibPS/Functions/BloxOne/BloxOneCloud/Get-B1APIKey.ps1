@@ -59,7 +59,7 @@ function Get-B1APIKey {
         [String]$Name,
         [ValidateSet("Interactive", "Legacy", "Service")]
         [String]$Type,
-        [ValidateSet("Enabled", "Disabled")]
+        [ValidateSet("Enabled", "Disabled","Expired")]
         [String]$State,
         [Int]$Limit = 101,
         [Int]$Offset = 0,

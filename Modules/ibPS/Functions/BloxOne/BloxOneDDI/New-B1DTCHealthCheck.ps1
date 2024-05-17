@@ -51,6 +51,44 @@
                                         Host: webmail.company.corp
         codes                          : 200,401
         metadata                       : 
+
+    .EXAMPLE
+        $HeaderRegexes = @(
+            @{
+                'header' = 'X-Some-Header'
+                'regex' = '(.*)'
+            }
+            @{
+                'header' = 'X-Another-Header'
+                'regex' = '(.*)'
+            }
+        )
+        New-B1DTCHealthCheck -Name 'Exchange HTTPS Check' -Type HTTP -UseHTTPS -Port 443 `
+                             -HTTPRequest "GET /owa/auth/logon.aspx HTTP/1.1`nHost: webmail.company.corp" `
+                             -ResponseBody Found -ResponseBodyRegex '(.*)' `
+                             -ResponseHeader Found -ResponseHeaderRegexes $HeaderRegexes
+
+        id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
+        name                           : Exchange HTTPS Check
+        comment                        : 
+        disabled                       : False
+        interval                       : 15
+        timeout                        : 10
+        retry_up                       : 1
+        retry_down                     : 1
+        tags                           : 
+        port                           : 443
+        https                          : True
+        request                        : GET /owa/auth/logon.aspx HTTP/1.1
+                                         Host: webmail.company.corp
+        codes                          : 
+        metadata                       : 
+        check_response_body            : True
+        check_response_body_regex      : (.*)
+        check_response_body_negative   : False
+        check_response_header          : True
+        check_response_header_regexes  : {@{header=X-Some-Header; regex=(.*)}, @{header=X-Another-Header; regex=(.*)}}
+        check_response_header_negative : False
    
     .FUNCTIONALITY
         BloxOneDDI
@@ -111,9 +149,45 @@
             $statusCodesAttributeCollection.Add($statusCodesAttribute)
             $statusCodesParam = New-Object System.Management.Automation.RuntimeDefinedParameter('StatusCodes', [System.Object], $statusCodesAttributeCollection)
 
+            $responseBodyAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $responseBodyAttribute.Position = 8
+            $responseBodyAttribute.HelpMessage = "The -ResponseBody parameter is used to indicate if to check the body response content. This should be used in combination with -ResponseBodyRegex"
+            $responseBodyAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+            $responseBodyValidateSet = New-Object System.Management.Automation.ValidateSetAttribute('Found','NotFound','None')
+            $responseBodyAttributeCollection.Add($responseBodyAttribute)
+            $responseBodyAttributeCollection.add($responseBodyValidateSet)
+            $responseBodyParam = New-Object System.Management.Automation.RuntimeDefinedParameter('ResponseBody', [String], $responseBodyAttributeCollection)
+
+            $responseBodyRegexAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $responseBodyRegexAttribute.Position = 8
+            $responseBodyRegexAttribute.HelpMessage = "The -ResponseBodyRegex parameter is used to specify the regex used when checking the body of the response"
+            $responseBodyRegexAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+            $responseBodyRegexAttributeCollection.Add($responseBodyRegexAttribute)
+            $responseBodyRegexParam = New-Object System.Management.Automation.RuntimeDefinedParameter('ResponseBodyRegex', [String], $responseBodyRegexAttributeCollection)
+
+            $responseHeaderAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $responseHeaderAttribute.Position = 8
+            $responseHeaderAttribute.HelpMessage = "The -ResponseHeader parameter is used to indicate if to check the header response content. This should be used in combination with -ResponseHeaderRegex"
+            $responseHeaderAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+            $responseHeaderValidateSet = New-Object System.Management.Automation.ValidateSetAttribute('Found','NotFound','None')
+            $responseHeaderAttributeCollection.Add($responseHeaderAttribute)
+            $responseHeaderAttributeCollection.add($responseHeaderValidateSet)
+            $responseHeaderParam = New-Object System.Management.Automation.RuntimeDefinedParameter('ResponseHeader', [String], $responseHeaderAttributeCollection)
+
+            $responseHeaderRegexAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $responseHeaderRegexAttribute.Position = 8
+            $responseHeaderRegexAttribute.HelpMessage = "The -ResponseHeaderRegex parameter is used to a list of regular expressions, used when checking specific response headers."
+            $responseHeaderRegexAttributeCollection = new-object System.Collections.ObjectModel.Collection[System.Attribute]
+            $responseHeaderRegexAttributeCollection.Add($responseHeaderRegexAttribute)
+            $responseHeaderRegexParam = New-Object System.Management.Automation.RuntimeDefinedParameter('ResponseHeaderRegexes', [System.Object], $responseHeaderRegexAttributeCollection)
+
             $paramDictionary.Add('UseHTTPS', $useHTTPSParam)
             $paramDictionary.Add('HTTPRequest', $httpRequestParam)
             $paramDictionary.Add('StatusCodes', $statusCodesParam)
+            $paramDictionary.Add('ResponseBody', $responseBodyParam)
+            $paramDictionary.Add('ResponseBodyRegex', $responseBodyRegexParam)
+            $paramDictionary.Add('ResponseHeader', $responseHeaderParam)
+            $paramDictionary.Add('ResponseHeaderRegexes', $responseHeaderRegexParam)
        }
        return $paramDictionary
    }
@@ -137,6 +211,49 @@
             $splat | Add-Member -MemberType NoteProperty -Name 'https' -Value $(if ($PSBoundParameters['UseHTTPS']) { $true } else { $false })
             $splat | Add-Member -MemberType NoteProperty -Name 'request' -Value $(if ($PSBoundParameters['HTTPRequest']) { $PSBoundParameters['HTTPRequest'] } else { $null })
             $splat | Add-Member -MemberType NoteProperty -Name 'codes' -Value $(if ($PSBoundParameters['StatusCodes']) { ($PSBoundParameters['StatusCodes']) -join ',' } else { $null })
+
+            Switch ($PSBoundParameters['ResponseBody']) {
+                "Found" {
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body' -Value $true
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body_negative' -Value $false
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body_regex' -Value $(if ($PSBoundParameters['ResponseBodyRegex']) { $PSBoundParameters['ResponseBodyRegex'] } else { Write-Error 'No regular expression entered for checking HTTP Response Body. You must use -ResponseBodyRegex when specifying -ResponseBody'; return $null })
+                }
+                "NotFound" {
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body' -Value $true
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body_negative' -Value $true
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body_regex' -Value $(if ($PSBoundParameters['ResponseBodyRegex']) { $PSBoundParameters['ResponseBodyRegex'] } else { Write-Error 'No regular expression entered for checking HTTP Response Body. You must use -ResponseBodyRegex when specifying -ResponseBody'; return $null })
+                }
+                "None" {
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body' -Value $false
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body_negative' -Value $false
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_body_regex' -Value $null
+                }
+                default {
+                    $null
+                }
+            }
+
+            Switch ($PSBoundParameters['ResponseHeader']) {
+                "Found" {
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header' -Value $true
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_negative' -Value $false
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_regexes' -Value @($(if ($PSBoundParameters['ResponseHeaderRegexes']) { $PSBoundParameters['ResponseHeaderRegexes'] } else { Write-Error 'No regular expression entered for checking HTTP Response Header(s). You must use -ResponseHeaderRegex when specifying -ResponseHeader'; return $null }))
+                }
+                "NotFound" {
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header' -Value $true
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_negative' -Value $true
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_regexes' -Value @($(if ($PSBoundParameters['ResponseHeaderRegexes']) { $PSBoundParameters['ResponseHeaderRegexes'] } else { Write-Error 'No regular expression entered for checking HTTP Response Header(s). You must use -ResponseHeaderRegex when specifying -ResponseHeader'; return $null }))
+                }
+                "None" {
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header' -Value $false
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_negative' -Value $false
+                    $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_regexes' -Value $null
+                    
+                }
+                default {
+                    $null
+                }
+            }
         }
 
         $JSON = $splat | ConvertTo-Json -Depth 5

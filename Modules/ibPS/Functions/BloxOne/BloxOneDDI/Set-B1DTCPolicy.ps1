@@ -13,7 +13,7 @@
         Use -NewName to update the name of the DTC Policy object
 
     .PARAMETER Description
-        The description for the new policy object
+        The new description for the policy object
 
     .PARAMETER LoadBalancingType
         The Load Balancing Type to use (Round Robin / Ratio / Global Availability)
@@ -119,7 +119,7 @@
             'GlobalAvailability' = 'global_availability'
             'Topology' = 'topology'
         }
-        $NewObj = $Object | Select-Object -ExcludeProperty id,metadata
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,metadata
 
         if ($NewName) {
             $NewObj.name = $NewName
@@ -138,7 +138,7 @@
                 return $null
             }
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty rules
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty rules
         }
         if ($Pools) {
             $PoolIDs = @()
@@ -166,7 +166,7 @@
             }
             $NewObj.pools = $PoolIDs
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty pools
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty pools
         }
         if ($TTL) {
             $NewObj.ttl = $TTL
@@ -185,8 +185,6 @@
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
 
-        $NewObj | ConvertTo-Json -Depth 5
-       
         $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
         if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
             $Results | Select-Object -ExpandProperty result

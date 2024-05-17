@@ -71,7 +71,7 @@
     }
 
     if ($Type -eq "Subnet" -and $Subnets) {
-        $rule | Add-Member -MemberType NoteProperty -Name 'subnets' -Value $Subnets
+        $rule | Add-Member -MemberType NoteProperty -Name 'subnets' -Value @($Subnets)
     }
     if ($Destination -eq 'Pool' -and $Pool) {
         $DTCPool = (Get-B1DTCPool -Name $Pool -Strict).id

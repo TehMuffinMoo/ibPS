@@ -18,6 +18,18 @@
     .PARAMETER DefaultSecurityPolicy
         Filter results by those assigned to the default security policy
 
+    .PARAMETER Limit
+        Use this parameter to limit the quantity of results.
+
+    .PARAMETER Offset
+        Use this parameter to offset the results by the value entered for the purpose of pagination
+
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
+
+    .PARAMETER OrderBy
+        Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
     .PARAMETER id
         Filter the results by id
 
@@ -61,6 +73,14 @@
       [Int]$PolicyID,
       [parameter(ParameterSetName="Default")]
       [Switch]$DefaultSecurityPolicy,
+      [Parameter(ParameterSetName="Default")]
+      [Int]$Limit,
+      [Parameter(ParameterSetName="Default")]
+      [Int]$Offset,
+      [Parameter(ParameterSetName="Default")]
+      [String[]]$Fields,
+      [Parameter(ParameterSetName="Default")]
+      [String]$OrderBy,
       [parameter(ParameterSetName="With ID")]
       [Int]$id,
       [parameter(ParameterSetName="Default")]
@@ -70,6 +90,7 @@
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Name) {
         $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
     }
@@ -85,15 +106,29 @@
     if ($id) {
         $Filters.Add("id==$id") | Out-Null
     }
-    if ($Location) {
-        $Filters.Add("location~`"$Location`"") | Out-Null
-    }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
+    }
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
+    }
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters += "_fields=$($Fields -join ",")"
+    }
+    if ($OrderBy) {
+        $QueryFilters += "_order_by=$($OrderBy)"
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $Filters
-    if ($Filter) {
-        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists?_filter=$Filter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($QueryString) {
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }

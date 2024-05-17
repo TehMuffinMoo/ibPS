@@ -103,14 +103,12 @@
       [String]$State = 'Enabled',
       [System.Object]$Tags
     )
-
     $MethodArr = @{
         'RoundRobin' = 'round_robin'
         'Ratio' = 'ratio'
         'GlobalAvailability' = 'global_availability'
         'Topology' = 'topology'
     }
-
     $splat = @{
         "name" = $Name
         "comment" = $Description
@@ -120,7 +118,7 @@
         "tags" = $Tags
     }
     if ($LoadBalancingType -eq "Topology" -and $Rules) {
-        $splat | Add-Member -MemberType NoteProperty -Name "rules" -Value ($Rules | Sort-Object source -Descending)
+        $splat.rules = ($Rules | Sort-Object source -Descending)
     }
     if ($Pools) {
         $PoolIDs = @()
@@ -159,7 +157,6 @@
             }
         }
     }
-
     $JSON = $splat | ConvertTo-Json -Depth 5 -Compress
 
     $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/policy" -Data $JSON

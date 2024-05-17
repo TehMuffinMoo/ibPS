@@ -13,7 +13,7 @@ function Invoke-CSP {
         Specify the Uri, such as "ipam/record", you can also use the full URL and http parameters must be appended here.
 
     .PARAMETER Data
-        Data to be submitted on POST/PUT/PATCH/DELETE requests
+        Data/Body to be submitted on POST/PUT/PATCH/DELETE requests
 
     .PARAMETER InFile
         File path of data to submit as part of POST request
@@ -39,7 +39,8 @@ function Invoke-CSP {
       [String]$Method,
       [Parameter(Mandatory=$true)]
       [String]$Uri,
-      [String]$Data,
+      [Alias("Body")]
+      $Data,
       [String]$InFile,
       [String]$ContentType = 'application/json'
     )
@@ -108,6 +109,7 @@ function Invoke-CSP {
             Write-Error "Error. Invalid Method: $Method. Accepted request types are GET, POST, PUT, PATCH & DELETE"
         }
       }
+      New-ibPSTelemetry -Method $Method
       if ($Result) {
         if ($Result.error -ne $null) {
             switch ($StatusCode) {

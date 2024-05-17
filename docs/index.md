@@ -20,6 +20,7 @@
   <a href="https://www.powershellgallery.com/packages/ibPS"><img src="https://img.shields.io/powershellgallery/dt/ibPS?label=Downloads&style=flat-square"></a>
   <a href="https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE"><img src="https://img.shields.io/github/license/TehMuffinMoo/ibPS?label=License&style=flat-square"></a>
   <a href="https://www.powershellgallery.com/packages/ibPS"><img src="https://img.shields.io/powershellgallery/p/ibPS?label=Supported Platforms&style=flat-square&color=%236600bf"></a>
+  <img src="https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%2FTehMuffinMoo%2FibPS%2Fdev%2Fdocs%2Fmanifest.json&query=%24.Count&label=Available%20Functions&color=orange"</img>
   <a href="https://github.com/TehMuffinMoo/ibPS/releases"><img src="https://img.shields.io/github/release-date/tehmuffinmoo/ibps?label=Latest%20Release"></a>
   <a href="https://ibps.readthedocs.io"><img src="https://img.shields.io/readthedocs/ibps?label=Docs&style=flat-square"></a>
 </p>
@@ -269,6 +270,8 @@ Remove-B1HAGroup                 | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1DHCPConfigProfile       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DHCPConfigProfile
 Remove-B1DNSConfigProfile        | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DNSConfigProfile
 Remove-B1InternalDomainList      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
+Remove-B1CustomList              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1CustomList
+Remove-B1Location                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Location
 Remove-B1DTCServer               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCServer
 Remove-B1DTCPool                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPool
 Remove-B1DTCPolicy               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy
@@ -285,6 +288,7 @@ Set-B1DHCPConfigProfile          | ![Implemented](https://badgen.net/badge/Statu
 Set-B1FixedAddress               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1FixedAddress
 Set-B1ForwardNSG                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1ForwardNSG
 Set-B1ForwardZone                | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1ForwardZone
+Set-B1Location                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Location
 Set-B1Host                       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
 Set-B1Range                      | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Range
 Set-B1Record                     | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Record
@@ -296,6 +300,7 @@ Start-B1Service                  | ![Implemented](https://badgen.net/badge/Statu
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Set-B1TideDataProfile            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TideDataProfile
 Set-B1InternalDomainList         | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
+Set-B1CustomList                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1CustomList
 Remove-B1SecurityPolicy          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
 Remove-B1NetworkList             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1NetworkList
 Get-B1DossierLookup              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1DossierLookup
@@ -313,23 +318,8 @@ Get-B1SOCInsightEvents           | ![Implemented](https://badgen.net/badge/Statu
 Get-B1SOCInsightIndicators       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
 Set-B1SOCInsight                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
 
-
-
-
-## To-Do
-All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested, where updates are then posted to main.
-
-
-### Replace old for new APIs
-This is a work in progress.
-
-Old Cmdlet           | New Cmdlet        | Old API Endpoint     | New API Endpoint    | Status
----------------------|------------------ | -------------------- | ------------------- | --------
-Get-B1DNSHost        | Get-B1DNSService  | /dns/host            | /dns/service        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Set-B1DNSHost        | Set-B1DNSService  | /dns/host            | /dns/service        | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Get-B1DHCPHost       | Get-B1DHCPService | /dhcp/host           | /dhcp/service       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-Get-B1DHCPHost       | Set-B1DHCPService | /dhcp/host           | /dhcp/service       | ![Not Implemented](https://badgen.net/badge/Status/Not%20Implemented/orange)
-
+## Development Lifecycle
+All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested. Once these changes are merged into [main branch](https://github.com/TehMuffinMoo/ibPS/tree/main), Github actions are used to package both the PowerShell Module and its documentation and subsequently publish to PowerShell Gallery.
 
 ## Resources
 This PowerShell Module makes use of the following InfoBlox APIs;

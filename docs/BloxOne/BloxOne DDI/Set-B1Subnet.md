@@ -12,17 +12,24 @@ Updates an existing subnet in BloxOneDDI IPAM
 
 ## SYNTAX
 
-### Default
+### Subnet
 ```
-Set-B1Subnet -Subnet <String> -CIDR <Int32> -Space <String> [-Name <String>] [-HAGroup <String>]
+Set-B1Subnet -Subnet <String> -CIDR <Int32> -Space <String> [-NewName <String>] [-HAGroup <String>]
  [-DHCPOptions <Object>] [-Description <String>] [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>]
  [-Tags <Object>] [<CommonParameters>]
 ```
 
-### With ID
+### Name
 ```
-Set-B1Subnet [-Name <String>] [-HAGroup <String>] [-DHCPOptions <Object>] [-Description <String>]
- [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] [-id <String[]>] [<CommonParameters>]
+Set-B1Subnet -Space <String> -Name <String> [-NewName <String>] [-HAGroup <String>] [-DHCPOptions <Object>]
+ [-Description <String>] [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>]
+ [<CommonParameters>]
+```
+
+### Object
+```
+Set-B1Subnet [-NewName <String>] [-HAGroup <String>] [-DHCPOptions <Object>] [-Description <String>]
+ [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,7 +39,7 @@ This function is used to update an existing subnet in BloxOneDDI IPAM
 
 ### EXAMPLE 1
 ```powershell
-Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description"
+Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -NewName "MySubnet" -Space "Global" -Description "Comment for description"
 ```
 
 ### EXAMPLE 2
@@ -41,7 +48,7 @@ Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Des
 $DHCPOptions = @()
 $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
-PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+PS> Get-B1Subnet -Subnet "10.10.10.0" -CIDR 24 | Set-B1Subnet -NewName "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
 ```
 
 ### EXAMPLE 3
@@ -58,7 +65,7 @@ The network address of the subnet you want to update
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Subnet
 Aliases:
 
 Required: True
@@ -73,7 +80,7 @@ The CIDR suffix of the subnet you want to update
 
 ```yaml
 Type: Int32
-Parameter Sets: Default
+Parameter Sets: Subnet
 Aliases:
 
 Required: True
@@ -88,7 +95,7 @@ The IPAM space where the subnet is located
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Subnet, Name
 Aliases:
 
 Required: True
@@ -99,7 +106,23 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-The name to update the subnet to
+The name of the subnet.
+If more than one subnet object within the selected space has the same name, this will error and you will need to use Pipe as shown in the first example.
+
+```yaml
+Type: String
+Parameter Sets: Name
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+Use -NewName to update the name of the subnet
 
 ```yaml
 Type: String
@@ -204,19 +227,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the subnet to update.
+### -Object
+The Subnet Object to update.
 Accepts pipeline input
 
 ```yaml
-Type: String[]
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

@@ -152,7 +152,7 @@
             'GlobalAvailability' = 'global_availability'
         }
 
-        $NewObj = $Object | Select-Object -ExcludeProperty id,metadata
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,metadata
 
         if ($NewName) {
             $NewObj.name = $NewName
@@ -216,7 +216,7 @@
             }
             $NewObj.servers = $ServerIDs
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty servers
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty servers
         }
         if ($HealthChecks) {
             $HealthCheckIDs = @()
@@ -232,7 +232,7 @@
             }
             $NewObj.health_checks = $HealthCheckIDs
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty health_checks
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty health_checks
         }
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress

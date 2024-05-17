@@ -9,6 +9,12 @@
     .PARAMETER Name
         The name of the Forward DNS Server Group
 
+    .PARAMETER NewName
+        Use -NewName to update the name of the Forward DNS Server Group
+
+    .PARAMETER Description
+        The new description for the Forward DNS Server Group
+
     .PARAMETER AddHosts
         This switch indicates you are adding hosts to the Forward NSG using the -Hosts parameter
 
@@ -18,11 +24,17 @@
     .PARAMETER Hosts
         This is a list of hosts to be added or removed from the Forward NSG, indicated by the -AddHosts & -RemoveHosts parameters
 
-    .PARAMETER id
-        The id of the forward DNS server group to update. Accepts pipeline input
+    .PARAMETER Tags
+        Any tags you want to apply to the forward NSG
+
+    .PARAMETER Object
+        The Forward DNS Server Group Object to update. Accepts pipeline input.
 
     .EXAMPLE
         PS> Set-B1ForwardNSG -Name "InfoBlox DTC" -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+
+    .EXAMPLE
+        PS> Get-B1ForwardNSG -Name "InfoBlox DTC" | Set-B1ForwardNSG -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -NewName "Infoblox DTC New"
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -33,81 +45,95 @@
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
+      [String]$NewName,
+      [String]$Description,
       [Switch]$AddHosts,
       [Switch]$RemoveHosts,
       [System.Object]$Hosts,
+      [System.Object]$Tags,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object
     )
 
     process {
-      if ($id) {
-        $NSG = Get-B1ForwardNSG -id $id
-      } else {
-        $NSG = Get-B1ForwardNSG -Name $Name -Strict
+      if ($AddHosts -and $RemoveHosts) {
+        Write-Error "Error. -AddHosts and -RemoveHosts are mutually exclusive."
+        return $null
       }
-      if ($NSG) {
-        $Update = $false
-        if ($AddHosts -and $RemoveHosts) {
-          Write-Host "Error. -AddHosts and -RemoveHosts are mutually exclusive." -ForegroundColor Red
-        } else {
-          if ($Hosts) {
-            if ($AddHosts) {
-              foreach ($B1Host in $Hosts) {
-                $DNSHostId = (Get-B1DNSHost -Name $B1Host -Strict).id
-                if ($DNSHostId) {
-                  if ($DNSHostId -notin $NSG.hosts) {
-                    $Update = $true
-                    Write-Host "Adding $B1Host to $($NSG.name)" -ForegroundColor Cyan
-                    $NSG.hosts += $DNSHostId
-                  } else {
-                    Write-Host "$B1Host is already in forward NSG: $($NSG.name)" -ForegroundColor Yellow
-                  }
+      if (($AddHosts -or $RemoveHosts) -and !($Hosts)) {
+        Write-Error "Error. You must specify a list of hosts using -Hosts when specifying -AddHosts or -RemoveHosts"
+        return $null
+      }
+      if ($Object) {
+        $SplitID = $Object.id.split('/')
+        if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/forward_nsg") {
+            Write-Error "Error. Unsupported pipeline object. This function only supports 'dns/forward_nsg' objects as input"
+            return $null
+        }
+      } else {
+          $Object = Get-B1ForwardNSG -Name $Name -Strict
+          if (!($Object)) {
+              Write-Error "Unable to find Forward DNS Server Group: $($Name)"
+              return $null
+          }
+      }
+
+      if ($Object) {
+        $NewObj = $Object | Select-Object * -ExcludeProperty id
+
+        if ($NewName) {
+            $NewObj.name = $NewName
+        }
+        if ($Description) {
+            $NewObj.comment = $Description
+        }
+        if ($Tags) {
+            $NewObj.tags = $Tags
+        }
+        if ($Hosts) {
+          if ($AddHosts) {
+            foreach ($B1Host in $Hosts) {
+              $DNSHostId = (Get-B1DNSHost -Name $B1Host -Strict).id
+              if ($DNSHostId) {
+                if ($DNSHostId -notin $NewObj.hosts) {
+                  Write-Host "Adding $B1Host to $($NewObj.name)" -ForegroundColor Cyan
+                  $NewObj.hosts += $DNSHostId
                 } else {
-                  Write-Host "Error. DNS Host $B1Host not found." -ForegroundColor Red
+                  Write-Host "$B1Host is already in forward NSG: $($NewObj.name)" -ForegroundColor Yellow
                 }
+              } else {
+                Write-Host "Error. DNS Host $B1Host not found." -ForegroundColor Red
               }
-              if ($Update) {
-                $splat = $NSG | Select-Object * -ExcludeProperty id | ConvertTo-Json -Depth 5 -Compress
-                $Results = Invoke-CSP -Method PATCH -Uri $NSG.id -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-                if ($Results.id -eq $NSG.id) {
-                  Write-Host "Successfully updated Forward NSG: $($NSG.name)" -ForegroundColor Green
+            }
+          } elseif ($RemoveHosts) {
+            foreach ($B1Host in $Hosts) {
+              $DNSHostId = (Get-B1DNSHost -Name $B1Host -Strict).id
+              if ($DNSHostId) {
+                if ($DNSHostId -in $NewObj.hosts) {
+                  $Update = $true
+                  Write-Host "Removing $B1Host from $($NewObj.name)" -ForegroundColor Cyan
+                  $NewObj.hosts = $NewObj.hosts | Where-Object {$_ -ne $DNSHostId}
                 } else {
-                  Write-Host "Error. Failed to update Forward NSG: $($NSG.name)" -ForegroundColor Red
+                  Write-Host "$B1Host is not in forward NSG: $($NewObj.name)" -ForegroundColor Yellow
                 }
+              } else {
+                Write-Host "Error. DNS Host $B1Host not found." -ForegroundColor Red
               }
-            } elseif ($RemoveHosts) {
-              foreach ($B1Host in $Hosts) {
-                $DNSHostId = (Get-B1DNSHost -Name $B1Host -Strict).id
-                if ($DNSHostId) {
-                  if ($DNSHostId -in $NSG.hosts) {
-                    $Update = $true
-                    Write-Host "Removing $B1Host from $($NSG.name)" -ForegroundColor Cyan
-                    $NSG.hosts = $NSG.hosts | Where-Object {$_ -ne $DNSHostId}
-                  } else {
-                    Write-Host "$B1Host is not in forward NSG: $($NSG.name)" -ForegroundColor Yellow
-                  }
-                } else {
-                  Write-Host "Error. DNS Host $B1Host not found." -ForegroundColor Red
-                }
-              }
-              if ($Update) {
-                $splat = $NSG | Select-Object * -ExcludeProperty id | ConvertTo-Json -Depth 5 -Compress
-                $Results = Invoke-CSP -Method PATCH -Uri $NSG.id -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-                if ($Results.id -eq $NSG.id) {
-                  Write-Host "Successfully updated Forward NSG: $($NSG.name)" -ForegroundColor Green
-                } else {
-                  Write-Host "Error. Failed to update Forward NSG: $($NSG.name)" -ForegroundColor Red
-                }
-              }
-            } else {
-              Write-Host "Error. -AddHosts or -RemoveHosts was not specified." -ForegroundColor Red
             }
           }
+        }
+        $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
+
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        if ($Results.id -eq $Object.id) {
+          Write-Host "Successfully updated Forward NSG: $($NewObj.name)" -ForegroundColor Green
+          return $Results
+        } else {
+          Write-Host "Error. Failed to update Forward NSG: $($NewObj.name)" -ForegroundColor Red
         }
       }
     }

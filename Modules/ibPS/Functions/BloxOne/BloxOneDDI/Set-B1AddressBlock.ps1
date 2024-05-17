@@ -16,7 +16,10 @@
         The IPAM space where the address block is located
 
     .PARAMETER Name
-        The new name for the address block
+        The name of the Address Block. If more than one Address Block object within the selected space has the same name, this will error and you will need to use Pipe as shown in the first example.
+
+    .PARAMETER NewName
+        Use -NewName to update the name of the address block
 
     .PARAMETER Description
         The new description for the address block
@@ -33,8 +36,8 @@
     .PARAMETER Tags
         A list of tags to update on the address block. This will replace existing tags, so would normally be a combined list of existing and new tags
 
-    .PARAMETER id
-        The id of the address block to update. Accepts pipeline input
+    .PARAMETER Object
+        The Address Block Object to update. Accepts pipeline input
 
     .EXAMPLE
         ## Example usage when combined with Get-B1DHCPOptionCode
@@ -42,7 +45,10 @@
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="10.10.10.10,10.10.10.11";}
 
-        PS> Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+        PS> Get-B1AddressBlock -Subnet "10.10.100.0" -Space "Global" | Set-B1AddressBlock -Description "Comment for description" -DHCPOptions $DHCPOptions
+
+    .EXAMPLE
+        PS> Set-B1AddressBlock -Subnet "10.10.100.0" -NewName "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -51,84 +57,86 @@
         IPAM
     #>
     param(
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
       [String]$Subnet,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
       [ValidateRange(0,32)]
       [Int]$CIDR,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
+      [Parameter(ParameterSetName="Name",Mandatory=$true)]
       [String]$Space,
+      [Parameter(ParameterSetName="Name",Mandatory=$true)]
       [String]$Name,
+      [String]$NewName,
       [System.Object]$DHCPOptions,
       [String]$Description,
-      [String]$DHCPLeaseSeconds,
+      [Int]$DHCPLeaseSeconds,
       [String]$DDNSDomain,
       [System.Object]$Tags,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object
     )
 
     process {
-
-      if ($id) {
-        $AddressBlock = Get-B1AddressBlock -id $id -IncludeInheritance
-      } else {
-        $AddressBlock = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance
-      }
-
-      if ($AddressBlock) {
-        $AddressBlockUri = $AddressBlock.id
-
-        $AddressBlockPatch = @{}
-        if ($Name) {$AddressBlockPatch.name = $Name}
-        if ($Description) {$AddressBlockPatch.comment = $Description}
-        if ($DHCPOptions) {$AddressBlockPatch.dhcp_options = $DHCPOptions}
-
-        if ($DHCPLeaseSeconds) {
-            $AddressBlock.inheritance_sources.dhcp_config.lease_time.action = "override"
-            $AddressBlock.dhcp_config.lease_time = $DHCPLeaseSeconds
-
-            $AddressBlockPatch.inheritance_sources = $AddressBlock.inheritance_sources
-            $AddressBlockPatch.dhcp_config = $AddressBlock.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
-        }
-
-        if ($DDNSDomain) {
-            $AddressBlockPatch."ddns_domain" = $DDNSDomain
-            $DDNSupdateBlock = @{
-                ddns_update_block = @{
-			        "action" = "override"
-			        "value" = @{}
-		        }
+        $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization')
+        if ($Object) {
+            $SplitID = $Object.id.split('/')
+            if (("$($SplitID[0])/$($SplitID[1])") -ne "ipam/address_block") {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'ipam/address_block' objects as input"
+                return $null
             }
-            $AddressBlockPatch.inheritance_sources = $DDNSupdateBlock
+            if (($DHCPLeaseSeconds -or $DDNSDomain) -and ($Object.inheritance_sources -eq $null)) {
+                $Object = Get-B1AddressBlock -id $Object.id -IncludeInheritance
+            } else {
+                $ObjectExclusions += "inheritance_sources"
+            }
+        } else {
+            $Object = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance -Name $Name -Strict
+            if (!($Object)) {
+                Write-Error "Unable to find Address Block: $($Subnet)/$($CIDR) in Space: $($Space)"
+                return $null
+            }
+            if ($Object.count -gt 1) {
+                Write-Error "Multiple Address Blocks were found, to update more than one Address Block you should pass those objects using pipe instead."
+                return $null
+            }
         }
+        $NewObj = $Object | Select-Object * -ExcludeProperty $ObjectExclusions
+        $NewObj.dhcp_config = $NewObj.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
 
+        if ($NewName) {
+            $NewObj.name = $NewName
+        }
+        if ($Description) {
+            $NewObj.comment = $Description
+        }
+        if ($DHCPOptions) {
+            $NewObj.dhcp_options = $DHCPOptions
+        }
         if ($Tags) {
             $AddressBlockPatch.tags = $Tags
         }
-
-        if ($AddressBlockPatch.Count -eq 0) {
-            Write-Host "Nothing to update." -ForegroundColor Gray
-        } else {
-            $splat = $AddressBlockPatch | ConvertTo-Json -Depth 10
-
-            $Result = Invoke-CSP -Method PATCH -Uri "$AddressBlockUri" -Data $splat
-        
-            if (($Result | Select-Object -ExpandProperty result).id -eq $($AddressBlock.id)) {
-                Write-Host "Updated Address Block $($AddressBlock.address)/$($AddressBlock.cidr) successfully." -ForegroundColor Green
-                return $Result | Select-Object -ExpandProperty result
-            } else {
-                Write-Host "Failed to update Address Block $Subnet$id." -ForegroundColor Red
-                break
-            }
+        if ($DHCPLeaseSeconds) {
+            $NewObj.inheritance_sources.dhcp_config.lease_time.action = "override"
+            $NewObj.inheritance_sources.dhcp_config.lease_time.value = $DHCPLeaseSeconds
+            $NewObj.dhcp_config.lease_time = $DHCPLeaseSeconds
         }
 
-      } else {
-        Write-Host "The Address Block $Subnet/$CIDR$id does not exist." -ForegroundColor Red
-      }
+        if ($DDNSDomain) {
+            $NewObj.inheritance_sources.ddns_update_block.action = "override"
+            $NewObj.inheritance_sources.ddns_update_block.value = @{}
+            $NewObj.ddns_domain = $DDNSDomain
+        }
+        $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
 }

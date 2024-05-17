@@ -14,6 +14,7 @@ function Get-ibPSConfiguration {
 
         CSP Url          : https://csp.infoblox.com
         CSP API User     : svc-csp
+        CSP Account      : ACME Corp
         CSP API Key      : ********
         ibPS Version     : 1.9.4.4
         ibPS Branch      : main
@@ -30,12 +31,13 @@ function Get-ibPSConfiguration {
   $CurrentConfig = [PSCustomObject]@{
     "CSP Url" = $(if ($ENV:B1CSPUrl) {$ENV:B1CSPUrl} else {'https://csp.infoblox.com'})
     "CSP API User" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser).name} else {'API Key Not Set'})
+    "CSP Account" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser -Account).name} else {'API Key Not Set'})
     "CSP API Key" = $(if ($ENV:B1APIKey) {if ($IncludeAPIKey) {Get-B1CSPAPIKey} else { "********" }} else {'API Key Not Set'})
     "ibPS Version" = $(Get-ibPSVersion)
     "ibPS Branch" = $(if ($ENV:IBPSBranch) {$ENV:IBPSBranch} else {'Unknown'})
     "Debug Mode" = $(if ($ENV:IBPSDebug) {$ENV:IBPSDebug} else {'Disabled'})
     "Development Mode" = $(if ($ENV:IBPSDevelopment) {$ENV:IBPSDevelopment} else {'Disabled'})
+    "Telemetry Status" = $(if ($ENV:IBPSTelemetry) {$ENV:IBPSTelemetry} else {'Disabled'})
   }
-
   $CurrentConfig
 }

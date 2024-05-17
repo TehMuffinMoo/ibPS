@@ -10,10 +10,16 @@
         The type of the record to update
 
     .PARAMETER Name
-        The name of the record to update
+        The name of the record to update.
 
     .PARAMETER Zone
         The zone of the record to update
+
+    .PARAMETER FQDN
+        The FQDN of the record to update
+
+    .PARAMETER NewName
+        Use -NewName to update the name of the record
 
     .PARAMETER rdata
         The RDATA to update the record to
@@ -39,11 +45,14 @@
     .PARAMETER Port
         Used to update the port for applicable records. (i.e SRV)
 
+    .PARAMETER State
+        Set whether the DNS Record is enabled or disabled.
+
     .PARAMETER Tags
         Any tags you want to apply to the record
 
-    .PARAMETER id
-        The id of the DNS record to update. Accepts pipeline input
+    .PARAMETER Object
+        The Range Object to update. Accepts pipeline input
 
     .EXAMPLE
         PS> Set-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.50.10" -TTL 600
@@ -55,147 +64,151 @@
         DNS
     #>
     param(
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
-      [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
-        Mandatory=$true
-      )]
+      [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
+      [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
+      [Parameter(ParameterSetName="RDATA",Mandatory=$true)]
       [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
       [String]$Type,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [String]$Name,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
+      [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [String]$Zone,
-      [String]$rdata,
-      [Parameter(ParameterSetName="Default",Mandatory=$true)]
-      [String]$view,
-      [Parameter(ParameterSetName="Default")]
+      [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
+      [String]$FQDN,
+      [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
+      [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
+      [Parameter(ParameterSetName="RDATA",Mandatory=$true)]
+      [String]$View,
+      [Parameter(ParameterSetName="RDATA",Mandatory=$true)]
       [String]$CurrentRDATA,
+      [String]$rdata,
+      [String]$NewName,
       [int]$TTL,
       [string]$Description,
       [int]$Priority,
       [int]$Weight,
       [int]$Port,
+      [ValidateSet("Enabled","Disabled")]
+      [String]$State,
       [System.Object]$Tags,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object
     )
     
     process {
+      if ($Object) {
+        $SplitID = $Object.id.split('/')
+        if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/record") {
+            Write-Error "Error. Unsupported pipeline object. This function only supports 'dns/record' objects as input"
+            return $null
+        }
+        $Type = $Object.type
+    } else {
+        $Object = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA -FQDN $FQDN
+        if (!($Object)) {
+            $Msg = $(if ($Name) {": $($Name).$($Zone)"} elseif ($FQDN) {": $($FQDN)"} elseif ($CurrentRDATA) {" with RDATA: $($CurrentRDATA)"})
+            Write-Error "Unable to find DNS Record$($Msg)"
+            return $null
+        }
+        if ($Object.count -gt 1) {
+            Write-Error "Multiple Subnet were found, to update more than one Subnet you should pass those objects using pipe instead."
+            return $null
+        }
+    }
+    $NewObj = $Object | Select-Object * -ExcludeProperty id,provider_metadata,source,view_name,dns_name_in_zone,dns_absolute_zone_name,dns_absolute_name_spec,absolute_name_spec,absolute_zone_name,absolute_zone_spec,dns_rdata,delegation,created_at,updated_at,ipam_host,subtype,type,view,record,zone
 
-      $TTLAction = "inherit"
-      $FQDN = $Name+"."+$Zone
-      if ($id) {
-        $Record = Get-B1Record -id $id
-      } else {
-        $Record = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA
-      }
-      if (!($Record)) {
-        Write-Host "Error. Record doesn't exist." -ForegroundColor Red
-        break
-      } else {
-        $splat = @{}
-        if ($rdata) {
-          switch ($Type) {
-            "A" {
-              if ([bool]($rdata -as [ipaddress])) {
-                $rdataSplat = @{
-                    "address" = $rdata
-                }
-              } else {
-                Write-Host "Error. Invalid IP Address." -ForegroundColor Red
-                break
-              }
+    if ($rdata) {
+      switch ($Type) {
+        "A" {
+          if ([bool]($rdata -as [ipaddress])) {
+            $rdataSplat = @{
+                "address" = $rdata
             }
-            "CNAME" {
-              if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\.)?$)") {
-                if (!($rdata.EndsWith("."))) {
-                  $rdata = "$rdata."
-                }
-                $rdataSplat = @{
-	              "cname" = $rdata
-	            }
-              } else {
-                Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
-                break
-              }
+          } else {
+            Write-Host "Error. Invalid IP Address." -ForegroundColor Red
+            break
+          }
+        }
+        "CNAME" {
+          if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\.)?$)") {
+            if (!($rdata.EndsWith("."))) {
+              $rdata = "$rdata."
             }
-            "TXT" {
+            $rdataSplat = @{
+            "cname" = $rdata
+          }
+          } else {
+            Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
+            break
+          }
+        }
+        "TXT" {
+          $rdataSplat = @{
+            "text" = $rdata
+          }
+        }
+        "PTR" {
+          $rdataSplat = @{
+            "dname" = $rdata
+          }
+        }
+        "SRV" {
+          if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
+            if ($Priority -and $Weight -and $Port) {
               $rdataSplat = @{
-                "text" = $rdata
+                "priority" = $Priority
+                "weight" = $Weight
+                "port" = $Port
+                "target" = $rdata
               }
-            }
-            "PTR" {
-              $rdataSplat = @{
-                "dname" = $rdata
-              }
-            }
-            "SRV" {
-              if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
-                if ($Priority -and $Weight -and $Port) {
-                  $rdataSplat = @{
-		            "priority" = $Priority
-		            "weight" = $Weight
-		            "port" = $Port
-		            "target" = $rdata
-	              }
-                } else {
-                  Write-Host "Error. When updating SRV records, -Priority, -Weight & -Port parameters are all required." -ForegroundColor Red
-                  break
-                }
-              } else {
-                Write-Host "Error. SRV target must be an FQDN: $rdata" -ForegroundColor Red
-                break
-              }
-            }
-            default {
-              Write-Host "Error. Invalid record type: $Type" -ForegroundColor Red
-              Write-Host "Please use a supported record type: $SupportedRecords" -ForegroundColor Gray
+            } else {
+              Write-Host "Error. When updating SRV records, -Priority, -Weight & -Port parameters are all required."
               break
             }
+          } else {
+            Write-Error "Error. SRV target must be an FQDN: $rdata"
+            return $null
           }
-
-          if ($rdataSplat) {
-            $splat.rdata = $rdataSplat
-          }
         }
-
-        if ($Name) {
-          $splat.name_in_zone = $Name
+        default {
+          Write-Error "Error. Invalid record type: $Type"
+          Write-Error "Please use a supported record type: $SupportedRecords"
+          return $null
         }
-        if ($TTL) {
-          $TTLAction = "override"
-          $Record.inheritance_sources
-          $Splat.inheritance_sources = @{
-            "ttl" = @{
-              "action" = $TTLAction
-             }
-          }
-          $Splat.ttl = $TTL
-        }
-        if ($Options) {
-          $splat.options = $Options
-        }          
-        if ($Tags) {
-          $splat.tags = $Tags
-        }     
-        if ($Description) {
-          $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
-        }
-
-        Write-Host "Updating $($Record.type) Record for $($Record.absolute_name_spec)" -ForegroundColor Gray
-        $splat = $splat | ConvertTo-Json
-        $Result = Invoke-CSP -Method PATCH -Uri $($Record.id) -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        if ($Result.dns_rdata -match $rdata) {
-          Write-Host "DNS $($Record.type) Record has been successfully updated for $($Record.absolute_name_spec)" -ForegroundColor Green
-        } else {
-          Write-Host "Failed to update DNS $($Record.type) Record for $($Record.absolute_name_spec)" -ForegroundColor Red
       }
+      $NewObj.rdata = $rdatasplat
+    }
+    if ($NewName) {
+      $NewObj.name_in_zone = $NewName
+    }
+    if ($TTL) {
+      $NewObj.inheritance_sources
+      $NewObj.inheritance_sources = @{
+        "ttl" = @{
+          "action" = "override"
+          }
+      }
+      $NewObj.ttl = $TTL
+    }
+    if ($Tags) {
+      $NewObj.tags = $Tags
+    }     
+    if ($Description) {
+      $NewObj.comment = $Description
+    }
+    if ($State) {
+      $NewObj.disabled = $(if ($State -eq 'Enabled') { $false } else { $true })
+    }
+    $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
+    $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+    if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+        $Results | Select-Object -ExpandProperty result
+    } else {
+        $Results
     }
   }
 }

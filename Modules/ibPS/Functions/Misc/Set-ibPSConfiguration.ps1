@@ -24,6 +24,9 @@ function Set-ibPSConfiguration {
     .PARAMETER DebugMode
         Enabling Debug Mode will return additional debug data when using the module.  Enabling debug mode will always apply as a persistent setting until it is disabled. This is because in some cases it may require a restart of the PowerShell session to fully enable.
 
+    .PARAMETER Telemetry
+        Disabling Telemetry will prevent the module sending diagnostic information to Google Analytics. None of the diagnostic information sent contains any sensitive information, only the name of the executed function, any error associated error categories and source platform information (OS/Version).
+
     .PARAMETER Branch
         Use the -Branch parameter to select the github branch to update with. This only works when installed from Github, not from PowerShell Gallery. You will additionally need to run Get-ibPSVersion -Update -Force after you have configured the new branch to force an update.
 
@@ -54,6 +57,8 @@ function Set-ibPSConfiguration {
     [String]$DevelopmentMode,
     [ValidateSet('Enabled','Disabled')]
     [String]$DebugMode,
+    [ValidateSet('Enabled','Disabled')]
+    [String]$Telemetry,
     [ValidateSet("main", "dev")]
     [String]$Branch
   )
@@ -163,6 +168,21 @@ function Set-ibPSConfiguration {
     }
     $ENV:IBPSDebug = $DebugMode
     Write-Host "$($DebugMode) Debug Mode." -ForegroundColor Green
+  }
+
+  if ($Telemetry) {
+    $Platform = Detect-OS
+    if ($Platform -eq "Windows") {
+      [System.Environment]::SetEnvironmentVariable('IBPSTelemetry',$Telemetry,[System.EnvironmentVariableTarget]::User)
+    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+      if (!(Test-Path ~/.zshenv)) {
+        touch ~/.zshenv
+      }
+      sed -i '' -e '/IBPSTelemetry/d' ~/.zshenv
+      echo "export IBPSTelemetry=$Telemetry" >> ~/.zshenv
+    }
+    $ENV:IBPSTelemetry = $Telemetry
+    Write-Host "$($Telemetry) Telemetry." -ForegroundColor Green
   }
 
   if ($Branch) {

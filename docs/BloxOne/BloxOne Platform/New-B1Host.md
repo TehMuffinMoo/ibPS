@@ -13,7 +13,8 @@ Creates a new BloxOneDDI Host
 ## SYNTAX
 
 ```
-New-B1Host [-Name] <String> [-Space] <String> [[-Description] <String>] [<CommonParameters>]
+New-B1Host [-Name] <String> [-Space] <String> [[-Location] <String>] [[-Description] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -58,6 +59,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Location
+The Location for the new BloxOne Host.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Description
 The description of the new BloxOneDDI Host
 
@@ -67,7 +83,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

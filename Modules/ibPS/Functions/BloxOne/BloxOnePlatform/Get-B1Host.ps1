@@ -75,18 +75,19 @@
       [String]$IP,
       [String]$OPHID,
       [String]$Space,
-      [Int]$Limit = "10001",
       [ValidateSet("online","pending","degraded","error")]
       [String]$Status,
       [switch]$Detailed,
-      [switch]$BreakOnError,
       [switch]$Reduced,
       [switch]$Strict,
       [switch]$NoIPSpace,
+      [Int]$Limit = 10001,
+      [Int]$Offset = 0,
       [String]$tfilter,
       [String[]]$Fields,
       [String]$OrderBy,
       [String]$OrderByTag,
+      [switch]$BreakOnError,
       [String]$id
     )
 

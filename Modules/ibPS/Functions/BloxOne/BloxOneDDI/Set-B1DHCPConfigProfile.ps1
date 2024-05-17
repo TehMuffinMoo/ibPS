@@ -9,6 +9,21 @@
     .PARAMETER Name
         The name of the DHCP Config Profile
 
+    .PARAMETER NewName
+        Use -NewName to update the name of the DHCP Config Profile
+
+    .PARAMETER Description
+        The new description for the DHCP Config Profile
+
+    .PARAMETER EnableDDNS
+        Enable or Disable the DDNS Service for this DHCP Config Profile
+
+    .PARAMETER SendDDNSUpdates
+        Enable or Disable the sending DDNS Updates for this DHCP Config Profile
+
+    .PARAMETER DDNSDomain
+        The new DDNS Domain for the DHCP Config Profile. Using the value 'None' will submit an empty DDNS Domain.
+
     .PARAMETER DDNSZones
         Provide a list of DDNS Zones to add or remove to/from the the DHCP Config Profile.
         
@@ -26,8 +41,8 @@
     .PARAMETER Tags
         The tags to apply to the DHCP Config Profile
 
-    .PARAMETER id
-        The id of the DHCP config profile to update. Accepts pipeline input
+    .PARAMETER Object
+        The DHCP Config Profile Object to update. Accepts pipeline input
 
     .EXAMPLE
         PS> Set-B1DHCPConfigProfile -Name 'Data Centre DHCP' -AddDDNSZones -DDNSZones 'company.corp' -DNSView default
@@ -41,133 +56,122 @@
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
+      [String]$NewName,
+      [String]$Description,
+      [ValidateSet("Enabled","Disabled")]
+      [String]$EnableDDNS,
+      [ValidateSet("Enabled","Disabled")]
+      [String]$SendDDNSUpdates,
+      [String]$DDNSDomain,
       [Switch]$AddDDNSZones,
       [Switch]$RemoveDDNSZones,
       [System.Object]$DDNSZones,
-      [Parameter(Mandatory=$true)]
+      [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$DNSView,
       [System.Object]$Tags,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object
     )
 
     process {
         if ($AddDDNSZones -and $RemoveDDNSZones) {
-            Write-Host "Error. You can only specify Add or Remove for DDNS Zones." -ForegroundColor Red
-            break
+            Write-Error "Error. -AddDDNSZones and -RemoveDDNSZones are mutually exclusive parameters."
+            return $null
+        }
+        if ($DDNSZones -and (!($AddDDNSZones -or $RemoveDDNSZones))) {
+            Write-Error "Error. -DDNSZones additionally requires one of the following parameters to be used: -AddDDNSZones or -RemoveDDNSZones."
+            return $null
+        }
+        if (($AddDDNSZones -or $RemoveDDNSZones) -and -not $DDNSZones) {
+            Write-Error "Error. -DDNSZones is required when using -AddDDNSZones or -RemoveDDNSZones."
+            return $null
+        }
+        if ($Object) {
+            $SplitID = $Object.id.split('/')
+            if (("$($SplitID[0])/$($SplitID[1])") -ne "dhcp/server") {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'dhcp/server' objects as input"
+                return $null
+            }
+            if (($DDNSDomain -or $AddDDNSZones -or $RemoveDDNSZones) -and ($Object.inheritance_sources -eq $null)) {
+                $Object = Get-B1DHCPConfigProfile -id $Object.id -IncludeInheritance
+            }
         } else {
-            $ToUpdate = @()
-            if ($id) {
-              $ConfigProfile = Get-B1DHCPConfigProfile -id $id -IncludeInheritance
-            } else {
-              $ConfigProfile = Get-B1DHCPConfigProfile -Name $Name -IncludeInheritance -Strict
+            $Object = Get-B1DHCPConfigProfile -Name $Name -IncludeInheritance -Strict
+            if (!($Object)) {
+                Write-Error "Unable to find Authoritative Zone: $($FQDN)"
+                return $null
             }
-
-            if (!($ConfigProfile) ) {
-                Write-Host "Error. Config Profile $Name not found" -ForegroundColor Red
+        }
+        $NewObj = $Object | Select-Object * -ExcludeProperty id
+        $NewObj.ddns_zones = $NewObj.ddns_zones | Select-Object zone
+        if ($NewName) {
+            $NewObj.name = $NewName
+        }
+        if ($Description) {
+            $NewObj.comment = $Description
+        }
+        if ($Tags) {
+            $NewObj.tags = $Tags
+        }
+        if ($DDNSDomain -or $EnableDDNS -or $SendDDNSUpdates) {
+            $NewObj.inheritance_sources.ddns_block.action = "override"
+        }
+        if ($DDNSDomain) {
+            if ($DDNSDomain -eq "None") {
+                $NewObj.ddns_domain = $null
             } else {
-                if ($Tags) {
-                    $ConfigProfile.tags = $Tags
-                }
-                if ($AddDDNSZones) {
-                    $ConfigProfileJson = @()
-                    foreach ($DDNSZone in $DDNSZones) {
-                        $DDNSZone = $DDNSZone.TrimEnd(".")
-                        if (("$DDNSZone.") -in $ConfigProfile.ddns_zones.fqdn) {
-                            Write-Host "$DDNSZone already exists. Skipping.." -ForegroundColor Yellow
-                        } else {
-                            $AuthZone = Get-B1AuthoritativeZone -FQDN $DDNSZone -View $DNSView -Strict
-                            if ($AuthZone) {
-                                $splat = @{
-                                    "zone" = $AuthZone.id
-                                }
-                                $splat = $splat | ConvertTo-Json | ConvertFrom-Json
-                                $ConfigProfileJson += $splat
-                            } else {
-                                Write-Host "Error: Authoritative Zone not found." -ForegroundColor Red
-                            }
-                            $ToUpdate += $DDNSZone
+                $NewObj.ddns_domain = $DDNSDomain
+            }
+        }
+        if ($EnableDDNS) {
+            $NewObj.ddns_enabled = $(if ($EnableDDNS -eq 'Enabled') { $true } else { $false })
+        }
+        if ($SendDDNSUpdates) {
+            $NewObj.ddns_send_updates = $(if ($SendDDNSUpdates -eq 'Enabled') { $true } else { $false })
+        }
+        if ($AddDDNSZones) {
+            $ConfigProfileZones = @()
+            $NewObj.ddns_zones = @($NewObj.ddns_zones | Select-Object zone)
+            foreach ($DDNSZone in $DDNSZones) {
+                $DDNSZone = $DDNSZone.TrimEnd(".")
+                if (("$DDNSZone.") -in $Object.ddns_zones.fqdn) {
+                    Write-Host "$DDNSZone already exists. Skipping.." -ForegroundColor Yellow
+                } else {
+                    $AuthZone = Get-B1AuthoritativeZone -FQDN $DDNSZone -View $DNSView -Strict
+                    if ($AuthZone) {
+                        $Zone = [PSCustomObject]@{
+                            "zone" = $AuthZone.id
                         }
-                    }
-                    foreach ($DDNSZone in $ConfigProfile.ddns_zones) {
-                        $splat = @{
-                            "zone" = $DDNSZone.zone
-                        }
-                        $splat = $splat | ConvertTo-Json | ConvertFrom-Json
-                        $ConfigProfileJson += $splat
-                    }
-                    if ($ConfigProfile.inheritance_sources.ddns_block.action -ne "override") {
-                        Write-Host "Overriding Global DHCP Properties for DHCP Config Profile: $Name.." -ForegroundColor Green
-                    }
-                    $ConfigProfileSplat = @{
-                        "ddns_zones" = $ConfigProfileJson
-	                    "ddns_enabled" = $true
-	                    "ddns_send_updates" = $true
-                        "inheritance_sources" = @{
-                            "ddns_block" = @{
-                                "action" = "override"
-                            }
-                        }
-                    } | ConvertTo-Json
-
-                    $Result = Invoke-CSP -Method "PATCH" -Uri "$($ConfigProfile.id)" -Data $ConfigProfileSplat | Select-Object -ExpandProperty result
-            
-                    if ($Result) {
-                        if ($ToUpdate.count -gt 0) {
-                            foreach ($DDNSToUpdate in $ToUpdate) {
-                                if (("$DDNSToUpdate.") -in $Result.ddns_zones.fqdn) {
-                                    Write-Host "$DDNSToUpdate added successfully to DDNS Config for the DHCP Config Profile: $Name." -ForegroundColor Green
-                                } else {
-                                    Write-Host "Failed to add $DDNSToUpdate to DDNS Config for the DHCP Config Profile: $Name." -ForegroundColor Red
-                                }
-                            }
-                        } else {
-                            Write-Host "Nothing to update." -ForegroundColor Yellow
-                        }
+                        $ConfigProfileZones += $Zone
                     } else {
-                        Write-Host "Error. Failed to update Global DHCP Configuration." -ForegroundColor Red
+                        Write-Host "Error: Authoritative Zone not found." -ForegroundColor Red
                     }
-                } elseif ($RemoveDDNSZones) {
-                    $ConfigProfileJson = @()
-                    foreach ($ConfigProfileDDNSZone in $ConfigProfile.ddns_zones) {
-                        if (($ConfigProfileDDNSZone.fqdn.TrimEnd(".")) -notin $DDNSZones) {
-                            $splat = @{
-                                "zone" = $ConfigProfileDDNSZone.zone
-                            }
-                            $splat = $splat | ConvertTo-Json | ConvertFrom-Json
-                            $ConfigProfileJson += $splat
-                        } else {
-                            $ToUpdate += $ConfigProfileDDNSZone.fqdn
-                        }
-                    }
-                    $ConfigProfileSplat = @{
-                        "ddns_zones" = $ConfigProfileJson
-                    } | ConvertTo-Json
-
-                    $Result = Invoke-CSP -Method "PATCH" -Uri "$($ConfigProfile.id)" -Data $ConfigProfileSplat | Select-Object -ExpandProperty result
-
-                    if ($Result) {
-                        if ($ToUpdate.count -gt 0) {
-                            foreach ($DDNSToUpdate in $ToUpdate) {
-                                if (("$DDNSToUpdate.") -notin $Result.ddns_zones.fqdn) {
-                                    Write-Host "$DDNSToUpdate removed successfully from DDNS Config for the DHCP Config Profile: $Name." -ForegroundColor Green
-                                } else {
-                                    Write-Host "Failed to remove $DDNSToUpdate from DDNS Config for the DHCP Config Profile: $Name." -ForegroundColor Red
-                                }
-                            }
-                        } else {
-                            Write-Host "Nothing to update." -ForegroundColor Yellow
-                        }
-                    } else {
-                        Write-Host "Error. Failed to update Global DHCP Configuration." -ForegroundColor Red
-                    }
-
+                    $ToUpdate += $DDNSZone
                 }
             }
-      }
+            $NewObj.ddns_zones += $ConfigProfileZones
+        }
+        if ($RemoveDDNSZones) {
+            $ConfigProfileZones = @()
+            foreach ($ConfigProfileDDNSZone in $Object.ddns_zones) {
+                $DDNSZone = $ConfigProfileDDNSZone.fqdn.TrimEnd(".")
+                if ($DDNSZone -notin $DDNSZones) {
+                    Write-Host "$DDNSZone already does not exist. Skipping.." -ForegroundColor Yellow
+                } else {
+                    $NewObj.ddns_zones = $NewObj.ddns_zones | Where-Object {$_.fqdn -ne "$($DDNSZone)."}
+                }
+            }
+        }
+        $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
 }

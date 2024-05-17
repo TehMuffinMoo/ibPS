@@ -14,7 +14,7 @@ Used to set ibPS specific configuration
 
 ```
 Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl] <String>] [-Persist]
- [[-DevelopmentMode] <String>] [[-DebugMode] <String>] [[-Branch] <String>]
+ [[-DevelopmentMode] <String>] [[-DebugMode] <String>] [[-Telemetry] <String>] [[-Branch] <String>]
 ```
 
 ## DESCRIPTION
@@ -143,6 +143,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Telemetry
+Disabling Telemetry will prevent the module sending diagnostic information to Google Analytics.
+None of the diagnostic information sent contains any sensitive information, only the name of the executed function, any error associated error categories and source platform information (OS/Version).
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Branch
 Use the -Branch parameter to select the github branch to update with.
 This only works when installed from Github, not from PowerShell Gallery.
@@ -154,7 +170,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

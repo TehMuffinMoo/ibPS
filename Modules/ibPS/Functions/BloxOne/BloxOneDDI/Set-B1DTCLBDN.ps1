@@ -106,7 +106,7 @@
             }
         }
 
-        $NewObj = $Object | Select-Object -ExcludeProperty id,metadata
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,metadata
 
         if ($NewName) {
             $NewObj.name = $NewName
@@ -125,7 +125,7 @@
             }
             $NewObj.view = $ViewID
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty view
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty view
         }
         if ($Policy) {
             $DTCPolicy = Get-B1DTCPolicy -Name $Policy -Strict
@@ -135,7 +135,7 @@
             }
             $NewObj.dtc_policy = @{ "policy_id" = $DTCPolicy.id }
         } else {
-            $NewObj = $NewObj | Select-Object -ExcludeProperty dtc_policy
+            $NewObj = $NewObj | Select-Object * -ExcludeProperty dtc_policy
         }
         if ($TTL) {
             $NewObj.ttl = $TTL

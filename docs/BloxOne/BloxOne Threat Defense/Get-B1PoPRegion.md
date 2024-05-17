@@ -46,6 +46,7 @@ addresses                   id location             region
 {52.119.41.60, 103.80.6.60} 10 Sao Paulo, Brazil    sa-east-1
 {52.119.41.61, 103.80.6.61} 11 Manama, Bahrain      me-south-1
 {52.119.41.62, 103.80.6.62} 12 Cape Town, S. Africa af-south-1
+{52.119.41.63, 103.80.6.63} 13 Ohio, US             us-east-2
 ```
 
 ## PARAMETERS

@@ -12,17 +12,24 @@ Updates an existing address block in BloxOneDDI IPAM
 
 ## SYNTAX
 
-### Default
+### Subnet
 ```
-Set-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Name <String>] [-DHCPOptions <Object>]
- [-Description <String>] [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>]
+Set-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-NewName <String>] [-DHCPOptions <Object>]
+ [-Description <String>] [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Tags <Object>]
  [<CommonParameters>]
 ```
 
-### With ID
+### Name
 ```
-Set-B1AddressBlock [-Name <String>] [-DHCPOptions <Object>] [-Description <String>]
- [-DHCPLeaseSeconds <String>] [-DDNSDomain <String>] [-Tags <Object>] -id <String> [<CommonParameters>]
+Set-B1AddressBlock -Space <String> -Name <String> [-NewName <String>] [-DHCPOptions <Object>]
+ [-Description <String>] [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Tags <Object>]
+ [<CommonParameters>]
+```
+
+### Object
+```
+Set-B1AddressBlock [-NewName <String>] [-DHCPOptions <Object>] [-Description <String>]
+ [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +44,12 @@ $DHCPOptions = @()
 $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="10.10.10.10,10.10.10.11";}
 
-PS> Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+PS> Get-B1AddressBlock -Subnet "10.10.100.0" -Space "Global" | Set-B1AddressBlock -Description "Comment for description" -DHCPOptions $DHCPOptions
+```
+
+### EXAMPLE 2
+```powershell
+Set-B1AddressBlock -Subnet "10.10.100.0" -NewName "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
 ```
 
 ## PARAMETERS
@@ -47,7 +59,7 @@ The network address of the address block you want to update
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Subnet
 Aliases:
 
 Required: True
@@ -62,7 +74,7 @@ The CIDR suffix of the address block you want to update
 
 ```yaml
 Type: Int32
-Parameter Sets: Default
+Parameter Sets: Subnet
 Aliases:
 
 Required: True
@@ -77,7 +89,7 @@ The IPAM space where the address block is located
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: Subnet, Name
 Aliases:
 
 Required: True
@@ -88,7 +100,23 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-The new name for the address block
+The name of the Address Block.
+If more than one Address Block object within the selected space has the same name, this will error and you will need to use Pipe as shown in the first example.
+
+```yaml
+Type: String
+Parameter Sets: Name
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+Use -NewName to update the name of the address block
 
 ```yaml
 Type: String
@@ -137,13 +165,13 @@ Accept wildcard characters: False
 The default DHCP Lease duration in seconds
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -179,19 +207,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the address block to update.
+### -Object
+The Address Block Object to update.
 Accepts pipeline input
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

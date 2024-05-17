@@ -16,7 +16,8 @@ Updates a health check object within BloxOne DTC
 ```
 Set-B1DTCHealthCheck -Name <String> [-NewName <String>] [-Description <String>] [-Interval <Int32>]
  [-Timeout <Int32>] [-RetryUp <Int32>] [-RetryDown <Int32>] [-State <String>] [-Port <Int32>]
- [-UseHTTPS <String>] [-HTTPRequest <String>] [-StatusCodes <Nullable`1[]>] [-Tags <Object>]
+ [-UseHTTPS <String>] [-HTTPRequest <String>] [-ResponseBody <String>] [-ResponseBodyRegex <String>]
+ [-ResponseHeader <String>] [-ResponseHeaderRegexes <Object>] [-StatusCodes <Nullable`1[]>] [-Tags <Object>]
  [<CommonParameters>]
 ```
 
@@ -24,7 +25,9 @@ Set-B1DTCHealthCheck -Name <String> [-NewName <String>] [-Description <String>] 
 ```
 Set-B1DTCHealthCheck [-NewName <String>] [-Description <String>] [-Interval <Int32>] [-Timeout <Int32>]
  [-RetryUp <Int32>] [-RetryDown <Int32>] [-State <String>] [-Port <Int32>] [-UseHTTPS <String>]
- [-HTTPRequest <String>] [-StatusCodes <Nullable`1[]>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
+ [-HTTPRequest <String>] [-ResponseBody <String>] [-ResponseBodyRegex <String>] [-ResponseHeader <String>]
+ [-ResponseHeaderRegexes <Object>] [-StatusCodes <Nullable`1[]>] [-Tags <Object>] -Object <Object>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,7 +37,40 @@ This function is used to update a health check object within BloxOne DTC
 
 ### EXAMPLE 1
 ```powershell
+$HeaderRegexes = @(
+    @{
+        'header' = 'X-A-Header'
+        'regex' = '(/w/s/w+)'
+    }
+    @{
+        'header' = 'X-Hello-Header'
+        'regex' = '(.*)'
+    }
+)
+Get-B1DTCHealthCheck -Name 'Exchange HTTPS Check' | Set-B1DTCHealthCheck -ResponseBody Found -ResponseBodyRegex '(.*)' `
+                                                    -ResponseHeader NotFound -ResponseHeaderRegexes $HeaderRegexes
 
+id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
+name                           : Exchange HTTPS Check
+comment                        : 
+disabled                       : False
+interval                       : 15
+timeout                        : 10
+retry_up                       : 1
+retry_down                     : 1
+tags                           : 
+port                           : 443
+https                          : True
+request                        : GET /owa/auth/logon.aspx HTTP/1.1
+                                 Host: webmail.company.corp
+codes                          : 
+metadata                       : 
+check_response_body            : True
+check_response_body_regex      : (.*)
+check_response_body_negative   : False
+check_response_header          : True
+check_response_header_regexes  : {@{header=X-A-Header; regex=(/w/s/w+)}, @{header=X-Hello-Header; regex=(.*)}}
+check_response_header_negative : True
 ```
 
 ## PARAMETERS
@@ -195,6 +231,69 @@ This accepts multi-line strings if separated by \`n
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResponseBody
+The -ResponseBody parameter is used to indicate if to check the body response content.
+This should be used in combination with -ResponseBodyRegex
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResponseBodyRegex
+The -ResponseBodyRegex parameter is used to specify the regex used when checking the body of the response
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResponseHeader
+The -ResponseHeader parameter is used to indicate if to check the header response content.
+This should be used in combination with -ResponseHeaderRegex
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ResponseHeaderRegexes
+The -ResponseHeaderRegex parameter is used to provide a list of regular expressions when checking specific response headers.
+See examples for usage.
+
+```yaml
+Type: Object
 Parameter Sets: (All)
 Aliases:
 

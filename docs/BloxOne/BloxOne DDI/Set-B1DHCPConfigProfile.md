@@ -14,14 +14,16 @@ Updates an existing DHCP Config Profiles from BloxOneDDI
 
 ### Default
 ```
-Set-B1DHCPConfigProfile -Name <String> [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>]
+Set-B1DHCPConfigProfile -Name <String> [-NewName <String>] [-Description <String>] [-EnableDDNS <String>]
+ [-SendDDNSUpdates <String>] [-DDNSDomain <String>] [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>]
  -DNSView <String> [-Tags <Object>] [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
-Set-B1DHCPConfigProfile [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>] -DNSView <String>
- [-Tags <Object>] -id <String> [<CommonParameters>]
+Set-B1DHCPConfigProfile [-NewName <String>] [-Description <String>] [-EnableDDNS <String>]
+ [-SendDDNSUpdates <String>] [-DDNSDomain <String>] [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>]
+ [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -48,6 +50,82 @@ Parameter Sets: Default
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+Use -NewName to update the name of the DHCP Config Profile
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Description
+The new description for the DHCP Config Profile
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EnableDDNS
+Enable or Disable the DDNS Service for this DHCP Config Profile
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SendDDNSUpdates
+Enable or Disable the sending DDNS Updates for this DHCP Config Profile
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -DDNSDomain
+The new DDNS Domain for the DHCP Config Profile.
+Using the value 'None' will submit an empty DDNS Domain.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -106,7 +184,7 @@ The DNS View the Authoritative DDNS Zones are located in
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: True
@@ -131,19 +209,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the DHCP config profile to update.
+### -Object
+The DHCP Config Profile Object to update.
 Accepts pipeline input
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

@@ -9,6 +9,9 @@
     .PARAMETER Name
         The name of the HA Group to filter by
 
+    .PARAMETER CollectStats
+        Use the -CollectStats parameter to collect additional information about the selected HA Group(s). This includes HA Group Status and member metrics (heartbeats is added under hosts).
+
     .PARAMETER Mode
         The mode of the HA Group to filter by
 
@@ -50,6 +53,7 @@
     #>
     param(
       [String]$Name,
+      [Switch]$CollectStats,
       [String]$Mode,
       [Switch]$Strict = $false,
       [Int]$Limit = 1000,
@@ -101,6 +105,9 @@
     }
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($CollectStats) {
+        $QueryFilters.Add("collect_stats=true") | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters

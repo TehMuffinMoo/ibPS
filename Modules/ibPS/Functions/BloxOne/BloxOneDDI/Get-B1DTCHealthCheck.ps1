@@ -86,7 +86,23 @@
         $Filters.Add("comment$MatchType`"$Description`"") | Out-Null
     }
     if ($Type) {
-        $Filters.Add("type==`"$Type`"") | Out-Null
+        Switch($Type) {
+            "ICMP" {
+                $QueryURI = 'health_check_icmp'
+            }
+            "HTTP" {
+                $QueryURI = 'health_check_http'
+            }
+            "TCP" {
+                $QueryURI = 'health_check_tcp'
+            }
+            default {
+                Write-Error 'Unsupported Type specified.'
+                return $null
+            }
+        }
+    } else {
+        $QueryURI = 'health_check_all'
     }
     if ($Port) {
         $Filters.Add("port==$Port") | Out-Null
@@ -121,9 +137,11 @@
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $QueryFilters
-    if ($QueryString) {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/health_check_all$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if ($id) {
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($id)" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+    } elseif ($QueryString) {
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/$($QueryURI)$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/dtc/health_check_all" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/$($QueryURI)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

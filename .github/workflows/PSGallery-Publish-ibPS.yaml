@@ -50,6 +50,12 @@ jobs:
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
           Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -AliasesToExport '*' -ReleaseNotes "https://ibps.readthedocs.io/en/latest/Change%20Log/"
 
+          ## Export Manifest info to JSON file
+          Write-Host "Counting functions.."
+          $Module = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1" | Select-Object Name,@{name="Version";expression={$_.Version.ToString()}},Description,Author,ProjectUri,LicenseUri,ReleaseNotes,CompanyName,Copyright,ExportedFunctions
+          $Module | Add-Member -MemberType NoteProperty -Name "Count" -Value $Module.ExportedFunctions.Count
+          $Module | Select-Object -ExcludeProperty ExportedFunctions | ConvertTo-Json -Depth 5 | Out-File ./docs/manifest.json -Force
+
           Write-Host "Updating CHANGELOG.."
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw
           $ModuleVersionString = "## $($ModuleVersion.ToString())"

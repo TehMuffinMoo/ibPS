@@ -14,14 +14,16 @@ Updates an existing Forward Zone in BloxOneDDI
 
 ### Default
 ```
-Set-B1ForwardZone -FQDN <String> [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>]
- -View <Object> [-Tags <Object>] [<CommonParameters>]
+Set-B1ForwardZone -FQDN <String> -View <Object> [-Description <String>] [-Forwarders <Object>]
+ [-DNSHosts <Object>] [-DNSServerGroups <String>] [-ForwardOnly <String>] [-State <String>] [-Tags <Object>]
+ [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
-Set-B1ForwardZone [-Forwarders <Object>] [-DNSHosts <Object>] [-DNSServerGroups <String>] [-Tags <Object>]
- -id <String> [<CommonParameters>]
+Set-B1ForwardZone [-Description <String>] [-Forwarders <Object>] [-DNSHosts <Object>]
+ [-DNSServerGroups <String>] [-ForwardOnly <String>] [-State <String>] [-Tags <Object>] -Object <Object>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,6 +34,11 @@ This function is used to an existing Forward Zone in BloxOneDDI
 ### EXAMPLE 1
 ```powershell
 Set-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" | Set-B1ForwardZone -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
 ```
 
 ## PARAMETERS
@@ -45,6 +52,36 @@ Parameter Sets: Default
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -View
+The DNS View the zone is located in
+
+```yaml
+Type: Object
+Parameter Sets: Default
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Description
+The new description for the Forward Zone
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -99,15 +136,30 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -View
-The DNS View the zone is located in
+### -ForwardOnly
+Toggle the Forwarders Only option for this Forward Zone.
 
 ```yaml
-Type: Object
-Parameter Sets: Default
+Type: String
+Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -State
+Set whether the Forward Zone is enabled or disabled.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -129,19 +181,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the forward zone to update.
-Accepts pipeline input
+### -Object
+The Forward Zone Object to update.
+Accepts pipeline input.
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

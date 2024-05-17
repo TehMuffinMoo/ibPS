@@ -27,6 +27,7 @@ Get-ibPSConfiguration
 
 CSP Url          : https://csp.infoblox.com
 CSP API User     : svc-csp
+CSP Account      : ACME Corp
 CSP API Key      : ********
 ibPS Version     : 1.9.4.4
 ibPS Branch      : main

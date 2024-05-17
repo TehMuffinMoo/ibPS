@@ -15,6 +15,9 @@
     .PARAMETER Description
         The description of the new BloxOneDDI Host
 
+    .PARAMETER Location
+        The Location for the new BloxOne Host.
+
     .EXAMPLE
         PS> New-B1Host -Name "bloxoneddihost1.mydomain.corp" -Description "My BloxOneDDI Host" -Space "Global"
     
@@ -29,6 +32,7 @@
       [String]$Name,
       [Parameter(Mandatory=$true)]
       [String]$Space,
+      [String]$Location,
       [String]$Description
     )
     if (Get-B1Host -Name $Name -Strict) {
@@ -40,6 +44,16 @@
         "display_name" = $Name
         "ip_space" = (Get-B1Space -Name $Space -Strict).id
         "description" = $Description
+    }
+
+    if ($Location) {
+      $LocationID = (Get-B1Location -Name $Location -Strict).id
+      if ($LocationID) {
+        $splat.location_id = $LocationID
+      } else {
+        Write-Error "Unable to find Location: $($Location)"
+        return $null
+      }
     }
 
     $splat = $splat | ConvertTo-Json
