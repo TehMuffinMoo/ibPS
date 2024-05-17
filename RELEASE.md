@@ -12,11 +12,15 @@
 - Add `-Name` and `-Strict` parameters to `Get-B1FixedAddress`
 - Add `-NewName`, `-Description`, `-EnableDDNS`, `-Send-DDNSUpdates` & `-DDNSDomain` parameters to `Set-B1DHCPConfigProfile`
 - Add `-NewName` parameter to `Set-B1AddressBlock`
+- Add `-NewName` parameter to `Set-B1Subnet`
+- Add `-NewName` parameter to `Set-B1Range`
+- Add `-NewName` parameter to `Set-B1Record`
 - Add `-NewName` parameter to `Set-B1HAGroup`
 - Add `-State`, `-NotifyExternalSecondaries` & `-Tags` parameters to `Set-B1AuthoritativeZone`
 - Add `-NewName`, `-Description` & `-Tags` parameters to `Set-B1ForwardNSG`
 - Add `-NewName` & `-Description` parameters to `Set-B1HAGroup`
 - Add `-ForwardOnly` & `-Description` parameters to `Set-B1ForwardZone`
+- Add `-CollectStats` to `Get-B1HAGroup` to grab additional status / metrics for the HA Group and its members
 - Refactor code on the following functions
 
 |                           |                           |                           |
@@ -24,3 +28,4 @@
 | `Set-B1ForwardNSG`        | `Set-B1DNSHost`           | `Set-B1AuthoritativeZone` |
 | `Set-B1ForwardZone`       | `Set-B1AddressBlock`      | `Set-B1DHCPConfigProfile` |
 | `Set-B1FixedAddress`      | `Set-B1HAGroup`           | `Set-B1HAGroup`           |
+| `Set-B1Range`             | `Set-B1Record`            | `Set-B1Subnet`            |

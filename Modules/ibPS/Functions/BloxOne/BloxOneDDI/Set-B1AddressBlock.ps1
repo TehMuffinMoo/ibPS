@@ -16,7 +16,7 @@
         The IPAM space where the address block is located
 
     .PARAMETER Name
-        The new name for the address block
+        The name of the Address Block. If more than one Address Block object within the selected space has the same name, this will error and you will need to use Pipe as shown in the first example.
 
     .PARAMETER NewName
         Use -NewName to update the name of the address block
@@ -45,7 +45,10 @@
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "domain-name-servers").id;"option_value"="10.10.10.10,10.10.10.11";}
 
-        PS> Set-B1AddressBlock -Subnet "10.10.100.0" -Name "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+        PS> Get-B1AddressBlock -Subnet "10.10.100.0" -Space "Global" | Set-B1AddressBlock -Description "Comment for description" -DHCPOptions $DHCPOptions
+
+    .EXAMPLE
+        PS> Set-B1AddressBlock -Subnet "10.10.100.0" -NewName "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
     
     .FUNCTIONALITY
         BloxOneDDI
@@ -95,6 +98,10 @@
             $Object = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance -Name $Name -Strict
             if (!($Object)) {
                 Write-Error "Unable to find Address Block: $($Subnet)/$($CIDR) in Space: $($Space)"
+                return $null
+            }
+            if ($Object.count -gt 1) {
+                Write-Error "Multiple Address Blocks were found, to update more than one Address Block you should pass those objects using pipe instead."
                 return $null
             }
         }

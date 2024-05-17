@@ -16,7 +16,10 @@
         The IPAM space where the subnet is located
 
     .PARAMETER Name
-        The name to update the subnet to
+        The name of the subnet. If more than one subnet object within the selected space has the same name, this will error and you will need to use Pipe as shown in the first example.
+
+    .PARAMETER NewName
+        Use -NewName to update the name of the subnet
 
     .PARAMETER Description
         The description to update the subnet to.
@@ -36,18 +39,18 @@
     .PARAMETER Tags
         Any tags you want to apply to the subnet
 
-    .PARAMETER id
-        The id of the subnet to update. Accepts pipeline input
+    .PARAMETER Object
+        The Subnet Object to update. Accepts pipeline input
 
     .EXAMPLE
-        PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description"
+        PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -NewName "MySubnet" -Space "Global" -Description "Comment for description"
 
     .EXAMPLE
         ## Example usage when combined with Get-B1DHCPOptionCode
         $DHCPOptions = @()
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
-        PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Name "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
+        PS> Get-B1Subnet -Subnet "10.10.10.0" -CIDR 24 | Set-B1Subnet -NewName "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
     
     .EXAMPLE
         ## Example updating the HA Group and DDNSDomain properties of a subnet
@@ -61,23 +64,17 @@
         IPAM
     #>
     param(
-      [Parameter(
-        ParameterSetName="Default",
-        Mandatory=$true
-      )]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
       [String]$Subnet,
-      [Parameter(
-        ParameterSetName="Default",
-        Mandatory=$true
-      )]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
       [ValidateRange(0,32)]
       [Int]$CIDR,
-      [Parameter(
-        ParameterSetName="Default",
-        Mandatory=$true
-      )]
+      [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
+      [Parameter(ParameterSetName="Name",Mandatory=$true)]
       [String]$Space,
+      [Parameter(ParameterSetName="Name",Mandatory=$true)]
       [String]$Name,
+      [String]$NewName,
       [String]$HAGroup,
       [System.Object]$DHCPOptions,
       [String]$Description,
@@ -85,70 +82,79 @@
       [String]$DDNSDomain,
       [System.Object]$Tags,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID"
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
+        Mandatory=$true
       )]
-      [string[]]$id
+      [System.Object]$Object
     )
 
     process {
+        $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization','asm_scope_flag','inheritance_assigned_hosts')
+        if ($Object) {
+            $SplitID = $Object.id.split('/')
+            if (("$($SplitID[0])/$($SplitID[1])") -ne "ipam/subnet") {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'ipam/subnet' objects as input"
+                return $null
+            }
+            if (($DHCPLeaseSeconds -or $DDNSDomain) -and ($Object.inheritance_sources -eq $null)) {
+                $Object = Get-B1Subnet -id $Object.id -IncludeInheritance
+            } else {
+                $ObjectExclusions += "inheritance_sources"
+            }
+        } else {
+            $Object = Get-B1Subnet -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance -Name $Name -Strict
+            if (!($Object)) {
+                Write-Error "Unable to find Subnet: $($Subnet)/$($CIDR) in Space: $($Space)"
+                return $null
+            }
+            if ($Object.count -gt 1) {
+                Write-Error "Multiple Subnet were found, to update more than one Subnet you should pass those objects using pipe instead."
+                return $null
+            }
+        }
 
-      if ($id) {
-        $BloxSubnet = Get-B1Subnet -id $id -IncludeInheritance
-      } else {
-        $BloxSubnet = Get-B1Subnet -Subnet $Subnet -CIDR $CIDR -Space $Space -IncludeInheritance
-      }
- 
-      if ($BloxSubnet) {
-          $BloxSubnetUri = $BloxSubnet.id
+        $NewObj = $Object | Select-Object * -ExcludeProperty $ObjectExclusions
+        $NewObj.dhcp_config = $NewObj.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
 
-          $BloxSubnetPatch = @{}
-          if ($Name) {$BloxSubnetPatch.name = $Name}
-          if ($Description) {$BloxSubnetPatch.comment = $Description}
-          if ($DHCPOptions) {$BloxSubnetPatch.dhcp_options = $DHCPOptions}
-          if ($HAGroup) {$BloxSubnetPatch.dhcp_host = (Get-B1HAGroup -Name $HAGroup -Strict).id}
+        if ($NewName) {
+            $NewObj.name = $NewName
+        }
+        if ($Description) {
+            $NewObj.comment = $Description
+        }
+        if ($DHCPOptions) {
+            $NewObj.dhcp_options = $DHCPOptions
+        }
+        if ($HAGroup) {
+            $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
+            if ($HAGroupID) {
+                $NewObj.dhcp_host = $HAGroupID
+            } else {
+                Write-Error "Unable to find HA Group: $($HAGroup)"
+                return $null
+            }
+        }
+        if ($Tags) {
+            $AddressBlockPatch.tags = $Tags
+        }
+        if ($DHCPLeaseSeconds) {
+            $NewObj.inheritance_sources.dhcp_config.lease_time.action = "override"
+            $NewObj.inheritance_sources.dhcp_config.lease_time.value = $DHCPLeaseSeconds
+            $NewObj.dhcp_config.lease_time = $DHCPLeaseSeconds
+        }
 
-          if ($DHCPLeaseSeconds) {
-              $BloxSubnet.inheritance_sources.dhcp_config.lease_time.action = "override"
-              $BloxSubnet.dhcp_config.lease_time = $DHCPLeaseSeconds
-
-              $BloxSubnetPatch.inheritance_sources = $BloxSubnet.inheritance_sources
-              $BloxSubnetPatch.dhcp_config += $BloxSubnet.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
-          }
-
-          if ($DDNSDomain) {
-              $BloxSubnetPatch."ddns_domain" = $DDNSDomain
-              $DDNSupdateBlock = @{
-                  ddns_update_block = @{
-		  	        "action" = "override"
-			        "value" = @{}
-		          }
-              }
-              $BloxSubnetPatch.inheritance_sources = $DDNSupdateBlock
-          }
-
-          if ($Tags) {
-              $BloxSubnetPatch.tags = $Tags
-          }
-  
-          if ($BloxSubnetPatch.Count -eq 0) {
-              Write-Host "Nothing to update." -ForegroundColor Gray
-          } else {
-              $splat = $BloxSubnetPatch | ConvertTo-Json -Depth 10
-
-              $Result = Invoke-CSP -Method PATCH -Uri "$BloxSubnetUri" -Data $splat
-              $Result = $Result | Select-Object -ExpandProperty result
-              if ($Result.id -eq $BloxSubnetUri) {
-                  Write-Host "Updated Subnet $($Result.address)/$($result.CIDR) successfully." -ForegroundColor Green
-                  return $Result
-              } else {
-                  Write-Host "Failed to update Subnet $Subnet/$CIDR - $BloxSubnetUri." -ForegroundColor Red
-                  break
-              }
-          }
-
-      } else {
-          Write-Host "The Subnet $Subnet/$CIDR - $BloxSubnetUri does not exist." -ForegroundColor Red
-      }
+        if ($DDNSDomain) {
+            $NewObj.inheritance_sources.ddns_update_block.action = "override"
+            $NewObj.inheritance_sources.ddns_update_block.value = @{}
+            $NewObj.ddns_domain = $DDNSDomain
+        }
+        $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
 }
