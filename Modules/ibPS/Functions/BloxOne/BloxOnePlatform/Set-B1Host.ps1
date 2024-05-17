@@ -136,8 +136,10 @@
         $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$hostID" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($($Results.id) -eq $($B1Host.id)) {
           Write-Host "Updated BloxOne Host Configuration $($B1Host.display_name) successfuly." -ForegroundColor Green
+          return $Results
         } else {
-          Write-Host "Failed to update BloxOne Host Configuration on $($B1Host.display_name)." -ForegroundColor Red
+          Write-Error "Failed to update BloxOne Host Configuration on $($B1Host.display_name)."
+          return $Results
         }
       }
     }

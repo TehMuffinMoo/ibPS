@@ -29,3 +29,4 @@
 | `Set-B1ForwardZone`       | `Set-B1AddressBlock`      | `Set-B1DHCPConfigProfile` |
 | `Set-B1FixedAddress`      | `Set-B1HAGroup`           | `Set-B1HAGroup`           |
 | `Set-B1Range`             | `Set-B1Record`            | `Set-B1Subnet`            |
+| `Set-B1APIKey`            | ``            | ``            |

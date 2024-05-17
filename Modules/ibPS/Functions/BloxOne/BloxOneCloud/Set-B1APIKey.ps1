@@ -41,45 +41,49 @@ function Set-B1APIKey {
         [ValidateSet("Enabled", "Disabled")]
         $State,
         [Parameter(
-          ValueFromPipelineByPropertyName = $true,
-          ParameterSetName="With ID",
+          ValueFromPipeline = $true,
+          ParameterSetName="Object",
           Mandatory=$true
         )]
-        [String]$id
+        [System.Object]$Object
     )
 
-    process { 
-        if ($id) {
-            $APIKey = Get-B1APIkey -id $id
+    process {
+        if ($Object) {
+            $SplitID = $Object.id.split('/')
+            if (("$($SplitID[0])/$($SplitID[1])") -ne "identity/apikeys") {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'identity/apikeys' objects as input"
+                return $null
+            }
+            $Type = $Object.type
         } else {
             if ($Type) {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict
+                $Object = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict
             } else {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -Strict
+                $Object = Get-B1APIKey -User $User -Name $Name -Strict
+            }
+            if (!($Object)) {
+                Write-Error "Unable to find API Key: $($Name)"
+                return $null
+            }
+            if ($Object.count -gt 1) {
+                Write-Error "Multiple API Keys were found, to update more than one API Keys you should pass those objects using pipe instead."
+                return $null
             }
         }
-        if ($APIKey) {
-          if ($APIKey.count -eq 1) {
-            $APIKeyIdSplit = $APIKey.id -split "identity/apikeys/"
-            if ($APIKeyIdSplit[1]) {
-                if ($State) {
-                  $APIKey.state = $State.toLower()
-                }
-                $APIKeyJson = $APIKey | ConvertTo-Json -Depth 5
-                Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])" -Data $APIKeyJson | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-            }
-            if (Get-B1APIkey -id $($APIKey.id)) {
-              Write-Host "Successfully updated API Key: $($APIKey.name)" -ForegroundColor Green
-              return $APIKey
-            } else {
-              Write-Error "Error. Failed to update API Key: $($APIKey.name)" -ForegroundColor Green
-              return $APIKey
-            }
-          } else {
-            Write-Error "More than one result returned. To update multiple objects, pipe Get-B1APIKey into Set-B1APIKey instead"
-          }
+        $NewObj = $Object | Select-Object * -ExcludeProperty id
+
+        $APIKeyIdSplit = $Object.id -split "identity/apikeys/"
+        if ($State) {
+            $NewObj.state = $State.toLower()
+        }
+
+        $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
         } else {
-            Write-Error "API Key not found"
+            $Results
         }
     }
 }

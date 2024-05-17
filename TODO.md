@@ -23,7 +23,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Improve coverage of Pester Tests
 - [ ] Add `-CustomFilters` parameter to all functions where filters are supported. See [docs](https://ibps.readthedocs.io/en/dev/#-customfilters)
 - [X] Add support for response content filtering when creating or updating DTC health checks
-- [ ] Add support for response content conversion when using Copy-NIOSDTCToBloxOne
+- [X] Add support for response content conversion when using Copy-NIOSDTCToBloxOne
 - [ ] Standardise code model for Set- cmdlets.
   - [X] Set-B1AddressBlock
   - [X] Set-B1AuthoritativeZone
@@ -36,13 +36,8 @@ The list of items below are those which are not yet implemented within ibPS. Onc
   - [X] Set-B1Range
   - [X] Set-B1Record
   - [X] Set-B1Subnet
-  - [ ] Set-B1APIKey
-  - [ ] Set-B1LookalikeTarget
-  - [ ] Set-B1SOCInsight
-  - [ ] Set-B1TideDataProfile
-  - [ ] Set-B1DHCPGlobalConfig
-  - [ ] Set-B1Host
-  - [ ] Set-B1InternalDomainList
+  - [X] Set-B1APIKey
+  - [X] Set-B1Host
 - [ ] Investigate the naming convention of Set-B1NTPServiceConfiguration
 
 ## Bug Fixes
