@@ -12,17 +12,31 @@ Updates an existing DNS record in BloxOneDDI
 
 ## SYNTAX
 
-### With ID
+### RDATA
 ```
-Set-B1Record -Type <String> [-rdata <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>]
- [-Weight <Int32>] [-Port <Int32>] [-Tags <Object>] -id <String> [<CommonParameters>]
+Set-B1Record -Type <String> -View <String> -CurrentRDATA <String> [-rdata <String>] [-NewName <String>]
+ [-TTL <Int32>] [-Description <String>] [-Priority <Int32>] [-Weight <Int32>] [-Port <Int32>] [-State <String>]
+ [-Tags <Object>] [<CommonParameters>]
 ```
 
-### Default
+### FQDN
 ```
-Set-B1Record -Type <String> -Name <String> -Zone <String> [-rdata <String>] -view <String>
- [-CurrentRDATA <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>] [-Weight <Int32>]
- [-Port <Int32>] [-Tags <Object>] [<CommonParameters>]
+Set-B1Record -Type <String> -FQDN <String> -View <String> [-rdata <String>] [-NewName <String>] [-TTL <Int32>]
+ [-Description <String>] [-Priority <Int32>] [-Weight <Int32>] [-Port <Int32>] [-State <String>]
+ [-Tags <Object>] [<CommonParameters>]
+```
+
+### NameAndZone
+```
+Set-B1Record -Type <String> -Name <String> -Zone <String> -View <String> [-rdata <String>] [-NewName <String>]
+ [-TTL <Int32>] [-Description <String>] [-Priority <Int32>] [-Weight <Int32>] [-Port <Int32>] [-State <String>]
+ [-Tags <Object>] [<CommonParameters>]
+```
+
+### Object
+```
+Set-B1Record [-rdata <String>] [-NewName <String>] [-TTL <Int32>] [-Description <String>] [-Priority <Int32>]
+ [-Weight <Int32>] [-Port <Int32>] [-State <String>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,34 +56,22 @@ The type of the record to update
 
 ```yaml
 Type: String
-Parameter Sets: With ID
+Parameter Sets: RDATA, FQDN, NameAndZone
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-```yaml
-Type: String
-Parameter Sets: Default
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Name
-The name of the record to update
+The name of the record to update.
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: NameAndZone
 Aliases:
 
 Required: True
@@ -84,7 +86,53 @@ The zone of the record to update
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: NameAndZone
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -FQDN
+{{ Fill FQDN Description }}
+
+```yaml
+Type: String
+Parameter Sets: FQDN
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -View
+The DNS View the record exists in
+
+```yaml
+Type: String
+Parameter Sets: RDATA, FQDN, NameAndZone
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CurrentRDATA
+Optional parameter to select record based on current RDATA.
+Will be deprecated once pipeline input is implemented.
+
+```yaml
+Type: String
+Parameter Sets: RDATA
 Aliases:
 
 Required: True
@@ -109,28 +157,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -view
-The DNS View the record exists in
+### -NewName
+Use -NewName to update the name of the record
 
 ```yaml
 Type: String
-Parameter Sets: Default
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CurrentRDATA
-Optional parameter to select record based on current RDATA.
-Will be deprecated once pipeline input is implemented.
-
-```yaml
-Type: String
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -218,6 +250,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -State
+Set whether the DNS Record is enabled or disabled.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tags
 Any tags you want to apply to the record
 
@@ -233,19 +280,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the DNS record to update.
+### -Object
+The Range Object to update.
 Accepts pipeline input
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

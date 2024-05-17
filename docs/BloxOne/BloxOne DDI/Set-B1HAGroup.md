@@ -14,14 +14,14 @@ Updates an existing HA Group in BloxOneDDI
 
 ### Default
 ```
-Set-B1HAGroup -Name <String> [-Mode <String>] [-PrimaryNode <String>] [-SecondaryNode <String>]
- [-Description <String>] [-Tags <Object>] [<CommonParameters>]
+Set-B1HAGroup -Name <String> [-NewName <String>] [-Description <String>] [-Mode <String>]
+ [-PrimaryNode <String>] [-SecondaryNode <String>] [-Tags <Object>] [<CommonParameters>]
 ```
 
-### ID
+### Object
 ```
-Set-B1HAGroup [-Mode <String>] [-PrimaryNode <String>] [-SecondaryNode <String>] [-Description <String>]
- [-Tags <Object>] -id <String> [<CommonParameters>]
+Set-B1HAGroup [-NewName <String>] [-Description <String>] [-Mode <String>] [-PrimaryNode <String>]
+ [-SecondaryNode <String>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -45,6 +45,36 @@ Parameter Sets: Default
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+Use -NewName to update the name of the HA Group
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Description
+The new description for the HA Group
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False
@@ -96,21 +126,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-The new description/comment to modify the HA Group to
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Tags
 Any tags you want to apply to the HA Group
 
@@ -126,19 +141,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the HA Group to update.
+### -Object
+The HA Group Object to update.
 Accepts pipeline input
 
 ```yaml
-Type: String
-Parameter Sets: ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

@@ -13,8 +13,9 @@ Queries a list of HA Groups from BloxOneDDI
 ## SYNTAX
 
 ```
-Get-B1HAGroup [[-Name] <String>] [[-Mode] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
+Get-B1HAGroup [[-Name] <String>] [-CollectStats] [[-Mode] <String>] [-Strict] [[-Limit] <Int32>]
+ [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
+ [[-OrderByTag] <String>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -40,6 +41,22 @@ Aliases:
 Required: False
 Position: 1
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CollectStats
+Use the -CollectStats parameter to collect additional information about the selected HA Group(s).
+This includes HA Group Status and member metrics (heartbeats is added under hosts).
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

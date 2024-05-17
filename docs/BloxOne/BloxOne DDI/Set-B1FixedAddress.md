@@ -12,16 +12,22 @@ Updates an existing fixed addresses in BloxOneDDI IPAM
 
 ## SYNTAX
 
-### Default
+### IP
 ```
-Set-B1FixedAddress -IP <String> -Space <String> [-Name <String>] [-Description <String>] [-MatchType <String>]
- [-MatchValue <String>] [-DHCPOptions <Object>] [-Tags <Object>] [<CommonParameters>]
+Set-B1FixedAddress -IP <String> -Space <String> [-NewName <String>] [-Description <String>]
+ [-MatchType <String>] [-MatchValue <String>] [-DHCPOptions <Object>] [-Tags <Object>] [<CommonParameters>]
 ```
 
-### With ID
+### Name
 ```
-Set-B1FixedAddress [-Name <String>] [-Description <String>] [-MatchType <String>] [-MatchValue <String>]
- [-DHCPOptions <Object>] [-Tags <Object>] [-id <String>] [<CommonParameters>]
+Set-B1FixedAddress -Name <String> -Space <String> [-NewName <String>] [-Description <String>]
+ [-MatchType <String>] [-MatchValue <String>] [-DHCPOptions <Object>] [-Tags <Object>] [<CommonParameters>]
+```
+
+### Object
+```
+Set-B1FixedAddress [-NewName <String>] [-Description <String>] [-MatchType <String>] [-MatchValue <String>]
+ [-DHCPOptions <Object>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -56,22 +62,7 @@ The IP of the fixed address
 
 ```yaml
 Type: String
-Parameter Sets: Default
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Space
-Use this parameter to filter the list of fixed addresses by Space
-
-```yaml
-Type: String
-Parameter Sets: Default
+Parameter Sets: IP
 Aliases:
 
 Required: True
@@ -86,6 +77,36 @@ The name of the fixed address
 
 ```yaml
 Type: String
+Parameter Sets: Name
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Space
+Use this parameter to filter the list of fixed addresses by Space
+
+```yaml
+Type: String
+Parameter Sets: IP, Name
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+The new name for the fixed address
+
+```yaml
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -97,7 +118,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description of the fixed address
+The new description of the fixed address
 
 ```yaml
 Type: String
@@ -172,19 +193,19 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the fixed address.
+### -Object
+The Fixed Address Object to update.
 Accepts pipeline input
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

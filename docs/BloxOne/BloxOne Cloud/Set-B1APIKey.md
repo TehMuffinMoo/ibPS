@@ -17,9 +17,9 @@ Updates an existing BloxOne Cloud API Key
 Set-B1APIKey -Name <Object> [-User <Object>] [-Type <Object>] [-State <Object>] [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
-Set-B1APIKey [-State <Object>] -id <String> [<CommonParameters>]
+Set-B1APIKey [-State <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -94,19 +94,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the API Key.
-Accepts pipeline input
+### -Object
+{{ Fill Object Description }}
 
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
