@@ -24,7 +24,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add `-CustomFilters` parameter to all functions where filters are supported. See [docs](https://ibps.readthedocs.io/en/dev/#-customfilters)
 - [X] Add support for response content filtering when creating or updating DTC health checks
 - [X] Add support for response content conversion when using Copy-NIOSDTCToBloxOne
-- [ ] Standardise code model for Set- cmdlets.
+- [X] Standardise code model for Set- cmdlets.
   - [X] Set-B1AddressBlock
   - [X] Set-B1AuthoritativeZone
   - [X] Set-B1DNSHost
