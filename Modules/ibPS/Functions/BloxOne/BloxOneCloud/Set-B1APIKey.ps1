@@ -18,8 +18,8 @@ function Set-B1APIKey {
     .PARAMETER State
         Toggle the state of the API Key
 
-    .PARAMETER id
-        The id of the API Key. Accepts pipeline input
+    .PARAMETER Object
+        The API Key Object. Accepts pipeline input
 
     .EXAMPLE
         PS> Set-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
