@@ -6,27 +6,27 @@ param(
 $ibPSDir = $PSScriptRoot
 if ($Selection -ne 's') {
     . $ibPSDir\Modules\ibPS\Functions\Misc\Misc.ps1
-}
 
-$Platform = Detect-OS
+    $Platform = Detect-OS
 
-if ($Platform -eq "Windows") {
-  $UserDocuments = "$ENV:USERPROFILE\Documents"
-  $UserModuleDirectory = "$UserDocuments\WindowsPowerShell\Modules"
-  $GlobalModuleDirectory = "C:\Windows\System32\WindowsPowerShell\v1.0\Modules"
+    if ($Platform -eq "Windows") {
+    $UserDocuments = "$ENV:USERPROFILE\Documents"
+    $UserModuleDirectory = "$UserDocuments\WindowsPowerShell\Modules"
+    $GlobalModuleDirectory = "C:\Windows\System32\WindowsPowerShell\v1.0\Modules"
 
-  $elevated = ([Security.Principal.WindowsPrincipal] `
-  [Security.Principal.WindowsIdentity]::GetCurrent()
- ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) 
-}
+    $elevated = ([Security.Principal.WindowsPrincipal] `
+    [Security.Principal.WindowsIdentity]::GetCurrent()
+    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) 
+    }
 
-if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-  $UserDocuments = "$ENV:HOME/.local/share"
-  $UserModuleDirectory = "$UserDocuments/powershell/Modules"
-  $GlobalModuleDirectory = "/usr/local/microsoft/powershell/7/Modules"
-  if ($(whoami) -eq "root") {
-    $elevated = $true
-  }
+    if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+    $UserDocuments = "$ENV:HOME/.local/share"
+    $UserModuleDirectory = "$UserDocuments/powershell/Modules"
+    $GlobalModuleDirectory = "/usr/local/microsoft/powershell/7/Modules"
+    if ($(whoami) -eq "root") {
+        $elevated = $true
+    }
+    }
 }
 
 ## Context Menu
@@ -185,6 +185,7 @@ do {
         Remove-Item ibPS,ibPS.zip -Recurse -Force
         $ibPSVersion = Get-ibPSVersion
         if ($ibPSVersion) {
+          Set-ibPSConfiguration -Branch $($Branch)
           Write-Host "Successfully installed ibPS v$($ibPSVersion) - ($($Branch))." -ForegroundColor Green
         } else {
           Write-Error "Failed to install ibPS v$($ibPSVersion) - ($($Branch))."
