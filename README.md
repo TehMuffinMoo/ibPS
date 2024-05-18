@@ -62,8 +62,19 @@ You can either load the cmdlets directly, or Import/Install it as a PowerShell M
 Install-Module -Name ibPS
 ```
 
+#### Installing from Github
+You can install from source directly from Github using the command below.
+```powershell
+iex "& {$(irm https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/Install.ps1)} s"
+```
+
+You can optionally also append the branch name at the end, as shown below
+```powershell
+iex "& {$(irm https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/Install.ps1)} s dev"
+```
+
 #### Installing/Updating with Install.ps1
-You can install with the Install.ps1 script, allowing you to install the latest 'bleeding edge' version.
+You can install with the Install.ps1 script.
 ```powershell
 # Clone this repository on Windows
 $ git clone https://github.com/TehMuffinMoo/ibPS/
