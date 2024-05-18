@@ -1,5 +1,6 @@
 param(
-  $Selection
+  $Selection,
+  $Branch
 )
 
 $ibPSDir = $PSScriptRoot
@@ -152,7 +153,49 @@ do {
                 }
             }
         }
-      } 
+      }
+      ## Install from Source
+      's' {
+        if (!($Branch)) {
+            $Branch = "main"
+        }
+        if (Get-Command Get-ibPSVersion) {
+            Write-Host "Found existing version, removing.." -ForegroundColor Yellow
+            (Get-Module ibPS -ListAvailable).moduleBase | Remove-Item -Recurse -Force
+        }
+        Write-Host "Downloading ibPS $($Branch) branch from Github.." -ForegroundColor Cyan
+        Invoke-WebRequest -Uri "https://github.com/TehMuffinMoo/ibPS/archive/refs/heads/$($Branch).zip" -OutFile ibPS.zip -Headers @{"Cache-Control"="no-cache"}
+        if (Test-Path ibPS.zip) {
+          Write-Host "Extracting ibPS to disk.." -ForegroundColor Cyan
+          Expand-Archive ibPS.zip
+        } else {
+            Write-Error "Failed to download ibPS $($Branch) branch from Github"
+            return $null
+        }
+        if (Test-Path ibPS) {
+          Write-Host "Installing ibPS Module.." -ForegroundColor Cyan
+          $Platform = Detect-OS
+          if ($Platform -eq "Windows") {
+
+          }
+          if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+
+          }
+          Set-Location ibPS/ibPS-$($Branch)
+          .\Install.ps1 -Selection i
+        } else {
+            Write-Error "Failed to extract ibPS."
+            return $null
+        }
+        Set-Location ../../
+        Remove-Item ibPS,ibPS.zip -Recurse -Force
+        $ibPSVersion = Get-ibPSVersion
+        if ($ibPSVersion) {
+          Write-Host "Successfully installed ibPS v$($ibPSVersion) - ($($Branch))." -ForegroundColor Green
+        } else {
+          Write-Error "Failed to install ibPS v$($ibPSVersion) - ($($Branch))."
+        }
+      }
     }
     if ($endwheninstalled -or $Selection -eq "q") {
       $selection = "q"
