@@ -4,8 +4,9 @@ param(
 )
 
 $ibPSDir = $PSScriptRoot
-
-. $ibPSDir\Modules\ibPS\Functions\Misc\Misc.ps1
+if ($Selection -ne 's') {
+    . $ibPSDir\Modules\ibPS\Functions\Misc\Misc.ps1
+}
 
 $Platform = Detect-OS
 
@@ -174,13 +175,6 @@ do {
         }
         if (Test-Path ibPS) {
           Write-Host "Installing ibPS Module.." -ForegroundColor Cyan
-          $Platform = Detect-OS
-          if ($Platform -eq "Windows") {
-
-          }
-          if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-
-          }
           Set-Location ibPS/ibPS-$($Branch)
           .\Install.ps1 -Selection i
         } else {
