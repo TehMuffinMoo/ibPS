@@ -232,6 +232,189 @@ function Get-NetworkClass {
   }
 }
 
+function ConvertTo-HexString {
+  <#
+    .LINK
+      https://www.powershellgallery.com/packages/Utility.PS/1.0.0.1/Content/ConvertTo-HexString.ps1
+  #>
+  [CmdletBinding()]
+  param (
+      # Value to convert
+      [Parameter(Mandatory=$true, Position = 0, ValueFromPipeline=$true)]
+      [object] $InputObjects,
+      # Delimiter between Hex pairs
+      [Parameter (Mandatory=$false)]
+      [string] $Delimiter = ' ',
+      # Encoding to use for text strings
+      [Parameter (Mandatory=$false)]
+      [ValidateSet('Ascii', 'UTF32', 'UTF7', 'UTF8', 'BigEndianUnicode', 'Unicode')]
+      [string] $Encoding = 'Default'
+  )
+
+  begin {
+      function Transform ([byte[]]$InputBytes) {
+          [string[]] $outHexString = New-Object string[] $InputBytes.Count
+          for ($iByte = 0; $iByte -lt $InputBytes.Count; $iByte++) {
+              $outHexString[$iByte] = $InputBytes[$iByte].ToString('X2')
+          }
+          return $outHexString -join $Delimiter
+      }
+
+      ## Create list to capture byte stream from piped input.
+      [System.Collections.Generic.List[byte]] $listBytes = New-Object System.Collections.Generic.List[byte]
+  }
+
+  process
+  {
+      if ($InputObjects -is [byte[]])
+      {
+          Write-Output (Transform $InputObjects)
+      }
+      else {
+          foreach ($InputObject in $InputObjects) {
+              [byte[]] $InputBytes = $null
+              if ($InputObject -is [byte]) {
+                  ## Populate list with byte stream from piped input.
+                  if ($listBytes.Count -eq 0) {
+                      Write-Verbose 'Creating byte array from byte stream.'
+                      Write-Warning ('For better performance when piping a single byte array, use "Write-Output $byteArray -NoEnumerate | {0}".' -f $MyInvocation.MyCommand)
+                  }
+                  $listBytes.Add($InputObject)
+              }
+              elseif ($InputObject -is [byte[]])
+              {
+                  $InputBytes = $InputObject
+              }
+              elseif ($InputObject -is [string])
+              {
+                  $InputBytes = [Text.Encoding]::$Encoding.GetBytes($InputObject)
+              }
+              elseif ($InputObject -is [bool] -or $InputObject -is [char] -or $InputObject -is [single] -or $InputObject -is [double] -or $InputObject -is [int16] -or $InputObject -is [int32] -or $InputObject -is [int64] -or $InputObject -is [uint16] -or $InputObject -is [uint32] -or $InputObject -is [uint64])
+              {
+                  $InputBytes = [System.BitConverter]::GetBytes($InputObject)
+              }
+              elseif ($InputObject -is [guid])
+              {
+                  $InputBytes = $InputObject.ToByteArray()
+              }
+              elseif ($InputObject -is [System.IO.FileSystemInfo])
+              {
+                  if ($PSVersionTable.PSVersion -ge [version]'6.0') {
+                      $InputBytes = Get-Content $InputObject.FullName -Raw -AsByteStream
+                  }
+                  else {
+                      $InputBytes = Get-Content $InputObject.FullName -Raw -Encoding Byte
+                  }
+              }
+              else
+              {
+                  ## Non-Terminating Error
+                  $Exception = New-Object ArgumentException -ArgumentList ('Cannot convert input of type {0} to Hex string.' -f $InputObject.GetType())
+                  Write-Error -Exception $Exception -Category ([System.Management.Automation.ErrorCategory]::ParserError) -CategoryActivity $MyInvocation.MyCommand -ErrorId 'ConvertHexFailureTypeNotSupported' -TargetObject $InputObject
+              }
+
+              if ($null -ne $InputBytes -and $InputBytes.Count -gt 0) {
+                  Write-Output (Transform $InputBytes)
+              }
+          }
+      }
+  }
+
+  end {
+      ## Output captured byte stream from piped input.
+      if ($listBytes.Count -gt 0) {
+          Write-Output (Transform $listBytes.ToArray())
+      }
+  }
+}
+
+function ConvertFrom-HexString {
+  <#
+    .LINK
+      https://www.powershellgallery.com/packages/MSIdentityTools/1.0.0.3/Content/ConvertFrom-HexString.ps1
+  #>
+  [CmdletBinding()]
+  param (
+      # Value to convert
+      [Parameter(Mandatory=$true, Position=0, ValueFromPipeline=$true)]
+      [string[]] $InputObject,
+      # Delimiter between Hex pairs
+      [Parameter (Mandatory=$false)]
+      [string] $Delimiter = " ",
+      # Output raw byte array
+      [Parameter (Mandatory=$false)]
+      [switch] $RawBytes,
+      # Encoding to use for text strings
+      [Parameter (Mandatory=$false)]
+      [ValidateSet("Ascii", "UTF32", "UTF7", "UTF8", "BigEndianUnicode", "Unicode")]
+      [string] $Encoding = "Default"
+  )
+
+  process
+  {
+      $listBytes = New-Object object[] $InputObject.Count
+      for ($iString = 0; $iString -lt $InputObject.Count; $iString++) {
+          [string] $strHex = $InputObject[$iString]
+          if ($strHex.Substring(2,1) -eq $Delimiter) {
+              [string[]] $listHex = $strHex -split $Delimiter
+          }
+          else {
+              [string[]] $listHex = New-Object string[] ($strHex.Length/2)
+              for ($iByte = 0; $iByte -lt $strHex.Length; $iByte += 2) {
+                  $listHex[[System.Math]::Truncate($iByte/2)] = $strHex.Substring($iByte, 2)
+              }
+          }
+
+          [byte[]] $outBytes = New-Object byte[] $listHex.Count
+          for ($iByte = 0; $iByte -lt $listHex.Count; $iByte++)
+          {
+              $outBytes[$iByte] = [byte]::Parse($listHex[$iByte],[System.Globalization.NumberStyles]::HexNumber)
+          }
+
+          if ($RawBytes) { $listBytes[$iString] = $outBytes }
+          else {
+              $outString = ([Text.Encoding]::$Encoding.GetString($outBytes))
+              Write-Output $outString
+          }
+      }
+      if ($RawBytes) {
+          return $listBytes
+      }
+  }
+}
+
+function ConvertTo-Base64Url {
+  <#
+    .LINK
+      https://www.powershellgallery.com/packages/Posh-ACME/2.0.1/Content/Private%5CConvertTo-Base64Url.ps1
+  #>
+  [CmdletBinding()]
+  [OutputType('System.String')]
+  param(
+      [Parameter(ParameterSetName='String',Mandatory,Position=0,ValueFromPipeline)]
+      [AllowEmptyString()]
+      [string]$Text,
+      [Parameter(ParameterSetName='String')]
+      [switch]$FromBase64,
+      [Parameter(ParameterSetName='Bytes',Mandatory,Position=0)]
+      [AllowEmptyCollection()]
+      [byte[]]$Bytes
+  )
+  Process {
+      if (!$FromBase64) {
+          if ($PSCmdlet.ParameterSetName -eq 'String') {
+              $Bytes = [Text.Encoding]::UTF8.GetBytes($Text)
+          }
+          $s = [Convert]::ToBase64String($Bytes)
+      } else {
+          $s = $Text
+      }
+      $s = $s.Split('=')[0]
+      $s = $s.Replace('+','-').Replace('/','_')
+      return $s
+  }
+}
+
 function New-B1Metadata {
   param(
       [Parameter(Mandatory=$true)]
@@ -678,6 +861,9 @@ function DevelopmentFunctions {
     "Write-DebugMsg"
     "Write-Colour"
     "New-ibPSTelemetry"
+    "ConvertFrom-HexString"
+    "ConvertTo-HexString"
+    "ConvertTo-Base64Url"
   )
 }
 

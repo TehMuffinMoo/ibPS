@@ -15,6 +15,9 @@ function Set-ibPSConfiguration {
     .PARAMETER CSPUrl
         Optionally configure the the CSP URL to use manually. The CSP URL defaults to https://csp.infoblox.com if not defined. You only need to use -CSPUrl OR -CSPRegion.
 
+    .PARAMETER DoHServer
+        Optionally configure the DNS over HTTPS Server to use when calling Invoke-DoHQuery
+
     .PARAMETER Persist
         Setting the -Persist parameter will save the configuration peremenantly for your user on this device. Without using this switch, the settings will only be saved for the duration of the PowerShell session.
 
@@ -52,6 +55,7 @@ function Set-ibPSConfiguration {
     [ValidateSet("US","EU")]
     [String]$CSPRegion,
     [String]$CSPUrl,
+    [String]$DoHServer,
     [Switch]$Persist,
     [ValidateSet('Enabled','Disabled')]
     [String]$DevelopmentMode,
@@ -123,6 +127,21 @@ function Set-ibPSConfiguration {
         Write-Host "BloxOne API key has been stored for this session." -ForegroundColor Green
         Write-Host "You can make the API key persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
     }
+  }
+
+  if ($DoHServer) {
+    $Platform = Detect-OS
+    if ($Platform -eq "Windows") {
+      [System.Environment]::SetEnvironmentVariable('IBPSDoH',$DoHServer,[System.EnvironmentVariableTarget]::User)
+    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+      if (!(Test-Path ~/.zshenv)) {
+        touch ~/.zshenv
+      }
+      sed -i '' -e '/IBPSDoH/d' ~/.zshenv
+      echo "export IBPSDoH=$DoHServer" >> ~/.zshenv
+    }
+    $ENV:IBPSDoH = $DoHServer
+    Write-Host "Set DNS over HTTPS Server to: $($DoHServer)." -ForegroundColor Green
   }
 
   if ($DevelopmentMode) {

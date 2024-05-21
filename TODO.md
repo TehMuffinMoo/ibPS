@@ -11,7 +11,6 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add discovery APIs when GA
 
 ## Improvements
-- [X] Add `-Tags` to Set-B1ForwardNSG
 - [ ] Replace API calls for `dns/host` with `dns/service`
 - [ ] Replace API calls for `dhcp/host` with `dhcp/service`
 - [ ] Improve coverage of Pester Tests
