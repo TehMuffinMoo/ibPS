@@ -38,9 +38,12 @@ function Invoke-DoHQuery {
         [String]$Query,
         [ValidateSet('A','CNAME','PTR','MX','SOA','TXT')]
         [String]$Type,
-        [Parameter(Mandatory=$true)]
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH })
     )
+
+    if (!($DOHServer)) {
+        Write-Error "Error. DNS over HTTPS Server is not set. Specify the -DoHServer parameter or use Set-ibPSConfiguration to set the DoH Server to use."
+    }
 
     function Decode-QNAME {
         param(
@@ -106,7 +109,7 @@ function Invoke-DoHQuery {
     $JoinedQuery = ""
 
     foreach ($SplitItem in $SplitQuery) {
-        $JoinedQuery += "$('{0:X2}' -f ([uint32]$SplitItem.Length))$(($SplitItem | Format-Hex).HexBytes)"
+        $JoinedQuery += "$('{0:X2}' -f ([uint32]$SplitItem.Length))$($SplitItem | ConvertTo-HexString)"
     }
     $JoinedQuery += '00'
 
@@ -116,7 +119,7 @@ function Invoke-DoHQuery {
     $QCLASSHex = '{0:X4}' -f ([uint32]1)
 
     $Hex = "$HeaderHex $QNAMEHex $QTYPEHex $QCLASSHex" -replace ' ',''
-
+    
     $Bytes = New-Object -TypeName byte[] -ArgumentList ($Hex.Length / 2)
 
     for ($i = 0; $i -lt $hex.Length; $i += 2) {
