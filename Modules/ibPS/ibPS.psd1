@@ -137,10 +137,9 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Get-B1TideInfoRank', 'Get-B1TideThreatClass', 
                'Get-B1TideThreatClassDefaultTTL', 'Get-B1TideThreatCounts', 
                'Get-B1TideThreatEnrichment', 'Get-B1TideThreatInsightClass', 
-               'Get-B1TideThreatProperty', 'Get-B1TideThreats', 'Invoke-DoHQuery', 
-               'New-B1CustomList', 'New-B1InternalDomainList', 
-               'New-B1LookalikeTarget', 'New-B1TideDataProfile', 
-               'Remove-B1BypassCode', 'Remove-B1CustomList', 
+               'Get-B1TideThreatProperty', 'Get-B1TideThreats', 'New-B1CustomList', 
+               'New-B1InternalDomainList', 'New-B1LookalikeTarget', 
+               'New-B1TideDataProfile', 'Remove-B1BypassCode', 'Remove-B1CustomList', 
                'Remove-B1InternalDomainList', 'Remove-B1LookalikeTarget', 
                'Remove-B1NetworkList', 'Remove-B1SecurityPolicy', 'Set-B1CustomList', 
                'Set-B1InternalDomainList', 'Set-B1LookalikeTarget', 
@@ -153,8 +152,8 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 'Get-NIOSObject', 
                'New-NIOSDelegatedZone', 'Set-NIOSConfiguration', 
                'Set-NIOSCredentials', 'Get-ibPSConfiguration', 'Get-ibPSVersion', 
-               'Get-NetworkInfo', 'Get-NetworkTopology', 'Set-ibPSConfiguration', 
-               'Invoke-CSP', 'Invoke-NIOS'
+               'Get-NetworkInfo', 'Get-NetworkTopology', 'Resolve-DoHQuery', 
+               'Set-ibPSConfiguration', 'Invoke-CSP', 'Invoke-NIOS'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
