@@ -36,7 +36,7 @@ function Invoke-DoHQuery {
     #>
     param(
         [String]$Query,
-        [ValidateSet('A','CNAME','PTR','MX','SOA','NS','TXT')]
+        [ValidateSet('A','CNAME','PTR','MX','SOA','TXT')]
         [String]$Type,
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH })
     )
@@ -72,6 +72,7 @@ function Invoke-DoHQuery {
         "QTYPE" = ""
         "QCLASS" = ""
         "Answers" = @()
+        "Headers" = @{}
     }
 
     $QTYPEList = @{
@@ -126,14 +127,13 @@ function Invoke-DoHQuery {
     $Response = Invoke-WebRequest -Method GET -Uri "https://$($DOHServer)/dns-query?dns=$($Base64Encoded)" -Headers @{'content-type' = 'application/dns-message'}
 
     ## Decode Header
-    $ResponseHeader = (-join $Response.Content).substring(0,24)
     $ResponseHeaderHex = ($Response.Content|ForEach-Object ToString X2) -join ''
-    $Header_RefID = $ResponseHeaderHex.substring(0,4)
-    $Header_Metadata = $ResponseHeaderHex.substring(4,4)
-    $Header_QueryCount = $ResponseHeaderHex.substring(8,4)
-    $Header_RRCount = $ResponseHeaderHex.substring(12,4)
-    $Header_RRAnswerCount = $ResponseHeaderHex.substring(16,4)
-    $Header_AdditionalInfo = $ResponseHeaderHex.substring(20,4)
+    $Result.Headers.TransactionID = $([uint32]"0x$($ResponseHeaderHex.substring(0,4))")
+    $Result.Headers.Flags = "0x$($ResponseHeaderHex.substring(4,4))"
+    $Result.Headers.Questions = $([uint32]"0x$($ResponseHeaderHex.substring(8,4))")
+    $Result.Headers.AnswerRRs = $([uint32]"0x$($ResponseHeaderHex.substring(12,4))")
+    $Result.Headers.AuthorityRRs = $([uint32]"0x$($ResponseHeaderHex.substring(16,4))")
+    $Result.Headers.AdditionalRRs = $([uint32]"0x$($ResponseHeaderHex.substring(20,4))")
 
     ## Decode QNAME
     $RDATA = $ResponseHeaderHex.substring(24,$ResponseHeaderHex.length-24)
@@ -145,35 +145,37 @@ function Invoke-DoHQuery {
 
     ## Decode QCLASS
     $Result.QCLASS = $QCLASSList[[int]$([uint32]$QNAMEDecoded.remaining.substring(4,4))]
-    $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(8,$QNAMEDecoded.remaining.length-8)
 
+    ## Strip QTYPE/QCLASS
+    $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(8,$QNAMEDecoded.remaining.length-8)
     $TotalLen = $QNAMEDecoded.remaining.length
     while ($TotalLen -gt 0) {
-        $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining.substring(0,($QNAMEDecoded.remaining.length))
+        $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
+        $RTYPE = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
         $Ans = [PSCustomObject]@{
             "RDATA" = ""
-            "RNAME" = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+            "RNAME" = $(if ($Result.QTYPE -ne 'TXT') { ($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.' })
             "RTYPE" = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
             "RCLASS" = $QCLASSList[[int]$([uint32]$QNAMEDecoded.remaining.substring(4,4))]
             "TTL" = $([uint32]"0x$($QNAMEDecoded.remaining.substring(8,8))")
             "LENGTH" = $([uint32]"0x$($QNAMEDecoded.remaining.substring(16,4))")
         }
-
+        $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(20,$QNAMEDecoded.remaining.length-20)
         ## Decode Answer
         Switch($Ans.RTYPE) {
             'A' {
-                $IPSplit = ($($QNAMEDecoded.remaining.substring(20,8)) -split '(..)' -ne '')
+                $IPSplit = ($($QNAMEDecoded.remaining.substring(0,8)) -split '(..)' -ne '')
                 $IP = @()
                 foreach ($i in $IPSplit) {
                     $IP += [uint32]"0x$i"
                 }
                 $Ans.RDATA = $IP -join '.'
-                $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(28,($QNAMEDecoded.remaining.length-28))
+                $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(8,($QNAMEDecoded.remaining.length-8))
             }
             'SOA' {
-                $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining.substring(20,($QNAMEDecoded.remaining.length-20))
+                $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                 ## Decode The Primary Name Server
-                $NewRNAME = @{
+                $NewRDATA = [PSCustomObject]@{
                     "NS" = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
                     "ADMIN" = ""
                     "SERIAL" = 0
@@ -183,30 +185,36 @@ function Invoke-DoHQuery {
                     "TTL" = 0
                 }
                 $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
-                $NewRNAME.ADMIN += $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
-                $NewRNAME.SERIAL = $([uint32]"0x$($QNAMEDecoded.remaining.substring(0,8))")
-                $NewRNAME.REFRESH = $([uint32]"0x$($QNAMEDecoded.remaining.substring(8,8))")
-                $NewRNAME.RETRY = $([uint32]"0x$($QNAMEDecoded.remaining.substring(16,8))")
-                $NewRNAME.EXPIRE = $([uint32]"0x$($QNAMEDecoded.remaining.substring(24,8))")
-                $NewRNAME.TTL = $([uint32]"0x$($QNAMEDecoded.remaining.substring(32,8))")
+                $NewRDATA.ADMIN += $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+                $NewRDATA.SERIAL = $([uint32]"0x$($QNAMEDecoded.remaining.substring(0,8))")
+                $NewRDATA.REFRESH = $([uint32]"0x$($QNAMEDecoded.remaining.substring(8,8))")
+                $NewRDATA.RETRY = $([uint32]"0x$($QNAMEDecoded.remaining.substring(16,8))")
+                $NewRDATA.EXPIRE = $([uint32]"0x$($QNAMEDecoded.remaining.substring(24,8))")
+                $NewRDATA.TTL = $([uint32]"0x$($QNAMEDecoded.remaining.substring(32,8))")
                 $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(40,($QNAMEDecoded.remaining.length-40))
-                $Ans.RDATA = $NewRNAME
+                $Ans.RDATA = $NewRDATA
             }
             'CNAME' {
-                $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining.substring(20,($QNAMEDecoded.remaining.length-20))
+                $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                 $Ans.RDATA = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
             }
             'MX' {
-                $NewRNAME = @{
+                $NewRDATA = [PSCustomObject]@{
                     "MX" = ""
-                    "Preference" = $([uint32]"0x$($QNAMEDecoded.remaining.substring(20,4))")
+                    "Preference" = $([uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))")
                 }
-                $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining.substring(24,($QNAMEDecoded.remaining.length-24))
-                $NewRNAME.MX = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
-                $Ans.RDATA = $NewRNAME
+                $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining.substring(4,($QNAMEDecoded.remaining.length-4))
+                $NewRDATA.MX = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+                $Ans.RDATA = $NewRDATA
+            }
+            'TXT' {
+                $Ans.RNAME = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+                $Ans | Add-Member -MemberType NoteProperty -Name "TXT_LENGTH" -Value $([uint32]"0x$($QNAMEDecoded.remaining.substring(0,2))")
+                $Ans.RDATA = ($QNAMEDecoded.remaining.substring(2,$Ans.TXT_LENGTH*2) | ConvertFrom-HexString) -join ''
+                $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(($Ans.TXT_LENGTH*2)+2,$QNAMEDecoded.remaining.length-(($Ans.TXT_LENGTH*2)+2))
             }
             default {
-                $QNAMEDecoded.remaining
+                $QNAMEDecoded.remaining.substring(20,($QNAMEDecoded.remaining.length-20))
                 Write-Error "$($Ans.RTYPE) is not yet implemented"
                 return $null
             }
