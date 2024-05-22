@@ -4,7 +4,7 @@ function Invoke-DoHQuery {
         Used to query a DNS over HTTPS Server to verify connectivity and responses
 
     .DESCRIPTION
-        This function is used to query a DNS over HTTPS Server to verify connectivity and responses
+        This function is used to query a DNS over HTTPS Server to verify connectivity and responses. This has no dependency on the client, so will work regardless of if DoH is configured on the Network Adapter(s).
 
     .PARAMETER DoHServer
         Optionally specify a DNS over HTTPS Server for this specific query.
@@ -111,27 +111,30 @@ function Invoke-DoHQuery {
         "Headers" = @{}
     }
 
+    ## Query/Response Types
     $QTYPEList = @{
-        'A' = 1
-        'NS' = 2
-        'MD' = 3
-        'MF' = 4
-        'CNAME' = 5
-        'SOA' = 6
-        'MB' = 7
-        'MG' = 8
-        'MR' = 9
-        'NULL' = 10
-        'WKS' = 11
-        'PTR' = 12
-        'HINFO' = 13
-        'MINFO' = 14
-        'MX' = 15
-        'TXT' = 16
-        'AAAA' = 28
-        'ANY' = 255
+        'A' = 1        ## Address Record
+        'NS' = 2       ## Name Server Record
+        'MD' = 3       ## Mail Destination
+        'MF' = 4       ## Mail Forwarder
+        'CNAME' = 5    ## Canonical Name Record
+        'SOA' = 6      ## Start of Authority Record
+        'MB' = 7       ## Expirimetal/Obsolete - Mailing Lists
+        'MG' = 8       ## Expirimetal/Obsolete - Mailing Lists
+        'MR' = 9       ## Expirimetal/Obsolete - Mailing Lists
+        'NULL' = 10    ## Obsolete (RFC1035)
+        'WKS' = 11     ## Well Known Service - Obsolete (RFC1123)
+        'PTR' = 12     ## Pointer Record
+        'HINFO' = 13   ## Host Information Record
+        'MINFO' = 14   ## Expirimetal/Obsolete - Mailing Lists
+        'MX' = 15      ## Mail Exchange Record
+        'TXT' = 16     ## Text Record
+        'RP' = 17      ## Responsible Person Record
+        'AAAA' = 28    ## IPv6 Address Record
+        'ANY' = 255    ## Any/Wildcard Record from Cache
     }
 
+    ## Query/Response Class
     $QCLASSList = @{
         1 = 'IN'
         2 = 'CS'
