@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Invoke-DoHQuery
+# Resolve-DoHQuery
 
 ## SYNOPSIS
 Used to query a DNS over HTTPS Server to verify connectivity and responses
@@ -14,12 +14,12 @@ Used to query a DNS over HTTPS Server to verify connectivity and responses
 
 ### Default
 ```
-Invoke-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [<CommonParameters>]
+Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Invoke-DoHQuery [[-Query] <String>] [[-Type] <String>] -Object <Object> [<CommonParameters>]
+Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,7 +30,7 @@ This has no dependency on the client, so will work regardless of if DoH is confi
 
 ### EXAMPLE 1
 ```powershell
-Invoke-DoHQuery -Query google.com -Type TXT
+Resolve-DoHQuery -Query google.com -Type TXT
                                                                                                                 
 QNAME         : google.com
 QTYPE         : TXT
@@ -45,7 +45,7 @@ Headers       : {[AnswerRRs, 11], [AdditionalRRs, 0], [Questions, 1], [Transacti
 
 ### EXAMPLE 2
 ```powershell
-Invoke-DoHQuery -Query google.com -Type TXT | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
+Resolve-DoHQuery -Query google.com -Type TXT | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
                                                                                                                         
 RDATA                                                                RNAME      RTYPE RCLASS  TTL LENGTH TXT_LENGTH
 -----                                                                -----      ----- ------  --- ------ ----------
@@ -64,7 +64,7 @@ onetrust-domain-verification=de01ed21f2fa4d8781cbc3ffb89cf4ef        google.com 
 
 ### EXAMPLE 3
 ```powershell
-Invoke-DoHQuery -Query bbc.co.uk -Type SOA | Select-Object -ExpandProperty AnswerRRs | Select-Object -ExpandProperty RDATA | ft -AutoSize
+Resolve-DoHQuery -Query bbc.co.uk -Type SOA | Select-Object -ExpandProperty AnswerRRs | Select-Object -ExpandProperty RDATA | ft -AutoSize
                                                                                                                 
 NS           ADMIN                    SERIAL REFRESH RETRY EXPIRE TTL
 --           -----                    ------ ------- ----- ------ ---
@@ -73,7 +73,7 @@ ns.bbc.co.uk hostmaster.bbc.co.uk 2024052100    1800   600 864000 900
 
 ### EXAMPLE 4
 ```powershell
-Invoke-DoHQuery -Query bbc.co.uk -Type A | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
+Resolve-DoHQuery -Query bbc.co.uk -Type A | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
                                                                                                                 
 RDATA          RNAME     RTYPE RCLASS TTL LENGTH
 -----          -----     ----- ------ --- ------
@@ -85,7 +85,7 @@ RDATA          RNAME     RTYPE RCLASS TTL LENGTH
 
 ### EXAMPLE 5
 ```powershell
-Get-B1SecurityPolicy -Name 'My Policy' | Invoke-DoHQuery -Query 'google.com' -Type A
+Get-B1SecurityPolicy -Name 'My Policy' | Resolve-DoHQuery -Query 'google.com' -Type A
                                                                                                                 
 QNAME         : google.com
 QTYPE         : A

@@ -95,7 +95,7 @@ Accept wildcard characters: False
 ```
 
 ### -DoHServer
-Optionally configure the DNS over HTTPS Server to use when calling Invoke-DoHQuery
+Optionally configure the DNS over HTTPS Server to use when calling Resolve-DoHQuery
 
 ```yaml
 Type: String
