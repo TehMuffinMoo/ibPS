@@ -13,8 +13,9 @@ Used to set ibPS specific configuration
 ## SYNTAX
 
 ```
-Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl] <String>] [-Persist]
- [[-DevelopmentMode] <String>] [[-DebugMode] <String>] [[-Telemetry] <String>] [[-Branch] <String>]
+Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl] <String>]
+ [[-DoHServer] <String>] [-Persist] [[-DevelopmentMode] <String>] [[-DebugMode] <String>]
+ [[-Telemetry] <String>] [[-Branch] <String>]
 ```
 
 ## DESCRIPTION
@@ -93,6 +94,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DoHServer
+Optionally configure the DNS over HTTPS Server to use when calling Invoke-DoHQuery
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Persist
 Setting the -Persist parameter will save the configuration peremenantly for your user on this device.
 Without using this switch, the settings will only be saved for the duration of the PowerShell session.
@@ -120,7 +136,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -137,7 +153,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -153,7 +169,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -170,7 +186,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
