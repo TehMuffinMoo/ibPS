@@ -328,6 +328,7 @@ Get-B1SOCInsightComments         | ![Implemented](https://badgen.net/badge/Statu
 Get-B1SOCInsightEvents           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
 Get-B1SOCInsightIndicators       | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
 Set-B1SOCInsight                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SOCInsight
+Invoke-DoHQuery                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
 
 ## Development Lifecycle
 All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested. Once these changes are merged into [main branch](https://github.com/TehMuffinMoo/ibPS/tree/main), Github actions are used to package both the PowerShell Module and its documentation and subsequently publish to PowerShell Gallery.

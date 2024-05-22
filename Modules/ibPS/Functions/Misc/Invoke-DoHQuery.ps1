@@ -17,6 +17,9 @@ function Invoke-DoHQuery {
     .PARAMETER Type
         Optionally specify the DNS request type
 
+    .PARAMETER Object
+        The Object parameter is used when passing a security policy as pipeline. This will use the 'doh_fqdn' defined as part of the Security Policy. If DoH is not configured the function will error. See Example #5
+
     .EXAMPLE
         PS> Invoke-DoHQuery -Query google.com -Type TXT
                                                                                                                         
@@ -63,16 +66,47 @@ function Invoke-DoHQuery {
         151.101.0.81   bbc.co.uk A     IN     163      4
         151.101.64.81  bbc.co.uk A     IN     163      4
         151.101.128.81 bbc.co.uk A     IN     163      4
+
+    .EXAMPLE
+        PS> Get-B1SecurityPolicy -Name 'My Policy' | Invoke-DoHQuery -Query 'google.com' -Type A
+                                                                                                                        
+        QNAME         : google.com
+        QTYPE         : A
+        QCLASS        : IN
+        AnswerRRs     : {@{RDATA=172.217.169.14; RNAME=google.com; RTYPE=A; RCLASS=IN; TTL=300; LENGTH=4}}
+        AuthorityRRs  : {}
+        AdditionalRRs : {}
+        Headers       : {[AnswerRRs, 1], [AdditionalRRs, 0], [Questions, 1], [TransactionID, 0]…}           
     #>
+    [Parameter(ParameterSetName="Default",Mandatory=$true)]
     param(
+        [Parameter(Position=1)]
         [String]$Query,
+        [Parameter(Position=2)]
         [ValidateSet('A','CNAME','PTR','MX','SOA','TXT','NS','AAAA')]
         [String]$Type,
-        [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH })
+        [Parameter(ParameterSetName='Default',Position=3)]
+        [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH }),
+        [Parameter(
+            ValueFromPipeline = $true,
+            ParameterSetName="Pipeline",
+            Mandatory=$true
+        )]
+        [System.Object]$Object
     )
+
+    if ($Object) {
+        if ($Object.doh_fqdn) {
+            $DoHServer = $Object.doh_fqdn
+        } else {
+            Write-Error "The security Policy: $($Object.name) does not have DNS over HTTPS Configured."
+            return $null
+        }
+    }
 
     if (!($DOHServer)) {
         Write-Error "Error. DNS over HTTPS Server is not set. Specify the -DoHServer parameter or use Set-ibPSConfiguration to set the DoH Server to use."
+        return $null
     }
 
     function Decode-QNAME {
