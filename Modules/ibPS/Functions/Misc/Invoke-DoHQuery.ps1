@@ -36,7 +36,7 @@ function Invoke-DoHQuery {
     #>
     param(
         [String]$Query,
-        [ValidateSet('A','CNAME','PTR','MX','SOA','TXT')]
+        [ValidateSet('A','CNAME','PTR','MX','SOA','TXT','NS')]
         [String]$Type,
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH })
     )
@@ -75,7 +75,9 @@ function Invoke-DoHQuery {
         "QNAME" = ""
         "QTYPE" = ""
         "QCLASS" = ""
-        "Answers" = @()
+        "AnswerRRs" = @()
+        "AuthorityRRs" = @()
+        "AdditionalRRs" = @()
         "Headers" = @{}
     }
 
@@ -119,7 +121,7 @@ function Invoke-DoHQuery {
     $QCLASSHex = '{0:X4}' -f ([uint32]1)
 
     $Hex = "$HeaderHex $QNAMEHex $QTYPEHex $QCLASSHex" -replace ' ',''
-    
+
     $Bytes = New-Object -TypeName byte[] -ArgumentList ($Hex.Length / 2)
 
     for ($i = 0; $i -lt $hex.Length; $i += 2) {
@@ -163,7 +165,7 @@ function Invoke-DoHQuery {
         $RTYPE = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
         $Ans = [PSCustomObject]@{
             "RDATA" = ""
-            "RNAME" = $(if ($Result.QTYPE -ne 'TXT') { ($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.' })
+            "RNAME" = $(if ($RTYPE -notin @('TXT','NS')) { ($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.' })
             "RTYPE" = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
             "RCLASS" = $QCLASSList[[int]$([uint32]$QNAMEDecoded.remaining.substring(4,4))]
             "TTL" = $([uint32]"0x$($QNAMEDecoded.remaining.substring(8,8))")
@@ -222,13 +224,26 @@ function Invoke-DoHQuery {
                 $Ans.RDATA = ($QNAMEDecoded.remaining.substring(2,$Ans.TXT_LENGTH*2) | ConvertFrom-HexString) -join ''
                 $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(($Ans.TXT_LENGTH*2)+2,$QNAMEDecoded.remaining.length-(($Ans.TXT_LENGTH*2)+2))
             }
+            'NS' {
+                Write-Host 'NS record support is not fully implemented. Expect errors for now.' -ForegroundColor Yellow
+                $Ans.RNAME = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+                $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
+                $Ans.RDATA = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+            }
             default {
-                $QNAMEDecoded.remaining.substring(20,($QNAMEDecoded.remaining.length-20))
                 Write-Error "$($Ans.RTYPE) is not yet implemented"
-                return $null
+                $Result | Add-Member -MemberType NoteProperty -Name 'hex' -Value $($QNAMEDecoded.remaining)
+                return $Result
             }
         }
-        $Result.Answers += $Ans
+        if ($Result.AnswerRRs.Count -lt ($Result.Headers.AnswerRRs)) {
+            $Result.AnswerRRs += $Ans
+        } elseif ($Result.AuthorityRRs.Count -lt ($Result.Headers.AuthorityRRs)) {
+            $Result.AuthorityRRs += $Ans
+        } else {
+            $Result.AdditionalRRs += $Ans
+        }
+        
         $TotalLen = $QNAMEDecoded.remaining.length
     }
 

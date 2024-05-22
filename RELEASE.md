@@ -1,2 +1,3 @@
 - Add new `Invoke-DoHQuery` function to enable querying DNS over HTTPS endpoints
 - Add new `-DoHServer` parameter to `Set-ibPSConfiguration` to set persistent DoH Server URL
+- Add Global DNS AnyCast Addresses to `Get-B1PopRegion` output

@@ -7,10 +7,10 @@
         This function is used to query a list of BloxOne Threat Defense Point of Presence (PoP) Regions
 
     .PARAMETER Region
-        Filter results by Region
+        Filter results by Region. Whilst this is here, the API does not currently support filtering by region. 22/05/24
 
     .PARAMETER Location
-        Filter results by Location
+        Filter results by Location. Whilst this is here, the API does not currently support filtering by region. 22/05/24
 
     .PARAMETER Limit
         Use this parameter to limit the quantity of results.
@@ -97,6 +97,17 @@
         $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/pop_regions$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/pop_regions" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    }
+    if (($id -eq '100') -or (!($QueryString))) {
+        $Results += [PSCustomObject]@{
+            "addresses" = @(
+                '52.119.41.100'
+                '103.80.6.100'
+            )
+            "id" = 100
+            "location" = "Global AnyCast"
+            "region" = "Global"
+        }
     }
 
     if ($Results) {
