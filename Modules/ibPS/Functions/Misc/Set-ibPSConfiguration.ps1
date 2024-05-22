@@ -16,7 +16,7 @@ function Set-ibPSConfiguration {
         Optionally configure the the CSP URL to use manually. The CSP URL defaults to https://csp.infoblox.com if not defined. You only need to use -CSPUrl OR -CSPRegion.
 
     .PARAMETER DoHServer
-        Optionally configure the DNS over HTTPS Server to use when calling Invoke-DoHQuery
+        Optionally configure the DNS over HTTPS Server to use when calling Resolve-DoHQuery
 
     .PARAMETER Persist
         Setting the -Persist parameter will save the configuration peremenantly for your user on this device. Without using this switch, the settings will only be saved for the duration of the PowerShell session.
