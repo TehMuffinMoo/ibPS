@@ -139,6 +139,7 @@ function Invoke-DoHQuery {
     $RDATA = $ResponseHeaderHex.substring(24,$ResponseHeaderHex.length-24)
     $QNAMEDecoded = Decode-QNAME $RDATA
     $Result.QNAME = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+    $QNAMEEncoded = "$(($Result.QNAME -split '\.' | Foreach {("$('{0:X2}' -f $_.length) $(($_ | ConvertTo-HexString))").Replace(' ','')}) -join '')00"
 
     ## Decode QTYPE
     $Result.QTYPE = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
@@ -148,8 +149,12 @@ function Invoke-DoHQuery {
 
     ## Strip QTYPE/QCLASS
     $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(8,$QNAMEDecoded.remaining.length-8)
+    if ($QNAMEDecoded.remaining.StartsWith('C00C00')) {
+        $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.Replace('C00C',$QNAMEEncoded)
+    }
     $TotalLen = $QNAMEDecoded.remaining.length
     while ($TotalLen -gt 0) {
+        #return $QNAMEDecoded
         $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
         $RTYPE = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
         $Ans = [PSCustomObject]@{
