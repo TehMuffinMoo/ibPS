@@ -38,6 +38,7 @@ function Invoke-DoHQuery {
         [String]$Query,
         [ValidateSet('A','CNAME','PTR','MX','SOA','TXT')]
         [String]$Type,
+        [Parameter(Mandatory=$true)]
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH })
     )
 
