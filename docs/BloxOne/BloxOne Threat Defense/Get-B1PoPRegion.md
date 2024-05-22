@@ -52,7 +52,9 @@ addresses                   id location             region
 ## PARAMETERS
 
 ### -Region
-Filter results by Region
+Filter results by Region.
+Whilst this is here, the API does not currently support filtering by region.
+22/05/24
 
 ```yaml
 Type: String
@@ -67,7 +69,9 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-Filter results by Location
+Filter results by Location.
+Whilst this is here, the API does not currently support filtering by region.
+22/05/24
 
 ```yaml
 Type: String
