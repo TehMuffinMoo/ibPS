@@ -12,12 +12,19 @@ Used to query a DNS over HTTPS Server to verify connectivity and responses
 
 ## SYNTAX
 
+### Default
 ```
-Invoke-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>]
+Invoke-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [<CommonParameters>]
+```
+
+### Pipeline
+```
+Invoke-DoHQuery [[-Query] <String>] [[-Type] <String>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query a DNS over HTTPS Server to verify connectivity and responses
+This function is used to query a DNS over HTTPS Server to verify connectivity and responses.
+This has no dependency on the client, so will work regardless of if DoH is configured on the Network Adapter(s).
 
 ## EXAMPLES
 
@@ -76,6 +83,19 @@ RDATA          RNAME     RTYPE RCLASS TTL LENGTH
 151.101.128.81 bbc.co.uk A     IN     163      4
 ```
 
+### EXAMPLE 5
+```powershell
+Get-B1SecurityPolicy -Name 'My Policy' | Invoke-DoHQuery -Query 'google.com' -Type A
+                                                                                                                
+QNAME         : google.com
+QTYPE         : A
+QCLASS        : IN
+AnswerRRs     : {@{RDATA=172.217.169.14; RNAME=google.com; RTYPE=A; RCLASS=IN; TTL=300; LENGTH=4}}
+AuthorityRRs  : {}
+AdditionalRRs : {}
+Headers       : {[AnswerRRs, 1], [AdditionalRRs, 0], [Questions, 1], [TransactionID, 0]…}
+```
+
 ## PARAMETERS
 
 ### -Query
@@ -87,7 +107,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
+Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -102,7 +122,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -115,15 +135,36 @@ This field is mandatory, unless the DoH Server has been pre-configured using: Se
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH })
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### -Object
+The Object parameter is used when passing a security policy as pipeline.
+This will use the 'doh_fqdn' defined as part of the Security Policy.
+If DoH is not configured the function will error.
+See Example #5
+
+```yaml
+Type: Object
+Parameter Sets: Pipeline
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
