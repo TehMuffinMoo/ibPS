@@ -36,7 +36,7 @@ function Invoke-DoHQuery {
     #>
     param(
         [String]$Query,
-        [ValidateSet('A','CNAME','PTR','MX','SOA','TXT','NS')]
+        [ValidateSet('A','CNAME','PTR','MX','SOA','TXT','NS','AAAA')]
         [String]$Type,
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH })
     )
@@ -98,6 +98,7 @@ function Invoke-DoHQuery {
         'MINFO' = 14
         'MX' = 15
         'TXT' = 16
+        'AAAA' = 28
     }
 
     $QCLASSList = @{
@@ -183,6 +184,17 @@ function Invoke-DoHQuery {
                 $Ans.RDATA = $IP -join '.'
                 $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(8,($QNAMEDecoded.remaining.length-8))
             }
+            'AAAA' {
+                $IPSplit = ($($QNAMEDecoded.remaining.substring(0,32)) -split '(....)' -ne '')
+                $IP = @()
+                foreach ($i in $IPSplit) {
+                    ## Work out parsing to IPv6 Short format
+#                    $i = $(if ($i -match '^(0+)(\w+)') {$i.Replace('0','')} else {$i})
+                    $IP += $i.toLower()
+                }
+                $Ans.RDATA = ($IP -join ':')
+                $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(32,($QNAMEDecoded.remaining.length-32))
+            }
             'SOA' {
                 $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                 ## Decode The Primary Name Server
@@ -225,7 +237,6 @@ function Invoke-DoHQuery {
                 $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(($Ans.TXT_LENGTH*2)+2,$QNAMEDecoded.remaining.length-(($Ans.TXT_LENGTH*2)+2))
             }
             'NS' {
-                Write-Host 'NS record support is not fully implemented. Expect errors for now.' -ForegroundColor Yellow
                 $Ans.RNAME = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
                 $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                 $Ans.RDATA = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
