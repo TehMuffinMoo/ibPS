@@ -17,6 +17,9 @@ function Resolve-DoHQuery {
     .PARAMETER Type
         Optionally specify the DNS request type
 
+    .PARAMETER Section
+        Optionally specify one or more sections to return (Answer/Authority/Additional)
+
     .PARAMETER Object
         The Object parameter is used when passing a security policy as pipeline. This will use the 'doh_fqdn' defined as part of the Security Policy. If DoH is not configured the function will error. See Example #5
 
@@ -87,6 +90,8 @@ function Resolve-DoHQuery {
         [String]$Type,
         [Parameter(ParameterSetName='Default',Position=3)]
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH }),
+        [ValidateSet('Answer','Authority','Additional')]
+        [String[]]$Section,
         [Parameter(
             ValueFromPipeline = $true,
             ParameterSetName="Pipeline",
@@ -135,8 +140,31 @@ function Resolve-DoHQuery {
                 "remaining" = $RDATARemaining
             }
         }
+
+        function BitMap {
+            param(
+                $Bin
+            )
+            $BitMap = @{
+                0 = '8'
+                1 = '4'
+                2 = '2'
+                3 = '1'
+            }
+            $Vals = $Bin -Split '(.)' -ne ''
+            $BitValue = 0
+            $BitCount = 0
+            $Vals | %{
+                if ($_ -eq 1) {
+                    $BitValue += $BitMap[$BitCount]
+                }
+                $BitCount++
+            }
+            return $BitValue
+        }
     
         $Result = [PSCustomObject]@{
+            "RCODE" = ""
             "QNAME" = ""
             "QTYPE" = ""
             "QCLASS" = ""
@@ -176,6 +204,45 @@ function Resolve-DoHQuery {
             3 = 'CH'
             4 = 'HS'
         }
+
+        ## DNS Opcodes
+        $OpcodeList = @{
+            0 = 'Query'
+            1 = 'IQuery'
+            2 = 'Status'
+            3 = 'Unassigned'
+            4 = 'Notify'
+            5 = 'Update'
+            6 = 'DNS Stateful Operation'
+        }
+
+        ## DNS Response Codes
+        $RCodeList = @{
+            0 = 'NOERROR'
+            1 = 'FORMAT ERROR'
+            2 = 'SERVFAIL'
+            3 = 'NXDOMAIN'
+            4 = 'NOT IMPLEMENTED'
+            5 = 'REFUSED'
+            6 = 'YXDOMAIN'
+            7 = 'YXRRSET'
+            8 = 'NXRRSET'
+            9 = 'NOTAUTH'
+            10 = 'NOTZONE'
+            11 = 'DSOTYPENI'
+            12 = 'Unassigned'
+            13 = 'Unassigned'
+            14 = 'Unassigned'
+            15 = 'Unassigned'
+            16 = 'BADVERS/BADSIG'
+            17 = 'BADKEY'
+            18 = 'BADTIME'
+            19 = 'BADMODE'
+            20 = 'BADNAME'
+            21 = 'BADALG'
+            22 = 'BADTRUNC'
+            23 = 'BADCOOKIE'
+        }
     
         $SplitQuery = $Query.Split('.')
         $JoinedQuery = ""
@@ -206,7 +273,27 @@ function Resolve-DoHQuery {
             ## Decode Header
             $ResponseHeaderHex = ($Response.Content|ForEach-Object ToString X2) -join ''
             $Result.Headers.TransactionID = $([uint32]"0x$($ResponseHeaderHex.substring(0,4))")
-            $Result.Headers.Flags = "0x$($ResponseHeaderHex.substring(4,4))"
+
+            $Flags = $($ResponseHeaderHex.substring(4,4)) -Split '(.)' -ne ''
+            $FlagsBin = ""
+            $Flags | ForEach-Object {
+                $FlagsBin += [Convert]::ToString($_,2).PadLeft(4,'0')
+            }
+
+            $Result.Headers.Flags = @{
+                "raw" = "0x$($ResponseHeaderHex.substring(4,4))"
+                "Type" = $(if ($FlagsBin.substring(0,1) -eq '1') { "Response" } else { "Query" })
+                "Opcode" = ($OpcodeList[[int][uint32]"0x$($($FlagsBin.substring(1,4)))"])
+                "Authoritative" = $(if ($FlagsBin.substring(5,1) -eq 1) { $true } else { $false })
+                "Truncated" = $(if ($FlagsBin.substring(6,1) -eq 1) { $true } else { $false })
+                "Recursion Desired" = $(if ($FlagsBin.substring(7,1) -eq 1) { $true } else { $false })
+                "Recursion Available" = $(if ($FlagsBin.substring(8,1) -eq 1) { $true } else { $false })
+                "Reserved" =  $($FlagsBin.substring(9,1))
+                "Authenticated" = $(if ($FlagsBin.substring(10,1) -eq 1) { $true } else { $false })
+                "Non-Authenticated Data" = $(if ($FlagsBin.substring(11,1) -eq 1) { 'Acceptable' } else { 'Unacceptable' })
+                "Reply Code" = ($RCodeList[$(BitMap([String]"$($FlagsBin.substring(12,4))"))])
+            }
+            $Result.RCODE = $Result.Headers.Flags.'Reply Code'
             $Result.Headers.Questions = $([uint32]"0x$($ResponseHeaderHex.substring(8,4))")
             $Result.Headers.AnswerRRs = $([uint32]"0x$($ResponseHeaderHex.substring(12,4))")
             $Result.Headers.AuthorityRRs = $([uint32]"0x$($ResponseHeaderHex.substring(16,4))")
@@ -231,7 +318,6 @@ function Resolve-DoHQuery {
             }
             $TotalLen = $QNAMEDecoded.remaining.length
             while ($TotalLen -gt 0) {
-                #return $QNAMEDecoded
                 $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                 $RTYPE = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
                 $Ans = [PSCustomObject]@{
@@ -244,6 +330,7 @@ function Resolve-DoHQuery {
                 }
                 $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(20,$QNAMEDecoded.remaining.length-20)
                 ## Decode Answer
+
                 Switch($Ans.RTYPE) {
                     'A' {
                         $IPSplit = ($($QNAMEDecoded.remaining.substring(0,8)) -split '(..)' -ne '')
@@ -269,7 +356,7 @@ function Resolve-DoHQuery {
                         $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                         ## Decode The Primary Name Server
                         $NewRDATA = [PSCustomObject]@{
-                            "NS" = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+                            "NS" = ($QNAMEDecoded.rdata | %{($_ -Split '(..)' -ne '' | %{[char][byte]"0x$_"}) -join ''}) -join '.'
                             "ADMIN" = ""
                             "SERIAL" = 0
                             "REFRESH" = 0
@@ -327,7 +414,19 @@ function Resolve-DoHQuery {
                 
                 $TotalLen = $QNAMEDecoded.remaining.length
             }
-            return $Result
+            if ($Section) {
+                if ($Section -contains 'Answer') {
+                    $Result.AnswerRRs
+                }
+                if ($Section -contains 'Authority') {
+                    $Result.AuthorityRRs
+                }
+                if ($Section -contains 'Additional') {
+                    $Result.AdditionalRRs
+                }
+            } else {
+                return $Result
+            }
         } else {
             Write-Error "Error connecting to DoH Server: $($DoHServer)"
         }
