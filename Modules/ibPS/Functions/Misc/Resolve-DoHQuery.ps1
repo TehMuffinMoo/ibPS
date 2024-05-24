@@ -102,7 +102,7 @@ function Resolve-DoHQuery {
         [Parameter(Position=1)]
         [String]$Query,
         [Parameter(Position=2)]
-        [ValidateSet('A','CNAME','PTR','MX','SOA','TXT','NS','AAAA','ANY')]
+        [ValidateSet('A','AAAA','CNAME','PTR','MX','SOA','TXT','NS','SRV','ANY')]
         [String]$Type,
         [Parameter(ParameterSetName='Default',Position=3)]
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH }),
@@ -211,7 +211,10 @@ function Resolve-DoHQuery {
             'TXT' = 16     ## Text Record
             'RP' = 17      ## Responsible Person Record
             'AAAA' = 28    ## IPv6 Address Record
+            'SRV' = 33     ## Service Locator Record
+            'SVCB' = 64    ## Service Locator Record
             'ANY' = 255    ## Any/Wildcard Record from Cache
+            'URI' = 256    ## Uniform Resource Identifier
         }
     
         ## Query/Response Class
@@ -419,6 +422,21 @@ function Resolve-DoHQuery {
                         $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                         $Ans.RDATA = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
                     }
+                    'SRV' {
+                        $RNAMEDecoded = ($QNAMEDecoded.rdata | ConvertFrom-HexString)
+                        $Ans.RNAME = $RNAMEDecoded[2..($RNAMEDecoded.Count)] -join '.'
+                        $Ans | Add-Member -MemberType NoteProperty -Name "SERVICE" -Value $RNAMEDecoded[0]
+                        $Ans | Add-Member -MemberType NoteProperty -Name "PROTOCOL" -Value $RNAMEDecoded[1]
+                        $NewRDATA = [PSCustomObject]@{
+                            "Priority" = $([uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))")
+                            "Weight" = $([uint32]"0x$($QNAMEDecoded.remaining.substring(4,4))")
+                            "Port" = $([uint32]"0x$($QNAMEDecoded.remaining.substring(8,4))")
+                            "Target" = ""
+                        }
+                        $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining.substring(12,$QNAMEDecoded.remaining.length-12)
+                        $NewRDATA.Target = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
+                        $Ans.RDATA = $NewRDATA
+                    }
                     default {
                         Write-Error "$($Ans.RTYPE) is not yet implemented"
                         $Result | Add-Member -MemberType NoteProperty -Name 'hex' -Value $($QNAMEDecoded.remaining)
@@ -464,7 +482,7 @@ function Resolve-DoHQuery {
                 if ($($Result.Headers.Questions) -gt 0) {
                     Write-Output ""
                     Write-Output ";; QUESTION SECTION:"
-                    Write-Output "$($Result.QNAME).$($Result.QCLASS.PadLeft(18+($Answer.TTL),' '))$(if ($Result.QTYPE) {$Result.QTYPE.PadLeft(7,' ')})"
+                    Write-Output "$($Result.QNAME).  $($Result.QCLASS.PadLeft(16+($Answer.TTL),' '))  $(if ($Result.QTYPE) {$Result.QTYPE.PadLeft(5,' ')})"
                 }
                 if ($($Result.Headers.AnswerRRs) -gt 0) {
                     Write-Output ""
@@ -472,16 +490,19 @@ function Resolve-DoHQuery {
                     foreach ($Answer in $Result.AnswerRRs) {
                         Switch($Answer.RTYPE) {
                             'SOA' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
                             }
                             'MX' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     $(([String]$Answer.RDATA.Preference).PadLeft(5,' ')) $($Answer.RDATA.MX)."
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $(([String]$Answer.RDATA.Preference).PadLeft(5,' ')) $($Answer.RDATA.MX)."
                             }
                             'TXT' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     `"$($Answer.RDATA)`""
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     `"$($Answer.RDATA)`""
+                            }
+                            'SRV' {
+                                Write-Output "$($Answer.SERVICE).$($Answer.PROTOCOL).$($Answer.RNAME).  $(([String]$Answer.TTL).PadLeft(10,' '))  $($Answer.RCLASS.PadLeft(4,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA.Target.PadLeft(5,' ')). $([String]$Answer.RDATA.Priority) $($Answer.RDATA.Weight) $($Answer.RDATA.Port)"
                             }
                             default {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA)"
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA)"
                             }
                         }
                     }
