@@ -62,18 +62,18 @@ function Resolve-DoHQuery {
         ; <<>> ibPS v1.9.6.0 <<>> bbc.co.uk
         ;; global options: +cmd
         ;; Got answer:
-        ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id 0
+        ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id 25075
         ;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
 
         ;; QUESTION SECTION:
-        bbc.co.uk.        IN        SOA
+        bbc.co.uk.                IN    SOA
 
         ;; ANSWER SECTION
-        bbc.co.uk.              779     IN      SOA     ns.bbc.co.uk. hostmaster.bbc.co.uk. 2024052301 1800 600 864000 900
+        bbc.co.uk.         900    IN    SOA     ns.bbc.co.uk. hostmaster.bbc.co.uk. 2024052301 1800 600 864000 900
 
-        ;; Query time: 150 msec
-        ;; SERVER: 791f6302-f355-4aff-abe5-88f08926ddd8.doh.threatdefense.infoblox.com
-        ;; WHEN: Fri May 24 09:26:14
+        ;; Query time: 117 msec
+        ;; SERVER: 1234-a431-a12b-1234-a0b2-12345678901ab.doh.threatdefense.infoblox.com
+        ;; WHEN: Fri May 24 03:19:30
         ;; MSG SIZE  rcvd: 104
 
     .EXAMPLE
