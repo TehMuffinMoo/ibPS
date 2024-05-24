@@ -14,12 +14,14 @@ Used to query a DNS over HTTPS Server to verify connectivity and responses
 
 ### Default
 ```
-Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [<CommonParameters>]
+Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [-Section <String[]>] [-OutDig]
+ [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] -Object <Object> [<CommonParameters>]
+Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [-Section <String[]>] [-OutDig] -Object <Object>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,7 +32,7 @@ This has no dependency on the client, so will work regardless of if DoH is confi
 
 ### EXAMPLE 1
 ```powershell
-Resolve-DoHQuery -Query google.com -Type TXT
+Resolve-DoHQuery -Query google.com -Type TXT -DoHServer cloudflare-dns.com
                                                                                                                 
 QNAME         : google.com
 QTYPE         : TXT
@@ -64,11 +66,24 @@ onetrust-domain-verification=de01ed21f2fa4d8781cbc3ffb89cf4ef        google.com 
 
 ### EXAMPLE 3
 ```powershell
-Resolve-DoHQuery -Query bbc.co.uk -Type SOA | Select-Object -ExpandProperty AnswerRRs | Select-Object -ExpandProperty RDATA | ft -AutoSize
+Resolve-DoHQuery -Query bbc.co.uk -Type SOA -OutDig
                                                                                                                 
-NS           ADMIN                    SERIAL REFRESH RETRY EXPIRE TTL
---           -----                    ------ ------- ----- ------ ---
-ns.bbc.co.uk hostmaster.bbc.co.uk 2024052100    1800   600 864000 900
+; <<>> ibPS v1.9.6.0 <<>> bbc.co.uk
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id 0
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+;; QUESTION SECTION:
+bbc.co.uk.        IN        SOA
+
+;; ANSWER SECTION
+bbc.co.uk.              779     IN      SOA     ns.bbc.co.uk. hostmaster.bbc.co.uk. 2024052301 1800 600 864000 900
+
+;; Query time: 150 msec
+;; SERVER: 791f6302-f355-4aff-abe5-88f08926ddd8.doh.threatdefense.infoblox.com
+;; WHEN: Fri May 24 09:26:14
+;; MSG SIZE  rcvd: 104
 ```
 
 ### EXAMPLE 4
@@ -141,6 +156,36 @@ Aliases:
 Required: False
 Position: 4
 Default value: $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH })
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Section
+Optionally specify one or more sections to return (Answer/Authority/Additional)
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OutDig
+Use the -OutDig parameter to output the response in a format similar to dig
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
