@@ -20,6 +20,9 @@ function Resolve-DoHQuery {
     .PARAMETER Section
         Optionally specify one or more sections to return (Answer/Authority/Additional)
 
+    .PARAMETER OutDig
+        Use the -OutDig parameter to output the response in a format similar to dig
+
     .PARAMETER Object
         The Object parameter is used when passing a security policy as pipeline. This will use the 'doh_fqdn' defined as part of the Security Policy. If DoH is not configured the function will error. See Example #5
 
@@ -54,11 +57,24 @@ function Resolve-DoHQuery {
         onetrust-domain-verification=de01ed21f2fa4d8781cbc3ffb89cf4ef        google.com TXT   IN     3600     62         61
 
     .EXAMPLE
-        PS> Resolve-DoHQuery -Query bbc.co.uk -Type SOA | Select-Object -ExpandProperty AnswerRRs | Select-Object -ExpandProperty RDATA | ft -AutoSize
+        PS> Resolve-DoHQuery -Query bbc.co.uk -Type SOA -OutDig
                                                                                                                         
-        NS           ADMIN                    SERIAL REFRESH RETRY EXPIRE TTL
-        --           -----                    ------ ------- ----- ------ ---
-        ns.bbc.co.uk hostmaster.bbc.co.uk 2024052100    1800   600 864000 900
+        ; <<>> ibPS v1.9.6.0 <<>> bbc.co.uk
+        ;; global options: +cmd
+        ;; Got answer:
+        ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id 0
+        ;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+
+        ;; QUESTION SECTION:
+        bbc.co.uk.        IN        SOA
+
+        ;; ANSWER SECTION
+        bbc.co.uk.              779     IN      SOA     ns.bbc.co.uk. hostmaster.bbc.co.uk. 2024052301 1800 600 864000 900
+
+        ;; Query time: 150 msec
+        ;; SERVER: 791f6302-f355-4aff-abe5-88f08926ddd8.doh.threatdefense.infoblox.com
+        ;; WHEN: Fri May 24 09:26:14
+        ;; MSG SIZE  rcvd: 104
 
     .EXAMPLE
         PS> Resolve-DoHQuery -Query bbc.co.uk -Type A | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
@@ -86,12 +102,13 @@ function Resolve-DoHQuery {
         [Parameter(Position=1)]
         [String]$Query,
         [Parameter(Position=2)]
-        [ValidateSet('A','CNAME','PTR','MX','SOA','TXT','NS','AAAA')]
+        [ValidateSet('A','CNAME','PTR','MX','SOA','TXT','NS','AAAA','ANY')]
         [String]$Type,
         [Parameter(ParameterSetName='Default',Position=3)]
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH }),
         [ValidateSet('Answer','Authority','Additional')]
         [String[]]$Section,
+        [Switch]$OutDig,
         [Parameter(
             ValueFromPipeline = $true,
             ParameterSetName="Pipeline",
@@ -251,8 +268,10 @@ function Resolve-DoHQuery {
             $JoinedQuery += "$('{0:X2}' -f ([uint32]$SplitItem.Length))$($SplitItem | ConvertTo-HexString)"
         }
         $JoinedQuery += '00'
-    
-        $HeaderHex = '00 00 01 00 00 01 00 00 00 00 00 00'
+
+        $TransactionID = Get-Random -Maximum 65535
+        $TransactionIDHex = "{0:X}" -f $TransactionID -split '(..)' -ne '' -join ' '
+        $HeaderHex = "$TransactionIDHex 01 00 00 01 00 00 00 00 00 00"
         $QNAMEHex = $JoinedQuery
         $QTYPEHex = '{0:X4}' -f ([uint32]$QTYPEList[$Type])
         $QCLASSHex = '{0:X4}' -f ([uint32]1)
@@ -267,7 +286,9 @@ function Resolve-DoHQuery {
         $Base64 = [System.Convert]::ToBase64String($Bytes)
         $Base64Encoded = ConvertTo-Base64Url -FromBase64 $($Base64)
     
+        $StartDateTime = Get-Date
         $Response = Invoke-WebRequest -Method GET -Uri "https://$($DOHServer)/dns-query?dns=$($Base64Encoded)" -Headers @{'content-type' = 'application/dns-message'}
+        $EndDateTime = Get-Date
     
         if ($Response) {
             ## Decode Header
@@ -424,6 +445,57 @@ function Resolve-DoHQuery {
                 if ($Section -contains 'Additional') {
                     $Result.AdditionalRRs
                 }
+            } elseif ($OutDig) {
+                Write-Output ""
+                Write-Output "; <<>> ibPS v$(Get-ibPSVersion) <<>> $($Result.QNAME)"
+                Write-Output ";; global options: +cmd"
+                Write-Output ";; Got answer:"
+                Write-Output ";; ->>HEADER<<- opcode: $($Result.Headers.Flags.Opcode.ToUpper()), status: $($Result.RCODE), id $($Result.Headers.TransactionID)"
+                $Flags = @()
+                if ($Result.Headers.Flags.'Type' -eq 'Response') { $Flags += 'qr' }
+                if ($Result.Headers.Flags.'Recursion Desired') { $Flags += 'rd' }
+                if ($Result.Headers.Flags.'Recursion Available') { $Flags += 'ra' }
+                if ($Result.Headers.Flags.'Authoritative') { $Flags += 'aa' }
+                if ($Result.Headers.Flags.'Authenticated') { $Flags += 'ad' }
+                Write-Output ";; flags: $($Flags -join ' '); QUERY: $($Result.Headers.Questions), ANSWER: $($Result.Headers.AnswerRRs), AUTHORITY: $($Result.Headers.AuthorityRRs), ADDITIONAL: $($Result.Headers.AdditionalRRs)"
+                if (($Result.Headers.Flags.'Recursion Desired') -and (!($Result.Headers.Flags.'Recursion Available'))) {
+                    Write-Output ";; WARNING: recursion requested but not available"
+                }
+                if ($($Result.Headers.Questions) -gt 0) {
+                    Write-Output ""
+                    Write-Output ";; QUESTION SECTION:"
+                    Write-Output "$($Result.QNAME).$($Result.QCLASS.PadLeft(17+($Answer.TTL),' '))$(if ($Result.QTYPE) {$Result.QTYPE.PadLeft(5,' ')})"
+                }
+                if ($($Result.Headers.AnswerRRs) -gt 0) {
+                    Write-Output ""
+                    Write-Output ";; ANSWER SECTION"
+                    foreach ($Answer in $Result.AnswerRRs) {
+                        Switch($Answer.RTYPE) {
+                            'SOA' {
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(5,' '))$($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
+                            }
+                            'TXT' {
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(5,' '))$($Answer.RTYPE.PadLeft(5,' '))     `"$($Answer.RDATA)`""
+                            }
+                            default {
+                                Write-Host "Hello"
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(5,' '))$($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA)"
+                            }
+                        }
+                    }
+                }
+                if ($($Result.Headers.AuthorityRRs) -gt 0) {
+                    Write-Output ""
+                    Write-Output ";; AUTHORITY SECTION"
+                    foreach ($Answer in $Result.AuthorityRRs) {
+                        Write-Output "$($Answer.RNAME).        $($Answer.TTL)        $($Answer.RCLASS)        $($Answer.RTYPE)        $($Answer.RDATA)"
+                    }
+                }
+                Write-Output ""
+                Write-Output ";; Query time: $(($EndDateTime - $StartDateTime).Milliseconds) msec"
+                Write-Output ";; SERVER: $($DoHServer)"
+                Write-Output ";; WHEN: $(($StartDateTime.ToString("ddd MMM dd hh:mm:ss")))"
+                Write-Output ";; MSG SIZE  rcvd: $($Response.RawContentLength)"
             } else {
                 return $Result
             }
