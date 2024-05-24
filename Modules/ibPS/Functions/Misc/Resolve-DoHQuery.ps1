@@ -270,7 +270,7 @@ function Resolve-DoHQuery {
         $JoinedQuery += '00'
 
         $TransactionID = Get-Random -Maximum 65535
-        $TransactionIDHex = "{0:X}" -f $TransactionID -split '(..)' -ne '' -join ' '
+        $TransactionIDHex = "{0:X2}" -f $TransactionID -split '(..)' -ne '' -join ' '
         $HeaderHex = "$TransactionIDHex 01 00 00 01 00 00 00 00 00 00"
         $QNAMEHex = $JoinedQuery
         $QTYPEHex = '{0:X4}' -f ([uint32]$QTYPEList[$Type])
@@ -287,7 +287,7 @@ function Resolve-DoHQuery {
         $Base64Encoded = ConvertTo-Base64Url -FromBase64 $($Base64)
     
         $StartDateTime = Get-Date
-        $Response = Invoke-WebRequest -Method GET -Uri "https://$($DOHServer)/dns-query?dns=$($Base64Encoded)" -Headers @{'content-type' = 'application/dns-message'}
+        $Response = Invoke-WebRequest -Method GET -Uri "https://$($DOHServer)/dns-query?dns=$($Base64Encoded)" -Headers @{'content-type' = 'application/dns-message'}            
         $EndDateTime = Get-Date
     
         if ($Response) {
@@ -464,7 +464,7 @@ function Resolve-DoHQuery {
                 if ($($Result.Headers.Questions) -gt 0) {
                     Write-Output ""
                     Write-Output ";; QUESTION SECTION:"
-                    Write-Output "$($Result.QNAME).$($Result.QCLASS.PadLeft(17+($Answer.TTL),' '))$(if ($Result.QTYPE) {$Result.QTYPE.PadLeft(5,' ')})"
+                    Write-Output "$($Result.QNAME).$($Result.QCLASS.PadLeft(18+($Answer.TTL),' '))$(if ($Result.QTYPE) {$Result.QTYPE.PadLeft(7,' ')})"
                 }
                 if ($($Result.Headers.AnswerRRs) -gt 0) {
                     Write-Output ""
@@ -472,14 +472,16 @@ function Resolve-DoHQuery {
                     foreach ($Answer in $Result.AnswerRRs) {
                         Switch($Answer.RTYPE) {
                             'SOA' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(5,' '))$($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
+                            }
+                            'MX' {
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     $(([String]$Answer.RDATA.Preference).PadLeft(5,' ')) $($Answer.RDATA.MX)."
                             }
                             'TXT' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(5,' '))$($Answer.RTYPE.PadLeft(5,' '))     `"$($Answer.RDATA)`""
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     `"$($Answer.RDATA)`""
                             }
                             default {
-                                Write-Host "Hello"
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(5,' '))$($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA)"
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA)"
                             }
                         }
                     }
@@ -488,7 +490,14 @@ function Resolve-DoHQuery {
                     Write-Output ""
                     Write-Output ";; AUTHORITY SECTION"
                     foreach ($Answer in $Result.AuthorityRRs) {
-                        Write-Output "$($Answer.RNAME).        $($Answer.TTL)        $($Answer.RCLASS)        $($Answer.RTYPE)        $($Answer.RDATA)"
+                        Switch($Answer.RTYPE) {
+                            'SOA' {
+                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
+                            }
+                            default {
+                                Write-Output "$($Answer.RNAME).        $($Answer.TTL)        $($Answer.RCLASS)        $($Answer.RTYPE)        $($Answer.RDATA)"
+                            }
+                        }
                     }
                 }
                 Write-Output ""
