@@ -269,8 +269,8 @@ function Resolve-DoHQuery {
         }
         $JoinedQuery += '00'
 
-        $TransactionID = Get-Random -Maximum 65535
-        $TransactionIDHex = "{0:X2}" -f $TransactionID -split '(..)' -ne '' -join ' '
+        $TransactionID = (Get-Random -Maximum 65535).ToString('00000')
+        $TransactionIDHex = "{0:X4}" -f [Uint32]$TransactionID -split '(..)' -ne '' -join ' '
         $HeaderHex = "$TransactionIDHex 01 00 00 01 00 00 00 00 00 00"
         $QNAMEHex = $JoinedQuery
         $QTYPEHex = '{0:X4}' -f ([uint32]$QTYPEList[$Type])
