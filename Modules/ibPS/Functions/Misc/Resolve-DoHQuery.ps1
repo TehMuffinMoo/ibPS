@@ -20,6 +20,9 @@ function Resolve-DoHQuery {
     .PARAMETER Section
         Optionally specify one or more sections to return (Answer/Authority/Additional)
 
+    .PARAMETER DNSSEC
+        Optionally validate DNSSEC
+
     .PARAMETER OutDig
         Use the -OutDig parameter to output the response in a format similar to dig
 
@@ -97,17 +100,20 @@ function Resolve-DoHQuery {
         AdditionalRRs : {}
         Headers       : {[AnswerRRs, 1], [AdditionalRRs, 0], [Questions, 1], [TransactionID, 0]…}           
     #>
+    [Alias("dohdig")]
     [Parameter(ParameterSetName="Default",Mandatory=$true)]
     param(
         [Parameter(Position=1)]
         [String]$Query,
         [Parameter(Position=2)]
         [ValidateSet('A','AAAA','CNAME','PTR','MX','SOA','TXT','NS','SRV','ANY')]
-        [String]$Type,
+        [String]$Type = 'A',
         [Parameter(ParameterSetName='Default',Position=3)]
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH }),
         [ValidateSet('Answer','Authority','Additional')]
         [String[]]$Section,
+        [Parameter(DontShow)]
+        [Switch]$DNSSEC,
         [Switch]$OutDig,
         [Parameter(
             ValueFromPipeline = $true,
@@ -158,26 +164,74 @@ function Resolve-DoHQuery {
             }
         }
 
-        function BitMap {
+        function ConvertBinary-ToDecimal {
             param(
-                $Bin
+                [String]$Bin
             )
-            $BitMap = @{
-                0 = '8'
-                1 = '4'
-                2 = '2'
-                3 = '1'
+            $BinSplit = $Bin -Split '(.)' -ne ''
+            [array]::Reverse($BinSplit)
+            $BinaryResults = 0
+            $BinCount = 0
+            $BinSplit | %{
+                $BinaryResults += [Int]$_ * [Math]::Pow(2,$BinCount)
+                $BinCount++
             }
-            $Vals = $Bin -Split '(.)' -ne ''
-            $BitValue = 0
-            $BitCount = 0
-            $Vals | %{
-                if ($_ -eq 1) {
-                    $BitValue += $BitMap[$BitCount]
+            return $BinaryResults
+        }
+
+        function Decompress-DNS {
+            param(
+                $Hex
+            )
+            $i = 0
+            $Length = $Hex.Length
+            $HexSplit = $Hex -split '(..)' -ne ''
+            $Found = @()
+            $HexSplit | %{
+                $i++
+                if ($_ -match 'C0') {
+                    $Match = "$($Matches[0])$($HexSplit[$i])"
+                    if (($Match.Length) -eq 4) {
+                        $Found += "$($Matches[0])$($HexSplit[$i])"
+                    }
                 }
-                $BitCount++
             }
-            return $BitValue
+            $UniqueMatches = $Found | Select-Object -Unique
+            $UniqueMatches | %{
+                $ReplaceString = ""
+                $Offset = (ConvertBinary-ToDecimal (ConvertHex-ToBinary $($_)).substring(2,14))*2
+                (Decode-QNAME $Hex.substring($Offset,($Hex.Length-$Offset))).rdata | %{
+                    $ReplaceString += "$('{0:X2}' -f $(($_.Length)/2))$($_)"
+                }
+                $ReplaceString += '00'
+                $Hex = $Hex.Replace($_,$ReplaceString)
+            }
+            return $Hex
+        }
+
+        function ConvertHex-ToBinary {
+            param(
+                $String
+            )
+            $Table = @{
+                "0" = "0000"
+                "1" = "0001"
+                "2" = "0010"
+                "3" = "0011"
+                "4" = "0100"
+                "5" = "0101"
+                "6" = "0110"
+                "7" = "0111"
+                "8" = "1000"
+                "9" = "1001"
+                "A" = "1010"
+                "B" = "1011"
+                "C" = "1100"
+                "D" = "1101"
+                "E" = "1110"
+                "F" = "1111"
+            }
+            ($String -split '(.)' -ne '' | %{$Table[$_]}) -join ''
         }
     
         $Result = [PSCustomObject]@{
@@ -282,10 +336,10 @@ function Resolve-DoHQuery {
         $Hex = "$HeaderHex $QNAMEHex $QTYPEHex $QCLASSHex" -replace ' ',''
     
         $Bytes = New-Object -TypeName byte[] -ArgumentList ($Hex.Length / 2)
-    
         for ($i = 0; $i -lt $hex.Length; $i += 2) {
             $Bytes[$i / 2] = [System.Convert]::ToByte($hex.Substring($i, 2), 16)
         }
+
         $Base64 = [System.Convert]::ToBase64String($Bytes)
         $Base64Encoded = ConvertTo-Base64Url -FromBase64 $($Base64)
     
@@ -297,13 +351,12 @@ function Resolve-DoHQuery {
             ## Decode Header
             $ResponseHeaderHex = ($Response.Content|ForEach-Object ToString X2) -join ''
             $Result.Headers.TransactionID = $([uint32]"0x$($ResponseHeaderHex.substring(0,4))")
-
+            $ResponseHeaderHex = Decompress-DNS $ResponseHeaderHex
             $Flags = $($ResponseHeaderHex.substring(4,4)) -Split '(.)' -ne ''
             $FlagsBin = ""
             $Flags | ForEach-Object {
                 $FlagsBin += [Convert]::ToString($_,2).PadLeft(4,'0')
             }
-
             $Result.Headers.Flags = @{
                 "raw" = "0x$($ResponseHeaderHex.substring(4,4))"
                 "Type" = $(if ($FlagsBin.substring(0,1) -eq '1') { "Response" } else { "Query" })
@@ -315,8 +368,9 @@ function Resolve-DoHQuery {
                 "Reserved" =  $($FlagsBin.substring(9,1))
                 "Authenticated" = $(if ($FlagsBin.substring(10,1) -eq 1) { $true } else { $false })
                 "Non-Authenticated Data" = $(if ($FlagsBin.substring(11,1) -eq 1) { 'Acceptable' } else { 'Unacceptable' })
-                "Reply Code" = ($RCodeList[$(BitMap([String]"$($FlagsBin.substring(12,4))"))])
+                "Reply Code" = $RCodeList[([Int]$(ConvertBinary-ToDecimal $($FlagsBin.substring(12,4))))]
             }
+
             $Result.RCODE = $Result.Headers.Flags.'Reply Code'
             $Result.Headers.Questions = $([uint32]"0x$($ResponseHeaderHex.substring(8,4))")
             $Result.Headers.AnswerRRs = $([uint32]"0x$($ResponseHeaderHex.substring(12,4))")
@@ -327,7 +381,6 @@ function Resolve-DoHQuery {
             $RDATA = $ResponseHeaderHex.substring(24,$ResponseHeaderHex.length-24)
             $QNAMEDecoded = Decode-QNAME $RDATA
             $Result.QNAME = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
-            $QNAMEEncoded = "$(($Result.QNAME -split '\.' | Foreach {("$('{0:X2}' -f $_.length) $(($_ | ConvertTo-HexString))").Replace(' ','')}) -join '')00"
         
             ## Decode QTYPE
             $Result.QTYPE = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
@@ -337,9 +390,6 @@ function Resolve-DoHQuery {
         
             ## Strip QTYPE/QCLASS
             $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(8,$QNAMEDecoded.remaining.length-8)
-            if ($QNAMEDecoded.remaining.StartsWith('C00C00')) {
-                $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.Replace('C00C',$QNAMEEncoded)
-            }
             $TotalLen = $QNAMEDecoded.remaining.length
             while ($TotalLen -gt 0) {
                 $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
@@ -354,7 +404,6 @@ function Resolve-DoHQuery {
                 }
                 $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(20,$QNAMEDecoded.remaining.length-20)
                 ## Decode Answer
-
                 Switch($Ans.RTYPE) {
                     'A' {
                         $IPSplit = ($($QNAMEDecoded.remaining.substring(0,8)) -split '(..)' -ne '')
