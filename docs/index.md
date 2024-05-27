@@ -62,7 +62,11 @@ You can either load the cmdlets directly, or Import/Install it as a PowerShell M
 
 #### Installing from Powershell Gallery
 ```powershell
-Install-Module -Name ibPS
+# Install for all users (Requires run as administrator)
+Install-Module -Name ibPS -Scope AllUsers
+
+# Install for current user
+Install-Module -Name ibPS -Scope CurrentUser
 ```
 
 #### Installing from Github

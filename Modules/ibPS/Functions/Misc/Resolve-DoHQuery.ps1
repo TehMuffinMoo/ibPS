@@ -539,19 +539,19 @@ function Resolve-DoHQuery {
                     foreach ($Answer in $Result.AnswerRRs) {
                         Switch($Answer.RTYPE) {
                             'SOA' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
+                                Write-Output "$($Answer.RNAME).  $(([String]$Answer.TTL).PadLeft(10,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
                             }
                             'MX' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $(([String]$Answer.RDATA.Preference).PadLeft(5,' ')) $($Answer.RDATA.MX)."
+                                Write-Output "$($Answer.RNAME).  $(([String]$Answer.TTL).PadLeft(10,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $(([String]$Answer.RDATA.Preference).PadLeft(5,' ')) $($Answer.RDATA.MX)."
                             }
                             'TXT' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     `"$($Answer.RDATA)`""
+                                Write-Output "$($Answer.RNAME).  $(([String]$Answer.TTL).PadLeft(10,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     `"$($Answer.RDATA)`""
                             }
                             'SRV' {
-                                Write-Output "$($Answer.SERVICE).$($Answer.PROTOCOL).$($Answer.RNAME).  $(([String]$Answer.TTL).PadLeft(10,' '))  $($Answer.RCLASS.PadLeft(4,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA.Target.PadLeft(5,' ')). $([String]$Answer.RDATA.Priority) $($Answer.RDATA.Weight) $($Answer.RDATA.Port)"
+                                Write-Output "$($Answer.SERVICE)  $($Answer.PROTOCOL).$($Answer.RNAME).  $(([String]$Answer.TTL).PadLeft(10,' '))  $($Answer.RCLASS.PadLeft(4,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA.Target.PadLeft(5,' ')). $([String]$Answer.RDATA.Priority) $($Answer.RDATA.Weight) $($Answer.RDATA.Port)"
                             }
                             default {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA)"
+                                Write-Output "$($Answer.RNAME).  $(([String]$Answer.TTL).PadLeft(10,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA)"
                             }
                         }
                     }
@@ -562,7 +562,7 @@ function Resolve-DoHQuery {
                     foreach ($Answer in $Result.AuthorityRRs) {
                         Switch($Answer.RTYPE) {
                             'SOA' {
-                                Write-Output "$($Answer.RNAME).$(([String]$Answer.TTL).PadLeft(12,' '))$($Answer.RCLASS.PadLeft(6,' '))$($Answer.RTYPE.PadLeft(7,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
+                                Write-Output "$($Answer.RNAME).  $(([String]$Answer.TTL).PadLeft(10,' '))  $($Answer.RCLASS.PadLeft(4,' '))  $($Answer.RTYPE.PadLeft(5,' '))     $($Answer.RDATA.NS.PadLeft(5,' ')). $($Answer.RDATA.ADMIN). $($Answer.RDATA.SERIAL) $($Answer.RDATA.REFRESH) $($Answer.RDATA.RETRY) $($Answer.RDATA.EXPIRE) $($Answer.RDATA.TTL)"
                             }
                             default {
                                 Write-Output "$($Answer.RNAME).        $($Answer.TTL)        $($Answer.RCLASS)        $($Answer.RTYPE)        $($Answer.RDATA)"

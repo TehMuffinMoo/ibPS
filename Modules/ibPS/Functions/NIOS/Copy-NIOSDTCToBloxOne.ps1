@@ -3,10 +3,6 @@ function Copy-NIOSDTCToBloxOne {
     .SYNOPSIS
         Used to migrate LBDNs from NIOS DTC to BloxOne DTC
 
-        THIS FUNCTION IS CURRENTLY UNDERGOING SMOKE TESTING. FEEDBACK IS WELCOME!
-
-        Health Check HTTP Response Content conversion still to be implemented.
-
     .DESCRIPTION
         This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to BloxOne DTC
 
@@ -32,7 +28,6 @@ function Copy-NIOSDTCToBloxOne {
 
     .PARAMETER ApplyChanges
         Using this switch will apply the changes, otherwise the expected changes will just be displayed.
-
     
     .EXAMPLE
         PS> Copy-NIOSDTCToBloxOne -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp' -ApplyChanges
