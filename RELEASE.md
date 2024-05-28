@@ -2,3 +2,5 @@
 - Add new `-DoHServer` parameter to `Set-ibPSConfiguration` to set persistent DoH Server URL
 - Add new `DoH Server` value to `Get-ibPSConfiguration` to get the configured DoH Server URL
 - Add Global DNS AnyCast Addresses to `Get-B1PopRegion` output
+- Add `Get-B1CloudProvider` function to enable retrieving configured AWS/GCP/Azure Cloud Providers
+- Add `Get-B1ThirdPartyProvider` function to enable retrieving configured Third Party DNS & IPAM/DHCP Providers
