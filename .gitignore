@@ -1,4 +1,5 @@
 **/.DS_STORE
 Modules/ibPS/Functions/BloxOne/Private/Methods.ps1
+Modules/ibPS/Functions/BloxOne/Private/Classes.ps1
 dev
 coverage.xml

@@ -29,6 +29,9 @@
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+
+    .PARAMETER id
+        Return results based on DNS Access Control List id
         
     .EXAMPLE
         PS> Get-B1DNSACL -Name "Servers_ACL"
@@ -47,11 +50,16 @@
         [String]$tfilter,
         [String]$OrderBy,
         [String]$OrderByTag,
-        [switch]$Strict
+        [switch]$Strict,
+        [String]$id
     )
+
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
@@ -86,8 +94,12 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/acl$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/acl$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/acl" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/acl" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    }
+    if ($Results) {
+        #return [DNSACLArray]::New($Results) | Select-Object -ExpandProperty DNSACLs
+        return $Results
     }
 }
