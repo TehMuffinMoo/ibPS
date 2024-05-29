@@ -78,7 +78,7 @@ updated_time     : 5/3/2024 6:11:32 PM
 ## PARAMETERS
 
 ### -Name
-The name of the Custom List to remove.
+The name of the Custom List to update.
 
 Whilst this is here, the API does not currently support filtering by name.
 (01/04/24)
@@ -113,7 +113,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description for the new policy object
+The new description for the Custom List object
 
 ```yaml
 Type: String
