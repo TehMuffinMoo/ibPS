@@ -88,9 +88,9 @@
       [String]$Name,
       [String]$NewName,
       [String]$Description,
-      [DNSACLListItem[]]$Items,
-      [DNSACLListItem[]]$AddItems,
-      [DNSACLListItem[]]$RemoveItems,
+      [System.Object]$Items,
+      [System.Object]$AddItems,
+      [System.Object]$RemoveItems,
       [System.Object]$Tags,
       [Parameter(
           ValueFromPipeline = $true,
@@ -193,7 +193,6 @@
                 }
             }
         }
-        
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
 
         $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON

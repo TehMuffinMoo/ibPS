@@ -47,8 +47,8 @@
         DNS
     #>
     param(
-        [Parameter(ParameterSetName='IP')]
-        [Parameter(ParameterSetName='TSIG')]
+        [Parameter(ParameterSetName='IP',Mandatory=$true)]
+        [Parameter(ParameterSetName='TSIG',Mandatory=$true)]
         [ValidateSet('Allow','Deny')]
         $Access,
         [Parameter(ParameterSetName='IP')]
