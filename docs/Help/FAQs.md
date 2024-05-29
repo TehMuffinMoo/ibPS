@@ -6,9 +6,7 @@
   <br>
 </h1>
 
-## Troubleshooting
-
-### CouldNotAutoloadMatchingModule
+### Enable 
 The following error occurs when the Execution Policy is set to a restricted value.
 
 You can fix this by running `Set-ExecutionPolicy -ExecutionPolicy Unrestricted`
