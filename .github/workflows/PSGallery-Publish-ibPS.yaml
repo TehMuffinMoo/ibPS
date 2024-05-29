@@ -86,6 +86,9 @@ jobs:
           Write-Host "Importing ibPS Module.."
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
 
+          Write-Host "Import ibPS Classes.."
+          . ./Modules/ibPS/Functions/BloxOne/Private/Classes.ps1
+
           Write-Host "Obtaining list of excluded docs.."
           $ExcludedDocs = Import-Csv ./docs/exclusions.csv -Header 'doc'
 
