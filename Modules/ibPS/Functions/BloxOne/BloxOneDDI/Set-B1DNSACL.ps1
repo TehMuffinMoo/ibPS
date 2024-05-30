@@ -150,10 +150,10 @@
                         ## Check if the existing item has the correct ACL action
                         if ($i.access -ne $(($NewObj.list | Where-Object {$_.address -eq $($i.address)})).access) {
                             ## Update the ACL action
-                            Write-Colour "$($i.address) already exists in the list of ACLs, but with a different action. Updating the action to: ",$($i.access) -Colour 'Cyan','Yellow'
+                            Write-Colour "$($i.address) already exists in the Access Control List rules for: $($NewObj.name), but with a different action. Updating the action to: ",$($i.access) -Colour 'Cyan','Yellow'
                             ($NewObj.list | Where-Object {$_.address -eq $($i.address)}).access = $i.access
                         } else {
-                            Write-Host "$($i.address) already exists in the list of ACLs with action: $($i.access)" -ForegroundColor Cyan
+                            Write-Host "$($i.address) already exists in the Access Control List rules for: $($NewObj.name), with action: $($i.access)" -ForegroundColor Cyan
                         }
                     } else {
                         $NewObj.list += $i
@@ -162,7 +162,7 @@
                 if ($i.acl) {
                     ## Check if Item already exists in list
                     if ($i.acl -in $ObjList.GetEnumerator().acl) {
-                        Write-Host "$($i.acl) already exists in the list of ACLs." -ForegroundColor Cyan
+                        Write-Host "$($i.acl) already exists in the Access Control List rules for: $($NewObj.name)." -ForegroundColor Cyan
                     } else {
                         $NewObj.list += $i
                     }
