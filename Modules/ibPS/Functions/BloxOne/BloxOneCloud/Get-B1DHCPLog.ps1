@@ -66,7 +66,17 @@
     $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ss.000")
     $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ss.000")
 
-    $DHCPHosts = Get-B1DHCPHost
+    $DHCPHostQuery = Get-B1DHCPHost -Limit 2500
+    $DHCPHosts += $DHCPHostQuery
+    if ($DHCPHostQuery.count -eq 2500) {
+        $Offset = 2500
+        while ($DHCPHostQuery.count -gt 0) {
+            $DHCPHostQuery = Get-B1DHCPHost -Limit 2500 -Offset $Offset
+            $DHCPHosts += $DHCPHostQuery
+            $Offset += 2500
+        }
+    }
+
     function Match-DHCPHost($id) {
         ($DHCPHosts | Where-Object {$_.id -eq $id}).name
     }
