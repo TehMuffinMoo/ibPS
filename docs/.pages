@@ -1,6 +1,8 @@
 nav:
+    - Index.md
     - Change Log.md
     - BloxOne
     - Examples
+    - General
     - NIOS
     - Help
