@@ -6,3 +6,4 @@
 - Add `Get-B1ThirdPartyProvider` function to enable retrieving configured Third Party DNS & IPAM/DHCP Providers
 - Add `Set-B1DNSACL` function to update existing DNS Access Control Lists
 - Add `New-B1DNSACLItem` function to enable easy creation of DNS ACL Objects to add/remove from DNS ACLs. See [Set-B1DNSACL](https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20DDI/Set-B1DNSACL/) & [New-B1DNSACLItem](https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20DDI/New-B1DNSACLItem/) for further details.
+- Fixed some issues with `Get-B1DNSLog` & `Get-B1DHCPLog` in large environments. (1000+ DNS or DHCP Services)
