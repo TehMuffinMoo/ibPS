@@ -10,9 +10,8 @@
 
 ### Breaking Changes
 
-|  **Set-B1Host**  |
+|  **Add `-NewName` parameter to `Set-B1Host` to align it with other functions**  |
 |:-------------------------|
-| Add `-NewName` parameter to `Set-B1Host` to align it with other functions. |
 | Previously, if the `-IP` parameter was set then the `-Name` parameter would be used to update the host name. |
 | This functionality is changing to use the `-NewName` parameter instead. |
 | See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Platform/Set-B1Host/">Documentation</a> for further details |
