@@ -7,4 +7,12 @@
 - Add `Set-B1DNSACL` function to update existing DNS Access Control Lists
 - Add `New-B1DNSACLItem` function to enable easy creation of DNS ACL Objects to add/remove from DNS ACLs. See [Set-B1DNSACL](https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20DDI/Set-B1DNSACL/) & [New-B1DNSACLItem](https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20DDI/New-B1DNSACLItem/) for further details.
 - Fixed some issues with `Get-B1DNSLog` & `Get-B1DHCPLog` in large environments. (1000+ DNS or DHCP Services)
-- Add `-NewName` parameter to `Set-B1Host` to align it with other functions
+
+### Breaking Changes
+
+|  **Set-B1Host**  |
+|:-------------------------|
+| Add `-NewName` parameter to `Set-B1Host` to align it with other functions. |
+| Previously, if the `-IP` parameter was set then the `-Name` parameter would be used to update the host name. |
+| This functionality is changing to use the `-NewName` parameter instead. |
+| See the <a href="https://ibps.readthedocs.io/en/latest/BloxOne/BloxOne%20Platform/Set-B1Host/">Documentation</a> for further details |
