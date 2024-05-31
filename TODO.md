@@ -13,6 +13,8 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] New-B1DNSACL
 - [X] Set-B1DNSACL
 - [ ] Remove-B1DNSACL
+- [ ] New-B1SecurityPolicy
+- [ ] Set-B1SecurityPolicy
 
 ## Improvements
 - [ ] Replace API calls for `dns/host` with `dns/service`

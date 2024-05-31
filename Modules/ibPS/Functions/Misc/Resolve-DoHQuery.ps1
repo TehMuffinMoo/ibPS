@@ -439,7 +439,7 @@ function Resolve-DoHQuery {
             ## Strip QTYPE/QCLASS
             $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(8,$QNAMEDecoded.remaining.length-8)
             $TotalLen = $QNAMEDecoded.remaining.length
-            while ($TotalLen -gt 0) {
+            while (($TotalLen -gt 0) -and (!($AdditionalRRs))) {
                 $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                 $RTYPE = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
                 $Ans = [PSCustomObject]@{
@@ -547,8 +547,17 @@ function Resolve-DoHQuery {
                 } else {
                     $Result.AdditionalRRs += $Ans
                 }
-                
+                if (($Result.AnswerRRs.Count -lt ($Result.Headers.AnswerRRs)) -or ($Result.AuthorityRRs.Count -lt ($Result.Headers.AuthorityRRs))) {
+                    $AdditionalRRs = $false
+                } elseif ($Result.Headers.AdditionalRRs -gt 0) {
+                    $AdditionalRRs = $true
+                }
                 $TotalLen = $QNAMEDecoded.remaining.length
+            }
+
+            if ($AdditionalRRs) {
+                Write-Host "There is additional content.."
+                Write-Host "Hex: $($QNAMEDecoded.remaining)"
             }
             if ($Section) {
                 if ($Section -contains 'Answer') {
