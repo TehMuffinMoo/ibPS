@@ -23,6 +23,21 @@ function Resolve-DoHQuery {
     .PARAMETER DNSSEC
         Optionally validate DNSSEC
 
+    .PARAMETER SourceIP
+        Specify the Source IP to spoof using EDNS OPT 65523. This only works when using BloxOne Threat Defense.
+
+        WORK IN PROGRESS
+
+    .PARAMETER SourceMAC
+        Specify the Source MAC Address to spoof using EDNS OPT 65524. This only works when using BloxOne Threat Defense.
+
+        WORK IN PROGRESS
+
+    .PARAMETER SourceView
+        Specify the Source DNS View Name to spoof using EDNS OPT 65526. This only works when using BloxOne Threat Defense.
+
+        WORK IN PROGRESS
+
     .PARAMETER OutDig
         Use the -OutDig parameter to output the response in a format similar to dig
 
@@ -114,6 +129,9 @@ function Resolve-DoHQuery {
         [String[]]$Section,
         [Parameter(DontShow)]
         [Switch]$DNSSEC,
+        [String]$SourceIP,
+        [String]$SourceMAC,
+        [String]$SourceView,
         [Switch]$OutDig,
         [Parameter(
             ValueFromPipeline = $true,
@@ -328,12 +346,42 @@ function Resolve-DoHQuery {
 
         $TransactionID = Get-Random -Maximum 65535
         $TransactionIDHex = "{0:X4}" -f [Uint32]$TransactionID -split '(..)' -ne '' -join ' '
-        $HeaderHex = "$TransactionIDHex 01 00 00 01 00 00 00 00 00 00"
+        $AdditionalRecordsCount = 0
+        $AdditionalRecordHex = ''
+        if ($SourceIP) {
+            $AdditionalRecordsCount++
+            $SourceIPHex = ("{0:X8}" -f [Uint32]([IPAddress]$SourceIP).address) -split '(..)' -ne ''
+            [Array]::Reverse($SourceIPHex)
+            $SourceIPHex = $SourceIPHex -join ''
+            $SourceIPHexLength = "{0:X4}" -f [Uint32]$($SourceIPHex.length / 2)
+            $EDNSOptHex = "{0:X4}" -f [Uint32]'65523'
+            $AdditionalRecordHex += "$EDNSOptHex $SourceIPHexLength $SourceIPHex" -replace ' ',''
+            $OPT = $true
+        }
+        if ($SourceMAC) {
+            $AdditionalRecordsCount++
+            $SourceMACHex = ($SourceMAC -replace ':','')
+            $SourceMACHexLength = "{0:X4}" -f [Uint32]$($SourceMACHex.length / 2)
+            $EDNSOptHex = "{0:X4}" -f [Uint32]'65524'
+            $AdditionalRecordHex += "$EDNSOptHex $SourceMACHexLength $SourceMACHex" -replace ' ',''
+            $OPT = $true
+        }
+        if ($SourceView) {
+            $AdditionalRecordsCount++
+            $SourceViewHex = ($SourceView | ConvertTo-HexString) -replace ' ',''
+            $SourceViewHexLength = "{0:X4}" -f [Uint32]$($SourceViewHex.length / 2)
+            $EDNSOptHex = "{0:X4}" -f [Uint32]'65526'
+            $AdditionalRecordHex += "$EDNSOptHex $SourceViewHexLength $SourceViewHex" -replace ' ',''
+            $OPT = $true
+        }
+        $AdditionalRecordsCountHex =  "{0:X4}" -f [Uint32]$AdditionalRecordsCount
+        $HeaderHex = "$TransactionIDHex 01 00 00 01 00 00 00 00 $AdditionalRecordsCountHex"
         $QNAMEHex = $JoinedQuery
         $QTYPEHex = '{0:X4}' -f ([uint32]$QTYPEList[$Type])
         $QCLASSHex = '{0:X4}' -f ([uint32]1)
-    
-        $Hex = "$HeaderHex $QNAMEHex $QTYPEHex $QCLASSHex" -replace ' ',''
+        $OPTDataLengthHex =  "{0:X4}" -f [Uint32]$($AdditionalRecordHex.length / 2)
+        $OPTHex = "00 00 29 10 00 00 00 00 00 $OPTDataLengthHex $AdditionalRecordHex"
+        $Hex = "$HeaderHex $QNAMEHex $QTYPEHex $QCLASSHex $OPTHex" -replace ' ',''
     
         $Bytes = New-Object -TypeName byte[] -ArgumentList ($Hex.Length / 2)
         for ($i = 0; $i -lt $hex.Length; $i += 2) {
