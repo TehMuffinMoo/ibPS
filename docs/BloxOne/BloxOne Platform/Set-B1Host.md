@@ -14,14 +14,14 @@ Updates an existing BloxOne Host
 
 ### Default
 ```
-Set-B1Host [-Name <String>] [-IP <String>] [-Space <String>] [-TimeZone <String>] [-Description <String>]
- [-Location <String>] [-Tags <Object>] [<CommonParameters>]
+Set-B1Host [-Name <String>] [-IP <String>] [-NewName <String>] [-Space <String>] [-TimeZone <String>]
+ [-Description <String>] [-Location <String>] [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Set-B1Host [-Space <String>] [-TimeZone <String>] [-Description <String>] [-Location <String>] -Object <Object>
- [<CommonParameters>]
+Set-B1Host [-NewName <String>] [-Space <String>] [-TimeZone <String>] [-Description <String>]
+ [-Location <String>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,11 +34,15 @@ This function is used to update an existing BloxOne Host
 Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
 ```
 
+### EXAMPLE 2
+```powershell
+Get-B1Host -Name "bloxoneddihost1.mydomain.corp" | Set-B1Host -NewName "mynewhostname.mydomain.corp"
+```
+
 ## PARAMETERS
 
 ### -Name
 The name of the BloxOne Host to update.
-If -IP is specified, the Name parameter will overwrite the existing display name.
 
 ```yaml
 Type: String
@@ -58,6 +62,21 @@ The IP of the BloxOne Host to update.
 ```yaml
 Type: String
 Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -NewName
+Use -NewName to update the name of the BloxOne Host
+
+```yaml
+Type: String
+Parameter Sets: (All)
 Aliases:
 
 Required: False

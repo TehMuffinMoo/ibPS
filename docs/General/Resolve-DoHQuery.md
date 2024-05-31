@@ -15,13 +15,13 @@ Used to query a DNS over HTTPS Server to verify connectivity and responses
 ### Default
 ```
 Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [-Section <String[]>] [-DNSSEC]
- [-OutDig] [<CommonParameters>]
+ [-SourceIP <String>] [-SourceMAC <String>] [-SourceView <String>] [-OutDig] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [-Section <String[]>] [-DNSSEC] [-OutDig]
- -Object <Object> [<CommonParameters>]
+Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [-Section <String[]>] [-DNSSEC] [-SourceIP <String>]
+ [-SourceMAC <String>] [-SourceView <String>] [-OutDig] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -186,6 +186,60 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SourceIP
+Specify the Source IP to spoof using EDNS OPT 65523.
+This only works when using BloxOne Threat Defense.
+
+WORK IN PROGRESS
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SourceMAC
+Specify the Source MAC Address to spoof using EDNS OPT 65524.
+This only works when using BloxOne Threat Defense.
+
+WORK IN PROGRESS
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SourceView
+Specify the Source DNS View Name to spoof using EDNS OPT 65526.
+This only works when using BloxOne Threat Defense.
+
+WORK IN PROGRESS
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

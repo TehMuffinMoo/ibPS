@@ -14,12 +14,12 @@ This function is used to create new ACL Items to append or remove to/from an exi
 
 ### TSIG
 ```
-New-B1DNSACLItem [-Access <Object>] [-TSIG_KEY <Object>] [<CommonParameters>]
+New-B1DNSACLItem -Access <Object> [-TSIG_KEY <Object>] [<CommonParameters>]
 ```
 
 ### IP
 ```
-New-B1DNSACLItem [-Access <Object>] [-Address <Object>] [<CommonParameters>]
+New-B1DNSACLItem -Access <Object> [-Address <Object>] [<CommonParameters>]
 ```
 
 ### NamedACL
@@ -67,7 +67,7 @@ Type: Object
 Parameter Sets: TSIG, IP
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: False

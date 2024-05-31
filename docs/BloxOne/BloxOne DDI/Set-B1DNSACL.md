@@ -14,15 +14,14 @@ Updates a DNS ACL object
 
 ### Default
 ```
-Set-B1DNSACL -Name <String> [-NewName <String>] [-Description <String>] [-Items <DNSACLListItem[]>]
- [-AddItems <DNSACLListItem[]>] [-RemoveItems <DNSACLListItem[]>] [-Tags <Object>] [<CommonParameters>]
+Set-B1DNSACL -Name <String> [-NewName <String>] [-Description <String>] [-Items <Object>] [-AddItems <Object>]
+ [-RemoveItems <Object>] [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Set-B1DNSACL [-NewName <String>] [-Description <String>] [-Items <DNSACLListItem[]>]
- [-AddItems <DNSACLListItem[]>] [-RemoveItems <DNSACLListItem[]>] [-Tags <Object>] -Object <Object>
- [<CommonParameters>]
+Set-B1DNSACL [-NewName <String>] [-Description <String>] [-Items <Object>] [-AddItems <Object>]
+ [-RemoveItems <Object>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -131,7 +130,7 @@ This will overwrite the current list of ACLs.
 If you only want to add or remove ACLs to/from the list, you should use the corresponding -AddItems or -RemoveItems parameters.
 
 ```yaml
-Type: DNSACLListItem[]
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
@@ -149,7 +148,7 @@ These can be created by using New-B1DNSACLItem.
 Duplicate items will be silently skipped, only new items are appended to the ACL list.
 
 ```yaml
-Type: DNSACLListItem[]
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
@@ -167,7 +166,7 @@ These can be created by using New-B1DNSACLItem.
 These items will be removed from the ACL List, if the item does not exist it will be silently skipped.
 
 ```yaml
-Type: DNSACLListItem[]
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
