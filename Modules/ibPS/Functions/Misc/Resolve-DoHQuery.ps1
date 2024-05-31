@@ -26,17 +26,11 @@ function Resolve-DoHQuery {
     .PARAMETER SourceIP
         Specify the Source IP to spoof using EDNS OPT 65523. This only works when using BloxOne Threat Defense.
 
-        WORK IN PROGRESS
-
     .PARAMETER SourceMAC
         Specify the Source MAC Address to spoof using EDNS OPT 65524. This only works when using BloxOne Threat Defense.
 
-        WORK IN PROGRESS
-
     .PARAMETER SourceView
         Specify the Source DNS View Name to spoof using EDNS OPT 65526. This only works when using BloxOne Threat Defense.
-
-        WORK IN PROGRESS
 
     .PARAMETER OutDig
         Use the -OutDig parameter to output the response in a format similar to dig
