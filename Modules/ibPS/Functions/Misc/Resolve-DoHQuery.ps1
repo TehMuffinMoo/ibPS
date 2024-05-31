@@ -284,6 +284,7 @@ function Resolve-DoHQuery {
             'RP' = 17      ## Responsible Person Record
             'AAAA' = 28    ## IPv6 Address Record
             'SRV' = 33     ## Service Locator Record
+            'OPT' = 41     ## This is a pseudo-record type needed to support EDNS.
             'SVCB' = 64    ## Service Locator Record
             'ANY' = 255    ## Any/Wildcard Record from Cache
             'URI' = 256    ## Uniform Resource Identifier
@@ -556,8 +557,16 @@ function Resolve-DoHQuery {
             }
 
             if ($AdditionalRRs) {
-                Write-Host "There is additional content.."
-                Write-Host "Hex: $($QNAMEDecoded.remaining)"
+                $AdditionalRR = @{
+                    "Name" = $QNAMEDecoded.remaining.substring(0,2)
+                    "Type" = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(2,4))"}).key
+                    "UDP Payload Size" = [Uint32]"0x$($QNAMEDecoded.remaining.substring(6,4))"
+                    "Extended RCODE" = $QNAMEDecoded.remaining.substring(10,2)
+                    "EDNS0 Version" = [Uint32]"0x$($QNAMEDecoded.remaining.substring(12,2))"
+                    "Z" = $QNAMEDecoded.remaining.substring(14,4)
+                    "Data Length" = $QNAMEDecoded.remaining.substring(18,4)
+                }
+                $Result.AdditionalRRs += $AdditionalRR
             }
             if ($Section) {
                 if ($Section -contains 'Answer') {
