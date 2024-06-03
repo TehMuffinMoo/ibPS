@@ -15,13 +15,13 @@ Use this cmdlet to retrieve a list of security policy rules
 ### Default
 ```
 Get-B1SecurityPolicyRules [-PolicyID <Int32>] [-ListID <Int32>] [-CategoryFilterID <Int32>] [-Limit <Int32>]
- [-Offset <Int32>] [-Fields <String[]>] [-SecurityPolicy <Object>] [<CommonParameters>]
+ [-Offset <Int32>] [-Fields <String[]>] [<CommonParameters>]
 ```
 
-### With ID
+### Pipeline
 ```
 Get-B1SecurityPolicyRules [-ListID <Int32>] [-CategoryFilterID <Int32>] [-Limit <Int32>] [-Offset <Int32>]
- [-Fields <String[]>] [-SecurityPolicy <Object>] [<CommonParameters>]
+ [-Fields <String[]>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -116,7 +116,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: 100
+Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -152,27 +152,15 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SecurityPolicy
+### -Object
 Optionally pass in a security policy object via pipeline to list rules for.
 
 ```yaml
 Type: Object
-Parameter Sets: Default
+Parameter Sets: Pipeline
 Aliases:
 
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: True (ByValue)
-Accept wildcard characters: False
-```
-
-```yaml
-Type: Object
-Parameter Sets: With ID
-Aliases:
-
-Required: False
+Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
