@@ -22,6 +22,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Get-B1EndpointGroup
 - [ ] Set-B1EndpointGroup
 - [ ] Remove-B1EndpointGroup
+- [ ] Get-B1CustomRedirect
 
 ## Improvements
 - [ ] Replace API calls for `dns/host` with `dns/service`
