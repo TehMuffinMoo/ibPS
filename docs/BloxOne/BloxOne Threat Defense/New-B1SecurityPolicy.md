@@ -104,7 +104,7 @@ Accept wildcard characters: False
 ```
 
 ### -Precedence
-{{ Fill Precedence Description }}
+The precedence for the new Security Policy.
 
 ```yaml
 Type: Int32
