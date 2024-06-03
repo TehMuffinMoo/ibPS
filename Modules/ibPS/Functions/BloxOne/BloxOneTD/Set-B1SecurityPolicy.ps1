@@ -49,6 +49,12 @@
         A list of tags to apply to the Security Policy
 
     .EXAMPLE
+        ## Example of copying rules from one Security Policy to another.
+
+        $PolicyRules = (Get-B1SecurityPolicy -Name 'Main Policy').rules
+        Get-B1SecurityPolicy -Name 'Child Policy' | Set-B1SecurityPolicy -Rules $PolicyRules
+
+    .EXAMPLE
         Get-B1SecurityPolicy -Name 'My Policy' | Set-B1SecurityPolicy -Precedence 5 -LocalOnPremResolution Enabled
 
         access_codes            : {}
