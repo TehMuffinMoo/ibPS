@@ -36,6 +36,9 @@
     .PARAMETER ExternalNetworks
         A list of External Network names to apply to the network scope. You can get a list of External Networks using Get-B1NetworkList.
 
+    .PARAMETER IPAMNetworks
+        A list of Address Blocks / Subnets / Ranges to apply to the network scope. You can build this list of networks using New-B1SecurityPolicyIPAMNetwork, see the examples.
+
     .PARAMETER Rules
         A list of Policy Rules to apply to the new Security Policy. You can build this list of rules using New-B1SecurityPolicyRule, see the examples.
         
@@ -48,10 +51,15 @@
         $PolicyRules += New-B1SecurityPolicyRule -Action Block -Type Feed -Object antimalware
         $PolicyRules += New-B1SecurityPolicyRule -Action Block -Type Custom -Object 'Threat Insight - Zero Day DNS'
 
+        $IPAMNetworks = @()
+        $IPAMNetworks += Get-B1Subnet 10.10.0.0/16 -Space 'My IP Space' | New-B1SecurityPolicyIPAMNetwork
+        $IPAMNetworks += Get-B1Subnet 10.15.0.0/16 -Space 'My IP Space' | New-B1SecurityPolicyIPAMNetwork
+
         New-B1SecurityPolicy -Name 'My Policy' -Description 'My Policy' `
                              -DoHPerPolicy Enabled -GeoLocation Enabled `
                              -BlockDNSRebinding Enabled -DFPs 'B1-DFP-01','B1-DFP-02' `
-                             -ExternalNetworks 'My External Network List' -Rules $PolicyRules
+                             -ExternalNetworks 'My External Network List' -Rules $PolicyRules `
+                             -IPAMNetworks $IPAMNetworks
 
         access_codes            : {}
         block_dns_rebind_attack : True
@@ -104,6 +112,7 @@
       [String]$LocalOnPremResolution,
       [String[]]$DFPs,
       [String[]]$ExternalNetworks,
+      [System.Object]$IPAMNetworks,
       [System.Object]$Rules,
       [System.Object]$Tags
     )
@@ -122,6 +131,7 @@
             "dfp_services" = @()
             "network_lists" = @()
             "rules" = @()
+            "net_address_dfps" = @()
         }
         if ($Splat.doh_enabled) {
             $Splat.doh_fqdn = (New-B1DoHFQDN).doh_fqdn
@@ -149,6 +159,10 @@
                     return $null
                 }
             }
+        }
+
+        if ($IPAMNetworks) {
+            $Splat.net_address_dfps = @($IPAMNetworks)
         }
 
         if ($Rules) {
