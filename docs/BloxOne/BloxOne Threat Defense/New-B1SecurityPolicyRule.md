@@ -13,7 +13,8 @@ This function is used to create new Security Policy Rules to append or remove to
 ## SYNTAX
 
 ```
-New-B1SecurityPolicyRule [[-Action] <Object>] [[-Type] <Object>] [[-Object] <Object>] [[-Redirect] <Object>]
+New-B1SecurityPolicyRule [[-Action] <Object>] [[-Log] <Object>] [[-Type] <Object>] [[-Object] <Object>]
+ [[-Redirect] <Object>]
 ```
 
 ## DESCRIPTION
@@ -48,6 +49,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Log
+The security policy rule log action to use for this list item.
+Defaults to Log.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: Log
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Type
 The type of security policy rule to apply (Custom List / Named Feed (Threat Insight) / Application Filter / Category Filter)
 
@@ -57,7 +74,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -75,14 +92,15 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Redirect
-The name of the redirect to apply
+The name of the redirect to apply.
+If 'Default' is specified, the default redirect configuration will be used.
 
 ```yaml
 Type: Object
@@ -90,7 +108,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

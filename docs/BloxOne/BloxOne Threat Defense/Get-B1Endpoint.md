@@ -5,26 +5,31 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1CategoryFilter
+# Get-B1Endpoint
 
 ## SYNOPSIS
-Retrieves a Category Filter from BloxOne Threat Defense
+Retrieves a list of BloxOne Endpoints from BloxOne Threat Defense.
 
 ## SYNTAX
 
 ### Default (Default)
 ```
-Get-B1CategoryFilter [-Name <String>] [-Description <String>] [-Limit <Int32>] [-Offset <Int32>]
+Get-B1Endpoint [-Name <String>] [-Status <String>] [-Username <String>] [-EndpointGroup <String>]
+ [-MACAddress <String>] [-EndpointVersion <String>] [-OSVersion <String>] [-SerialNumber <String>]
+ [-LastIPAddress <String>] [-Country <String>] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>]
  [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-Strict] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Get-B1CategoryFilter [-Fields <String[]>] -id <String> [<CommonParameters>]
+Get-B1Endpoint [-Name <String>] [-Status <String>] [-Username <String>] [-EndpointGroup <String>]
+ [-MACAddress <String>] [-EndpointVersion <String>] [-OSVersion <String>] [-SerialNumber <String>]
+ [-LastIPAddress <String>] [-Country <String>] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>]
+ [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-Strict] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve category filter(s) from BloxOne Threat Defense.
+This function is used to retrieve a list of BloxOne Endpoints from BloxOne Threat Defense.
 
 ## EXAMPLES
 
@@ -36,11 +41,11 @@ This function is used to retrieve category filter(s) from BloxOne Threat Defense
 ## PARAMETERS
 
 ### -Name
-Filter results by Name.
+Filter results by Device Name.
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -50,12 +55,132 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-Filter results by Description.
+### -Status
+Filter results by Device Status.
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Username
+Filter results by Username.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EndpointGroup
+Filter results by the associated Endpoint Group.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -MACAddress
+Filter devices by MAC Address
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -EndpointVersion
+Filter devices by the endpoint version
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -OSVersion
+Filter devices by the OS version
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SerialNumber
+Filter devices by the Serial Number
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -LastIPAddress
+Filter devices by the Last Known IP Address.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Country
+Filter devices by the associated Country
+
+```yaml
+Type: String
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -70,7 +195,7 @@ Use this parameter to limit the quantity of results.
 
 ```yaml
 Type: Int32
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -85,12 +210,27 @@ Use this parameter to offset the results by the value entered for the purpose of
 
 ```yaml
 Type: Int32
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -tfilter
+Use this parameter to filter the results returned by tag.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -118,7 +258,7 @@ Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as de
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -134,7 +274,7 @@ Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as de
 
 ```yaml
 Type: String
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -151,7 +291,7 @@ Using strict matching will only return results matching exactly what is entered 
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Default
+Parameter Sets: (All)
 Aliases:
 
 Required: False
