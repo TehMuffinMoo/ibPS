@@ -13,8 +13,8 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] New-B1DNSACL
 - [X] Set-B1DNSACL
 - [ ] Remove-B1DNSACL
-- [ ] New-B1SecurityPolicy
-- [ ] Set-B1SecurityPolicy
+- [X] New-B1SecurityPolicy
+- [X] Set-B1SecurityPolicy
 - [ ] New-B1EndpointGroup
 
 ## Improvements
@@ -24,6 +24,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add `-CustomFilters` parameter to all functions where filters are supported. See [docs](https://ibps.readthedocs.io/en/dev/#-customfilters)
 - [ ] Investigate the naming convention of Set-B1NTPServiceConfiguration
 - [ ] Add TSIG_KEY support to `Set-B1DNSACL` & `New-B1DNSACLItem`
+- [ ] Add IPAM Hosts, Tags & Metadata Network Scope support for `New-B1SecurityPolicy` & `Set-B1SecurityPolicy`
 
 ## Bug Fixes
 - [ ] Investigate occasional errors when using `Get-ibPSVersion -Cleanup`
