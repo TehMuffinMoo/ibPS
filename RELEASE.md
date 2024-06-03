@@ -10,6 +10,7 @@
 - Add `New-B1SecurityPolicyRule` for providing a simple way to build a list of rules to apply to a Security Policy
 - Add `Set-B1SecurityPolicy` for updating existing BloxOne Threat Defense Security Policies
 - Add `New-B1DoHFQDN` for generating new DNS over HTTPS FQDNs for BloxOne Threat Defense.
+- Add `Get-B1Endpoint` for retrieving BloxOne Threat Defense Endpoints
 - Fixed some issues with `Get-B1DNSLog` & `Get-B1DHCPLog` in large environments. (1000+ DNS or DHCP Services)
 
 ### Breaking Changes

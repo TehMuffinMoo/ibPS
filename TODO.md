@@ -15,6 +15,9 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Remove-B1DNSACL
 - [X] New-B1SecurityPolicy
 - [X] Set-B1SecurityPolicy
+- [X] Get-B1Endpoint
+- [ ] Set-B1Endpoint
+- [ ] Remove-B1Endpoint
 - [ ] New-B1EndpointGroup
 - [ ] Get-B1EndpointGroup
 - [ ] Set-B1EndpointGroup
