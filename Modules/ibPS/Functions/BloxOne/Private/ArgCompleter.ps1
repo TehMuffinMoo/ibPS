@@ -29,6 +29,25 @@ $applications = {
 }
 Register-ArgumentCompleter -CommandName Get-B1Service,New-B1Service -ParameterName Type -ScriptBlock $applications
 
+$B1TDSecurityPolicyRuleFilter = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    switch($fakeBoundParameters['Type']) {
+        "Custom" {
+            (Get-B1CustomList | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+        }
+        "Named" {
+            (Get-B1ThreatFeeds -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+        }
+        "Application" {
+            (Get-B1ApplicationFilter -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+        }
+        "Category" {
+            (Get-B1ApplicationFilter -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+        }
+    }
+}
+Register-ArgumentCompleter -CommandName New-B1SecurityPolicyRule -ParameterName Object -ScriptBlock $B1TDSecurityPolicyRuleFilter
+
 $B1TDLookalikeTargetCandidates = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     switch($commandName) {
