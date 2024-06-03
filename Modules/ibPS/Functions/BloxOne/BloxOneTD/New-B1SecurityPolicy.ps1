@@ -75,7 +75,8 @@
         id                      : 123456
         is_default              : False
         name                    : My Policy
-        net_address_dfps        : {}
+        net_address_dfps        : {@{addr_net=10.10.0.0/16; dfp_ids=System.Object[]; dfp_service_ids=System.Object[]; end=10.10.255.255; external_scope_id=vsdvreg-bdrv-regb-g455-g5h5dhy54g5h; host_id=; ip_space_id=cdafsffc-fgfg-1fff-gh6v-j7iiku8idssdswzx; scope_type=SUBNET; start=10.10.0.0},
+                                  @{addr_net=10.15.0.0/16; dfp_ids=System.Object[]; dfp_service_ids=System.Object[]; end=10.15.255.255; external_scope_id=gr8g5455-g45t-rg5r-g4g4-g4g4tdrehg; host_id=; ip_space_id=cdafsffc-fgfg-1fff-gh6v-j7iiku8idssdswzx; scope_type=SUBNET; start=10.15.0.0}}
         network_lists           : {789456}
         onprem_resolve          : False
         precedence              : 12
