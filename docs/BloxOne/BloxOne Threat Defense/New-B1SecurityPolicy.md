@@ -15,8 +15,8 @@ Creates a new Security Policy in BloxOne Threat Defense
 ```
 New-B1SecurityPolicy [-Name] <String> [[-Description] <String>] [[-Precedence] <Int32>]
  [[-GeoLocation] <String>] [[-SafeSearch] <String>] [[-DoHPerPolicy] <String>] [[-BlockDNSRebinding] <String>]
- [[-LocalOnPremResolution] <String>] [[-DFPs] <String[]>] [[-ExternalNetworks] <String[]>] [[-Rules] <Object>]
- [[-Tags] <Object>] [<CommonParameters>]
+ [[-LocalOnPremResolution] <String>] [[-DFPs] <String[]>] [[-ExternalNetworks] <String[]>]
+ [[-IPAMNetworks] <Object>] [[-Rules] <Object>] [[-Tags] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,10 +31,15 @@ $PolicyRules += New-B1SecurityPolicyRule -Action Allow -Type Category -Object Al
 $PolicyRules += New-B1SecurityPolicyRule -Action Block -Type Feed -Object antimalware
 $PolicyRules += New-B1SecurityPolicyRule -Action Block -Type Custom -Object 'Threat Insight - Zero Day DNS'
 
+$IPAMNetworks = @()
+$IPAMNetworks += Get-B1Subnet 10.10.0.0/16 -Space 'My IP Space' | New-B1SecurityPolicyIPAMNetwork
+$IPAMNetworks += Get-B1Subnet 10.15.0.0/16 -Space 'My IP Space' | New-B1SecurityPolicyIPAMNetwork
+
 New-B1SecurityPolicy -Name 'My Policy' -Description 'My Policy' `
                      -DoHPerPolicy Enabled -GeoLocation Enabled `
                      -BlockDNSRebinding Enabled -DFPs 'B1-DFP-01','B1-DFP-02' `
-                     -ExternalNetworks 'My External Network List' -Rules $PolicyRules
+                     -ExternalNetworks 'My External Network List' -Rules $PolicyRules `
+                     -IPAMNetworks $IPAMNetworks
 
 access_codes            : {}
 block_dns_rebind_attack : True
@@ -50,7 +55,8 @@ ecs                     : True
 id                      : 123456
 is_default              : False
 name                    : My Policy
-net_address_dfps        : {}
+net_address_dfps        : {@{addr_net=10.10.0.0/16; dfp_ids=System.Object[]; dfp_service_ids=System.Object[]; end=10.10.255.255; external_scope_id=vsdvreg-bdrv-regb-g455-g5h5dhy54g5h; host_id=; ip_space_id=cdafsffc-fgfg-1fff-gh6v-j7iiku8idssdswzx; scope_type=SUBNET; start=10.10.0.0},
+                          @{addr_net=10.15.0.0/16; dfp_ids=System.Object[]; dfp_service_ids=System.Object[]; end=10.15.255.255; external_scope_id=gr8g5455-g45t-rg5r-g4g4-g4g4tdrehg; host_id=; ip_space_id=cdafsffc-fgfg-1fff-gh6v-j7iiku8idssdswzx; scope_type=SUBNET; start=10.15.0.0}}
 network_lists           : {789456}
 onprem_resolve          : False
 precedence              : 12
@@ -224,6 +230,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -IPAMNetworks
+A list of Address Blocks / Subnets / Ranges to apply to the network scope.
+You can build this list of networks using New-B1SecurityPolicyIPAMNetwork, see the examples.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Rules
 A list of Policy Rules to apply to the new Security Policy.
 You can build this list of rules using New-B1SecurityPolicyRule, see the examples.
@@ -234,7 +256,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -249,7 +271,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
