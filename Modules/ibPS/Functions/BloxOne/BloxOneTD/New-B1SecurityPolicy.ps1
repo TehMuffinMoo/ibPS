@@ -12,7 +12,7 @@
     .PARAMETER Description
         The description for the new Security Policy.
 
-    .PARAMETER Precendence
+    .PARAMETER Precedence
         The precedence for the new Security Policy.
 
     .PARAMETER GeoLocation
