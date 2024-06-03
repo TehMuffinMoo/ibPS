@@ -35,14 +35,14 @@ $B1TDSecurityPolicyRuleFilter = {
         "Custom" {
             (Get-B1CustomList | Where-Object {$_.name -like "$($wordToComplete)*"}).name
         }
-        "Named" {
-            (Get-B1ThreatFeeds -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+        "Feed" {
+            (Get-B1ThreatFeeds | Where-Object {$_.key -like "$($wordToComplete)*"}).key
         }
         "Application" {
             (Get-B1ApplicationFilter -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
         }
         "Category" {
-            (Get-B1ApplicationFilter -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+            (Get-B1CategoryFilter -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
         }
     }
 }
