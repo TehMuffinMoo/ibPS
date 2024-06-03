@@ -116,9 +116,16 @@
     )
 
     process {
-        if ('onprem_resolve' -notin $Object.PSObject.Properties.Name) {
-            Write-Error "Unsupported pipeline object. This function only supports Security Policy objects as input. (Get-B1SecurityPolicy)"
-            return $null
+        if ($Object) {
+            if ('onprem_resolve' -notin $Object.PSObject.Properties.Name) {
+                Write-Error "Unsupported pipeline object. This function only supports Security Policy objects as input. (Get-B1SecurityPolicy)"
+                return $null
+            }
+        } else {
+            $Object = Get-B1SecurityPolicy -Name $Name -Strict
+            if (!($Object)) {
+                Write-Error "Unable to find Security Policy with name: $($Name)"
+            }
         }
 
         $NewObj = $Object | Select-Object * -ExcludeProperty id,created_time,updated_time
