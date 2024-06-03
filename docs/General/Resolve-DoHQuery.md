@@ -194,8 +194,6 @@ Accept wildcard characters: False
 Specify the Source IP to spoof using EDNS OPT 65523.
 This only works when using BloxOne Threat Defense.
 
-WORK IN PROGRESS
-
 ```yaml
 Type: String
 Parameter Sets: (All)
@@ -212,8 +210,6 @@ Accept wildcard characters: False
 Specify the Source MAC Address to spoof using EDNS OPT 65524.
 This only works when using BloxOne Threat Defense.
 
-WORK IN PROGRESS
-
 ```yaml
 Type: String
 Parameter Sets: (All)
@@ -229,8 +225,6 @@ Accept wildcard characters: False
 ### -SourceView
 Specify the Source DNS View Name to spoof using EDNS OPT 65526.
 This only works when using BloxOne Threat Defense.
-
-WORK IN PROGRESS
 
 ```yaml
 Type: String

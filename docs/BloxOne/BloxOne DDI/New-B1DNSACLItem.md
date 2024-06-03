@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1DNSACLItem
 
 ## SYNOPSIS
-This function is used to create new ACL Items to append or remove to/from an existing DNS ACL, using Set-B1DNSACL.
+This function is used to create new ACL Items to append or remove to/from an existing or a New DNS ACL, using Set-B1DNSACL / New-B1DNSACL.
 
 ## SYNTAX
 
@@ -28,7 +28,7 @@ New-B1DNSACLItem [-ACL <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to create new ACL Items to append or remove to/from an existing DNS ACL, using Set-B1DNSACL.
+This function is used to create new ACL Items to append or remove to/from an existing or a New DNS ACL, using Set-B1DNSACL / New-B1DNSACL.
 
 ## EXAMPLES
 
