@@ -8,6 +8,9 @@ function New-B1SecurityPolicyRule {
 
     .PARAMETER Action
         The security policy rule action to use for this list item
+
+    .PARAMETER Log
+        The security policy rule log action to use for this list item. Defaults to Log.
         
     .PARAMETER Object
         The security policy rule name (Either Custom List, Named Feed, Application Filter or Category Filter depending on Type selected)
@@ -18,7 +21,7 @@ function New-B1SecurityPolicyRule {
         The type of security policy rule to apply (Custom List / Named Feed (Threat Insight) / Application Filter / Category Filter)
 
     .PARAMETER Redirect
-        The name of the redirect to apply
+        The name of the redirect to apply. If 'Default' is specified, the default redirect configuration will be used.
 
     .EXAMPLE
 
@@ -28,26 +31,46 @@ function New-B1SecurityPolicyRule {
         BloxOne Threat Defense
     #>
     param(
-        [ValidateSet('Allow','Block','Log','Redirect','AllowWithLocalResolution')]
+        [ValidateSet('Allow','Block','Redirect','AllowWithLocalResolution')]
         $Action,
+        [ValidateSet('Log','NoLog')]
+        $Log = 'Log',
         [ValidateSet('Custom','Feed','Application','Category')]
         $Type,
         $Object,
         $Redirect
     )
-    
+
     Switch($Action) {
         "Allow" {
-            $ActionName = "action_$($Action.ToLower())"
+            Switch($Log) {
+                'Log' {
+                    $ActionName = "action_log"
+                }
+                'NoLog' {
+                    $ActionName = "action_allow"
+                }
+            }
         }
         "Block" {
-            $ActionName = "action_$($Action.ToLower())"
-        }
-        "Log" {
-            $ActionName = "action_$($Action.ToLower())"
+            Switch($Log) {
+                'Log' {
+                    $ActionName = "action_block"
+                }
+                'NoLog' {
+                    $ActionName = "action_block_nolog"
+                }
+            }
         }
         "Redirect" {
-            $ActionName = "action_$($Action.ToLower())"
+            Switch($Log) {
+                'Log' {
+                    $ActionName = "action_redirect"
+                }
+                'NoLog' {
+                    $ActionName = "action_redirect_nolog"
+                }
+            }
         }
         "AllowWithLocalResolution" {
             $ActionName = "action_allow_with_local_resolution"
@@ -69,11 +92,17 @@ function New-B1SecurityPolicyRule {
         }
     }
 
+    if ($Redirect) {
+        if ($Redirect -ne 'Default') {
+            $RedirectName = $Redirect
+        }
+    }
+
     $Obj = [PSCustomObject]@{
         action = $ActionName
         data = $Object
         type = $TypeName
-        redirect_name = $null
+        redirect_name = $RedirectName
     }
 
     return $Obj

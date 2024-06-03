@@ -16,6 +16,9 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [X] New-B1SecurityPolicy
 - [X] Set-B1SecurityPolicy
 - [ ] New-B1EndpointGroup
+- [ ] Get-B1EndpointGroup
+- [ ] Set-B1EndpointGroup
+- [ ] Remove-B1EndpointGroup
 
 ## Improvements
 - [ ] Replace API calls for `dns/host` with `dns/service`
