@@ -123,6 +123,30 @@
 
         $NewObj = $Object | Select-Object * -ExcludeProperty id,created_time,updated_time
 
+        if ($NewName) {
+            $NewObj.name = $Name
+        }
+        if ($Description) {
+            $NewObj.description = $Description
+        }
+        if ($Precedence) {
+            $NewObj.precedence = $Precedence
+        }
+        if ($GeoLocation) {
+            $NewObj.ecs = $(if ($GeoLocation -eq 'Enabled') { $true } else { $false })
+        }
+        if ($SafeSearch) {
+            $NewObj.safe_search = $(if ($SafeSearch -eq 'Enabled') { $true } else { $false })
+        }
+        if ($BlockDNSRebinding) {
+            $NewObj.block_dns_rebind_attack = $(if ($BlockDNSRebinding -eq 'Enabled') { $true } else { $false })
+        }
+        if ($LocalOnPremResolution) {
+            $NewObj.onprem_resolve = $(if ($LocalOnPremResolution -eq 'Enabled') { $true } else { $false })
+        }
+        if ($Tags) {
+            $NewObj.tags = $Tags
+        }
         if ($DoHPerPolicy) {
             $NewObj.doh_enabled = $(if ($DoHPerPolicy -eq 'Enabled') { $true } else { $false })
             if ($NewObj.doh_enabled) {
@@ -131,7 +155,6 @@
                 }
             }
         }
-
         if ($DFPs) {
             $DFPs | %{
                 $DFPService = Get-B1Service -Type dfp -Name $_ -Detailed -Strict
@@ -143,7 +166,6 @@
                 }
             }
         }
-
         if ($ExternalNetworks) {
             $ExternalNetworks | %{
                 $ExternalNetwork = Get-B1NetworkList -Name $_ -Strict
@@ -155,11 +177,9 @@
                 }
             }
         }
-
         if ($IPAMNetworks) {
             $NewObj.net_address_dfps = @($IPAMNetworks)
         }
-
         if ($Rules) {
             $NewObj.rules = $Rules
         }

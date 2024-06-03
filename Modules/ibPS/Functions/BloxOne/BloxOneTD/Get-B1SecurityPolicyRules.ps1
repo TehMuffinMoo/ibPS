@@ -24,7 +24,7 @@ function Get-B1SecurityPolicyRules {
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
-    .PARAMETER SecurityPolicy
+    .PARAMETER Object
         Optionally pass in a security policy object via pipeline to list rules for.
 
     .EXAMPLE
@@ -63,17 +63,23 @@ function Get-B1SecurityPolicyRules {
         [Int]$PolicyID,
         [Int]$ListID,
         [Int]$CategoryFilterID,
-        [Int]$Limit = 100,
+        [Int]$Limit = 1000,
         [Int]$Offset,
         [String[]]$Fields,
-        [Parameter(ValueFromPipeline)]
-        [parameter(ParameterSetName="With ID")]
-        [System.Object]$SecurityPolicy
+        [Parameter(
+          ValueFromPipeline = $true,
+          ParameterSetName="Pipeline",
+          Mandatory=$true
+        )]
+        [System.Object]$Object
     )
 
     process {
-        if ($SecurityPolicy.id) {
-            $PolicyID = $SecurityPolicy.id
+        if ('onprem_resolve' -notin $Object.PSObject.Properties.Name) {
+            Write-Error "Unsupported pipeline object. This function only supports Security Policy objects as input. (Get-B1SecurityPolicy)"
+            return $null
+        } else {
+            $PolicyID = $Object.id
         }
     
         [System.Collections.ArrayList]$Filters = @()
