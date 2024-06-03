@@ -13,12 +13,14 @@ function New-B1SecurityPolicyIPAMNetwork {
         $PolicyNetworks = @()
         $PolicyNetworks += Get-B1Subnet 10.10.0.0/16 -Space 'My IP Space' | New-B1SecurityPolicyIPAMNetwork
         $PolicyNetworks += Get-B1Subnet 10.15.0.0/16 -Space 'My IP Space' | New-B1SecurityPolicyIPAMNetwork
+        $PolicyNetworks += Get-B1Range 10.0.1.200 -Space 'My IP Space' | New-B1SecurityPolicyIPAMNetwork
         $PolicyNetworks | ConvertTo-Json | ConvertFrom-Json | ft
 
-        addr_net       external_scope_id                    ip_space_id                          scope_type
-        --------       -----------------                    -----------                          ----------
-        10.10.0.0/16   00011234-7b54-f4gf-gfgv-g4gh5h6rhrdg fdsjvf98-489j-v8rj-g54t-gefsffsdf34d SUBNET
-        10.15.0.0/16   00015644-7t55-fsrg-g564-dfgbdrg48gdo fdsjvf98-489j-v8rj-g54t-gefsffsdf34d SUBNET
+        addr_net        start         end        external_scope_id                    ip_space_id                          scope_type
+        --------        -----         ---        -----------------                    -----------                          ----------
+        10.10.0.0/16                             00011234-7b54-f4gf-gfgv-g4gh5h6rhrdg fdsjvf98-489j-v8rj-g54t-gefsffsdf34d SUBNET
+        10.15.0.0/16                             00015644-7t55-fsrg-g564-dfgbdrg48gdo fdsjvf98-489j-v8rj-g54t-gefsffsdf34d SUBNET
+                        10.0.1.200  10.0.1.240   00015644-7t55-fsrg-g564-dfgbdrg48gdo fdsjvf98-489j-v8rj-g54t-gefsffsdf34d RANGE
 
         
     .FUNCTIONALITY
@@ -43,10 +45,13 @@ function New-B1SecurityPolicyIPAMNetwork {
             }
         }
         $ParentID = $(if ($Object.parent) {($Object.parent -split '/')[2]})
-        $Obj = @{
+        $Obj = [PSCustomObject]@{
             external_scope_id = $SplitID[2]
             ip_space_id = ($Object.space -split '/')[2]
             scope_type = $($SplitID[1]).ToUpper()
+            start = $null
+            end = $null
+            addr_net = $null
         }
         if ($SplitID[1] -eq 'range') {
             $Obj.start = $Object.start
