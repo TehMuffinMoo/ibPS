@@ -20,19 +20,20 @@ jobs:
           $BuildVer[3] = [Int]$BuildVer[3]+1
           $Build.build = $BuildVer -join '.'
           $Build.sha = $ENV:GITHUB_SHA
+          $ENV:BuildVersion = $Build.build
           Set-Content -Path Modules/ibPS/Functions/Misc/build.json -Value $($Build | ConvertTo-Json)
           cat Modules/ibPS/Functions/Misc/build.json
 
-      # - name: Update Repository
-        # run: |
-          # git config --global user.name ${{ github.actor }}
-          # git config --global user.password ${{ secrets.GIT_ACTIONS }}
-          # git config --global user.email 'mat.cox@tmmn.uk'
-          # git add .
-          # git status
-          # if ! git diff-index --quiet HEAD; then
-            # git commit -m "Updated Build Version (${{ env.Version }})"
-            # git push
-          # else
-            # echo "Build Version Not Changed."
-          # fi
+      - name: Update Repository
+        run: |
+          git config --global user.name ${{ github.actor }}
+          git config --global user.password ${{ secrets.GIT_ACTIONS }}
+          git config --global user.email 'mat.cox@tmmn.uk'
+          git add .
+          git status
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Updated Build Version (${{ env.BuildVersion }})"
+            git push
+          else
+            echo "Build Version Not Changed."
+          fi
