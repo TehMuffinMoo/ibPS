@@ -20,9 +20,8 @@ jobs:
           $BuildVer[3] = [Int]$BuildVer[3]+1
           $Build.build = $BuildVer -join '.'
           $Build.sha = $ENV:GITHUB_SHA
-          $ENV:BuildVersion = $Build.build
           Set-Content -Path Modules/ibPS/Functions/Misc/build.json -Value $($Build | ConvertTo-Json)
-          cat Modules/ibPS/Functions/Misc/build.json
+          Write-Output "BuildVersion=$($Build.build)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Update Repository
         run: |
