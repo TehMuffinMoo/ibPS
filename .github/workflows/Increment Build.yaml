@@ -1,0 +1,32 @@
+name: Increment Build
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  Increment-Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Update Build Version
+        run : |
+          awk -F'["]' -v OFS='"'  '/"version":/{split($4,a,".");$4=a[1]"."a[2]"."a[3]+1};1' Modules/ibPS/Functions/Misc/build.json > Modules/ibPS/Functions/Misc/build-new.json && mv Modules/ibPS/Functions/Misc/build-new.json Modules/ibPS/Functions/Misc/build.json
+          cat Modules/ibPS/Functions/Misc/build.json
+
+      # - name: Update Repository
+        # run: |
+          # git config --global user.name ${{ github.actor }}
+          # git config --global user.password ${{ secrets.GIT_ACTIONS }}
+          # git config --global user.email 'mat.cox@tmmn.uk'
+          # git add .
+          # git status
+          # if ! git diff-index --quiet HEAD; then
+            # git commit -m "Updated Build Version (${{ env.Version }})"
+            # git push
+          # else
+            # echo "Build Version Not Changed."
+          # fi
