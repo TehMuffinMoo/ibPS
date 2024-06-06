@@ -14,7 +14,7 @@ jobs:
         
       - name: Update Build Version
         run : |
-          awk -F'["]' -v OFS='"'  '/"build":/{split($4,a,".");$4=a[1]"."a[2]"."a[3]."a[4]+1};1' Modules/ibPS/Functions/Misc/build.json > Modules/ibPS/Functions/Misc/build-new.json && mv Modules/ibPS/Functions/Misc/build-new.json Modules/ibPS/Functions/Misc/build.json
+          awk -F'["]' -v OFS='"'  '/"build":/{split($4,a,".");$4=a[1]"."a[2]"."a[3]"."a[4]+1};1' Modules/ibPS/Functions/Misc/build.json > Modules/ibPS/Functions/Misc/build-new.json && mv Modules/ibPS/Functions/Misc/build-new.json Modules/ibPS/Functions/Misc/build.json
           export ibPSBuild="$(cat Modules/ibPS/Functions/Misc/build.json)"
           env:ibPSBuild
 
