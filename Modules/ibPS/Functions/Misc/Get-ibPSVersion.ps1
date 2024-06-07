@@ -53,11 +53,12 @@ function Get-ibPSVersion {
       $ModulesToRemove | Select-Object Version,Name,Description,ModuleBase | Format-Table -AutoSize
       Write-Warning "Confirmation: Do you want to proceed with removing old versions of ibPS?" -WarningAction Inquire
       foreach ($ModuleToRemove in $ModulesToRemove) {
-        Remove-Item $($ModuleToRemove.ModuleBase) -Recurse
+        Remove-Item $($ModuleToRemove.ModuleBase) -Recurse -Force -EA SilentlyContinue -WA SilentlyContinue
       }
+    } else {
+      $MultipleVersions = $true
     }
     $InstalledModule = $InstalledModule | Sort-Object Version -Descending | Select-Object -First 1
-    $MultipleVersions = $true
   } else {
     if ($Cleanup) {
       Write-Host "There were no old ibPS Versions identified for cleanup." -ForegroundColor Green

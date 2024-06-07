@@ -34,4 +34,4 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add IPAM Hosts, Tags & Metadata Network Scope support for `New-B1SecurityPolicy` & `Set-B1SecurityPolicy`
 
 ## Bug Fixes
-- [ ] Investigate occasional errors when using `Get-ibPSVersion -Cleanup`
+- [X] Investigate occasional errors when using `Get-ibPSVersion -Cleanup`
