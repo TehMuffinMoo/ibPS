@@ -13,7 +13,7 @@ Used to get the current configuration for ibPS
 ## SYNTAX
 
 ```
-Get-ibPSConfiguration [-IncludeAPIKey]
+Get-ibPSConfiguration [-IncludeAPIKey] [-Details]
 ```
 
 ## DESCRIPTION
@@ -39,6 +39,21 @@ Development Mode : Disabled
 
 ### -IncludeAPIKey
 The -IncludeAPIKey indicates whether the API Key should be returned in the response
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Details
+The -Details parameter optionally includes the Build Version, Github Commit SHA & Module Location in the response
 
 ```yaml
 Type: SwitchParameter

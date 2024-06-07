@@ -15,7 +15,7 @@ Used to set ibPS specific configuration
 ```
 Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl] <String>]
  [[-DoHServer] <String>] [-Persist] [[-DevelopmentMode] <String>] [[-DebugMode] <String>]
- [[-Telemetry] <String>] [[-Branch] <String>]
+ [[-Telemetry] <String>]
 ```
 
 ## DESCRIPTION
@@ -170,23 +170,6 @@ Aliases:
 
 Required: False
 Position: 7
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Branch
-Use the -Branch parameter to select the github branch to update with.
-This only works when installed from Github, not from PowerShell Gallery.
-You will additionally need to run Get-ibPSVersion -Update -Force after you have configured the new branch to force an update.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
