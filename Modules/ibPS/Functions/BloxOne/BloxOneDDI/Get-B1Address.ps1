@@ -68,10 +68,11 @@
     )
 
     process {
+      [System.Collections.ArrayList]$Filters = @()
+      [System.Collections.ArrayList]$QueryFilters = @()
       if ($CustomFilters) {
         $Filter = "_filter="+(Combine-Filters $CustomFilters)
       } else {
-        [System.Collections.ArrayList]$Filters = @()
         if ($Address) {
             $Filters.Add("address==`"$Address`"") | Out-Null
         }
@@ -85,7 +86,6 @@
             $Filter = "_filter="+(Combine-Filters $Filters)
         }
       }
-      [System.Collections.ArrayList]$QueryFilters = @()
       if ($State) {
           $QueryFilters.Add("address_state=$State") | Out-Null
       }

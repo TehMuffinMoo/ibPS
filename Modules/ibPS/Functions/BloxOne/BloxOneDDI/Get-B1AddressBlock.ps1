@@ -78,13 +78,13 @@
       $CustomFilters,
       [String]$id
     )
-
+    [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
       $Filter = Combine-Filters $CustomFilters
     } else {
         $MatchType = Match-Type $Strict
 
-        [System.Collections.ArrayList]$Filters = @()
         if ($Subnet) {
             if ($Subnet -match '/\d') { 
                 $IPandMask = $Subnet -Split '/' 
@@ -109,7 +109,6 @@
         $Filter = Combine-Filters $Filters
     }
 
-    [System.Collections.ArrayList]$QueryFilters = @()
     if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }

@@ -39,6 +39,10 @@
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         The id of the authoritative zone to filter by
 
@@ -64,37 +68,42 @@
       [String[]]$Fields,
       [String]$OrderBy,
       [String]$OrderByTag,
+      $CustomFilters,
       [String]$id
     )
-    if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
-	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
-    if ($FQDN) {
-        $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
-    }
-    if ($Type) {
-        switch($Type) {
-            "Primary" {
-                $PrimaryType = "cloud"
-            }
-            "Secondary" {
-                $PrimaryType = "external"
-            }
+    if ($CustomFilters) {
+        $Filter = Combine-Filters $CustomFilters
+      } else {
+        if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
+        $MatchType = Match-Type $Strict
+        if ($FQDN) {
+            $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
         }
-        $Filters.Add("primary_type==`"$PrimaryType`"") | Out-Null
-    }
-    if ($Disabled) {
-        $Filters.Add("disabled==`"$Disabled`"") | Out-Null
-    }
-    if ($ViewUUID) {
-        $Filters.Add("view==`"$ViewUUID`"") | Out-Null
-    }
-    if ($id) {
-        $Filters.Add("id==`"$id`"") | Out-Null
-    }
-    if ($Filters) {
+        if ($Type) {
+            switch($Type) {
+                "Primary" {
+                    $PrimaryType = "cloud"
+                }
+                "Secondary" {
+                    $PrimaryType = "external"
+                }
+            }
+            $Filters.Add("primary_type==`"$PrimaryType`"") | Out-Null
+        }
+        if ($Disabled) {
+            $Filters.Add("disabled==`"$Disabled`"") | Out-Null
+        }
+        if ($ViewUUID) {
+            $Filters.Add("view==`"$ViewUUID`"") | Out-Null
+        }
+        if ($id) {
+            $Filters.Add("id==`"$id`"") | Out-Null
+        }
         $Filter = Combine-Filters $Filters
+    }
+    if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {
