@@ -13,6 +13,7 @@
 - Add `Get-B1Endpoint` for retrieving BloxOne Threat Defense Endpoints
 - Add `Get-B1EndpointGroup` for retrieving BloxOne Threat Defense Endpoint Groups
 - Fixed some issues with `Get-B1DNSLog` & `Get-B1DHCPLog` in large environments. (1000+ DNS or DHCP Services)
+- Remove `-Branch` parameter from Set-ibPSConfiguration. Branch is now determind by the `build.json` file, switching branches should be performed using [this method](https://github.com/TehMuffinMoo/ibPS?tab=readme-ov-file#installing-from-github).
 
 ### Breaking Changes
 
