@@ -66,7 +66,16 @@ function Get-B1DNSLog {
         $UseExport = $true
     }
 
-    $DNSServices = Get-B1DNSHost
+    $DNSHostQuery = Get-B1DNSHost -Limit 2500
+    $DNSServices += $DNSHostQuery
+    if ($DNSHostQuery.count -eq 2500) {
+        $Offset = 2500
+        while ($DNSHostQuery.count -gt 0) {
+            $DNSHostQuery = Get-B1DNSHost -Limit 2500 -Offset $Offset
+            $DNSServices += $DNSHostQuery
+            $Offset += 2500
+        }
+    }
 
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()

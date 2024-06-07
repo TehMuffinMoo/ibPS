@@ -29,6 +29,37 @@ $applications = {
 }
 Register-ArgumentCompleter -CommandName Get-B1Service,New-B1Service -ParameterName Type -ScriptBlock $applications
 
+$B1TDSecurityPolicyRuleFilter = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    switch($fakeBoundParameters['Type']) {
+        "Custom" {
+            (Get-B1CustomList | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+        }
+        "Feed" {
+            (Get-B1ThreatFeeds | Where-Object {$_.key -like "$($wordToComplete)*"}).key
+        }
+        "Application" {
+            (Get-B1ApplicationFilter -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+        }
+        "Category" {
+            (Get-B1CategoryFilter -Name $wordToComplete | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+        }
+    }
+}
+Register-ArgumentCompleter -CommandName New-B1SecurityPolicyRule -ParameterName Object -ScriptBlock $B1TDSecurityPolicyRuleFilter
+
+$B1DFPServices = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1Service -Type dfp -Name $($wordToComplete) | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+}
+Register-ArgumentCompleter -CommandName New-B1SecurityPolicy,Set-B1SecurityPolicy -ParameterName DFPs -ScriptBlock $B1DFPServices
+
+$B1TDExternalNetworks = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1NetworkList -Name $($wordToComplete) | Where-Object {$_.name -like "$($wordToComplete)*"}).name
+}
+Register-ArgumentCompleter -CommandName New-B1SecurityPolicy,Set-B1SecurityPolicy -ParameterName ExternalNetworks -ScriptBlock $B1TDExternalNetworks
+
 $B1TDLookalikeTargetCandidates = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     switch($commandName) {

@@ -9,6 +9,9 @@ function Get-ibPSConfiguration {
     .PARAMETER IncludeAPIKey
         The -IncludeAPIKey indicates whether the API Key should be returned in the response
 
+    .PARAMETER Details
+        The -Details parameter optionally includes the Build Version, Github Commit SHA & Module Location in the response
+
     .EXAMPLE
         PS> Get-ibPSConfiguration               
 
@@ -25,19 +28,36 @@ function Get-ibPSConfiguration {
         ibPS
     #>
   param (
-    [Switch]$IncludeAPIKey
+    [Switch]$IncludeAPIKey,
+    [Switch]$Details
   )
+
+  $ibPSModule = Get-Module -ListAvailable -Name ibPS
 
   $CurrentConfig = [PSCustomObject]@{
     "CSP Url" = $(if ($ENV:B1CSPUrl) {$ENV:B1CSPUrl} else {'https://csp.infoblox.com'})
     "CSP API User" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser).name} else {'API Key Not Set'})
     "CSP Account" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser -Account).name} else {'API Key Not Set'})
     "CSP API Key" = $(if ($ENV:B1APIKey) {if ($IncludeAPIKey) {Get-B1CSPAPIKey} else { "********" }} else {'API Key Not Set'})
-    "ibPS Version" = $(Get-ibPSVersion)
-    "ibPS Branch" = $(if ($ENV:IBPSBranch) {$ENV:IBPSBranch} else {'Unknown'})
+    "DoH Server" = $(if ($ENV:IBPSDoH) {$ENV:IBPSDoH} else { 'Not Set' })
+    "ibPS Version" = $ibPSModule.Version.ToString()
     "Debug Mode" = $(if ($ENV:IBPSDebug) {$ENV:IBPSDebug} else {'Disabled'})
     "Development Mode" = $(if ($ENV:IBPSDevelopment) {$ENV:IBPSDevelopment} else {'Disabled'})
     "Telemetry Status" = $(if ($ENV:IBPSTelemetry) {$ENV:IBPSTelemetry} else {'Disabled'})
   }
-  $CurrentConfig
+
+  if ($Details) {
+    $PSGalleryModule = Get-InstalledModule -Name ibPS -EA SilentlyContinue -WA SilentlyContinue
+
+    $ModulePath = "$($ibPSModule.ModuleBase)"
+    if (Test-Path "$($ModulePath)/Functions/Misc/build.json") {
+      $Build = Get-Content "$($ModulePath)/Functions/Misc/build.json" | ConvertFrom-Json
+      $CurrentConfig | Add-Member -MemberType NoteProperty -Name "Branch" -Value $Build.Branch
+      $CurrentConfig | Add-Member -MemberType NoteProperty -Name "Build" -Value $Build.Build
+      $CurrentConfig | Add-Member -MemberType NoteProperty -Name "SHA" -Value $Build.SHA
+    }
+    $CurrentConfig | Add-Member -MemberType NoteProperty -Name "Install Path" -Value $ModulePath
+    $CurrentConfig | Add-Member -MemberType NoteProperty -Name "Install Type" -Value $(if ($PSGalleryModule) { "Powershell Gallery" } else { "Local"})
+  }
+  return $CurrentConfig
 }

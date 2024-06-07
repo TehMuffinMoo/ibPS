@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1CategoryFilter
 
 ## SYNOPSIS
-Retrieves an Category Filter from BloxOne Threat Defense
+Retrieves a Category Filter from BloxOne Threat Defense
 
 ## SYNTAX
 

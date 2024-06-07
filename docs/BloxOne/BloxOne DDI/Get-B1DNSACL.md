@@ -14,7 +14,7 @@ Retrieves a list of BloxOneDDI DNS Access Control Lists
 
 ```
 Get-B1DNSACL [[-Name] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>]
- [[-tfilter] <String>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [-Strict]
+ [[-tfilter] <String>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [-Strict] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -152,6 +152,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -id
+Return results based on DNS Access Control List id
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

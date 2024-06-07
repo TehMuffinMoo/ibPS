@@ -185,7 +185,6 @@ do {
         Remove-Item ibPS,ibPS.zip -Recurse -Force
         $ibPSVersion = Get-ibPSVersion
         if ($ibPSVersion) {
-          Set-ibPSConfiguration -Branch $($Branch)
           Write-Host "Successfully installed ibPS v$($ibPSVersion) - ($($Branch))." -ForegroundColor Green
         } else {
           Write-Error "Failed to install ibPS v$($ibPSVersion) - ($($Branch))."

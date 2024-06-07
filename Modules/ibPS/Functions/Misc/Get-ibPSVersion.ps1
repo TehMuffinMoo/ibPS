@@ -41,12 +41,6 @@ function Get-ibPSVersion {
     [Switch]$Force
   )
 
-  if ($($ENV:IBPSBranch)) {
-    $Branch = $($ENV:IBPSBranch)
-  } else {
-    $Branch = 'main'
-  }
-
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path.Count -gt 1) {
     Write-Host "There is more than one version of ibPS installed on this computer. Please remove unneccessary older versions to avoid issues." -ForegroundColor Yellow
@@ -59,11 +53,12 @@ function Get-ibPSVersion {
       $ModulesToRemove | Select-Object Version,Name,Description,ModuleBase | Format-Table -AutoSize
       Write-Warning "Confirmation: Do you want to proceed with removing old versions of ibPS?" -WarningAction Inquire
       foreach ($ModuleToRemove in $ModulesToRemove) {
-        Remove-Item $($ModuleToRemove.ModuleBase) -Recurse
+        Remove-Item $($ModuleToRemove.ModuleBase) -Recurse -Force -EA SilentlyContinue -WA SilentlyContinue
       }
+    } else {
+      $MultipleVersions = $true
     }
     $InstalledModule = $InstalledModule | Sort-Object Version -Descending | Select-Object -First 1
-    $MultipleVersions = $true
   } else {
     if ($Cleanup) {
       Write-Host "There were no old ibPS Versions identified for cleanup." -ForegroundColor Green
@@ -74,6 +69,13 @@ function Get-ibPSVersion {
     [System.Version]$CurrentVersion = $PSGalleryModule.Version.ToString()
   } else {
     [System.Version]$CurrentVersion = $InstalledModule.Version.ToString()
+  }
+
+  $Build = Get-Content "$($($InstalledModule).ModuleBase)/Functions/Misc/build.json" | ConvertFrom-Json
+  if ($Build.Branch) {
+    $Branch = $Build.Branch
+  } else {
+    $Branch = 'main'
   }
 
   if ($CheckForUpdates -or $Update) {

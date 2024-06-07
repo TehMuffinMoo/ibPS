@@ -7,7 +7,10 @@
         This function is used to update an existing BloxOne Host
 
     .PARAMETER Name
-        The name of the BloxOne Host to update. If -IP is specified, the Name parameter will overwrite the existing display name.
+        The name of the BloxOne Host to update.
+
+    .PARAMETER NewName
+        Use -NewName to update the name of the BloxOne Host
 
     .PARAMETER IP
         The IP of the BloxOne Host to update.
@@ -33,6 +36,9 @@
     .EXAMPLE
         PS> Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
     
+    .EXAMPLE
+        PS> Get-B1Host -Name "bloxoneddihost1.mydomain.corp" | Set-B1Host -NewName "mynewhostname.mydomain.corp"
+
     .FUNCTIONALITY
         BloxOneDDI
 
@@ -44,6 +50,7 @@
       [String]$Name,
       [Parameter(ParameterSetName="Default")]
       [String]$IP,
+      [String]$NewName,
       [String]$Space,
       [String]$TimeZone,
       [String]$Description,
@@ -83,8 +90,8 @@
       }
 
       if ($B1Host) {
-        if ($Name) {
-          $B1Host.display_name = $Name
+        if ($NewName) {
+          $B1Host.display_name = $NewName
         }
         if ($TimeZone) {$B1Host.timezone = $TimeZone}
         if ($Space) {

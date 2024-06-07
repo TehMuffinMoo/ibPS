@@ -42,15 +42,6 @@
 * Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](https://ibps.readthedocs.io/en/latest/BloxOne/Generic%20Wrapper/).
 * Automate the world!
 
-## Documentation
-All documentation is now available here: [ibPS Documentation](https://ibps.readthedocs.io)
-
-You can also use the `Get-Help` cmdlet to get the same detailed information on usage. Example;
-
-```powershell
-Get-Help New-B1AddressBlock -Detailed
-```
-
 ## How To Use
 The easiest option to install the ibPS Module is to use the PowerShell Gallery.
 
@@ -59,7 +50,11 @@ You can either load the cmdlets directly, or Import/Install it as a PowerShell M
 
 #### Installing from Powershell Gallery
 ```powershell
-Install-Module -Name ibPS
+# Install for all users (Requires run as administrator)
+Install-Module -Name ibPS -Scope AllUsers
+
+# Install for current user
+Install-Module -Name ibPS -Scope CurrentUser
 ```
 
 #### Installing from Github
@@ -87,6 +82,15 @@ $ cd ibPS/
 
 # Non-Interactive Install Module
 . .\Install.ps1 -Selection i
+```
+
+## Documentation
+All documentation is now available here: [ibPS Documentation](https://ibps.readthedocs.io)
+
+You can also use the `Get-Help` cmdlet to get the same detailed information on usage. Example;
+
+```powershell
+Get-Help New-B1AddressBlock -Detailed
 ```
 
 ## Resources

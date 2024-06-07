@@ -13,8 +13,9 @@ Used to set ibPS specific configuration
 ## SYNTAX
 
 ```
-Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl] <String>] [-Persist]
- [[-DevelopmentMode] <String>] [[-DebugMode] <String>] [[-Telemetry] <String>] [[-Branch] <String>]
+Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl] <String>]
+ [[-DoHServer] <String>] [-Persist] [[-DevelopmentMode] <String>] [[-DebugMode] <String>]
+ [[-Telemetry] <String>]
 ```
 
 ## DESCRIPTION
@@ -93,6 +94,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -DoHServer
+Optionally configure the DNS over HTTPS Server to use when calling Resolve-DoHQuery
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Persist
 Setting the -Persist parameter will save the configuration peremenantly for your user on this device.
 Without using this switch, the settings will only be saved for the duration of the PowerShell session.
@@ -120,7 +136,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -137,7 +153,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -146,23 +162,6 @@ Accept wildcard characters: False
 ### -Telemetry
 Disabling Telemetry will prevent the module sending diagnostic information to Google Analytics.
 None of the diagnostic information sent contains any sensitive information, only the name of the executed function, any error associated error categories and source platform information (OS/Version).
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Branch
-Use the -Branch parameter to select the github branch to update with.
-This only works when installed from Github, not from PowerShell Gallery.
-You will additionally need to run Get-ibPSVersion -Update -Force after you have configured the new branch to force an update.
 
 ```yaml
 Type: String

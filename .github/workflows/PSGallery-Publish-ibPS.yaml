@@ -56,6 +56,17 @@ jobs:
           $Module | Add-Member -MemberType NoteProperty -Name "Count" -Value $Module.ExportedFunctions.Count
           $Module | Select-Object -ExcludeProperty ExportedFunctions | ConvertTo-Json -Depth 5 | Out-File ./docs/manifest.json -Force
 
+          ## Update Build JSON
+          $Branch = git rev-parse --abbrev-ref HEAD
+          if ($Branch -eq 'main') {
+            Write-Host "Updating Build JSON.."
+            $Build = Get-Content Modules/ibPS/Functions/Misc/build.json | ConvertFrom-Json
+            $Build.Build = '0'
+            $Build.SHA = $ENV:GITHUB_SHA
+            $Build.Branch = $Branch
+            Set-Content -Path Modules/ibPS/Functions/Misc/build.json -Value $($Build | ConvertTo-Json)
+          }
+
           Write-Host "Updating CHANGELOG.."
           $ChangeHistory = Get-Content -Path './CHANGELOG.md' -Raw
           $ModuleVersionString = "## $($ModuleVersion.ToString())"
@@ -85,6 +96,9 @@ jobs:
 
           Write-Host "Importing ibPS Module.."
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
+
+          Write-Host "Import ibPS Classes.."
+          . ./Modules/ibPS/Functions/BloxOne/Private/Classes.ps1
 
           Write-Host "Obtaining list of excluded docs.."
           $ExcludedDocs = Import-Csv ./docs/exclusions.csv -Header 'doc'

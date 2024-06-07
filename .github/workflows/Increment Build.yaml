@@ -1,0 +1,38 @@
+name: Increment Build
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  Increment-Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Update Build Version
+        shell: pwsh
+        run : |
+          $Branch = git rev-parse --abbrev-ref HEAD
+          $Build = Get-Content Modules/ibPS/Functions/Misc/build.json | ConvertFrom-Json
+          $Build.Build = [Int]$Build.build+1
+          $Build.SHA = $ENV:GITHUB_SHA
+          $Build.Branch = $Branch
+          Set-Content -Path Modules/ibPS/Functions/Misc/build.json -Value $($Build | ConvertTo-Json)
+          Write-Output "BuildVersion=$($Build.build)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Update Repository
+        run: |
+          git config --global user.name ${{ github.actor }}
+          git config --global user.password ${{ secrets.GIT_ACTIONS }}
+          git config --global user.email 'mat.cox@tmmn.uk'
+          git add .
+          git status
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "Updated Build Version (${{ env.BuildVersion }})"
+            git push
+          else
+            echo "Build Version Not Changed."
+          fi

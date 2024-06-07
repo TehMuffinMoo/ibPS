@@ -57,7 +57,16 @@
       [int]$Offset = 0
     )
     
-    $DFPServices = Get-B1DFP -Limit 1000
+    # $DFPHostQuery = Get-B1DFP -Limit 1000
+    # $DFPServices += $DFPHostQuery
+    # if ($DFPHostQuery.count -eq 1000) {
+    #     $Offset = 1000
+    #     while ($DFPHostQuery.count -gt 0) {
+    #         $DFPHostQuery = Get-B1DNSHost -Limit 1000 -Offset $Offset
+    #         $DFPServices += $DFPHostQuery
+    #         $Offset += 1000
+    #     }
+    # }
 
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()

@@ -15,6 +15,9 @@ function Set-ibPSConfiguration {
     .PARAMETER CSPUrl
         Optionally configure the the CSP URL to use manually. The CSP URL defaults to https://csp.infoblox.com if not defined. You only need to use -CSPUrl OR -CSPRegion.
 
+    .PARAMETER DoHServer
+        Optionally configure the DNS over HTTPS Server to use when calling Resolve-DoHQuery
+
     .PARAMETER Persist
         Setting the -Persist parameter will save the configuration peremenantly for your user on this device. Without using this switch, the settings will only be saved for the duration of the PowerShell session.
 
@@ -26,9 +29,6 @@ function Set-ibPSConfiguration {
 
     .PARAMETER Telemetry
         Disabling Telemetry will prevent the module sending diagnostic information to Google Analytics. None of the diagnostic information sent contains any sensitive information, only the name of the executed function, any error associated error categories and source platform information (OS/Version).
-
-    .PARAMETER Branch
-        Use the -Branch parameter to select the github branch to update with. This only works when installed from Github, not from PowerShell Gallery. You will additionally need to run Get-ibPSVersion -Update -Force after you have configured the new branch to force an update.
 
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
@@ -52,15 +52,14 @@ function Set-ibPSConfiguration {
     [ValidateSet("US","EU")]
     [String]$CSPRegion,
     [String]$CSPUrl,
+    [String]$DoHServer,
     [Switch]$Persist,
     [ValidateSet('Enabled','Disabled')]
     [String]$DevelopmentMode,
     [ValidateSet('Enabled','Disabled')]
     [String]$DebugMode,
     [ValidateSet('Enabled','Disabled')]
-    [String]$Telemetry,
-    [ValidateSet("main", "dev")]
-    [String]$Branch
+    [String]$Telemetry
   )
 
   if ($CSPRegion -and $CSPUrl) {
@@ -125,6 +124,21 @@ function Set-ibPSConfiguration {
     }
   }
 
+  if ($DoHServer) {
+    $Platform = Detect-OS
+    if ($Platform -eq "Windows") {
+      [System.Environment]::SetEnvironmentVariable('IBPSDoH',$DoHServer,[System.EnvironmentVariableTarget]::User)
+    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+      if (!(Test-Path ~/.zshenv)) {
+        touch ~/.zshenv
+      }
+      sed -i '' -e '/IBPSDoH/d' ~/.zshenv
+      echo "export IBPSDoH=$DoHServer" >> ~/.zshenv
+    }
+    $ENV:IBPSDoH = $DoHServer
+    Write-Host "Set DNS over HTTPS Server to: $($DoHServer)." -ForegroundColor Green
+  }
+
   if ($DevelopmentMode) {
   $Platform = Detect-OS
   $ENV:IBPSDevelopment = $DevelopmentMode
@@ -183,19 +197,5 @@ function Set-ibPSConfiguration {
     }
     $ENV:IBPSTelemetry = $Telemetry
     Write-Host "$($Telemetry) Telemetry." -ForegroundColor Green
-  }
-
-  if ($Branch) {
-    $Platform = Detect-OS
-    if ($Platform -eq "Windows") {
-      [System.Environment]::SetEnvironmentVariable('IBPSBranch',$Branch,[System.EnvironmentVariableTarget]::User)
-    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-      if (!(Test-Path ~/.zshenv)) {
-        touch ~/.zshenv
-      }
-      sed -i '' -e '/IBPSBranch/d' ~/.zshenv
-      echo "export IBPSBranch=$Branch" >> ~/.zshenv
-    }
-    $ENV:IBPSBranch = $Branch
   }
 }

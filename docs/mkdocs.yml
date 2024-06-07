@@ -42,3 +42,6 @@ extra:
           data: 0
           note: >- 
             Thanks for your feedback!
+plugins:
+    - search
+    - awesome-pages

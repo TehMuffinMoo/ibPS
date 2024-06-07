@@ -24,7 +24,7 @@ function Get-B1SecurityPolicyRules {
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
-    .PARAMETER SecurityPolicy
+    .PARAMETER Object
         Optionally pass in a security policy object via pipeline to list rules for.
 
     .EXAMPLE
@@ -63,54 +63,62 @@ function Get-B1SecurityPolicyRules {
         [Int]$PolicyID,
         [Int]$ListID,
         [Int]$CategoryFilterID,
-        [Int]$Limit = 100,
+        [Int]$Limit = 1000,
         [Int]$Offset,
         [String[]]$Fields,
-        [Parameter(ValueFromPipeline)]
-        [parameter(ParameterSetName="With ID")]
-        [System.Object]$SecurityPolicy
+        [Parameter(
+          ValueFromPipeline = $true,
+          ParameterSetName="Pipeline",
+          Mandatory=$true
+        )]
+        [System.Object]$Object
     )
 
-    if ($SecurityPolicy.id) {
-        $PolicyID = $SecurityPolicy.id
-    }
-
-    [System.Collections.ArrayList]$Filters = @()
-    [System.Collections.ArrayList]$QueryFilters = @()
-
-    if ($PolicyID) {
-        $Filters.Add("policy_id==$PolicyID") | Out-Null
-    }
-    if ($ListID) {
-        $Filters.Add("list_id==$ListID") | Out-Null
-    }
-    if ($CategoryFilterID) {
-        $Filters.Add("category_filter_id==$CategoryFilterID") | Out-Null
-    }
-    if ($Filters) {
-        $Filter = Combine-Filters $Filters
-        $QueryFilters.Add("_filter=$Filter") | Out-Null
-    }
-    if ($Limit) {
-        $QueryFilters.Add("_limit=$Limit") | Out-Null
-    }
-    if ($Offset) {
-        $QueryFilters.Add("_offset=$Offset") | Out-Null
-    }
-    if ($Fields) {
-        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
-    }
-    if ($QueryFilters) {
-        $QueryString = ConvertTo-QueryString $QueryFilters
-    }
-    Write-DebugMsg -Filters $QueryFilters
-    if ($QueryString) {
-      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/security_policy_rules$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } else {
-      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/security_policy_rules" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-  
-    if ($Results) {
-      return $Results
+    process {
+        if ('onprem_resolve' -notin $Object.PSObject.Properties.Name) {
+            Write-Error "Unsupported pipeline object. This function only supports Security Policy objects as input. (Get-B1SecurityPolicy)"
+            return $null
+        } else {
+            $PolicyID = $Object.id
+        }
+    
+        [System.Collections.ArrayList]$Filters = @()
+        [System.Collections.ArrayList]$QueryFilters = @()
+    
+        if ($PolicyID) {
+            $Filters.Add("policy_id==$PolicyID") | Out-Null
+        }
+        if ($ListID) {
+            $Filters.Add("list_id==$ListID") | Out-Null
+        }
+        if ($CategoryFilterID) {
+            $Filters.Add("category_filter_id==$CategoryFilterID") | Out-Null
+        }
+        if ($Filters) {
+            $Filter = Combine-Filters $Filters
+            $QueryFilters.Add("_filter=$Filter") | Out-Null
+        }
+        if ($Limit) {
+            $QueryFilters.Add("_limit=$Limit") | Out-Null
+        }
+        if ($Offset) {
+            $QueryFilters.Add("_offset=$Offset") | Out-Null
+        }
+        if ($Fields) {
+            $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+        }
+        if ($QueryFilters) {
+            $QueryString = ConvertTo-QueryString $QueryFilters
+        }
+        Write-DebugMsg -Filters $QueryFilters
+        if ($QueryString) {
+          $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/security_policy_rules$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        } else {
+          $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/security_policy_rules" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        }
+      
+        if ($Results) {
+          return $Results
+        }
     }
 }

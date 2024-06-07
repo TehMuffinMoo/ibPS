@@ -7,7 +7,7 @@
         This function is used to update a custom list object within BloxOne Threat Defense
 
     .PARAMETER Name
-        The name of the Custom List to remove.
+        The name of the Custom List to update.
         
         Whilst this is here, the API does not currently support filtering by name. (01/04/24)
         
@@ -17,7 +17,7 @@
         Use -NewName to update the name of the Custom List
 
     .PARAMETER Description
-        The description for the new policy object
+        The new description for the Custom List object
 
     .PARAMETER Items
         Enter a key-value hashtable of domains/IP addresses and their description or a list of objects with headers 'item' & 'description'. See examples for usage

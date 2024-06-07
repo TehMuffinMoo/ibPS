@@ -38,13 +38,15 @@
 
     process {
       if ($Name) {
-        $SecurityPolicy = Get-B1SecurityPolicy -Name $Name
+        $SecurityPolicy = Get-B1SecurityPolicy -Name $Name -Strict
       } elseif ($id) {
         $SecurityPolicy = Get-B1SecurityPolicy -id $id
       } else {
         Write-Error "Neither -Name or -id were specified."
       }
-
+      if (($SecurityPolicy).Count -gt 1) {
+        Write-Error "More than one Security Policy returned. To remove multiple objects, you should use pipe Get-B1SecurityPolicy into Remove-B1SecurityPolicy instead." -ForegroundColor Red
+      }
       if ($SecurityPolicy) {
         Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$($SecurityPolicy.id)"
         if ($Name) {
