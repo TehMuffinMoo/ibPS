@@ -11,14 +11,9 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add discovery APIs when GA
 - [ ] Set-B1DNSView
 - [ ] New-B1DNSACL
-- [X] Set-B1DNSACL
 - [ ] Remove-B1DNSACL
-- [X] New-B1SecurityPolicy
-- [X] Set-B1SecurityPolicy
-- [X] Get-B1Endpoint
 - [ ] Set-B1Endpoint
 - [ ] Remove-B1Endpoint
-- [X] Get-B1EndpointGroup
 - [ ] New-B1EndpointGroup
 - [ ] Set-B1EndpointGroup
 - [ ] Remove-B1EndpointGroup
@@ -34,4 +29,3 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add IPAM Hosts, Tags & Metadata Network Scope support for `New-B1SecurityPolicy` & `Set-B1SecurityPolicy`
 
 ## Bug Fixes
-- [X] Investigate occasional errors when using `Get-ibPSVersion -Cleanup`
