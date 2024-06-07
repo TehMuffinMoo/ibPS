@@ -17,7 +17,7 @@ jobs:
         run : |
           $Branch = git rev-parse --abbrev-ref HEAD
           $Build = Get-Content Modules/ibPS/Functions/Misc/build.json | ConvertFrom-Json
-          $Build.Build = $Build.build
+          $Build.Build = [Int]$Build.build+1
           $Build.SHA = $ENV:GITHUB_SHA
           $Build.Branch = $Branch
           Set-Content -Path Modules/ibPS/Functions/Misc/build.json -Value $($Build | ConvertTo-Json)
