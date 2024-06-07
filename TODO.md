@@ -18,8 +18,8 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [X] Get-B1Endpoint
 - [ ] Set-B1Endpoint
 - [ ] Remove-B1Endpoint
+- [X] Get-B1EndpointGroup
 - [ ] New-B1EndpointGroup
-- [ ] Get-B1EndpointGroup
 - [ ] Set-B1EndpointGroup
 - [ ] Remove-B1EndpointGroup
 - [ ] Get-B1CustomRedirect

@@ -1,4 +1,5 @@
 {
-  "build": "1.9.6.87",
-  "sha": "b74f27792038a725807c7260fb1e42cacd825cc4"
+  "Build": "87",
+  "SHA": "b74f27792038a725807c7260fb1e42cacd825cc4",
+  "Branch": "dev"
 }

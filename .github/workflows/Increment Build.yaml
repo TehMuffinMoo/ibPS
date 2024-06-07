@@ -15,11 +15,11 @@ jobs:
       - name: Update Build Version
         shell: pwsh
         run : |
+          $Branch = git rev-parse --abbrev-ref HEAD
           $Build = Get-Content Modules/ibPS/Functions/Misc/build.json | ConvertFrom-Json
-          $BuildVer = $Build.build -split '\.'
-          $BuildVer[3] = [Int]$BuildVer[3]+1
-          $Build.build = $BuildVer -join '.'
-          $Build.sha = $ENV:GITHUB_SHA
+          $Build.Build = $Build.build
+          $Build.SHA = $ENV:GITHUB_SHA
+          $Build.Branch = $Branch
           Set-Content -Path Modules/ibPS/Functions/Misc/build.json -Value $($Build | ConvertTo-Json)
           Write-Output "BuildVersion=$($Build.build)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append
 

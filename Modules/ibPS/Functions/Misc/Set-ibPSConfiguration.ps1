@@ -30,9 +30,6 @@ function Set-ibPSConfiguration {
     .PARAMETER Telemetry
         Disabling Telemetry will prevent the module sending diagnostic information to Google Analytics. None of the diagnostic information sent contains any sensitive information, only the name of the executed function, any error associated error categories and source platform information (OS/Version).
 
-    .PARAMETER Branch
-        Use the -Branch parameter to select the github branch to update with. This only works when installed from Github, not from PowerShell Gallery. You will additionally need to run Get-ibPSVersion -Update -Force after you have configured the new branch to force an update.
-
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
                                                                                                                   
@@ -62,9 +59,7 @@ function Set-ibPSConfiguration {
     [ValidateSet('Enabled','Disabled')]
     [String]$DebugMode,
     [ValidateSet('Enabled','Disabled')]
-    [String]$Telemetry,
-    [ValidateSet("main", "dev")]
-    [String]$Branch
+    [String]$Telemetry
   )
 
   if ($CSPRegion -and $CSPUrl) {
@@ -202,19 +197,5 @@ function Set-ibPSConfiguration {
     }
     $ENV:IBPSTelemetry = $Telemetry
     Write-Host "$($Telemetry) Telemetry." -ForegroundColor Green
-  }
-
-  if ($Branch) {
-    $Platform = Detect-OS
-    if ($Platform -eq "Windows") {
-      [System.Environment]::SetEnvironmentVariable('IBPSBranch',$Branch,[System.EnvironmentVariableTarget]::User)
-    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-      if (!(Test-Path ~/.zshenv)) {
-        touch ~/.zshenv
-      }
-      sed -i '' -e '/IBPSBranch/d' ~/.zshenv
-      echo "export IBPSBranch=$Branch" >> ~/.zshenv
-    }
-    $ENV:IBPSBranch = $Branch
   }
 }

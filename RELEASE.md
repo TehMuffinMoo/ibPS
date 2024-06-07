@@ -11,6 +11,7 @@
 - Add `Set-B1SecurityPolicy` for updating existing BloxOne Threat Defense Security Policies
 - Add `New-B1DoHFQDN` for generating new DNS over HTTPS FQDNs for BloxOne Threat Defense.
 - Add `Get-B1Endpoint` for retrieving BloxOne Threat Defense Endpoints
+- Add `Get-B1EndpointGroup` for retrieving BloxOne Threat Defense Endpoint Groups
 - Fixed some issues with `Get-B1DNSLog` & `Get-B1DHCPLog` in large environments. (1000+ DNS or DHCP Services)
 
 ### Breaking Changes
