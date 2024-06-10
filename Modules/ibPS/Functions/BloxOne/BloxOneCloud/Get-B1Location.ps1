@@ -102,28 +102,28 @@ function Get-B1Location {
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Name) {
-        $Filters.Add("name$MatchType`"$Name`"")
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($Description) {
-        $Filters.Add("description$MatchType`"$Description`"")
+        $Filters.Add("description$MatchType`"$Description`"") | Out-Null
     }
     if ($Address) {
-        $Filters.Add("address.address$MatchType`"$Address`"")
+        $Filters.Add("address.address$MatchType`"$Address`"") | Out-Null
     }
     if ($City) {
-        $Filters.Add("address.city$MatchType`"$City`"")
+        $Filters.Add("address.city$MatchType`"$City`"") | Out-Null
     }
     if ($State) {
-        $Filters.Add("address.state$MatchType`"$State`"")
+        $Filters.Add("address.state$MatchType`"$State`"") | Out-Null
     }
     if ($PostCode) {
-        $Filters.Add("address.postal_code$MatchType`"$PostCode`"")
+        $Filters.Add("address.postal_code$MatchType`"$PostCode`"") | Out-Null
     }
     if ($Country) {
-        $Filters.Add("address.country$MatchType`"$Country`"")
+        $Filters.Add("address.country$MatchType`"$Country`"") | Out-Null
     }
     if ($id) {
-        $Filters.Add("id==`"$id`"")
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
@@ -140,7 +140,7 @@ function Get-B1Location {
         $QueryFilters.Add("_fields=$($Fields -join ",")")
     }
     if ($OrderBy) {
-        $QueryFilters.Add("_order_by=$($OrderBy)")
+        $QueryFilters.Add("_order_by=$($OrderBy)") | Out-Null
     }
     if ($OrderByTag) {
         $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null

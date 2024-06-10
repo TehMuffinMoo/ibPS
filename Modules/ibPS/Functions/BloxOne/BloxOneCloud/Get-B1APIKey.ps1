@@ -77,22 +77,22 @@ function Get-B1APIKey {
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($User) {
-        $Filters.Add("user_email$MatchType`"$User`"")
+        $Filters.Add("user_email$MatchType`"$User`"") | Out-Null
     }
     if ($CreatedBy) {
-        $Filters.Add("created_by$MatchType`"$CreatedBy`"")
+        $Filters.Add("created_by$MatchType`"$CreatedBy`"") | Out-Null
     }
     if ($Name) {
-        $Filters.Add("name$MatchType`"$Name`"")
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($Type) {
-        $Filters.Add("type:=`"$Type`"")
+        $Filters.Add("type:=`"$Type`"") | Out-Null
     }
     if ($State) {
-        $Filters.Add("state:=`"$State`"")
+        $Filters.Add("state:=`"$State`"") | Out-Null
     }
     if ($id) {
-        $Filters.Add("id==`"$id`"")
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
@@ -109,7 +109,7 @@ function Get-B1APIKey {
         $QueryFilters.Add("_fields=$($Fields -join ",")")
     }
     if ($OrderBy) {
-        $QueryFilters.Add("_order_by=$($OrderBy)")
+        $QueryFilters.Add("_order_by=$($OrderBy)") | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters

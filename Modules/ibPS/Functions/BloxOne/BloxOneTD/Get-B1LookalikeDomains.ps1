@@ -74,13 +74,13 @@
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Domain) {
-      $Filters.Add("target_domain$($MatchType)`"$Domain`"")
+      $Filters.Add("target_domain$($MatchType)`"$Domain`"") | Out-Null
     }
     if ($LookalikeHost) {
-      $Filters.Add("lookalike_host$($MatchType)`"$LookalikeHost`"")
+      $Filters.Add("lookalike_host$($MatchType)`"$LookalikeHost`"") | Out-Null
     }
     if ($Reason) {
-      $Filters.Add("reason$($MatchType)`"$Reason`"")
+      $Filters.Add("reason$($MatchType)`"$Reason`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

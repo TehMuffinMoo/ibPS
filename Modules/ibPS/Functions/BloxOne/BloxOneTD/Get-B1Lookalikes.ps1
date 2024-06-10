@@ -77,16 +77,16 @@
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Domain) {
-      $Filters.Add("target_domain$($MatchType)`"$Domain`"")
+      $Filters.Add("target_domain$($MatchType)`"$Domain`"") | Out-Null
     }
     if ($LookalikeDomain) {
-      $Filters.Add("lookalike_domain$($MatchType)`"$LookalikeDomain`"")
+      $Filters.Add("lookalike_domain$($MatchType)`"$LookalikeDomain`"") | Out-Null
     }
     if ($Reason) {
-      $Filters.Add("reason$($MatchType)`"$Reason`"")
+      $Filters.Add("reason$($MatchType)`"$Reason`"") | Out-Null
     }
     if ($Muted) {
-        $Filters.Add("hidden==`"$($Muted)`"")
+        $Filters.Add("hidden==`"$($Muted)`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

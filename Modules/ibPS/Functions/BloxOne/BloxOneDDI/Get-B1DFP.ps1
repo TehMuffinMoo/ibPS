@@ -86,22 +86,22 @@ function Get-B1DFP {
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Name) {
-      $Filters.Add("name$($MatchType)`"$Name`"")
+      $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
     }
     if ($SiteID) {
-      $Filters.Add("site_id$($MatchType)`"$SiteID`"")
+      $Filters.Add("site_id$($MatchType)`"$SiteID`"") | Out-Null
     }
     if ($OPHID) {
-      $Filters.Add("ophid$($MatchType)`"$OPHID`"")
+      $Filters.Add("ophid$($MatchType)`"$OPHID`"") | Out-Null
     }
     if ($PolicyID) {
-      $Filters.Add("policy_id==$PolicyID")
+      $Filters.Add("policy_id==$PolicyID") | Out-Null
     }
     if ($id) {
-      $Filters.Add("id==$id")
+      $Filters.Add("id==$id") | Out-Null
     }
     if ($DefaultSecurityPolicy) {
-      $Filters.Add("default_security_policy==$DefaultSecurityPolicy")
+      $Filters.Add("default_security_policy==$DefaultSecurityPolicy") | Out-Null
     }
     if ($Filters) {
         $Filter = (Combine-Filters $Filters)

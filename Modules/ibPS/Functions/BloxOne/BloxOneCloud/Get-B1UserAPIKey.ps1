@@ -63,13 +63,13 @@ function Get-B1UserAPIKey {
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Name) {
-        $Filters.Add("name$MatchType`"$Name`"")
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($State) {
-        $Filters.Add("state:=`"$State`"")
+        $Filters.Add("state:=`"$State`"") | Out-Null
     }
     if ($id) {
-        $Filters.Add("id==`"$id`"")
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

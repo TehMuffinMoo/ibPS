@@ -83,19 +83,19 @@ function Get-B1User {
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Name) {
-        $Filters.Add("name$MatchType`"$Name`"")
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($Email) {
-        $Filters.Add("email$MatchType`"$Email`"")
+        $Filters.Add("email$MatchType`"$Email`"") | Out-Null
     }
     if ($State) {
-        $Filters.Add("state:=`"$State`"")
+        $Filters.Add("state:=`"$State`"") | Out-Null
     }
     if ($Type) {
-        $Filters.Add("type:=`"$Type`"")
+        $Filters.Add("type:=`"$Type`"") | Out-Null
     }
     if ($id) {
-        $Filters.Add("id==`"$id`"")
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
