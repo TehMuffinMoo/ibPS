@@ -15,7 +15,7 @@ Retrieves a list of DHCP Config Profiles from BloxOneDDI
 ```
 Get-B1DHCPConfigProfile [[-Name] <String>] [-Strict] [-IncludeInheritance] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
- [[-OrderByTag] <String>] [[-id] <String>]
+ [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -172,6 +172,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Return results based on DHCP Config Profile id
 
@@ -181,7 +197,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -14,7 +14,7 @@ Retrives the summary metrics from the Lookalike Activity Page within the CSP
 
 ```
 Get-B1LookalikeTargetSummary [[-Domain] <String>] [[-ThreatClass] <String[]>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Start] <DateTime>] [-Strict]
+ [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Start] <DateTime>] [-Strict] [[-CustomFilters] <Object>]
 ```
 
 ## DESCRIPTION
@@ -155,6 +155,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

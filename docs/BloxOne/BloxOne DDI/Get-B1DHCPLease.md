@@ -27,8 +27,8 @@ Get-B1DHCPLease [-Range] -RangeStart <String> [-RangeEnd <String>] [-Space <Stri
 ### std
 ```
 Get-B1DHCPLease [-Address <String>] [-MACAddress <String>] [-Hostname <String>] [-HAGroup <String>]
- [-DHCPServer <String>] [-Space <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>]
- [-OrderBy <String>] [-Strict] [<CommonParameters>]
+ [-DHCPServer <String>] [-CustomFilters <String>] [-Space <String>] [-Limit <Int32>] [-Offset <Int32>]
+ [-Fields <String[]>] [-OrderBy <String>] [-Strict] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -155,6 +155,22 @@ Accept wildcard characters: False
 
 ### -DHCPServer
 Filter the DHCP Leases by DHCP Server
+
+```yaml
+Type: String
+Parameter Sets: std
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
 ```yaml
 Type: String

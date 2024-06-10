@@ -15,7 +15,8 @@ Queries a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
 ```
 Get-B1DFP [[-Name] <String[]>] [[-SiteID] <String>] [[-OPHID] <String>] [[-PolicyID] <Int32>]
  [-DefaultSecurityPolicy] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>]
+ [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -222,6 +223,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Filter the results by id
 
@@ -231,7 +248,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

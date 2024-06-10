@@ -15,7 +15,8 @@ Retrieves a list BloxOne DTC Health Checks
 ```
 Get-B1DTCHealthCheck [[-Name] <String>] [[-Description] <String>] [[-Type] <String>] [[-Status] <String>]
  [[-Port] <Int32>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>]
+ [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -222,6 +223,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 12
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Return results based on Server id
 
@@ -231,7 +248,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

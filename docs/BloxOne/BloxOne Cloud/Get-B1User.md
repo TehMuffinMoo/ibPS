@@ -15,7 +15,7 @@ Retrieves a list of users from the BloxOne Cloud
 ```
 Get-B1User [[-Name] <String>] [[-Email] <String>] [[-State] <String>] [[-Type] <String>]
  [[-Authenticator] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>]
- [[-OrderBy] <String>] [[-id] <String>]
+ [[-OrderBy] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -196,6 +196,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 The id of the authoritative zone to filter by
 
@@ -205,7 +221,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

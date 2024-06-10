@@ -15,6 +15,7 @@ Retrieves a list of DHCP Hardware Filters from BloxOneDDI.
 ```
 Get-B1DHCPHardwareFilter [[-Name] <String>] [[-Role] <String>] [[-Protocol] <String>] [[-Fields] <String[]>]
  [[-Limit] <Int32>] [[-Offset] <Int32>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [-Strict]
+ [[-CustomFilters] <Object>]
 ```
 
 ## DESCRIPTION
@@ -167,6 +168,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

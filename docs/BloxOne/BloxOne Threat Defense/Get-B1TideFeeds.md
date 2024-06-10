@@ -13,7 +13,7 @@ Queries a list BYOF RPZ threat feeds
 ## SYNTAX
 
 ```
-Get-B1TideFeeds
+Get-B1TideFeeds [[-CustomFilters] <Object>]
 ```
 
 ## DESCRIPTION
@@ -35,6 +35,22 @@ id                        name                   description                  pr
 ```
 
 ## PARAMETERS
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ## INPUTS
 

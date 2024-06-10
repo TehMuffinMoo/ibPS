@@ -15,7 +15,7 @@ Retrieves a list of BloxOneDDI DHCP Hosts
 ```
 Get-B1DHCPHost [[-Name] <String>] [[-IP] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
  [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [-Associations]
- [[-id] <String>]
+ [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -198,6 +198,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Return results based on DHCP Host id
 
@@ -207,7 +223,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
