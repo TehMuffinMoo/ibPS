@@ -14,7 +14,8 @@ Retrieves a list of configured third party DNS & IPAM providers
 
 ```
 Get-B1ThirdPartyProvider [[-Name] <String>] [[-Description] <String>] [[-Type] <String>] [[-Vendor] <String>]
- [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>] [[-OrderBy] <String>] [-Strict] [[-id] <String>]
+ [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>] [[-OrderBy] <String>] [-Strict]
+ [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -175,6 +176,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Use this parameter to query a particular provider id
 
@@ -184,7 +201,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
