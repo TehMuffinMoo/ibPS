@@ -46,7 +46,7 @@ function Get-B1ThreatFeeds {
         [Int]$Limit = 1000,
         [Int]$Offset,
         [String[]]$Fields,
-        [Switch]$Strict
+        [Switch]$Strict,
         $CustomFilters
     )
  
