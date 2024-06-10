@@ -84,7 +84,7 @@
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Space) {
         $SpaceUUID = (Get-B1Space -Name $Space -Strict).id

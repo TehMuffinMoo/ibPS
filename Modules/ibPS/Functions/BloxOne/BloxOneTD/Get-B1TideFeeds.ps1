@@ -34,8 +34,8 @@
     process {
       [System.Collections.ArrayList]$Filters = @()
       if ($CustomFilters) {
-          $Filters.Add($CustomFilters)
-      }
+          $Filters.Add($CustomFilters) | Out-Null
+    }
       if ($Filters) {
           $Filter = "_filter="+(Combine-Filters $Filters)
       }

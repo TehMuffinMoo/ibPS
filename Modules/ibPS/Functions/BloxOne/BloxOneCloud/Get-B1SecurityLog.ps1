@@ -75,7 +75,7 @@ function Get-B1SecurityLog {
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Username) {
         $Filters.Add("userEmail$MatchType`"$Username`"") | Out-Null

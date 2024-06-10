@@ -82,7 +82,7 @@
     [System.Collections.ArrayList]$QueryFilters = @()
     $MatchType = Match-Type $Strict
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Subnet) {
         if ($Subnet -match '/\d') { 

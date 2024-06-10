@@ -60,7 +60,7 @@ function Get-B1UserAPIKey {
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"")

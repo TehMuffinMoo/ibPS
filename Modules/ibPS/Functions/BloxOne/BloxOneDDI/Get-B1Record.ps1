@@ -94,7 +94,7 @@
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Type) {
       $Filters.Add("type==`"$Type`"") | Out-Null
@@ -167,5 +167,5 @@
     if ($Source) {
         $Result = $Result | Where-Object {$_.source -contains $Source}
     }
-    $Result
+    return $Result
 }

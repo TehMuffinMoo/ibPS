@@ -51,7 +51,7 @@
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Name) {
         $Filters.Add("key$MatchType`"$Name`"") | Out-Null

@@ -79,7 +79,7 @@
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($StartAddress) {
         $Filters.Add("start==`"$StartAddress`"") | Out-Null

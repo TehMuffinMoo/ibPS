@@ -103,7 +103,7 @@
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($IP) {
         $Filters.Add("ip_address$MatchType`"$IP`"") | Out-Null

@@ -120,7 +120,7 @@
         [System.Collections.ArrayList]$Filters = @()
         [System.Collections.ArrayList]$QueryFilters = @()
         if ($CustomFilters) {
-            $Filters.Add($CustomFilters)
+            $Filters.Add($CustomFilters) | Out-Null
         }
         if ($Address) {
             $Filters.Add("address==`"$Address`"") | Out-Null

@@ -80,7 +80,7 @@
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($FQDN) {
         $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null

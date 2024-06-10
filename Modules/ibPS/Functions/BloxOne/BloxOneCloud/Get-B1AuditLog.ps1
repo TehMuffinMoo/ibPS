@@ -83,7 +83,7 @@ function Get-B1AuditLog {
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Username) {
         $Filters.Add("user_name$MatchType`"$Username`"") | Out-Null

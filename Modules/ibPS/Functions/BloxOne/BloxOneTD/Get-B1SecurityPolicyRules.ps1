@@ -90,7 +90,7 @@ function Get-B1SecurityPolicyRules {
         [System.Collections.ArrayList]$Filters = @()
         [System.Collections.ArrayList]$QueryFilters = @()
         if ($CustomFilters) {
-            $Filters.Add($CustomFilters)
+            $Filters.Add($CustomFilters) | Out-Null
         }
         if ($PolicyID) {
             $Filters.Add("policy_id==$PolicyID") | Out-Null

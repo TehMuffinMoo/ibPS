@@ -19,4 +19,4 @@
 | `Get-B1BypassCode`         | `Get-B1CategoryFilter`     | `Get-B1CustomList`         |
 | `Get-B1InternalDomainList` | `Get-B1LookalikeDomains`   | `Get-B1Lookalikes`         |
 | `Get-B1NetworkList`        | `Get-B1PoPRegion`          | `Get-B1SecurityPolicy`     |
-| `Get-B1SecurityPolicyRules`|                            |                            |
+| `Get-B1SecurityPolicyRules`| `Get-B1ThirdPartyProvider` |                            |

@@ -74,7 +74,7 @@ function Get-B1APIKey {
     [System.Collections.ArrayList]$QueryFilters = @()
     $MatchType = Match-Type $Strict
     if ($CustomFilters) {
-        $Filters.Add($CustomFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
     if ($User) {
         $Filters.Add("user_email$MatchType`"$User`"")
