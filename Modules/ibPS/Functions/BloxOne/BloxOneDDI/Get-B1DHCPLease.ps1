@@ -48,6 +48,10 @@
     .PARAMETER OrderBy
         Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .EXAMPLE
         PS> Get-B1DHCPLease -Range -RangeStart 10.10.100.20 -RangeEnd 10.10.100.50 -Limit 100
 
@@ -70,6 +74,7 @@
         [String][parameter(ParameterSetName="std")] $Hostname,
         [String][parameter(ParameterSetName="std")] $HAGroup,
         [String][parameter(ParameterSetName="std")] $DHCPServer,
+        [String][parameter(ParameterSetName="std")] $CustomFilters,
         [String]$Space,
         [Int]$Limit = 100,
         [Int]$Offset = 0,
@@ -114,6 +119,9 @@
         $DHCPHosts = Get-B1DHCPHost
         [System.Collections.ArrayList]$Filters = @()
         [System.Collections.ArrayList]$QueryFilters = @()
+        if ($CustomFilters) {
+            $Filters.Add($CustomFilters)
+        }
         if ($Address) {
             $Filters.Add("address==`"$Address`"") | Out-Null
         }

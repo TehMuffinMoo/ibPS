@@ -36,6 +36,10 @@
     .PARAMETER Associations
         Obtain a list of associated subnets/ranges with this host
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Return results based on DHCP Host id
 
@@ -69,11 +73,15 @@
         [String]$OrderBy,
         [String]$OrderByTag,
         [Switch]$Associations,
+        $CustomFilters,
         [String]$id
     )
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters)
+    }
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }

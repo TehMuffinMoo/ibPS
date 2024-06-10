@@ -80,34 +80,32 @@
     )
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    $MatchType = Match-Type $Strict
     if ($CustomFilters) {
-      $Filter = Combine-Filters $CustomFilters
-    } else {
-        $MatchType = Match-Type $Strict
-
-        if ($Subnet) {
-            if ($Subnet -match '/\d') { 
-                $IPandMask = $Subnet -Split '/' 
-                $Subnet = $IPandMask[0]
-                $CIDR = $IPandMask[1]
-            }
-            $Filters.Add("address==`"$Subnet`"") | Out-Null
-        }
-        if ($CIDR) {
-            $Filters.Add("cidr==$CIDR") | Out-Null
-        }
-        if ($Name) {
-            $Filters.Add("name$MatchType`"$Name`"") | Out-Null
-        }
-        if ($id) {
-            $Filters.Add("id==`"$id`"") | Out-Null
-        }
-        if ($Space) {
-            $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
-            $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
-        }
-        $Filter = Combine-Filters $Filters
+        $Filters.Add($CustomFilters)
     }
+    if ($Subnet) {
+        if ($Subnet -match '/\d') { 
+            $IPandMask = $Subnet -Split '/' 
+            $Subnet = $IPandMask[0]
+            $CIDR = $IPandMask[1]
+        }
+        $Filters.Add("address==`"$Subnet`"") | Out-Null
+    }
+    if ($CIDR) {
+        $Filters.Add("cidr==$CIDR") | Out-Null
+    }
+    if ($Name) {
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    if ($Space) {
+        $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
+        $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
+    }
+    $Filter = Combine-Filters $Filters
 
     if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null

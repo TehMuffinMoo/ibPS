@@ -24,6 +24,10 @@ function Get-B1SecurityPolicyRules {
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER Object
         Optionally pass in a security policy object via pipeline to list rules for.
 
@@ -66,6 +70,7 @@ function Get-B1SecurityPolicyRules {
         [Int]$Limit = 1000,
         [Int]$Offset,
         [String[]]$Fields,
+        $CustomFilters,
         [Parameter(
           ValueFromPipeline = $true,
           ParameterSetName="Pipeline",
@@ -84,7 +89,9 @@ function Get-B1SecurityPolicyRules {
     
         [System.Collections.ArrayList]$Filters = @()
         [System.Collections.ArrayList]$QueryFilters = @()
-    
+        if ($CustomFilters) {
+            $Filters.Add($CustomFilters)
+        }
         if ($PolicyID) {
             $Filters.Add("policy_id==$PolicyID") | Out-Null
         }

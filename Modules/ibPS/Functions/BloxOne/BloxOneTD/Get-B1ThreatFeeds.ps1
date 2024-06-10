@@ -21,6 +21,10 @@ function Get-B1ThreatFeeds {
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .EXAMPLE
         PS> Get-B1ThreatFeeds -Name "AntiMalware" | ft -AutoSize      
 
@@ -43,13 +47,15 @@ function Get-B1ThreatFeeds {
         [Int]$Offset,
         [String[]]$Fields,
         [Switch]$Strict
+        $CustomFilters
     )
  
 	$MatchType = Match-Type $Strict
-
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
-
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters)
+    }
     if ($Name) {
         $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
     }

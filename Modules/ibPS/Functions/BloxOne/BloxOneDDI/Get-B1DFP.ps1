@@ -44,6 +44,10 @@ function Get-B1DFP {
 
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
         
     .EXAMPLE
         PS> Get-B1DFP -Name "My DFP" -Strict
@@ -70,6 +74,7 @@ function Get-B1DFP {
         [String[]]$Fields,
         [String]$OrderBy,
         [String]$OrderByTag,
+        $CustomFilters,
         [String]$id
     )
  
@@ -77,23 +82,26 @@ function Get-B1DFP {
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters)
+    }
     if ($Name) {
-      $Filters += "name$($MatchType)`"$Name`""
+      $Filters.Add("name$($MatchType)`"$Name`"")
     }
     if ($SiteID) {
-      $Filters += "site_id$($MatchType)`"$SiteID`""
+      $Filters.Add("site_id$($MatchType)`"$SiteID`"")
     }
     if ($OPHID) {
-      $Filters += "ophid$($MatchType)`"$OPHID`""
+      $Filters.Add("ophid$($MatchType)`"$OPHID`"")
     }
     if ($PolicyID) {
-      $Filters += "policy_id==$PolicyID"
+      $Filters.Add("policy_id==$PolicyID")
     }
     if ($id) {
-      $Filters += "id==$id"
+      $Filters.Add("id==$id")
     }
     if ($DefaultSecurityPolicy) {
-      $Filters += "default_security_policy==$DefaultSecurityPolicy"
+      $Filters.Add("default_security_policy==$DefaultSecurityPolicy")
     }
     if ($Filters) {
         $Filter = (Combine-Filters $Filters)

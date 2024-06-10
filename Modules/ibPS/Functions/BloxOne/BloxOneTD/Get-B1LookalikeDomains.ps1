@@ -27,6 +27,10 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .EXAMPLE
         PS> Get-B1LookalikeDomains -Domain google.com | ft detected_at,lookalike_domain,reason -AutoSize
 
@@ -58,21 +62,25 @@
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String[]]$Fields,
-      [Switch]$Strict
+      [Switch]$Strict,
+      $CustomFilters
     )
 
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters)
+    }
     if ($Domain) {
-      $Filters += "target_domain$($MatchType)`"$Domain`""
+      $Filters.Add("target_domain$($MatchType)`"$Domain`"")
     }
     if ($LookalikeHost) {
-      $Filters += "lookalike_host$($MatchType)`"$LookalikeHost`""
+      $Filters.Add("lookalike_host$($MatchType)`"$LookalikeHost`"")
     }
     if ($Reason) {
-      $Filters += "reason$($MatchType)`"$Reason`""
+      $Filters.Add("reason$($MatchType)`"$Reason`"")
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

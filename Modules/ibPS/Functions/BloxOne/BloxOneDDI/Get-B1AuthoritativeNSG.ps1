@@ -60,18 +60,17 @@
     )
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    $MatchType = Match-Type $Strict
     if ($CustomFilters) {
-        $Filter = Combine-Filters $CustomFilters
-      } else {
-        $MatchType = Match-Type $Strict
-        if ($Name) {
-            $Filters.Add("name$MatchType`"$Name`"") | Out-Null
-        }
-        if ($id) {
-            $Filters.Add("id==`"$id`"") | Out-Null
-        }
-        $Filter = Combine-Filters $Filters
+        $Filters.Add($CustomFilters)
     }
+    if ($Name) {
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    $Filter = Combine-Filters $Filters
     if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }

@@ -36,6 +36,10 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
@@ -59,6 +63,7 @@
         [String[]]$Fields,
         [String]$OrderBy,
         [String]$OrderByTag,
+        $CustomFilters,
         [String]$id
     )
 
@@ -66,6 +71,9 @@
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters)
+    }
     if ($IP) {
         $Filters.Add("address==`"$IP`"") | Out-Null
     }

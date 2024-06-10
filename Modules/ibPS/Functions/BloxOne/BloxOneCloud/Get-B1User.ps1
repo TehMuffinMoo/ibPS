@@ -36,6 +36,10 @@ function Get-B1User {
     .PARAMETER OrderBy
         Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
         
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         The id of the authoritative zone to filter by
 
@@ -68,51 +72,57 @@ function Get-B1User {
         [Switch]$Strict,
         [String[]]$Fields,
         [String]$OrderBy,
+        $CustomFilters,
         [String]$id
     )
 
-    $MatchType = Match-Type $Strict
-
+	$MatchType = Match-Type $Strict
+    [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
-    if ($Limit) {
-        $QueryFilters += "_limit=$Limit"
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters)
     }
-    if ($Offset) {
-        $QueryFilters += "_offset=$Offset"
-    }
-
-    $ParamFilters = @()
     if ($Name) {
-        $ParamFilters += "name$MatchType`"$Name`""
+        $Filters.Add("name$MatchType`"$Name`"")
     }
     if ($Email) {
-        $ParamFilters += "email$MatchType`"$Email`""
+        $Filters.Add("email$MatchType`"$Email`"")
     }
     if ($State) {
-        $ParamFilters += "state:=`"$State`""
+        $Filters.Add("state:=`"$State`"")
     }
     if ($Type) {
-        $ParamFilters += "type:=`"$Type`""
+        $Filters.Add("type:=`"$Type`"")
     }
     if ($id) {
-        $ParamFilters += "id==`"$id`""
+        $Filters.Add("id==`"$id`"")
     }
-    if ($ParamFilters) {
-        $ParamFilter = Combine-Filters($ParamFilters)
-        $QueryFilters += "_filter=$ParamFilter"
+    if ($Filters) {
+        $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Fields) {
         $Fields += "id"
         $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$($Limit)") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$($Offset)") | Out-Null
+    }
     if ($OrderBy) {
         $QueryFilters.Add("_order_by=$($OrderBy)") | Out-Null
     }
-
-    $CombinedFilter += ConvertTo-QueryString($QueryFilters)
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
     Write-DebugMsg -Filters $QueryFilters
-    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-
+    if ($QueryString) {
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    } else {
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    }
     if ($Results) {
         return $Results
     }

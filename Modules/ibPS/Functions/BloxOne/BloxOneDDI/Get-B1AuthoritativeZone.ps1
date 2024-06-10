@@ -73,36 +73,35 @@
     )
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
+    $MatchType = Match-Type $Strict
     if ($CustomFilters) {
-        $Filter = Combine-Filters $CustomFilters
-      } else {
-        if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
-        $MatchType = Match-Type $Strict
-        if ($FQDN) {
-            $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
-        }
-        if ($Type) {
-            switch($Type) {
-                "Primary" {
-                    $PrimaryType = "cloud"
-                }
-                "Secondary" {
-                    $PrimaryType = "external"
-                }
-            }
-            $Filters.Add("primary_type==`"$PrimaryType`"") | Out-Null
-        }
-        if ($Disabled) {
-            $Filters.Add("disabled==`"$Disabled`"") | Out-Null
-        }
-        if ($ViewUUID) {
-            $Filters.Add("view==`"$ViewUUID`"") | Out-Null
-        }
-        if ($id) {
-            $Filters.Add("id==`"$id`"") | Out-Null
-        }
-        $Filter = Combine-Filters $Filters
+        $Filters.Add($CustomFilters)
     }
+    if ($FQDN) {
+        $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
+    }
+    if ($Type) {
+        switch($Type) {
+            "Primary" {
+                $PrimaryType = "cloud"
+            }
+            "Secondary" {
+                $PrimaryType = "external"
+            }
+        }
+        $Filters.Add("primary_type==`"$PrimaryType`"") | Out-Null
+    }
+    if ($Disabled) {
+        $Filters.Add("disabled==`"$Disabled`"") | Out-Null
+    }
+    if ($ViewUUID) {
+        $Filters.Add("view==`"$ViewUUID`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    $Filter = Combine-Filters $Filters
     if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }

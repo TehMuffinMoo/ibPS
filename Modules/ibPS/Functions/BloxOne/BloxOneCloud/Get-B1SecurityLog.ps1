@@ -35,7 +35,11 @@ function Get-B1SecurityLog {
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-        
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER Raw
         Return results as raw without additional parsing
 
@@ -59,6 +63,7 @@ function Get-B1SecurityLog {
       [Int]$Limit = 100,
       [Int]$Offset,
       [switch]$Strict,
+      $CustomFilters,
       [switch]$Raw
     )
 
@@ -69,6 +74,9 @@ function Get-B1SecurityLog {
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters)
+    }
     if ($Username) {
         $Filters.Add("userEmail$MatchType`"$Username`"") | Out-Null
     }

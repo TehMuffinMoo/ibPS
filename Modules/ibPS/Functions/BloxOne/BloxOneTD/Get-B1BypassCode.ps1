@@ -29,6 +29,10 @@
 
     .PARAMETER access_key
         Filter the results by access key
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
         
     .EXAMPLE
         PS> Get-B1BypassCode
@@ -51,6 +55,8 @@
       [String]$OrderBy,
       [Parameter(ParameterSetName="Default")]
       [Switch]$Strict,
+      [Parameter(ParameterSetName="Default")]
+      $CustomFilters,
       [parameter(ParameterSetName="With ID")]
       [String]$access_key
     )
@@ -59,6 +65,9 @@
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters)
+    }
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }

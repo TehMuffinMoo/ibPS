@@ -71,20 +71,19 @@
       [System.Collections.ArrayList]$Filters = @()
       [System.Collections.ArrayList]$QueryFilters = @()
       if ($CustomFilters) {
-        $Filter = "_filter="+(Combine-Filters $CustomFilters)
-      } else {
-        if ($Address) {
-            $Filters.Add("address==`"$Address`"") | Out-Null
-        }
-        if ($State) {
-            $Filters.Add("state==`"$State`"") | Out-Null
-        }
-        if ($id) {
-            $Filters.Add("id==`"$id`"") | Out-Null
-        }
-        if ($Filters) {
-            $Filter = "_filter="+(Combine-Filters $Filters)
-        }
+        $Filters.Add($CustomFilters)
+      }
+      if ($Address) {
+        $Filters.Add("address==`"$Address`"") | Out-Null
+      }
+      if ($State) {
+        $Filters.Add("state==`"$State`"") | Out-Null
+      }
+      if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+      }
+      if ($Filters) {
+        $Filter = "_filter="+(Combine-Filters $Filters)
       }
       if ($State) {
           $QueryFilters.Add("address_state=$State") | Out-Null
