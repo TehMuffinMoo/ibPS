@@ -250,6 +250,7 @@ $CustomFilters = 'name~"10.1.2.3" and state=="enabled"'
 ```
 
 ##### Object
+When using Object type, all filters are assumed to use the Logical AND Operator.
 ```powershell
 $CustomFilters = @(
   @{
@@ -266,6 +267,7 @@ $CustomFilters = @(
 ```
 
 ##### ArrayList
+When using ArrayList type, all filters are assumed to use the Logical AND Operator.
 ```powershell
 [System.Collections.ArrayList]$CustomFilters = @()
 $CustomFilters.Add('name~"postman"') | Out-Null
