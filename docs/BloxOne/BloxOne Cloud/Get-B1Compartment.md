@@ -5,34 +5,32 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1Range
+# Get-B1Compartment
 
 ## SYNOPSIS
-Queries a list of DHCP Ranges from BloxOneDDI
+Retrieves a list of Compartments from the BloxOne Cloud
 
 ## SYNTAX
 
 ```
-Get-B1Range [[-StartAddress] <String>] [[-EndAddress] <String>] [[-Name] <String>] [[-Space] <String>]
- [[-Compartment] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>]
- [[-id] <String>]
+Get-B1Compartment [[-Name] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>]
+ [[-OrderBy] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
-This function is used to get one or more next available address blocks from IPAM based on the criteria entered
+This function is used to retrieve a list of Compartments from the BloxOne Cloud
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
+Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 ```
 
 ## PARAMETERS
 
-### -StartAddress
-Use this parameter to search by the DHCP Range start address
+### -Name
+Filter the results by compartment name
 
 ```yaml
 Type: String
@@ -46,69 +44,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EndAddress
-Use this parameter to search by the DHCP Range end address
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Name
-Use this parameter to search by the DHCP Range Name
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Space
-Use this parameter to filter the list of Address Blocks by Space
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Compartment
-Filter the results by Compartment Name
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Limit
 Use this parameter to limit the quantity of results.
-The default number of results is 1000.
+The default and maximum number of results is 101.
 
 ```yaml
 Type: Int32
@@ -116,8 +54,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
-Default value: 1000
+Position: 2
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -131,7 +69,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 3
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -154,21 +92,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -tfilter
-Use this parameter to filter the results returned by tag.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Fields
 Specify a list of fields to return.
 The default is to return all fields.
@@ -179,7 +102,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -196,23 +119,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -OrderByTag
-Optionally return the list ordered by a particular tag value.
-Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 11
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -228,14 +135,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -id
-Filter the results by range id
+The id of the API Key to filter by
 
 ```yaml
 Type: String
@@ -243,7 +150,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

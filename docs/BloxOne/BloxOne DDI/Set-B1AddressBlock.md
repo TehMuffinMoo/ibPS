@@ -15,21 +15,22 @@ Updates an existing address block in BloxOneDDI IPAM
 ### Subnet
 ```
 Set-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-NewName <String>] [-DHCPOptions <Object>]
- [-Description <String>] [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Tags <Object>]
- [<CommonParameters>]
+ [-Description <String>] [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Compartment <String>]
+ [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### Name
 ```
 Set-B1AddressBlock -Space <String> -Name <String> [-NewName <String>] [-DHCPOptions <Object>]
- [-Description <String>] [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Tags <Object>]
- [<CommonParameters>]
+ [-Description <String>] [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Compartment <String>]
+ [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### Object
 ```
 Set-B1AddressBlock [-NewName <String>] [-DHCPOptions <Object>] [-Description <String>]
- [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
+ [-DHCPLeaseSeconds <Int32>] [-DDNSDomain <String>] [-Compartment <String>] [-Tags <Object>] -Object <Object>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -178,6 +179,21 @@ Accept wildcard characters: False
 
 ### -DDNSDomain
 The new DDNS Domain for the address block
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Compartment
+The name of the compartment to assign to this address block
 
 ```yaml
 Type: String

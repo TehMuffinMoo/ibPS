@@ -14,7 +14,7 @@ Creates a new BloxOneDDI IPAM/DHCP Space
 
 ```
 New-B1Space [-Name] <String> [[-Description] <String>] [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>]
- [[-Tags] <Object>] [<CommonParameters>]
+ [[-Compartment] <String>] [[-Tags] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -91,6 +91,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Compartment
+The name of the compartment to assign to this space
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tags
 Any tags you want to apply to the new IP Space
 
@@ -100,7 +115,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

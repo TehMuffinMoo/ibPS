@@ -14,21 +14,22 @@ Queries a list of address objects from the BloxOneDDI IPAM
 
 ### None (Default)
 ```
-Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-OrderBy <String>] [-OrderByTag <String>] [-CustomFilters <Object>] [<CommonParameters>]
+Get-B1Address [-Reserved] [-Compartment <String>] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>]
+ [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### With Address
 ```
-Get-B1Address [-Address <String>] [-State <String>] [-Reserved] [-Limit <Int32>] [-Offset <Int32>]
- [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-CustomFilters <Object>]
- [<CommonParameters>]
+Get-B1Address [-Address <String>] [-State <String>] [-Reserved] [-Compartment <String>] [-Limit <Int32>]
+ [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>]
+ [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### With ID
 ```
-Get-B1Address [-Reserved] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-OrderBy <String>] [-OrderByTag <String>] [-CustomFilters <Object>] [-id <String>] [<CommonParameters>]
+Get-B1Address [-Reserved] [-Compartment <String>] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>]
+ [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-CustomFilters <Object>] [-id <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -84,6 +85,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Compartment
+Filter the results by Compartment Name
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
