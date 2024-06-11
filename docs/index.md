@@ -223,7 +223,26 @@ The -CustomFilters parameter allows you to use custom filters when interacting w
 </table>
 
 #### -CustomFilters
-The `-CustomFilters` parameter can be used to apply custom filtering to API calls. It supports inputs as either String, Object or ArrayList as shown below;
+The `-CustomFilters` parameter can be used to apply custom filtering to API calls. The filters are logical expression strings that includes JSON tag references to values in each resource, literal values, and logical operators.
+
+Literal values include numbers (integer and floating-point), and quoted (both single- or double-quoted) literal strings, and 'null’. The following operators are commonly used in filter expressions:
+
+| Operator | Description                  |
+|----------|------------------------------|
+| ==	     | Equal                        |
+| !=	     | Not Equal                    |
+| >	       | Greater Than                 |
+| >=	     | Greater Than or Equal To     |
+| <		     | Less Than                    |
+| <=		   | Less Than or Equal To        |
+| ~		     | Matches Regex                |
+| !~		   | Does Not Match Regex         |
+| and		   | Logical AND                  |
+| or	     | Logical OR                   |
+| not	     | Logical NOT                  |
+| ()		   | Groupping Operators          |
+
+It supports inputs as either String, Object or ArrayList as shown below.
 
 ##### String
 ```powershell
