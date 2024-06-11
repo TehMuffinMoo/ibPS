@@ -27,6 +27,9 @@
     .PARAMETER DDNSDomain
         The DDNS Domain to apply to the new address block
 
+    .PARAMETER Compartment
+        The name of the compartment to assign to this address block
+
     .PARAMETER Tags
         Any tags you want to apply to the address block
 
@@ -56,6 +59,7 @@
       [String]$Description,
       [System.Object]$DHCPOptions,
       [String]$DDNSDomain,
+      [String]$Compartment,
       [System.Object]$Tags
       )
 
@@ -87,7 +91,16 @@
         }
 
         if ($Tags) {
-            $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
+            $splat.tags = $Tags
+        }
+        if ($Compartment) {
+            $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+            if (!($CompartmentID)) {
+                Write-Error "Unable to find compartment with name: $($Compartment)"
+                return $null
+            } else {
+                $splat.compartment_id = $CompartmentID
+            }
         }
 
         $splat = $splat | ConvertTo-Json -Depth 4

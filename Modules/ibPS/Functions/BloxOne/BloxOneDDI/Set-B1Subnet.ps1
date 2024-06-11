@@ -89,6 +89,16 @@
       [System.Object]$Object
     )
 
+    begin {
+        if ($HAGroup) {
+            $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
+            if (!($HAGroupID)) {
+                Write-Error "Unable to find HA Group: $($HAGroup)"
+                return $null
+            }
+        }
+    }
+
     process {
         $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization','asm_scope_flag','inheritance_assigned_hosts')
         if ($Object) {
@@ -126,14 +136,8 @@
         if ($DHCPOptions) {
             $NewObj.dhcp_options = $DHCPOptions
         }
-        if ($HAGroup) {
-            $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
-            if ($HAGroupID) {
-                $NewObj.dhcp_host = $HAGroupID
-            } else {
-                Write-Error "Unable to find HA Group: $($HAGroup)"
-                return $null
-            }
+        if ($HAGroupID) {
+            $NewObj.dhcp_host = $HAGroupID
         }
         if ($Tags) {
             $AddressBlockPatch.tags = $Tags
@@ -143,7 +147,6 @@
             $NewObj.inheritance_sources.dhcp_config.lease_time.value = $DHCPLeaseSeconds
             $NewObj.dhcp_config.lease_time = $DHCPLeaseSeconds
         }
-
         if ($DDNSDomain) {
             $NewObj.inheritance_sources.ddns_update_block.action = "override"
             $NewObj.inheritance_sources.ddns_update_block.value = @{}

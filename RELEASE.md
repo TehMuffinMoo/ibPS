@@ -1,4 +1,6 @@
-- Add/Align `-CustomFilters` support to
+- Add `Get-B1Compartment` function
+- Add support for configuring Compartments when using `New-B1AddressBlock`, `Set-B1AddressBlock`, `New-B1AuthoritativeZone` & `Set-B1AuthoritativeZone`
+- Add/Align `-CustomFilters` support to:
 
 |                            |                            |                            |
 |:---------------------------|:---------------------------|:---------------------------|

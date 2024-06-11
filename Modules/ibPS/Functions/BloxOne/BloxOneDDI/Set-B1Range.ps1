@@ -70,6 +70,16 @@
       [System.Object]$Object
     )
 
+    begin {
+        if ($HAGroup) {
+            $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
+            if (!($HAGroupID)) {
+                Write-Error "Unable to find HA Group: $($HAGroup)"
+                return $null
+            }
+        }
+    }
+
     process {
         if ($Object) {
             $SplitID = $Object.id.split('/')
@@ -99,14 +109,8 @@
         if ($NewName) {
             $NewObj.name = $NewName
         }
-        if ($HAGroup) {
-            $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
-            if ($HAGroupID) {
-                $NewObj.dhcp_host = $HAGroupID
-            } else {
-                Write-Error "Unable to find HA Group: $($HAGroup)"
-                return $null
-            }
+        if ($HAGroupID) {
+            $NewObj.dhcp_host = $HAGroupID
         }
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
         $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON

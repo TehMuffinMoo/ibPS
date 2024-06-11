@@ -23,9 +23,11 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Replace API calls for `dns/host` with `dns/service`
 - [ ] Replace API calls for `dhcp/host` with `dhcp/service`
 - [ ] Improve coverage of Pester Tests
-- [ ] Add `-CustomFilters` parameter to all functions where filters are supported. See [docs](https://ibps.readthedocs.io/en/dev/#-customfilters)
+- [X] Add `-CustomFilters` parameter to all functions where filters are supported. See [docs](https://ibps.readthedocs.io/en/dev/#-customfilters)
 - [ ] Investigate the naming convention of Set-B1NTPServiceConfiguration
 - [ ] Add TSIG_KEY support to `Set-B1DNSACL` & `New-B1DNSACLItem`
 - [ ] Add IPAM Hosts, Tags & Metadata Network Scope support for `New-B1SecurityPolicy` & `Set-B1SecurityPolicy`
+- [X] Add Compartment Support to IPAM Functions
+- [X] Add Compartment Support to DNS Functions
 
 ## Bug Fixes
