@@ -18,6 +18,9 @@
     .PARAMETER Space
         Use this parameter to filter the list of Address Blocks by Space
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -63,6 +66,7 @@
       [String]$EndAddress,
       [String]$Name,
       [String]$Space,
+      [String]$Compartment,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [Switch]$Strict,
@@ -93,6 +97,15 @@
     if ($Space) {
         $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
         $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
+    }
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null

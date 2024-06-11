@@ -21,6 +21,9 @@
     .PARAMETER IncludeInheritance
         Whether to include data inherited from parent objects in results
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -67,6 +70,7 @@
       [Int]$CIDR,
       [String]$Space,
       [String]$Name,
+      [String]$Compartment,
       [Switch]$IncludeInheritance,
       [Switch]$Strict,
       [Int]$Limit = 1000,
@@ -108,6 +112,15 @@
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

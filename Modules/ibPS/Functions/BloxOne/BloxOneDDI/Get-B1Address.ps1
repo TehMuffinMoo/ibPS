@@ -15,6 +15,9 @@
     .PARAMETER Reserved
         Use this parameter to filter the list of addresses to those which have a usage of Reserved
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
@@ -56,6 +59,7 @@
       [Parameter(ParameterSetName="With Address")]
       [String]$State,
       [Switch]$Reserved,
+      [String]$Compartment,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String]$tfilter,
@@ -82,14 +86,18 @@
       if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
       }
+      if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
+      }
       if ($Filters) {
-        $Filter = "_filter="+(Combine-Filters $Filters)
-      }
-      if ($State) {
-          $QueryFilters.Add("address_state=$State") | Out-Null
-      }
-      if ($Filter) {
-        $QueryFilters.Add($Filter) | Out-Null
+        $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
       }
       if ($Limit) {
         $QueryFilters.Add("_limit=$Limit") | Out-Null

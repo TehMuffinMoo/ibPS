@@ -9,6 +9,9 @@
     .PARAMETER Name
         Use this parameter to filter the list of spaces by name
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
@@ -54,6 +57,7 @@
       [Switch]$Strict = $false,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [String]$Compartment,
       [String]$tfilter,
       [String[]]$Fields,
       [String]$OrderBy,
@@ -71,6 +75,15 @@
     }
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null

@@ -129,3 +129,23 @@ $B1DDIDTCPools = {
 }
 Register-ArgumentCompleter -CommandName New-B1DTCPolicy -ParameterName Pools -ScriptBlock $B1DDIDTCPools
 Register-ArgumentCompleter -CommandName New-B1DTCTopologyRule -ParameterName Pool -ScriptBlock $B1DDIDTCPools
+
+$B1Compartments = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1Compartment -Name $wordToComplete).name
+}
+$B1CompartmentFunctions = @(
+    'Get-B1Range'
+    'Get-B1Subnet'
+    'Get-B1AddressBlock'
+    'New-B1AddressBlock'
+    'Set-B1AddressBlock'
+    'Get-B1AuthoritativeZone'
+    'New-B1AuthoritativeZone'
+    'Set-B1AuthoritativeZone'
+    'Get-B1ForwardZone'
+    'Get-B1Record'
+    'Get-B1Address'
+    'New-B1Space'
+)
+Register-ArgumentCompleter -CommandName $B1CompartmentFunctions -ParameterName Compartment -ScriptBlock $B1Compartments

@@ -1,5 +1,19 @@
-- Add `Get-B1Compartment` function
-- Add support for configuring Compartments when using `New-B1AddressBlock`, `Set-B1AddressBlock`, `New-B1AuthoritativeZone` & `Set-B1AuthoritativeZone`
+- Add `Get-B1Compartment` for listing Organizational Compartments
+- Add support for configuring Organizational Compartments when using:
+
+|                            |                            |                            |
+|:---------------------------|:---------------------------|:---------------------------|
+| `New-B1AddressBlock`       | `Set-B1AddressBlock`       | `New-B1AuthoritativeZone`  |
+| `Set-B1AuthoritativeZone`  | `New-B1Space`              |                            |
+
+- Add support for filtering by Organizational Compartment when using:
+
+|                            |                            |                            |
+|:---------------------------|:---------------------------|:---------------------------|
+| `Get-B1Subnet`             | `Get-B1AddressBlock`       | `Get-B1Range`              |
+| `Get-B1AuthoritativeZone`  | `Get-B1ForwardZone`        | `Get-B1Record`             |
+| `Get-B1Address`            | `Get-B1Space`              |                            |
+
 - Add/Align `-CustomFilters` support to:
 
 |                            |                            |                            |

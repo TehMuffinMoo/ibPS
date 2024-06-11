@@ -18,6 +18,9 @@
     .PARAMETER View
         The DNS View where the forward zone(s) are located
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
@@ -57,6 +60,7 @@
       [bool]$Disabled,
       [switch]$Strict = $false,
       [String]$View,
+      [String]$Compartment,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String]$tfilter,
@@ -84,6 +88,15 @@
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

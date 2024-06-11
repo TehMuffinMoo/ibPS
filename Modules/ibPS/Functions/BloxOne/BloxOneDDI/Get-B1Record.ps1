@@ -29,6 +29,9 @@
 
         Filtering by DNS View is not supported by this API endpoint, so the filtering is done in postprocessing after the query is made. This means if the -View parameter is specified, it will only filter on already returned results.
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -77,6 +80,7 @@
       [String]$rdata,
       [String]$FQDN,
       [String]$Source,
+      [String]$Compartment,
       [String]$View,
       [Switch]$Strict,
       [Int]$Limit = 1000,
@@ -124,7 +128,15 @@
         }
         $Filters.Add("absolute_zone_name$MatchType`"$Zone`"") | Out-Null
     }
-    
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
+    }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
         $QueryFilters.Add("_filter=$Filter") | Out-Null
