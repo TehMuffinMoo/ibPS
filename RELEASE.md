@@ -3,8 +3,8 @@
 
 |                            |                            |                            |
 |:---------------------------|:---------------------------|:---------------------------|
-| `New-B1AddressBlock`       | `Set-B1AddressBlock`       | `New-B1AuthoritativeZone`  |
-| `Set-B1AuthoritativeZone`  | `New-B1Space`              |                            |
+| `New-B1AuthoritativeZone`  | `New-B1AddressBlock`       | `New-B1Space`              |
+| `Set-B1AuthoritativeZone`  | `Set-B1AddressBlock`       |                            |
 
 - Add support for filtering by Organizational Compartment when using:
 
