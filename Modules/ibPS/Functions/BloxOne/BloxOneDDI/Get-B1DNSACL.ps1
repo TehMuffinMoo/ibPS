@@ -30,6 +30,10 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Return results based on DNS Access Control List id
         
@@ -51,12 +55,16 @@
         [String]$OrderBy,
         [String]$OrderByTag,
         [switch]$Strict,
+        $CustomFilters,
         [String]$id
     )
 
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
     }

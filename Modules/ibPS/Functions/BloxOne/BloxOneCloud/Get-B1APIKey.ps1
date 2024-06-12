@@ -70,53 +70,54 @@ function Get-B1APIKey {
         [String]$id
     )
 
-    $QueryFilters = @()
-    $QueryFilters += "_limit=$Limit"
-    $QueryFilters += "_offset=$Offset"
-
+    [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
+    $MatchType = Match-Type $Strict
     if ($CustomFilters) {
-        $ParamFilter = Combine-Filters $CustomFilters
-    } else {
-        $MatchType = Match-Type $Strict
-
-        [System.Collections.ArrayList]$ParamFilters = @()
-        if ($User) {
-            $ParamFilters += "user_email$MatchType`"$User`""
-        }
-        if ($CreatedBy) {
-            $ParamFilters += "created_by$MatchType`"$CreatedBy`""
-        }
-        if ($Name) {
-            $ParamFilters += "name$MatchType`"$Name`""
-        }
-        if ($Type) {
-            $ParamFilters += "type:=`"$Type`""
-        }
-        if ($State) {
-            $ParamFilters += "state:=`"$State`""
-        }
-        if ($id) {
-            $ParamFilters += "id==`"$id`""
-        }
-
-        $ParamFilter = Combine-Filters($ParamFilters)
+        $Filters.Add($CustomFilters) | Out-Null
     }
-
-    if ($ParamFilter) {
-        $QueryFilters += "_filter=$ParamFilter"
+    if ($User) {
+        $Filters.Add("user_email$MatchType`"$User`"") | Out-Null
+    }
+    if ($CreatedBy) {
+        $Filters.Add("created_by$MatchType`"$CreatedBy`"") | Out-Null
+    }
+    if ($Name) {
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($Type) {
+        $Filters.Add("type:=`"$Type`"") | Out-Null
+    }
+    if ($State) {
+        $Filters.Add("state:=`"$State`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    if ($Filters) {
+        $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
+    }
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
     }
     if ($Fields) {
         $Fields += "id"
-        $QueryFilters += "_fields=$($Fields -join ",")"
+        $QueryFilters.Add("_fields=$($Fields -join ",")")
     }
     if ($OrderBy) {
-        $QueryFilters += "_order_by=$($OrderBy)"
+        $QueryFilters.Add("_order_by=$($OrderBy)") | Out-Null
     }
-    $CombinedFilter += ConvertTo-QueryString($QueryFilters)
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
 
     Write-DebugMsg -Filters $QueryFilters
 
-    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/api_keys$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/api_keys$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {
         return $Results

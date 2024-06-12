@@ -79,45 +79,41 @@ function Get-B1AuditLog {
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()
 
-    if ($CustomFilters) {
-        $Filter = Combine-Filters $CustomFilters
-    } else {
-        $MatchType = Match-Type $Strict
-
-        [System.Collections.ArrayList]$Filters = @()
-        if ($Username) {
-            $Filters.Add("user_name$MatchType`"$Username`"") | Out-Null
-        }
-        if ($ResourceType) {
-            $Filters.Add("resource_type$MatchType`"$ResourceType`"") | Out-Null
-        }
-        if ($Method) {
-            $Filters.Add("http_method$MatchType`"$Method`"") | Out-Null
-        }
-        if ($ResponseCode) {
-            $Filters.Add("http_code==$ResponseCode") | Out-Null
-        }
-        if ($ClientIP) {
-            $Filters.Add("client_ip$MatchType`"$ClientIP`"") | Out-Null
-        }
-        if ($Action) {
-            $Filters.Add("action$MatchType`"$Action`"") | Out-Null
-        }
-        if ($Start) {
-            $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ssZ")
-            $Filters.Add("created_at>=`"$StartTime`"") | Out-Null
-        }
-        if ($End) {
-            $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ssZ")
-            $Filters.Add("created_at<=`"$EndTime`"") | Out-Null
-        }
-
-        if ($Filters) {
-            $Filter = Combine-Filters $Filters
-        }
-    }
-
+    $MatchType = Match-Type $Strict
+    [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
+    if ($Username) {
+        $Filters.Add("user_name$MatchType`"$Username`"") | Out-Null
+    }
+    if ($ResourceType) {
+        $Filters.Add("resource_type$MatchType`"$ResourceType`"") | Out-Null
+    }
+    if ($Method) {
+        $Filters.Add("http_method$MatchType`"$Method`"") | Out-Null
+    }
+    if ($ResponseCode) {
+        $Filters.Add("http_code==$ResponseCode") | Out-Null
+    }
+    if ($ClientIP) {
+        $Filters.Add("client_ip$MatchType`"$ClientIP`"") | Out-Null
+    }
+    if ($Action) {
+        $Filters.Add("action$MatchType`"$Action`"") | Out-Null
+    }
+    if ($Start) {
+        $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ssZ")
+        $Filters.Add("created_at>=`"$StartTime`"") | Out-Null
+    }
+    if ($End) {
+        $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ssZ")
+        $Filters.Add("created_at<=`"$EndTime`"") | Out-Null
+    }
+    if ($Filters) {
+        $Filter = Combine-Filters $Filters
+    }
     if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }

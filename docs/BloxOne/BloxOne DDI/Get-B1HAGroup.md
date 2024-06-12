@@ -15,7 +15,7 @@ Queries a list of HA Groups from BloxOneDDI
 ```
 Get-B1HAGroup [[-Name] <String>] [-CollectStats] [[-Mode] <String>] [-Strict] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
- [[-OrderByTag] <String>] [[-id] <String>]
+ [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -188,6 +188,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 The id of the HA Group to filter by
 
@@ -197,7 +213,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -14,7 +14,7 @@ Queries a list of lookalike domains
 
 ```
 Get-B1Lookalikes [[-Domain] <String>] [[-LookalikeDomain] <String>] [[-Reason] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Muted] <String>] [-Strict]
+ [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Muted] <String>] [-Strict] [[-CustomFilters] <Object>]
 ```
 
 ## DESCRIPTION
@@ -163,6 +163,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

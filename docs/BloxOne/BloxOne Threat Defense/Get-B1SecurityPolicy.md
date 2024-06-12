@@ -15,7 +15,7 @@ Retrieves a list of BloxOne Threat Defense Security Policies
 ### Default (Default)
 ```
 Get-B1SecurityPolicy [-Name <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>]
- [-tfilter <String>] [-Strict] [<CommonParameters>]
+ [-tfilter <String>] [-Strict] [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### With ID
@@ -149,6 +149,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

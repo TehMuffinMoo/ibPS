@@ -9,6 +9,9 @@
     .PARAMETER Name
         Use this parameter to filter the list of spaces by name
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
@@ -33,6 +36,10 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .EXAMPLE
         PS> Get-B1Space -Name "Global"
     
@@ -50,10 +57,12 @@
       [Switch]$Strict = $false,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
+      [String]$Compartment,
       [String]$tfilter,
       [String[]]$Fields,
       [String]$OrderBy,
       [String]$OrderByTag,
+      $CustomFilters,
       [String]$id
     )
 
@@ -61,8 +70,20 @@
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null

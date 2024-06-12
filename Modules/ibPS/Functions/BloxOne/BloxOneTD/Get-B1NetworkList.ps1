@@ -30,6 +30,10 @@
     .PARAMETER OrderBy
         Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Filter the results by id
 
@@ -84,13 +88,18 @@
       [parameter(ParameterSetName="With ID")]
       [Int]$id,
       [parameter(ParameterSetName="Default")]
-      [Switch]$Strict
+      [Switch]$Strict,
+      [parameter(ParameterSetName="Default")]
+      $CustomFilters
     )
 
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Name) {
         $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
     }

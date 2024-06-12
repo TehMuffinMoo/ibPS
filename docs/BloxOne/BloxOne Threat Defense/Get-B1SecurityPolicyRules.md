@@ -15,13 +15,13 @@ Use this cmdlet to retrieve a list of security policy rules
 ### Default
 ```
 Get-B1SecurityPolicyRules [-PolicyID <Int32>] [-ListID <Int32>] [-CategoryFilterID <Int32>] [-Limit <Int32>]
- [-Offset <Int32>] [-Fields <String[]>] [<CommonParameters>]
+ [-Offset <Int32>] [-Fields <String[]>] [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
 Get-B1SecurityPolicyRules [-ListID <Int32>] [-CategoryFilterID <Int32>] [-Limit <Int32>] [-Offset <Int32>]
- [-Fields <String[]>] -Object <Object> [<CommonParameters>]
+ [-Fields <String[]>] [-CustomFilters <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -142,6 +142,22 @@ The default is to return all fields.
 
 ```yaml
 Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
 Parameter Sets: (All)
 Aliases:
 

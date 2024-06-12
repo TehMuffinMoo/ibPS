@@ -14,8 +14,9 @@ Queries DNS records from BloxOneDDI
 
 ```
 Get-B1Record [[-Type] <String>] [[-Name] <String>] [[-Zone] <String>] [[-rdata] <String>] [[-FQDN] <String>]
- [[-Source] <String>] [[-View] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [-IncludeInheritance]
- [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
+ [[-Source] <String>] [[-Compartment] <String>] [[-View] <String>] [-Strict] [[-Limit] <Int32>]
+ [[-Offset] <Int32>] [-IncludeInheritance] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
+ [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -120,6 +121,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Compartment
+Filter the results by Compartment Name
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -View
 The DNS View to filter by
 
@@ -132,7 +148,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -165,7 +181,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -180,7 +196,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -210,7 +226,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -226,7 +242,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -243,7 +259,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -259,7 +275,23 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 14
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 15
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -274,7 +306,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 14
+Position: 16
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -27,6 +27,10 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields. This doesn't currently work due to the API side not filtering as expected.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER Muted
         Using the -Muted parameter allows you to filter results based on muted status
 
@@ -61,24 +65,28 @@
       [String[]]$Fields,
       [ValidateSet('true','false')]
       [String]$Muted,
-      [Switch]$Strict
+      [Switch]$Strict,
+      $CustomFilters
     )
 
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Domain) {
-      $Filters += "target_domain$($MatchType)`"$Domain`""
+      $Filters.Add("target_domain$($MatchType)`"$Domain`"") | Out-Null
     }
     if ($LookalikeDomain) {
-      $Filters += "lookalike_domain$($MatchType)`"$LookalikeDomain`""
+      $Filters.Add("lookalike_domain$($MatchType)`"$LookalikeDomain`"") | Out-Null
     }
     if ($Reason) {
-      $Filters += "reason$($MatchType)`"$Reason`""
+      $Filters.Add("reason$($MatchType)`"$Reason`"") | Out-Null
     }
     if ($Muted) {
-        $Filters += "hidden==`"$($Muted)`""
+        $Filters.Add("hidden==`"$($Muted)`"") | Out-Null
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

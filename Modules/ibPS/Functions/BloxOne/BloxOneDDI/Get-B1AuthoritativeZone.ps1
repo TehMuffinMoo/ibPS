@@ -21,6 +21,9 @@
     .PARAMETER View
         The DNS View where the authoritative zone(s) are located
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
@@ -38,6 +41,10 @@
 
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
     .PARAMETER id
         The id of the authoritative zone to filter by
@@ -58,18 +65,23 @@
       [bool]$Disabled,
       [Switch]$Strict = $false,
       [String]$View,
+      [String]$Compartment,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [String]$tfilter,
       [String[]]$Fields,
       [String]$OrderBy,
       [String]$OrderByTag,
+      $CustomFilters,
       [String]$id
     )
-    if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
-	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
+    $MatchType = Match-Type $Strict
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($FQDN) {
         $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
     }
@@ -93,8 +105,17 @@
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
     }
-    if ($Filters) {
-        $Filter = Combine-Filters $Filters
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
+    }
+    $Filter = Combine-Filters $Filters
+    if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {

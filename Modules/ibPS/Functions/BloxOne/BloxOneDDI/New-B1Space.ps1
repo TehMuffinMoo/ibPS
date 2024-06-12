@@ -18,6 +18,9 @@
     .PARAMETER DDNSDomain
         The DDNS Domain to apply to the new IP Space. This will be inherited by any child Address Blocks, Subnets & Ranges.
 
+    .PARAMETER Compartment
+        The name of the compartment to assign to this space
+
     .PARAMETER Tags
         Any tags you want to apply to the new IP Space
 
@@ -39,6 +42,7 @@
       [String]$Description,
       [System.Object]$DHCPOptions,
       [String]$DDNSDomain,
+      [String]$Compartment,
       [System.Object]$Tags
     )
     $B1Space = Get-B1Space -Name $Name -Strict 6> $null
@@ -62,6 +66,16 @@
 		        }
             }
             $splat.inheritance_sources = $DDNSupdateBlock
+        }
+
+        if ($Compartment) {
+            $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+            if (!($CompartmentID)) {
+                Write-Error "Unable to find compartment with name: $($Compartment)"
+                return $null
+            } else {
+                $splat.compartment_id = $CompartmentID
+            }
         }
 
         if ($Tags) {

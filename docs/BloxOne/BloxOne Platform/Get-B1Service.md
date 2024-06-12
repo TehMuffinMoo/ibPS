@@ -14,8 +14,8 @@ Retrieves a list of BloxOneDDI Services
 
 ```
 Get-B1Service [-Name <String>] [-Type <String>] [-Detailed] [-Limit <Int32>] [-Offset <Int32>] [-Strict]
- [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-id <String>]
- [<CommonParameters>]
+ [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-CustomFilters <Object>]
+ [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -177,6 +177,22 @@ Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as de
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
 Parameter Sets: (All)
 Aliases:
 

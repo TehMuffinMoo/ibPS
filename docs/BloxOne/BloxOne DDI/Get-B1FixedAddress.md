@@ -15,7 +15,7 @@ Retrieves a list of Fixed Addresses in BloxOneDDI IPAM
 ```
 Get-B1FixedAddress [[-IP] <String>] [[-Name] <String>] [[-Space] <String>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [-Strict] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
- [[-OrderByTag] <String>] [[-id] <String>]
+ [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -187,6 +187,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Use the id parameter to filter the results by ID
 
@@ -196,7 +212,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

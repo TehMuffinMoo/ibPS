@@ -26,6 +26,10 @@
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
  
     .EXAMPLE
         PS> Get-B1LookalikeTargetSummary
@@ -59,12 +63,16 @@
       [Int]$Offset = 0,
       [String[]]$Fields,
       [datetime]$Start = (Get-Date).AddDays(-30),
-      [Switch]$Strict
+      [Switch]$Strict,
+      $CustomFilters
     )
 
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Domain) {
         $Filters.Add("target_domain$MatchType`"$Domain`"") | Out-Null
     }

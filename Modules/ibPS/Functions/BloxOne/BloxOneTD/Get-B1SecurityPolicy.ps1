@@ -24,6 +24,10 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Filter the results by id
 
@@ -75,6 +79,8 @@
       [String]$tfilter,
       [parameter(ParameterSetName="Default")]
       [Switch]$Strict,
+      [parameter(ParameterSetName="Default")]
+      $CustomFilters,
       [parameter(ParameterSetName="With ID")]
       [String]$id
     )
@@ -82,6 +88,9 @@
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }

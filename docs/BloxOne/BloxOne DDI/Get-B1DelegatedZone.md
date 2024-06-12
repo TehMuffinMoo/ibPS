@@ -15,7 +15,7 @@ Retrieves a list of delegated zones from BloxOneDDI
 ```
 Get-B1DelegatedZone [[-FQDN] <String>] [[-Disabled] <Boolean>] [-Strict] [[-View] <String>]
  [[-ParentId] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>]
- [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-id] <String>]
+ [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
@@ -211,6 +211,22 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Return results based on Delegated Zone id
 
@@ -220,7 +236,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

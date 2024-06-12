@@ -27,6 +27,12 @@
     .PARAMETER Description
         The description for the new zone
 
+    .PARAMETER NotifyExternalSecondaries
+        Toggle whether to notify external secondary DNS Servers for this zone.
+
+    .PARAMETER Compartment
+        The name of the compartment to assign to this authoritative zone
+
     .PARAMETER Tags
         Any tags you want to apply to the authoritative zone
 
@@ -51,6 +57,9 @@
       [System.Object]$AuthNSGs,
       [String]$DNSACL,
       [String]$Description,
+      [ValidateSet("Enabled","Disabled")]
+      [String]$NotifyExternalSecondaries,
+      [String]$Compartment,
       [System.Object]$Tags
     )
 
@@ -106,13 +115,23 @@
                 break
             }
         }
-
-        if ($Tags) {
-            $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
+        if ($NotifyExternalSecondaries) {
+            $splat.notify = $(if ($NotifyExternalSecondaries -eq 'Enabled') { $true } else { $false })
         }
-
+        if ($Tags) {
+            $splat.tags = $Tags
+        }
+        if ($Compartment) {
+            $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+            if (!($CompartmentID)) {
+                Write-Error "Unable to find compartment with name: $($Compartment)"
+                return $null
+            } else {
+                $splat.compartment_id = $CompartmentID
+            }
+        }
         if ($Description) {
-            $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
+            $splat.comment = $Description
         }
 
         $splat = $splat | ConvertTo-Json

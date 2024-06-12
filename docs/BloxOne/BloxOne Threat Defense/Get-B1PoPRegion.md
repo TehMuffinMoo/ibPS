@@ -15,7 +15,7 @@ Retrieves a list of BloxOne Threat Defense PoP Regions
 ### Default (Default)
 ```
 Get-B1PoPRegion [-Region <String>] [-Location <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>]
- [<CommonParameters>]
+ [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### With ID
@@ -122,6 +122,22 @@ The default is to return all fields.
 
 ```yaml
 Type: String[]
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
 Parameter Sets: Default
 Aliases:
 

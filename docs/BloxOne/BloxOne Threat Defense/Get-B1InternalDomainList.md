@@ -16,12 +16,12 @@ Retrieves information on Internal Domain objects for this account
 ```
 Get-B1InternalDomainList [-Name <String>] [-Description <String>] [-IsDefault] [-Strict] [-Limit <Int32>]
  [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>]
- [<CommonParameters>]
+ [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### With ID
 ```
-Get-B1InternalDomainList [-OrderByTag <String>] [-id <String>] [<CommonParameters>]
+Get-B1InternalDomainList [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -206,7 +206,23 @@ Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as de
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: Default
 Aliases:
 
 Required: False

@@ -21,6 +21,9 @@
     .PARAMETER IncludeInheritance
         Whether to include data inherited from parent objects in results
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -68,6 +71,7 @@
       [String]$Name,
       [String]$Space,
       [Switch]$IncludeInheritance,
+      [String]$Compartment,
       [Switch]$Strict,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
@@ -78,38 +82,44 @@
       $CustomFilters,
       [String]$id
     )
-
-    if ($CustomFilters) {
-      $Filter = Combine-Filters $CustomFilters
-    } else {
-        $MatchType = Match-Type $Strict
-
-        [System.Collections.ArrayList]$Filters = @()
-        if ($Subnet) {
-            if ($Subnet -match '/\d') { 
-                $IPandMask = $Subnet -Split '/' 
-                $Subnet = $IPandMask[0]
-                $CIDR = $IPandMask[1]
-            }
-            $Filters.Add("address==`"$Subnet`"") | Out-Null
-        }
-        if ($CIDR) {
-            $Filters.Add("cidr==$CIDR") | Out-Null
-        }
-        if ($Name) {
-            $Filters.Add("name$MatchType`"$Name`"") | Out-Null
-        }
-        if ($id) {
-            $Filters.Add("id==`"$id`"") | Out-Null
-        }
-        if ($Space) {
-            $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
-            $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
-        }
-        $Filter = Combine-Filters $Filters
-    }
-
+    [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    $MatchType = Match-Type $Strict
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
+    if ($Subnet) {
+        if ($Subnet -match '/\d') { 
+            $IPandMask = $Subnet -Split '/' 
+            $Subnet = $IPandMask[0]
+            $CIDR = $IPandMask[1]
+        }
+        $Filters.Add("address==`"$Subnet`"") | Out-Null
+    }
+    if ($CIDR) {
+        $Filters.Add("cidr==$CIDR") | Out-Null
+    }
+    if ($Name) {
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
+    }
+    if ($id) {
+        $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    if ($Space) {
+        $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
+        $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
+    }
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
+    }
+    $Filter = Combine-Filters $Filters
+
     if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }

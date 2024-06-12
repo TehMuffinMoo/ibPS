@@ -21,6 +21,9 @@
     .PARAMETER IncludeInheritance
         Whether to include data inherited from parent objects in results
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -41,6 +44,10 @@
 
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
+
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
     .PARAMETER id
         Use this parameter to query a particular subnet id
@@ -63,6 +70,7 @@
       [Int]$CIDR,
       [String]$Space,
       [String]$Name,
+      [String]$Compartment,
       [Switch]$IncludeInheritance,
       [Switch]$Strict,
       [Int]$Limit = 1000,
@@ -71,6 +79,7 @@
       [String[]]$Fields,
       [String]$OrderBy,
       [String]$OrderByTag,
+      $CustomFilters,
       [String]$id
     )
 
@@ -78,6 +87,9 @@
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Space) {
         $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
         if ($SpaceUUID) {
@@ -100,6 +112,15 @@
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
+    }
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters

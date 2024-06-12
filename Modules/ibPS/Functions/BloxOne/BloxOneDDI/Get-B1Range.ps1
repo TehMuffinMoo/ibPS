@@ -18,6 +18,9 @@
     .PARAMETER Space
         Use this parameter to filter the list of Address Blocks by Space
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -39,6 +42,10 @@
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Filter the results by range id
 
@@ -59,6 +66,7 @@
       [String]$EndAddress,
       [String]$Name,
       [String]$Space,
+      [String]$Compartment,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
       [Switch]$Strict,
@@ -66,6 +74,7 @@
       [String[]]$Fields,
       [String]$OrderBy,
       [String]$OrderByTag,
+      $CustomFilters,
       [String]$id
     )
 
@@ -73,6 +82,9 @@
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($StartAddress) {
         $Filters.Add("start==`"$StartAddress`"") | Out-Null
     }
@@ -85,6 +97,15 @@
     if ($Space) {
         $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
         $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
+    }
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
@@ -111,10 +132,6 @@
     }
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
-    }
-    if ($Fields) {
-        $Fields += "id"
-        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters

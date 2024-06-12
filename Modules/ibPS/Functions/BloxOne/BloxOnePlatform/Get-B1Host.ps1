@@ -57,6 +57,10 @@
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
@@ -88,6 +92,7 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       [switch]$BreakOnError,
+      $CustomFilters,
       [String]$id
     )
 
@@ -97,6 +102,9 @@
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($IP) {
         $Filters.Add("ip_address$MatchType`"$IP`"") | Out-Null
     }

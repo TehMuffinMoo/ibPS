@@ -15,7 +15,7 @@ Queries the BloxOneDDI Security Log
 ```
 Get-B1SecurityLog [[-Username] <String>] [[-ClientIP] <String>] [[-Type] <String>] [[-App] <String>]
  [[-Domain] <String>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [-Strict] [-Raw]
+ [-Strict] [[-CustomFilters] <Object>] [-Raw]
 ```
 
 ## DESCRIPTION
@@ -182,6 +182,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

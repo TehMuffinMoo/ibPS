@@ -24,6 +24,10 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .EXAMPLE
         PS> Get-B1Tag -Name "siteCode"
     
@@ -40,11 +44,15 @@
         [switch]$Strict,
         [String[]]$Fields,
         [Int]$Limit = 100,
-        [Int]$Offset
+        [Int]$Offset,
+        $CustomFilters
     )
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Name) {
         $Filters.Add("key$MatchType`"$Name`"") | Out-Null
     }

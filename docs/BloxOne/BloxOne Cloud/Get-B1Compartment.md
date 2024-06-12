@@ -5,33 +5,32 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1AuthoritativeNSG
+# Get-B1Compartment
 
 ## SYNOPSIS
-Retrieves a list of Authoritative DNS Server Groups from BloxOneDDI
+Retrieves a list of Compartments from the BloxOne Cloud
 
 ## SYNTAX
 
 ```
-Get-B1AuthoritativeNSG [[-Name] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-CustomFilters] <Object>] [[-id] <String>]
+Get-B1Compartment [[-Name] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>]
+ [[-OrderBy] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
 ```
 
 ## DESCRIPTION
-This function is used to query a list Authoritative DNS Server Groups from BloxOneDDI
+This function is used to retrieve a list of Compartments from the BloxOne Cloud
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1AuthoritativeNSG -Name "Data Centre" -Strict
+Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the Authoritative DNS Server Group
+Filter the results by compartment name
 
 ```yaml
 Type: String
@@ -41,6 +40,37 @@ Aliases:
 Required: False
 Position: 1
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Limit
+Use this parameter to limit the quantity of results.
+The default and maximum number of results is 101.
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -62,52 +92,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Limit
-Use this parameter to limit the quantity of results.
-The default number of results is 100.
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 2
-Default value: 100
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Offset
-Use this parameter to offset the results by the value entered for the purpose of pagination
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 3
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -tfilter
-Use this parameter to filter the results returned by tag.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Fields
 Specify a list of fields to return.
 The default is to return all fields.
@@ -118,7 +102,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -135,23 +119,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -OrderByTag
-Optionally return the list ordered by a particular tag value.
-Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -167,14 +135,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -id
-Return results based on the authoritative NSG id
+The id of the API Key to filter by
 
 ```yaml
 Type: String
@@ -182,7 +150,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

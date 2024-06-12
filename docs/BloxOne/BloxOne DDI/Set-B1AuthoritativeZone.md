@@ -16,14 +16,14 @@ Updates an existing Authoritative Zone in BloxOneDDI
 ```
 Set-B1AuthoritativeZone -FQDN <String> [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
  -View <Object> [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>]
- [-Tags <Object>] [<CommonParameters>]
+ [-Compartment <String>] [-Tags <Object>] [<CommonParameters>]
 ```
 
 ### Object
 ```
 Set-B1AuthoritativeZone [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
- [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>] [-Tags <Object>]
- -Object <Object> [<CommonParameters>]
+ [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>] [-Compartment <String>]
+ [-Tags <Object>] -Object <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -146,6 +146,21 @@ Accept wildcard characters: False
 
 ### -NotifyExternalSecondaries
 Toggle whether to notify external secondary DNS Servers for this zone.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Compartment
+The name of the compartment to assign to this authoritative zone
 
 ```yaml
 Type: String

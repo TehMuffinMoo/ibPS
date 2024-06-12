@@ -29,6 +29,9 @@
 
         Filtering by DNS View is not supported by this API endpoint, so the filtering is done in postprocessing after the query is made. This means if the -View parameter is specified, it will only filter on already returned results.
 
+    .PARAMETER Compartment
+        Filter the results by Compartment Name
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -53,6 +56,10 @@
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
@@ -73,6 +80,7 @@
       [String]$rdata,
       [String]$FQDN,
       [String]$Source,
+      [String]$Compartment,
       [String]$View,
       [Switch]$Strict,
       [Int]$Limit = 1000,
@@ -82,12 +90,16 @@
       [String[]]$Fields,
       [String]$OrderBy,
       [String]$OrderByTag,
+      $CustomFilters,
       [String]$id
     )
 
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Type) {
       $Filters.Add("type==`"$Type`"") | Out-Null
     }
@@ -116,7 +128,15 @@
         }
         $Filters.Add("absolute_zone_name$MatchType`"$Zone`"") | Out-Null
     }
-    
+    if ($Compartment) {
+        $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+        if ($CompartmentID) {
+            $Filters.Add("compartment_id==`"$CompartmentID`"") | Out-Null
+        } else {
+            Write-Error "Unable to find compartment with name: $($Compartment)"
+            return $null
+        }
+    }
     if ($Filters) {
         $Filter = Combine-Filters $Filters
         $QueryFilters.Add("_filter=$Filter") | Out-Null
@@ -159,5 +179,5 @@
     if ($Source) {
         $Result = $Result | Where-Object {$_.source -contains $Source}
     }
-    $Result
+    return $Result
 }

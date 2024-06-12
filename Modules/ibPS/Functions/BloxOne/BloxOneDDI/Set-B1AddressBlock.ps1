@@ -36,6 +36,9 @@
     .PARAMETER Tags
         A list of tags to update on the address block. This will replace existing tags, so would normally be a combined list of existing and new tags
 
+    .PARAMETER Compartment
+        The name of the compartment to assign to this address block
+
     .PARAMETER Object
         The Address Block Object to update. Accepts pipeline input
 
@@ -72,6 +75,7 @@
       [String]$Description,
       [Int]$DHCPLeaseSeconds,
       [String]$DDNSDomain,
+      [String]$Compartment,
       [System.Object]$Tags,
       [Parameter(
         ValueFromPipeline = $true,
@@ -80,6 +84,16 @@
       )]
       [System.Object]$Object
     )
+
+    begin {
+        if ($Compartment) {
+            $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+            if (!($CompartmentID)) {
+                Write-Error "Unable to find compartment with name: $($Compartment)"
+                return $null
+            }
+        }
+    }
 
     process {
         $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization')
@@ -125,11 +139,13 @@
             $NewObj.inheritance_sources.dhcp_config.lease_time.value = $DHCPLeaseSeconds
             $NewObj.dhcp_config.lease_time = $DHCPLeaseSeconds
         }
-
         if ($DDNSDomain) {
             $NewObj.inheritance_sources.ddns_update_block.action = "override"
             $NewObj.inheritance_sources.ddns_update_block.value = @{}
             $NewObj.ddns_domain = $DDNSDomain
+        }
+        if ($CompartmentID) {
+            $NewObj.compartment_id = $CompartmentID
         }
         $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
         $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON

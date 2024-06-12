@@ -14,7 +14,8 @@ Creates a new Authoritative Zone in BloxOneDDI
 
 ```
 New-B1AuthoritativeZone [-Type] <String> [-FQDN] <String> [-View] <Object> [[-DNSHosts] <Object>]
- [[-AuthNSGs] <Object>] [[-DNSACL] <String>] [[-Description] <String>] [[-Tags] <Object>] [<CommonParameters>]
+ [[-AuthNSGs] <Object>] [[-DNSACL] <String>] [[-Description] <String>] [[-NotifyExternalSecondaries] <String>]
+ [[-Compartment] <String>] [[-Tags] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -134,6 +135,36 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -NotifyExternalSecondaries
+Toggle whether to notify external secondary DNS Servers for this zone.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Compartment
+The name of the compartment to assign to this authoritative zone
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tags
 Any tags you want to apply to the authoritative zone
 
@@ -143,7 +174,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

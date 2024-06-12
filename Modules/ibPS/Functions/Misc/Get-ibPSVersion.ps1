@@ -55,6 +55,7 @@ function Get-ibPSVersion {
       foreach ($ModuleToRemove in $ModulesToRemove) {
         Remove-Item $($ModuleToRemove.ModuleBase) -Recurse -Force -EA SilentlyContinue -WA SilentlyContinue
       }
+      Write-Host "Cleanup Complete." -ForegroundColor Green
     } else {
       $MultipleVersions = $true
     }

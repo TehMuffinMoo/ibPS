@@ -21,7 +21,14 @@ function Get-B1UserAPIKey {
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+
+    .PARAMETER Fields
+        Specify a list of fields to return. The default is to return all fields.
         
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         The id of the authoritative zone to filter by
 
@@ -44,38 +51,49 @@ function Get-B1UserAPIKey {
         [Int]$Limit = 101,
         [Int]$Offset = 0,
         [Switch]$Strict,
+        [String[]]$Fields,
+        $CustomFilters,
         [String]$id
     )
 
-    $MatchType = Match-Type $Strict
-
+	$MatchType = Match-Type $Strict
+    [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
-    if ($Limit) {
-        $QueryFilters += "_limit=$Limit"
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
     }
-    if ($Offset) {
-        $QueryFilters += "_offset=$Offset"
-    }
-
-    $ParamFilters = @()
     if ($Name) {
-        $ParamFilters += "name$MatchType`"$Name`""
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($State) {
-        $ParamFilters += "state:=`"$State`""
+        $Filters.Add("state:=`"$State`"") | Out-Null
     }
     if ($id) {
-        $ParamFilters += "id==`"$id`""
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
-
-    if ($ParamFilters) {
-        $ParamFilter = Combine-Filters($ParamFilters)
-        $QueryFilters += "_filter=$ParamFilter"
+    if ($Filters) {
+        $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
-
-    $CombinedFilter += ConvertTo-QueryString($QueryFilters)
+    if ($Fields) {
+        $Fields += "id"
+        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+    }
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$($Limit)") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$($Offset)") | Out-Null
+    }
+    if ($QueryFilters) {
+        $QueryString = ConvertTo-QueryString $QueryFilters
+    }
     Write-DebugMsg -Filters $QueryFilters
-    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    if ($QueryString) {
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    } else {
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    }
 
     if ($Results) {
         return $Results

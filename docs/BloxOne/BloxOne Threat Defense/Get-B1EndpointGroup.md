@@ -16,14 +16,15 @@ Retrieves a list of BloxOne Endpoints from BloxOne Threat Defense.
 ```
 Get-B1EndpointGroup [-Name <String>] [-Status <String>] [-AssociatedPolicy <String>] [-BypassMode <String>]
  [-Inactivity <Int32>] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-OrderBy <String>] [-OrderByTag <String>] [-Strict] [<CommonParameters>]
+ [-OrderBy <String>] [-OrderByTag <String>] [-Strict] [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### ID
 ```
 Get-B1EndpointGroup [-Name <String>] [-Status <String>] [-AssociatedPolicy <String>] [-BypassMode <String>]
  [-Inactivity <Int32>] [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>]
- [-OrderBy <String>] [-OrderByTag <String>] [-Strict] -id <String> [<CommonParameters>]
+ [-OrderBy <String>] [-OrderByTag <String>] [-Strict] [-CustomFilters <Object>] -id <String>
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -221,6 +222,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

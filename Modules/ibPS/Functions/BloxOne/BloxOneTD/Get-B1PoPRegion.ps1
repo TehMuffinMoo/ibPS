@@ -21,6 +21,10 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         Filter the results by id
 
@@ -62,12 +66,17 @@
       [Int]$Offset,
       [Parameter(ParameterSetName="Default")]
       [String[]]$Fields,
+      [Parameter(ParameterSetName="Default")]
+      $CustomFilters,
       [parameter(ParameterSetName="With ID")]
       [String]$id
     )
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Region) {
         $Filters.Add("region==`"$Region`"") | Out-Null
     }

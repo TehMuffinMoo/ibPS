@@ -30,6 +30,9 @@
     .PARAMETER NotifyExternalSecondaries
         Toggle whether to notify external secondary DNS Servers for this zone.
 
+    .PARAMETER Compartment
+        The name of the compartment to assign to this authoritative zone
+
     .PARAMETER Tags
         A list of tags to update on the authoritative zone. This will replace existing tags, so would normally be a combined list of existing and new tags
 
@@ -58,6 +61,7 @@
       [String]$State,
       [ValidateSet("Enabled","Disabled")]
       [String]$NotifyExternalSecondaries,
+      [String]$Compartment,
       [System.Object]$Tags,
       [Parameter(
         ValueFromPipeline = $true,
@@ -66,6 +70,16 @@
       )]
       [System.Object]$Object
     )
+
+    begin {
+        if ($Compartment) {
+            $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
+            if (!($CompartmentID)) {
+                Write-Error "Unable to find compartment with name: $($Compartment)"
+                return $null
+            }
+        }
+    }
 
     process {
         if ($Object) {
@@ -95,7 +109,9 @@
         if ($Tags) {
             $NewObj.tags = $Tags
         }
-
+        if ($CompartmentID) {
+            $NewObj.compartment_id = $CompartmentID
+        }
         if ($DNSHosts) {
             $B1Hosts = New-Object System.Collections.ArrayList
             foreach ($DNSHost in $DNSHosts) {

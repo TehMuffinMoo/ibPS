@@ -51,6 +51,10 @@ function Get-B1Location {
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .PARAMETER id
         The id of the Location to filter by
 
@@ -86,52 +90,57 @@ function Get-B1Location {
         [String[]]$Fields,
         [String]$OrderBy,
         [String]$OrderByTag,
+        $CustomFilters,
         [String]$id
     )
 
-    $QueryFilters = @()
-    $QueryFilters += "_limit=$Limit"
-    $QueryFilters += "_offset=$Offset"
-
     $MatchType = Match-Type $Strict
 
-    [System.Collections.ArrayList]$ParamFilters = @()
+    [System.Collections.ArrayList]$Filters = @()
+    [System.Collections.ArrayList]$QueryFilters = @()
+    if ($CustomFilters) {
+        $Filters.Add($CustomFilters) | Out-Null
+    }
     if ($Name) {
-        $ParamFilters += "name$MatchType`"$Name`""
+        $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
     if ($Description) {
-        $ParamFilters += "description$MatchType`"$Description`""
+        $Filters.Add("description$MatchType`"$Description`"") | Out-Null
     }
     if ($Address) {
-        $ParamFilters += "address.address$MatchType`"$Address`""
+        $Filters.Add("address.address$MatchType`"$Address`"") | Out-Null
     }
     if ($City) {
-        $ParamFilters += "address.city$MatchType`"$City`""
+        $Filters.Add("address.city$MatchType`"$City`"") | Out-Null
     }
     if ($State) {
-        $ParamFilters += "address.state$MatchType`"$State`""
+        $Filters.Add("address.state$MatchType`"$State`"") | Out-Null
     }
     if ($PostCode) {
-        $ParamFilters += "address.postal_code$MatchType`"$PostCode`""
+        $Filters.Add("address.postal_code$MatchType`"$PostCode`"") | Out-Null
     }
     if ($Country) {
-        $ParamFilters += "address.country$MatchType`"$Country`""
+        $Filters.Add("address.country$MatchType`"$Country`"") | Out-Null
     }
     if ($id) {
-        $ParamFilters += "id==`"$id`""
+        $Filters.Add("id==`"$id`"") | Out-Null
     }
-
-    $ParamFilter = Combine-Filters($ParamFilters)
-
-    if ($ParamFilter) {
-        $QueryFilters += "_filter=$ParamFilter"
+    if ($Filters) {
+        $Filter = Combine-Filters $Filters
+        $QueryFilters.Add("_filter=$Filter") | Out-Null
+    }
+    if ($Limit) {
+        $QueryFilters.Add("_limit=$Limit") | Out-Null
+    }
+    if ($Offset) {
+        $QueryFilters.Add("_offset=$Offset") | Out-Null
     }
     if ($Fields) {
         $Fields += "id"
-        $QueryFilters += "_fields=$($Fields -join ",")"
+        $QueryFilters.Add("_fields=$($Fields -join ",")")
     }
     if ($OrderBy) {
-        $QueryFilters += "_order_by=$($OrderBy)"
+        $QueryFilters.Add("_order_by=$($OrderBy)") | Out-Null
     }
     if ($OrderByTag) {
         $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null

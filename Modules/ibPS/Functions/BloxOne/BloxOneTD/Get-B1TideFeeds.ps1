@@ -6,6 +6,10 @@
     .DESCRIPTION
         This function is used to query a list of Bring Your Own File RPZ threat feeds
 
+    .PARAMETER CustomFilters
+        Accepts either an Object, ArrayList or String containing one or more custom filters.
+        See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
     .EXAMPLE
         PS> Get-B1TideFeeds | ft -AutoSize
 
@@ -24,10 +28,14 @@
         BloxOne Threat Defense
     #>
     param(
+        $CustomFilters
     )
 
     process {
       [System.Collections.ArrayList]$Filters = @()
+      if ($CustomFilters) {
+          $Filters.Add($CustomFilters) | Out-Null
+    }
       if ($Filters) {
           $Filter = "_filter="+(Combine-Filters $Filters)
       }

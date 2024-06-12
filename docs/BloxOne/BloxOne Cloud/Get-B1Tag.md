@@ -14,7 +14,7 @@ Retrieves a list of BloxOneDDI Tags
 
 ```
 Get-B1Tag [[-Name] <String>] [[-Status] <String>] [-Strict] [[-Fields] <String[]>] [[-Limit] <Int32>]
- [[-Offset] <Int32>]
+ [[-Offset] <Int32>] [[-CustomFilters] <Object>]
 ```
 
 ## DESCRIPTION
@@ -119,6 +119,22 @@ Aliases:
 Required: False
 Position: 5
 Default value: 0
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

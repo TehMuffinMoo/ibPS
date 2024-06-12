@@ -97,11 +97,10 @@
         }
 
         if ($Tags) {
-            $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
+            $splat.tags = $Tags
         }
 
         $splat = $splat | ConvertTo-Json -Depth 4
-        
 
         $Result = Invoke-CSP -Method POST -Uri "ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
         if ($Result.address -eq $Subnet) {
