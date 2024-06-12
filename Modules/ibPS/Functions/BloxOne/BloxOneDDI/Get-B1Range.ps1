@@ -133,10 +133,6 @@
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
-    if ($Fields) {
-        $Fields += "id"
-        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
-    }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
