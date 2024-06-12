@@ -22,7 +22,7 @@ function DHCP-Report {
         Return the associated parent Subnet in the results. This will considerably slow down the query in large environments.
 
     .EXAMPLE
-        PS> DHCP-Report -MinRangeSize 300 -MaxResults 15 -ResolveSubnets:$true | ft * -AutoSize
+        PS> DHCP-Report -MinRangeSize 300 -MaxResults 15 -ResolveSubnets | ft * -AutoSize
 
         Name                                RangeStart   RangeEnd       Total Dynamic Static Abandoned Used Free Utilization Subnet
         ----                                ----------   --------       ----- ------- ------ --------- ---- ---- ----------- ------
@@ -45,34 +45,12 @@ function DHCP-Report {
   param(
     [Int]$MaxResults = 100,
     [Int]$MinRangeSize = 32,
-    [Bool]$ResolveSubnets = $False
+    [Switch]$ResolveSubnets
   )
 
-  if ($ResolveSubnets) {
-    ## Get full list of all Subnets
-    Write-Host -NoNewLine "`rQuerying list of DHCP Subnets..                                           " -ForegroundColor Cyan
-    $SubnetsList = @()
-    $Subnets = Get-B1Subnet -Limit 10000 -Fields address,cidr
-    $SubnetsList += $Subnets
-    $SubnetOffset = 0
-    while ($Subnets.Count -eq 10000) {
-      $SubnetOffset += 10000
-      $Subnets = Get-B1Subnet -Limit 10000 -Offset $SubnetOffset -Fields address,cidr
-      $SubnetsList += $Subnets
-    }
-  }
-
   ## Get full list of all DHCP Ranges
-  $RangeList = @()
   Write-Host -NoNewLine "`rQuerying list of DHCP Ranges..                                           " -ForegroundColor Cyan
-  $Ranges = Get-B1Range -Limit 10000 -Fields name,start,end,utilization,parent
-  $RangeList += $Ranges
-  $RangeOffset = 0
-  while ($Ranges.Count -eq 10000) {
-    $RangeOffset += 10000
-    $Ranges = Get-B1Range -Limit 10000 -Offset $RangeOffset -Fields name,start,end,utilization,parent
-    $RangeList += $Ranges
-  }
+  $RangeList = Get-B1Range -Limit $($MaxResults) -Fields name,start,end,utilization,parent -OrderBy 'utilization.utilization desc' -CustomFilters "utilization.total>=$($MinRangeSize)"
 
   $Total = $RangeList.count
   $Current = 0
@@ -80,33 +58,31 @@ function DHCP-Report {
   foreach ($Range in $RangeList) {
     $Current++
     Write-Host -NoNewLine "`r($($Current)/$($Total)): Processing Range: $($Range.start) - $($Range.end)                                           " -ForegroundColor Cyan
-    if ([int]$($Range.utilization.total) -ge [int]$MinRangeSize) {
-      $Data = [PSCustomObject]@{
-        "Name" = $Range.name
-        "RangeStart" = $Range.start
-        "RangeEnd" = $Range.end
-        "Total" = $Range.utilization.total
-        "Dynamic" = $Range.utilization.dynamic
-        "Static" = $Range.utilization.static
-        "Abandoned" = $Range.utilization.abandoned
-        "Used" = $Range.utilization.used
-        "Free" = $Range.utilization.free
-        "Utilization" = $($Range.utilization.utilization)
-        "Parent" = $Range.parent
-      }
-      $Results += $Data
+    $Data = [PSCustomObject]@{
+      "Name" = $Range.name
+      "RangeStart" = $Range.start
+      "RangeEnd" = $Range.end
+      "Total" = $Range.utilization.total
+      "Dynamic" = $Range.utilization.dynamic
+      "Static" = $Range.utilization.static
+      "Abandoned" = $Range.utilization.abandoned
+      "Used" = $Range.utilization.used
+      "Free" = $Range.utilization.free
+      "Utilization" = $($Range.utilization.utilization)
+      "Parent" = $Range.parent
     }
+    $Results += $Data
   }
   Write-Host -NoNewLine "`r                                                                                                                                                                            "
 
-  $Results = $Results | Sort-Object Utilization | Select-Object Name,RangeStart,RangeEnd,Total,Dynamic,Static,Abandoned,Used,Free,@{name='Utilization';expr={"$($_.Utilization)%"}},Parent -Last $($MaxResults)
+  $Results = $Results | Sort-Object Utilization | Select-Object Name,RangeStart,RangeEnd,Total,Dynamic,Static,Abandoned,Used,Free,@{name='Utilization';expr={"$($_.Utilization)%"}},Parent
   if ($ResolveSubnets) {
     $SubnetCount = $Results.count
     $SubnetIter = 0
     foreach ($Result in $Results) {
       $SubnetIter++
       Write-Host -NoNewLine "`r($($SubnetIter)/$($SubnetCount)): Resolving Subnet for: $($Result.RangeStart)                                           " -ForegroundColor Cyan
-      $ParentSubnet = $($SubnetsList | Where-Object {$_.id -eq $Result.Parent})
+      $ParentSubnet = Get-B1Subnet -id $Result.parent -Fields address,cidr
       $Result | Add-Member -MemberType NoteProperty -Name "Subnet" -Value "$($ParentSubnet.address)/$($ParentSubnet.cidr)"
     }
   }
