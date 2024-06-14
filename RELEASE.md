@@ -1,1 +1,2 @@
 - Improve `Get-B1CustomList`
+- Add `-Compartments` paremeter to `Get-B1CSPCurrentUser`
