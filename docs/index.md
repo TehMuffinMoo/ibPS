@@ -119,7 +119,7 @@ Import-Module -Name ".\Modules\ibPS\BloxOne-Main.psm1" -DisableNameChecking
 In order to authenticate against the BloxOne CSP (Cloud Services Portal), you must first set your API Key. You can do this for either your current powershell session or save the API Key as persistent for your current user.
 
 ##### Persistent
-To store your API Key permenantly for your user, you can specify the <b>-Persist</b> option as shown below.
+To store your API Key permanently for your user, you can specify the <b>-Persist</b> option as shown below.
 ```powershell
 Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>" -Persist
 ```

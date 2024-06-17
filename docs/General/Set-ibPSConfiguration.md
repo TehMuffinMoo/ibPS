@@ -27,7 +27,7 @@ This function is used to set ibPS specific configuration, such as the BloxOne CS
 ```powershell
 Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
                                                                                                           
-BloxOne API key has been stored permenantly for user on MAC-DSD984HG
+BloxOne API key has been stored permanently for user on MAC-DSD984HG
 ```
 
 ### EXAMPLE 2
