@@ -34,6 +34,7 @@ jobs:
           if ($CustomModuleVersion -eq "true") {
             [version]$ModuleVersion = "${{ inputs.versionNumber }}"
           } else {
+            $ModuleVersion = $Module.Version
             $ModuleVersion = [version]::New($ModuleVersion.Major,$ModuleVersion.Minor,$ModuleVersion.Build,$ModuleVersion.Revision+1)
           }
           
