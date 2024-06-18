@@ -132,7 +132,7 @@
             $NewObj.dhcp_options = $DHCPOptions
         }
         if ($Tags) {
-            $AddressBlockPatch.tags = $Tags
+            $NewObj.tags = $Tags
         }
         if ($DHCPLeaseSeconds) {
             $NewObj.inheritance_sources.dhcp_config.lease_time.action = "override"

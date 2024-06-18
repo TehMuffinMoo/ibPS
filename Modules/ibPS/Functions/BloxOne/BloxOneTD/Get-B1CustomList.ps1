@@ -7,10 +7,13 @@
         This function is used to retrieve named lists from BloxOne Threat Defense. These are referred to and displayed as Custom Lists within the CSP.
 
     .PARAMETER Name
-        Filter results by Name. Whilst this is here, the API does not currently support filtering by name. (01/04/24)
+        Filter results by Name.
 
     .PARAMETER Description
-        Filter results by Description. Whilst this is here, the API does not currently support filtering by description. (01/04/24)
+        Filter results by Description.
+
+    .PARAMETER Description
+        Filter results by Type.
 
     .PARAMETER ReturnItems
         Optionally return the list of domains contained within the Named List. Only required when -id is not specified.
@@ -39,6 +42,23 @@
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+
+    .EXAMPLE
+        PS> Get-B1CustomList -Type 'zero_day_dns' -ReturnItems
+
+        confidence_level : HIGH
+        created_time     : 4/29/2024 3:45:51 PM
+        description      : Auto-generated
+        id               : 797118
+        item_count       : 3
+        items            : {123moviess.mom, auto-bg.info, cap-caps.shop}
+        items_described  : {@{description=; item=123moviess.mom}, @{description=; item=auto-bg.info}, @{description=; item=cap-caps.shop}}
+        name             : Threat Insight - Zero Day DNS
+        policies         : {corporate-policy}
+        tags             : 
+        threat_level     : HIGH
+        type             : zero_day_dns
+        updated_time     : 6/12/2024 12:05:44 PM
 
     .EXAMPLE
         PS> Get-B1CustomList -Limit 1 -ReturnItems
@@ -86,6 +106,8 @@
       [String]$Name,
       [parameter(ParameterSetName="Default")]
       [String]$Description,
+      [parameter(ParameterSetName="Default")]
+      [String]$Type,
       [Parameter(ParameterSetName="Default")]
       [Switch]$ReturnItems,
       [Parameter(ParameterSetName="Default")]
@@ -116,11 +138,15 @@
         if ($CustomFilters) {
             $Filters.Add($CustomFilters) | Out-Null
         }
-        if ($Name) {
-            $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
-        }
-        if ($Description) {
-            $Filters.Add("description$($MatchType)`"$Description`"") | Out-Null
+        ## API Filtering not currently supported on this endpoint - (01/04/24)
+        # if ($Name) {
+        #     $Filters.Add("name$($MatchType)`"$Name`"") | Out-Null
+        # }
+        # if ($Description) {
+        #     $Filters.Add("description$($MatchType)`"$Description`"") | Out-Null
+        # }
+        if  ($Type) {
+            $Filters.Add("type==`"$Type`"") | Out-Null
         }
         if ($Filters) {
             $Filter = Combine-Filters $Filters
@@ -152,6 +178,22 @@
             $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
     
+        ## Temporary Workaround to API Filtering Limitations. This ensures -Name & -Description can still be used, but filtering is performed by Powershell instead of the API.
+        if ($Name) {
+            if ($Strict) {
+                $Results = $Results | Where-Object {$_.name -eq $Name}
+            } else {
+                $Results = $Results | Where-Object {$_.name -like "*$($Name)*"}
+            }
+        }
+        if ($Description) {
+            if ($Strict) {
+                $Results = $Results | Where-Object {$_.description -eq $Description}
+            } else {
+                $Results = $Results | Where-Object {$_.description -like "*$($Description)*"}
+            }
+        }
+
         if ($ReturnItems) {
             $Results = $Results | Get-B1CustomList
         }

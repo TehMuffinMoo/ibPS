@@ -39,7 +39,7 @@
         if ($Platform -eq "Windows") {
           [System.Environment]::SetEnvironmentVariable('NIOSConfig',$Base64,[System.EnvironmentVariableTarget]::User)
           $ENV:NIOSConfig = $Base64
-          Write-Host "Configuration has been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+          Write-Host "Configuration has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
         } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
             [System.Environment]::SetEnvironmentVariable('NIOSConfig',$Base64,[System.EnvironmentVariableTarget]::User)
             $ENV:NIOSConfig = $Base64
@@ -48,7 +48,7 @@
             }
             sed -i '' -e '/NIOSConfig/d' ~/.zshenv
             echo "export NIOSConfig=$Base64" >> ~/.zshenv
-            Write-Host "NIOS configuration has been stored permenantly for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+            Write-Host "NIOS configuration has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
         }
     } else {
         $ENV:NIOSConfig = $Base64

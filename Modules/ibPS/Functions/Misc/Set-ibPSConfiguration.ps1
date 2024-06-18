@@ -19,7 +19,7 @@ function Set-ibPSConfiguration {
         Optionally configure the DNS over HTTPS Server to use when calling Resolve-DoHQuery
 
     .PARAMETER Persist
-        Setting the -Persist parameter will save the configuration peremenantly for your user on this device. Without using this switch, the settings will only be saved for the duration of the PowerShell session.
+        Setting the -Persist parameter will save the configuration permanently for your user on this device. Without using this switch, the settings will only be saved for the duration of the PowerShell session.
 
     .PARAMETER DevelopmentMode
         Enabling development mode will expose additional functions to allow development of new cmdlets. Enabling development mode will always apply as a persistent setting until it is disabled. This is because in some cases it may require a restart of the PowerShell session to fully enable.
@@ -33,7 +33,7 @@ function Set-ibPSConfiguration {
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
                                                                                                                   
-        BloxOne API key has been stored permenantly for user on MAC-DSD984HG
+        BloxOne API key has been stored permanently for user on MAC-DSD984HG
 
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPRegion EU
@@ -80,7 +80,7 @@ function Set-ibPSConfiguration {
         if ($Platform -eq "Windows") {
           [System.Environment]::SetEnvironmentVariable('B1CSPUrl',$CSPUrl,[System.EnvironmentVariableTarget]::User)
           $ENV:B1CSPUrl = $CSPUrl
-          Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+          Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
         } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
           $ENV:B1CSPUrl = $CSPUrl
           if (!(Test-Path ~/.zshenv)) {
@@ -88,7 +88,7 @@ function Set-ibPSConfiguration {
           }
           sed -i '' -e '/B1CSPUrl/d' ~/.zshenv
           echo "export B1CSPUrl=$CSPUrl" >> ~/.zshenv
-          Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permenantly for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+          Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
         }
       } else {
           $ENV:B1CSPUrl = $CSPUrl
@@ -107,7 +107,7 @@ function Set-ibPSConfiguration {
       if ($Platform -eq "Windows") {
         [System.Environment]::SetEnvironmentVariable('B1APIKey',$Base64,[System.EnvironmentVariableTarget]::User)
         $ENV:B1APIKey = $Base64
-        Write-Host "BloxOne API key has been stored permenantly for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+        Write-Host "BloxOne API key has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
       } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
         $ENV:B1APIKey = $Base64
         if (!(Test-Path ~/.zshenv)) {
@@ -115,7 +115,7 @@ function Set-ibPSConfiguration {
         }
         sed -i '' -e '/B1APIKey/d' ~/.zshenv
         echo "export B1APIKey=$Base64" >> ~/.zshenv
-        Write-Host "BloxOne API key has been stored permenantly for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+        Write-Host "BloxOne API key has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
       }
     } else {
         $ENV:B1APIKey = $Base64
