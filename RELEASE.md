@@ -1,2 +1,3 @@
 - Improve `Get-B1CustomList`
 - Add `-Compartments` paremeter to `Get-B1CSPCurrentUser`
+- Fix bug when updating tags using `Set-B1AddressBlock` and `Set-B1Subnet` (Issue #137)[#139]
