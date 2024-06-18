@@ -110,7 +110,7 @@ Accept wildcard characters: False
 ```
 
 ### -Persist
-Setting the -Persist parameter will save the configuration peremenantly for your user on this device.
+Setting the -Persist parameter will save the configuration permanently for your user on this device.
 Without using this switch, the settings will only be saved for the duration of the PowerShell session.
 
 ```yaml
