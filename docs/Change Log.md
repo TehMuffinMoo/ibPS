@@ -1,3 +1,9 @@
+## 1.9.7.2
+- Improve `Get-B1CustomList`
+- Add `-Compartments` paremeter to `Get-B1CSPCurrentUser`
+- Fix some typos
+- Fix bug when updating tags using `Set-B1AddressBlock` and `Set-B1Subnet` [#139](https://github.com/TehMuffinMoo/ibPS/issues/139)
+
 ## 1.9.7.1
 - Add `Get-B1Compartment` for listing Organizational Compartments
 - Add support for configuring Organizational Compartments when using:
@@ -339,6 +345,7 @@
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 

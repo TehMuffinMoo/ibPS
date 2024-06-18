@@ -14,9 +14,9 @@ Retrieves a Custom List from BloxOne Threat Defense
 
 ### Default (Default)
 ```
-Get-B1CustomList [-Name <String>] [-Description <String>] [-ReturnItems] [-Limit <Int32>] [-Offset <Int32>]
- [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-Strict] [-CustomFilters <Object>]
- [<CommonParameters>]
+Get-B1CustomList [-Name <String>] [-Description <String>] [-Type <String>] [-ReturnItems] [-Limit <Int32>]
+ [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-Strict]
+ [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### ID
@@ -31,6 +31,25 @@ These are referred to and displayed as Custom Lists within the CSP.
 ## EXAMPLES
 
 ### EXAMPLE 1
+```powershell
+Get-B1CustomList -Type 'zero_day_dns' -ReturnItems
+
+confidence_level : HIGH
+created_time     : 4/29/2024 3:45:51 PM
+description      : Auto-generated
+id               : 797118
+item_count       : 3
+items            : {123moviess.mom, auto-bg.info, cap-caps.shop}
+items_described  : {@{description=; item=123moviess.mom}, @{description=; item=auto-bg.info}, @{description=; item=cap-caps.shop}}
+name             : Threat Insight - Zero Day DNS
+policies         : {corporate-policy}
+tags             : 
+threat_level     : HIGH
+type             : zero_day_dns
+updated_time     : 6/12/2024 12:05:44 PM
+```
+
+### EXAMPLE 2
 ```powershell
 Get-B1CustomList -Limit 1 -ReturnItems
 
@@ -49,7 +68,7 @@ type             : custom_list
 updated_time     : 4/3/2024 9:49:28AM
 ```
 
-### EXAMPLE 2
+### EXAMPLE 3
 ```powershell
 Get-B1CustomList -id 123456
 
@@ -72,8 +91,6 @@ updated_time     : 4/3/2024 9:49:28AM
 
 ### -Name
 Filter results by Name.
-Whilst this is here, the API does not currently support filtering by name.
-(01/04/24)
 
 ```yaml
 Type: String
@@ -89,8 +106,21 @@ Accept wildcard characters: False
 
 ### -Description
 Filter results by Description.
-Whilst this is here, the API does not currently support filtering by description.
-(01/04/24)
+
+```yaml
+Type: String
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Type
+{{ Fill Type Description }}
 
 ```yaml
 Type: String

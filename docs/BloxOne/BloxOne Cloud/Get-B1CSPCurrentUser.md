@@ -27,6 +27,11 @@ Get-B1CSPCurrentUser [-Groups] [<CommonParameters>]
 Get-B1CSPCurrentUser [-Account] [<CommonParameters>]
 ```
 
+### Compartments
+```
+Get-B1CSPCurrentUser [-Compartments] [<CommonParameters>]
+```
+
 ## DESCRIPTION
 This function will retrieve the user associated with the current API key
 
@@ -60,6 +65,21 @@ Using the -Account switch will return the account data associated with the curre
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Account
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Compartments
+Using the -Compartments switch will return a list of Compartments associated with the current user
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Compartments
 Aliases:
 
 Required: False
