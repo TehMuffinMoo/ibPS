@@ -1,3 +1,4 @@
 - Improve `Get-B1CustomList`
 - Add `-Compartments` paremeter to `Get-B1CSPCurrentUser`
+- Fix some typos
 - Fix bug when updating tags using `Set-B1AddressBlock` and `Set-B1Subnet` [#139](https://github.com/TehMuffinMoo/ibPS/issues/139)
