@@ -167,7 +167,7 @@
     #>
     param(
       [Parameter(Mandatory=$true)]
-      [ValidateSet("VMware","Hyper-V")]
+      [ValidateSet("VMware","Hyper-V","Azure")]
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -323,6 +323,69 @@
                  }
                  return $paramDictionary
            }
+           "Azure" {
+                $AzTenantAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzTenantAttribute.Position = 1
+                $AzTenantAttribute.Mandatory = $true
+                $AzTenantAttribute.HelpMessageBaseName = "AzTenant"
+                $AzTenantAttribute.HelpMessage = "The AzTenant parameter is used to define the Azure Tenant ID to connect to during deployment."
+
+                $AzSubscriptionAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzSubscriptionAttribute.Position = 1
+                $AzSubscriptionAttribute.Mandatory = $true
+                $AzSubscriptionAttribute.HelpMessageBaseName = "AzSubscription"
+                $AzSubscriptionAttribute.HelpMessage = "The AzSubscription parameter is used to define the Azure Subscription ID to connect to during deployment."
+
+                $AzLocationAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzLocationAttribute.Position = 2
+                $AzLocationAttribute.Mandatory = $true
+                $AzLocationAttribute.HelpMessageBaseName = "AzLocation"
+                $AzLocationAttribute.HelpMessage = "The AzLocation parameter is used to define the Azure Location to deploy the new VM to."
+
+                $AzResourceGroupAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzResourceGroupAttribute.Position = 3
+                $AzResourceGroupAttribute.Mandatory = $true
+                $AzResourceGroupAttribute.HelpMessageBaseName = "AzResourceGroup"
+                $AzResourceGroupAttribute.HelpMessage = "The AzResourceGroup parameter is used to define the Azure Resource Group to deploy the new VM in."
+
+                $AzVirtualNetworkAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzVirtualNetworkAttribute.Position = 4
+                $AzVirtualNetworkAttribute.Mandatory = $true
+                $AzVirtualNetworkAttribute.HelpMessageBaseName = "AzVirtualNetwork"
+                $AzVirtualNetworkAttribute.HelpMessage = "The AzVirtualNetwork parameter is used to define the Azure Virtual Network to deploy the new VM in."
+
+                $AzOfferAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzOfferAttribute.Position = 5
+                $AzOfferAttribute.Mandatory = $true
+                $AzOfferAttribute.HelpMessageBaseName = "AzOffer"
+                $AzOfferAttribute.HelpMessage = "The AzOffer parameter is used to define the Azure Marketplace Image Offer to deploy the new VM with."
+
+                $AzSkuAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzSkuAttribute.Position = 6
+                $AzSkuAttribute.Mandatory = $true
+                $AzSkuAttribute.HelpMessageBaseName = "AzSku"
+                $AzSkuAttribute.HelpMessage = "The AzSku parameter is used to define the Azure Marketplace Image SKU to deploy the new VM with."
+
+                $AzSizeAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzSizeAttribute.Position = 6
+                $AzSizeAttribute.Mandatory = $true
+                $AzSizeAttribute.HelpMessageBaseName = "AzSize"
+                $AzSizeAttribute.HelpMessage = "The AzSize parameter is used to define the Azure VM Size to use when deploying the new VM."
+
+                $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+
+                foreach ($ParamItem in ($AzTenantAttribute,$AzSubscriptionAttribute,$AzLocationAttribute,$AzOfferAttribute,$AzSkuAttribute,$AzResourceGroupAttribute,$AzVirtualNetworkAttribute,$AzSizeAttribute)) {
+                    $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+                    $AttributeCollection.Add($ParamItem)
+                    if ($($ParamItem.HelpMessageBaseName -eq "Creds")) {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [pscredential], $AttributeCollection)    
+                    } else {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
+                    }
+                    $paramDictionary.Add($($ParamItem.HelpMessageBaseName), $DefinedParam)
+                }
+                return $paramDictionary
+           }
        }
    }
 
@@ -348,6 +411,19 @@
                     return $null
                 }
             }
+            "Azure" {
+                $MissingPackages = @()
+                #,'Az.Resources'
+                @('Az.Accounts','Az.Compute') | %{
+                    if (!(Get-Module -ListAvailable -Name $_)) {
+                        $MissingPackages += $_
+                    }
+                }
+                if ($MissingPackages) {
+                    Write-Error 'You must have the following PowerShell Modules installed to deploy to Azure.'
+                    return $MissingPackages
+                }
+            }
         }
 
         if (!($SkipPingChecks)) {
@@ -364,72 +440,74 @@
             }
         }
 
-        if ($DownloadLatestImage) {
-            Write-Host "-DownloadLatestImage is selected. The latest BloxOne image will be used." -ForegroundColor Cyan
-            if ($PSBoundParameters['OVAPath'] -or $PSBoundParameters['VHDPath']) {
-                Write-Error "-DownloadLatestImage cannot be used in conjunction with -OVAPath or -VHDPath"
-                return $null
-            }
-            if ($ImagesPath) {
-                Write-Host "-ImagesPath is selected. Collecting existing cached images.." -ForegroundColor Cyan
-                if (!(Test-Path $ImagesPath)) {
-                    Write-Host "-ImagesPath: $($ImagesPath) does not exist. Attempting to create it.." -ForegroundColor Yellow
-                    if ($ImagesDir = New-Item -Type Directory $ImagesPath) {
-                        Write-Host "Successfully created $($ImagesPath)" -ForegroundColor Cyan
-                        $CurrentImages = Get-ChildItem $ImagesPath
-                    } else {
-                        Write-Error "Error. Failed to create -ImagesPath: $($ImagesPath)"
-                    }
-                } else {
-                    $CurrentImages = Get-ChildItem $ImagesPath
-                }
-            } else {
-                Write-Host "-ImagesPath not set. Downloaded images will not be cached." -ForegroundColor Yellow
-            }
-            $Images = Get-B1Object -Product 'Bloxone Cloud' -App BootstrapApp -Endpoint /images
-            switch ($Type) {
-                "VMware" {
-                    $Image = $Images | Where-Object {$_.desc -like "*OVA"}
-                }
-                "Hyper-V" {
-                    switch($PSBoundParameters['HyperVGeneration']) {
-                        1 {
-                            $Image = $Images | Where-Object {$_.desc -like "*Azure/HyperV"}
-                        }
-                        2 {
-                            $Image = $Images | Where-Object {$_.desc -like "*Hyper-V Gen 2"}
-                        }
-                    }
-                }
-            }
-            if ($Image) {
-                $($Image.link) -match "^.*\/(.*)$" | Out-Null
-                if ($Matches) {
-                    $ImageFileName = $Matches[1]
-                    if ($ImagesPath) {
-                        if (!(Test-Path "$($ImagesPath)\$($ImageFileName)")) {
-                            Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
-                            Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($ImagesPath)\$($ImageFileName)"
-                        } else {
-                            Write-Host "Latest image already downloaded: $($ImageFileName)" -ForegroundColor Cyan
-                        }
-                        $ImageFile = "$($ImagesPath)\$($ImageFileName)"
-                    } else {
-                        if (!(Test-Path "$($ImageFileName)")) {
-                            Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
-                            Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($ImageFileName)"
-                        } else {
-                            Write-Host "Latest image already downloaded: $($ImageFileName)" -ForegroundColor Cyan
-                        }
-                        $ImageFile = "$($ImageFileName)"
-                    }
-                } else {
-                    Write-Error "Error. Failed to identify image name."
+        if ($Type -in @('VMware','Hyper-V')) {
+            if ($DownloadLatestImage) {
+                Write-Host "-DownloadLatestImage is selected. The latest BloxOne image will be used." -ForegroundColor Cyan
+                if ($PSBoundParameters['OVAPath'] -or $PSBoundParameters['VHDPath']) {
+                    Write-Error "-DownloadLatestImage cannot be used in conjunction with -OVAPath or -VHDPath"
                     return $null
                 }
-            } else {
-                Write-Error "Error. Failed to find image."
-                return $null
+                if ($ImagesPath) {
+                    Write-Host "-ImagesPath is selected. Collecting existing cached images.." -ForegroundColor Cyan
+                    if (!(Test-Path $ImagesPath)) {
+                        Write-Host "-ImagesPath: $($ImagesPath) does not exist. Attempting to create it.." -ForegroundColor Yellow
+                        if ($ImagesDir = New-Item -Type Directory $ImagesPath) {
+                            Write-Host "Successfully created $($ImagesPath)" -ForegroundColor Cyan
+                            $CurrentImages = Get-ChildItem $ImagesPath
+                        } else {
+                            Write-Error "Error. Failed to create -ImagesPath: $($ImagesPath)"
+                        }
+                    } else {
+                        $CurrentImages = Get-ChildItem $ImagesPath
+                    }
+                } else {
+                    Write-Host "-ImagesPath not set. Downloaded images will not be cached." -ForegroundColor Yellow
+                }
+                $Images = Get-B1Object -Product 'Bloxone Cloud' -App BootstrapApp -Endpoint /images
+                switch ($Type) {
+                    "VMware" {
+                        $Image = $Images | Where-Object {$_.desc -like "*OVA"}
+                    }
+                    "Hyper-V" {
+                        switch($PSBoundParameters['HyperVGeneration']) {
+                            1 {
+                                $Image = $Images | Where-Object {$_.desc -like "*Azure/HyperV"}
+                            }
+                            2 {
+                                $Image = $Images | Where-Object {$_.desc -like "*Hyper-V Gen 2"}
+                            }
+                        }
+                    }
+                }
+                if ($Image) {
+                    $($Image.link) -match "^.*\/(.*)$" | Out-Null
+                    if ($Matches) {
+                        $ImageFileName = $Matches[1]
+                        if ($ImagesPath) {
+                            if (!(Test-Path "$($ImagesPath)\$($ImageFileName)")) {
+                                Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
+                                Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($ImagesPath)\$($ImageFileName)"
+                            } else {
+                                Write-Host "Latest image already downloaded: $($ImageFileName)" -ForegroundColor Cyan
+                            }
+                            $ImageFile = "$($ImagesPath)\$($ImageFileName)"
+                        } else {
+                            if (!(Test-Path "$($ImageFileName)")) {
+                                Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
+                                Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($ImageFileName)"
+                            } else {
+                                Write-Host "Latest image already downloaded: $($ImageFileName)" -ForegroundColor Cyan
+                            }
+                            $ImageFile = "$($ImageFileName)"
+                        }
+                    } else {
+                        Write-Error "Error. Failed to identify image name."
+                        return $null
+                    }
+                } else {
+                    Write-Error "Error. Failed to find image."
+                    return $null
+                }
             }
         }
 
@@ -660,6 +738,54 @@
                         }
                     }
                   
+                }
+            }
+            "Azure" {
+                $AzContext = Get-AzContext
+                if (!($AzContext)) {
+                    Connect-AzAccount -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
+                } elseif (($AzContext.Tenant -ne $($PSBoundParameters.AzTenant)) -or ($AzContext.Subscription -ne $($PSBoundParameters.AzSubscription))) {
+                    try {
+                        Set-AzContext -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
+                    } catch {
+                        return $_.Exception.Message
+                    }
+                }
+                $AzureOffer = Get-AzVMImageOffer -PublisherName 'Infoblox' -Location $($PSBoundParameters.AzLocation) | Where-Object {$_.Offer -eq $PSBoundParameters.AzOffer}
+                if ($AzureOffer) {
+                    $AzureSku = Get-AzVMImageSku -Location $($PSBoundParameters.AzLocation) -PublisherName 'Infoblox' -Offer $AzureOffer.Offer | Where-Object {$_.Skus -eq $PSBoundParameters.AzSku}
+                    if ($AzureSku) {
+                        $AzureImage = Get-AzVMImage -Location $($PSBoundParameters.AzLocation) -PublisherName 'Infoblox' -Offer $AzureOffer.Offer -Sku $($AzureSku.Skus)
+                        if ($AzureImage) {
+                            $AzureImageURN = "Infoblox:$($PSBoundParameters.AzOffer):$($PSBoundParameters.AzSku):$($AzureImage.Version)"
+
+                            ## Deploy VM
+                            $VMConfig = New-AzVMConfig -VMName $($PSBoundParameters.Name) -VMSize $($PSBoundParameters.AzSize)
+                            $VMConfig | Set-AzVMPlan -Name $($AzureSku.Skus) -Product $($AzureOffer.Offer) -Publisher 'Infoblox'
+                            $VMProperties = @{
+                                'ResourceGroupName' = $($PSBoundParameters.AzResourceGroup)
+                                'VirtualNetworkName' = $($PSBoundParameters.AzVirtualNetwork)
+                                'Image' = $($AzureImageURN)
+                                'VM' = $VMConfig
+                            }
+                            New-AzVM @VMProperties
+                        } else {
+                            Write-Error "Unable to find Azure Image."
+                            return @{
+                                "Location" = $($PSBoundParameters.AzLocation)
+                                "PublisherName" = 'Infoblox'
+                                "Offer" = $AzureOffer.Offer
+                                "Sku" = $AzureSku.Skus
+                            }
+                        }
+                    } else {
+                        Write-Error "Unable to find Azure SKU with name: $($PSBoundParameters.AzSku)"
+                        return $null
+                    }
+                    Write-Host "Deploy something.."
+                } else {
+                    Write-Error "Unable to find Azure Offer with name: $($PSBoundParameters.AzOffer)"
+                    return $null
                 }
             }
         }
