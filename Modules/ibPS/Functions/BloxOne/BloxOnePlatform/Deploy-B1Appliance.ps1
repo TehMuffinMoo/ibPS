@@ -156,6 +156,23 @@
                            -VirtualNetwork "Virtual Network 1" `
                            -VirtualNetworkVLAN 101
 
+    .EXAMPLE
+        ## Azure Deployment is still in Development. Use at your own risk!
+        PS> Deploy-B1Appliance -Type "Azure" `
+                           -Name "bloxoneddihost1" `
+                           -DNSServers 10.10.100.1 `
+                           -NTPServers ntp.ubuntu.com `
+                           -DNSSuffix mydomain.corp `
+                           -JoinToken "JoinTokenGoesHere" `
+                           -AzTenant 'g54gdeg5-gdf4-4434-dff4-7fdeswgf54ff' `
+                           -AzLocation 'UK South' `
+                           -AzOffer 'infoblox-bloxone-34' `
+                           -AzSku 'infoblox-bloxone' `
+                           -AzResourceGroup 'infobloxlab' `
+                           -AzVirtualNetwork 'infobloxlab_vnet' `
+                           -AzSubscription '1234d123-abc1-4f33-r43f-5gredgrgdsdv4' `
+                           -AzSize 'Standard_F8s_v2'
+
     .FUNCTIONALITY
         BloxOneDDI
     
@@ -743,7 +760,11 @@
             "Azure" {
                 $AzContext = Get-AzContext
                 if (!($AzContext)) {
-                    Connect-AzAccount -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
+                    try {
+                        Connect-AzAccount -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
+                    } catch {
+                        return $_.Exception.Message
+                    }
                 } elseif (($AzContext.Tenant -ne $($PSBoundParameters.AzTenant)) -or ($AzContext.Subscription -ne $($PSBoundParameters.AzSubscription))) {
                     try {
                         Set-AzContext -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
