@@ -134,96 +134,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -IP
-The IP Address for the primary network interface of the virtual machine
-
-```yaml
-Type: IPAddress
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 3
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Netmask
-The Netmask for the primary network interface of the virtual machine
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Gateway
-The Gateway for the primary network interface of the virtual machine
-
-```yaml
-Type: IPAddress
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DNSServers
-One or more DNS Servers for the virtual machine
-
-```yaml
-Type: IPAddress[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: 52.119.40.100
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -NTPServers
-One or more NTP Servers for the virtual machine
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 7
-Default value: Ntp.ubuntu.com
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DNSSuffix
-The DNS Suffix for the virtual machine
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 8
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -JoinToken
 The Join Token for registration of the BloxOneDDI Host into the Cloud Services Portal
 
@@ -234,43 +144,6 @@ Aliases:
 
 Required: True
 Position: 9
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DownloadLatestImage
-Using this parameter will download the latest relevant image prior to deployment.
-
--DownloadLatestImage, -OVAPath & -VHDPath are mutually exclusive.
-
-When -DownloadLatestImage is used in combination with -ImagesPath, the latest image will be downloaded to this location prior to deployment if it does not already exist.
-If used consistently, this will always deploy the latest image but only need to download it once; effectively caching.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ImagesPath
-Use this parameter to define the base path for images to be cached in when specifying the -DownloadLatestImage parameter.
-
-This cannot be used in conjunction with -OVAPath or -VHDPath
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -323,26 +196,101 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SkipPowerOn
-Using this parameter will leave the VM in a powered off state once deployed
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ## DYNAMIC PARAMETERS
 
 ### VMware
 !!! warning "Important Information"
     **These parameters are only available when `-Type` is VMware**
+
+#### -IP
+The IP Address for the primary network interface of the virtual machine
+
+```yaml
+Type: IPAddress
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Netmask
+The Netmask for the primary network interface of the virtual machine
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Gateway
+The Gateway for the primary network interface of the virtual machine
+
+```yaml
+Type: IPAddress
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -DNSServers
+One or more DNS Servers for the virtual machine
+
+```yaml
+Type: IPAddress[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: 52.119.40.100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -NTPServers
+One or more NTP Servers for the virtual machine
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: Ntp.ubuntu.com
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -DNSSuffix
+The DNS Suffix for the virtual machine
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 #### -OVAPath
 The path to the BloxOneDDI OVA
@@ -454,9 +402,152 @@ Accept wildcard characters: False
 ```
 
 
+#### -DownloadLatestImage
+Using this parameter will download the latest relevant image prior to deployment.
+
+-DownloadLatestImage, -OVAPath & -VHDPath are mutually exclusive.
+
+When -DownloadLatestImage is used in combination with -ImagesPath, the latest image will be downloaded to this location prior to deployment if it does not already exist.
+If used consistently, this will always deploy the latest image but only need to download it once; effectively caching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -ImagesPath
+Use this parameter to define the base path for images to be cached in when specifying the -DownloadLatestImage parameter.
+
+This cannot be used in conjunction with -OVAPath or -VHDPath
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -SkipPowerOn
+Using this parameter will leave the VM in a powered off state once deployed
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+
 ### Hyper-V
 !!! warning "Important Information"
     **These parameters are only available when `-Type` is Hyper-V**
+
+#### -IP
+The IP Address for the primary network interface of the virtual machine
+
+```yaml
+Type: IPAddress
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Netmask
+The Netmask for the primary network interface of the virtual machine
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 4
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -Gateway
+The Gateway for the primary network interface of the virtual machine
+
+```yaml
+Type: IPAddress
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -DNSServers
+One or more DNS Servers for the virtual machine
+
+```yaml
+Type: IPAddress[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: 52.119.40.100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -NTPServers
+One or more NTP Servers for the virtual machine
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: Ntp.ubuntu.com
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -DNSSuffix
+The DNS Suffix for the virtual machine
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 #### -VHDPath
 The full path to the BloxOne VHD/VHDX file.
@@ -564,6 +655,58 @@ The `GB` suffix is required when using this parameter.
 
 ```yaml
 Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -DownloadLatestImage
+Using this parameter will download the latest relevant image prior to deployment.
+
+-DownloadLatestImage, -OVAPath & -VHDPath are mutually exclusive.
+
+When -DownloadLatestImage is used in combination with -ImagesPath, the latest image will be downloaded to this location prior to deployment if it does not already exist.
+If used consistently, this will always deploy the latest image but only need to download it once; effectively caching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -ImagesPath
+Use this parameter to define the base path for images to be cached in when specifying the -DownloadLatestImage parameter.
+
+This cannot be used in conjunction with -OVAPath or -VHDPath
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -SkipPowerOn
+Using this parameter will leave the VM in a powered off state once deployed
+
+```yaml
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
