@@ -140,7 +140,14 @@
     .PARAMETER AzAcceptTerms
         The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host.
           Only used when -Type is Azure
-          
+
+    .PARAMETER AzBootDiagnostics
+        The AzBootDiagnostics parameter is used to enable Boot Diagnostics for the VM during build. This features requires a storage account be specified using -AzStorageAccount.
+          Only used when -Type is Azure
+
+    .PARAMETER AzStorageAccount
+        The AzStorageAccount is used to define the name of the storage account to use for Boot Diagnostics. This must be in the same Azure Resource Group and is only available when -AzBootDiagnostics is specified.
+          Only used when -Type is Azure and when -AzBootDiagnostics is specified.
     .PARAMETER DownloadLatestImage
         Using this parameter will download the latest relevant image prior to deployment.
 
@@ -215,6 +222,8 @@
                            -AzVirtualNetwork 'infoblox_vnet' `
                            -AzSubnet 'infoblox_snet' `
                            -AzSize 'Standard_F8s_v2' `
+                           -AzBootDiagnostics `
+                           -AzStorageAccount 'ibbootdiags' `
                            -AzAcceptTerms
 
     .FUNCTIONALITY
@@ -310,7 +319,7 @@
                 $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                 $AttributeCollection.Add($ParamItem)
                 Switch($ParamItem.HelpMessageBaseName) {
-                    @('DNSServers','NTPServers') {
+                    {$_ -in @('DNSServers','NTPServers')} {
                         $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String[]], $AttributeCollection)    
                     }
                     Default {
@@ -493,19 +502,28 @@
                 $AzSizeAttribute.HelpMessage = "The AzSize parameter is used to define the Azure VM Size to use when deploying the new VM."
 
                 $AzAcceptTermsAttribute = New-Object System.Management.Automation.ParameterAttribute
-                $AzAcceptTermsAttribute.Position = 8
+                $AzAcceptTermsAttribute.Position = 9
                 $AzAcceptTermsAttribute.Mandatory = $false
                 $AzAcceptTermsAttribute.HelpMessageBaseName = "AzAcceptTerms"
                 $AzAcceptTermsAttribute.HelpMessage = "The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host."
 
-                foreach ($ParamItem in ($AzTenantAttribute,$AzSubscriptionAttribute,$AzLocationAttribute,$AzOfferAttribute,$AzSkuAttribute,$AzResourceGroupAttribute,$AzVirtualNetworkAttribute,$AzSubnetAttribute,$AzSizeAttribute,$AzAcceptTermsAttribute)) {
+                $AzBootDiagnosticsAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzBootDiagnosticsAttribute.Position = 10
+                $AzBootDiagnosticsAttribute.Mandatory = $false
+                $AzBootDiagnosticsAttribute.HelpMessageBaseName = "AzBootDiagnostics"
+                $AzBootDiagnosticsAttribute.HelpMessage = "The AzBootDiagnostics parameter is used to enable Boot Diagnostics for the VM during build. This features requires a storage account be specified using -AzStorageAccount."
+
+                $AzStorageAccountAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzStorageAccountAttribute.Position = 11
+                $AzStorageAccountAttribute.Mandatory = $false
+                $AzStorageAccountAttribute.HelpMessageBaseName = "AzStorageAccount"
+                $AzStorageAccountAttribute.HelpMessage = "The AzStorageAccount is used to define the name of the storage account to use for Boot Diagnostics. This is only used when -AzBootDiagnostics is specified."
+
+                foreach ($ParamItem in ($AzTenantAttribute,$AzSubscriptionAttribute,$AzLocationAttribute,$AzOfferAttribute,$AzSkuAttribute,$AzResourceGroupAttribute,$AzVirtualNetworkAttribute,$AzSubnetAttribute,$AzSizeAttribute,$AzAcceptTermsAttribute,$AzBootDiagnosticsAttribute,$AzStorageAccountAttribute)) {
                     $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                     $AttributeCollection.Add($ParamItem)
                     Switch($ParamItem.HelpMessageBaseName) {
-                        'Creds' {
-                            $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [pscredential], $AttributeCollection)    
-                        }
-                        'AzAcceptTerms' {
+                        {$_ -in @('AzAcceptTerms','AzBootDiagnostics')} {
                             $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [switch], $AttributeCollection) 
                         }
                         Default {
@@ -916,6 +934,17 @@
                             $VMConfig = New-AzVMConfig -VMName $($PSBoundParameters.Name) -VMSize $($PSBoundParameters.AzSize) -SecurityType Standard
                             # Update VM Config with VM Plan
                             $VMConfig = $VMConfig | Set-AzVMPlan -Name $($AzureSku.Skus) -Product $($AzureOffer.Offer) -Publisher 'infoblox'
+                            # Update VM Config with Diagnostic Info
+                            if ($PSBoundParameters.AzBootDiagnostics) {
+                                if ($PSBoundParameters.AzStorageAccount) {
+                                    $VMConfig = $VMConfig | Set-AzVMBootDiagnostic -Enable -ResourceGroupName $($PSBoundParameters.AzResourceGroup) -StorageAccountName $($PSBoundParameters.AzStorageAccount)
+                                } else {
+                                    Write-Error "Error. -AzStorageAccount must be specified when using -AzBootDiagnostics"
+                                    return $null
+                                }
+                            } else {
+                                $VMConfig = $VMConfig | Set-AzVMBootDiagnostic -Disable
+                            }
                             # Update VM Config with VM Source Image
                             $VMConfig = $VMConfig | Set-AzVMSourceImage -PublisherName 'infoblox' -Offer $($PSBoundParameters.AzOffer) -Skus $($AzureSku.Skus) -Version $($AzureImage.Version)
                             # Update VM Config with OS Information & Custom Data
@@ -1005,7 +1034,7 @@
                     }
                     while (!(Get-B1Host @B1HostProps)) {
                         $CSPStartCount = $CSPStartCount + 10
-                        Write-Host "Waiting for BloxOne Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
+                        Write-Host -NoNewLine "`rWaiting for BloxOne Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
                         if ($CSPStartCount -gt $CloudCheckTimeout) {
                             Write-Error "Error. VM failed to register with the BloxOne CSP. Please check VM Console for details."

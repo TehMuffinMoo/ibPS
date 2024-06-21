@@ -99,6 +99,8 @@ Deploy-B1Appliance -Type "Azure" `
                    -AzVirtualNetwork 'infoblox_vnet' `
                    -AzSubnet 'infoblox_snet' `
                    -AzSize 'Standard_F8s_v2' `
+                   -AzBootDiagnostics `
+                   -AzStorageAccount 'ibbootdiags' `
                    -AzAcceptTerms
 ```
 
@@ -856,7 +858,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-
 #### -AzAcceptTerms
 The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host.
 
@@ -870,7 +871,37 @@ Position: Named
 Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
-```       
+```
+
+#### -AzBootDiagnostics
+The AzBootDiagnostics parameter is used to enable Boot Diagnostics for the VM during build. This features requires a storage account be specified using -AzStorageAccount.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -AzStorageAccount
+The AzStorageAccount is used to define the name of the storage account to use for Boot Diagnostics. This is only used when -AzBootDiagnostics is specified.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
