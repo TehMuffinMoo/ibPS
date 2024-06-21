@@ -1049,6 +1049,7 @@
                 }
 
                 if (!$Failed) {
+                    Write-Host ""
                     Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Green
                     if (!($SkipCloudChecks)) {
                         Get-B1Host @B1HostProps | Format-Table display_name,ip_address,host_version -AutoSize
