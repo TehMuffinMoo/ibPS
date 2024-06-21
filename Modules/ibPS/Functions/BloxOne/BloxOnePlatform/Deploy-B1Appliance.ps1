@@ -607,6 +607,7 @@
                             $CurrentImages = Get-ChildItem $PSBoundParameters.ImagesPath
                         } else {
                             Write-Error "Error. Failed to create -ImagesPath: $($PSBoundParameters.ImagesPath)"
+                            return $null
                         }
                     } else {
                         $CurrentImages = Get-ChildItem $PSBoundParameters.ImagesPath
@@ -739,6 +740,7 @@
                     
                     } else {
                         Write-Error "Error. Unable to retrieve OVF Configuration from $($ImageFile)."
+                        return $null
                     }
             
                     Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
@@ -770,6 +772,7 @@
                 if (!($PSBoundParameters.DownloadLatestImage)) {
                     if (!($PSBoundParameters['VHDPath'])) {
                         Write-Error "-VHDPath must be specified if -DownloadLatestImage is not used."
+                        return $null
                     } else {
                         $ImageFile = $PSBoundParameters['VHDPath']
                     }
@@ -780,6 +783,7 @@
                     Write-Host "Customization metadata generated successfully." -ForegroundColor Cyan
                 } else {
                     Write-Error "Failed to generate customization metadata"
+                    return $null
                 }
 
                 if (Test-Path 'work-dir') {
@@ -796,6 +800,7 @@
 
                 if (!(Test-Path "work-dir/metadata.iso")) {
                     Write-Error "Error. Failed to create customization ISO."
+                    return $null
                 } else {
                     Write-Host "Successfully created customization ISO." -ForegroundColor Cyan
                 }
@@ -841,9 +846,11 @@
                         switch($PSBoundParameters['HyperVGeneration']) {
                             1 {
                                 Write-Error "Error. You must use a .vhd file format for Generation 1 Hyper-V VMs."
+                                return $null
                             }
                             2 {
                                 Write-Error "Error. You must use a .vhdx file format for Generation 2 Hyper-V VMs."
+                                return $null
                             }
                         }
                     }
