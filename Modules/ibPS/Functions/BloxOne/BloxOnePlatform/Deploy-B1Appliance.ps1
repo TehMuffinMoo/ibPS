@@ -157,21 +157,19 @@
                            -VirtualNetworkVLAN 101
 
     .EXAMPLE
-        ## Azure Deployment is still in Development. Use at your own risk!
         PS> Deploy-B1Appliance -Type "Azure" `
                            -Name "bloxoneddihost1" `
-                           -DNSServers 10.10.100.1 `
-                           -NTPServers ntp.ubuntu.com `
-                           -DNSSuffix mydomain.corp `
                            -JoinToken "JoinTokenGoesHere" `
                            -AzTenant 'g54gdeg5-gdf4-4434-dff4-7fdeswgf54ff' `
+                           -AzSubscription '1234d123-abc1-4f33-r43f-5gredgrgdsdv4' `
                            -AzLocation 'UK South' `
                            -AzOffer 'infoblox-bloxone-34' `
                            -AzSku 'infoblox-bloxone' `
-                           -AzResourceGroup 'infobloxlab' `
-                           -AzVirtualNetwork 'infobloxlab_vnet' `
-                           -AzSubscription '1234d123-abc1-4f33-r43f-5gredgrgdsdv4' `
-                           -AzSize 'Standard_F8s_v2'
+                           -AzResourceGroup 'rg-infoblox' `
+                           -AzVirtualNetwork 'infoblox_vnet' `
+                           -AzSubnet 'infoblox_snet' `
+                           -AzSize 'Standard_F8s_v2' `
+                           -AzAcceptTerms
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -188,19 +186,19 @@
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [String]$Name,
-      [Parameter(Mandatory=$true)]
-      [IPAddress]$IP,
-      [Parameter(Mandatory=$true)]
-      [ValidateScript({Test-NetmaskString $_})]
-      [String]$Netmask,
-      [Parameter(Mandatory=$true)]
-      [IPAddress]$Gateway,
-      [Parameter(Mandatory=$false)]
-      [IPAddress[]]$DNSServers = "52.119.40.100",
-      [Parameter(Mandatory=$false)]
-      [String[]]$NTPServers = "ntp.ubuntu.com",
-      [Parameter(Mandatory=$false)]
-      [String]$DNSSuffix,
+    #   [Parameter(Mandatory=$true)]
+    #   [IPAddress]$IP,
+    #   [Parameter(Mandatory=$true)]
+    #   [ValidateScript({Test-NetmaskString $_})]
+    #   [String]$Netmask,
+    #   [Parameter(Mandatory=$true)]
+    #   [IPAddress]$Gateway,
+    #   [Parameter(Mandatory=$false)]
+    #   [IPAddress[]]$DNSServers = "52.119.40.100",
+    #   [Parameter(Mandatory=$false)]
+    #   [String[]]$NTPServers = "ntp.ubuntu.com",
+    #   [Parameter(Mandatory=$false)]
+    #   [String]$DNSSuffix,
       [Parameter(Mandatory=$true)]
       [String]$JoinToken,
       [Parameter(Mandatory=$false)]
@@ -218,6 +216,60 @@
     )
 
     DynamicParam {
+        $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+        ## Define Common Parameters
+        if ($Type -in @('VMware','Hyper-V')) {
+            $IPAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $IPAttribute.Position = 1
+            $IPAttribute.Mandatory = $true
+            $IPAttribute.HelpMessageBaseName = "IP"
+            $IPAttribute.HelpMessage = "The IP Address for the primary network interface of the virtual machine being deployed. Only used when -Type is VMware or Hyper-V."
+
+            $NetmaskAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $NetmaskAttribute.Position = 2
+            $NetmaskAttribute.Mandatory = $true
+            $NetmaskAttribute.HelpMessageBaseName = "Netmask"
+            $NetmaskAttribute.HelpMessage = "The Subnet Mask for the primary network interface of the virtual machine being deployed. Only used when -Type is VMware or Hyper-V."
+
+            $GatewayAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $GatewayAttribute.Position = 3
+            $GatewayAttribute.Mandatory = $true
+            $GatewayAttribute.HelpMessageBaseName = "Gateway"
+            $GatewayAttribute.HelpMessage = "The Gateway IP Address for the primary network interface of the virtual machine being deployed. Only used when -Type is VMware or Hyper-V."
+
+            $DNSServersAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $DNSServersAttribute.Position = 4
+            $DNSServersAttribute.Mandatory = $true
+            $DNSServersAttribute.HelpMessageBaseName = "DNSServers"
+            $DNSServersAttribute.HelpMessage = "A list of DNS Servers for the primary network interface of the virtual machine being deployed. Only used when -Type is VMware or Hyper-V."
+
+            $NTPServersAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $NTPServersAttribute.Position = 5
+            $NTPServersAttribute.Mandatory = $true
+            $NTPServersAttribute.HelpMessageBaseName = "NTPServers"
+            $NTPServersAttribute.HelpMessage = "A list of NTP Servers for the virtual machine being deployed. Only used when -Type is VMware or Hyper-V."
+
+            $DNSSuffixAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $DNSSuffixAttribute.Position = 6
+            $DNSSuffixAttribute.Mandatory = $true
+            $DNSSuffixAttribute.HelpMessageBaseName = "DNSSuffix"
+            $DNSSuffixAttribute.HelpMessage = "The DNS Suffix for the primary network interface of the virtual machine being deployed. Only used when -Type is VMware or Hyper-V."
+
+            foreach ($ParamItem in ($IPAttribute,$NetmaskAttribute,$GatewayAttribute,$DNSServersAttribute,$NTPServersAttribute,$DNSSuffixAttribute)) {
+                $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
+                $AttributeCollection.Add($ParamItem)
+                Switch($ParamItem.HelpMessageBaseName) {
+                    @('DNSServers','NTPServers') {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String[]], $AttributeCollection)    
+                    }
+                    Default {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
+                    }
+                }
+                $paramDictionary.Add($($ParamItem.HelpMessageBaseName), $DefinedParam)
+             }
+        }
+        ## Define Deployment Specific Parameters
         switch($Type) {
           "VMware" {
              $OVAPathAttribute = New-Object System.Management.Automation.ParameterAttribute
@@ -263,8 +315,6 @@
              $CredsAttribute.HelpMessageBaseName = "Creds"
              $CredsAttribute.HelpMessage = "The Creds parameter is used to define the vCenter Credentials."
 
-             $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-
              foreach ($ParamItem in ($OVAPathAttribute,$vCenterAttribute,$ClusterAttribute,$DatastoreAttribute,$PortGroupAttribute,$PortGroupTypeAttribute,$CredsAttribute)) {
                 $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                 $AttributeCollection.Add($ParamItem)
@@ -275,7 +325,6 @@
                 }
                 $paramDictionary.Add($($ParamItem.HelpMessageBaseName), $DefinedParam)
              }
-             return $paramDictionary
            }
            "Hyper-V" {
                 $VHDPathAttribute = New-Object System.Management.Automation.ParameterAttribute
@@ -326,8 +375,6 @@
                 $MemoryAttribute.HelpMessageBaseName = "Memory"
                 $MemoryAttribute.HelpMessage = "The Memory parameter is used to define the amount of memory to assign to the VM. The default is 16GB."
 
-                $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
-
                 foreach ($ParamItem in ($VHDPathAttribute,$HyperVServerAttribute,$HyperVGenerationAttribute,$VMPathAttribute,$VirtualNetworkAttribute,$VirtualNetworkVLANAttribute,$CPUAttribute,$MemoryAttribute)) {
                     $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                     $AttributeCollection.Add($ParamItem)
@@ -338,7 +385,6 @@
                     }
                     $paramDictionary.Add($($ParamItem.HelpMessageBaseName), $DefinedParam)
                  }
-                 return $paramDictionary
            }
            "Azure" {
                 $AzTenantAttribute = New-Object System.Management.Automation.ParameterAttribute
@@ -348,62 +394,78 @@
                 $AzTenantAttribute.HelpMessage = "The AzTenant parameter is used to define the Azure Tenant ID to connect to during deployment."
 
                 $AzSubscriptionAttribute = New-Object System.Management.Automation.ParameterAttribute
-                $AzSubscriptionAttribute.Position = 1
+                $AzSubscriptionAttribute.Position = 2
                 $AzSubscriptionAttribute.Mandatory = $true
                 $AzSubscriptionAttribute.HelpMessageBaseName = "AzSubscription"
                 $AzSubscriptionAttribute.HelpMessage = "The AzSubscription parameter is used to define the Azure Subscription ID to connect to during deployment."
 
                 $AzLocationAttribute = New-Object System.Management.Automation.ParameterAttribute
-                $AzLocationAttribute.Position = 2
+                $AzLocationAttribute.Position = 3
                 $AzLocationAttribute.Mandatory = $true
                 $AzLocationAttribute.HelpMessageBaseName = "AzLocation"
                 $AzLocationAttribute.HelpMessage = "The AzLocation parameter is used to define the Azure Location to deploy the new VM to."
 
                 $AzResourceGroupAttribute = New-Object System.Management.Automation.ParameterAttribute
-                $AzResourceGroupAttribute.Position = 3
+                $AzResourceGroupAttribute.Position = 4
                 $AzResourceGroupAttribute.Mandatory = $true
                 $AzResourceGroupAttribute.HelpMessageBaseName = "AzResourceGroup"
                 $AzResourceGroupAttribute.HelpMessage = "The AzResourceGroup parameter is used to define the Azure Resource Group to deploy the new VM in."
 
                 $AzVirtualNetworkAttribute = New-Object System.Management.Automation.ParameterAttribute
-                $AzVirtualNetworkAttribute.Position = 4
+                $AzVirtualNetworkAttribute.Position = 5
                 $AzVirtualNetworkAttribute.Mandatory = $true
                 $AzVirtualNetworkAttribute.HelpMessageBaseName = "AzVirtualNetwork"
                 $AzVirtualNetworkAttribute.HelpMessage = "The AzVirtualNetwork parameter is used to define the Azure Virtual Network to deploy the new VM in."
 
+                $AzSubnetAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzSubnetAttribute.Position = 5
+                $AzSubnetAttribute.Mandatory = $true
+                $AzSubnetAttribute.HelpMessageBaseName = "AzSubnet"
+                $AzSubnetAttribute.HelpMessage = "The AzSubnet parameter is used to define the Subnet in the selected Azure Virtual Network to deploy the new VM in."
+
                 $AzOfferAttribute = New-Object System.Management.Automation.ParameterAttribute
-                $AzOfferAttribute.Position = 5
+                $AzOfferAttribute.Position = 6
                 $AzOfferAttribute.Mandatory = $true
                 $AzOfferAttribute.HelpMessageBaseName = "AzOffer"
                 $AzOfferAttribute.HelpMessage = "The AzOffer parameter is used to define the Azure Marketplace Image Offer to deploy the new VM with."
 
                 $AzSkuAttribute = New-Object System.Management.Automation.ParameterAttribute
-                $AzSkuAttribute.Position = 6
+                $AzSkuAttribute.Position = 7
                 $AzSkuAttribute.Mandatory = $true
                 $AzSkuAttribute.HelpMessageBaseName = "AzSku"
                 $AzSkuAttribute.HelpMessage = "The AzSku parameter is used to define the Azure Marketplace Image SKU to deploy the new VM with."
 
                 $AzSizeAttribute = New-Object System.Management.Automation.ParameterAttribute
-                $AzSizeAttribute.Position = 6
+                $AzSizeAttribute.Position = 8
                 $AzSizeAttribute.Mandatory = $true
                 $AzSizeAttribute.HelpMessageBaseName = "AzSize"
                 $AzSizeAttribute.HelpMessage = "The AzSize parameter is used to define the Azure VM Size to use when deploying the new VM."
 
-                $paramDictionary = New-Object System.Management.Automation.RuntimeDefinedParameterDictionary
+                $AzAcceptTermsAttribute = New-Object System.Management.Automation.ParameterAttribute
+                $AzAcceptTermsAttribute.Position = 8
+                $AzAcceptTermsAttribute.Mandatory = $false
+                $AzAcceptTermsAttribute.HelpMessageBaseName = "AzAcceptTerms"
+                $AzAcceptTermsAttribute.HelpMessage = "The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host."
 
-                foreach ($ParamItem in ($AzTenantAttribute,$AzSubscriptionAttribute,$AzLocationAttribute,$AzOfferAttribute,$AzSkuAttribute,$AzResourceGroupAttribute,$AzVirtualNetworkAttribute,$AzSizeAttribute)) {
+                foreach ($ParamItem in ($AzTenantAttribute,$AzSubscriptionAttribute,$AzLocationAttribute,$AzOfferAttribute,$AzSkuAttribute,$AzResourceGroupAttribute,$AzVirtualNetworkAttribute,$AzSubnetAttribute,$AzSizeAttribute,$AzAcceptTermsAttribute)) {
                     $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                     $AttributeCollection.Add($ParamItem)
-                    if ($($ParamItem.HelpMessageBaseName -eq "Creds")) {
-                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [pscredential], $AttributeCollection)    
-                    } else {
-                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
+                    Switch($ParamItem.HelpMessageBaseName) {
+                        'Creds' {
+                            $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [pscredential], $AttributeCollection)    
+                        }
+                        'AzAcceptTerms' {
+                            $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [switch], $AttributeCollection) 
+                        }
+                        Default {
+                            $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
+                        }
                     }
                     $paramDictionary.Add($($ParamItem.HelpMessageBaseName), $DefinedParam)
                 }
-                return $paramDictionary
-           }
-       }
+            }
+        }
+        return $paramDictionary
    }
 
     process {
@@ -431,15 +493,18 @@
             "Azure" {
                 $MissingPackages = @()
                 #,'Az.Resources'
-                @('Az.Accounts','Az.Compute') | %{
+                @('Az.Accounts','Az.Compute','Az.Network','Az.MarketplaceOrdering') | %{
                     if (!(Get-Module -ListAvailable -Name $_)) {
                         $MissingPackages += $_
                     }
                 }
                 if ($MissingPackages) {
                     Write-Error 'You must have the following PowerShell Modules installed to deploy to Azure.'
-                    return $MissingPackages
+                    $($MissingPackages -split ',')
+                    Write-Error "You can install them using this command: Install-Module -Name $($MissingPackages -join ',')"
+                    return $null
                 }
+                $SkipPingChecks = $true
             }
         }
 
@@ -761,40 +826,89 @@
                 $AzContext = Get-AzContext
                 if (!($AzContext)) {
                     try {
-                        Connect-AzAccount -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
+                        $AzConnect = Connect-AzAccount -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
+                        Write-Host "Connected to Azure. (Tenant: $($PSBoundParameters.AzTenant)) (Subscription: $($PSBoundParameters.AzSubscription))" -ForegroundColor Cyan
                     } catch {
                         return $_.Exception.Message
                     }
                 } elseif (($AzContext.Tenant -ne $($PSBoundParameters.AzTenant)) -or ($AzContext.Subscription -ne $($PSBoundParameters.AzSubscription))) {
                     try {
-                        Set-AzContext -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
+                        $AzContext = Set-AzContext -Tenant $($PSBoundParameters.AzTenant) -Subscription $($PSBoundParameters.AzSubscription)
                     } catch {
                         return $_.Exception.Message
                     }
                 }
-                $AzureOffer = Get-AzVMImageOffer -PublisherName 'Infoblox' -Location $($PSBoundParameters.AzLocation) | Where-Object {$_.Offer -eq $PSBoundParameters.AzOffer}
+                $AzureOffer = Get-AzVMImageOffer -PublisherName 'infoblox' -Location $($PSBoundParameters.AzLocation) | Where-Object {$_.Offer -eq $PSBoundParameters.AzOffer}
                 if ($AzureOffer) {
-                    $AzureSku = Get-AzVMImageSku -Location $($PSBoundParameters.AzLocation) -PublisherName 'Infoblox' -Offer $AzureOffer.Offer | Where-Object {$_.Skus -eq $PSBoundParameters.AzSku}
+                    $AzureSku = Get-AzVMImageSku -Location $($PSBoundParameters.AzLocation) -PublisherName 'infoblox' -Offer $AzureOffer.Offer | Where-Object {$_.Skus -eq $PSBoundParameters.AzSku}
                     if ($AzureSku) {
-                        $AzureImage = Get-AzVMImage -Location $($PSBoundParameters.AzLocation) -PublisherName 'Infoblox' -Offer $AzureOffer.Offer -Sku $($AzureSku.Skus)
+                        $AzureImage = Get-AzVMImage -Location $($PSBoundParameters.AzLocation) -PublisherName 'infoblox' -Offer $AzureOffer.Offer -Sku $($AzureSku.Skus)
                         if ($AzureImage) {
-                            $AzureImageURN = "Infoblox:$($PSBoundParameters.AzOffer):$($PSBoundParameters.AzSku):$($AzureImage.Version)"
+                            $AzureImageURN = "infoblox:$($PSBoundParameters.AzOffer):$($PSBoundParameters.AzSku):$($AzureImage.Version)"
 
-                            ## Deploy VM
-                            $VMConfig = New-AzVMConfig -VMName $($PSBoundParameters.Name) -VMSize $($PSBoundParameters.AzSize)
-                            $VMConfig | Set-AzVMPlan -Name $($AzureSku.Skus) -Product $($AzureOffer.Offer) -Publisher 'Infoblox'
-                            $VMProperties = @{
-                                'ResourceGroupName' = $($PSBoundParameters.AzResourceGroup)
-                                'VirtualNetworkName' = $($PSBoundParameters.AzVirtualNetwork)
-                                'Image' = $($AzureImageURN)
-                                'VM' = $VMConfig
+                            ## Check if marketplace terms have been accepted.
+                            $MarketplaceTerms = Get-AzMarketplaceTerms -Name $($AzureSku.Skus) -Product $($AzureOffer.Offer) -Publisher 'infoblox' -EA SilentlyContinue -WA SilentlyContinue
+                            if (!($MarketplaceTerms.Accepted)) {
+                                if ($PSBoundParameters.AzAcceptTerms) {
+                                    $MarketplaceTermsAcceptance = Set-AzMarketplaceTerms -Name $($AzureSku.Skus) -Product $($AzureOffer.Offer) -Publisher 'infoblox' -Accept
+                                    if (!($MarketplaceTermsAcceptance.Accepted)) {
+                                        Write-Error 'Failed to accept the Marketplace Terms.'
+                                        return $null
+                                    }
+                                } else {
+                                    Write-Error 'The Azure Marketplace Terms for BloxOne Deployment is not accepted. To accept these terms, use the -AzAcceptTerms switch.'
+                                    return $null
+                                }
                             }
-                            New-AzVM @VMProperties
+
+                            # Initialize VM Config
+                            $VMConfig = New-AzVMConfig -VMName $($PSBoundParameters.Name) -VMSize $($PSBoundParameters.AzSize) -SecurityType Standard
+                            # Update VM Config with VM Plan
+                            $VMConfig = $VMConfig | Set-AzVMPlan -Name $($AzureSku.Skus) -Product $($AzureOffer.Offer) -Publisher 'infoblox'
+                            # Update VM Config with VM Source Image
+                            $VMConfig = $VMConfig | Set-AzVMSourceImage -PublisherName 'infoblox' -Offer $($PSBoundParameters.AzOffer) -Skus $($AzureSku.Skus) -Version $($AzureImage.Version)
+                            # Update VM Config with OS Information & Custom Data
+                            $UserData = New-B1Metadata -JoinToken $($PSBoundParameters.JoinToken) | Select-Object -ExpandProperty userdata
+                            # Define Random Credential, this is only used as a placeholder and not actually configured on the deployed VM.
+                            $AzVMUser = "AzDeploy";
+                            $AzVMPassword = (-join ((32..90) + (97..122) | Get-Random -Count 20 | % {[char]$_})) | ConvertTo-SecureString -AsPlainText -Force;  
+                            $AzVMCredential = New-Object System.Management.Automation.PSCredential ($AzVMUser, $AzVMPassword);
+                            $VMConfig = $VMConfig | Set-AzVMOperatingSystem -Linux -CustomData $UserData -Credential $AzVMCredential -ComputerName $($PSBoundParameters.Name)
+                            # Update VM Config with Azure Virtual Network / Subnet
+                            $AzureVirtualNetwork = Get-AzVirtualNetwork -Name $($PSBoundParameters.AzVirtualNetwork) -ResourceGroupName $($PSBoundParameters.AzResourceGroup)
+                            if ($AzureVirtualNetwork) {
+                                $AzureSubnet = Get-AzVirtualNetworkSubnetConfig -VirtualNetwork $AzureVirtualNetwork -Name $($PSBoundParameters.AzSubnet)
+                                if ($AzureSubnet) {
+                                    # Create a virtual network interface
+                                    try {
+                                        Write-Host "Creating Virtual Network Interface: $($PSBoundParameters.Name)-nic.." -ForegroundColor Cyan
+                                        $AzureNetworkInterface = New-AzNetworkInterface -Name "$($PSBoundParameters.Name)-nic" -ResourceGroupName $($PSBoundParameters.AzResourceGroup) -Location $($PSBoundParameters.AzLocation) -SubnetId $AzureSubnet.Id -EnableAcceleratedNetworking;
+                                    } catch {
+                                        return $_.Exception.Message
+                                    }
+                                    $VMConfig = $VMConfig | Add-AzVMNetworkInterface -Id $AzureNetworkInterface.Id
+                                    
+                                    ## Deploy VM
+                                    try {
+                                        Write-Host "Creating Virtual Machine: $($PSBoundParameters.Name).." -ForegroundColor Cyan
+                                        $VM = New-AzVM -VM $VMConfig -ResourceGroupName $($PSBoundParameters.AzResourceGroup) -Location $($PSBoundParameters.AzLocation)
+                                        $VMInfo = Get-AzVM -Name $($PSBoundParameters.Name) -ResourceGroupName $($PSBoundParameters.AzResourceGroup)
+                                    } catch {
+                                        return $_.Exception.Message
+                                    }
+                                } else {
+                                    Write-Error "Unable to find Azure Subnet with name: $($PSBoundParameters.AzVirtualNetwork)"
+                                    return $null
+                                }
+                            } else {
+                                Write-Error "Unable to find Azure Virtual Network with name: $($PSBoundParameters.AzVirtualNetwork)"
+                                return $null
+                            }
                         } else {
                             Write-Error "Unable to find Azure Image."
                             return @{
                                 "Location" = $($PSBoundParameters.AzLocation)
-                                "PublisherName" = 'Infoblox'
+                                "PublisherName" = 'infoblox'
                                 "Offer" = $AzureOffer.Offer
                                 "Sku" = $AzureSku.Skus
                             }
@@ -803,7 +917,6 @@
                         Write-Error "Unable to find Azure SKU with name: $($PSBoundParameters.AzSku)"
                         return $null
                     }
-                    Write-Host "Deploy something.."
                 } else {
                     Write-Error "Unable to find Azure Offer with name: $($PSBoundParameters.AzOffer)"
                     return $null
@@ -826,7 +939,20 @@
                 }
 
                 if (!($SkipCloudChecks)) {
-                    while (!(Get-B1Host -IP $($IP.IPAddressToString))) {
+                    Switch($Type) {
+                        @('VMware','Hyper-V') {
+                            $B1HostProps = @{
+                                'IP' = $($IP.IPAddressToString)
+                            }
+                        }
+                        'Azure' {
+                            $AzurePrivateIP = (Get-AzNetworkInterface -ResourceId ($VMInfo).NetworkProfile.NetworkInterfaces.Id).IpConfigurations.PrivateIpAddress
+                            $B1HostProps = @{
+                                'IP' = $AzurePrivateIP
+                            }
+                        }
+                    }
+                    while (!(Get-B1Host @B1HostProps)) {
                         $CSPStartCount = $CSPStartCount + 10
                         Write-Host "Waiting for BloxOne Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
@@ -843,10 +969,9 @@
                 }
 
                 if (!$Failed) {
-                    Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Gray
-
+                    Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Green
                     if (!($SkipCloudChecks)) {
-                        Get-B1Host -IP $($IP.IPAddressToString) | Format-Table display_name,ip_address,host_version -AutoSize
+                        Get-B1Host @B1HostProps | Format-Table display_name,ip_address,host_version -AutoSize
                     }
                     Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
                 } else {
