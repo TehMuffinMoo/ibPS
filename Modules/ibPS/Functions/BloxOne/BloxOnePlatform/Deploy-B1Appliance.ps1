@@ -1,10 +1,10 @@
 ﻿function Deploy-B1Appliance {
     <#
     .SYNOPSIS
-        Deploys a BloxOneDDI Virtual Appliance to VMware or Hyper-V
+        Deploys a BloxOneDDI Virtual Appliance to VMware, Hyper-V or Azure.
 
     .DESCRIPTION
-        This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/cluster or Hyper-V
+        This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/cluster, Hyper-V or Azure.
 
     .PARAMETER Type
         The type of deployment to perform (VMware / Hyper-V)
@@ -14,21 +14,27 @@
 
     .PARAMETER IP
         The IP Address for the primary network interface of the virtual machine
+          Only used when -Type is VMware or Hyper-V
 
     .PARAMETER Netmask
         The Netmask for the primary network interface of the virtual machine
+          Only used when -Type is VMware or Hyper-V
 
     .PARAMETER Gateway
         The Gateway for the primary network interface of the virtual machine
+          Only used when -Type is VMware or Hyper-V
 
     .PARAMETER DNSServers
         One or more DNS Servers for the virtual machine
+          Only used when -Type is VMware or Hyper-V
 
     .PARAMETER NTPServers
         One or more NTP Servers for the virtual machine
+          Only used when -Type is VMware or Hyper-V
 
     .PARAMETER DNSSuffix
         The DNS Suffix for the virtual machine
+          Only used when -Type is VMware or Hyper-V
 
     .PARAMETER JoinToken
         The Join Token for registration of the BloxOneDDI Host into the Cloud Services Portal
@@ -95,6 +101,46 @@
         The Memory parameter is used to define the amount of memory to assign to the VM. The default is 16GB.
           Only used when -Type is Hyper-V
 
+    .PARAMETER AzTenant
+        The AzTenant parameter is used to define the Azure Tenant ID to connect to during deployment.
+          Only used when -Type is Azure
+
+    .PARAMETER AzSubscription
+        The AzSubscription parameter is used to define the Azure Subscription ID to connect to during deployment.
+          Only used when -Type is Azure
+
+    .PARAMETER AzLocation
+        The AzLocation parameter is used to define the Azure Location to deploy the new VM to.
+          Only used when -Type is Azure
+          
+    .PARAMETER AzResourceGroup
+        The AzResourceGroup parameter is used to define the Azure Resource Group to deploy the new VM in.
+          Only used when -Type is Azure
+          
+    .PARAMETER AzVirtualNetwork
+        The AzVirtualNetwork parameter is used to define the Azure Virtual Network to deploy the new VM in.
+          Only used when -Type is Azure
+          
+    .PARAMETER AzSubnet
+        The AzSubnet parameter is used to define the Subnet in the selected Azure Virtual Network to deploy the new VM in.
+          Only used when -Type is Azure
+          
+    .PARAMETER AzOffer
+        The AzOffer parameter is used to define the Azure Marketplace Image Offer to deploy the new VM with.
+          Only used when -Type is Azure
+          
+    .PARAMETER AzSku
+        The AzSku parameter is used to define the Azure Marketplace Image SKU to deploy the new VM with.
+          Only used when -Type is Azure
+          
+    .PARAMETER AzSize
+        The AzSize parameter is used to define the Azure VM Size to use when deploying the new VM.
+          Only used when -Type is Azure
+          
+    .PARAMETER AzAcceptTerms
+        The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host.
+          Only used when -Type is Azure
+          
     .PARAMETER DownloadLatestImage
         Using this parameter will download the latest relevant image prior to deployment.
 
@@ -177,6 +223,12 @@
     .FUNCTIONALITY
         VMware
 
+    .FUNCTIONALITY
+        Hyper-V
+
+    .FUNCTIONALITY
+        Azure
+
     .NOTES
         Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
     #>
@@ -186,33 +238,14 @@
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [String]$Name,
-    #   [Parameter(Mandatory=$true)]
-    #   [IPAddress]$IP,
-    #   [Parameter(Mandatory=$true)]
-    #   [ValidateScript({Test-NetmaskString $_})]
-    #   [String]$Netmask,
-    #   [Parameter(Mandatory=$true)]
-    #   [IPAddress]$Gateway,
-    #   [Parameter(Mandatory=$false)]
-    #   [IPAddress[]]$DNSServers = "52.119.40.100",
-    #   [Parameter(Mandatory=$false)]
-    #   [String[]]$NTPServers = "ntp.ubuntu.com",
-    #   [Parameter(Mandatory=$false)]
-    #   [String]$DNSSuffix,
       [Parameter(Mandatory=$true)]
       [String]$JoinToken,
-      [Parameter(Mandatory=$false)]
-      [Switch]$DownloadLatestImage,
-      [Parameter(Mandatory=$false)]
-      [String]$ImagesPath,
       [Parameter(Mandatory=$false)]
       [Int]$CloudCheckTimeout = 300,
       [Parameter(Mandatory=$false)]
       [Switch]$SkipCloudChecks,
       [Parameter(Mandatory=$false)]
-      [Switch]$SkipPingChecks,
-      [Parameter(Mandatory=$false)]
-      [Switch]$SkipPowerOn
+      [Switch]$SkipPingChecks
     )
 
     DynamicParam {
@@ -255,7 +288,25 @@
             $DNSSuffixAttribute.HelpMessageBaseName = "DNSSuffix"
             $DNSSuffixAttribute.HelpMessage = "The DNS Suffix for the primary network interface of the virtual machine being deployed. Only used when -Type is VMware or Hyper-V."
 
-            foreach ($ParamItem in ($IPAttribute,$NetmaskAttribute,$GatewayAttribute,$DNSServersAttribute,$NTPServersAttribute,$DNSSuffixAttribute)) {
+            $DownloadLatestImageAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $DownloadLatestImageAttribute.Position = 7
+            $DownloadLatestImageAttribute.Mandatory = $false
+            $DownloadLatestImageAttribute.HelpMessageBaseName = "DownloadLatestImage"
+            $DownloadLatestImageAttribute.HelpMessage = "Using -DownloadLatestImage will download the latest BloxOne image prior to deployment. Only used when -Type is VMware or Hyper-V."
+
+            $ImagesPathAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $ImagesPathAttribute.Position = 8
+            $ImagesPathAttribute.Mandatory = $false
+            $ImagesPathAttribute.HelpMessageBaseName = "ImagesPath"
+            $ImagesPathAttribute.HelpMessage = "Specify a path for cached BloxOne images to be stored when combined with -DownloadLatestImage. Only used when -Type is VMware or Hyper-V."
+
+            $SkipPowerOnAttribute = New-Object System.Management.Automation.ParameterAttribute
+            $SkipPowerOnAttribute.Position = 9
+            $SkipPowerOnAttribute.Mandatory = $false
+            $SkipPowerOnAttribute.HelpMessageBaseName = "SkipPowerOn"
+            $SkipPowerOnAttribute.HelpMessage = "Using this parameter will leave the VM in a powered off state once deployed. Only used when -Type is VMware or Hyper-V."
+
+            foreach ($ParamItem in ($IPAttribute,$NetmaskAttribute,$GatewayAttribute,$DNSServersAttribute,$NTPServersAttribute,$DNSSuffixAttribute,$DownloadLatestImageAttribute,$ImagesPathAttribute,$SkipPowerOnAttribute)) {
                 $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                 $AttributeCollection.Add($ParamItem)
                 Switch($ParamItem.HelpMessageBaseName) {
@@ -510,12 +561,12 @@
 
         if (!($SkipPingChecks)) {
             if ($CurrentOS -eq "Windows") {
-                if ((Test-NetConnection $($IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
+                if ((Test-NetConnection $($PSBoundParameters.IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
                     Write-Error "Error. IP Address already in use."
                     return $null
                 }
             } else {
-                if ((Test-Connection -IPv4 $($IP.IPAddressToString) -Count 1 -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).Status -eq "Success") {
+                if ((Test-Connection -IPv4 $($PSBoundParameters.IP.IPAddressToString) -Count 1 -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).Status -eq "Success") {
                     Write-Error "Error. IP Address already in use."
                     return $null
                 }
@@ -523,24 +574,24 @@
         }
 
         if ($Type -in @('VMware','Hyper-V')) {
-            if ($DownloadLatestImage) {
+            if ($PSBoundParameters.DownloadLatestImage) {
                 Write-Host "-DownloadLatestImage is selected. The latest BloxOne image will be used." -ForegroundColor Cyan
                 if ($PSBoundParameters['OVAPath'] -or $PSBoundParameters['VHDPath']) {
                     Write-Error "-DownloadLatestImage cannot be used in conjunction with -OVAPath or -VHDPath"
                     return $null
                 }
-                if ($ImagesPath) {
+                if ($PSBoundParameters.ImagesPath) {
                     Write-Host "-ImagesPath is selected. Collecting existing cached images.." -ForegroundColor Cyan
-                    if (!(Test-Path $ImagesPath)) {
-                        Write-Host "-ImagesPath: $($ImagesPath) does not exist. Attempting to create it.." -ForegroundColor Yellow
-                        if ($ImagesDir = New-Item -Type Directory $ImagesPath) {
-                            Write-Host "Successfully created $($ImagesPath)" -ForegroundColor Cyan
-                            $CurrentImages = Get-ChildItem $ImagesPath
+                    if (!(Test-Path $PSBoundParameters.ImagesPath)) {
+                        Write-Host "-ImagesPath: $($PSBoundParameters.ImagesPath) does not exist. Attempting to create it.." -ForegroundColor Yellow
+                        if ($ImagesDir = New-Item -Type Directory $PSBoundParameters.ImagesPath) {
+                            Write-Host "Successfully created $($PSBoundParameters.ImagesPath)" -ForegroundColor Cyan
+                            $CurrentImages = Get-ChildItem $PSBoundParameters.ImagesPath
                         } else {
-                            Write-Error "Error. Failed to create -ImagesPath: $($ImagesPath)"
+                            Write-Error "Error. Failed to create -ImagesPath: $($PSBoundParameters.ImagesPath)"
                         }
                     } else {
-                        $CurrentImages = Get-ChildItem $ImagesPath
+                        $CurrentImages = Get-ChildItem $PSBoundParameters.ImagesPath
                     }
                 } else {
                     Write-Host "-ImagesPath not set. Downloaded images will not be cached." -ForegroundColor Yellow
@@ -565,14 +616,14 @@
                     $($Image.link) -match "^.*\/(.*)$" | Out-Null
                     if ($Matches) {
                         $ImageFileName = $Matches[1]
-                        if ($ImagesPath) {
-                            if (!(Test-Path "$($ImagesPath)\$($ImageFileName)")) {
+                        if ($PSBoundParameters.ImagesPath) {
+                            if (!(Test-Path "$($PSBoundParameters.ImagesPath)\$($ImageFileName)")) {
                                 Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
-                                Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($ImagesPath)\$($ImageFileName)"
+                                Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($PSBoundParameters.ImagesPath)\$($ImageFileName)"
                             } else {
                                 Write-Host "Latest image already downloaded: $($ImageFileName)" -ForegroundColor Cyan
                             }
-                            $ImageFile = "$($ImagesPath)\$($ImageFileName)"
+                            $ImageFile = "$($PSBoundParameters.ImagesPath)\$($ImageFileName)"
                         } else {
                             if (!(Test-Path "$($ImageFileName)")) {
                                 Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
@@ -595,7 +646,7 @@
 
         switch($Type) {
             "VMware" {
-                if (!($DownloadLatestImage)) {
+                if (!($PSBoundParameters.DownloadLatestImage)) {
                     if (!($PSBoundParameters['OVAPath'])) {
                         Write-Error "-OVAPath must be specified if -DownloadLatestImage is not used."
                     } else {
@@ -658,13 +709,13 @@
                     if ($OVFConfig) {
                         Write-Host "Generating OVFConfig file for BloxOne Appliance: $Name .." -ForegroundColor Cyan
             
-                        $OVFConfig.Common.address.Value = $IP.IPAddressToString
-                        $OVFConfig.Common.gateway.Value = $Gateway.IPAddressToString
-                        $OVFConfig.Common.netmask.Value = $Netmask
-                        $OVFConfig.Common.nameserver.Value = $DNSServers.IPAddressToString -join ','
-                        $OVFConfig.Common.ntp_servers.Value = $NTPServers -join ','
+                        $OVFConfig.Common.address.Value = $PSBoundParameters.IP.IPAddressToString
+                        $OVFConfig.Common.gateway.Value = $PSBoundParameters.Gateway.IPAddressToString
+                        $OVFConfig.Common.netmask.Value = $PSBoundParameters.Netmask
+                        $OVFConfig.Common.nameserver.Value = $PSBoundParameters.DNSServers.IPAddressToString -join ','
+                        $OVFConfig.Common.ntp_servers.Value = $PSBoundParameters.NTPServers -join ','
                         $OVFConfig.Common.jointoken.Value = $JoinToken
-                        $OVFConfig.Common.search.Value = $DNSSuffix
+                        $OVFConfig.Common.search.Value = $PSBoundParameters.DNSSuffix
                         $OVFConfig.Common.v4_mode.Value = "static"
                         $OVFConfig.NetworkMapping.lan.Value = $NetworkMapping
                     
@@ -678,7 +729,7 @@
                     if ($VM) {
                         Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
                         if ($ENV:IBPSDebug -eq "Enabled") {$VM | Format-Table -AutoSize}
-                        if (!($SkipPowerOn)) {
+                        if (!($PSBoundParameters.SkipPowerOn)) {
                         Write-Host "Powering on $Name.." -ForegroundColor Cyan
                         $VMStart = Start-VM -VM $VM
                         $VMStartCount = 0
@@ -698,7 +749,7 @@
                 }
             }
             "Hyper-V" {
-                if (!($DownloadLatestImage)) {
+                if (!($PSBoundParameters.DownloadLatestImage)) {
                     if (!($PSBoundParameters['VHDPath'])) {
                         Write-Error "-VHDPath must be specified if -DownloadLatestImage is not used."
                     } else {
@@ -706,7 +757,7 @@
                     }
                 }
                 Write-Host "Generating customization metadata" -ForegroundColor Cyan
-                $VMMetadata = New-B1Metadata -IP $($IP.IPAddressToString) -Netmask $Netmask -Gateway $($Gateway.IPAddressToString) -DNSServers $($DNSServers.IPAddressToString -join ',') -JoinToken $JoinToken -DNSSuffix $DNSSuffix
+                $VMMetadata = New-B1Metadata -IP $($PSBoundParameters.IP.IPAddressToString) -Netmask $PSBoundParameters.Netmask -Gateway $($PSBoundParameters.Gateway.IPAddressToString) -DNSServers $($PSBoundParameters.DNSServers.IPAddressToString -join ',') -JoinToken $JoinToken -DNSSuffix $PSBoundParameters.DNSSuffix
                 if ($VMMetadata) {
                     Write-Host "Customization metadata generated successfully." -ForegroundColor Cyan
                 } else {
@@ -805,7 +856,7 @@
                         Set-VMFirmware -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -EnableSecureBoot On -SecureBootTemplate MicrosoftUEFICertificateAuthority -BootOrder (Get-VMHardDiskDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name),(Get-VMDvdDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name)
                     }
                     
-                    if (!($SkipPowerOn)) {
+                    if (!($PSBoundParameters.SkipPowerOn)) {
                         Write-Host "Powering on $Name.." -ForegroundColor Cyan
                         $VMStart = Start-VM -Name $Name -ComputerName $($PSBoundParameters['HyperVServer'])
                         $VMStartCount = 0
@@ -925,14 +976,14 @@
         }
 
         if ($VM) {
-            if (!($SkipPowerOn)) {
+            if (!($PSBoundParameters.SkipPowerOn)) {
                 if (!($SkipPingChecks)) {
-                    while (!(Test-NetConnection $($IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
+                    while (!(Test-NetConnection $($PSBoundParameters.IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
                         $PingStartCount = $PingStartCount + 10
                         Write-Host "Waiting for network to become reachable. Elapsed Time: $PingStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
                         if ($PingStartCount -gt 120) {
-                            Write-Error "Error. Network Failed to become reachable on $($IP.IPAddressToString)."
+                            Write-Error "Error. Network Failed to become reachable on $($PSBoundParameters.IP.IPAddressToString)."
                             break
                         }
                     }
@@ -942,7 +993,7 @@
                     Switch($Type) {
                         @('VMware','Hyper-V') {
                             $B1HostProps = @{
-                                'IP' = $($IP.IPAddressToString)
+                                'IP' = $($PSBoundParameters.IP.IPAddressToString)
                             }
                         }
                         'Azure' {
