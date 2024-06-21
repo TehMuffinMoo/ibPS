@@ -104,7 +104,7 @@ Deploy-B1Appliance -Type "Azure" `
                    -AzAcceptTerms
 ```
 
-<img src="../images/Deploy-B1Appliance (Azure).gif">
+<img src="../../images/Deploy-B1Appliance (Azure).gif">
 
 ## PARAMETERS
 
