@@ -46,7 +46,7 @@ This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### VMware Example
 ```powershell
 Deploy-B1Appliance -Type "VMware" `
                     -Name "bloxoneddihost1" `
@@ -66,7 +66,7 @@ Deploy-B1Appliance -Type "VMware" `
                     -PortGroupType "VDS"
 ```
 
-### EXAMPLE 2
+### Hyper-V Example
 ```powershell
 Deploy-B1Appliance -Type Hyper-V `
                    -Name "bloxoneddihost1" `
@@ -85,7 +85,7 @@ Deploy-B1Appliance -Type Hyper-V `
                    -VirtualNetworkVLAN 101
 ```
 
-### EXAMPLE 3
+### Azure Example
 ```powershell
 Deploy-B1Appliance -Type "Azure" `
                    -Name "bloxoneddihost1" `
@@ -104,7 +104,7 @@ Deploy-B1Appliance -Type "Azure" `
                    -AzAcceptTerms
 ```
 
-![Azure Deployment](../images/Deploy-B1Appliance (Azure).gif)
+<img src="../images/Deploy-B1Appliance (Azure).gif">
 
 ## PARAMETERS
 
