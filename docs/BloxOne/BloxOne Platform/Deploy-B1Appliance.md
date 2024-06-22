@@ -864,7 +864,7 @@ Accept wildcard characters: False
 The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
@@ -879,7 +879,7 @@ Accept wildcard characters: False
 The AzBootDiagnostics parameter is used to enable Boot Diagnostics for the VM during build. This features requires a storage account be specified using -AzStorageAccount.
 
 ```yaml
-Type: String
+Type: SwitchParameter
 Parameter Sets: (All)
 Aliases:
 
