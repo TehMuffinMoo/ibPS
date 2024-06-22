@@ -1,3 +1,7 @@
+## 1.9.7.3
+- Add Azure support to `Deploy-B1Appliance`
+- Fix paths issue when using `Deploy-B1Appliance -Type VMware` on Mac/Linux
+
 ## 1.9.7.2
 - Improve `Get-B1CustomList`
 - Add `-Compartments` paremeter to `Get-B1CSPCurrentUser`
@@ -345,6 +349,7 @@
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 
