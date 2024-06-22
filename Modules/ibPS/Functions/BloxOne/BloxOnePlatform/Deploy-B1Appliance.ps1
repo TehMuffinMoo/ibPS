@@ -148,6 +148,7 @@
     .PARAMETER AzStorageAccount
         The AzStorageAccount is used to define the name of the storage account to use for Boot Diagnostics. This must be in the same Azure Resource Group and is only available when -AzBootDiagnostics is specified.
           Only used when -Type is Azure and when -AzBootDiagnostics is specified.
+          
     .PARAMETER DownloadLatestImage
         Using this parameter will download the latest relevant image prior to deployment.
 

@@ -149,3 +149,9 @@ $B1CompartmentFunctions = @(
     'New-B1Space'
 )
 Register-ArgumentCompleter -CommandName $B1CompartmentFunctions -ParameterName Compartment -ScriptBlock $B1Compartments
+
+$B1FederatedHosts = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1Host -tfilter '"host/federation"==true' -Name $wordToComplete).display_name
+}
+Register-ArgumentCompleter -CommandName Invoke-NIOS -ParameterName GridName -ScriptBlock $B1FederatedHosts
