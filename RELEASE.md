@@ -1,1 +1,2 @@
 - Add Azure support to `Deploy-B1Appliance`
+- Fix paths issue when using `Deploy-B1Appliance -Type VMware` on Mac/Linux

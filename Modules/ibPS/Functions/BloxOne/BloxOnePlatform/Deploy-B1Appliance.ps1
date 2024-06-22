@@ -319,8 +319,17 @@
                 $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                 $AttributeCollection.Add($ParamItem)
                 Switch($ParamItem.HelpMessageBaseName) {
-                    {$_ -in @('DNSServers','NTPServers')} {
-                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String[]], $AttributeCollection)    
+                    {$_ -in @('DownloadLatestImage','SkipPowerOn')} {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [Switch], $AttributeCollection)
+                    }
+                    {$_ -in @('IP','Gateway')} {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [IPAddress], $AttributeCollection)
+                    }
+                    'NTPServers' {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String[]], $AttributeCollection)
+                    }
+                    'DNSServers' {
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [IPAddress[]], $AttributeCollection)
                     }
                     Default {
                         $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
@@ -636,13 +645,14 @@
                     if ($Matches) {
                         $ImageFileName = $Matches[1]
                         if ($PSBoundParameters.ImagesPath) {
-                            if (!(Test-Path "$($PSBoundParameters.ImagesPath)\$($ImageFileName)")) {
+                            $ImageFilePath = Join-Path $($PSBoundParameters.ImagesPath) $($ImageFileName)
+                            if (!(Test-Path "$($ImageFilePath)")) {
                                 Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
-                                Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($PSBoundParameters.ImagesPath)\$($ImageFileName)"
+                                Invoke-WebRequest -Method GET -Uri $($Image.link) -OutFile "$($ImageFilePath)"
                             } else {
                                 Write-Host "Latest image already downloaded: $($ImageFileName)" -ForegroundColor Cyan
                             }
-                            $ImageFile = "$($PSBoundParameters.ImagesPath)\$($ImageFileName)"
+                            $ImageFile = "$($ImageFilePath)"
                         } else {
                             if (!(Test-Path "$($ImageFileName)")) {
                                 Write-Host "Downloading latest image: $($ImageFileName).." -ForegroundColor Cyan
@@ -674,7 +684,7 @@
                 }
                 Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -Confirm:$false
 
-                if (Connect-VIServer -Server $($PSBoundParameters['vCenter']) -Credential $($PSBoundParameters['Creds'])) {
+                if ($VMwareConnect = Connect-VIServer -Server $($PSBoundParameters['vCenter']) -Credential $($PSBoundParameters['Creds'])) {
                     Write-Host "Connected to vCenter $($PSBoundParameters['vCenter']) successfully." -ForegroundColor Green
                 } else {
                     Write-Error "Failed to establish session with vCenter $($PSBoundParameters['vCenter'])."
@@ -1014,20 +1024,27 @@
         if ($VM) {
             if (!($PSBoundParameters.SkipPowerOn)) {
                 if (!($SkipPingChecks)) {
-                    while (!(Test-NetConnection $($PSBoundParameters.IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded) {
+                    $PingStartCount = 0
+                    while (!$PingSuccess) {
+                        Write-Host -NoNewLine "`rWaiting for network to become reachable. Elapsed Time: $PingStartCount`s" -ForegroundColor Gray
                         $PingStartCount = $PingStartCount + 10
-                        Write-Host "Waiting for network to become reachable. Elapsed Time: $PingStartCount`s" -ForegroundColor Gray
+                        if ($CurrentOS -eq "Windows") {
+                            $PingSuccess = (Test-NetConnection $($PSBoundParameters.IP.IPAddressToString) -WarningAction SilentlyContinue -ErrorAction SilentlyContinue).PingSucceeded
+                        } else {
+                            $PingSuccess = (Test-Connection $($PSBoundParameters.IP.IPAddressToString) -Count 1 -WarningAction SilentlyContinue -ErrorAction SilentlyContinue) | Where-Object {$_.Status -eq 'Success'}
+                        }
                         Wait-Event -Timeout 10
                         if ($PingStartCount -gt 120) {
                             Write-Error "Error. Network Failed to become reachable on $($PSBoundParameters.IP.IPAddressToString)."
                             break
                         }
                     }
+                    Write-Host ""
                 }
 
                 if (!($SkipCloudChecks)) {
                     Switch($Type) {
-                        @('VMware','Hyper-V') {
+                        {$_ -in @('VMware','Hyper-V')} {
                             $B1HostProps = @{
                                 'IP' = $($PSBoundParameters.IP.IPAddressToString)
                             }
