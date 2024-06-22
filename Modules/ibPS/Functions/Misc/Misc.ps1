@@ -417,40 +417,44 @@ function ConvertTo-Base64Url {
 
 function New-B1Metadata {
   param(
-      [Parameter(Mandatory=$true)]
       [IPAddress]$IP,
-      [Parameter(Mandatory=$true)]
       [String]$Netmask,
-      [Parameter(Mandatory=$true)]
       [IPAddress]$Gateway,
-      [Parameter(Mandatory=$true)]
       [String]$DNSServers,
-      [Parameter(Mandatory=$false)]
       [String]$DNSSuffix,
-      [Parameter(Mandatory=$true)]
       [String]$JoinToken,
-      [Parameter(Mandatory=$false)]
       [String]$LocalDebug
   )
-  $CIDR = Convert-NetmaskToCIDR $Netmask
 
-  $metadata = @(
-      '{'
-      '"instance-id": ""'
-      '}'
-   ) -join "`r`n"
-  
-  $network = @(
-      "ethernets:"
-      "  eth0:"
-      "    addresses: [ $($IP)/$($CIDR) ]"
-      "    dhcp4: False"
-      "    gateway4: $($Gateway)"
-      "    nameservers:"
-      "      addresses: [$($DNSServers)]"
-      "    search: [$($DNSSuffix)]"
-      "version: 2"
-  ) -join "`r`n"
+  if (($PSBoundParameters.Count -eq 1) -and $($PSBoundParameters.JoinToken)) {
+    $JoinTokenOnly = $true
+  } else {
+    if (!($IP) -or !($Netmask) -or !($Gateway) -or !($DNSServers)) {
+      Write-Error "IP, Netmask, Gateway & DNSServers are mandatory parameters."
+      return $null
+    }
+    $CIDR = Convert-NetmaskToCIDR $Netmask
+  }
+
+  if (!$JoinTokenOnly) {
+    $metadata = @(
+        '{'
+        '"instance-id": ""'
+        '}'
+    ) -join "`r`n"
+    
+    $network = @(
+        "ethernets:"
+        "  eth0:"
+        "    addresses: [ $($IP)/$($CIDR) ]"
+        "    dhcp4: False"
+        "    gateway4: $($Gateway)"
+        "    nameservers:"
+        "      addresses: [$($DNSServers)]"
+        "    search: [$($DNSSuffix)]"
+        "version: 2"
+    ) -join "`r`n"
+  }
   
   $userdata = @()
   $userdata += "#cloud-config"

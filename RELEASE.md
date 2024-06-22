@@ -1,4 +1,2 @@
-- Improve `Get-B1CustomList`
-- Add `-Compartments` paremeter to `Get-B1CSPCurrentUser`
-- Fix some typos
-- Fix bug when updating tags using `Set-B1AddressBlock` and `Set-B1Subnet` [#139](https://github.com/TehMuffinMoo/ibPS/issues/139)
+- Add Azure support to `Deploy-B1Appliance`
+- Fix paths issue when using `Deploy-B1Appliance -Type VMware` on Mac/Linux

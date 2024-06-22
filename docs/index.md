@@ -41,7 +41,7 @@
 * Automate end-to-end deployments of BloxOne
 * Create, Edit & Remove objects from BloxOne Cloud (Records, Subnets, Ranges, Zones, HAGroups, etc.)
 * Apply DNS/DHCP Configuration Policies to On-Prem hosts
-* Deploy VMware & Hyper-V BloxOne Appliances
+* Deploy Azure, VMware & Hyper-V BloxOne Appliances
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
