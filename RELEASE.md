@@ -1,0 +1,2 @@
+- Enable support for NIOS Federation across NIOS Functions
+- Add `Get-NIOSSchema` function

@@ -24,7 +24,7 @@ jobs:
           $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/" -Exclude Private | Get-ChildItem -Recurse
           $MiscellaneousFunctions = Get-ChildItem "./Modules/ibPS/Functions/Misc/*.ps1" | Where-Object {$_.BaseName -ne 'Misc'}
-          $AdditionalFunctionsToExport = @('Invoke-CSP','Invoke-NIOS')
+          $AdditionalFunctionsToExport = @('Invoke-CSP')
 
           ## Export Functions
           Write-Host "Exporting functions.."

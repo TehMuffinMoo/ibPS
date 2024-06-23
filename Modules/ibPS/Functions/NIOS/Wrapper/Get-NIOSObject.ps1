@@ -13,7 +13,7 @@ function Get-NIOSObject {
         PS> Get-NIOSObject 'network?_max_results=1000&_return_as_object=1'
 
     .FUNCTIONALITY
-        BloxOneDDI
+        NIOS
 
     .FUNCTIONALITY
         Core
@@ -68,7 +68,7 @@ function Get-NIOSObject {
 
         $Results = Invoke-NIOS -Method GET -Uri $Uri @InvokeOpts
         if ($Results) {
-            $Results
+            return $Results
         }
     }
 

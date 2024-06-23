@@ -6,7 +6,6 @@ function Initialize-NIOSOpts {
         )]
         $Opts
     )
-
     $RequiredOpts = @(
         'Server'
         'GridUID'
