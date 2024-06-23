@@ -2,7 +2,7 @@ $B1FederatedHosts = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1Host -tfilter '"host/federation"==true' -Name $wordToComplete).display_name
 }
-Register-ArgumentCompleter -CommandName Invoke-NIOS,Get-NIOSSchema,Get-NIOSObject -ParameterName GridName -ScriptBlock $B1FederatedHosts
+Register-ArgumentCompleter -CommandName Invoke-NIOS,Get-NIOSSchema,Get-NIOSObject,Select-FederatedGrid -ParameterName GridName -ScriptBlock $B1FederatedHosts
 
 $SchemaObjectType = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

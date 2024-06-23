@@ -32,11 +32,15 @@ function Get-NIOSObject {
       )]
       [Alias('ref','_ref')]
       [String]$ObjectRef,
-      [Int]$Limit = 1000,
+      [ValidateRange(1,[int]::MaxValue)]
+      [Int]$Limit = [int]::MaxValue,
       [ValidateRange(1,1000)]
       [Int]$PageSize = 1000,
+      [Alias('ReturnFields')]
       [String[]]$Fields,
+      [Alias('ReturnAllFields')]
       [Switch]$AllFields,
+      [Alias('ReturnBaseFields')]
       [Switch]$BaseFields,
       [String]$Server,
       [String]$GridUID,

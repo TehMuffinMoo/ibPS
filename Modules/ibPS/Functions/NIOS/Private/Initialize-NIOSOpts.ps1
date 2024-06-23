@@ -20,5 +20,8 @@ function Initialize-NIOSOpts {
             $ReturnOpts += @{$_.Key=$_.Value}
         }
     }
+    if ($Script:B1FederatedGrid) {
+        $ReturnOpts.GridUID = $Script:B1FederatedGrid
+    }
     return $ReturnOpts
 }
