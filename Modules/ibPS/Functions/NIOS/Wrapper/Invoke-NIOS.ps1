@@ -180,9 +180,6 @@
         }
     }
     if ($Result) {
-        if ($Result.result -and -not $Result.results) {
-            $Result | Add-Member -MemberType NoteProperty -Name "results" -Value $Result.result
-        }
         return $Result
     } elseif ($ErrorOnEmpty) {
         Write-Host "Error. No results from API."
