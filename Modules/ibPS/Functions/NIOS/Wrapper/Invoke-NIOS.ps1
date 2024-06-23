@@ -87,6 +87,7 @@
             $ApiVersion = $NIOSConfig.APIVersion
         } else {
             Write-Error "Error. NIOS WAPI Version not specified. Either use the -ApiVersion parameter or Set-NIOSConfiguration -APIVersion `"2.13`""
+            return $null
         }
     }
 
@@ -100,6 +101,7 @@
                     $Server = $NIOSConfig.Server
                 } else {
                     Write-Error "Error. NIOS Server not specified. Either use the -Server parameter or Set-NIOSConfiguration -Server `"gm.mydomain.corp`""
+                    return $null
                 }
             }
             $ErrorOnEmpty = $true

@@ -868,6 +868,7 @@ function DevelopmentFunctions {
     "ConvertFrom-HexString"
     "ConvertTo-HexString"
     "ConvertTo-Base64Url"
+    "Initialize-NIOSOpts"
   )
 }
 

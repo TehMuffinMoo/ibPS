@@ -1,2 +1,5 @@
 - Enable support for NIOS Federation across NIOS Functions
 - Add `Get-NIOSSchema` function
+- Add `-Fields` support to NIOS functions
+- Add paging support to NIOS functions
+- Add argument completers to NIOS functions

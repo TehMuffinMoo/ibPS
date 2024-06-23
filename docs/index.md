@@ -48,10 +48,9 @@
 * Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](BloxOne/Generic%20Wrapper/).
 * Automate the world!
 
-## Limitations
+## Feature Requests
 
 * If the cmdlet you are looking for is not yet built into the Module, you can raise a feature request via Github Issues. You can also use this module as a generic wrapper by leveraging these [Wrapper Cmdlets](BloxOne/Generic%20Wrapper/).
-* A [PowerShell module already exists for InfoBlox NIOS](https://www.powershellgallery.com/packages/Posh-IBWAPI/3.2.2) and so limited Cmdlets will be built into this module. Any NIOS cmdlets built in are primarily for the purpose of migration to BloxOneDDI and may be deprecated.
 
 ## How To Use
 
