@@ -869,6 +869,10 @@ function DevelopmentFunctions {
     "ConvertTo-HexString"
     "ConvertTo-Base64Url"
     "Initialize-NIOSOpts"
+    "Get-NIOSContext"
+    "Set-NIOSContext"
+    "Get-NIOSWebSession"
+    "Set-NIOSWebSession"
   )
 }
 

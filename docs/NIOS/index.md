@@ -6,7 +6,7 @@ You can create custom functions for NIOS by using the `Invoke-NIOS` cmdlet.
 
 `Invoke-NIOS` is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs.
 
-`-Server`, `-ApiVersion` & `-Creds` can all be ommitted if you have pre-configured them using `Set-NIOSConfiguration` & `Set-NIOSCredentials` cmdlets
+`-Server`, `-ApiVersion` & `-Creds` can all be ommitted if you have pre-configured them using `Set-NIOSConnectionProfile` & `Set-NIOSCredentials` cmdlets
 
 ```powershell
 Invoke-NIOS -Method <String> -Server <String> -Uri <String> -ApiVersion <String> -Creds <PSCredential> -Data <String> -SkipCertificateCheck <Switch>

@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-NIOSConfiguration
+# Get-NIOSConnectionProfile
 
 ## SYNOPSIS
 Retrieves the stored NIOS Configuration from the local machine, if available.
@@ -13,7 +13,7 @@ Retrieves the stored NIOS Configuration from the local machine, if available.
 ## SYNTAX
 
 ```
-Get-NIOSConfiguration
+Get-NIOSConnectionProfile
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function will retrieve the saved NIOS Configuration from the local user/mac
 
 ### EXAMPLE 1
 ```powershell
-Get-NIOSConfiguration
+Get-NIOSConnectionProfile
 ```
 
 ## PARAMETERS

@@ -154,12 +154,12 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Remove-B1Object', 'Set-B1Object', 'Copy-NIOSDTCToBloxOne', 
                'Copy-NIOSSubzoneToBloxOne', 'Clear-FederatedGrid', 'Get-NIOSObject', 
                'Get-NIOSSchema', 'Invoke-NIOS', 'Select-FederatedGrid', 
-               'Get-NIOSAuthoritativeZone', 'Get-NIOSConfiguration', 
+               'Get-NIOSAuthoritativeZone', 'Get-NIOSConnectionProfile', 
                'Get-NIOSCredentials', 'Get-NIOSDelegatedZone', 'Get-NIOSForwardZone', 
-               'New-NIOSDelegatedZone', 'Set-NIOSConfiguration', 
+               'New-NIOSDelegatedZone', 'New-NIOSConnectionProfile', 
                'Set-NIOSCredentials', 'Get-ibPSConfiguration', 'Get-ibPSVersion', 
                'Get-NetworkInfo', 'Get-NetworkTopology', 'Resolve-DoHQuery', 
-               'Set-ibPSConfiguration', 'Invoke-CSP'
+               'Set-ibPSConfiguration', 'Invoke-CSP', 'Switch-NIOSConnectionProfile', 'Remove-NIOSConnectionProfile'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()

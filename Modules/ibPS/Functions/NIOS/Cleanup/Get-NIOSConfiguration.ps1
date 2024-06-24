@@ -1,4 +1,4 @@
-function Get-NIOSConfiguration {
+function Get-NIOSConnectionProfile {
     <#
     .SYNOPSIS
         Retrieves the stored NIOS Configuration from the local machine, if available.
@@ -7,7 +7,7 @@ function Get-NIOSConfiguration {
         This function will retrieve the saved NIOS Configuration from the local user/machine if it has previously been stored.
 
     .EXAMPLE
-        Get-NIOSConfiguration
+        Get-NIOSConnectionProfile
 
     .FUNCTIONALITY
         NIOS

@@ -39,4 +39,6 @@ if ($ENV:IBPSDebug -eq "Enabled") {
    $DebugPreference = 'SilentlyContinue'
 }
 
+Initialize-NIOSConfig
+
 Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions + ($MiscellaneousFunctions | Where-Object {$_.BaseName -ne 'Misc'})) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -Alias *

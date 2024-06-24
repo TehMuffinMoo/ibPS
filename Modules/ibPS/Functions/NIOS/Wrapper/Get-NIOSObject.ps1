@@ -53,7 +53,6 @@ function Get-NIOSObject {
     begin {
         ## Initialize Query Filters
         [System.Collections.ArrayList]$QueryFilters = @()
-
         $InvokeOpts = Initialize-NIOSOpts $PSBoundParameters
     }
 

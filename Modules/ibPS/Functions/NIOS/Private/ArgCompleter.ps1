@@ -2,7 +2,7 @@ $B1FederatedHosts = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1Host -tfilter '"host/federation"==true' -Name $wordToComplete).display_name
 }
-Register-ArgumentCompleter -CommandName Invoke-NIOS,Get-NIOSSchema,Get-NIOSObject,Select-FederatedGrid -ParameterName GridName -ScriptBlock $B1FederatedHosts
+Register-ArgumentCompleter -CommandName Invoke-NIOS,Get-NIOSSchema,Get-NIOSObject,Set-NIOSConnectionProfile -ParameterName GridName -ScriptBlock $B1FederatedHosts
 
 $SchemaObjectType = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
@@ -36,3 +36,9 @@ $AvailableFields = {
     (Get-NIOSSchema @InvokeOpts -ObjectType $ObjectType -Fields -Method $Method).name | Where-Object {$_ -like "$wordToComplete*"}
 }
 Register-ArgumentCompleter -CommandName Get-NIOSObject -ParameterName Fields -ScriptBlock $AvailableFields
+
+$ConnectionProfiles = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-NIOSConnectionProfile -List | Where-Object {$_.Name -like "$($wordToComplete)*"}).Name
+}
+Register-ArgumentCompleter -CommandName Get-NIOSConnectionProfile,Set-NIOSConnectionProfile,Switch-NIOSConnectionProfile,Remove-NIOSConnectionProfile -ParameterName Name -ScriptBlock $ConnectionProfiles

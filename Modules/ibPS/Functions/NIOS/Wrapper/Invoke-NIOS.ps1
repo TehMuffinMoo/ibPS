@@ -12,7 +12,7 @@
     .PARAMETER Server
         Specify the NIOS Grid Manager IP or FQDN to use
 
-        This parameter can be ommitted if the Server is stored by using Set-NIOSConfiguration
+        This parameter can be ommitted if the Server is stored by using Set-NIOSConnectionProfile
 
         This is used only when connecting to NIOS directly.
 
@@ -28,7 +28,7 @@
     .PARAMETER ApiVersion
         The version of the NIOS API to use (WAPI)
 
-        This parameter can be ommitted if the API Version is stored by using Set-NIOSConfiguration
+        This parameter can be ommitted if the API Version is stored by using Set-NIOSConnectionProfile
 
     .PARAMETER Creds
         The creds parameter can be used to specify credentials as part of the command.
@@ -59,7 +59,7 @@
     #>
     param(
       [Microsoft.PowerShell.Commands.WebRequestMethod]$Method = 'GET',
-      [Parameter(ParameterSetName='Local')]
+      [Parameter(Mandatory=$true,ParameterSetName='Local')]
       [String]$Server,
       [Parameter(Mandatory=$true,ParameterSetName='FederatedUID')]
       [String]$GridUID,
@@ -67,47 +67,29 @@
       [String]$GridName,
       [Parameter(Mandatory=$true)]
       [String]$Uri,
+      [Parameter(Mandatory=$true)]
       [String]$ApiVersion,
-      [Parameter(ParameterSetName='Local')]
+      [Parameter(Mandatory=$true,ParameterSetName='Local')]
+      [Alias('Credentials')]
       [PSCredential]$Creds,
       [String]$Data,
       [Parameter(ParameterSetName='Local')]
       [Switch]$SkipCertificateCheck
     )
 
-    $NIOSConfig = Get-NIOSConfiguration
-
     ## Set Headers
     $Headers = @{
         'Content-Type' = 'application/json'
     }
 
-    if (!($ApiVersion)) {
-        if ($NIOSConfig.APIVersion) {
-            $ApiVersion = $NIOSConfig.APIVersion
-        } else {
-            Write-Error "Error. NIOS WAPI Version not specified. Either use the -ApiVersion parameter or Set-NIOSConfiguration -APIVersion `"2.13`""
-            return $null
-        }
-    }
-
     Switch($PSCmdlet.ParameterSetName) {
         'Local' {
-            if (!($Creds)) {
-                $Creds = Get-NIOSCredentials
+            ## Establish Websession & Cache it
+            if (!(Get-NIOSWebSession -Server $Server -Creds $Creds)) {
+                Set-NIOSWebSession -Server $($Server) -Creds $($Creds) -WebSession (New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession -Property @{Credentials=$Creds})
             }
-            if (!($Server)) {
-                if ($NIOSConfig.Server) {
-                    $Server = $NIOSConfig.Server
-                } else {
-                    Write-Error "Error. NIOS Server not specified. Either use the -Server parameter or Set-NIOSConfiguration -Server `"gm.mydomain.corp`""
-                    return $null
-                }
-            }
-            $ErrorOnEmpty = $true
-            if (!($script:WebSession)) {
-                $script:WebSession = New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession -Property @{Credentials=$Creds}
-            }
+            $WebSession = Get-NIOSWebSession -Server $Server -Creds $Creds
+                
             if ($SkipCertificateCheck) {
                 if ($PSVersionTable.PSVersion.ToString() -lt 7) {
                   add-type @"
@@ -147,9 +129,11 @@
         Uri = "$WAPIBase/$Uri"
         Headers = $Headers
     }
-    if ($script:WebSession) {
-        $Splat.WebSession = $script:WebSession
+
+    if ($WebSession) {
+        $Splat.WebSession = $WebSession
     }
+
     if ($SkipCertificateCheck -and ($PSVersionTable.PSVersion.ToString() -gt 7)) {
         $Splat.SkipCertificateCheck = $SkipCertificateCheck
     }

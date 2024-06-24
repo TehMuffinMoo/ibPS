@@ -5,7 +5,7 @@ online version:
 schema: 2.0.0
 ---
 
-# Set-NIOSConfiguration
+# Set-NIOSConnectionProfile
 
 ## SYNOPSIS
 Stores NIOS Server Address & API Version to the local user/machine
@@ -13,7 +13,7 @@ Stores NIOS Server Address & API Version to the local user/machine
 ## SYNTAX
 
 ```
-Set-NIOSConfiguration [[-Server] <String>] [[-APIVersion] <String>] [-Persist]
+Set-NIOSConnectionProfile [[-Server] <String>] [[-APIVersion] <String>] [-Persist]
 ```
 
 ## DESCRIPTION
@@ -24,7 +24,7 @@ If previous configuration exists, it will be overwritten.
 
 ### EXAMPLE 1
 ```powershell
-Set-NIOSConfiguration -Server gm.mydomain.corp -APIVersion 2.13 -Persist
+Set-NIOSConnectionProfile -Server gm.mydomain.corp -APIVersion 2.13 -Persist
 ```
 
 ## PARAMETERS

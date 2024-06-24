@@ -63,7 +63,7 @@ Accept wildcard characters: False
 
 ### -Server
 Specify the NIOS Grid Manager IP or FQDN to use  
-This parameter can be ommitted if the Server is stored by using Set-NIOSConfiguration
+This parameter can be ommitted if the Server is stored by using Set-NIOSConnectionProfile
 
 ```yaml
 Type: String
@@ -94,7 +94,7 @@ Accept wildcard characters: False
 
 ### -ApiVersion
 The version of the NIOS API to use (WAPI)  
-This parameter can be ommitted if the API Version is stored by using Set-NIOSConfiguration
+This parameter can be ommitted if the API Version is stored by using Set-NIOSConnectionProfile
 
 ```yaml
 Type: String
