@@ -21,14 +21,16 @@ function Get-NIOSObject {
     param(
         [Parameter(
             ParameterSetName = 'Type',
-            Mandatory = $true
+            Mandatory = $true,
+            Position = 0
         )]
         [Alias('type')]
         [String]$ObjectType,
         [Parameter(
             ParameterSetName = 'Ref',
             Mandatory = $true,
-            ValueFromPipelineByPropertyName=$true
+            ValueFromPipelineByPropertyName=$true,
+            Position = 1
         )]
         [Alias('ref','_ref')]
         [String]$ObjectRef,
