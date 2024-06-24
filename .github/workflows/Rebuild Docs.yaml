@@ -51,31 +51,31 @@ jobs:
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
                 "BloxOneDDI" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/BloxOne DDI"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne DDI"
                 }
                 "BloxOneTD" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/BloxOne Threat Defense"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Threat Defense"
                 }
                 "BloxOnePlatform" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/BloxOne Platform"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Platform"
                 }
                 "BloxOneCloud" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/BloxOne Cloud"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Cloud"
                 }
                 "Wrapper" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/Generic Wrapper"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Generic Wrapper"
                 }
                 "Misc" {
                   $BaseName = "General"
                 }
                 "Cleanup" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/Cleanup"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Cleanup"
                 }
                 "Tools" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/Tools"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Tools"
                 }
                 "Profiles" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/Profiles"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
