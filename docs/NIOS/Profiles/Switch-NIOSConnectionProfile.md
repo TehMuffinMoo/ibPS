@@ -5,31 +5,33 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-NIOSObject
+# Switch-NIOSConnectionProfile
 
 ## SYNOPSIS
-Generic Wrapper for interaction with the NIOS WAPI
+{{ Fill in the Synopsis }}
 
 ## SYNTAX
 
 ```
-Get-NIOSObject [-Object] <String> [<CommonParameters>]
+Switch-NIOSConnectionProfile [-Name] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This is a Generic Wrapper for interaction with the NIOS WAPI
+{{ Fill in the Description }}
 
 ## EXAMPLES
 
-### EXAMPLE 1
+### Example 1
 ```powershell
-Get-NIOSObject 'network?_max_results=1000&_return_as_object=1'
+PS C:\> {{ Add example code here }}
 ```
+
+{{ Add example description here }}
 
 ## PARAMETERS
 
-### -Object
-Specify the object URI / API endpoint and query parameters here
+### -Name
+{{ Fill Name Description }}
 
 ```yaml
 Type: String
@@ -37,7 +39,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: 0
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -48,8 +50,10 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
+### None
 ## OUTPUTS
 
+### System.Object
 ## NOTES
 
 ## RELATED LINKS
