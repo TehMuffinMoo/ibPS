@@ -51,25 +51,31 @@ jobs:
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
                 "BloxOneDDI" {
-                  $BaseName = "BloxOne/BloxOne DDI"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/BloxOne DDI"
                 }
                 "BloxOneTD" {
-                  $BaseName = "BloxOne/BloxOne Threat Defense"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/BloxOne Threat Defense"
                 }
                 "BloxOnePlatform" {
-                  $BaseName = "BloxOne/BloxOne Platform"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/BloxOne Platform"
                 }
                 "BloxOneCloud" {
-                  $BaseName = "BloxOne/BloxOne Cloud"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/BloxOne Cloud"
                 }
                 "Wrapper" {
-                  $BaseName = "BloxOne/Generic Wrapper"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/Generic Wrapper"
                 }
                 "Misc" {
                   $BaseName = "General"
                 }
-                "NIOS" {
-                  $BaseName = "NIOS/Functions"
+                "Cleanup" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/Cleanup"
+                }
+                "Tools" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/Tools"
+                }
+                "Profiles" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName)))/Profiles"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
