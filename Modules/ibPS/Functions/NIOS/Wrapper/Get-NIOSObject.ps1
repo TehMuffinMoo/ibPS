@@ -19,35 +19,36 @@ function Get-NIOSObject {
         Core
     #>
     param(
-      [Parameter(
-        ParameterSetName = 'Type',
-        Mandatory = $true
-      )]
-      [Alias('type')]
-      [String]$ObjectType,
-      [Parameter(
-        ParameterSetName = 'Ref',
-        Mandatory = $true,
-        ValueFromPipelineByPropertyName=$true
-      )]
-      [Alias('ref','_ref')]
-      [String]$ObjectRef,
-      [ValidateRange(1,[int]::MaxValue)]
-      [Int]$Limit = [int]::MaxValue,
-      [ValidateRange(1,1000)]
-      [Int]$PageSize = 1000,
-      [Alias('ReturnFields')]
-      [String[]]$Fields,
-      [Alias('ReturnAllFields')]
-      [Switch]$AllFields,
-      [Alias('ReturnBaseFields')]
-      [Switch]$BaseFields,
-      [String]$Server,
-      [String]$GridUID,
-      [String]$GridName,
-      [String]$ApiVersion,
-      [Switch]$SkipCertificateCheck,
-      [PSCredential]$Creds
+        [Parameter(
+            ParameterSetName = 'Type',
+            Mandatory = $true
+        )]
+        [Alias('type')]
+        [String]$ObjectType,
+        [Parameter(
+            ParameterSetName = 'Ref',
+            Mandatory = $true,
+            ValueFromPipelineByPropertyName=$true
+        )]
+        [Alias('ref','_ref')]
+        [String]$ObjectRef,
+        [ValidateRange(1,[int]::MaxValue)]
+        [Int]$Limit = 1000,
+        [ValidateRange(1,1000)]
+        [Int]$PageSize = 1000,
+        [Object]$Filters,
+        [Alias('ReturnFields')]
+        [String[]]$Fields,
+        [Alias('ReturnAllFields')]
+        [Switch]$AllFields,
+        [Alias('ReturnBaseFields')]
+        [Switch]$BaseFields,
+        [String]$Server,
+        [String]$GridUID,
+        [String]$GridName,
+        [String]$ApiVersion,
+        [Switch]$SkipCertificateCheck,
+        [PSCredential]$Creds
     )
 
     begin {
@@ -88,18 +89,52 @@ function Get-NIOSObject {
             $QueryFilters.Add("_max_results=$($Limit)") | Out-Null
         }
 
+        ## Build List of Filters
+        if ($Filters) {
+            if ($Filters -is [string]) {
+                # add as-is
+                $QueryFilters.Add($Filters) | Out-Null
+            }
+            elseif ($Filters -is [array] -and $Filters[0] -is [string]) {
+                # add as-is
+                $QueryFilters.AddRange([string[]]$Filters) | Out-Null
+            }
+            elseif ($Filters -is [Collections.IDictionary]) {
+                # URL encode the pairs and join with '=' before adding
+                $Filters.GetEnumerator().foreach{
+                    $QueryFilters.Add(
+                        ('{0}={1}' -f [Web.HttpUtility]::UrlEncode($_.Key),[Web.HttpUtility]::UrlEncode($_.Value.ToString()))
+                    ) | Out-Null
+                }
+            }
+            else {
+                Write-Error "Unsupported Filter parameter. This must be a string, array, or hashtable."
+                break
+            }
+        }
+
         if ($QueryFilters) {
             $QueryString = ConvertTo-QueryString $QueryFilters
         }
         $Uri = "$($QueryURI)$($QueryString)"
 
         if ($EnablePaging) {
-            $Results = Invoke-NIOS -Method GET -Uri $Uri @InvokeOpts
+            try {
+                $Results = Invoke-NIOS -Method GET -Uri $Uri @InvokeOpts
+            } catch {
+                Write-Error $_
+                break
+            }
             $ReturnResults = @()
             $ReturnResults += $Results.result
             while ($Results.next_page_id -ne $null) {
                 if (!($ReturnResults.count -ge $Limit)) {
-                    $Results = Invoke-NIOS -Method GET -Uri "$($Uri)&_page_id=$($Results.next_page_id)" @InvokeOpts
+                    try {
+                        $Results = Invoke-NIOS -Method GET -Uri "$($Uri)&_page_id=$($Results.next_page_id)" @InvokeOpts
+                    } catch {
+                        Write-Error $_
+                        break
+                    }
                     if (($Limit-$ReturnResults.count) -lt $PageSize) {
                         $ReturnResults += $Results.result | Select-Object -First ($Limit-$ReturnResults.count)
                     } else {
@@ -110,7 +145,12 @@ function Get-NIOSObject {
                 }
             }
         } else {
-            $ReturnResults = (Invoke-NIOS -Method GET -Uri $Uri @InvokeOpts).result
+            try {
+                $ReturnResults = (Invoke-NIOS -Method GET -Uri $Uri @InvokeOpts).result
+            } catch {
+                Write-Error $_
+                break
+            }
         }
 
         if ($ReturnResults) {

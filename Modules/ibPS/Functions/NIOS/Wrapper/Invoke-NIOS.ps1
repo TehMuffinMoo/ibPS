@@ -92,17 +92,19 @@
                 
             if ($SkipCertificateCheck) {
                 if ($PSVersionTable.PSVersion.ToString() -lt 7) {
-                  add-type @"
-                      using System.Net;
-                      using System.Security.Cryptography.X509Certificates;
-                      public class TrustAllCertsPolicy : ICertificatePolicy {
-                          public bool CheckValidationResult(
-                              ServicePoint srvPoint, X509Certificate certificate,
-                              WebRequest request, int certificateProblem) {
-                              return true;
-                          }
-                      }
+                  if (-not ([System.Management.Automation.PSTypeName]'CertValidation').Type) {
+                    add-type @"
+                        using System.Net;
+                        using System.Security.Cryptography.X509Certificates;
+                        public class TrustAllCertsPolicy : ICertificatePolicy {
+                            public bool CheckValidationResult(
+                                ServicePoint srvPoint, X509Certificate certificate,
+                                WebRequest request, int certificateProblem) {
+                                return true;
+                            }
+                        }
 "@
+                  }
                   [System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
                 }
             }
