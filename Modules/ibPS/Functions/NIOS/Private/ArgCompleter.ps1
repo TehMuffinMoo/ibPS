@@ -21,7 +21,7 @@ $AvailableReturnFields = {
     }
     (Get-NIOSSchema @InvokeOpts -ObjectType $ObjectType -Fields -Method GET).name | Where-Object {$_ -like "$wordToComplete*"}
 }
-Register-ArgumentCompleter -CommandName Get-NIOSObject,Set-NIOSObject -ParameterName Fields -ScriptBlock $AvailableReturnFields
+Register-ArgumentCompleter -CommandName Get-NIOSObject,Set-NIOSObject,New-NIOSObject -ParameterName Fields -ScriptBlock $AvailableReturnFields
 
 $ConnectionProfiles = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
