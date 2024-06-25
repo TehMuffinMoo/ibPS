@@ -120,7 +120,7 @@ Accept wildcard characters: False
 ```
 
 ### -Type
-{{ Fill Type Description }}
+Filter results by type.
 
 ```yaml
 Type: String

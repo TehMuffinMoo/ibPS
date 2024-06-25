@@ -1,2 +1,8 @@
-- Add Azure support to `Deploy-B1Appliance`
-- Fix paths issue when using `Deploy-B1Appliance -Type VMware` on Mac/Linux
+- Enable support for BloxOne / NIOS Federation across NIOS Functions
+- Add `Set-NIOSObject`, `Remove-NIOSObject`, `New-NIOSObject`, `Get-NIOSSchema`, `Get-NIOSConnectionProfile`, `Set-NIOSConnectionProfile`, `Remove-NIOSConnectionProfile`, `Switch-NIOSConnectionProfile` functions
+- Overhaul `Get-NIOSObject` & `Invoke-NIOS` functions
+- Cleanup old/outdated NIOS functions
+- Add persistent connection profiles support to NIOS functions
+- Add `-Fields` & `-Filters` support to NIOS functions
+- Add paging support to NIOS functions
+- Add argument completers to NIOS functions

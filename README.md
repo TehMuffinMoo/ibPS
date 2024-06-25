@@ -40,6 +40,7 @@
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
 * Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](https://ibps.readthedocs.io/en/latest/BloxOne/Generic%20Wrapper/).
+* Fully featured NIOS Wrapper using Native API or BloxOne Federation [NIOS Wrapper Cmdlets](https://ibps.readthedocs.io/en/latest/NIOS/Generic%20Wrapper/)
 * Automate the world!
 
 ## How To Use

@@ -5,31 +5,43 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-NIOSObject
+# Switch-NIOSConnectionProfile
 
 ## SYNOPSIS
-Generic Wrapper for interaction with the NIOS WAPI
+This function is used to switch between saved connection profiles.
 
 ## SYNTAX
 
 ```
-Get-NIOSObject [-Object] <String> [<CommonParameters>]
+Switch-NIOSConnectionProfile [-Name] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This is a Generic Wrapper for interaction with the NIOS WAPI
+Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids, with the ability to quickly switch between them.
+
+New connection profiles can be created using [`New-NIOSConnectionProfile`](../New-NIOSConnectionProfile/).
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-NIOSObject 'network?_max_results=1000&_return_as_object=1'
+Switch-NCP Corp-GM
+
+Corp-GM has been set as the active connection profile.
+```
+
+### EXAMPLE 2
+```powershell
+Switch-NIOSConnectionProfile BloxOne-GM
+
+BloxOne-GM has been set as the active connection profile.
 ```
 
 ## PARAMETERS
 
-### -Object
-Specify the object URI / API endpoint and query parameters here
+### -Name
+Specify the connection profile name to switch to.
+This field supports tab completion.
 
 ```yaml
 Type: String

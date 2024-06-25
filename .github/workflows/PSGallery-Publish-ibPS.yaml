@@ -43,9 +43,9 @@ jobs:
 
           ## Functions to export
           $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
-          $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/*.ps1"
+          $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/" -Exclude Private | Get-ChildItem -Recurse
           $MiscellaneousFunctions = Get-ChildItem "./Modules/ibPS/Functions/Misc/*.ps1" | Where-Object {$_.BaseName -ne 'Misc'}
-          $AdditionalFunctionsToExport = @('Invoke-CSP','Invoke-NIOS')
+          $AdditionalFunctionsToExport = @('Invoke-CSP')
 
           ## Export Functions
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
@@ -120,25 +120,31 @@ jobs:
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
                 "BloxOneDDI" {
-                  $BaseName = "BloxOne/BloxOne DDI"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne DDI"
                 }
                 "BloxOneTD" {
-                  $BaseName = "BloxOne/BloxOne Threat Defense"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Threat Defense"
                 }
                 "BloxOnePlatform" {
-                  $BaseName = "BloxOne/BloxOne Platform"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Platform"
                 }
                 "BloxOneCloud" {
-                  $BaseName = "BloxOne/BloxOne Cloud"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Cloud"
                 }
                 "Wrapper" {
-                  $BaseName = "BloxOne/Generic Wrapper"
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Generic Wrapper"
                 }
                 "Misc" {
                   $BaseName = "General"
                 }
-                "NIOS" {
-                  $BaseName = "NIOS/Functions"
+                "Cleanup" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Cleanup"
+                }
+                "Tools" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Tools"
+                }
+                "Profiles" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
