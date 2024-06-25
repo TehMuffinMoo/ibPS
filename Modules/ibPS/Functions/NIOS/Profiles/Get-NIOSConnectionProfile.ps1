@@ -1,4 +1,42 @@
 function Get-NIOSConnectionProfile {
+    <#
+    .SYNOPSIS
+        This function is used to retrieved saved connection profiles. By default, the active profile is returned.
+
+    .DESCRIPTION
+        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/). 
+
+    .PARAMETER Name
+        Return a specific connection profile based on its name
+
+    .PARAMETER List
+        Return a list of all saved connection profiles.
+
+    .EXAMPLE
+        PS> Get-NCP | ft
+
+        Active   Name          Type        APIVersion   GridName                              GridUID                           Server  Username  SkipCertificateCheck
+        ------   ----          ----        ----------   --------                              -------                           ------  --------  --------------------
+        True     BloxOne-GM1   Federated   2.12         Infoblox_infoblox.localdomain_A9E9CF  adsudas09dus0fu4rsf8yfsyysfd8fu9  -       -         -
+
+    .EXAMPLE
+        PS> Get-NIOSConnectionProfile -List | ft
+
+        Active  Name          Type      APIVersion GridName                             GridUID                          Server                   Username  SkipCertificateCheck
+        ------  ----          ----      ---------- --------                             -------                          ------                   --------  --------------------
+        True    BloxOne-GM1   Federated 2.12.3     Infoblox_infoblox.localdomain_A9E9CF adsudas09dus0fu4rsf8yfsyysfd8fu9 -                        -         -
+        False   Corp-GM1      Local     2.12       -                                    -                                10.10.175.225            admin     True
+        False   DMZ-GM1       Local     2.12       -                                    -                                172.26.21.22             infoblox  False
+
+    .FUNCTIONALITY
+        NIOS
+
+    .FUNCTIONALITY
+        Core
+
+    .FUNCTIONALITY
+        Authentication
+    #>
     [Alias('Get-NCP')]
     param(
         [String]$Name,

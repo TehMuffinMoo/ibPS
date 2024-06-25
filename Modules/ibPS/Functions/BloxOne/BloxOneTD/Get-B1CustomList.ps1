@@ -12,7 +12,7 @@
     .PARAMETER Description
         Filter results by Description.
 
-    .PARAMETER Description
+    .PARAMETER Type
         Filter results by type.
 
     .PARAMETER ReturnItems

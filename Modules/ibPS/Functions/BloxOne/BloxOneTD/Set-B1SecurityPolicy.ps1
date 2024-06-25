@@ -48,7 +48,6 @@
     .PARAMETER Tags
         A list of tags to apply to the Security Policy
 
-
     .PARAMETER Object
         The Security Policy Object(s) to update. Accepts pipeline input.
 

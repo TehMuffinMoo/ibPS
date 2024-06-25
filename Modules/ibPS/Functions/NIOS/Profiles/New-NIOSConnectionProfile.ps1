@@ -1,4 +1,60 @@
 function New-NIOSConnectionProfile {
+    <#
+    .SYNOPSIS
+        This function is used to create a new connection profiles. By default, the new profile will be set as active.
+
+    .DESCRIPTION
+        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/). 
+
+    .PARAMETER Name
+        Specify the name for the new connection profile
+
+    .PARAMETER GridUID
+        Specify the NIOS Grid UID (license_uid) to use for the new connection profile. This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+
+        Using this parameter will set the connection profile type to Federated.
+
+    .PARAMETER GridName
+        Specify the NIOS Grid Name in BloxOne DDI to use for the new connection profile.
+
+        Using this parameter will set the connection profile type to Federated.
+
+    .PARAMETER ApiVersion
+        The version of the NIOS WAPI to use for the new connection profile. (i.e 2.12)
+
+    .PARAMETER Server
+        Specify the NIOS Grid Manager IP or FQDN for the new connection profile
+
+        Using this parameter will set the connection profile type to Local.
+
+    .PARAMETER Creds
+        Specify the NIOS Grid Manager credentials for the new connection profile
+
+        Using this parameter will set the connection profile type to Local.
+
+    .PARAMETER SkipCertificateCheck
+        If this parameter is set, SSL Certificates Checks will be ignored.
+
+        Using this parameter will set the connection profile type to Local.
+
+    .PARAMETER NoSwitchProfile
+        Do not make this profile active upon creation
+
+    .EXAMPLE
+        PS> New-NCP
+
+    .EXAMPLE
+        PS> New-NIOSConnectionProfile
+
+    .FUNCTIONALITY
+        NIOS
+
+    .FUNCTIONALITY
+        Core
+
+    .FUNCTIONALITY
+        Authentication
+    #>
     [Alias('New-NCP')]
     param (
         [Parameter(Mandatory=$true)]
