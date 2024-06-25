@@ -13,7 +13,7 @@
         Filter results by Description.
 
     .PARAMETER Description
-        Filter results by Type.
+        Filter results by type.
 
     .PARAMETER ReturnItems
         Optionally return the list of domains contained within the Named List. Only required when -id is not specified.
