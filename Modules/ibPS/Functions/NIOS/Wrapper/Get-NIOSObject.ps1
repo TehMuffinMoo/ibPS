@@ -129,6 +129,7 @@ function Get-NIOSObject {
             }
             $ReturnResults = @()
             $ReturnResults += $Results.result
+            Write-Host -NoNewLine "`r($($ReturnResults.count)/$($Limit)): Results Returned." -ForegroundColor Cyan
             while ($Results.next_page_id -ne $null) {
                 if (!($ReturnResults.count -ge $Limit)) {
                     try {
@@ -142,7 +143,9 @@ function Get-NIOSObject {
                     } else {
                         $ReturnResults += $Results.result
                     }
+                    Write-Host -NoNewLine "`r($($ReturnResults.count)/$($Limit)): Results Returned." -ForegroundColor Cyan
                 } else {
+                    Write-Host -NoNewLine "`r($($ReturnResults.count)/$($ReturnResults.count)): Results Returned." -ForegroundColor Green
                     break
                 }
             }
