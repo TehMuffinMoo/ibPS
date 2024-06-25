@@ -151,14 +151,13 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Set-B1SecurityPolicy', 'Set-B1SOCInsight', 'Set-B1TideDataProfile', 
                'Start-B1DossierBatchLookup', 'Start-B1DossierLookup', 
                'Submit-B1TideData', 'Get-B1Object', 'Get-B1Schema', 'New-B1Object', 
-               'Remove-B1Object', 'Set-B1Object', 'Copy-NIOSSubzoneToBloxOne', 
-               'Get-NIOSConnectionProfile', 'New-NIOSConnectionProfile', 
-               'Remove-NIOSConnectionProfile', 'Switch-NIOSConnectionProfile', 
-               'Copy-NIOSDTCToBloxOne', 'Get-NIOSObject', 'Get-NIOSSchema', 
-               'Invoke-NIOS', 'New-NIOSObject', 'Remove-NIOSObject', 'Set-NIOSObject', 
-               'Get-ibPSConfiguration', 'Get-ibPSVersion', 'Get-NetworkInfo', 
-               'Get-NetworkTopology', 'Resolve-DoHQuery', 'Set-ibPSConfiguration', 
-               'Invoke-CSP'
+               'Remove-B1Object', 'Set-B1Object', 'Get-NIOSConnectionProfile', 
+               'New-NIOSConnectionProfile', 'Remove-NIOSConnectionProfile', 
+               'Switch-NIOSConnectionProfile', 'Copy-NIOSDTCToBloxOne', 
+               'Get-NIOSObject', 'Get-NIOSSchema', 'Invoke-NIOS', 'New-NIOSObject', 
+               'Remove-NIOSObject', 'Set-NIOSObject', 'Get-ibPSConfiguration', 
+               'Get-ibPSVersion', 'Get-NetworkInfo', 'Get-NetworkTopology', 
+               'Resolve-DoHQuery', 'Set-ibPSConfiguration', 'Invoke-CSP'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
