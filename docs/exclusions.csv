@@ -5,3 +5,7 @@ New-B1APIKey.md
 Get-NetworkTopology.md
 Invoke-CSP.md
 New-B1DTCHealthCheck.md
+Get-NIOSConnectionProfile.md
+New-NIOSConnectionProfile.md
+Remove-NIOSConnectionProfile.md
+Switch-NIOSConnectionProfile.md

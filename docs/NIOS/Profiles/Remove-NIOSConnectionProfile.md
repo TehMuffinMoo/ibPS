@@ -18,7 +18,8 @@ Remove-NIOSConnectionProfile [-Name] <String> [[-Confirm] <Boolean>] [<CommonPar
 
 ## DESCRIPTION
 Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids.
-A list of connection profiles can be retrieved using \[Get-NIOSConnectionProfile\](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Get-NIOSConnectionProfile/).
+
+A list of connection profiles can be retrieved using [`Get-NIOSConnectionProfile`](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Get-NIOSConnectionProfile/).
 
 ## EXAMPLES
 

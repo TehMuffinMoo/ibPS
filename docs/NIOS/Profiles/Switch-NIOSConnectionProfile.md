@@ -19,6 +19,8 @@ Switch-NIOSConnectionProfile [-Name] <String> [<CommonParameters>]
 ## DESCRIPTION
 Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids, with the ability to quickly switch between them.
 
+New connection profiles can be created using [`New-NIOSConnectionProfile`](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/New-NIOSConnectionProfile/).
+
 ## EXAMPLES
 
 ### EXAMPLE 1
