@@ -33,7 +33,7 @@
     .PARAMETER Creds
         The creds parameter can be used to specify credentials as part of the command.
 
-        This parameter can be ommitted if the Credentials are stored by using Set-NIOSCredentials
+        This parameter can be ommitted if the Credentials are stored by using New-NIOSConnectionProfile
 
         This is used only when connecting to NIOS directly.
 
