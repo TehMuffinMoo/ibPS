@@ -8,38 +8,47 @@ schema: 2.0.0
 # Get-NIOSObject
 
 ## SYNOPSIS
-Generic Wrapper for interaction with the NIOS WAPI
+Generic Wrapper function for retrieving objects from the NIOS WAPI
 
 ## SYNTAX
 
 ### Type
 ```
-Get-NIOSObject -ObjectType <String> [-Limit <Int32>] [-PageSize <Int32>] [-Filters <Object>]
+Get-NIOSObject [-ObjectType] <String> [-Limit <Int32>] [-PageSize <Int32>] [-Filters <Object>]
  [-Fields <String[]>] [-AllFields] [-BaseFields] [-Server <String>] [-GridUID <String>] [-GridName <String>]
  [-ApiVersion <String>] [-SkipCertificateCheck] [-Creds <PSCredential>] [<CommonParameters>]
 ```
 
 ### Ref
 ```
-Get-NIOSObject -ObjectRef <String> [-Limit <Int32>] [-PageSize <Int32>] [-Filters <Object>]
+Get-NIOSObject [-ObjectRef] <String> [-Limit <Int32>] [-PageSize <Int32>] [-Filters <Object>]
  [-Fields <String[]>] [-AllFields] [-BaseFields] [-Server <String>] [-GridUID <String>] [-GridName <String>]
  [-ApiVersion <String>] [-SkipCertificateCheck] [-Creds <PSCredential>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This is a Generic Wrapper for interaction with the NIOS WAPI
+Generic Wrapper function for retrieving objects from the NIOS WAPI, either directly or via BloxOne Federation
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-NIOSObject 'network?_max_results=1000&_return_as_object=1'
+Get-NIOSObject -ObjectType network -Limit 5
+
+_ref                                                                             comment                          network           network_view
+----                                                                             -------                          -------           ------------
+network/ZG5zLm5ldHdvcmskMTAuMC4xMC4wLzI0LzA:10.0.10.0/24/Company%201             Lab                              10.0.10.0/24      Company 1
+network/ZG5zLm5ldHdvcmskMTI4LjI0Mi45OS4xMjgvMjUvMA:128.242.99.128/25/Company%201 Web DMZ                          128.242.99.128/25 Company 1
+network/ZG5zLm5ldHdvcmskMTAuMTAuMC4wLzI0LzA:10.10.0.0/24/Company%201             test                             10.10.0.0/24      Company 1
+network/ZG5zLm5ldHdvcmskMTAuMC4xLjAvMjQvMA:10.0.1.0/24/Company%201                                                10.0.1.0/24       Company 1
+network/ZG5zLm5ldHdvcmskMTkyLjE2OC4xLjAvMjQvMA:192.168.1.0/24/Company%201        Corporate DC - The Grid + NetMRI 192.168.1.0/24    Company 1
 ```
 
 ## PARAMETERS
 
 ### -ObjectType
-{{ Fill ObjectType Description }}
+Specify the object type to retrieve.
+This field supports tab completion.
 
 ```yaml
 Type: String
@@ -47,14 +56,14 @@ Parameter Sets: Type
 Aliases: type
 
 Required: True
-Position: Named
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -ObjectRef
-Specify the object URI / API endpoint and query parameters here
+Specify the object _ref to retrieve.
 
 ```yaml
 Type: String
@@ -62,14 +71,16 @@ Parameter Sets: Ref
 Aliases: ref, _ref
 
 Required: True
-Position: Named
+Position: 2
 Default value: None
 Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+Specify the number of results to return.
+The default limit is 1000.
+If a limit higher than 1000 is specified, this will enable paging of results.
 
 ```yaml
 Type: Int32
@@ -84,7 +95,7 @@ Accept wildcard characters: False
 ```
 
 ### -PageSize
-{{ Fill PageSize Description }}
+Specify the results page size when paging is enabled.
 
 ```yaml
 Type: Int32
@@ -99,7 +110,11 @@ Accept wildcard characters: False
 ```
 
 ### -Filters
-{{ Fill Filters Description }}
+Specify a list of filters to use, this must be one of;
+
+     \[string\]      'network_view=default'
+     \[string\[\]\]    'network_view=default','network=10.10.10.0/24'
+     \[Hashtable\] @{ 'network_view~'='default' }
 
 ```yaml
 Type: Object
@@ -114,7 +129,8 @@ Accept wildcard characters: False
 ```
 
 ### -Fields
-{{ Fill Fields Description }}
+A string array of fields to return in the response.
+This field supports tab completion.
 
 ```yaml
 Type: String[]
@@ -129,7 +145,7 @@ Accept wildcard characters: False
 ```
 
 ### -AllFields
-{{ Fill AllFields Description }}
+Using the -AllFields switch will return all available fields in the response.
 
 ```yaml
 Type: SwitchParameter
@@ -144,7 +160,7 @@ Accept wildcard characters: False
 ```
 
 ### -BaseFields
-{{ Fill BaseFields Description }}
+Using the -BaseFields switch will return the base fields in addition to those selected in -Fields.
 
 ```yaml
 Type: SwitchParameter
@@ -159,7 +175,11 @@ Accept wildcard characters: False
 ```
 
 ### -Server
-{{ Fill Server Description }}
+Specify the NIOS Grid Manager IP or FQDN to use
+
+This parameter can be ommitted if the Server is stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
 
 ```yaml
 Type: String
@@ -174,7 +194,8 @@ Accept wildcard characters: False
 ```
 
 ### -GridUID
-{{ Fill GridUID Description }}
+Specify the NIOS Grid UID (license_uid).
+This indicates which Grid to connect to when using NIOS Federation within BloxOne.
 
 ```yaml
 Type: String
@@ -189,7 +210,10 @@ Accept wildcard characters: False
 ```
 
 ### -GridName
-{{ Fill GridName Description }}
+Specify the NIOS Grid Name in BloxOne DDI instead of the GridUID.
+This is convient, but requires resolving the license_uid on every API Call.
+
+This parameter can be ommitted if the Federated Grid has been stored by using Set-NIOSConnectionProfile
 
 ```yaml
 Type: String
@@ -204,7 +228,9 @@ Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-{{ Fill ApiVersion Description }}
+The version of the NIOS API to use (WAPI)
+
+This parameter can be ommitted if the API Version is stored by using Set-NIOSConnectionProfile
 
 ```yaml
 Type: String
@@ -219,7 +245,11 @@ Accept wildcard characters: False
 ```
 
 ### -SkipCertificateCheck
-{{ Fill SkipCertificateCheck Description }}
+If this parameter is set, SSL Certificates Checks will be ignored.
+
+This parameter can be ommitted if the configuration has been stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
 
 ```yaml
 Type: SwitchParameter
@@ -234,7 +264,11 @@ Accept wildcard characters: False
 ```
 
 ### -Creds
-{{ Fill Creds Description }}
+The creds parameter can be used to specify credentials as part of the command.
+
+This parameter can be ommitted if the Credentials are stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
 
 ```yaml
 Type: PSCredential

@@ -8,6 +8,7 @@ schema: 2.0.0
 # Get-NIOSSchema
 
 ## SYNOPSIS
+Generic Wrapper function for retrieving schema information from the NIOS WAPI
 
 ## SYNTAX
 
@@ -18,19 +19,60 @@ Get-NIOSSchema [[-ObjectType] <String>] [-Fields] [[-Method] <WebRequestMethod>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Generic Wrapper function for retrieving schema information from the NIOS WAPI, either directly or via BloxOne Federation
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
+Get-NIOSSchema
 
+requested_version supported_objects                                    supported_versions
+----------------- -----------------                                    ------------------
+2.12              {ad_auth_service, admingroup, adminrole, adminuser…} {1.0, 1.1, 1.2, 1.2.1…}
+```
+
+### EXAMPLE 2
+```powershell
+Get-NIOSSchema -ObjectType dtc:lbdn
+
+cloud_additional_restrictions : {all}
+fields                        : {@{is_array=True; name=auth_zones; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=auto_consolidated_monitors; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=comment; searchable_by=:=~; 
+                                standard_field=True; supports=rwus; type=System.Object[]}, @{is_array=False; name=disable; standard_field=False; supports=rwu; type=System.Object[]}…}
+restrictions                  : {csv}
+type                          : dtc:lbdn
+version                       : 2.12
+```
+
+### EXAMPLE 3
+```powershell
+Get-NIOSSchema -ObjectType dtc:lbdn -Fields | ft -AutoSize
+
+is_array name                       standard_field supports type
+-------- ----                       -------------- -------- ----
+True auth_zones                              False rwu      {zone_auth}
+False auto_consolidated_monitors             False rwu      {bool}
+False comment                                True  rwus     {string}
+False disable                                False rwu      {bool}
+False extattrs                               False rwu      {extattr}
+False health                                 False r        {dtc:health}
+False lb_method                              False rwu      {enum}
+False name                                   True  rwus     {string}
+True patterns                                False rwu      {string}
+False persistence                            False rwu      {uint}
+True pools                                   False rwu      {dtc:pool:link}
+False priority                               False rwu      {uint}
+False topology                               False rwu      {string}
+False ttl                                    False rwu      {uint}
+True types                                   False rwu      {enum}
+False use_ttl                                False rwu      {bool}
 ```
 
 ## PARAMETERS
 
 ### -ObjectType
-{{ Fill ObjectType Description }}
+Specify the object type to retrieve schema information for.
+This field supports tab completion.
 
 ```yaml
 Type: String
@@ -45,7 +87,8 @@ Accept wildcard characters: False
 ```
 
 ### -Fields
-{{ Fill Fields Description }}
+A string array of fields to return in the response.
+This field supports tab completion.
 
 ```yaml
 Type: SwitchParameter
@@ -60,7 +103,7 @@ Accept wildcard characters: False
 ```
 
 ### -Method
-{{ Fill Method Description }}
+If -Method is specified, only fields which support the selected method will be returned.
 
 ```yaml
 Type: WebRequestMethod
@@ -76,7 +119,11 @@ Accept wildcard characters: False
 ```
 
 ### -Server
-{{ Fill Server Description }}
+Specify the NIOS Grid Manager IP or FQDN to use
+
+This parameter can be ommitted if the Server is stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
 
 ```yaml
 Type: String
@@ -91,7 +138,8 @@ Accept wildcard characters: False
 ```
 
 ### -GridUID
-{{ Fill GridUID Description }}
+Specify the NIOS Grid UID (license_uid).
+This indicates which Grid to connect to when using NIOS Federation within BloxOne.
 
 ```yaml
 Type: String
@@ -106,7 +154,10 @@ Accept wildcard characters: False
 ```
 
 ### -GridName
-{{ Fill GridName Description }}
+Specify the NIOS Grid Name in BloxOne DDI instead of the GridUID.
+This is convient, but requires resolving the license_uid on every API Call.
+
+This parameter can be ommitted if the Federated Grid has been stored by using Set-NIOSConnectionProfile
 
 ```yaml
 Type: String
@@ -121,7 +172,9 @@ Accept wildcard characters: False
 ```
 
 ### -ApiVersion
-{{ Fill ApiVersion Description }}
+The version of the NIOS API to use (WAPI)
+
+This parameter can be ommitted if the API Version is stored by using Set-NIOSConnectionProfile
 
 ```yaml
 Type: String
@@ -136,7 +189,11 @@ Accept wildcard characters: False
 ```
 
 ### -SkipCertificateCheck
-{{ Fill SkipCertificateCheck Description }}
+If this parameter is set, SSL Certificates Checks will be ignored.
+
+This parameter can be ommitted if the configuration has been stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
 
 ```yaml
 Type: SwitchParameter
@@ -151,7 +208,11 @@ Accept wildcard characters: False
 ```
 
 ### -Creds
-{{ Fill Creds Description }}
+The creds parameter can be used to specify credentials as part of the command.
+
+This parameter can be ommitted if the Credentials are stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
 
 ```yaml
 Type: PSCredential

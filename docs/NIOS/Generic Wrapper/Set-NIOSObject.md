@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-NIOSObject
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Generic Wrapper function for updating objects using the NIOS WAPI
 
 ## SYNTAX
 
@@ -27,126 +27,26 @@ Set-NIOSObject -ObjectRef <String> -TemplateObject <PSObject> [-Fields <String[]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Generic Wrapper function for updating objects using the NIOS WAPI, either directly or via BloxOne Federation
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
-PS C:\> {{ Add example code here }}
-```
+@{                                                                                        
+    name = 'my.example.com'
+    ipv4addr = '172.25.22.12'
+    comment = 'My A Record'
+} | New-NIOSObject -ObjectType 'record:a'
 
-{{ Add example description here }}
+record:a/ZG5zLmJpbmRfYSQuX2RlZmF1bHQuY29tLmV4YW1wbGUsbXksMTcyLjI1LjIyLjEy:my.example.com/default
+```
 
 ## PARAMETERS
 
-### -AllFields
-{{ Fill AllFields Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: ReturnAllFields
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ApiVersion
-{{ Fill ApiVersion Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -BaseFields
-{{ Fill BaseFields Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: ReturnBaseFields
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Creds
-{{ Fill Creds Description }}
-
-```yaml
-Type: PSCredential
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Fields
-{{ Fill Fields Description }}
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases: ReturnFields
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GridName
-{{ Fill GridName Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -GridUID
-{{ Fill GridUID Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Object
-{{ Fill Object Description }}
+Specify the Infoblox Object to update.
+Accepts pipeline input.
 
 ```yaml
 Type: PSObject
@@ -161,7 +61,7 @@ Accept wildcard characters: False
 ```
 
 ### -ObjectRef
-{{ Fill ObjectRef Description }}
+Specify the object _ref to update.
 
 ```yaml
 Type: String
@@ -175,8 +75,124 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
+### -TemplateObject
+Specify the Infoblox Object template to use when updating the NIOS object(s).
+
+```yaml
+Type: PSObject
+Parameter Sets: Ref
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByPropertyName)
+Accept wildcard characters: False
+```
+
+### -Fields
+A string array of fields to return in the response.
+This field supports tab completion.
+
+```yaml
+Type: String[]
+Parameter Sets: (All)
+Aliases: ReturnFields
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AllFields
+Using the -AllFields switch will return all available fields in the response.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: ReturnAllFields
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -BaseFields
+Using the -BaseFields switch will return the base fields in addition to those selected in -Fields.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: ReturnBaseFields
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Server
-{{ Fill Server Description }}
+Specify the NIOS Grid Manager IP or FQDN to use
+
+This parameter can be ommitted if the Server is stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GridUID
+Specify the NIOS Grid UID (license_uid).
+This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GridName
+Specify the NIOS Grid Name in BloxOne DDI instead of the GridUID.
+This is convient, but requires resolving the license_uid on every API Call.
+
+This parameter can be ommitted if the Federated Grid has been stored by using Set-NIOSConnectionProfile
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -ApiVersion
+The version of the NIOS API to use (WAPI)
+
+This parameter can be ommitted if the API Version is stored by using Set-NIOSConnectionProfile
 
 ```yaml
 Type: String
@@ -191,10 +207,33 @@ Accept wildcard characters: False
 ```
 
 ### -SkipCertificateCheck
-{{ Fill SkipCertificateCheck Description }}
+If this parameter is set, SSL Certificates Checks will be ignored.
+
+This parameter can be ommitted if the configuration has been stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
 
 ```yaml
 Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Creds
+The creds parameter can be used to specify credentials as part of the command.
+
+This parameter can be ommitted if the Credentials are stored by using Set-NIOSConnectionProfile
+
+This is used only when connecting to NIOS directly.
+
+```yaml
+Type: PSCredential
 Parameter Sets: (All)
 Aliases:
 
@@ -205,31 +244,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -TemplateObject
-{{ Fill TemplateObject Description }}
-
-```yaml
-Type: PSObject
-Parameter Sets: Ref
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
-### System.Management.Automation.PSObject
-### System.String
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS
