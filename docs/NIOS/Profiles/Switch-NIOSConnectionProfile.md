@@ -8,7 +8,7 @@ schema: 2.0.0
 # Switch-NIOSConnectionProfile
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+This function is used to switch between saved connection profiles.
 
 ## SYNTAX
 
@@ -17,21 +17,29 @@ Switch-NIOSConnectionProfile [-Name] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids, with the ability to quickly switch between them.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
-PS C:\> {{ Add example code here }}
+Switch-NCP Corp-GM
+
+Corp-GM has been set as the active connection profile.
 ```
 
-{{ Add example description here }}
+### EXAMPLE 2
+```powershell
+Switch-NIOSConnectionProfile BloxOne-GM
+
+BloxOne-GM has been set as the active connection profile.
+```
 
 ## PARAMETERS
 
 ### -Name
-{{ Fill Name Description }}
+Specify the connection profile name to switch to.
+This field supports tab completion.
 
 ```yaml
 Type: String
@@ -39,7 +47,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 0
+Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -50,10 +58,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS

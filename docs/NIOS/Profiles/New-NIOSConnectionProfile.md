@@ -8,7 +8,8 @@ schema: 2.0.0
 # New-NIOSConnectionProfile
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+This function is used to create a new connection profiles.
+By default, the new profile will be set as active.
 
 ## SYNTAX
 
@@ -31,21 +32,25 @@ New-NIOSConnectionProfile -Name <String> -APIVersion <String> -GridName <String>
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids.
+These can easily be switched between by using \[Switch-NIOSConnectionProfile\](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/).
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
-PS C:\> {{ Add example code here }}
+New-NCP
 ```
 
-{{ Add example description here }}
+### EXAMPLE 2
+```powershell
+New-NIOSConnectionProfile
+```
 
 ## PARAMETERS
 
-### -APIVersion
-{{ Fill APIVersion Description }}
+### -Name
+Specify the name for the new connection profile
 
 ```yaml
 Type: String
@@ -59,8 +64,27 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Server
+Specify the NIOS Grid Manager IP or FQDN for the new connection profile
+
+Using this parameter will set the connection profile type to Local.
+
+```yaml
+Type: String
+Parameter Sets: Local
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Creds
-{{ Fill Creds Description }}
+Specify the NIOS Grid Manager credentials for the new connection profile
+
+Using this parameter will set the connection profile type to Local.
 
 ```yaml
 Type: PSCredential
@@ -74,12 +98,30 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -GridName
-{{ Fill GridName Description }}
+### -SkipCertificateCheck
+If this parameter is set, SSL Certificates Checks will be ignored.
+
+Using this parameter will set the connection profile type to Local.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Local
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -APIVersion
+The version of the NIOS WAPI to use for the new connection profile.
+(i.e 2.12)
 
 ```yaml
 Type: String
-Parameter Sets: FederatedName
+Parameter Sets: (All)
 Aliases:
 
 Required: True
@@ -90,7 +132,10 @@ Accept wildcard characters: False
 ```
 
 ### -GridUID
-{{ Fill GridUID Description }}
+Specify the NIOS Grid UID (license_uid) to use for the new connection profile.
+This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+
+Using this parameter will set the connection profile type to Federated.
 
 ```yaml
 Type: String
@@ -104,12 +149,14 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Name
-{{ Fill Name Description }}
+### -GridName
+Specify the NIOS Grid Name in BloxOne DDI to use for the new connection profile.
+
+Using this parameter will set the connection profile type to Federated.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: FederatedName
 Aliases:
 
 Required: True
@@ -120,7 +167,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoSwitchProfile
-{{ Fill NoSwitchProfile Description }}
+Do not make this profile active upon creation
 
 ```yaml
 Type: SwitchParameter
@@ -129,37 +176,7 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Server
-{{ Fill Server Description }}
-
-```yaml
-Type: String
-Parameter Sets: Local
-Aliases:
-
-Required: True
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -SkipCertificateCheck
-{{ Fill SkipCertificateCheck Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Local
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -169,10 +186,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS

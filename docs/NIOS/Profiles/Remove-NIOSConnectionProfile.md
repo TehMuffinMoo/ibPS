@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-NIOSConnectionProfile
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+This function is used to remove a saved connection profile.
 
 ## SYNTAX
 
@@ -17,18 +17,48 @@ Remove-NIOSConnectionProfile [-Name] <String> [[-Confirm] <Boolean>] [<CommonPar
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids.
+A list of connection profiles can be retrieved using \[Get-NIOSConnectionProfile\](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Get-NIOSConnectionProfile/).
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
-PS C:\> {{ Add example code here }}
+Remove-NIOSConnectionProfile Corp-GM
+
+WARNING: Are you sure you want to delete the connection profile: Corp-GM?
+
+Confirm
+Continue with this operation?
+[Y] Yes  [A] Yes to All  [H] Halt Command  [S] Suspend  [?] Help (default is "Y"): y
+
+Removed connection profile: Corp-GM
 ```
 
-{{ Add example description here }}
+### EXAMPLE 2
+```powershell
+Remove-NCP Corp-GM -Confirm:$false
+
+Removed connection profile: Corp-GM
+```
 
 ## PARAMETERS
+
+### -Name
+Specify the connection profile name to remove.
+This field supports tab completion.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
 
 ### -Confirm
 Prompts you for confirmation before running the cmdlet.
@@ -39,23 +69,8 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Name
-{{ Fill Name Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 0
-Default value: None
+Position: 2
+Default value: True
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -65,10 +80,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### None
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS
