@@ -8,46 +8,44 @@ schema: 2.0.0
 # Convert-RecordsToBloxOne
 
 ## SYNOPSIS
-{{ Fill in the Synopsis }}
+Provides a simple way to convert NIOS Record Object data to BloxOne CSV Import Format
 
 ## SYNTAX
 
 ```
-Convert-RecordsToBloxOne [-Object] <Object> [-DNSView] <String> [[-ReturnType] <String>] [-SkipB1Checks]
- [<CommonParameters>]
+Convert-RecordsToBloxOne [-Object] <Object> [[-DNSView] <String>] [[-ReturnType] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This function accepts NIOS Record Objects either through -Object or via Pipeline.
+This can be any of the 'record:X' object types or supported data from the 'allrecords' object type.
 
 ## EXAMPLES
 
-### Example 1
+### EXAMPLE 1
 ```powershell
-PS C:\> {{ Add example code here }}
+Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne
+
+HEADER-dnsdata-v2-record,key,name_in_zone,comment,disabled,zone,ttl,type,rdata,options,tags,ttl_action
+dnsdata-v2-record,"default,mydomain.corp.,,A,RDATA{""address"":""192.168.1.20""}RDATA",,,False,"default,mydomain.corp.",600,A,"{""address"":""192.168.1.20""}",,,
+dnsdata-v2-record,"default,mydomain.corp.,,A,RDATA{""address"":""192.168.1.21""}RDATA",,,False,"default,mydomain.corp.",600,A,"{""address"":""192.168.1.21""}",,,
+dnsdata-v2-record,"default,mydomain.corp.,,AAAA,RDATA{""address"":""2001:db8:a42:dead:cd70:8756:70ea:7fb""}RDATA",,,False,"default,mydomain.corp.",600,AAAA,"{""address"":""2001:db8:a42:dead:cd70:8756:70ea:7fb""}",,,
+dnsdata-v2-record,"default,mydomain.corp.,,AAAA,RDATA{""address"":""2001:db8:a42:cafe:100::20""}RDATA",,,False,"default,mydomain.corp.",600,AAAA,"{""address"":""2001:db8:a42:cafe:100::20""}",,,
+dnsdata-v2-record,"default,mydomain.corp.,_gc._tcp,SRV,RDATA{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}RDATA",_gc._tcp,,False,"default,mydomain.corp.",600,SRV,"{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}",,,
+dnsdata-v2-record,"default,mydomain.corp.,_gc._tcp.default-first-site-name._sites,SRV,RDATA{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}RDATA",_gc._tcp.default-first-site-name._sites,,False,"default,mydomain.corp.",600,SRV,"{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}",,,
+....
 ```
 
-{{ Add example description here }}
+### EXAMPLE 2
+```powershell
+Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne | Out-File ./records.csv
+```
 
 ## PARAMETERS
 
-### -DNSView
-{{ Fill DNSView Description }}
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Object
-{{ Fill Object Description }}
+The NIOS Record Object(s) to convert to BloxOne CSV format.
+Accepts pipeline input from 'Get-NIOSObject'.
 
 ```yaml
 Type: Object
@@ -55,20 +53,20 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 0
+Position: 1
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
-### -ReturnType
-{{ Fill ReturnType Description }}
+### -DNSView
+This provides a way to override the BloxOne DNS View name which will be used when converting.
+By default, the NIOS Network View name is used.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
-Accepted values: Object, JSON, CSV
 
 Required: False
 Position: 2
@@ -77,17 +75,20 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -SkipB1Checks
-{{ Fill SkipB1Checks Description }}
+### -ReturnType
+The results type to return.
+This can be Object, CSV or JSON.
+Object/JSON are convenience features only.
+CSV is currently the only output that is supported by BloxOne Data Import.
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: None
+Position: 3
+Default value: CSV
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -97,10 +98,8 @@ This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable
 
 ## INPUTS
 
-### System.Object
 ## OUTPUTS
 
-### System.Object
 ## NOTES
 
 ## RELATED LINKS
