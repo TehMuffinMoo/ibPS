@@ -82,7 +82,7 @@ function Convert-RecordsToBloxOne {
             if ($ObjRefType -eq 'allrecords') {
                 ## allrecords objects
                 if ($Record.type -eq 'UNSUPPORTED') {
-                    Write-Warning "Skipping UNSUPPORTED Record: $($Record.name).$($Record.zone) -> $($Record.record.nameserver)..."
+                    Write-Warning "Skipping UNSUPPORTED Record: $($Record.name).$($Record.zone)"
                     break
                 }
                 $Type = ($Record.type -split ':')[1]
@@ -187,6 +187,13 @@ function Convert-RecordsToBloxOne {
                 }
                 'host_ipv4addr' {
                     $Key[3] = 'A'
+                    $RDATA = @{
+                        'address' = $(if ($ObjRefType -eq 'ALLRECORDS') { $Record.address } else { $Record.address })
+                    } | ConvertTo-Json -Compress
+                    break
+                }
+                'host_ipv6addr' {
+                    $Key[3] = 'AAAA'
                     $RDATA = @{
                         'address' = $(if ($ObjRefType -eq 'ALLRECORDS') { $Record.address } else { $Record.address })
                     } | ConvertTo-Json -Compress
