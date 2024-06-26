@@ -140,6 +140,7 @@
         $Splat.SkipCertificateCheck = $SkipCertificateCheck
     }
 
+    Write-DebugMsg -URI "$($Method): $($Splat.Uri)" -Body $Data
     switch ($Method) {
         'GET' { 
             $Result = Invoke-RestMethod @Splat

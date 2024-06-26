@@ -73,7 +73,7 @@
         DNS
     #>
     param(
-      [ValidateSet("A","AAAA","CAA","CNAME","HTTPS","MX","NAPTR","NS","PTR","SRV","SVCB","TXT")]
+      [ValidateSet("A","AAAA","CAA","CNAME","DNAME","HTTPS","MX","NAPTR","NS","PTR","SRV","SVCB","TXT")]
       [String]$Type,
       [String]$Name,
       [String]$Zone,
