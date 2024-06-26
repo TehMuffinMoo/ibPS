@@ -28,6 +28,20 @@ function Convert-RecordsToBloxOne {
         ....
 
     .EXAMPLE
+        ## Using -DNSView to override the view name
+        
+        PS> Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne -DNSView 'Corporate'
+
+        HEADER-dnsdata-v2-record,key,name_in_zone,comment,disabled,zone,ttl,type,rdata,options,tags,ttl_action
+        dnsdata-v2-record,"Corporate,mydomain.corp.,,A,RDATA{""address"":""192.168.1.20""}RDATA",,,False,"Corporate,mydomain.corp.",600,A,"{""address"":""192.168.1.20""}",,,
+        dnsdata-v2-record,"Corporate,mydomain.corp.,,A,RDATA{""address"":""192.168.1.21""}RDATA",,,False,"Corporate,mydomain.corp.",600,A,"{""address"":""192.168.1.21""}",,,
+        dnsdata-v2-record,"Corporate,mydomain.corp.,,AAAA,RDATA{""address"":""2001:db8:a42:dead:cd70:8756:70ea:7fb""}RDATA",,,False,"Corporate,mydomain.corp.",600,AAAA,"{""address"":""2001:db8:a42:dead:cd70:8756:70ea:7fb""}",,,
+        dnsdata-v2-record,"Corporate,mydomain.corp.,,AAAA,RDATA{""address"":""2001:db8:a42:cafe:100::20""}RDATA",,,False,"Corporate,mydomain.corp.",600,AAAA,"{""address"":""2001:db8:a42:cafe:100::20""}",,,
+        dnsdata-v2-record,"Corporate,mydomain.corp.,_gc._tcp,SRV,RDATA{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}RDATA",_gc._tcp,,False,"Corporate,mydomain.corp.",600,SRV,"{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}",,,
+        dnsdata-v2-record,"Corporate,mydomain.corp.,_gc._tcp.default-first-site-name._sites,SRV,RDATA{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}RDATA",_gc._tcp.default-first-site-name._sites,,False,"Corporate,mydomain.corp.",600,SRV,"{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}",,,
+        ....
+
+    .EXAMPLE
         Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne | Out-File ./records.csv
 
     .FUNCTIONALITY
