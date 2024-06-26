@@ -1,20 +1,53 @@
 function Convert-RecordsToBloxOne {
+    <#
+    .SYNOPSIS
+        Provides a simple way to convert NIOS Record Object data to BloxOne CSV Import Format
+
+    .DESCRIPTION
+        This function accepts NIOS Record Objects either through -Object or via Pipeline. This can be any of the 'record:X' object types or supported data from the 'allrecords' object type.
+
+    .PARAMETER Object
+        The NIOS Record Object(s) to convert to BloxOne CSV format. Accepts pipeline input from 'Get-NIOSObject'.
+
+    .PARAMETER DNSView
+        This provides a way to override the BloxOne DNS View name which will be used when converting. By default, the NIOS Network View name is used.
+
+    .PARAMETER ReturnType
+        The results type to return. This can be Object, CSV or JSON. Object/JSON are convenience features only. CSV is currently the only output that is supported by BloxOne Data Import.
+
+    .EXAMPLE
+        PS> Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne
+
+        HEADER-dnsdata-v2-record,key,name_in_zone,comment,disabled,zone,ttl,type,rdata,options,tags,ttl_action
+        dnsdata-v2-record,"default,mydomain.corp.,,A,RDATA{""address"":""192.168.1.20""}RDATA",,,False,"default,mydomain.corp.",600,A,"{""address"":""192.168.1.20""}",,,
+        dnsdata-v2-record,"default,mydomain.corp.,,A,RDATA{""address"":""192.168.1.21""}RDATA",,,False,"default,mydomain.corp.",600,A,"{""address"":""192.168.1.21""}",,,
+        dnsdata-v2-record,"default,mydomain.corp.,,AAAA,RDATA{""address"":""2001:db8:a42:dead:cd70:8756:70ea:7fb""}RDATA",,,False,"default,mydomain.corp.",600,AAAA,"{""address"":""2001:db8:a42:dead:cd70:8756:70ea:7fb""}",,,
+        dnsdata-v2-record,"default,mydomain.corp.,,AAAA,RDATA{""address"":""2001:db8:a42:cafe:100::20""}RDATA",,,False,"default,mydomain.corp.",600,AAAA,"{""address"":""2001:db8:a42:cafe:100::20""}",,,
+        dnsdata-v2-record,"default,mydomain.corp.,_gc._tcp,SRV,RDATA{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}RDATA",_gc._tcp,,False,"default,mydomain.corp.",600,SRV,"{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}",,,
+        dnsdata-v2-record,"default,mydomain.corp.,_gc._tcp.default-first-site-name._sites,SRV,RDATA{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}RDATA",_gc._tcp.default-first-site-name._sites,,False,"default,mydomain.corp.",600,SRV,"{""weight"":100,""port"":3268,""target"":""win-342rfw4r4fg.mydomain.corp"",""priority"":0}",,,
+        ....
+
+    .EXAMPLE
+        Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne | Out-File ./records.csv
+
+    .FUNCTIONALITY
+        BloxOneDDI
+
+    .FUNCTIONALITY
+        NIOS
+    
+    .FUNCTIONALITY
+        Migration
+    #>
     param(
         [Parameter(ValueFromPipeline,Mandatory)]
         [Object]$Object,
-        [Parameter(Mandatory)]
         [String]$DNSView,
         [ValidateSet('Object','JSON','CSV')]
-        [String]$ReturnType = 'CSV',
-        [Switch]$SkipB1Checks
+        [String]$ReturnType = 'CSV'
     )
 
     begin {
-        if (!($SkipB1Checks)) {
-            if (!(Get-B1DNSView $DNSView)) {
-                Write-Warning "DNS View $($DNSView) does not exist. The DNS View must be created before importing records."
-            }
-        }
         $Results = @()
     }
 
@@ -26,6 +59,11 @@ function Convert-RecordsToBloxOne {
             ## Clear Vals
             $Key = $null
             $RDATA = $null
+
+            ## Set DNS View
+            if (!($DNSView)) {
+                $DNSView = $Record.view
+            }
 
             if ($ObjRefType -eq 'allrecords') {
                 ## allrecords objects
