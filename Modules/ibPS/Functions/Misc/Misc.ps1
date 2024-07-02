@@ -383,6 +383,24 @@ function ConvertFrom-HexString {
   }
 }
 
+function ConvertFrom-HashTable {
+  param(
+    [Parameter(Mandatory, ValueFromPipeline)]
+    [System.Collections.IDictionary] $HashTable
+  )
+  process {
+    $oht = [ordered] @{} # Aux. ordered hashtable for collecting property values.
+    foreach ($entry in $HashTable.GetEnumerator()) {
+      if ($entry.Value -is [System.Collections.IDictionary]) { # Nested dictionary? Recurse.
+        $oht[[object] $entry.Key] = ConvertFrom-HashTable -HashTable $entry.Value # NOTE: Casting to [object] prevents problems with *numeric* hashtable keys.
+      } else { # Copy value as-is.
+        $oht[[object] $entry.Key] = $entry.Value
+      }
+    }
+    [pscustomobject] $oht # Convert to [pscustomobject] and output.
+  }
+}
+
 function ConvertTo-Base64Url {
   <#
     .LINK

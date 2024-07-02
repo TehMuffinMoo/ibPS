@@ -1,2 +1,3 @@
 - Add `Convert-RecordsToBloxOne` as a PoC function for converting NIOS Record Objects to BloxOne CSV format for bulk import
 - Patch bug causing inheritance_sources to be stripped during pipeline updates when using `Set-B1Subnet` and `Set-B1AddressBlock`
+- General improvements to `Get-B1DossierLookup`
