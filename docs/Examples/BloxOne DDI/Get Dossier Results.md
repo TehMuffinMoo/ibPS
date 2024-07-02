@@ -4,7 +4,7 @@ This is a example of how to return related information from a Dossier Search. Th
 
 ```powershell
 ## Initiate New Search & Wait for completion
-$Search = Start-B1DossierLookup -Type host -Value 'ibps.app' -Wait
+$Search = Start-B1DossierLookup -Type host -Value 'google.com' -Wait
 ## Get Results for each associated task
 $TaskResults = $Search | Get-B1DossierLookup -TaskResults
 ```
