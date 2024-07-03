@@ -838,8 +838,8 @@ function Build-HTMLTopologyChildren {
 function ConvertFrom-ComplexJSON([string]$text) {                           
   $parser = New-Object Web.Script.Serialization.JavaScriptSerializer
   $parser.MaxJsonLength = $text.length
-  #Write-Output -NoEnumerate $parser.Deserialize($text, [hashtable])
-  Write-Output -NoEnumerate $parser.DeserializeObject($text)
+  Write-Output -NoEnumerate (($parser.Deserialize($text, [hashtable])) | ConvertFrom-HashTable)
+  #Write-Output -NoEnumerate $parser.DeserializeObject($text)
   # To deserialize to a dictionary, use $parser.DeserializeObject($text) instead
 }
 
