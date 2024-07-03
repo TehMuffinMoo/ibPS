@@ -32,7 +32,7 @@
 
     .EXAMPLE
         PS> $Lookup = Start-B1DossierLookup -Type ip 1.1.1.1
-        PS> $Lookup | Get-B1DossierLookup -Results
+        PS> ($Lookup | Get-B1DossierLookup -Results).results
 
         task_id : 86655f48-944b-4871-9483-de1f0f0f820f
         params  : @{type=ip; target=1.1.1.1; source=whois}
