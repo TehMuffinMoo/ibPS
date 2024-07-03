@@ -868,6 +868,7 @@ function DevelopmentFunctions {
     "ConvertTo-QueryString"
     "Match-Type"
     "Convert-CIDRToNetmask"
+    "ConvertFrom-HashTable"
     "Test-NetmaskString"
     "Test-ValidIPv4Address"
     "Convert-NetmaskToCIDR"

@@ -86,12 +86,28 @@
             if ($task_id) {
                 $AppendToURI += "/tasks/$task_id"
             }
-            if ($Results -or $TaskResults) {
+            if ($Results) {
                 $AppendToURI += "/results"
             }
             $WebResponse = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs/$job_id$AppendToURI" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+            if ($WebResponse.GetType().Name -eq 'String') {
+                try {
+                    Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
+                    $WebResponse = $WebResponse | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+                } catch {
+                    Write-Error "Failed to convert JSON response."
+                    Write-Error $_
+                    return $null
+                }
+            }
             if ($TaskResults) {
-                $ReturnData = $WebResponse.results | Get-B1DossierLookup -job_id $WebResponse.job_id -Results
+                $Tasks = @()
+                $WebResponse.tasks.PSObject.Properties.Name | %{
+                    $Tasks += [PSCustomObject]@{
+                        'task_id' = $_
+                    }
+                }
+                $ReturnData = $Tasks | Get-B1DossierLookup -job_id $WebResponse.job_id -Results
             } else {
                 $ReturnData = $WebResponse
             }

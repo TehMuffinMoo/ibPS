@@ -62,6 +62,16 @@
     }
 
     if ($Results) {
+        if ($Wait -and ($Results.GetType().Name -eq 'String')) {
+            try {
+                Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
+                $Results = $Results | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+            } catch {
+                Write-Error "Failed to convert JSON response."
+                Write-Error $_
+                return $null
+            }
+        }
         return $Results
     }
 }
