@@ -93,7 +93,7 @@
             if ($WebResponse.GetType().Name -eq 'String') {
                 try {
                     Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
-                    $WebResponse = $WebResponse | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+                    $WebResponse = Parse-JsonFile $WebResponse
                 } catch {
                     Write-Error "Failed to convert JSON response."
                     Write-Error $_
