@@ -65,7 +65,11 @@
         if ($Wait -and ($Results.GetType().Name -eq 'String')) {
             try {
                 Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
-                $Results = $Results | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+                if ($PSVersionTable.PSVersion.Major -le 5) {
+                    $Results = ConvertFrom-ComplexJSON $Results
+                } else {
+                    $Results = $Results | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+                }
             } catch {
                 Write-Error "Failed to convert JSON response."
                 Write-Error $_

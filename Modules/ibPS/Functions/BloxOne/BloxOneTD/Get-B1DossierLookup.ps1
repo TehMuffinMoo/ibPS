@@ -93,7 +93,11 @@
             if ($WebResponse.GetType().Name -eq 'String') {
                 try {
                     Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
-                    $WebResponse = Parse-JsonFile $WebResponse
+                    if ($PSVersionTable.PSVersion.Major -le 5) {
+                        $WebResponse = ConvertFrom-ComplexJSON $WebResponse
+                    } else {
+                        $WebResponse = $WebResponse | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+                    }
                 } catch {
                     Write-Error "Failed to convert JSON response."
                     Write-Error $_

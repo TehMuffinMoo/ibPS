@@ -835,6 +835,13 @@ function Build-HTMLTopologyChildren {
   }
 }
 
+function ConvertFrom-ComplexJSON([string]$text) {                           
+  $parser = New-Object Web.Script.Serialization.JavaScriptSerializer
+  $parser.MaxJsonLength = $text.length
+  Write-Output -NoEnumerate $parser.Deserialize($text, [hashtable])
+  # To deserialize to a dictionary, use $parser.DeserializeObject($text) instead
+}
+
 function Write-DebugMsg {
   param(
     $URI,
@@ -869,6 +876,7 @@ function DevelopmentFunctions {
     "Match-Type"
     "Convert-CIDRToNetmask"
     "ConvertFrom-HashTable"
+    "ConvertFrom-ComplexJSON"
     "Test-NetmaskString"
     "Test-ValidIPv4Address"
     "Convert-NetmaskToCIDR"
