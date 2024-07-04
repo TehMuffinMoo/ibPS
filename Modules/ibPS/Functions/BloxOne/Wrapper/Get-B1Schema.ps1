@@ -21,6 +21,9 @@ function Get-B1Schema {
     .PARAMETER ListParameters
         Specify this switch to list information relating to available parameters for the particular endpoint
 
+    .PARAMETER GetBasePath
+        Return the API Base URI Path for the selected Product & App
+
     .PARAMETER Quiet
         Using the -Quiet parameter will prevent messages from being printed to screen in addition to the schema response.
 
