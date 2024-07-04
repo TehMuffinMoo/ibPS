@@ -14,22 +14,17 @@ Retrieves details about a BloxOne Threat Defense Dossier Lookup
 
 ### None (Default)
 ```
-Get-B1DossierLookup -job_id <String> [<CommonParameters>]
+Get-B1DossierLookup -job_id <String> [-Results] [-TaskResults] [<CommonParameters>]
 ```
 
-### Pending
+### Status
 ```
-Get-B1DossierLookup -job_id <String> [-Pending] [<CommonParameters>]
-```
-
-### Results
-```
-Get-B1DossierLookup -job_id <String> [-Results] [<CommonParameters>]
+Get-B1DossierLookup -job_id <String> [-Status] [-Results] [-TaskResults] [<CommonParameters>]
 ```
 
 ### TaskID
 ```
-Get-B1DossierLookup -job_id <String> [-task_id <String>] [<CommonParameters>]
+Get-B1DossierLookup -job_id <String> [-Results] [-TaskResults] -task_id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -44,7 +39,7 @@ Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
 
 ### EXAMPLE 2
 ```powershell
-Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
+Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Status
 ```
 
 ### EXAMPLE 3
@@ -55,7 +50,7 @@ Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234
 ### EXAMPLE 4
 ```powershell
 $Lookup = Start-B1DossierLookup -Type ip 1.1.1.1
-PS> $Lookup | Get-B1DossierLookup -Results
+PS> ($Lookup | Get-B1DossierLookup -Results).results
 
 task_id : 86655f48-944b-4871-9483-de1f0f0f820f
 params  : @{type=ip; target=1.1.1.1; source=whois}
@@ -81,7 +76,7 @@ Accepts pipeline input from Start-B1DossierLookup cmdlet
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: JobID
 
 Required: True
 Position: Named
@@ -90,12 +85,12 @@ Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Pending
+### -Status
 Using this switch will return whether the job has completed or is still pending
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Pending
+Parameter Sets: Status
 Aliases:
 
 Required: False
@@ -110,7 +105,22 @@ Using this switch will return the results for the lookup job
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Results
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -TaskResults
+Using this switch will return the results for the tasks associated with the lookup job
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
 Aliases:
 
 Required: False
@@ -128,10 +138,10 @@ Type: String
 Parameter Sets: TaskID
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

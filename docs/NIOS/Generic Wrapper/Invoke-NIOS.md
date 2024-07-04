@@ -48,7 +48,8 @@ Invoke-NIOS -Uri "record:a?return_as_object=1" -GridUID 'afjs8fje89hf4fjwsbf9sdv
 ## PARAMETERS
 
 ### -Method
-Specify the HTTP Method to use
+Specify the HTTP Method to use.
+(Default,Get,Head,Post,Put,Delete,Trace,Options,Merge,Patch)
 
 ```yaml
 Type: WebRequestMethod
