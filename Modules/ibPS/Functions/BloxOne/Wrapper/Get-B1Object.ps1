@@ -59,7 +59,7 @@ function Get-B1Object {
     ## Get Saved CSP URL
     $B1CSPUrl = Get-B1CSPUrl
 
-    $BasePath = (Invoke-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
+    $BasePath = Get-B1Schema -Product $Product -App $App -Quiet -GetBasePath
 
     [System.Collections.ArrayList]$QueryFilters = @()
     [System.Collections.ArrayList]$B1Filters = @()

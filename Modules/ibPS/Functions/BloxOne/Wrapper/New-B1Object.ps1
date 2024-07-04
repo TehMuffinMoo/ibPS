@@ -62,7 +62,7 @@ function New-B1Object {
     
     process {
         $B1CSPUrl = Get-B1CSPUrl
-        $BasePath = (Invoke-CSP GET "$($B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])").basePath -replace '\/$',''
+        $BasePath = Get-B1Schema -Product $Product -App $App -Quiet -GetBasePath
 
         $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
         if (!($JSON)) {

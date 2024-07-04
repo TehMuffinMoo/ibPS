@@ -21,6 +21,9 @@ function Get-B1Schema {
     .PARAMETER ListParameters
         Specify this switch to list information relating to available parameters for the particular endpoint
 
+    .PARAMETER Quiet
+        Using the -Quiet parameter will prevent messages from being printed to screen in addition to the schema response.
+
     .EXAMPLE
         PS> Get-B1Schema -Product 'BloxOne DDI'
 
@@ -116,7 +119,9 @@ function Get-B1Schema {
       [String]$Endpoint,
       [ValidateSet("GET","POST","PUT", "PATCH", "DELETE")]
       [String]$Method,
-      [Switch]$ListParameters
+      [Switch]$ListParameters,
+      [Switch]$GetBasePath,
+      [Switch]$Quiet
     )
 
     if ($ListParameters -and -not ($Method -and $Endpoint)) {
@@ -127,15 +132,26 @@ function Get-B1Schema {
     ## Get Saved CSP URL
     $B1CSPUrl = Get-B1CSPUrl
 
+    if (-not $Script:B1Schema) {
+        $Script:B1Schema = @{}
+    }
+    if (-not $Script:B1Schema.Endpoints) {
+        $Script:B1Schema.Endpoints = @{}
+    }
+
     if ($Product) {
         if ($App) {
+            if (-not $Script:B1Schema.Endpoints."$($PSBoundParameters['App'])") {
+                $Script:B1Schema.Endpoints."$($PSBoundParameters['App'])" = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])"
+            }
 
-            $Uri = "$(Get-B1CSPUrl)/apidoc/docs/$($PSBoundParameters['App'])"
+            if ($GetBasePath) {
+                return $Script:B1Schema.Endpoints."$($PSBoundParameters['App'])".basePath -replace '\/$',''
+            }
 
-            $Results = Invoke-CSP -Method GET -Uri $Uri
-            if ($Results) {
+            if ($Script:B1Schema.Endpoints."$($PSBoundParameters['App'])") {
                 if ($Endpoint) {
-                    $Return = (($Results.paths.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator() | Where-Object {$_.Name -eq $($PSBoundParameters['Endpoint'])}).Value | Select-Object -ExpandProperty $($Method)
+                    $Return = (($Script:B1Schema.Endpoints."$($PSBoundParameters['App'])".paths.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator() | Where-Object {$_.Name -eq $($PSBoundParameters['Endpoint'])}).Value | Select-Object -ExpandProperty $($Method)
                     if ($ListParameters) {
                         $Return.parameters | Format-Table name,type,description -Wrap
                     } elseif (!($Method)) {
@@ -145,14 +161,14 @@ function Get-B1Schema {
                                 "$($ResultMethod.Name)" = $($ResultMethod.Value.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).description
                             }
                         }
-                        Write-Host "Available Methods: " -ForegroundColor Green
+                        if (!$($Quiet)) {Write-Host "Available Methods: " -ForegroundColor Green}
                         $Methods | Format-Table -Wrap
                     } else {
                         $Return
                     }
                 } else {
                     $Return = @()
-                    $ResultsParsed = (($Results.paths.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator())
+                    $ResultsParsed = (($Script:B1Schema.Endpoints."$($PSBoundParameters['App'])".paths.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator())
                     foreach ($ResultParsed in $ResultsParsed) {
                         $ResultMethods = (($ResultParsed.Value.psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator())
                         $Methods = @()
@@ -171,13 +187,17 @@ function Get-B1Schema {
                 }
             }
         } else {
-            $Apps = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products" | Where-Object {$_.title -eq $($PSBoundParameters['Product'])} | Select-Object -ExpandProperty apps
-            Write-Host "Available Apps: " -ForegroundColor Green
-            $Apps | Format-Table -AutoSize
+            if (-not $Script:B1Schema.Apps) {
+                $Script:B1Schema.Apps = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products" | Where-Object {$_.title -eq $($PSBoundParameters['Product'])} | Select-Object -ExpandProperty apps
+            }
+            if (!$($Quiet)) {Write-Host "Available Apps: " -ForegroundColor Green}
+            $Script:B1Schema.Apps
         }
     } else {
-        $Products = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products"
-        Write-Host "Available Products: " -ForegroundColor Green
-        $Products.title
+        if (-not $Script:B1Schema.Products) {
+            $Script:B1Schema.Products = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products"
+        }
+        if (!$($Quiet)) {Write-Host "Available Products: " -ForegroundColor Green}
+        $Script:B1Schema.Products.title
     }
 }
