@@ -191,7 +191,7 @@ Accept wildcard characters: False
 ```
 
 ### -Search
-{{ Fill Search Description }}
+The -Search parameter allows you to filter the results of threat intelligence publications using search terms.
 
 ```yaml
 Type: String
