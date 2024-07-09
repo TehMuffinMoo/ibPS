@@ -1,5 +1,0 @@
-- Add `Convert-RecordsToBloxOne` as a PoC function for converting NIOS Record Objects to BloxOne CSV format for bulk import
-- Patch bug causing inheritance_sources to be stripped during pipeline updates when using `Set-B1Subnet` and `Set-B1AddressBlock`
-- General improvements to `Get-B1DossierLookup`
-- Add caching for BloxOne Schema when using `Get-B1Schema`, `Get-B1Object` & `New-B1Object`
-- Add new `Get-B1ThreatIntel` function for retrieving information from the Threat Intel page within the CSP. This includes Publications, Threat Actors & Zero Day DNS Domains.
