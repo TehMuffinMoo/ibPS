@@ -21,6 +21,9 @@ function Get-B1ThreatIntel {
     .PARAMETER Publications
         The -Publications switch will return a list of threat intelligence publications from Infoblox.
 
+    .PARAMETER Search
+        The -Search parameter allows you to filter the results of threat intelligence publications using search terms.
+
     .PARAMETER ZeroDayDNS
         The -ZeroDayDNS switch will return a list Zero Day DNS domains associated with your account.
 
