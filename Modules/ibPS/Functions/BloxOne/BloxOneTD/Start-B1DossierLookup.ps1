@@ -62,6 +62,31 @@
     }
 
     if ($Results) {
-        return $Results
+        if (($Results.GetType().Name -eq 'String')) {
+            try {
+                Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
+                if ($PSVersionTable.PSVersion.Major -le 5) {
+                    $Results = ConvertFrom-ComplexJSON $Results
+                } else {
+                    $Results = $Results | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+                }
+            } catch {
+                Write-Error "Failed to convert JSON response."
+                Write-Error $_
+                return $null
+            }
+        }
+        if ($Wait) {
+            $ReturnProperties = @{
+                Property =  @{n="status";e={$_.status}},
+                            @{n="job_id";e={$_.job_id}},
+                            @{n="job";e={$_.job}},
+                            @{n="tasks";e={$_.tasks}},
+                            @{n="results";e={$_.results | ConvertFrom-HashTable}}
+            }
+            return $Results | Select-Object @ReturnProperties
+        } else {
+            return $Results
+        }
     }
 }

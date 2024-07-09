@@ -1,9 +1,9 @@
 $products = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products") | Where-Object {
-        $_.title -like "$wordToComplete*"
+    Get-B1Schema -Quiet | Where-Object {
+        $_ -like "$wordToComplete*"
     } | ForEach-Object {
-          "`'$($_.Title)`'"
+          "`'$($_)`'"
     }
 }
 Register-ArgumentCompleter -CommandName Get-B1Object,Get-B1Schema,New-B1Object -ParameterName Product -ScriptBlock $products
@@ -11,15 +11,18 @@ Register-ArgumentCompleter -CommandName Get-B1Object,Get-B1Schema,New-B1Object -
 $apps = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     
-    $Products = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products"
-
-    ($Products | Where-Object {$_.title -eq $($fakeBoundParameters['Product'])} | Select-Object -ExpandProperty apps) | Where-Object {$_.app -like "$wordToComplete*"} | ForEach-Object {$_.app}
+    (Get-B1Schema -Quiet -Product $fakeBoundParameters['Product']).app | Where-Object {
+        $_ -like "$wordToComplete*"
+    } | ForEach-Object {$_}
 }
 Register-ArgumentCompleter -CommandName Get-B1Object,Get-B1Schema,New-B1Object -ParameterName App -ScriptBlock $apps
 
 $endpoints = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (((Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/$($fakeBoundParameters['App'])").paths).psobject.properties | ForEach-Object -begin {$h=@{}} -process {$h."$($_.Name)" = $_.Value} -end {$h}).GetEnumerator() | Where-Object {$_.Name -like "$wordToComplete*"} | ForEach-Object {$_.Name}
+
+    (Get-B1Schema -Quiet -Product $fakeBoundParameters['Product'] -App $fakeBoundParameters['App']).Endpoint | Where-Object {
+        $_ -like "$wordToComplete*"
+    } | ForEach-Object {$_}
 }
 Register-ArgumentCompleter -CommandName Get-B1Object,Get-B1Schema,New-B1Object -ParameterName Endpoint -ScriptBlock $endpoints
 

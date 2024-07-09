@@ -7,7 +7,7 @@
         This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs locally or via BloxOne CSP via NIOS Federation.
 
     .PARAMETER Method
-        Specify the HTTP Method to use
+        Specify the HTTP Method to use. (Default,Get,Head,Post,Put,Delete,Trace,Options,Merge,Patch)
 
     .PARAMETER Server
         Specify the NIOS Grid Manager IP or FQDN to use
@@ -140,6 +140,7 @@
         $Splat.SkipCertificateCheck = $SkipCertificateCheck
     }
 
+    Write-DebugMsg -URI "$($Method): $($Splat.Uri)" -Body $Data
     switch ($Method) {
         'GET' { 
             $Result = Invoke-RestMethod @Splat

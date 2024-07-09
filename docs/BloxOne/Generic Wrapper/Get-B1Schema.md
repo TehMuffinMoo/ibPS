@@ -14,7 +14,7 @@ Used for obtaining API Schema information for use with generic wrapper cmdlets
 
 ```
 Get-B1Schema [[-Product] <String>] [[-App] <String>] [[-Endpoint] <String>] [[-Method] <String>]
- [-ListParameters]
+ [-ListParameters] [-GetBasePath] [-Quiet]
 ```
 
 ## DESCRIPTION
@@ -175,6 +175,36 @@ Accept wildcard characters: False
 
 ### -ListParameters
 Specify this switch to list information relating to available parameters for the particular endpoint
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -GetBasePath
+Return the API Base URI Path for the selected Product & App
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Quiet
+Using the -Quiet parameter will prevent messages from being printed to screen in addition to the schema response.
 
 ```yaml
 Type: SwitchParameter

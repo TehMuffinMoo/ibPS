@@ -105,7 +105,7 @@
             }
             if (($DHCPLeaseSeconds -or $DDNSDomain) -and ($Object.inheritance_sources -eq $null)) {
                 $Object = Get-B1AddressBlock -id $Object.id -IncludeInheritance
-            } else {
+            } elseif ($Object.inheritance_sources -eq $null) {
                 $ObjectExclusions += "inheritance_sources"
             }
         } else {

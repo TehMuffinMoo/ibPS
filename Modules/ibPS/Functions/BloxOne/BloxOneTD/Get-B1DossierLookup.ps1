@@ -9,11 +9,14 @@
     .PARAMETER job_id
         The job ID given when starting the lookup using Start-B1DossierLookup. Accepts pipeline input from Start-B1DossierLookup cmdlet
 
-    .PARAMETER Pending
+    .PARAMETER Status
         Using this switch will return whether the job has completed or is still pending
 
     .PARAMETER Results
         Using this switch will return the results for the lookup job
+
+    .PARAMETER TaskResults
+        Using this switch will return the results for the tasks associated with the lookup job
 
     .PARAMETER task_id
         Used to filter the results by individual task ID
@@ -22,14 +25,14 @@
         PS> Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Results
 
     .EXAMPLE
-        PS> Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Pending
+        PS> Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -Status
 
     .EXAMPLE
         PS> Get-B1DossierLookup -job_id 01234567-c123-4567-8912a-123456abcdef -task_id b1234567-0012-456a-98da-4a3323dds3
 
     .EXAMPLE
         PS> $Lookup = Start-B1DossierLookup -Type ip 1.1.1.1
-        PS> $Lookup | Get-B1DossierLookup -Results
+        PS> ($Lookup | Get-B1DossierLookup -Results).results
 
         task_id : 86655f48-944b-4871-9483-de1f0f0f820f
         params  : @{type=ip; target=1.1.1.1; source=whois}
@@ -57,34 +60,65 @@
         ValueFromPipelineByPropertyName = $true,
         Mandatory=$true
       )]
+      [Alias('JobID')]
       [String]$job_id,
-      [Parameter(ParameterSetName="Pending")]
-      [Switch]$Pending,
-      [Parameter(ParameterSetName="Results")]
+      [Parameter(ParameterSetName="Status")]
+      [Switch]$Status,
       [Switch]$Results,
-      [Parameter(ParameterSetName="TaskID")]
+      [Switch]$TaskResults,
+      [Parameter(
+        ParameterSetName="TaskID",
+        ValueFromPipelineByPropertyName = $true,
+        Mandatory=$true
+      )]
       [String]$task_id
     )
 
-    if ($job_id) {
-        $AppendToURI = ""
-        if ($Pending) {
-            $AppendToURI = $AppendToURI + "/pending"
-        }
-        if ($Results) {
-            $AppendToURI = $AppendToURI + "/results"
-        }
-        if ($task_id) {
-            $AppendToURI = $AppendToURI + "/tasks/$task_id"
-        }
-        $ReturnResults = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs/$job_id$AppendToURI" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    begin {
+        $WebResponse = @()
     }
-
-    if ($ReturnResults) {
-        if ($Results) {
-            return $ReturnResults | Select-Object -ExpandProperty results
-        } else {
-            return $ReturnResults
+    process {
+        if ($job_id) {
+            $AppendToURI = ""
+            if ($Status) {
+                $AppendToURI += "/pending"
+            }
+            if ($task_id) {
+                $AppendToURI += "/tasks/$task_id"
+            }
+            if ($Results) {
+                $AppendToURI += "/results"
+            }
+            $WebResponse = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs/$job_id$AppendToURI" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+            if ($WebResponse.GetType().Name -eq 'String') {
+                try {
+                    Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
+                    if ($PSVersionTable.PSVersion.Major -le 5) {
+                        $WebResponse = ConvertFrom-ComplexJSON $WebResponse
+                    } else {
+                        $WebResponse = $WebResponse | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+                    }
+                } catch {
+                    Write-Error "Failed to convert JSON response."
+                    Write-Error $_
+                    return $null
+                }
+            }
+            if ($TaskResults) {
+                $Tasks = @()
+                $WebResponse.tasks.PSObject.Properties.Name | %{
+                    $Tasks += [PSCustomObject]@{
+                        'task_id' = $_
+                    }
+                }
+                $ReturnData = $Tasks | Get-B1DossierLookup -job_id $WebResponse.job_id -Results
+            } else {
+                $ReturnData = $WebResponse
+            }
+        }
+    
+        if ($ReturnData) {
+            $ReturnData
         }
     }
 }

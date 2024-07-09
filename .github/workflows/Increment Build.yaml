@@ -14,11 +14,17 @@ jobs:
         
       - name: Update Build Version
         shell: pwsh
+        env:
+          commitmessage: ${{ github.event.head_commit.message }}
         run : |
           $Branch = git rev-parse --abbrev-ref HEAD
           $Build = Get-Content Modules/ibPS/Functions/Misc/build.json | ConvertFrom-Json
-          $Build.Build = [Int]$Build.build+1
-          $Build.SHA = $ENV:GITHUB_SHA
+          if ($ENV:commitmessage -like "*docs*") {
+            Write-Host "Documentation only update. Skipping build version change."
+          } else {
+            $Build.Build = [Int]$Build.build+1
+            $Build.SHA = $ENV:GITHUB_SHA
+          }
           $Build.Branch = $Branch
           Set-Content -Path Modules/ibPS/Functions/Misc/build.json -Value $($Build | ConvertTo-Json)
           Write-Output "BuildVersion=$($Build.build)" | Out-File -FilePath $ENV:GITHUB_ENV -Encoding utf8 -Append

@@ -383,6 +383,24 @@ function ConvertFrom-HexString {
   }
 }
 
+function ConvertFrom-HashTable {
+  param(
+    [Parameter(Mandatory, ValueFromPipeline)]
+    [System.Collections.IDictionary] $HashTable
+  )
+  process {
+    $oht = [ordered] @{} # Aux. ordered hashtable for collecting property values.
+    foreach ($entry in $HashTable.GetEnumerator()) {
+      if ($entry.Value -is [System.Collections.IDictionary]) { # Nested dictionary? Recurse.
+        $oht[[object] $entry.Key] = ConvertFrom-HashTable -HashTable $entry.Value # NOTE: Casting to [object] prevents problems with *numeric* hashtable keys.
+      } else { # Copy value as-is.
+        $oht[[object] $entry.Key] = $entry.Value
+      }
+    }
+    [pscustomobject] $oht # Convert to [pscustomobject] and output.
+  }
+}
+
 function ConvertTo-Base64Url {
   <#
     .LINK
@@ -817,6 +835,14 @@ function Build-HTMLTopologyChildren {
   }
 }
 
+function ConvertFrom-ComplexJSON([string]$text) {                           
+  $parser = New-Object Web.Script.Serialization.JavaScriptSerializer
+  $parser.MaxJsonLength = $text.length
+  Write-Output -NoEnumerate (($parser.Deserialize($text, [hashtable])) | ConvertFrom-HashTable)
+  #Write-Output -NoEnumerate $parser.DeserializeObject($text)
+  # To deserialize to a dictionary, use $parser.DeserializeObject($text) instead
+}
+
 function Write-DebugMsg {
   param(
     $URI,
@@ -850,6 +876,8 @@ function DevelopmentFunctions {
     "ConvertTo-QueryString"
     "Match-Type"
     "Convert-CIDRToNetmask"
+    "ConvertFrom-HashTable"
+    "ConvertFrom-ComplexJSON"
     "Test-NetmaskString"
     "Test-ValidIPv4Address"
     "Convert-NetmaskToCIDR"
