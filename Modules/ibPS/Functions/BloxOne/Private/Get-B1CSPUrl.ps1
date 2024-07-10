@@ -20,8 +20,11 @@ function Get-B1CSPUrl {
     param(
         $Profile
     )
-    if ($Profile) {
+    if ($Profile -or !($ENV:B1CSPUrl)) {
         $Configs = Get-B1Context
+        if (!$($Profile)) {
+            $Profile = $Configs.CurrentContext
+        }
         if ($Configs.Contexts."$($Profile)") {
             $CSPUrl = ($Configs.Contexts | Select-Object -ExpandProperty $Profile).'URL'
         } else {
