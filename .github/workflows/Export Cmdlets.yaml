@@ -27,6 +27,14 @@ jobs:
           $AdditionalFunctionsToExport = @('Invoke-CSP')
 
           ## Aliases To Export
+          foreach($FunctionToImport in @($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions)) {
+            try {
+              . $FunctionToImport.fullname
+            } catch {
+              Write-Error "Failed to import function $($FunctionToImport.fullname)"
+            }
+          }
+          Write-Host "Exporting aliases.."
           $Aliases = (Get-Alias | Where-Object {$_.Source -eq "ibPS"}).Name
 
           ## Export Functions
