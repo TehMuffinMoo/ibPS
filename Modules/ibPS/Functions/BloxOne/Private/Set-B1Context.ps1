@@ -32,6 +32,8 @@ function Set-B1Context {
                 if (Test-Path ~/.zshenv) {
                     sed -i '' -e '/B1APIKey/d' ~/.zshenv
                     sed -i '' -e '/B1CSPUrl/d' ~/.zshenv
+                    unset B1APIKey
+                    unset B1CSPUrl
                 }
                 $ENV:B1APIKey = $null
                 $ENV:B1CSPUrl = $null
