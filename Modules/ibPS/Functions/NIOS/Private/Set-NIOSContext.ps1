@@ -9,16 +9,16 @@ function Set-NIOSContext {
 
     $Configs = Get-NIOSContext -Raw
     if ($Configs.Contexts."$($Name)") {
-        Write-Warning "Are you sure you want to overwrite the connection profile: $($Name)?" -WarningAction Inquire
-        Write-Host "Overwriting saved connection profile: $($Name).." -ForegroundColor Green
+        Write-Warning "Are you sure you want to overwrite the NIOS connection profile: $($Name)?" -WarningAction Inquire
+        Write-Host "Overwriting saved NIOS connection profile: $($Name).." -ForegroundColor Green
         $Configs.Contexts."$($Name)" = $Config
     } else {
-        Write-Host "Creating new connection profile: $($Name).." -ForegroundColor Green
+        Write-Host "Creating new NIOS connection profile: $($Name).." -ForegroundColor Green
         $Configs.Contexts | Add-Member -MemberType NoteProperty -Name $($Name) -Value $($Config)
     }
     
     if (-not $NoSwitchProfile) {
-        Write-Host "Active connection profile set to: $($Name)" -ForegroundColor Cyan
+        Write-Host "Active NIOS connection profile set to: $($Name)" -ForegroundColor Cyan
         $Configs.CurrentContext = $($Name)
     }
 

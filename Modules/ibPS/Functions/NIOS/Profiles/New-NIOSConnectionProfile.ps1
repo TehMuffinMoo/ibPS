@@ -1,7 +1,7 @@
 function New-NIOSConnectionProfile {
     <#
     .SYNOPSIS
-        This function is used to create a new connection profiles. By default, the new profile will be set as active.
+        This function is used to create new NIOS connection profiles. By default, the new profile will be set as active.
 
     .DESCRIPTION
         Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/). 

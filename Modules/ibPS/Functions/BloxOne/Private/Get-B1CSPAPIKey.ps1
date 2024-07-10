@@ -15,7 +15,20 @@ function Get-B1CSPAPIKey {
     .FUNCTIONALITY
         Authentication
     #>
-    $ApiKey = $ENV:B1APIKey
+    param(
+        $Profile
+    )
+    if ($Profile) {
+        $Configs = Get-B1Context
+        if ($Configs.Contexts."$($Profile)") {
+            $ApiKey = ($Configs.Contexts | Select-Object -ExpandProperty $Profile).'API Key'
+        } else {
+            Write-Error "Unable to find BloxOne Connection Profile: $($Profile)"
+            return $null
+        }
+    } else {
+        $ApiKey = $ENV:B1APIKey        
+    }
     if (!$ApiKey) {
         Write-Host "Error. Missing API Key. Store your API Key first using 'Set-ibPSConfiguration -CSPAPIKey apikey' and re-run this script." -ForegroundColor Red
         Write-Colour "See the following link for more information: ","https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/" -Colour Gray,Magenta

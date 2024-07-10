@@ -897,10 +897,14 @@ function DevelopmentFunctions {
     "ConvertTo-HexString"
     "ConvertTo-Base64Url"
     "Initialize-NIOSOpts"
+    "Initialize-NIOSConfig"
     "Get-NIOSContext"
     "Set-NIOSContext"
     "Get-NIOSWebSession"
     "Set-NIOSWebSession"
+    "Get-B1Context"
+    "Set-B1Context"
+    "Initialize-B1Config"
   )
 }
 

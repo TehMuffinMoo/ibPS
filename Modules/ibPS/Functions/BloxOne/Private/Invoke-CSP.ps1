@@ -21,6 +21,9 @@ function Invoke-CSP {
     .PARAMETER ContentType
         The Content-Type header to be passed in requests. Defaults to 'application/json'
 
+    .PARAMETER APIKey
+        Optionally provide a specific API Key for this request.
+
     .EXAMPLE
         Invoke-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
 
@@ -42,18 +45,26 @@ function Invoke-CSP {
       [Alias("Body")]
       $Data,
       [String]$InFile,
-      [String]$ContentType = 'application/json'
+      [String]$ContentType = 'application/json',
+      [String]$APIKey
     )
 
-    ## Get Stored API Key
-    $B1ApiKey = Get-B1CSPAPIKey
+    if ($APIKey) {
+        $B1ApiKey = "Token $($APIKey)"
+    } elseif ($ENV:B1APIKey) {
+        ## Get Stored API Key (Legacy)
+        $B1ApiKey = "Token $(Get-B1CSPAPIKey)"
+    } elseif ($BCP = Get-BCP -IncludeAPIKey) {
+        ## Get API Key from Active Connection Profile
+        $B1ApiKey = "Token $($BCP.'API Key')"
+    }
 
     ## Get Saved CSP URL
     $B1CSPUrl = Get-B1CSPUrl
 
     ## Set Headers
     $CSPHeaders = @{
-        'Authorization' = "Token $B1ApiKey"
+        'Authorization' = "$B1ApiKey"
         'Content-Type' = $ContentType
     }
 
