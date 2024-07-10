@@ -26,9 +26,12 @@ jobs:
           $MiscellaneousFunctions = Get-ChildItem "./Modules/ibPS/Functions/Misc/*.ps1" | Where-Object {$_.BaseName -ne 'Misc'}
           $AdditionalFunctionsToExport = @('Invoke-CSP')
 
+          ## Aliases To Export
+          $Aliases = (Get-Alias | Where-Object {$_.Source -eq "ibPS"}).Name
+
           ## Export Functions
           Write-Host "Exporting functions.."
-          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -AliasesToExport '*'
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -AliasesToExport $Aliases
 
           ## Export Manifest info to JSON file
           Write-Host "Counting functions.."
