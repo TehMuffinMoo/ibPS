@@ -59,8 +59,12 @@ function Invoke-CSP {
         $B1ApiKey = "Token $($BCP.'API Key')"
     }
 
-    ## Get Saved CSP URL
-    $B1CSPUrl = Get-B1CSPUrl
+    if ($ENV:B1CSPUrl) {
+        ## Get Saved CSP URL
+        $B1CSPUrl = Get-B1CSPUrl
+    } elseif ($BCP = Get-BCP) {
+        $B1CSPUrl = $BCP.'CSP URL'
+    }
 
     ## Set Headers
     $CSPHeaders = @{

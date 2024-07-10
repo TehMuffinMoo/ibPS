@@ -34,13 +34,36 @@ function New-B1ConnectionProfile {
     param (
         [Parameter(Mandatory=$true)]
         [String]$Name,
+        [ValidateSet("US","EU")]
+        [Parameter(
+            Mandatory=$true,
+            ParameterSetName='Region'
+        )]
+        [String]$CSPRegion,
+        [Parameter(
+            Mandatory=$true,
+            ParameterSetName='URL'
+        )]
+        [String]$CSPUrl,
         [Parameter(Mandatory=$true)]
         [String]$APIKey,
         [Switch]$NoSwitchProfile
     )
 
+    if ($CSPRegion) {
+        switch ($CSPRegion) {
+            "US" {
+                $CSPUrl = "https://csp.infoblox.com"
+            }
+            "EU" {
+                $CSPUrl = "https://csp.eu.infoblox.com"
+            }
+        }
+    }
+
     $Config = @{
        "Name" = $Name
+       "URL" = $CSPUrl
        "API Key" = $([Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($($APIKey | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString))))
     }
     Set-B1Context -Name $Name -Config $Config -NoSwitchProfile:$($NoSwitchProfile)

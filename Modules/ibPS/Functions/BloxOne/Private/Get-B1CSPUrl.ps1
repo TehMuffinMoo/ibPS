@@ -17,7 +17,21 @@ function Get-B1CSPUrl {
     .FUNCTIONALITY
         API
     #>
-    $CSPUrl = $ENV:B1CSPUrl
+    param(
+        $Profile
+    )
+    if ($Profile) {
+        $Configs = Get-B1Context
+        if ($Configs.Contexts."$($Profile)") {
+            $CSPUrl = ($Configs.Contexts | Select-Object -ExpandProperty $Profile).'URL'
+        } else {
+            Write-Error "Unable to find BloxOne Connection Profile: $($Profile)"
+            return $null
+        }
+    } else {
+        $CSPUrl = $ENV:B1CSPUrl
+    }
+
     if (!$CSPUrl) {
         return "https://csp.infoblox.com"
     } else {

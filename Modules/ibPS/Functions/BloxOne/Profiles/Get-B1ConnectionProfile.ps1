@@ -54,8 +54,8 @@ function Get-B1ConnectionProfile {
             $B1CU = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user" -APIKey (Get-B1CSPAPIKey -Profile $Profile) | Select-Object -ExpandProperty result            
             $B1CA = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user/accounts" -APIKey (Get-B1CSPAPIKey -Profile $Profile) | Select-Object -ExpandProperty results | Where-Object {$_.id -eq $B1CU.account_id}           
             $Script:B1AI."$Profile" = @{
-                'User' = $B1CU.Name
-                'Account' = $B1CA.Name
+                'User' = $(if ($B1CU.Name) {$B1CU.Name} else { 'Invalid or Expired API Key' })
+                'Account' = $(if ($B1CA.Name) {$B1CA.Name} else { 'Invalid or Expired API Key' })
             }
         }
         return $Script:B1AI."$Profile"
@@ -64,6 +64,7 @@ function Get-B1ConnectionProfile {
     $ReturnProperties = @{
         Property =  @{n="Active";e={if ($_.Name -eq $Configs.CurrentContext) { $True } else { $False } }},
                     @{n="Name";e={$_.Name}},
+                    @{n="CSP URL";e={$_.URL}},
                     @{n="CSP User";e={(GetCurrentAccountInfo -Profile $_.Name).User}},
                     @{n="CSP Account";e={(GetCurrentAccountInfo -Profile $_.Name).Account}},
                     @{n="API Key";e={if ($IncludeAPIKey) {Get-B1CSPAPIKey -Profile $_.Name} else { "********" }}}
