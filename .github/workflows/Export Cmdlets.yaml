@@ -34,9 +34,10 @@ jobs:
               Write-Error "Failed to import function $($FunctionToImport.fullname)"
             }
           }
+          $null = Get-ibPSVersion
           Write-Host "Exporting aliases.."
           $Aliases = (Get-Alias | Where-Object {$_.Source -eq "ibPS"}).Name
-
+          
           ## Export Functions
           Write-Host "Exporting functions.."
           Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -AliasesToExport $Aliases
