@@ -29,7 +29,7 @@ jobs:
           ## Export Aliases
           Write-Host "Exporting aliases.."
           $null = Import-Module './Modules/ibPS/BloxOne-Main.psm1'
-          $null = Get-B1Schema
+          $null = Resolve-DoHQuery -Query google.com -DoHServer 1.1.1.1
           $Aliases = (Get-Alias | Where-Object {$_.Source -eq "BloxOne-Main"}).Name
           
           ## Export Functions
