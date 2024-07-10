@@ -26,16 +26,10 @@ jobs:
           $MiscellaneousFunctions = Get-ChildItem "./Modules/ibPS/Functions/Misc/*.ps1" | Where-Object {$_.BaseName -ne 'Misc'}
           $AdditionalFunctionsToExport = @('Invoke-CSP')
 
-          ## Aliases To Export
-          foreach($FunctionToImport in @($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions)) {
-            try {
-              . $FunctionToImport.fullname
-            } catch {
-              Write-Error "Failed to import function $($FunctionToImport.fullname)"
-            }
-          }
-          $null = Get-ibPSVersion
+          ## Export Aliases
           Write-Host "Exporting aliases.."
+          $null = Import-Module './Modules/ibPS/ibPS.psm1'
+          $null = Get-B1Schema
           $Aliases = (Get-Alias | Where-Object {$_.Source -eq "ibPS"}).Name
           
           ## Export Functions
