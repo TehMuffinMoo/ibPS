@@ -139,6 +139,8 @@ Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>"
 
 #### Managing multiple BloxOne Accounts
 When managing more than one account, you can use the Profiles configuration. Configuration Profiles enable you to save API keys for multiple accounts, and easily switch between them.
+
+See [Get-B1ConnectionProfile](BloxOne/Profiles/Get-B1ConnectionProfile/) for more information
 ```powershell
 New-B1ConnectionProfile -Name 'Prod' -CSPRegion 'US' -APIKey '<ApiKeyFromCSP>'
 ```
