@@ -46,7 +46,8 @@ function Invoke-CSP {
       $Data,
       [String]$InFile,
       [String]$ContentType = 'application/json',
-      [String]$APIKey
+      [String]$APIKey,
+      [String]$Profile
     )
 
     if ($APIKey) {
@@ -54,12 +55,12 @@ function Invoke-CSP {
     } elseif ($ENV:B1APIKey) {
         ## Get Stored API Key (Legacy)
         $B1ApiKey = "Token $(Get-B1CSPAPIKey)"
-    } elseif ($BCP = Get-BCP -IncludeAPIKey) {
+    } elseif ($BCP = Get-BCP -IncludeAPIKey -Name $Profile) {
         ## Get API Key from Active Connection Profile
         $B1ApiKey = "Token $($BCP.'API Key')"
     }
 
-    $B1CSPUrl = Get-B1CSPUrl
+    $B1CSPUrl = Get-B1CSPUrl -Profile $Profile
 
     ## Set Headers
     $CSPHeaders = @{

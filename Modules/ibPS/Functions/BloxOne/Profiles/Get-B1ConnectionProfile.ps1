@@ -51,8 +51,8 @@ function Get-B1ConnectionProfile {
             $Script:B1AI = @{}
         }
         if (-not $Script:B1AI."$Profile") {
-            $B1CU = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user" -APIKey (Get-B1CSPAPIKey -Profile $Profile) | Select-Object -ExpandProperty result            
-            $B1CA = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user/accounts" -APIKey (Get-B1CSPAPIKey -Profile $Profile) | Select-Object -ExpandProperty results | Where-Object {$_.id -eq $B1CU.account_id}           
+            $B1CU = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -Profile $Profile)/v2/current_user" -APIKey (Get-B1CSPAPIKey -Profile $Profile) -Profile $Profile | Select-Object -ExpandProperty result            
+            $B1CA = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -Profile $Profile)/v2/current_user/accounts" -APIKey (Get-B1CSPAPIKey -Profile $Profile) -Profile $Profile | Select-Object -ExpandProperty results | Where-Object {$_.id -eq $B1CU.account_id}           
             $Script:B1AI."$Profile" = @{
                 'User' = $(if ($B1CU.Name) {$B1CU.Name} else { 'Invalid or Expired API Key' })
                 'Account' = $(if ($B1CA.Name) {$B1CA.Name} else { 'Invalid or Expired API Key' })
