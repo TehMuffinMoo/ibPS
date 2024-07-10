@@ -6,7 +6,6 @@ function Set-B1Context {
         [System.Object]$Config,
         [Switch]$NoSwitchProfile
     )
-    Initialize-B1Config
     $Configs = Get-B1Context -Raw
     if ($Configs.Contexts."$($Name)") {
         Write-Warning "Are you sure you want to overwrite the BloxOne connection profile: $($Name)?" -WarningAction Inquire

@@ -28,13 +28,11 @@ function Get-B1CSPUrl {
             Write-Error "Unable to find BloxOne Connection Profile: $($Profile)"
             return $null
         }
-    } else {
+    } elseif ($ENV:B1CSPUrl) {
         $CSPUrl = $ENV:B1CSPUrl
+    } else {
+        $CSPUrl = "https://csp.infoblox.com"
     }
 
-    if (!$CSPUrl) {
-        return "https://csp.infoblox.com"
-    } else {
-        return $CSPUrl
-    }
+    return $CSPUrl
 }

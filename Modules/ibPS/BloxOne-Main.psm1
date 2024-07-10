@@ -40,5 +40,6 @@ if ($ENV:IBPSDebug -eq "Enabled") {
 }
 
 Initialize-NIOSConfig
+Initialize-B1Config
 
 Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions + ($MiscellaneousFunctions | Where-Object {$_.BaseName -ne 'Misc'})) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -Alias *
