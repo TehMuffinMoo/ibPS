@@ -135,6 +135,9 @@ function Resolve-DoHQuery {
         [System.Object]$Object
     )
     process {
+        if ($MyInvocation.Line -like 'dohdig*') {
+            $OutDig = $true
+        }
         if ($Object) {
             if ($Object.doh_fqdn) {
                 $DoHServer = $Object.doh_fqdn
