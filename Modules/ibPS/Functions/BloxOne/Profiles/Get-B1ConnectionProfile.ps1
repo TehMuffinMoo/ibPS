@@ -12,6 +12,9 @@ function Get-B1ConnectionProfile {
     .PARAMETER List
         Return a list of all saved connection profiles.
 
+    .PARAMETER IncludeAPIKey
+        The -IncludeAPIKey indicates whether the API Key(s) should be returned in the response
+
     .EXAMPLE
         PS> Get-BCP | ft
 

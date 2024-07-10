@@ -9,6 +9,12 @@ function New-B1ConnectionProfile {
     .PARAMETER Name
         Specify the name for the new connection profile
 
+    .PARAMETER CSPRegion
+        Optionally configure the the CSP Region to use (i.e EU for the EMEA instance). You only need to use -CSPRegion OR -CSPUrl.
+
+    .PARAMETER CSPUrl
+        Optionally configure the the CSP URL to use manually. You only need to use -CSPUrl OR -CSPRegion.
+
     .PARAMETER APIKey
         Specify the BloxOne API Key to save as part of this profile
 
