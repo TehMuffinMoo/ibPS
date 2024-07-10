@@ -9,3 +9,7 @@ Get-NIOSConnectionProfile.md
 New-NIOSConnectionProfile.md
 Remove-NIOSConnectionProfile.md
 Switch-NIOSConnectionProfile.md
+Get-B1ConnectionProfile.md
+New-B1ConnectionProfile.md
+Remove-B1ConnectionProfile.md
+Switch-B1ConnectionProfile.md

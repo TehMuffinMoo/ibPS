@@ -18,7 +18,7 @@ Remove-B1ConnectionProfile [-Name] <String> [[-Confirm] <Boolean>] [<CommonParam
 
 ## DESCRIPTION
 Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts, with the ability to quickly switch between them.
-A list of connection profiles can be retrieved using \[Get-B1ConnectionProfile\](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Get-B1ConnectionProfile/).
+A list of connection profiles can be retrieved using [Get-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Get-B1ConnectionProfile/).
 
 ## EXAMPLES
 

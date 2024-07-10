@@ -19,7 +19,7 @@ Get-B1ConnectionProfile [[-Name] <String>] [-List] [-IncludeAPIKey]
 
 ## DESCRIPTION
 Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts.
-These can then easily be switched between by using \[Switch-B1ConnectionProfile\](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Switch-B1ConnectionProfile/).
+These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Switch-B1ConnectionProfile/).
 
 ## EXAMPLES
 
