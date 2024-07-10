@@ -61,9 +61,11 @@ function Invoke-CSP {
 
     if ($ENV:B1CSPUrl) {
         ## Get Saved CSP URL
-        $B1CSPUrl = Get-B1CSPUrl
+        $B1CSPUrl = $ENV:B1CSPUrl
     } elseif ($BCP = Get-BCP) {
         $B1CSPUrl = $BCP.'CSP URL'
+    } else {
+        $B1CSPUrl = Get-B1CSPUrl
     }
 
     ## Set Headers
