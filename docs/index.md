@@ -117,9 +117,13 @@ Import-Module -Name ".\Modules\ibPS\BloxOne-Main.psm1" -DisableNameChecking
 . .\Modules\BloxOne-Main.ps1
 ```
 
-### Authentication
-#### BloxOne API Key
-In order to authenticate against the BloxOne CSP (Cloud Services Portal), you must first set your API Key. You can do this for either your current powershell session or save the API Key as persistent for your current user.
+### Authentication (API Key)
+In order to authenticate against the BloxOne CSP (Cloud Services Portal), you must first set your API Key. There are a few ways to do this, depending on your use-case.
+
+#### Managing a single BloxOne Account
+When managing a single BloxOne Account, you can use the 'Global' configuration. You can do this for either your current powershell session or save the API Key as persistent for your current user.
+
+Using the 'Global' method will always override any active configuration profiles. This can be useful if you want to quickly test a new API key, without having to save it as a connection profile.
 
 ##### Persistent
 To store your API Key permanently for your user, you can specify the <b>-Persist</b> option as shown below.
@@ -131,6 +135,12 @@ Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>" -Persist
 Alternatively, you can simply store your API Key for the current powershell session only.
 ```powershell
 Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>"
+```
+
+#### Managing multiple BloxOne Accounts
+When managing more than one account, you can use the Profiles configuration. Configuration Profiles enable you to save API keys for multiple accounts, and easily switch between them.
+```powershell
+New-B1ConnectionProfile -Name 'Prod' -CSPRegion 'US' -APIKey '<ApiKeyFromCSP>'
 ```
 
 ## BloxOne Cmdlets
