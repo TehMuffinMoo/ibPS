@@ -59,7 +59,8 @@ Accept wildcard characters: False
 ```
 
 ### -CSPRegion
-{{ Fill CSPRegion Description }}
+Optionally configure the the CSP Region to use (i.e EU for the EMEA instance).
+You only need to use -CSPRegion OR -CSPUrl.
 
 ```yaml
 Type: String
@@ -74,7 +75,8 @@ Accept wildcard characters: False
 ```
 
 ### -CSPUrl
-{{ Fill CSPUrl Description }}
+Optionally configure the the CSP URL to use manually.
+You only need to use -CSPUrl OR -CSPRegion.
 
 ```yaml
 Type: String
