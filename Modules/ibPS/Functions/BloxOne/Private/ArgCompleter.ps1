@@ -152,3 +152,9 @@ $B1CompartmentFunctions = @(
     'New-B1Space'
 )
 Register-ArgumentCompleter -CommandName $B1CompartmentFunctions -ParameterName Compartment -ScriptBlock $B1Compartments
+
+$B1ConnectionProfiles = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1ConnectionProfile -List | Where-Object {$_.Name -like "$($wordToComplete)*"}).Name
+}
+Register-ArgumentCompleter -CommandName Get-B1ConnectionProfile,Set-B1ConnectionProfile,Switch-B1ConnectionProfile,Remove-B1ConnectionProfile -ParameterName Name -ScriptBlock $B1ConnectionProfiles
