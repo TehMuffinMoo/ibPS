@@ -161,7 +161,7 @@ function Submit-B1TideData {
 
       if ($File) {
         $FileContents = Get-Content $($File) -Raw
-        Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -ContentType 'text/plain'
+        Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -AdditionalHeaders @{'Content-Type' = 'text/plain'}
       } else {
 
         $DetectedTime = $Detected.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.000Z")

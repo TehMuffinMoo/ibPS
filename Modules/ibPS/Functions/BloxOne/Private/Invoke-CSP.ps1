@@ -18,8 +18,8 @@ function Invoke-CSP {
     .PARAMETER InFile
         File path of data to submit as part of POST request
 
-    .PARAMETER ContentType
-        The Content-Type header to be passed in requests. Defaults to 'application/json'
+    .PARAMETER AdditionalHeaders
+        This parameter can be used to pass additional headers, or override the Content-Type header (defaults to application/json).
 
     .PARAMETER APIKey
         Optionally provide a specific API Key for this request.
@@ -45,7 +45,7 @@ function Invoke-CSP {
       [Alias("Body")]
       $Data,
       [String]$InFile,
-      [String]$ContentType = 'application/json',
+      [System.Object]$AdditionalHeaders,
       [String]$APIKey,
       [String]$Profile
     )
@@ -62,10 +62,21 @@ function Invoke-CSP {
 
     $B1CSPUrl = Get-B1CSPUrl -Profile $Profile
 
-    ## Set Headers
-    $CSPHeaders = @{
-        'Authorization' = "$B1ApiKey"
-        'Content-Type' = $ContentType
+    if ($AdditionalHeaders) {
+        $CSPHeaders = @{
+            'Authorization' = "$B1ApiKey"
+        }
+        $CSPHeaders += $AdditionalHeaders
+        if (!($CSPHeaders.'Content-Type')) {
+            $CSPHeaders += @{
+                'Content-Type' = 'application/json'
+            }
+        }
+    } else {
+        $CSPHeaders = @{
+            'Authorization' = "$B1ApiKey"
+            'Content-Type' = 'application/json'
+        }
     }
 
     $ErrorOnEmpty = $true

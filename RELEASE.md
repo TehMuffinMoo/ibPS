@@ -1,1 +1,2 @@
 - Add `New-B1ConnectionProfile`, `Get-B1ConnectionProfile`, `Remove-B1ConnectionProfile` & `Switch-B1ConnectionProfile` functions to enable configuring multiple CSP Accounts which can be easily switched between.
+- Add `Get-B1RPZFeed` function

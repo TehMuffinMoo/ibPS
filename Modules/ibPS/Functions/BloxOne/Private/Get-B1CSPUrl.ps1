@@ -20,15 +20,21 @@ function Get-B1CSPUrl {
     param(
         $Profile
     )
-    if ($Profile -or !($ENV:B1CSPUrl)) {
+    if ($Profile -or !($ENV:B1APIKey)) {
         $Configs = Get-B1Context
-        if (!$($Profile)) {
-            $Profile = $Configs.CurrentContext
-        }
-        if ($Configs.Contexts."$($Profile)") {
-            $CSPUrl = ($Configs.Contexts | Select-Object -ExpandProperty $Profile).'URL'
+        if ($Configs.Contexts.PSObject.Properties.Name.Count -gt 0) {
+            if (!$($Profile)) {
+                $Profile = $Configs.CurrentContext
+            }
+            if ($Configs.Contexts."$($Profile)") {
+                $CSPUrl = ($Configs.Contexts | Select-Object -ExpandProperty $Profile).'URL'
+            } else {
+                Write-Error "Unable to find BloxOne Connection Profile: $($Profile)"
+                return $null
+            }
         } else {
-            Write-Error "Unable to find BloxOne Connection Profile: $($Profile)"
+            Write-Error "No BloxOne Connection Profiles or Global CSP API Key has been configured."
+            Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
             return $null
         }
     } elseif ($ENV:B1CSPUrl) {
