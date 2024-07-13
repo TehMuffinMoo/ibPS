@@ -72,146 +72,58 @@
     if ($TopQueries) {
         switch ($QueryType) {
             "NXDOMAIN" {
-                $splat = @{
-	                "measures" = @(
-		                "NstarDnsActivity.total_count"
-	                )
-	                "dimensions" = @(
-		                "NstarDnsActivity.qname"
-	                )
-	                "timeDimensions" = @(
-		                @{
-			                "dimension" = "NstarDnsActivity.timestamp"
-			                "dateRange" = @(
-				                $StartDate
-				                $EndDate
-			                )
-			                "granularity" = $null
-		                }
-	                )
-	                "filters" = @(
-		                @{
-			                "member" = "NstarDnsActivity.response"
-			                "operator" = "equals"
-			                "values" = @(
-				                "NXDOMAIN"
-			                )
-		                }
-                     )
-	                "limit" = $TopCount
-                }
-                $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-                $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-				Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
-                $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-
-                $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
-                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort-Object queryCount
-                $DNSClients
+				$Filters = @(
+					@{
+						"member" = "NstarDnsActivity.response"
+						"operator" = "equals"
+						"values" = @(
+							"NXDOMAIN"
+						)
+					}
+				)
+				$Result = Invoke-B1CubeJS -Cube NstarDnsActivity -Measures total_query_count -Dimensions qname -TimeDimension timestamp -Start $Start -End $End -Filters $Filters -Limit $TopCount -Grouped
+				if ($Result) {
+					return $Result
+				}
                 break
             }
             "NXRRSET" {
-                $splat = @{
-	                "measures" = @(
-		                "NstarDnsActivity.total_count"
-	                )
-	                "dimensions" = @(
-		                "NstarDnsActivity.qname"
-	                )
-	                "timeDimensions" = @(
-		                @{
-			                "dimension" = "NstarDnsActivity.timestamp"
-			                "dateRange" = @(
-				                $StartDate
-				                $EndDate
-			                )
-			                "granularity" = $null
-		                }
-	                )
-	                "filters" = @(
-		                @{
-			                "member" = "NstarDnsActivity.response"
-			                "operator" = "equals"
-			                "values" = @(
-				                "NXRRSET"
-			                )
-		                }
-                     )
-	                "limit" = $TopCount
-                }
-                $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-                $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-
-                $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
-                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort-Object queryCount
-                $DNSClients
+				$Filters = @(
+					@{
+						"member" = "NstarDnsActivity.response"
+						"operator" = "equals"
+						"values" = @(
+							"NXRRSET"
+						)
+					}
+				)
+				$Result = Invoke-B1CubeJS -Cube NstarDnsActivity -Measures total_query_count -Dimensions qname -TimeDimension timestamp -Start $Start -End $End -Filters $Filters -Limit $TopCount -Grouped
+				if ($Result) {
+					return $Result
+				}
                 break
             }
             "DNS" {
-                $splat = @{
-	                "measures" = @(
-		                "NstarDnsActivity.total_count"
-	                )
-	                "dimensions" = @(
-		                "NstarDnsActivity.qname"
-	                )
-	                "timeDimensions" = @(
-		                @{
-			                "dimension" = "NstarDnsActivity.timestamp"
-			                "dateRange" = @(
-				                $StartDate
-				                $EndDate
-			                )
-			                "granularity" = $null
-		                }
-	                )
-	                "limit" = $TopCount
-                }
-                $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-                $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-
-                $DNSClients = $Result.result.data | Select-Object @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
-                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}} | Sort-Object queryCount
-                $DNSClients
+				$Result = Invoke-B1CubeJS -Cube NstarDnsActivity -Measures total_query_count -Dimensions qname -TimeDimension timestamp -Start $Start -End $End -Limit $TopCount -Grouped
+				if ($Result) {
+					return $Result
+				}
                 break
             }
             "DFP" {
-                $splat = @{
-	                "measures" = @(
-		                "PortunusDnsLogs.qnameCount"
-	                )
-	                "dimensions" = @(
-		                "PortunusDnsLogs.qname"
-	                )
-	                "timeDimensions" = @(
-		                @{
-			                "dimension" = "PortunusDnsLogs.timestamp"
-			                "dateRange" = @(
-				                $StartDate
-				                $EndDate
-			                )
-		                }
-	                )
-	                "filters" = @(
-		                @{
-			                "member" = "PortunusDnsLogs.type"
-			                "operator" = "equals"
-			                "values" = @(
-				                "1"
-			                )
-		                }
-	                )
-	                "limit" = $TopCount
-	                "ungrouped" = $false
-                }
-                $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-                $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-                $TopQueriesLog = $Result.result.data | Select-Object @{name="query";Expression={$_.'PortunusDnsLogs.qname'}},`
-                                             @{name="queryCount";Expression={$_.'PortunusDnsLogs.qnameCount'}}
-                $TopQueriesLog
+				$Filters = @(
+					@{
+						"member" = "PortunusDnsLogs.type"
+						"operator" = "equals"
+						"values" = @(
+							"1"
+						)
+					}
+				)
+				$Result = Invoke-B1CubeJS -Cube PortunusDnsLogs -Measures qnameCount -Dimensions qname -TimeDimension timestamp -Start $Start -End $End -Filters $Filters -Limit $TopCount -Grouped
+				if ($Result) {
+					return $Result
+				}
                 break
             }
             default {
@@ -223,110 +135,36 @@
     if ($TopClients) {
         switch ($TopClientLogType) {
             "DNS" {
-				$DNSHosts = Get-B1DNSHost
-                $splat = @{
-	                "measures" = @(
-		                "NstarDnsActivity.total_count"
-	                )
-	                "dimensions" = @(
-		                "NstarDnsActivity.device_ip",
-						"NstarDnsActivity.site_id"
-	                )
-	                "timeDimensions" = @(
-		                @{
-			                "dimension" = "NstarDnsActivity.timestamp"
-			                "dateRange" = @(
-				                $StartDate
-				                $EndDate
-			                )
-			                "granularity" = $null
-		                }
-	                )
-	                "filters" = @()
-	                "limit" = $TopCount
-                }
-                $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-                $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-
-                $DNSClients = $Result.result.data | Select-Object @{name="device_ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
-                                             @{name="queryCount";Expression={$_.'NstarDnsActivity.total_count'}},`
-                                             @{name="licenseUsage";Expression={[math]::Round(($_.'NstarDnsActivity.total_count')/6000 + 0.5)}},`
-											 @{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}},`
-											 @{name="site_id";Expression={$_.'NstarDnsActivity.site_id'}} | Sort-Object queryCount
-                $DNSClients
+				$DNSHosts = Get-B1DNSHost -Limit 10000 -Fields site_id,name
+				$Result = Invoke-B1CubeJS -Cube NstarDnsActivity -Measures total_query_count -Dimensions device_ip,site_id -TimeDimension timestamp -Start $Start -End $End -Limit $TopCount -Grouped
+				if ($Result) {
+					return $Result | Select-Object @{name="dns_server";Expression={$siteId = $_.'site_id'; (@($DNSHosts).where({ $_.site_id -eq $siteId })).name}},*
+				}
                 break
             }
             "DFP" {
-                $splat = @{
-	                "measures" = @(
-		                "PortunusAggUserDevices.deviceCount"
-	                )
-	                "dimensions" = @(
-		                "PortunusAggUserDevices.device_name"
-	                )
-	                "timeDimensions" = @(
-                        @{
-			                "dimension" = "PortunusAggUserDevices.timestamp"
-			                "dateRange" = @(
-				                $StartDate,
-				                $EndDate
-			                )
-		                }
-	                )
-	                "filters" = @(
-		                @{
-			                "member" = "PortunusAggUserDevices.type"
-			                "operator" = "equals"
-			                "values" = @(
-				                "1"
-			                )
-		                }
-	                )
-	                "limit" = $TopCount
-	                "ungrouped" = $false
-                }
-                $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-                $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-                $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-
-                $DFPClients = $Result.result.data | Select-Object @{name="device_name";Expression={$_.'PortunusAggUserDevices.device_name'}},`
-                                             @{name="count";Expression={$_.'PortunusAggUserDevices.deviceCount'}} | Sort-Object count
-                $DFPClients
+				$Filters = @(
+					@{
+						"member" = "PortunusAggUserDevices.type"
+						"operator" = "equals"
+						"values" = @(
+							"1"
+						)
+					}
+				)
+				$Result = Invoke-B1CubeJS -Cube PortunusAggUserDevices -Measures deviceCount -Dimensions device_name -TimeDimension timestamp -Start $Start -End $End -Filters $Filters -Limit $TopCount -Grouped
+				if ($Result) {
+					return $Result
+				}
+                break
             }
 			"DHCP" {
-				$DHCPHosts = Get-B1DHCPHost
-				$splat = @{
-					"measures" = @(
-						"NstarLeaseActivity.total_count"
-					)
-					"dimensions" = @(
-						"NstarLeaseActivity.lease_ip",
-						"NstarLeaseActivity.host_id"
-					)
-					"timeDimensions" = @(
-						@{
-							"dimension" = "NstarLeaseActivity.timestamp"
-							"dateRange" = @(
-								$StartDate
-								$EndDate
-							)
-							"granularity" = $null
-						}
-					)
-					"filters" = @()
-					"limit" = $TopCount
+				$DHCPHosts = Get-B1DHCPHost -Limit 10000 -Fields ophid,name
+				$Result = Invoke-B1CubeJS -Cube NstarLeaseActivity -Measures total_count -Dimensions lease_ip,host_id -TimeDimension timestamp -Start $Start -End $End -Filters $Filters -Limit $TopCount -Grouped
+				if ($Result) {
+					return $Result | Select-Object @{Name = 'DHCP-Server'; Expression = {$HostID = $_.'host_id';if ($HostID) {($DHCPHosts | Where-Object {$_.ophid -eq $HostID}).name}}},*
 				}
-				$Data = $splat | ConvertTo-Json -Depth 4 -Compress
-				$Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-				$Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-	
-				$DNSClients = $Result.result.data | Select-Object @{name="lease_ip";Expression={$_.'NstarLeaseActivity.lease_ip'}},`
-											 @{name="leaseCount";Expression={$_.'NstarLeaseActivity.total_count'}},`
-											 @{Name = 'DHCP-Server'; Expression = {$HostID = $_.'NstarLeaseActivity.host_id';if ($HostID) {($DHCPHosts | Where-Object {$_.id -eq $HostID}).name}}},`
-											 @{name="host_id";Expression={$_.'NstarLeaseActivity.host_id'}} | Sort-Object queryCount
-				$DNSClients
-				break
+                break
 			}
             default {
                 Write-Host "Error. Permitted TopClientLogType options are: DNS, DFP" -ForegroundColor Red
@@ -335,34 +173,11 @@
         }
     }
 	if ($TopDNSServers) {
-		$DNSHosts = Get-B1DNSHost
-		$splat = @{
-			"measures" = @(
-				"NstarDnsActivity.total_count"
-			)
-			"dimensions" = @(
-				"NstarDnsActivity.site_id"
-			)
-			"timeDimensions" = @(
-				@{
-					"dimension" = "NstarDnsActivity.timestamp"
-					"dateRange" = @(
-						$StartDate
-						$EndDate
-					)
-					"granularity" = $Granularity
-				}
-			)
-			"filters" = @()
-			"limit" = $TopCount
+		$DNSHosts = Get-B1DNSHost -Limit 10000 -Fields site_id,name
+		$Result = Invoke-B1CubeJS -Cube NstarDnsActivity -Measures total_query_count -Dimensions site_id -TimeDimension timestamp -Start $Start -End $End -Limit $TopCount -Grouped -Granularity $Granularity
+		if ($Result) {
+			return $Result | Select-Object @{name="dns_server";Expression={$siteId = $_.'site_id'; (@($DNSHosts).where({ $_.site_id -eq $siteId })).name}},*
 		}
-		$Data = $splat | ConvertTo-Json -Depth 4 -Compress
-		$Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-		$Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-		if ($Granularity) {
-			$Result.result.data | Select-Object @{Name = 'Timestamp'; Expression = {$_.'NstarDnsActivity.timestamp'}},@{Name = 'Count'; Expression = {$_.'NstarDnsActivity.total_count'}},@{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}},@{Name = 'SiteID'; Expression = {$_.'NstarDnsActivity.site_id'}}
-		} else {
-		    $Result.result.data | Select-Object @{Name = 'Count'; Expression = {$_.'NstarDnsActivity.total_count'}},@{Name = 'DNS-Server'; Expression = {$SiteID = $_.'NstarDnsActivity.site_id';if ($SiteID) {($DNSHosts | Where-Object {$_.site_id -eq $SiteID}).name}}},@{Name = 'SiteID'; Expression = {$_.'NstarDnsActivity.site_id'}}
-		}
+		break
 	}
 }

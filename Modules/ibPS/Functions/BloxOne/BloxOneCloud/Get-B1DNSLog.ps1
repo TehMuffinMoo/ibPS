@@ -24,6 +24,12 @@ function Get-B1DNSLog {
     .PARAMETER DNSServers
         Filter the DNS Logs by one or more DNS Servers (i.e "mybloxoneddihost.mydomain.corp" or "mybloxoneddihost1.mydomain.corp","mybloxoneddihost2.mydomain.corp"
 
+    .PARAMETER OrderBy
+        The field in which to order the results by. This field supports auto-complete, and defaults to timestamp.
+
+    .PARAMETER Order
+        The direction to order results in. This defaults to ascending.
+
     .PARAMETER Start
         A date parameter used as the starting date/time of the log search. By default, the search will start from 24hrs ago and returns the latest results first. You may need to increase the -Limit parameter or reduce the -End date/time to view earlier events.
 
@@ -55,6 +61,9 @@ function Get-B1DNSLog {
       [string]$Type,
       [string]$Response,
       [string[]]$DNSServers,
+      [String]$OrderBy = 'timestamp',
+      [ValidateSet('asc','desc')]
+      [String]$Order = 'asc',
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
       [ValidateRange(1,50000)]
@@ -62,16 +71,18 @@ function Get-B1DNSLog {
       [int]$Offset = 0
     )
 
+    $Cube = 'NstarDnsActivity'
+
     if ($Limit -ge 10001) {
         $UseExport = $true
     }
 
-    $DNSHostQuery = Get-B1DNSHost -Limit 2500
+    $DNSHostQuery = Get-B1DNSHost -Limit 2500 -Fields site_id,name
     $DNSServices += $DNSHostQuery
     if ($DNSHostQuery.count -eq 2500) {
         $Offset = 2500
         while ($DNSHostQuery.count -gt 0) {
-            $DNSHostQuery = Get-B1DNSHost -Limit 2500 -Offset $Offset
+            $DNSHostQuery = Get-B1DNSHost -Limit 2500 -Offset $Offset -Fields site_id,name
             $DNSServices += $DNSHostQuery
             $Offset += 2500
         }
@@ -82,86 +93,66 @@ function Get-B1DNSLog {
     $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ss.000")
     $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ss.000")
 
-    $splat = @{
-	    "dimensions" = @(
-		    "NstarDnsActivity.timestamp",
-		    "NstarDnsActivity.qname",
-		    "NstarDnsActivity.response",
-		    "NstarDnsActivity.query_type",
-		    "NstarDnsActivity.dns_view",
-		    "NstarDnsActivity.device_ip",
-		    "NstarDnsActivity.mac_address",
-		    "NstarDnsActivity.dhcp_fingerprint",
-		    "NstarDnsActivity.device_name",
-		    "NstarDnsActivity.query_nanosec",
-            "NstarDnsActivity.site_id"
-	    )
-	    "timeDimensions" = @(
-		    @{
-			    "dimension" = "NstarDnsActivity.timestamp"
-			    "dateRange" = @(
-				    $StartTime,
-				    $EndTime
-			    )
-			    "granularity" = $null
-		    }
-	    )
-	    "filters" = @(
-	    )
-	    "ungrouped" = $true
-	    "offset" = $Offset
-	    "limit" = $Limit
-    }
+    $Dimensions = @(
+        "timestamp",
+        "qname",
+        "response",
+        "query_type",
+        "dns_view",
+        "device_ip",
+        "mac_address",
+        "dhcp_fingerprint",
+        "device_name",
+        "query_nanosec",
+        "site_id"
+    )
+
+    $Filters = @()
 
     if ($Query) {
-        $QuerySplat = @{
+        $Filters += @{
             "member" = "NstarDnsActivity.qname"
             "operator" = "contains"
             "values" = @(
                 $Query
             )
 		}
-        $splat.filters += $QuerySplat
     }
 
     if ($Type) {
-        $QuerySplat = @{
+        $Filters += @{
             "member" = "NstarDnsActivity.query_type"
             "operator" = "equals"
             "values" = @(
                 $Type
             )
 		}
-        $splat.filters += $QuerySplat
     }
 
     if ($Response) {
-        $ResponseSplat = @{
+        $Filters += = @{
             "member" = "NstarDnsActivity.response"
             "operator" = "contains"
             "values" = @(
                 $Response
             )
 		}
-        $splat.filters += $ResponseSplat
     }
 
     if ($IP) {
-        $IPSplat = @{
+        $Filters += @{
             "member" = "NstarDnsActivity.device_ip"
             "operator" = "contains"
             "values" = $IP
 		}
-        $splat.filters += $IPSplat
     }
 
     if ($Name) {
-        $NameSplat = @{
+        $Filters += @{
             "member" = "NstarDnsActivity.device_name"
             "operator" = "contains"
             "values" = $Name
 		}
-        $splat.filters += $NameSplat
     }
 
     if ($DNSServers) {
@@ -170,12 +161,11 @@ function Get-B1DNSLog {
           $SiteID = ($DNSServices | Where-Object {$_.name -like "*$DNSServer*"}).site_id
           $DNSServerArr += $SiteID
         }
-        $DNSServerSplat = @{
+        $Filters += @{
             "member" = "NstartDnsActivity.site_id"
             "operator" = "equals"
             "values" = $DNSServerArr
         }
-        $splat.filters += $DNSServerSplat
     }
 
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress
@@ -191,20 +181,9 @@ function Get-B1DNSLog {
             Write-Host "Error: No DNS logs returned." -ForegroundColor Red
         }
     } else {
-        Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
-        $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-        if ($Result.result.data) {
-            $Result.result.data | Select-Object @{name="ip";Expression={$_.'NstarDnsActivity.device_ip'}},`
-                                         @{name="name";Expression={$_.'NstarDnsActivity.device_name'}},`
-                                         @{name="dhcp_fingerprint";Expression={$_.'NstarDnsActivity.dhcp_fingerprint'}},`
-                                         @{name="dns_view";Expression={$_.'NstarDnsActivity.dns_view'}},`
-                                         @{name="mac_address";Expression={$_.'NstarDnsActivity.mac_address'}},`
-                                         @{name="query";Expression={$_.'NstarDnsActivity.qname'}},`
-                                         @{name="query_nanosec";Expression={$_.'NstarDnsActivity.query_nanosec'}},`
-                                         @{name="query_type";Expression={$_.'NstarDnsActivity.query_type'}},`
-                                         @{name="response";Expression={$_.'NstarDnsActivity.response'}},`
-                                         @{name="timestamp";Expression={$_.'NstarDnsActivity.timestamp'}},
-                                         @{name="dns_server";Expression={$siteId = $_.'NstarDnsActivity.site_id'; (@($DNSServices).where({ $_.site_id -eq $siteId })).name}}
+        $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
+        if ($Result) {
+            return $Result | Select-Object @{name="dns_server";Expression={$siteId = $_.'site_id'; (@($DNSServices).where({ $_.site_id -eq $siteId })).name}},*
         } else {
             Write-Host "Error: No DNS logs returned." -ForegroundColor Red
         }

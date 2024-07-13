@@ -130,53 +130,28 @@ function Get-B1ThreatIntel {
     $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ss.000")
 
     if ($ThreatActors) {
-        $Payload = @{
-            "timeDimensions" = @(
-                @{
-                    "dateRange" = @(
-                        $StartTime
-                        $EndTime
-                    )
-                    "dimension" = "PortunusAggIPSummary.timestamp"
-                    "granularity" = $null
-                }
-            )
-            "measures" = @(
-               "PortunusAggIPSummary.count"
-            )
-            "dimensions" = @(
-                "PortunusAggIPSummary.threat_indicator"
-                "PortunusAggIPSummary.actor_id"
-            )
-            "filters" = @(
-                @{
-                    "and" = @(
-                        @{
-                            "member" = "PortunusAggIPSummary.threat_indicator"
-                            "operator" = "set"
-                        }
-                        @{
-                            "member" = "PortunusAggIPSummary.actor_id"
-                            "operator" = "set"
-                        }
-                    )
-                }
-            )
-            "order" = @{
-                "PortunusAggIPSummary.timestampMax" = "desc"
+        $Filters = @(
+            @{
+                "and" = @(
+                    @{
+                        "member" = "PortunusAggIPSummary.threat_indicator"
+                        "operator" = "set"
+                    }
+                    @{
+                        "member" = "PortunusAggIPSummary.actor_id"
+                        "operator" = "set"
+                    }
+                )
             }
-        }
-        $JSONPayload = $Payload | ConvertTo-Json -Depth 5
-        $Query = [System.Web.HTTPUtility]::UrlEncode($JSONPayload)
-        Write-DebugMsg -Query $JSONPayload
-        $Results = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query" | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue | Select-Object -ExpandProperty data -EA SilentlyContinue -WA SilentlyContinue
+        )
+		$Results = Invoke-B1CubeJS -Cube PortunusAggIPSummary -Measures count -Dimensions threat_indicator,actor_id -TimeDimension timestamp -Start $Start -End $End -Limit $TopCount -Grouped -Filters $Filters -OrderBy timestampMax -Order 'desc'
         $ThreatActorData = @()
-        $UniqueResults = $Results | Select-Object 'PortunusAggIPSummary.actor_id' -Unique
+        $UniqueResults = $Results | Select-Object 'actor_id' -Unique
         ForEach ($UniqueResult in $UniqueResults) {
-            $SimilarResults = $Results | Where-Object {$UniqueResult.'PortunusAggIPSummary.actor_id' -eq $_.'PortunusAggIPSummary.actor_id'}
+            $SimilarResults = $Results | Where-Object {$UniqueResult.'actor_id' -eq $_.'actor_id'}
             $IndicatorPayload = @{
-                "indicators" = @($SimilarResults.'PortunusAggIPSummary.threat_indicator')
-                "actor_id" = $UniqueResult.'PortunusAggIPSummary.actor_id'
+                "indicators" = @($SimilarResults.'threat_indicator')
+                "actor_id" = $UniqueResult.'actor_id'
             }
             $IndicatorJSONPayload = $IndicatorPayload | ConvertTo-Json
             Write-DebugMsg -Query $IndicatorJSONPayload
