@@ -30,6 +30,12 @@
     .PARAMETER End
         A date parameter used as the end date/time of the log search.
 
+    .PARAMETER OrderBy
+        The field in which to order the results by. This field supports auto-complete, and defaults to timestamp.
+
+    .PARAMETER Order
+        The direction to order results in. This defaults to ascending.
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 100.
 
@@ -57,156 +63,124 @@
       [string]$MACAddress,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
+      [String]$OrderBy = 'timestamp',
+      [ValidateSet('asc','desc')]
+      [String]$Order = 'asc',
       [int]$Limit = 100,
       [int]$Offset = 0
     )
 
-    $Start = $Start.ToUniversalTime()
-    $End = $End.ToUniversalTime()
-    $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ss.000")
-    $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ss.000")
+    $Cube = 'NstarLeaseActivity'
 
-    $DHCPHostQuery = Get-B1DHCPHost -Limit 2500
+    ## Replace with CubeJS Query
+    $DHCPHostQuery = Get-B1DHCPHost -Limit 2500 -Fields id,name
     $DHCPHosts += $DHCPHostQuery
     if ($DHCPHostQuery.count -eq 2500) {
         $Offset = 2500
         while ($DHCPHostQuery.count -gt 0) {
-            $DHCPHostQuery = Get-B1DHCPHost -Limit 2500 -Offset $Offset
+            $DHCPHostQuery = Get-B1DHCPHost -Limit 2500 -Offset $Offset -Fields id,name
             $DHCPHosts += $DHCPHostQuery
             $Offset += 2500
         }
     }
 
-    function Match-DHCPHost($id) {
-        ($DHCPHosts | Where-Object {$_.id -eq $id}).name
+    function Match-DHCPHost($id,$name) {
+        if ($id) {
+            ($DHCPHosts | Where-Object {$_.id -eq $id}).name
+        }
+        if ($name) {
+            ($DHCPHosts | Where-Object {$_.name -eq $name}).id
+        }
     }
 
-    $splat = @{
-	    "dimensions" = @(
-		    "NstarLeaseActivity.timestamp"
-		    "NstarLeaseActivity.host_id"
-		    "NstarLeaseActivity.protocol"
-		    "NstarLeaseActivity.state"
-		    "NstarLeaseActivity.lease_ip"
-		    "NstarLeaseActivity.mac_address"
-		    "NstarLeaseActivity.client_hostname"
-		    "NstarLeaseActivity.lease_start"
-		    "NstarLeaseActivity.lease_end"
-		    "NstarLeaseActivity.dhcp_fingerprint"
-	    )
-	    "timeDimensions" = @(
-		    @{
-			    "dimension" = "NstarLeaseActivity.timestamp"
-			    "dateRange" = @(
-				    $StartTime
-				    $EndTime
-			    )
-			    "granularity" = $null
-		    }
-	    )
-	    "filters" = @()
-	    "ungrouped" = $true
-	    "offset" = $Offset
-	    "limit" = $Limit
-	    "order" = @{
-		    "NstarLeaseActivity.lease_start" = "desc"
-	    }
-    }
+    $Dimensions = @(
+        "timestamp"
+        "host_id"
+        "protocol"
+        "state"
+        "lease_ip"
+        "mac_address"
+        "client_hostname"
+        "lease_start"
+        "lease_end"
+        "dhcp_fingerprint"
+    )
+    $Filters = @()
 
     if ($Hostname) {
-        $HostnameSplat = @{
+        $Filters += @{
             "member" = "NstarLeaseActivity.client_hostname"
             "operator" = "contains"
             "values" = @(
                 $Hostname
             )
 		}
-        $splat.filters += $HostnameSplat
     }
 
     if ($MacAddress) {
-        $MacAddressSplat = @{
+        $Filters += @{
             "member" = "NstarLeaseActivity.mac_address"
             "operator" = "equals"
             "values" = @(
                 $MacAddress
             )
 		}
-        $splat.filters += $MacAddressSplat
     }
 
     if ($State) {
-        $StateSplat = @{
+        $Filters += @{
             "member" = "NstarLeaseActivity.state"
             "operator" = "contains"
             "values" = @(
                 $State
             )
 		}
-        $splat.filters += $StateSplat
     }
 
     if ($IP) {
-        $IPSplat = @{
+        $Filters += @{
             "member" = "NstarLeaseActivity.lease_ip"
             "operator" = "contains"
             "values" = @(
                 $IP
             )
 		}
-        $splat.filters += $IPSplat
     }
 
     if ($Protocol) {
-        $ProtocolSplat = @{
+        $Filters += @{
             "member" = "NstarLeaseActivity.protocol"
             "operator" = "equals"
             "values" = @(
                 $Protocol
             )
 		}
-        $splat.filters += $ProtocolSplat
     }
 
     if ($DHCPServer) {
         $DHCPHostIds = @()
         foreach ($DHCPServ in $DHCPServer) {
-            $DHCPHostIds += (Get-B1DHCPHost -Name $DHCPServ).id
+            $DHCPHostIds += Match-DHCPHost -Name $DHCPServ
         }
 
         if ($DHCPHostIds) {
-            $HostIdSplat = @{
+            $Filters += @{
                 "member" = "NstarLeaseActivity.host_id"
                 "operator" = "equals"
                 "values" = @(
                     $DHCPHostIds
                 )
 		    }
-            $splat.filters += $HostIdSplat
         } else {
             Write-Host "Error: Unable to find DHCP Host: $DHCPServer" -ForegroundColor Red
             break
         }
     }
     
-    $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-
-    $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-    Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
-    $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-    if ($Result.result.data) {
-        $Result.result.data | Select-Object @{name="timestamp";Expression={$_.'NstarLeaseActivity.timestamp'}},`
-                                     @{name="dhcp_server";Expression={Match-DHCPHost($_.'NstarLeaseActivity.host_id')}},`
-                                     @{name="protocol";Expression={$_.'NstarLeaseActivity.protocol'}},`
-                                     @{name="state";Expression={$_.'NstarLeaseActivity.state'}},`
-                                     @{name="lease_ip";Expression={$_.'NstarLeaseActivity.lease_ip'}},`
-                                     @{name="mac_address";Expression={$_.'NstarLeaseActivity.mac_address'}},`
-                                     @{name="client_hostname";Expression={$_.'NstarLeaseActivity.client_hostname'}},`
-                                     @{name="lease_start";Expression={$_.'NstarLeaseActivity.lease_start'}},`
-                                     @{name="lease_end";Expression={$_.'NstarLeaseActivity.lease_end'}},`
-                                     @{name="dhcp_fingerprint";Expression={$_.'NstarLeaseActivity.dhcp_fingerprint'}}
+    $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Filters $Filters -OrderBy $OrderBy -Order $Order
+    if ($Result) {
+        return $Result | Select-Object @{name="dhcp_server";Expression={Match-DHCPHost -id $_.'host_id'}},*
     } else {
-        Write-Host "Error: No DHCP logs returned." -ForegroundColor Red
+        Write-Host "Error: No DNS logs returned." -ForegroundColor Red
     }
-
 }
