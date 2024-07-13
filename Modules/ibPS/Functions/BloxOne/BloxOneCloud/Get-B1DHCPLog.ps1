@@ -181,6 +181,6 @@
     if ($Result) {
         return $Result | Select-Object @{name="dhcp_server";Expression={Match-DHCPHost -id $_.'host_id'}},*
     } else {
-        Write-Host "Error: No DNS logs returned." -ForegroundColor Red
+        Write-Host "Error: No DHCP logs returned." -ForegroundColor Red
     }
 }
