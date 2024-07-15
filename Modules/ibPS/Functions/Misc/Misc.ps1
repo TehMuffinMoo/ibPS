@@ -905,6 +905,8 @@ function DevelopmentFunctions {
     "Get-B1Context"
     "Set-B1Context"
     "Initialize-B1Config"
+    "Write-Chart"
+    "Write-Graph"
   )
 }
 
@@ -962,4 +964,61 @@ function New-ibPSTelemetry {
     $QueryString = ConvertTo-QueryString $Query
     $OutNull = Invoke-WebRequest -Method POST -Uri "https://google-analytics.com/g/collect$($QueryString)" -UseBasicParsing | Out-Null
   }
+}
+
+Function Write-Graph($YAxisLabel, $Row, $RowColor) {
+  Write-Host -Object $([char]9474) -NoNewline
+  Write-Host -Object "$($YAxisLabel.tostring().PadLeft($LengthOfMaxYAxisLabel+2) + [Char]9508)" -NoNewline
+  Write-Host -Object $Row -ForegroundColor $RowColor -NoNewline
+  Write-Host -Object "  $([char]9474)"
+}
+
+function Write-Chart {
+  param(
+      [Int[]]$YAxis,
+      [ValidateScript({
+          if($_.Count -gt 30){
+          Throw "Maximum date plots supported is 30"
+          }
+          else{
+              $true
+          }
+      })]
+      [DateTime[]]$XAxis
+  )
+  $DateStrings = $XAxis | %{ $_.ToString('dd/MM') }
+  $UnderChar = [Char]9472
+
+  $C = 0
+  $Map = @($XAxis | %{
+      [PSCustomObject]@{ "Date" = $_
+                         "_Count" = $YAxis[$C]
+                         "Instance" = $C
+      }
+      $C++
+  })
+
+
+  Write-Host "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$(1..$($Map.Count) | %{ Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })"
+  $YAxisUnique = $Map._Count | Select-Object -Unique | Sort-Object -Desc
+  foreach ($YAU in $YAxisUnique) {
+      $Row = ""
+      ## Get list of X-Axis which have the same count
+      $XAxisObjs = $Map | Where-Object {$_._Count -eq $YAU}
+      $(0..$($Map.Count-1) | %{
+          ## Check if the instance exists in list to print
+          $Instance = $_
+          if ($XAxisObjs | Where-Object {$_.Instance -eq $Instance}) {
+              $Row += "$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)"
+          } else {
+              $Row += "          "
+          }
+      })
+      Write-Graph -YAxisLabel $("$($YAU)".PadLeft(8)) -Row $Row -RowColor Green -LabelColor 'Blue'
+  }
+  
+  Write-Host "$([char]9474)$(''.PadLeft(8))$([char]9474)" -NoNewline
+  $(1..$($Map.Count) | %{ Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$([char]9516)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })
+  Write-Host ""
+  Write-Graph -YAxisLabel '        ' -Row "  $($DateStrings -join "  $([char]9474)  ")" -RowColor Black -LabelColor 'Blue'
 }

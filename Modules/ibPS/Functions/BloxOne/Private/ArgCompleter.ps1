@@ -181,6 +181,14 @@ $B1CubeJSDimensions = {
 }
 Register-ArgumentCompleter -CommandName Invoke-B1CubeJS -ParameterName Dimensions -ScriptBlock $B1CubeJSDimensions
 
+$B1CubeJSSegments = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1CubeJSSegments -Cube $fakeBoundParameters['Cube']).Name | %{
+        $_.replace("$($fakeBoundParameters['Cube']).","")
+    } | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['Segments'])}
+}
+Register-ArgumentCompleter -CommandName Invoke-B1CubeJS -ParameterName Segments -ScriptBlock $B1CubeJSSegments
+
 $B1CubeJSOrderBy = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     Switch($commandName) {

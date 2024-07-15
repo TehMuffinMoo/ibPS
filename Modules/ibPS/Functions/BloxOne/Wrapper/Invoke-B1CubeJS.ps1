@@ -6,6 +6,7 @@ function Invoke-B1CubeJS {
     .PARAMETER Cube
     .PARAMETER Measures
     .PARAMETER Dimensions
+    .PARAMETER Segments
     .PARAMETER AllDimensions
     .PARAMETER Filters
     .PARAMETER Limit
@@ -44,6 +45,7 @@ function Invoke-B1CubeJS {
         [String]$Cube,
         [String[]]$Measures,
         [String[]]$Dimensions,
+        [String[]]$Segments,
         [Switch]$AllDimensions,
         [System.Object]$Filters,
         [Int]$Limit,
@@ -88,6 +90,7 @@ function Invoke-B1CubeJS {
     $splat = @{
         "measures" = @()
         "dimensions" = @()
+        "segments" = @()
         "ungrouped" = $(if ($Grouped) { $False } else { $True })
     }
 
@@ -127,8 +130,16 @@ function Invoke-B1CubeJS {
         }
     }
 
+    if ($Segments) {
+        $splat.segments = @($(
+            $Segments | %{
+                "$($Cube).$($_)"
+            }
+        ))
+    }
+
     if ($Filters) {
-        $splat.Filters = @($Filters)
+        $splat.filters = @($Filters)
     }
 
     if ($TimeDimension) {

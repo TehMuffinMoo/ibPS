@@ -31,6 +31,15 @@ function Get-B1CubeJSMeasures {
     return $CubeResult.measures
 }
 
+function Get-B1CubeJSSegments {
+    param(
+        [Parameter(Mandatory=$true)]
+        [String]$Cube
+    )
+    $CubeResult = Get-B1CubeJSCubes -Cube $Cube
+    return $CubeResult.segments
+}
+
 function Get-B1CubeJSDimensions {
     param(
         [Parameter(Mandatory=$true)]
