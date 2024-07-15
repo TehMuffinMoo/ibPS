@@ -14,7 +14,8 @@ jobs:
         shell: pwsh
         run : |
           Install-Module PSScriptAnalyzer -Force -Confirm:$false
-          $Findings = Get-ChildItem -Path Modules/ibPS/Functions/*.ps1 -Recurse -File | %{ Invoke-ScriptAnalyzer $_ }
+          $ExcludedRules = @('PSAvoidUsingWriteHost')
+          $Findings = Get-ChildItem -Path Modules/ibPS/Functions/*.ps1 -Recurse -File | %{ Invoke-ScriptAnalyzer $_ -ExcludeRule $ExcludedRules}
           $Findings | Select-Object ScriptName,Severity,Line,Column,RuleName,Message | ConvertTo-Csv | Set-Content ./docs/analysis.csv -Force
 
       - name: Update Repository

@@ -88,11 +88,6 @@ function Get-B1DNSLog {
         }
     }
 
-    $Start = $Start.ToUniversalTime()
-    $End = $End.ToUniversalTime()
-    $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ss.000")
-    $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ss.000")
-
     $Dimensions = @(
         "timestamp",
         "qname",

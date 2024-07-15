@@ -167,7 +167,7 @@ Register-ArgumentCompleter -CommandName Invoke-B1CubeJS,Get-B1CubeJSCubes,Get-B1
 
 $B1CubeJSMeasures = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (Get-B1CubeJSMeasures -Cube $fakeBoundParameters['Cube']).Name | %{
+    (Get-B1CubeJSMeasures -Cube $fakeBoundParameters['Cube']).Name | ForEach-Object {
         $_.replace("$($fakeBoundParameters['Cube']).","")
     } | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['Measures'])}
 }
@@ -175,7 +175,7 @@ Register-ArgumentCompleter -CommandName Invoke-B1CubeJS -ParameterName Measures 
 
 $B1CubeJSDimensions = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (Get-B1CubeJSDimensions -Cube $fakeBoundParameters['Cube']).Name | %{
+    (Get-B1CubeJSDimensions -Cube $fakeBoundParameters['Cube']).Name | ForEach-Object {
         $_.replace("$($fakeBoundParameters['Cube']).","")
     } | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['Dimensions'])}
 }
@@ -183,7 +183,7 @@ Register-ArgumentCompleter -CommandName Invoke-B1CubeJS -ParameterName Dimension
 
 $B1CubeJSSegments = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    (Get-B1CubeJSSegments -Cube $fakeBoundParameters['Cube']).Name | %{
+    (Get-B1CubeJSSegments -Cube $fakeBoundParameters['Cube']).Name | ForEach-Object {
         $_.replace("$($fakeBoundParameters['Cube']).","")
     } | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['Segments'])}
 }
@@ -202,11 +202,11 @@ $B1CubeJSOrderBy = {
             $fakeBoundParameters['Cube'] = 'NstarDnsActivity'
         }
     }
-    $Dimensions = (Get-B1CubeJSDimensions -Cube $fakeBoundParameters['Cube']).Name | %{
+    $Dimensions = (Get-B1CubeJSDimensions -Cube $fakeBoundParameters['Cube']).Name | ForEach-Object {
         $_.replace("$($fakeBoundParameters['Cube']).","")
     } | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['OrderBy'])}
 
-    $Measures = (Get-B1CubeJSMeasures -Cube $fakeBoundParameters['Cube']).Name | %{
+    $Measures = (Get-B1CubeJSMeasures -Cube $fakeBoundParameters['Cube']).Name | ForEach-Object {
         $_.replace("$($fakeBoundParameters['Cube']).","")
     } | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['Measures'])}
 
@@ -216,7 +216,7 @@ Register-ArgumentCompleter -CommandName Invoke-B1CubeJS,Get-B1DFPLog -ParameterN
 
 $B1CubeJSTimeDimensions = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    ((Get-B1CubeJSDimensions -Cube $fakeBoundParameters['Cube']) | Where-Object {$_.type -eq 'time'}).Name | %{
+    ((Get-B1CubeJSDimensions -Cube $fakeBoundParameters['Cube']) | Where-Object {$_.type -eq 'time'}).Name | ForEach-Object {
         $_.replace("$($fakeBoundParameters['Cube']).","")
     }  | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['TimeDimension'])}
 }

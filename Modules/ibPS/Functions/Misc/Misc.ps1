@@ -986,11 +986,11 @@ function Write-Chart {
       })]
       [DateTime[]]$XAxis
   )
-  $DateStrings = $XAxis | %{ $_.ToString('dd/MM') }
+  $DateStrings = $XAxis | ForEach-Object { $_.ToString('dd/MM') }
   $UnderChar = [Char]9472
 
   $C = 0
-  $Map = @($XAxis | %{
+  $Map = @($XAxis | ForEach-Object {
       [PSCustomObject]@{ "Date" = $_
                          "_Count" = $YAxis[$C]
                          "Instance" = $C
@@ -999,13 +999,13 @@ function Write-Chart {
   })
 
 
-  Write-Host "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$(1..$($Map.Count) | %{ Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })"
+  Write-Host "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$(1..$($Map.Count) | ForEach-Object { Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })"
   $YAxisUnique = $Map._Count | Select-Object -Unique | Sort-Object -Desc
   foreach ($YAU in $YAxisUnique) {
       $Row = ""
       ## Get list of X-Axis which have the same count
       $XAxisObjs = $Map | Where-Object {$_._Count -eq $YAU}
-      $(0..$($Map.Count-1) | %{
+      $(0..$($Map.Count-1) | ForEach-Object {
           ## Check if the instance exists in list to print
           $Instance = $_
           if ($XAxisObjs | Where-Object {$_.Instance -eq $Instance}) {
@@ -1018,7 +1018,7 @@ function Write-Chart {
   }
 
   Write-Host "$([char]9474)$(''.PadLeft(8))$([char]9474)" -NoNewline
-  $(1..$($Map.Count) | %{ Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$([char]9516)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })
+  $(1..$($Map.Count) | ForEach-Object { Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$([char]9516)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })
   Write-Host ""
   Write-Graph -YAxisLabel '        ' -Row "  $($DateStrings -join "  $([char]9474)  ")" -RowColor Black -LabelColor 'Blue'
 }
