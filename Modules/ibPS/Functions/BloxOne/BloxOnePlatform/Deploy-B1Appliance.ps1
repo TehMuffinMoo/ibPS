@@ -52,6 +52,10 @@
         The name of the cluster in vCenter
           Only used when -Type is VMware
 
+    .PARAMETER VMHost
+        The name of the host in vCenter to deploy the VM to
+          Only used when -Type is VMware
+
     .PARAMETER Datastore
         The name of the cluster in Datastore
           Only used when -Type is VMware

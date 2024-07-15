@@ -17,7 +17,7 @@ Deploys a BloxOneDDI Virtual Appliance to VMware, Hyper-V or Azure.
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <IPAddress> [-Netmask] <String> [-Gateway] <IPAddress>
  [-DNSServers] <IPAddress[]> [-NTPServers] <IPAddress[]> [-DNSSuffix] <String> [-JoinToken] <String>
  [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-CloudCheckTimeout] <Int> [-SkipPingChecks] [-SkipPowerOn]
- [-OVAPath] <String> [-vCenter] <String> [-Cluster] <String> [-Datastore] <String> [-PortGroup] <String>
+ [-OVAPath] <String> [-vCenter] <String> [-Cluster] <String> [-VMHost] <String> [-Datastore] <String> [-PortGroup] <String>
  [-PortGroupType] <String> [-Creds] <PSCredential>
  [<CommonParameters>]
 ```
@@ -332,6 +332,21 @@ Accept wildcard characters: False
 
 #### -Cluster
 The name of the VMware cluster in vCenter to deploy to
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -VMHost
+The name of the VMware Host in vCenter to deploy to
 
 ```yaml
 Type: String
