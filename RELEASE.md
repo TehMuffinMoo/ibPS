@@ -1,3 +1,4 @@
 - Add `New-B1ConnectionProfile`, `Get-B1ConnectionProfile`, `Remove-B1ConnectionProfile` & `Switch-B1ConnectionProfile` functions to enable configuring multiple CSP Accounts which can be easily switched between.
 - Add `Get-B1RPZFeed` function
 - Add new CubeJS wrapper functions for interacting with the BloxOne CubeJS API
+- Add `-VMHost` parameter to `Deploy-B1Appliance` when using `-Type VMware`. This is used both to specify a specific host on a Cluster, or on its own to enable support for deploying to standalone hosts.

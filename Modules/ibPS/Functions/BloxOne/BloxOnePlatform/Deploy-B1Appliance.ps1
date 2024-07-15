@@ -360,6 +360,12 @@
              $ClusterAttribute.HelpMessageBaseName = "Cluster"
              $ClusterAttribute.HelpMessage = "The Cluster parameter is used to define the Cluster the VM should be created in."
 
+             $VMHostAttribute = New-Object System.Management.Automation.ParameterAttribute
+             $VMHostAttribute.Position = 3
+             $VMHostAttribute.Mandatory = $false
+             $VMHostAttribute.HelpMessageBaseName = "VMHost"
+             $VMHostAttribute.HelpMessage = "The VMHost parameter is used to define the Host the VM should be created on."
+
              $DatastoreAttribute = New-Object System.Management.Automation.ParameterAttribute
              $DatastoreAttribute.Position = 4
              $DatastoreAttribute.Mandatory = $true
@@ -385,7 +391,7 @@
              $CredsAttribute.HelpMessageBaseName = "Creds"
              $CredsAttribute.HelpMessage = "The Creds parameter is used to define the vCenter Credentials."
 
-             foreach ($ParamItem in ($OVAPathAttribute,$vCenterAttribute,$ClusterAttribute,$DatastoreAttribute,$PortGroupAttribute,$PortGroupTypeAttribute,$CredsAttribute)) {
+             foreach ($ParamItem in ($OVAPathAttribute,$vCenterAttribute,$ClusterAttribute,$VMHostAttribute,$DatastoreAttribute,$PortGroupAttribute,$PortGroupTypeAttribute,$CredsAttribute)) {
                 $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                 $AttributeCollection.Add($ParamItem)
                 if ($($ParamItem.HelpMessageBaseName -eq "Creds")) {
@@ -691,29 +697,50 @@
                     Write-Error "Failed to establish session with vCenter $($PSBoundParameters['vCenter'])."
                     return $null
                 }
-            
-                $VMCluster = Get-Cluster $($PSBoundParameters['Cluster']) -ErrorAction SilentlyContinue
-                $VMHost = $VMCluster | Get-VMHost -State "Connected" | Select-Object -First 1
-                if (!($VMCluster)) {
-                    Write-Error "Error. Failed to get VM Cluster, please check details and try again."
+
+                if ($PSBoundParameters['Cluster']) {
+                    $VMCluster = Get-Cluster $($PSBoundParameters['Cluster']) -ErrorAction SilentlyContinue
+                    if (!($VMCluster)) {
+                        Write-Error "Error. Failed to get VM Cluster, please check details and try again."
+                        return $null
+                    } else {
+                        if ($PSBoundParameters['VMHost']) {
+                            $VMHostObj = $VMCluster | Get-VMHost -Name $PSBoundParameters['VMHost'] -State "Connected"
+                            if (!$VMHostObj) {
+                                Write-Error "Error. Failed to find Host: $($PSBoundParameters['VMHost']) on Cluster: $($Cluster)"
+                                return $null
+                            }
+                        } else {
+                            $VMHostObj = $VMCluster | Get-VMHost -State "Connected" | Select-Object -First 1
+                        }
+                    }
+                } elseif ($PSBoundParameters['VMHost']) {
+                    $VMHostObj = Get-VMHost -Name $PSBoundParameters['VMHost'] -State "Connected"
+                    if (!$VMHostObj) {
+                        Write-Error "Error. Failed to find Host: $($PSBoundParameters['VMHost']) on Cluster: $($Cluster)"
+                        return $null
+                    }
+                } else {
+                    Write-Error 'Error. You must specify either -Cluster or -VMHost.'
                     return $null
                 }
+
                 if (!($Datastore = Get-Datastore $($PSBoundParameters['Datastore']) -ErrorAction SilentlyContinue)) {
                     Write-Error "Error. Failed to get VM Datastore, please check details and try again."
                     return $null
                 }
                 switch($($PSBoundParameters['PortGroupType'])) {
                     "vDS" {
-                        $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
+                        $NetworkMapping = Get-vDSwitch -VMHost $VMHostObj | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
                         if (!($NetworkMapping)) {
                             Write-Error "Error. Failed to get vDS Port Group, please check details and try again."
                             return $null
                         } else {
-                            $NetworkMapping = Get-vDSwitch -VMHost $VMHost | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
+                            $NetworkMapping = Get-vDSwitch -VMHost $VMHostObj | Get-VDPortGroup $($PSBoundParameters['PortGroup'])
                         }
                     }
                     "Standard" {
-                        $NetworkMapping = Get-VirtualSwitch -VMHost $VMHost | Get-VirtualPortGroup -Name $($PSBoundParameters['PortGroup'])
+                        $NetworkMapping = Get-VirtualSwitch -VMHost $VMHostObj | Get-VirtualPortGroup -Name $($PSBoundParameters['PortGroup'])
                         if (!($NetworkMapping)) {
                             Write-Error "Error. Failed to get Virtual Port Group, please check details and try again."
                             return $null
@@ -755,7 +782,7 @@
                     }
             
                     Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
-                    $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $($ImageFile) -Name $Name -VMHost $VMHost -Datastore $Datastore -Force
+                    $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $($ImageFile) -Name $Name -VMHost $VMHostObj -Datastore $Datastore -Force
                 
                     if ($VM) {
                         Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
