@@ -365,32 +365,32 @@
              $ClusterAttribute.HelpMessage = "The Cluster parameter is used to define the Cluster the VM should be created in."
 
              $VMHostAttribute = New-Object System.Management.Automation.ParameterAttribute
-             $VMHostAttribute.Position = 3
+             $VMHostAttribute.Position = 4
              $VMHostAttribute.Mandatory = $false
              $VMHostAttribute.HelpMessageBaseName = "VMHost"
              $VMHostAttribute.HelpMessage = "The VMHost parameter is used to define the Host the VM should be created on."
 
              $DatastoreAttribute = New-Object System.Management.Automation.ParameterAttribute
-             $DatastoreAttribute.Position = 4
+             $DatastoreAttribute.Position = 5
              $DatastoreAttribute.Mandatory = $true
              $DatastoreAttribute.HelpMessageBaseName = "Datastore"
              $DatastoreAttribute.HelpMessage = "The Datastore parameter is used to define the name of the datastore to create the VM in."
 
              $PortGroupAttribute = New-Object System.Management.Automation.ParameterAttribute
-             $PortGroupAttribute.Position = 5
+             $PortGroupAttribute.Position = 6
              $PortGroupAttribute.Mandatory = $true
              $PortGroupAttribute.HelpMessageBaseName = "PortGroup"
              $PortGroupAttribute.HelpMessage = "The PortGroup parameter is used to define the name of the port group to attach to the VM Network Interface(s)."
 
              $PortGroupTypeAttribute = New-Object System.Management.Automation.ParameterAttribute
-             $PortGroupTypeAttribute.Position = 6
+             $PortGroupTypeAttribute.Position = 7
              $PortGroupTypeAttribute.Mandatory = $true
              $PortGroupTypeAttribute.HelpMessageBaseName = "PortGroupType"
              $PortGroupTypeAttribute.HelpMessage = "The PortGroupType parameter is used to define the type of port group to use. (vDS / Standard)"
              $PortGroupTypeValidation = [System.Management.Automation.ValidateSetAttribute]::new("vDS","Standard")
 
              $CredsAttribute = New-Object System.Management.Automation.ParameterAttribute
-             $CredsAttribute.Position = 7
+             $CredsAttribute.Position = 8
              $CredsAttribute.Mandatory = $true
              $CredsAttribute.HelpMessageBaseName = "Creds"
              $CredsAttribute.HelpMessage = "The Creds parameter is used to define the vCenter Credentials."
