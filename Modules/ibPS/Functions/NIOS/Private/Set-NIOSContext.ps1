@@ -16,7 +16,7 @@ function Set-NIOSContext {
         Write-Host "Creating new NIOS connection profile: $($Name).." -ForegroundColor Green
         $Configs.Contexts | Add-Member -MemberType NoteProperty -Name $($Name) -Value $($Config)
     }
-    
+
     if (-not $NoSwitchProfile) {
         Write-Host "Active NIOS connection profile set to: $($Name)" -ForegroundColor Cyan
         $Configs.CurrentContext = $($Name)

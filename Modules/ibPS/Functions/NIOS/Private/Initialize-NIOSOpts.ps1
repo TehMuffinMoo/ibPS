@@ -31,30 +31,30 @@ function Initialize-NIOSOpts {
                 Switch($SelectedContext.Type) {
                     'Local' {
                         $SelectedConfig = $SelectedContext | Select-Object Server,Credentials,APIVersion,SkipCertificateCheck
-    
+
                         ## Decode User/Pass
                         $Username = $SelectedConfig.Credentials.Username
                         $Base64Password = $SelectedConfig.Credentials.Password
                         $Password = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($Base64Password)) | ConvertTo-SecureString
                         [PSCredential]$Creds = New-Object System.Management.Automation.PSCredential ($Username, $Password)
-    
+
                         $Context = @{
                             'Server' = $SelectedConfig.Server
                             'APIVersion' = $SelectedConfig.APIVersion
                             'SkipCertificateCheck' = $SelectedConfig.SkipCertificateCheck
                             'Creds' = [PSCredential]$Creds
                         }
-    
+
                         $ReturnOpts = $Context
                     }
                     'Federated' {
                         $SelectedConfig = $SelectedContext | Select-Object GridUID,APIVersion
-    
+
                         $Context = @{
                             'GridUID' = $SelectedConfig.GridUID
                             'APIVersion' = $SelectedConfig.APIVersion
                         }
-    
+
                         $ReturnOpts = $Context
                     }
                 }

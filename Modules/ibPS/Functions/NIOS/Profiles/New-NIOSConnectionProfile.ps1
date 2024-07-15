@@ -4,7 +4,7 @@ function New-NIOSConnectionProfile {
         This function is used to create new NIOS connection profiles. By default, the new profile will be set as active.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/). 
+        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/).
 
     .PARAMETER Name
         Specify the name for the new connection profile
@@ -82,7 +82,7 @@ function New-NIOSConnectionProfile {
                 $GridName = $GridMember.display_name
             } else {
                 Write-Error "Failed to find Grid associated with UID: $($GridUID)"
-                break            
+                break
             }
         }
         'FederatedName' {
@@ -91,7 +91,7 @@ function New-NIOSConnectionProfile {
                 $FederatedGridUID = $GridMember
             } else {
                 Write-Error "Failed to find Grid associated with Name: $($GridName)"
-                break            
+                break
             }
         }
         'Local' {

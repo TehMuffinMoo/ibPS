@@ -17,7 +17,7 @@
 
 function Combine-Filters {
     param(
-      [parameter(Mandatory=$true)]  
+      [parameter(Mandatory=$true)]
       $Filters,
       $Type = "and"
     )
@@ -201,13 +201,13 @@ function Convert-Int64toIP ([int64]$int) {
   (([math]::truncate($int / 16777216)).tostring() + "." + ([math]::truncate(($int % 16777216) / 65536)).tostring() + "." + ([math]::truncate(($int % 65536) / 256)).tostring() + "." + ([math]::truncate($int % 256)).tostring() )
 }
 
-function Convert-IPtoInt64 ($ip) { 
+function Convert-IPtoInt64 ($ip) {
   <#
     .LINK
       https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Private%5CConvert-IPtoInt64.ps1
   #>
-  $octets = $ip.split(".") 
-  [int64]([int64]$octets[0] * 16777216 + [int64]$octets[1] * 65536 + [int64]$octets[2] * 256 + [int64]$octets[3]) 
+  $octets = $ip.split(".")
+  [int64]([int64]$octets[0] * 16777216 + [int64]$octets[1] * 65536 + [int64]$octets[2] * 256 + [int64]$octets[3])
 }
 
 function Get-NetworkClass {
@@ -460,7 +460,7 @@ function New-B1Metadata {
         '"instance-id": ""'
         '}'
     ) -join "`r`n"
-    
+
     $network = @(
         "ethernets:"
         "  eth0:"
@@ -473,7 +473,7 @@ function New-B1Metadata {
         "version: 2"
     ) -join "`r`n"
   }
-  
+
   $userdata = @()
   $userdata += "#cloud-config"
   if ($LocalDebug) {
@@ -594,7 +594,7 @@ function New-ISOFile {
         return $targetFile
 
     }
-    
+
     "Mac" {
       hdiutil makehybrid -iso -iso-volume-name "$VolumeName" -joliet -joliet-volume-name "$VolumeName" -o "$Destination" "$Source"
     }
@@ -823,7 +823,7 @@ function Build-HTMLTopologyChildren {
           if ($Icon) {
             New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $($Object.label) -IconColor $Colour -IconSolid $Icon
           } else {
-            New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $($Object.label) -ColorBackground $Colour           
+            New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $($Object.label) -ColorBackground $Colour
           }
         }
       }
@@ -835,7 +835,7 @@ function Build-HTMLTopologyChildren {
   }
 }
 
-function ConvertFrom-ComplexJSON([string]$text) {                           
+function ConvertFrom-ComplexJSON([string]$text) {
   $parser = New-Object Web.Script.Serialization.JavaScriptSerializer
   $parser.MaxJsonLength = $text.length
   Write-Output -NoEnumerate (($parser.Deserialize($text, [hashtable])) | ConvertFrom-HashTable)
@@ -1016,7 +1016,7 @@ function Write-Chart {
       })
       Write-Graph -YAxisLabel $("$($YAU)".PadLeft(8)) -Row $Row -RowColor Green -LabelColor 'Blue'
   }
-  
+
   Write-Host "$([char]9474)$(''.PadLeft(8))$([char]9474)" -NoNewline
   $(1..$($Map.Count) | %{ Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$([char]9516)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })
   Write-Host ""

@@ -33,7 +33,7 @@ function Get-B1Compartment {
 
     .EXAMPLE
         PS> Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
-        
+
     .FUNCTIONALITY
         BloxOneDDI
 

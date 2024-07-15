@@ -54,7 +54,7 @@ function New-B1Location {
         longitude    : -3.68742195874704
         name         : Madrid
         updated_at   : 2024-05-01T12:22:09.849259517Z
-    
+
     .FUNCTIONALITY
         BloxOneDDI
     #>
@@ -139,7 +139,7 @@ function New-B1Location {
 
                 $Choice = Read-Host -Prompt 'Select the correct address by entering the # or x to cancel.'
                 Write-Host ''
-     
+
                 if ($Choice -notin $ValidChoices) {
                     Write-Warning ('    [ {0} ] is not a valid selection.' -f $Choice)
                     Write-Warning '    Please try again.'
@@ -147,7 +147,7 @@ function New-B1Location {
                     pause
                 }
             }
-     
+
             if ($Choice -eq 'x') {
                 return $null
             } else {

@@ -50,17 +50,17 @@ function Get-NIOSSchema {
         This is used only when connecting to NIOS directly.
 
     .EXAMPLE
-        PS> Get-NIOSSchema                             
+        PS> Get-NIOSSchema
 
         requested_version supported_objects                                    supported_versions
         ----------------- -----------------                                    ------------------
         2.12              {ad_auth_service, admingroup, adminrole, adminuser…} {1.0, 1.1, 1.2, 1.2.1…}
 
     .EXAMPLE
-        PS> Get-NIOSSchema -ObjectType dtc:lbdn       
+        PS> Get-NIOSSchema -ObjectType dtc:lbdn
 
         cloud_additional_restrictions : {all}
-        fields                        : {@{is_array=True; name=auth_zones; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=auto_consolidated_monitors; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=comment; searchable_by=:=~; 
+        fields                        : {@{is_array=True; name=auth_zones; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=auto_consolidated_monitors; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=comment; searchable_by=:=~;
                                         standard_field=True; supports=rwus; type=System.Object[]}, @{is_array=False; name=disable; standard_field=False; supports=rwu; type=System.Object[]}…}
         restrictions                  : {csv}
         type                          : dtc:lbdn

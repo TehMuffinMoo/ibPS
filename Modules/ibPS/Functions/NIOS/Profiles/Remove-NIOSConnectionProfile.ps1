@@ -4,7 +4,7 @@ function Remove-NIOSConnectionProfile {
         This function is used to remove a saved connection profile.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. A list of connection profiles can be retrieved using [Get-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Get-NIOSConnectionProfile/). 
+        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. A list of connection profiles can be retrieved using [Get-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Get-NIOSConnectionProfile/).
 
     .PARAMETER Name
         Specify the connection profile name to remove. This field supports tab completion.

@@ -70,7 +70,7 @@ function Get-B1Location {
         longitude    : -3.68742195874704
         name         : Madrid
         updated_at   : 2024-05-01T12:22:09.849259517Z
-        
+
     .FUNCTIONALITY
         BloxOneDDI
     #>

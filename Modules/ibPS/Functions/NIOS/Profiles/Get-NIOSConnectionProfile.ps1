@@ -4,7 +4,7 @@ function Get-NIOSConnectionProfile {
         This function is used to retrieved saved NIOS connection profiles. By default, the active profile is returned.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/). 
+        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/).
 
     .PARAMETER Name
         Return a specific connection profile based on its name

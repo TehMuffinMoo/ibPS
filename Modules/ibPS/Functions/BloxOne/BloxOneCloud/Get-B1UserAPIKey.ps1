@@ -24,7 +24,7 @@ function Get-B1UserAPIKey {
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
-        
+
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters

@@ -11,7 +11,7 @@
 
     .EXAMPLE
         PS> Get-B1Licenses -State all
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
@@ -32,9 +32,9 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString($QueryFilters)
     }
-    
+
     $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/licensing/v1/licenses$QueryString" | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-    
+
     if ($Results) {
       return $Results
     } else {

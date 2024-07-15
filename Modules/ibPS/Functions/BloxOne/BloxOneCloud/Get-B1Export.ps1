@@ -27,10 +27,10 @@
               Wait-Event -Timeout 5
             }
         PS> $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Backup
     #>
@@ -43,7 +43,7 @@
         [Parameter(Mandatory=$true)]
         [string]$filePath
     )
-    
+
     $B1Export = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/storage?data_ref=$data_ref&direction=download"
     if ($B1Export.result.url) {
         $JSON = Invoke-RestMethod -Uri $B1Export.result.url

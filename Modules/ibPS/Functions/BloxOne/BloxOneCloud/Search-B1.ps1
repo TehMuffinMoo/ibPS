@@ -18,10 +18,10 @@
 
     .EXAMPLE
         PS> Search-B1 "mysubzone.corp.com"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Search
     #>
@@ -36,7 +36,7 @@
     } | ConvertTo-Json | % { [System.Text.RegularExpressions.Regex]::Unescape($_)}
     $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-search-api/v1/search" -Method "POST" -Data $Body
     if ($IncludeQueryDetails) {
-        $Results        
+        $Results
     } else {
         $Results.hits | Select-Object -ExpandProperty hits
     }

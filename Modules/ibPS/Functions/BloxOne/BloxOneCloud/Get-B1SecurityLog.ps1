@@ -45,7 +45,7 @@ function Get-B1SecurityLog {
 
     .EXAMPLE
         PS> Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "nginx" -Type "nginx.access" -Domain "domain.com"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
@@ -107,7 +107,7 @@ function Get-B1SecurityLog {
     }
     $QueryFilters.Add("_limit=$Limit") | Out-Null
     $QueryFilters.Add("_offset=$Offset") | Out-Null
-        
+
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }

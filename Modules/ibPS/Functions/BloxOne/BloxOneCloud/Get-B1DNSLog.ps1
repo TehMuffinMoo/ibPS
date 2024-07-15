@@ -41,16 +41,16 @@ function Get-B1DNSLog {
 
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination. Only works if -Limit is less than 10,000 and combined Limit and Offset do not exceed 10,000
-        
+
     .EXAMPLE
         PS> Get-B1DNSLog -IP "10.10.172.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
 
     .EXAMPLE
         PS> Get-B1DNSLog -IP "10.10.172.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Logs
     #>

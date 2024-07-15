@@ -32,12 +32,12 @@ function Set-ibPSConfiguration {
 
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
-                                                                                                                  
+
         BloxOne API key has been stored permanently for user on MAC-DSD984HG
 
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPRegion EU
-                                                                                                                  
+
         BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
         You can make the CSP URL persistent for this user on this machine by using the -persist parameter.
 

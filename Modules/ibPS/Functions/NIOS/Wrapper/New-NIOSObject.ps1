@@ -56,7 +56,7 @@ function New-NIOSObject {
         This is used only when connecting to NIOS directly.
 
     .EXAMPLE
-        PS> @{                                                                                        
+        PS> @{
             name = 'my.example.com'
             ipv4addr = '172.25.22.12'
             comment = 'My A Record'

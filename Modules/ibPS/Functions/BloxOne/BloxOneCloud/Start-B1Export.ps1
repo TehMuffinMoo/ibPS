@@ -60,10 +60,10 @@
                 Wait-Event -Timeout 5
             }
         PS> $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Backup
     #>

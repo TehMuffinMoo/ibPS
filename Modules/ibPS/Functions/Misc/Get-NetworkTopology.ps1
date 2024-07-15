@@ -11,7 +11,7 @@ function Get-NetworkTopology {
 
     .PARAMETER IncludeSubnets
         Determines whether subnet objects are included in the topology output. This may make the results take longer if there are a large number of subnet objects.
-    
+
     .PARAMETER IncludeRanges
         Determines whether range objects are included in the topology output. This may make the results take longer if there are a large number of range objects.
 
@@ -85,7 +85,7 @@ function Get-NetworkTopology {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>

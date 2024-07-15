@@ -19,7 +19,7 @@ function Copy-NIOSDTCToBloxOne {
 
     .PARAMETER LBDNTransform
         Use this parameter to transform the DTC LBDN FQDN from an old to new domain.
-        
+
         Example: -LBDNTransform 'dtc.mydomain.com:b1dtc.mydomain.com'
 
         |           NIOS DTC          |        BloxOne DDI DTC        |
@@ -28,7 +28,7 @@ function Copy-NIOSDTCToBloxOne {
 
     .PARAMETER ApplyChanges
         Using this switch will apply the changes, otherwise the expected changes will just be displayed.
-    
+
     .EXAMPLE
         PS> Copy-NIOSDTCToBloxOne -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp' -ApplyChanges
 
@@ -51,7 +51,7 @@ function Copy-NIOSDTCToBloxOne {
         Successfully created DTC Pool: Exchange Pool
         Successfully created DTC Policy: Exchange (API Test)
         Successfully created DTC LBDN: webmail.b1dtc.company.corp.
-    
+
     .EXAMPLE
         PS> Copy-NIOSDTCToBloxOne -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp'
 
@@ -201,7 +201,7 @@ function Copy-NIOSDTCToBloxOne {
 
     .FUNCTIONALITY
         NIOS
-    
+
     .FUNCTIONALITY
         Migration
     #>
@@ -226,7 +226,7 @@ function Copy-NIOSDTCToBloxOne {
             'global_availability' = 'GlobalAvailability'
             'topology' = 'Topology'
         }
-    
+
         $ChecksArr = @{
             'any' = 'Any'
             'all' = 'All'
@@ -240,15 +240,15 @@ function Copy-NIOSDTCToBloxOne {
             Write-Error "Unable to find DNS View: $($B1DNSView)"
             return $null
         }
-    
+
         Write-Host "Querying DTC LBDN: $($NIOSLBDN)" -ForegroundColor Cyan
         $LBDNToMigrate = Invoke-NIOS -Method GET -Uri "dtc:lbdn?name=$($NIOSLBDN)&_return_fields%2b=auto_consolidated_monitors,disable,health,lb_method,name,patterns,persistence,pools,priority,types,use_ttl,ttl,topology" @InvokeOpts
-    
+
         if ($LBDNToMigrate) {
             if ($LBDNToMigrate.lb_method.ToLower() -notin $MethodArr.Keys) {
                 Write-Error "Unsupported LBDN Load Balancing Method ($($LBDNToMigrate.lb_method.ToLower())) for: $($NIOSLBDN)"
             }
-    
+
             $NewPools = @()
             $NewLBDNs = @()
             ## Build Pools
@@ -461,7 +461,7 @@ function Copy-NIOSDTCToBloxOne {
                                     $HealthCheckSplat.HTTPRequest = $MigrationMonitor.request
                                     $HealthCheckSplat.StatusCodes = $MigrationMonitor.result_code
                                     $HealthCheckSplat.UseHTTPS = $MigrationMonitor.secure
-    
+
                                     if ($MigrationMonitor.content_check -eq "NONE") {
                                         $HealthCheckSplat.ResponseBody = "None"
                                     } else {
@@ -602,7 +602,7 @@ function Copy-NIOSDTCToBloxOne {
                         }
                     }
                 }
-        
+
             } else {
                 $Results | ConvertTo-Json -Depth 10
             }

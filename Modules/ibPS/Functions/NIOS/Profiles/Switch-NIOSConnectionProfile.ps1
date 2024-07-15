@@ -11,12 +11,12 @@ function Switch-NIOSConnectionProfile {
 
     .EXAMPLE
         PS> Switch-NCP Corp-GM
-        
+
         Corp-GM has been set as the active connection profile.
 
     .EXAMPLE
         PS> Switch-NIOSConnectionProfile BloxOne-GM
-        
+
         BloxOne-GM has been set as the active connection profile.
 
     .FUNCTIONALITY

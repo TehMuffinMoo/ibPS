@@ -36,7 +36,7 @@ function Remove-B1Location {
         [System.Object]$Object
     )
 
-    process { 
+    process {
         if (!($Object)) {
             $Object = Get-B1Location -Name $Name -Strict
         }

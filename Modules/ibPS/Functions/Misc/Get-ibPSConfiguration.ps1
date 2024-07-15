@@ -13,7 +13,7 @@ function Get-ibPSConfiguration {
         The -Details parameter optionally includes the Build Version, Github Commit SHA & Module Location in the response
 
     .EXAMPLE
-        PS> Get-ibPSConfiguration               
+        PS> Get-ibPSConfiguration
 
         CSP Url          : https://csp.infoblox.com
         CSP API User     : svc-csp

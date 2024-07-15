@@ -29,7 +29,7 @@ function Get-ibPSVersion {
 
     .EXAMPLE
         Get-ibPSVersion -Update
-    
+
     .FUNCTIONALITY
         ibPS
     #>

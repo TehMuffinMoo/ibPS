@@ -44,10 +44,10 @@
 
     .EXAMPLE
         PS> Get-B1DHCPLog -Hostname "dhcpclient.mydomain.corp" -State "Assignments" -IP "10.10.10.100" -Protocol "IPv4 Address" -DHCPServer "bloxoneddihost1.mydomain.corp" -Start (Get-Date).AddHours(-24) -End (Get-Date) -Limit 100 -Offset 0
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Logs
 
@@ -176,7 +176,7 @@
             break
         }
     }
-    
+
     $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
     if ($Result) {
         return $Result | Select-Object @{name="dhcp_server";Expression={Match-DHCPHost -id $_.'host_id'}},*

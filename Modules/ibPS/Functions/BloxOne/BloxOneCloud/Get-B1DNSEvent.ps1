@@ -44,7 +44,7 @@ function Get-B1DNSEvent {
 
     .PARAMETER EndpointGroup
         Used to filter the DNS Events by Endpoint Group
-      
+
     .PARAMETER AppName
         Used to filter the DNS Events by App Name
 
@@ -68,13 +68,13 @@ function Get-B1DNSEvent {
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
-        
+
     .EXAMPLE
         PS> Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Logs
     #>
