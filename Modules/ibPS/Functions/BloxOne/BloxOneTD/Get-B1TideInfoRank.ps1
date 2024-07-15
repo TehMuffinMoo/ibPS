@@ -29,7 +29,7 @@ function Get-B1TideInfoRank {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>

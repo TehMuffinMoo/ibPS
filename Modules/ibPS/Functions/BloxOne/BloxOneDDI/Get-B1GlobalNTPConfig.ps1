@@ -11,10 +11,10 @@
 
     .OUTPUTS
         Global NTP Object
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         NTP
     #>

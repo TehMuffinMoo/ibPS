@@ -28,7 +28,7 @@
         Lookalike Suspicious 35a1d37e-a1f6-492f-8329-70a42ea50d43 Insight Detection Framework 3/13/2024 8:00:00PM Lookalike Threat Active 3/4/2024 7:00:00PM 10        3/15/2024 4:27:00PM
 
     .EXAMPLE
-        PS> Get-B1SOCInsight -ThreatType 'DGA'                         
+        PS> Get-B1SOCInsight -ThreatType 'DGA'
 
         tClass             : TI-DGA
         tFamily            : SUPPOBOX
@@ -43,10 +43,10 @@
         eventsBlockedCount : 12
         dateChanged        : 3/18/2024 4:05:49PM
         priorityText       : MEDIUM
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
 
@@ -64,7 +64,7 @@
 
     process {
       $QueryFilters = @()
-      
+
       if ($Status) {
         $QueryFilters += "status=$($Status)"
       }
@@ -79,7 +79,7 @@
       }
       Write-DebugMsg -Filters $QueryFilters
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights$QueryFilter" -Method GET | Select-Object -ExpandProperty insightList -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-  
+
       if ($Results) {
         return $Results
       }

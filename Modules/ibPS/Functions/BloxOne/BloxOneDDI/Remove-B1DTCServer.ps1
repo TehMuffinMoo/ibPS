@@ -22,10 +22,10 @@
 
         Successfully removed DTC Server: EXCHANGE-MAIL01
         Successfully removed DTC Server: EXCHANGE-MAIL02
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

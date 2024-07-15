@@ -17,10 +17,10 @@
 
     .EXAMPLE
         PS> Remove-B1DelegatedZone -FQDN "delegated.mycompany.corp" -View "default"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
@@ -37,7 +37,7 @@
       [String]$id
     )
 
-    process { 
+    process {
       if ($id) {
         $Zone = Get-B1DelegatedZone -id $id
       } else {

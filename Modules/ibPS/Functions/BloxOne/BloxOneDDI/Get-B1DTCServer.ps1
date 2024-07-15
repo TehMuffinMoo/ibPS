@@ -26,7 +26,7 @@
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-       
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
@@ -53,16 +53,16 @@
         Return results based on Server id
 
     .EXAMPLE
-        PS> Get-B1DTCServer -Name "EXCHANGE" | ft name,address   
+        PS> Get-B1DTCServer -Name "EXCHANGE" | ft name,address
 
         name        address
         ----        -------
         EXCHANGE-MAIL01 10.10.100.38
         EXCHANGE-MAIL02 10.10.100.39
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

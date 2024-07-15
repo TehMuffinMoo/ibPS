@@ -20,7 +20,7 @@
         True     1h 53m 46s   2h 0m 0s   my-host-1
 
     .EXAMPLE
-        PS> Get-B1Host | Get-B1HostLocalAccess                                             
+        PS> Get-B1Host | Get-B1HostLocalAccess
 
         time_left   period       enabled   B1Host
         ---------   ------       -------   ------
@@ -29,7 +29,7 @@
         0h 0m 0s    2h 0m 0s     False     my-host-3
         0h 0m 0s    2h 0m 0s     False     my-host-4
         ...
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 

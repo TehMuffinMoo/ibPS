@@ -17,7 +17,7 @@ function Remove-B1DHCPConfigProfile {
 
     .EXAMPLE
         PS> Get-B1DHCPConfigProfile -Name "My Config Profile" | Remove-B1DHCPConfigProfile
-   
+
     .FUNCTIONALITY
         BloxOneDDI
 

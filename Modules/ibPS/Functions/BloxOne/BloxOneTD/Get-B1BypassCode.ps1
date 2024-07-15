@@ -33,10 +33,10 @@
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
-        
+
     .EXAMPLE
         PS> Get-B1BypassCode
-   
+
     .FUNCTIONALITY
         Threat Defense
     #>
@@ -60,7 +60,7 @@
       [parameter(ParameterSetName="With ID")]
       [String]$access_key
     )
-    
+
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()

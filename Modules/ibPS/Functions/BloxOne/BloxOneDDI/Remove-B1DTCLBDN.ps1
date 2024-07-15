@@ -21,10 +21,10 @@
         PS> Get-B1DTCLBDN -Name "webmail.company.corp"| Remove-B1DTCLBDN
 
         Successfully removed DTC LBDN: Exchange-LBDN
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

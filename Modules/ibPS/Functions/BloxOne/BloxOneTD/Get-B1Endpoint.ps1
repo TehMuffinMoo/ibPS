@@ -68,11 +68,11 @@
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .EXAMPLE
-        PS> 
+        PS>
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
@@ -179,7 +179,7 @@
         } else {
             $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/roaming_devices" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
-    
+
         if ($Results) {
             return $Results
         }

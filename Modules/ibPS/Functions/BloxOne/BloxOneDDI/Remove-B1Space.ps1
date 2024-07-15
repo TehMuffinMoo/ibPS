@@ -17,10 +17,10 @@
 
     .EXAMPLE
         PS> Get-B1Space -Name "My IP Space" | Remove-B1Space
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>

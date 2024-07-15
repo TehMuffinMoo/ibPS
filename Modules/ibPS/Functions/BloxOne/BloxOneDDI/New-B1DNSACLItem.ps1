@@ -16,16 +16,16 @@
         The IPv4/IPv6 address or network (in CIDR format) to associate with this ACL Item. This selects the ACL Element to 'ip'
 
     .PARAMETER TSIG_KEY
-        The IPv4/IPv6 address or network (in CIDR format) to associate with this ACL Item. This selects the ACL Element to 'tsig_key'    
+        The IPv4/IPv6 address or network (in CIDR format) to associate with this ACL Item. This selects the ACL Element to 'tsig_key'
 
     .EXAMPLE
         New-B1DNSACLItem -Access Allow -ACL 'My ACL'
 
         access   : allow
         acl      : dns/acl/1c4e5768-f4r4-dgsd-bewf-grdrggwt4se
-        address  : 
+        address  :
         element  : acl
-        tsig_key : 
+        tsig_key :
 
     .EXAMPLE
         $NewACLs = @()
@@ -36,13 +36,13 @@
 
         access acl                                          address     element tsig_key
         ------ ---                                          -------     ------- --------
-        allow                                               10.0.0.0/16 ip      
+        allow                                               10.0.0.0/16 ip
         deny   dns/acl/1c4e5768-f4r4-dgsd-bewf-grdrggwt4se              acl
 
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

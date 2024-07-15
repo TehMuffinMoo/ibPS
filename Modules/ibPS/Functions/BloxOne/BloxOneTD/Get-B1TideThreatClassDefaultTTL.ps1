@@ -24,7 +24,7 @@ function Get-B1TideThreatClassDefaultTTL {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>

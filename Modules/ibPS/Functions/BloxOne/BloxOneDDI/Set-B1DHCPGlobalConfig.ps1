@@ -8,7 +8,7 @@
 
     .PARAMETER DDNSZones
         Provide a list of DDNS Zones to add or remove to/from the Global DHCP Configuration.
-        
+
         This is to be used in conjunction with -AddDDNSZones and -RemoveDDNSZones respectively.
 
     .PARAMETER AddDDNSZones
@@ -22,10 +22,10 @@
 
     .EXAMPLE
         PS> Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -DNSView "default"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
@@ -76,7 +76,7 @@
                 } | ConvertTo-Json
 
                 $Result = Invoke-CSP -Method "PATCH" -Uri "$($GlobalConfig.id)" -Data $GlobalConfigSplat | Select-Object -ExpandProperty result
-            
+
                 if ($Result) {
                     if ($ToUpdate.count -gt 0) {
                         foreach ($DDNSToUpdate in $ToUpdate) {

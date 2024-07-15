@@ -26,7 +26,7 @@
 
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the new subnet.
-        
+
     .PARAMETER DDNSDomain
         The DDNS Domain to apply to the new subnet
 
@@ -40,12 +40,12 @@
         ## Example showing building DHCP options using Get-B1DHCPOptionCode
         $DHCPOptions = @()
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-        
+
         PS> New-B1Subnet -Subnet "10.30.5.0" -CIDR "24" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>

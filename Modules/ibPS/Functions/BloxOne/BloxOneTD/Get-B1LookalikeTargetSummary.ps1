@@ -30,13 +30,13 @@
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
- 
+
     .EXAMPLE
         PS> Get-B1LookalikeTargetSummary
 
     .EXAMPLE
         PS> Get-B1LookalikeTargetSummary -ThreatClass phishing,malware
-    
+
     .EXAMPLE
         PS> Get-B1LookalikeTargetSummary -Start (Get-Date).AddDays(-7) -Domain 'google.com'
 
@@ -51,7 +51,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -81,7 +81,7 @@
         $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ssZ")
         $Filters.Add("detected_at>=`"$StartTime`"") | Out-Null
     }
-    
+
     [System.Collections.ArrayList]$ThreatClasses = @()
     if ($ThreatClass) {
         foreach ($TC in $ThreatClass) {
@@ -115,7 +115,7 @@
     } else {
         $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atclad/v1/target_lookalike_summaries" -Method GET | Select-Object -ExpandProperty results -WA SilentlyContinue -EA SilentlyContinue
     }
-  
+
     if ($Results) {
       return $Results
     }

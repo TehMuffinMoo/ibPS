@@ -45,10 +45,10 @@
 
     .EXAMPLE
         PS> Get-B1FixedAddress -IP 10.10.100.12
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

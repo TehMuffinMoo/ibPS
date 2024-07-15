@@ -8,7 +8,7 @@
 
     .PARAMETER Type
         The type of authoritative zone to create (Primary / Secondary)
-    
+
     .PARAMETER FQDN
         The FQDN of the zone to create
 
@@ -38,10 +38,10 @@
 
     .EXAMPLE
        PS> New-B1AuthoritativeZone -Type Primary -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

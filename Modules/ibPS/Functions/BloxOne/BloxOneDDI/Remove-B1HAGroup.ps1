@@ -17,7 +17,7 @@ function Remove-B1HAGroup {
 
     .EXAMPLE
         PS> Get-B1HAGroup -Name "My HA Group" | Remove-B1HAGroup
-   
+
     .FUNCTIONALITY
         BloxOneDDI
 

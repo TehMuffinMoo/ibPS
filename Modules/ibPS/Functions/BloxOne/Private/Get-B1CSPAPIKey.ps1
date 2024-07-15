@@ -28,7 +28,7 @@ function Get-B1CSPAPIKey {
             return $null
         }
     } else {
-        $ApiKey = $ENV:B1APIKey        
+        $ApiKey = $ENV:B1APIKey
     }
     if (!$ApiKey) {
         Write-Error "No BloxOne Connection Profiles or Global CSP API Key has been configured."

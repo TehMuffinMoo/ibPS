@@ -11,7 +11,7 @@
 
     .PARAMETER QueryType
         Use this parameter to specify the query type when using -TopQueries
-		
+
 		Available options: NXDOMAIN, NXRRSET, DNS & DFP
 
     .PARAMETER TopClients
@@ -19,7 +19,7 @@
 
     .PARAMETER TopClientLogType
         Use this parameter to specify the top client log type when using -TopClients
-		
+
 		Available options: DNS, DFP & DHCP
 
     .PARAMETER TopCount
@@ -44,10 +44,10 @@
 
 	.EXAMPLE
 	    PS> Get-B1TopMetrics -TopDNSServers -Start (Get-Date).AddDays(-31)
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Metrics
     #>

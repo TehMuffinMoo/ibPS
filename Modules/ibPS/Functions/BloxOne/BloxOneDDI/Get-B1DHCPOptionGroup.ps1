@@ -33,10 +33,10 @@
 
     .EXAMPLE
         PS> Get-B1DHCPOptionGroup -Name "Telephony Options"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

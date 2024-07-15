@@ -51,7 +51,7 @@
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
         PS> Get-B1Subnet -Subnet "10.10.10.0" -CIDR 24 | Set-B1Subnet -NewName "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
-    
+
     .EXAMPLE
         ## Example updating the HA Group and DDNSDomain properties of a subnet
 
@@ -59,7 +59,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>

@@ -51,10 +51,10 @@
 
     .EXAMPLE
         PS> Get-B1AuthoritativeZone -FQDN "prod.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

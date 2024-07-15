@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new server object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC server object to create
 
@@ -39,18 +39,18 @@
         id                           : dtc/server/fsfsef8f3-3532-643h-jhjr-sdgfrgrg51349
         name                         : Exchange Server A
         comment                      : Exchange Server - Active Node
-        tags                         : 
+        tags                         :
         disabled                     : False
-        address                      : 
+        address                      :
         records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-1.company.corp}}
         fqdn                         : exchange-1.company.corp.
         endpoint_type                : fqdn
         auto_create_response_records : False
         metadata                     :
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

@@ -20,10 +20,10 @@
 
     .EXAMPLE
         PS> New-B1DNSView -Name "Global"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 
@@ -63,7 +63,7 @@
         $splat = $splat | ConvertTo-Json -Depth 4
 
         $Result = Invoke-CSP -Method POST -Uri "dns/view" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-        
+
         if ($Result.name -eq $Name) {
             Write-Host "DNS View: $($Name) created successfully." -ForegroundColor Green
             return $Result

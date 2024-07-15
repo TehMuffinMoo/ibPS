@@ -17,10 +17,10 @@
 
     .EXAMPLE
         PS> Get-B1SecurityPolicy -Name "Remote Users" | Remove-B1SecurityPolicy
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

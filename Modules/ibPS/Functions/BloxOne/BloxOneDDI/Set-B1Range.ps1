@@ -35,13 +35,13 @@
 
     .EXAMPLE
         PS> Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description "Some Description" -Tags @{"siteCode"="12345"}
-    
+
     .EXAMPLE
         PS> Get-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 | Set-B1Range -Description "Some Description" -Tags @{"siteCode"="12345"}
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 

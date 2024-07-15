@@ -10,7 +10,7 @@ Register-ArgumentCompleter -CommandName Get-B1Object,Get-B1Schema,New-B1Object -
 
 $apps = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    
+
     (Get-B1Schema -Quiet -Product $fakeBoundParameters['Product']).app | Where-Object {
         $_ -like "$wordToComplete*"
     } | ForEach-Object {$_}
@@ -198,7 +198,7 @@ $B1CubeJSOrderBy = {
         'Get-B1DHCPLog' {
             $fakeBoundParameters['Cube'] = 'NstarLeaseActivity'
         }
-        'Get-B1DNSLog' { 
+        'Get-B1DNSLog' {
             $fakeBoundParameters['Cube'] = 'NstarDnsActivity'
         }
     }

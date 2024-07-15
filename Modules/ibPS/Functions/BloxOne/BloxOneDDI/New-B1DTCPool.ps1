@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new pool object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC pool object to create
 
@@ -54,22 +54,22 @@
         id                          : dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f
         name                        : Exchange Pool
         comment                     : Pool of Exchange Servers
-        tags                        : 
+        tags                        :
         disabled                    : False
         method                      : ratio
         servers                     : {@{server_id=dtc/server/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=MAILSERVER-01; weight=10}, @{server_id=dtc/server/8vdsrnv8-vnnu-777g-gdvd-sdrghjj3b2; name=MAILSERVER-02; weight=20}}
         ttl                         : 10
-        inheritance_sources         : 
+        inheritance_sources         :
         pool_availability           : any
         pool_servers_quorum         : 0
         server_availability         : any
         server_health_checks_quorum : 0
         health_checks               : {@{health_check_id=dtc/health_check_icmp/vdsg4g4-vdg4-4g43-b3d8-c55xseve5b; name=ICMP health check}, @{health_check_id=dtc/health_check_icmp/fset4g4fg-h6hg-878f-ssw3-cdfu894d32; name=Exchange HTTPS Check}}
-        metadata 
-   
+        metadata
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

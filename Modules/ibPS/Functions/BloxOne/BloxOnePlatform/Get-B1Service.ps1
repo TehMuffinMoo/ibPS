@@ -45,10 +45,10 @@
 
     .EXAMPLE
         PS> Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Service
     #>
@@ -119,7 +119,7 @@
     } else {
         $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($ServicesUri)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
-    
+
     if ($Results) {
         return $Results
     }

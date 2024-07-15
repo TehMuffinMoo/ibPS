@@ -48,7 +48,7 @@ function Get-B1DFP {
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
-        
+
     .EXAMPLE
         PS> Get-B1DFP -Name "My DFP" -Strict
 
@@ -57,7 +57,7 @@ function Get-B1DFP {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -77,7 +77,7 @@ function Get-B1DFP {
         $CustomFilters,
         [String]$id
     )
- 
+
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
@@ -137,7 +137,7 @@ function Get-B1DFP {
     } else {
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcdfp/v1/dfps" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
-  
+
     if ($Results) {
       return $Results
     }

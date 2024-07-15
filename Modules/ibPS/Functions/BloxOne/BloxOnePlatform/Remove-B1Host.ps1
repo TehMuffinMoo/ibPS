@@ -17,7 +17,7 @@
 
     .EXAMPLE
         PS> Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
@@ -35,7 +35,7 @@
       [String]$id,
       [Switch]$NoWarning
     )
-    
+
     process {
 
       if ($id) {

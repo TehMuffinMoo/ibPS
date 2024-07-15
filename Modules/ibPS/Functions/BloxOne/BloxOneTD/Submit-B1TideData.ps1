@@ -24,13 +24,13 @@ function Submit-B1TideData {
 
     .PARAMETER Confidence
         The threat's confidence score ranging from 0 - 100 (optional).
-    
+
     .PARAMETER Domain
         The domain string (optional).
 
     .PARAMETER Duration
         The duration of the threat in Xd format or XyXmXwXdXh format.
-        
+
         The expiration date will be set to the detected date + this duration (optional).
 
     .PARAMETER Expiration
@@ -43,27 +43,27 @@ function Submit-B1TideData {
         The target of the threat (optional). For example: “fakeamazon.com” is a threat targeting “amazon.com”.
 
     .PARAMETER TLD
-        The top-level domain, string (optional). 
+        The top-level domain, string (optional).
 
     .PARAMETER ThreatClass
         The Threat/Indicator class i.e: Sinkhole. Supports tab-completion.
-        
+
         This is mutually exclusive with -ThreatProperty
 
     .PARAMETER ThreatProperty
         The Threat/Indicator property i.e: Sinkhole_SinkholedHost.  Supports tab-completion.
-        
+
         This is mutually exclusive with -ThreatClass
 
     .PARAMETER File
         The -File parameter accepts a CSV/TSV/PSV, JSON or XML file.
 
         This should conform to the formats listed here: https://docs.infoblox.com/space/BloxOneThreatDefense/35434535/TIDE+Data+Submission+Overview
-    
+
     .EXAMPLE
         PS> Submit-B1TideData -Profile my-dataprofile -ThreatClass Malicious -RecordType host -RecordValue superbaddomain.com -Detected (Get-Date).AddHours(-7) -ThreatLevel 10 -Confidence 30
 
-        link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self}, 
+        link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self},
                         @{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74/detail; rel=detail}}
         id             : csdv8d8s-fdss-14fe-vsee-cdsuddcs74
         submitted      : 3/13/2024 9:41:39PM
@@ -82,7 +82,7 @@ function Submit-B1TideData {
         ## This supports all file types supported by TIDE, including CSV/TSV/PSV, JSON & XML
         PS> Submit-B1TideData -Profile my-dataprofile -File ../tide.csv
 
-        link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self}, 
+        link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self},
                         @{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74/detail; rel=detail}}
         id             : csdv8d8s-fdss-14fe-vsee-cdsuddcs74
         submitted      : 3/13/2024 9:42:14PM
@@ -96,10 +96,10 @@ function Submit-B1TideData {
         total          : 1422
         num_successful : 1422
         num_errors     : 0
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-        
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -165,7 +165,7 @@ function Submit-B1TideData {
       } else {
 
         $DetectedTime = $Detected.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.000Z")
-        
+
         $Feed = @{
             "feed" = @{
             "profile" = "$($Profile)"

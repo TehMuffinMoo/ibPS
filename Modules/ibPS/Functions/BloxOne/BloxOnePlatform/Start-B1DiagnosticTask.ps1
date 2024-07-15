@@ -44,10 +44,10 @@
 
     .EXAMPLE
         PS> Start-B1DiagnosticTask -DHCPConfiguration
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Tasks
     #>
@@ -86,13 +86,13 @@
       Write-Host "Error. You must specify either -B1Host or -id" -ForegroundColor Red
       break
     }
-  
+
     if ($id) {
       $OPH = Get-B1Host -id $id
     } else {
       $OPH = Get-B1Host -Name $B1Host -Strict
     }
-  
+
     if ($OPH.ophid) {
       if ($Traceroute) {
         $splat = @{
@@ -106,7 +106,7 @@
           }
         }
       }
-  
+
       if ($DNSTest) {
         $splat = @{
           "ophid" = $OPH.ophid

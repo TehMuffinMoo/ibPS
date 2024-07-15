@@ -5,7 +5,7 @@ function Set-B1LookalikeTarget {
 
   .DESCRIPTION
     This function is used to update an existing lookalike target domain for the account.
-    
+
     The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
   .PARAMETER Domain
@@ -15,24 +15,24 @@ function Set-B1LookalikeTarget {
     The updated description from the selected domain
 
   .EXAMPLE
-    PS> Set-B1LookalikeTarget -Domain "mydomain.com" -Description "New description.." 
+    PS> Set-B1LookalikeTarget -Domain "mydomain.com" -Description "New description.."
 
   .EXAMPLE
     PS> Set-B1LookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "New Description 1","New Description 2"
 
   .EXAMPLE
     PS> Set-B1LookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "New Common description"
-    
+
   .FUNCTIONALITY
     BloxOneDDI
-    
+
   .FUNCTIONALITY
     BloxOne Threat Defense
 
   .NOTES
     Credits: Ollie Sheridan
   #>
-  
+
   param(
     [Parameter(Mandatory=$true)]
     [String[]]$Domain,
@@ -57,7 +57,7 @@ function Set-B1LookalikeTarget {
 
   foreach ($UpdatedDomain in $Domain) {
     if ($UpdatedDomain -in $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
-      
+
       ($LookalikeTargetList | Select-Object -ExpandProperty items_described | Where-Object {$_.item -eq $UpdatedDomain}).description = if ($Description.Count -le 1) {$Description} else {$Description[$Domain.IndexOf($UpdatedDomain)]}
       $UpdatedLookalikes += $UpdatedDomain
     } else {

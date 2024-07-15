@@ -16,7 +16,7 @@
         The insightId of the Insight to retrieve impacted comments for.  Accepts pipeline input (See examples)
 
     .EXAMPLE
-        PS> Get-B1SOCInsight -Priority LOW | Get-B1SOCInsightComments     
+        PS> Get-B1SOCInsight -Priority LOW | Get-B1SOCInsightComments
 
         commentsChanger                                                     newComment       dateChanged          status
         ---------------                                                     ----------       -----------          ------
@@ -27,7 +27,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
 
@@ -62,7 +62,7 @@
       }
       Write-DebugMsg -Filters $QueryFilters
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$insightId/comments$QueryFilter" -Method GET | Select-Object -ExpandProperty comments -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-  
+
       if ($Results) {
         return $Results
       }

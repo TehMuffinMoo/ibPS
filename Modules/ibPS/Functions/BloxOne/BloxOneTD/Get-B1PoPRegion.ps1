@@ -29,7 +29,7 @@
         Filter the results by id
 
     .EXAMPLE
-        PS> Get-B1PoPRegion                 
+        PS> Get-B1PoPRegion
 
         addresses                       id location             region
         ---------                       -- --------             ------
@@ -47,10 +47,10 @@
         {52.119.41.62, 103.80.6.62}     12 Cape Town, S. Africa af-south-1
         {52.119.41.63, 103.80.6.63}     13 Ohio, US             us-east-2
         {52.119.41.100, 103.80.6.100}  100 Global AnyCast       Global
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

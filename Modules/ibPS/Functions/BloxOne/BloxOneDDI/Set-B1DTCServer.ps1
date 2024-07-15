@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to update a server object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC server object to update
 
@@ -45,33 +45,33 @@
         id                           : dtc/server/fsfsef8f3-3532-643h-jhjr-sdgfrgrg51349
         name                         : Exchange Server A
         comment                      : New Exchange Node
-        tags                         : 
+        tags                         :
         disabled                     : False
-        address                      : 
+        address                      :
         records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-3.company.corp}}
         fqdn                         : exchange-3.company.corp.
         endpoint_type                : fqdn
         auto_create_response_records : False
         metadata                     :
-   
+
     .EXAMPLE
        PS> Get-B1DTCServer -Name 'Exchange Server B' | Set-B1DTCServer -State Disabled
 
         id                           : dtc/server/fg5hh56-3tf2-g54r-jbh6r-xsdvsrgzdv45
         name                         : Exchange Server B
         comment                      : New Exchange Node
-        tags                         : 
+        tags                         :
         disabled                     : True
-        address                      : 
+        address                      :
         records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-2.company.corp}}
         fqdn                         : exchange-2.company.corp.
         endpoint_type                : fqdn
         auto_create_response_records : False
-        metadata         
+        metadata
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
@@ -175,13 +175,13 @@
         }
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-        
+
         $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
         if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
             $Results | Select-Object -ExpandProperty result
         } else {
             $Results
         }
-        
+
     }
 }

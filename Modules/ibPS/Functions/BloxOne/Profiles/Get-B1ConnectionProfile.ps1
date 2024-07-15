@@ -4,7 +4,7 @@ function Get-B1ConnectionProfile {
         This function is used to retrieved saved BloxOne connection profiles. By default, the active profile is returned.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts. These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Switch-B1ConnectionProfile/). 
+        Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts. These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Switch-B1ConnectionProfile/).
 
     .PARAMETER Name
         Return a specific connection profile based on its name
@@ -54,8 +54,8 @@ function Get-B1ConnectionProfile {
             $Script:B1AI = @{}
         }
         if (-not $Script:B1AI."$Profile") {
-            $B1CU = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -Profile $Profile)/v2/current_user" -APIKey (Get-B1CSPAPIKey -Profile $Profile) -Profile $Profile | Select-Object -ExpandProperty result            
-            $B1CA = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -Profile $Profile)/v2/current_user/accounts" -APIKey (Get-B1CSPAPIKey -Profile $Profile) -Profile $Profile | Select-Object -ExpandProperty results | Where-Object {$_.id -eq $B1CU.account_id}           
+            $B1CU = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -Profile $Profile)/v2/current_user" -APIKey (Get-B1CSPAPIKey -Profile $Profile) -Profile $Profile | Select-Object -ExpandProperty result
+            $B1CA = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -Profile $Profile)/v2/current_user/accounts" -APIKey (Get-B1CSPAPIKey -Profile $Profile) -Profile $Profile | Select-Object -ExpandProperty results | Where-Object {$_.id -eq $B1CU.account_id}
             $Script:B1AI."$Profile" = @{
                 'User' = $(if ($B1CU.Name) {$B1CU.Name} else { 'Invalid or Expired API Key' })
                 'Account' = $(if ($B1CA.Name) {$B1CA.Name} else { 'Invalid or Expired API Key' })

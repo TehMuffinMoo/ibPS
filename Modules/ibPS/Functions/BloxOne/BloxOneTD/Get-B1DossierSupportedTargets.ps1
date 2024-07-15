@@ -12,30 +12,30 @@ function Get-B1DossierSupportedTargets {
         You can get a list of supported sources using Get-B1DossierSupportedSources
 
     .EXAMPLE
-        PS> Get-B1DossierSupportedTargets           
+        PS> Get-B1DossierSupportedTargets
 
         ip
         host
         url
         hash
         email
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
     param(
         [String]$Source
     )
- 
+
     if ($Source) {
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/source/$Source/targets" -Method GET
     } else {
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/targets" -Method GET
     }
-  
+
     if ($Results) {
       return $Results
     }

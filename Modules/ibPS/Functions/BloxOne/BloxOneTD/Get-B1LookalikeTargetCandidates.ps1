@@ -11,7 +11,7 @@
         Determines whether to return account_specific or common candidates. Default value is false, i.e. returns common candidates.
 
     .EXAMPLE
-        PS> Get-B1LookalikeTargetCandidates                                                                                                
+        PS> Get-B1LookalikeTargetCandidates
 
         name                             description    items_described                                                                                                                     item_count
         ----                             -----------    ---------------                                                                                                                     ----------
@@ -23,15 +23,15 @@
         item                        selected
         ----                        --------
         accuweather.com                 True
-        active.aero                         
+        active.aero
         adobe.com                       True
         airbnb.com                      True
-        alibaba.com                         
+        alibaba.com
         aliexpress.com                  True
         amazonaws.com                   True
         amazon.com                      True
         americafirst.com                True
-        americanexpressbusiness.com         
+        americanexpressbusiness.com
         ...
 
     .EXAMPLE
@@ -40,17 +40,17 @@
         name                                      description    items_described                                                item_count
         ----                                      -----------    ---------------                                                ----------
         Account Specific Lookalike Candidate List Auto-generated {@{item=infoblox.com; selected=True; query_count_daily=28350}}          1
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
     param(
         [Switch]$AccountSpecific
     )
- 
+
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($AccountSpecific) {
         $QueryFilters.Add("account_specific=$true") | Out-Null

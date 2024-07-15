@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to update a health check object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC health check object to update
 
@@ -40,7 +40,7 @@
         The -HTTPRequest parameter is the HTTP Request that a HTTP Health Check will make when checking status. This accepts multi-line strings if separated by `n
 
     .PARAMETER ResponseBody
-        The -ResponseBody parameter is used to indicate if to check the body response content. This should be used in combination with -ResponseBodyRegex    
+        The -ResponseBody parameter is used to indicate if to check the body response content. This should be used in combination with -ResponseBodyRegex
 
     .PARAMETER ResponseBodyRegex
         The -ResponseBodyRegex parameter is used to specify the regex used when checking the body of the response
@@ -76,29 +76,29 @@
 
         id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
         name                           : Exchange HTTPS Check
-        comment                        : 
+        comment                        :
         disabled                       : False
         interval                       : 15
         timeout                        : 10
         retry_up                       : 1
         retry_down                     : 1
-        tags                           : 
+        tags                           :
         port                           : 443
         https                          : True
         request                        : GET /owa/auth/logon.aspx HTTP/1.1
                                          Host: webmail.company.corp
-        codes                          : 
-        metadata                       : 
+        codes                          :
+        metadata                       :
         check_response_body            : True
         check_response_body_regex      : (.*)
         check_response_body_negative   : False
         check_response_header          : True
         check_response_header_regexes  : {@{header=X-A-Header; regex=(/w/s/w+)}, @{header=X-Hello-Header; regex=(.*)}}
         check_response_header_negative : True
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

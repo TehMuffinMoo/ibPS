@@ -56,10 +56,10 @@
 
     .EXAMPLE
         PS> Set-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.50.10" -TTL 600
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
@@ -98,7 +98,7 @@
       )]
       [System.Object]$Object
     )
-    
+
     process {
       if ($Object) {
         $SplitID = $Object.id.split('/')
@@ -196,7 +196,7 @@
     }
     if ($Tags) {
       $NewObj.tags = $Tags
-    }     
+    }
     if ($Description) {
       $NewObj.comment = $Description
     }

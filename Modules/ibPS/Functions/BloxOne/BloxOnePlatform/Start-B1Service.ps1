@@ -14,10 +14,10 @@
 
     .EXAMPLE
         PS> Start-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Service
     #>

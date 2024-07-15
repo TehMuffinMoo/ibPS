@@ -15,10 +15,10 @@ function Get-B1TideThreatEnrichment {
 
     .EXAMPLE
         PS> Get-B1TideThreatEnrichment
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>

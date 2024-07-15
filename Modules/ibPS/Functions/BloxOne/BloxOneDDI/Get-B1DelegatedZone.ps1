@@ -17,7 +17,7 @@
 
     .PARAMETER View
         The DNS View where the delegated zone(s) are located.
-        
+
         Filtering by DNS View is not supported by this API endpoint, so the filtering is done in postprocessing after the query is made. This means if the -View parameter is specified, it will only filter on already returned results.
 
     .PARAMETER ParentId
@@ -53,10 +53,10 @@
 
     .EXAMPLE
         PS> Get-B1DelegatedZone -ParentId (Get-B1AuthoritativeZone -FQDN 'parent.zone' -View 'my-dnsview' -Strict).id
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

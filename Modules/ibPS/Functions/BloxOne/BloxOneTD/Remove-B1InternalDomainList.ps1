@@ -16,10 +16,10 @@
         PS> Get-B1InternalDomainList -Name 'My List' | Remove-B1InternalDomainList
 
         Successfully deleted Internal Domain list: My List / 123456
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

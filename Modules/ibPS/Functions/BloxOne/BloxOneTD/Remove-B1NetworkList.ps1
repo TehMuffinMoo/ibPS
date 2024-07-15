@@ -17,10 +17,10 @@
 
     .EXAMPLE
         PS> Get-B1NetworkList -Name "My Network List" | Remove-B1NetworkList
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

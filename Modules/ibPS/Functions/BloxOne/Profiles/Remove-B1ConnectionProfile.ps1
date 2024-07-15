@@ -4,7 +4,7 @@ function Remove-B1ConnectionProfile {
         This function is used to remove a saved BloxOne connection profile.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts, with the ability to quickly switch between them. A list of connection profiles can be retrieved using [Get-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Get-B1ConnectionProfile/). 
+        Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts, with the ability to quickly switch between them. A list of connection profiles can be retrieved using [Get-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Get-B1ConnectionProfile/).
 
     .PARAMETER Name
         Specify the connection profile name to remove. This field supports tab completion.

@@ -20,10 +20,10 @@
         123456.tsfeed             tsfeed                 Test Feed                   {0014B00014BaC3hQKF:Test-Profile}                123456    654321
         123456.scfeed             scfeed                 Secure Feed                 {0014B00014BaC3hQKF:Secure-Profile}              123456    654321
         ...
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -39,13 +39,13 @@
       if ($Filters) {
           $Filter = "_filter="+(Combine-Filters $Filters)
       }
- 
+
       if ($Filter) {
           $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/feeds?$Filter" -Method GET | Select-Object -ExpandProperty feeds -ErrorAction SilentlyContinue
       } else {
           $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/feeds" -Method GET | Select-Object -ExpandProperty feeds -ErrorAction SilentlyContinue
       }
-  
+
       if ($Results) {
         return $Results
       }

@@ -35,7 +35,7 @@
 
     .EXAMPLE
         PS> Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
-    
+
     .EXAMPLE
         PS> Get-B1Host -Name "bloxoneddihost1.mydomain.corp" | Set-B1Host -NewName "mynewhostname.mydomain.corp"
 

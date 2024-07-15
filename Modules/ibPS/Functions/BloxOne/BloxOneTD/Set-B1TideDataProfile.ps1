@@ -17,7 +17,7 @@ function Set-B1TideDataProfile {
 
     .PARAMETER State
         This value indicates if the Data Profile is activated or deactivated.
-    
+
     .PARAMETER DefaultTTL
         This value indicates if to use the default TTL for threats
 
@@ -31,10 +31,10 @@ function Set-B1TideDataProfile {
         default_ttl : False
         active      : True
         rpzfeedname : New RPZ Feed
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -86,7 +86,7 @@ function Set-B1TideDataProfile {
         }
         $splat = $TIDEDataProfile | Select-Object * -ExcludeProperty id | ConvertTo-Json -Compress
         $Result = Invoke-CSP -Method "PUT" -Uri "$(Get-B1CSPUrl)/tide/admin/v1/resources/dataprofiles/$Name" -Data $splat | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
-  
+
         if ($Result) {
           Write-Host "Successfully updated TIDE Data Profile: $Name" -ForegroundColor Green
         } else {

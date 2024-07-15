@@ -10,10 +10,10 @@
         Provides a summary of discovered asset counts by category
 
     .EXAMPLE
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Discovery
 

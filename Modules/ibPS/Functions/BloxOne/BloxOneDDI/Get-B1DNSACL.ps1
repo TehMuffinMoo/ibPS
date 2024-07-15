@@ -36,13 +36,13 @@
 
     .PARAMETER id
         Return results based on DNS Access Control List id
-        
+
     .EXAMPLE
         PS> Get-B1DNSACL -Name "Servers_ACL"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

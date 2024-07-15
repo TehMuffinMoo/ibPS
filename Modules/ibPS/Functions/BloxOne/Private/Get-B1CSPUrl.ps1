@@ -8,7 +8,7 @@ function Get-B1CSPUrl {
 
     .EXAMPLE
         PS> Get-B1CSPUrl
-        
+
         https://csp.infoblox.com
 
     .FUNCTIONALITY

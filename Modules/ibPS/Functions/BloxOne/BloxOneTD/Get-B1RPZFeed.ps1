@@ -10,15 +10,15 @@ function Get-B1RPZFeed {
         One or more feed names to return current records for
 
     .EXAMPLE
-        PS> 
-       
+        PS>
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
     param(
         [String[]]$FeedName
     )
- 
+
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($FeedName) {
         $QueryFilters.Add("feed_name=$($FeedName -join ",")") | Out-Null
@@ -32,7 +32,7 @@ function Get-B1RPZFeed {
     } else {
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/rpz-indicator/v1/current/rest" -Method GET -AdditionalHeaders @{'Accept' = 'application/json'} | Select-Object -ExpandProperty records -ErrorAction SilentlyContinue
     }
-  
+
     if ($Results) {
       return $Results
     }

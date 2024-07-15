@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new LBDN object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC LBDN object to create
 
@@ -41,12 +41,12 @@
         comment             : Exchange Servers LBDN
         disabled            : False
         ttl                 : 10
-        tags                : 
+        tags                :
         inheritance_sources :
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

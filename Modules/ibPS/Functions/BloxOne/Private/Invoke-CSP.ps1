@@ -155,7 +155,7 @@ function Invoke-CSP {
         Write-Host "Error. No results from API."
       }
     #} catch {
-    #    Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
+    #    Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
     #    Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
     #    if ($PSVersionTable.PSVersion -lt "7.0.0") {
     #        $reader = New-Object System.IO.StreamReader($result)

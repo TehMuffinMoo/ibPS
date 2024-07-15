@@ -39,10 +39,10 @@
 
     .EXAMPLE
         PS> Get-B1ForwardNSG -Name "Data Centre" -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

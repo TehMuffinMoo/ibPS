@@ -23,7 +23,7 @@
 
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the new fixed address.
-        
+
         Example usage when combined with Get-B1DHCPOptionCode
 
         $DHCPOptions = @()
@@ -37,10 +37,10 @@
 
     .EXAMPLE
         PS> New-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

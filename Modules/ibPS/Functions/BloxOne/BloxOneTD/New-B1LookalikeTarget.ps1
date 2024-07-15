@@ -5,7 +5,7 @@ function New-B1LookalikeTarget {
 
   .DESCRIPTION
     This function is used to add a new lookalike target domain for the account.
-    
+
     The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
   .PARAMETER Domain
@@ -15,24 +15,24 @@ function New-B1LookalikeTarget {
     The description to apply to the selected domain
 
   .EXAMPLE
-    PS> New-B1LookalikeTarget -Domain "mydomain.com" -Description "Some description.." 
+    PS> New-B1LookalikeTarget -Domain "mydomain.com" -Description "Some description.."
 
   .EXAMPLE
     PS> New-B1LookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Description 1","Description 2"
 
   .EXAMPLE
     PS> New-B1LookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Common description"
-    
+
   .FUNCTIONALITY
     BloxOneDDI
-    
+
   .FUNCTIONALITY
     BloxOne Threat Defense
 
   .NOTES
     Credits: Ollie Sheridan
   #>
-  
+
   param(
     [Parameter(Mandatory=$true)]
     [String[]]$Domain,

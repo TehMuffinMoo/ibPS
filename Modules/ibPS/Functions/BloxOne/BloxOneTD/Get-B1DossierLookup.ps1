@@ -50,7 +50,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
@@ -116,7 +116,7 @@
                 $ReturnData = $WebResponse
             }
         }
-    
+
         if ($ReturnData) {
             $ReturnData
         }

@@ -45,10 +45,10 @@
 
     .EXAMPLE
         PS> Get-B1HAGroup -Name "MyHAGroup" -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 
@@ -126,7 +126,7 @@
     } else {
         $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/ha_group" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
-    
+
     if ($Results) {
         return $Results
     } else {

@@ -79,7 +79,7 @@ function Get-B1Object {
         }
         $QueryFilters.Add("_filter="+(Combine-Filters $B1Filters)) | Out-Null
     }
-    
+
     if ($tfilter) {
       $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }

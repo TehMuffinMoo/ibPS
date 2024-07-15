@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to update a pool object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC pool object to update
 
@@ -59,32 +59,32 @@
 
         id                          : dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f
         name                        : Exchange Pool
-        comment                     : 
-        tags                        : 
+        comment                     :
+        tags                        :
         disabled                    : False
         method                      : ratio
         servers                     : {@{server_id=dtc/server/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=MAIL-PRIMARY; weight=10}, @{server_id=dtc/server/8vdsrnv8-vnnu-777g-gdvd-sdrghjj3b2; name=MAIL-BACKUP; weight=20}}
         ttl                         : 60
-        inheritance_sources         : 
+        inheritance_sources         :
         pool_availability           : quorum
         pool_servers_quorum         : 1
         server_availability         : any
         server_health_checks_quorum : 0
         health_checks               : {@{health_check_id=dtc/health_check_icmp/vdsg4g4-vdg4-4g43-b3d8-c55xseve5b; name=ICMP health check}, @{health_check_id=dtc/health_check_icmp/fset4g4fg-h6hg-878f-ssw3-cdfu894d32; name=Exchange HTTPS Check}}
-        metadata     
+        metadata
 
     .EXAMPLE
        PS> Get-B1DTCPool -Name 'Exchange Pool' | Set-B1DTCPool -PoolHealthyWhen AtLeast -ServersHealthyWhen Any -ServersHealthyCount 0 -PoolHealthyCount 1 -LoadBalancingType Ratio -Servers MAIL-PRIMARY:10,MAIL-BACKUP:20
 
         id                          : dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f
         name                        : Exchange Pool
-        comment                     : 
-        tags                        : 
+        comment                     :
+        tags                        :
         disabled                    : False
         method                      : ratio
         servers                     : {@{server_id=dtc/server/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=MAIL-PRIMARY; weight=10}, @{server_id=dtc/server/8vdsrnv8-vnnu-777g-gdvd-sdrghjj3b2; name=MAIL-BACKUP; weight=20}}
         ttl                         : 0
-        inheritance_sources         : 
+        inheritance_sources         :
         pool_availability           : quorum
         pool_servers_quorum         : 1
         server_availability         : any
@@ -94,7 +94,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
@@ -236,13 +236,13 @@
         }
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-       
+
         $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
         if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
             $Results | Select-Object -ExpandProperty result
         } else {
             $Results
         }
-        
+
     }
 }

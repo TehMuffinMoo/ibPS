@@ -37,10 +37,10 @@ function Get-B1DTCStatus {
                 [Server]  HEALTHY: EXCHANGE-MAIL02
                   [HealthCheck]  HEALTHY: Exchange-HTTPS - 04/16/2024 08:25:13
                   [HealthCheck]  HEALTHY: ICMP Health Check - 04/16/2024 08:25:08
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

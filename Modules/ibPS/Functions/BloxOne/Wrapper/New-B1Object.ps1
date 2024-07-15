@@ -59,7 +59,7 @@ function New-B1Object {
         [ValidateSet("POST","PUT")]
         $Method = "POST"
     )
-    
+
     process {
         $B1CSPUrl = Get-B1CSPUrl
         $BasePath = Get-B1Schema -Product $Product -App $App -Quiet -GetBasePath

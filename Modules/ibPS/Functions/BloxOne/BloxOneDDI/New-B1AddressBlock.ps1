@@ -23,7 +23,7 @@
 
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the new address block.
-        
+
     .PARAMETER DDNSDomain
         The DDNS Domain to apply to the new address block
 
@@ -37,12 +37,12 @@
         ##Example usage when combined with Get-B1DHCPOptionCode
         $DHCPOptions = @()
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-        
+
         PS> New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
@@ -106,7 +106,7 @@
         $splat = $splat | ConvertTo-Json -Depth 4
 
         $Result = Invoke-CSP -Method POST -Uri "ipam/address_block" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        
+
         if ($Result.address -eq $Subnet) {
             Write-Host "Address Block $Subnet/$CIDR created successfully." -ForegroundColor Green
             return $Result

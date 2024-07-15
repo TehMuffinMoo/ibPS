@@ -38,7 +38,7 @@ function Get-B1TideThreatProperty {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>

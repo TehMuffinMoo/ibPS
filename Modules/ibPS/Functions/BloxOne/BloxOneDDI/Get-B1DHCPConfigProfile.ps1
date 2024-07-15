@@ -42,7 +42,7 @@
 
     .EXAMPLE
         PS> Get-B1DHCPConfigProfile -Name "Data Centre" -Strict -IncludeInheritance
-    
+
     .FUNCTIONALITY
         BloxOneDDI
     #>

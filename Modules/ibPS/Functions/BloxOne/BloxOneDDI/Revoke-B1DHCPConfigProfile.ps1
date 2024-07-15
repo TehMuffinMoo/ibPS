@@ -14,10 +14,10 @@
 
     .EXAMPLE
         PS> Revoke-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
@@ -32,7 +32,7 @@
         Write-Host "Failed to get DHCP Config Profile: $Name." -ForegroundColor Red
         break
     }
-    
+
     foreach ($DHCPHost in $Hosts) {
         $DHCPHostId = (Get-B1DHCPHost -Name $DHCPHost).id
 

@@ -27,7 +27,7 @@ function Get-B1TideThreatCounts {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>

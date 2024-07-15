@@ -49,13 +49,13 @@
 
     .EXAMPLE
         PS> Get-B1AuthoritativeZone -FQDN "my.dns.zone" | Get-B1ZoneChild
-        
+
     .EXAMPLE
         PS> Get-B1ForwardZone -FQDN "my.dns.zone" | Get-B1ZoneChild
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

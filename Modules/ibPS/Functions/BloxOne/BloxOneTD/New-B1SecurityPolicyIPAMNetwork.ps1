@@ -22,7 +22,7 @@ function New-B1SecurityPolicyIPAMNetwork {
         10.15.0.0/16                             00015644-7t55-fsrg-g564-dfgbdrg48gdo fdsjvf98-489j-v8rj-g54t-gefsffsdf34d SUBNET
                         10.0.1.200  10.0.1.240   00015644-7t55-fsrg-g564-dfgbdrg48gdo fdsjvf98-489j-v8rj-g54t-gefsffsdf34d RANGE
 
-        
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -34,7 +34,7 @@ function New-B1SecurityPolicyIPAMNetwork {
           )]
           [System.Object]$Object
     )
-    
+
     process {
         if ($Object) {
             $SplitID = $Object.id.split('/')

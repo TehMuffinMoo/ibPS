@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to updates a LBDN object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC LBDN object to update
 
@@ -47,7 +47,7 @@
         comment             : Exchange Servers LBDN
         disabled            : False
         ttl                 : 10
-        tags                : 
+        tags                :
         inheritance_sources :
 
     .EXAMPLE
@@ -61,12 +61,12 @@
         comment             : NEW LBDN
         disabled            : True
         ttl                 : 60
-        tags                : 
+        tags                :
         inheritance_sources :
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

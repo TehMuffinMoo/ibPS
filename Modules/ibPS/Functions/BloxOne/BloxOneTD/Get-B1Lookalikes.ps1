@@ -49,10 +49,10 @@
         2024-02-29        googlehop.cn                    common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-02-29.
         2024-01-30        googleoglasi.top                common {Uncategorized}  Domain is a lookalike to google.com and likely used for phishing. The creation or first seen date is 2024-01-30.
         ...
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -110,7 +110,7 @@
     } else {
         $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
-  
+
     if ($Results) {
       return $Results
     }

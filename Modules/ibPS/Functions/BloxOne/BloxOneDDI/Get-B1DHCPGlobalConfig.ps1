@@ -8,13 +8,13 @@
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
-        
+
     .EXAMPLE
         PS> Get-B1DHCPGlobalConfig
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

@@ -15,7 +15,7 @@ function ConvertTo-RNAME {
         Email                   RNAME
         -----                   -----
         admin.user@company.corp admin\.user.company.corp
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
@@ -30,7 +30,7 @@ function ConvertTo-RNAME {
     process {
         $Results = @()
         foreach ($iEmail in $Email) {
-            
+
             $Result = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/convert_rname/$($iEmail)" -Method GET
             $Results += [PSCustomObject]@{
                 "Email" = $iEmail

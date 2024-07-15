@@ -21,10 +21,10 @@
         PS> Get-B1DTCPolicy -Name "Exchange-Policy" | Remove-B1DTCPolicy
 
         Successfully removed DTC Policy: Exchange-Policy
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

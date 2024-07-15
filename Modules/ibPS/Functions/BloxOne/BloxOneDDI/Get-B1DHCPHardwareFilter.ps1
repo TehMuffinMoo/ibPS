@@ -39,10 +39,10 @@
 
     .EXAMPLE
         PS> Get-B1DHCPHardwareFilter
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

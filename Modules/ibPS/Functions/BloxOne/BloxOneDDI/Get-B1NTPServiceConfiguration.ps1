@@ -17,10 +17,10 @@
 
     .EXAMPLE
         PS> Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Service
     #>

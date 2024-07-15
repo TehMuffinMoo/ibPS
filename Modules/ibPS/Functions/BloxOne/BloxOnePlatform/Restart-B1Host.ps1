@@ -17,10 +17,10 @@
 
     .EXAMPLE
         PS> Restart-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Host
     #>

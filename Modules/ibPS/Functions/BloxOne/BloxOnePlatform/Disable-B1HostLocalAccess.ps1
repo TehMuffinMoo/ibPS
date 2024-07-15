@@ -99,7 +99,7 @@
                 $OPHID = $OPH.ophid
             }
         }
-        
+
         if ($UseDefaultCredentials) {
             $HostSerial = ($OPH | Select-Object -ExpandProperty tags).'host/serial_number'
             if ($HostSerial) {
@@ -128,7 +128,7 @@
                 'Password' = $Credentials.GetNetworkCredential().Password
             }
         }
-        
+
         if ($LocalAccessCredentials.Username -and $LocalAccessCredentials.Password) {
             $JSONData = @{
                 "username" = $LocalAccessCredentials.Username

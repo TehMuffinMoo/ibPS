@@ -59,10 +59,10 @@
 
     .EXAMPLE
         PS> New-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.30.10" -TTL 300
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
@@ -322,7 +322,7 @@
             }
             if ($rdataSplat) {
                 Write-Host "Creating $Type Record for $FQDN.." -ForegroundColor Gray
-            
+
                 if ($TTL) {
                     $TTLAction = "override"
                 }
@@ -339,7 +339,7 @@
                 }
                 if ($Options) {
                     $splat | Add-Member -Name "options" -Value $Options -MemberType NoteProperty
-                }               
+                }
                 if ($TTL) {
                     $splat | Add-Member -Name "ttl" -Value $TTL -MemberType NoteProperty
                 }

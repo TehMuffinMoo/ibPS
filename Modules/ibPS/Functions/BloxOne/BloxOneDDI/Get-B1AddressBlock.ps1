@@ -57,10 +57,10 @@
 
     .EXAMPLE
         PS> Get-B1AddressBlock -tfilter '("sometagname"=="sometagvalue" or "someothertagname"=="someothertagvalue")'
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
@@ -89,8 +89,8 @@
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($Subnet) {
-        if ($Subnet -match '/\d') { 
-            $IPandMask = $Subnet -Split '/' 
+        if ($Subnet -match '/\d') {
+            $IPandMask = $Subnet -Split '/'
             $Subnet = $IPandMask[0]
             $CIDR = $IPandMask[1]
         }

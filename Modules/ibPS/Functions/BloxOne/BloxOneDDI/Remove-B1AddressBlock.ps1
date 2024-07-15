@@ -27,10 +27,10 @@
 
     .EXAMPLE
         PS> Remove-B1AddressBlock -Subnet "10.0.0.1" -CIDR "24" -Space "Global"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
@@ -67,14 +67,14 @@
       } else {
         $AddressBlock = Get-B1AddressBlock -Subnet $Subnet -CIDR $CIDR -Space $Space
       }
-  
+
       if ($Recurse -and -not $NoWarning) {
           Write-Warning "WARNING! -Recurse will remove all child objects that exist within the Address Block: $Subnet/$CIDR. Are you sure you want to do this?" -WarningAction Inquire
           $URI = "$($AddressBlock.id)?_options=recurse=true"
       } else {
           $URI = $AddressBlock.id
       }
-  
+
       if (($AddressBlock | measure).Count -gt 1) {
           Write-Host "More than one address block returned. These will not be removed." -ForegroundColor Red
           $AddressBlock | Format-Table -AutoSize

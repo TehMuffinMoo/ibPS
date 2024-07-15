@@ -48,10 +48,10 @@
         2/6/2024 6:41:36PM  bestgoogles.shop                                               Domain is a lookalike to google.com. The creation date is 2023-11-09.
         2/6/2024 6:41:36PM  brightcastweightlossttgoogleuk.today                           Domain is a lookalike to google.com. The creation date is 2023-06-18.
         ...
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -104,7 +104,7 @@
     } else {
         $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_domains" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
-  
+
     if ($Results) {
       return $Results
     }

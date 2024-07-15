@@ -39,10 +39,10 @@
 
     .EXAMPLE
         PS> Get-B1DNSView -Name "default"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

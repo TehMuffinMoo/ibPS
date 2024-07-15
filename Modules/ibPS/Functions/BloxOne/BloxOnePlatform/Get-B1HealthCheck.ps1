@@ -14,10 +14,10 @@
 
     .EXAMPLE
         PS> Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Health
     #>

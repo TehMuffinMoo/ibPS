@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new health check object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC health check object to create
 
@@ -38,19 +38,19 @@
 
         id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
         name                           : Exchange HTTPS Check
-        comment                        : 
+        comment                        :
         disabled                       : False
         interval                       : 15
         timeout                        : 10
         retry_up                       : 1
         retry_down                     : 1
-        tags                           : 
+        tags                           :
         port                           : 443
         https                          : True
         request                        : GET /owa/auth/logon.aspx HTTP/1.1
                                         Host: webmail.company.corp
         codes                          : 200,401
-        metadata                       : 
+        metadata                       :
 
     .EXAMPLE
         $HeaderRegexes = @(
@@ -70,29 +70,29 @@
 
         id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
         name                           : Exchange HTTPS Check
-        comment                        : 
+        comment                        :
         disabled                       : False
         interval                       : 15
         timeout                        : 10
         retry_up                       : 1
         retry_down                     : 1
-        tags                           : 
+        tags                           :
         port                           : 443
         https                          : True
         request                        : GET /owa/auth/logon.aspx HTTP/1.1
                                          Host: webmail.company.corp
-        codes                          : 
-        metadata                       : 
+        codes                          :
+        metadata                       :
         check_response_body            : True
         check_response_body_regex      : (.*)
         check_response_body_negative   : False
         check_response_header          : True
         check_response_header_regexes  : {@{header=X-Some-Header; regex=(.*)}, @{header=X-Another-Header; regex=(.*)}}
         check_response_header_negative : False
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
@@ -248,7 +248,7 @@
                     $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header' -Value $false
                     $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_negative' -Value $false
                     $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_regexes' -Value $null
-                    
+
                 }
                 default {
                     $null

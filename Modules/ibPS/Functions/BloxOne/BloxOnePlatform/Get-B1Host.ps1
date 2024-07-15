@@ -8,7 +8,7 @@
 
     .PARAMETER Name
         The name of the host to filter by
-    
+
     .PARAMETER IP
         The IP of the host to filter by
 
@@ -66,7 +66,7 @@
 
     .EXAMPLE
         PS> Get-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
@@ -162,14 +162,14 @@
     } else {
         $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/$($APIEndpoint)?_limit=$($Limit)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
-    
+
     if ($Results) {
         if ($NoIPSpace) {
             $Results = $Results | Where-Object {!($_.ip_space)}
         }
         if ($Reduced) {
             return $Results | Select-Object display_name,ip_address,description,host_subtype,host_version,mac_address,nat_ip,last_seen,updated_at
-        } else {            
+        } else {
             return $Results
         }
     } else {

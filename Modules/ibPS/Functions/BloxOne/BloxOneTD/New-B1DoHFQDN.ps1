@@ -7,16 +7,16 @@
         This function is used to generate a new DNS over HTTPS FQDN for use in BloxOne Threat Defense security policies
 
     .EXAMPLE
-        PS> New-B1DoHFQDN                                                                                                                        
-                                                                                                                                
+        PS> New-B1DoHFQDN
+
         policy_id doh_fqdn
         --------- --------
                 0 dfsdgghhdh-btrb-4bbb-bffb-cmjumbfgfnhm9.doh.threatdefense.infoblox.com
 
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

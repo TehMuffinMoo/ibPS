@@ -5,7 +5,7 @@ function Remove-B1LookalikeTarget {
 
   .DESCRIPTION
     This function is used to remove a lookalike target domain from the account.
-    
+
     The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
   .PARAMETER Domain
@@ -16,17 +16,17 @@ function Remove-B1LookalikeTarget {
 
   .EXAMPLE
     PS> Remove-B1LookalikeTarget -Domain "mydomain.com"
-    
+
   .FUNCTIONALITY
     BloxOneDDI
-    
+
   .FUNCTIONALITY
     BloxOne Threat Defense
 
   .NOTES
     Credits: Ollie Sheridan
   #>
-  
+
   param(
     [Parameter(Mandatory=$true)]
     [String[]]$Domain,
@@ -36,11 +36,11 @@ function Remove-B1LookalikeTarget {
   $LookalikeTargetList = Get-B1LookalikeTargets
 
   foreach ($DomainToRemove in $Domain) {
-      
+
     if ($DomainToRemove -in $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
 
       $LookalikeTargetList.items_described = $LookalikeTargetList.items_described | Where-Object {$_.item -ne $($DomainToRemove)}
-      
+
       if (!$NoWarning) {
           Write-Warning "Are you sure you want to delete: $($Domain)?" -WarningAction Inquire
       }

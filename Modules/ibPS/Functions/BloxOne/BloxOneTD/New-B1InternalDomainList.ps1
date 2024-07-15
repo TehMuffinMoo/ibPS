@@ -32,10 +32,10 @@
         tags             : @{Owner=Me}
         updated_time     : 4/8/2024 10:49:21AM
 
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

@@ -37,7 +37,7 @@
         access_codes          : {}
         created_time          : 4/13/2023 12:03:40PM
         default_action        : action_allow
-        default_redirect_name : 
+        default_redirect_name :
         description           : Remote Users Policy
         dfp_services          : {6abcdefghijklmnopqrstuvwxyz123}
         dfps                  : {654321}
@@ -50,18 +50,18 @@
         onprem_resolve        : False
         precedence            : 63
         roaming_device_groups : {}
-        rules                 : {@{action=action_redirect; data=Blacklist; redirect_name=; type=custom_list}, @{action=action_block; data=Malicious Domains; type=custom_list}, @{action=action_block; data=Newly Observed Domains; type=custom_list}, 
+        rules                 : {@{action=action_redirect; data=Blacklist; redirect_name=; type=custom_list}, @{action=action_block; data=Malicious Domains; type=custom_list}, @{action=action_block; data=Newly Observed Domains; type=custom_list},
                                 @{action=action_allow; data=Whitelist; type=custom_list}…}
         safe_search           : False
-        scope_expr            : 
+        scope_expr            :
         scope_tags            : {}
-        tags                  : 
+        tags                  :
         updated_time          : 9/6/2023 10:22:29PM
         user_groups           : {}
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

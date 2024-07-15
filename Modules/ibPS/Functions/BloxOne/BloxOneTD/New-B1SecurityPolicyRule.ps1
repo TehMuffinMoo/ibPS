@@ -11,7 +11,7 @@ function New-B1SecurityPolicyRule {
 
     .PARAMETER Log
         The security policy rule log action to use for this list item. Defaults to Log.
-        
+
     .PARAMETER Object
         The security policy rule name (Either Custom List, Named Feed, Application Filter or Category Filter depending on Type selected)
 
@@ -26,7 +26,7 @@ function New-B1SecurityPolicyRule {
     .EXAMPLE
 
     .EXAMPLE
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>

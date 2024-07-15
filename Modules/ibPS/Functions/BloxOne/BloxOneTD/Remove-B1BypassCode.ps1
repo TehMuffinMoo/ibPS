@@ -16,10 +16,10 @@
         PS> Get-B1BypassCode -Name 'My Bypass Code' | Remove-B1BypassCode
 
         Successfully deleted Bypass Code: My Bypass Code
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

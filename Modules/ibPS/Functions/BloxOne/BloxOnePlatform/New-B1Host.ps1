@@ -20,7 +20,7 @@
 
     .EXAMPLE
         PS> New-B1Host -Name "bloxoneddihost1.mydomain.corp" -Description "My BloxOneDDI Host" -Space "Global"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 

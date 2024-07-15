@@ -26,10 +26,10 @@
 
     .EXAMPLE
         Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" | Set-B1DNSHost -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
@@ -92,7 +92,7 @@
             }
             $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
             $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-      
+
             if ($($Results.id) -eq $($Object.id)) {
                 Write-Host "DNS Host: $($NewObj.absolute_name) updated successfully." -ForegroundColor Green
                 return $Results

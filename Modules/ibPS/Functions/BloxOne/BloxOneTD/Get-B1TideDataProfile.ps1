@@ -22,10 +22,10 @@
         0014B00014BaC3hQKF:Test-Profile              Test-Profile              Test - Data Profile          default-csp        True  False tsfeed
         0014B00014BaC3hQKF:Secure-Profile            Secure-Profile            Secure - Data Profile        default-csp        True   True scfeed
         ...
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
@@ -39,7 +39,7 @@
       } else {
           $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/admin/v1/resources/dataprofiles" -Method GET -ErrorAction SilentlyContinue | Select-Object -ExpandProperty profiles -ErrorAction SilentlyContinue
       }
-  
+
       if ($Results) {
         return $Results
       }

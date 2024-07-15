@@ -39,7 +39,7 @@
 
     .EXAMPLE
         PS> Get-B1DNSConfigProfile -Name "Data Centre" -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
     #>

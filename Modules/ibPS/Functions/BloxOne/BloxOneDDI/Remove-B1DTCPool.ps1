@@ -21,10 +21,10 @@
         PS> Get-B1DTCPool -Name "Exchange-Pool"| Remove-B1DTCPool
 
         Successfully removed DTC Pool: Exchange-Pool
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

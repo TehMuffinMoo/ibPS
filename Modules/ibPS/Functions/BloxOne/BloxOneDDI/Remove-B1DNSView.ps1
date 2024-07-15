@@ -17,10 +17,10 @@
 
     .EXAMPLE
         PS> Get-B1DNSView -Name "My DNS View" | Remove-B1DNSView
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 

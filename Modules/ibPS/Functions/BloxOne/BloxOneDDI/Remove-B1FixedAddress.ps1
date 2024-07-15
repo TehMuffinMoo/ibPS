@@ -20,10 +20,10 @@
 
     .EXAMPLE
         PS> Get-B1FixedAddress -IP 10.10.10.200 | Remove-B1FixedAddress
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

@@ -11,12 +11,12 @@ function Switch-B1ConnectionProfile {
 
     .EXAMPLE
         PS> Switch-NCP Dev
-        
+
         Dev has been set as the active BloxOne connection profile.
 
     .EXAMPLE
         PS> Switch-B1ConnectionProfile Test
-        
+
         Test has been set as the active BloxOne connection profile.
 
     .FUNCTIONALITY

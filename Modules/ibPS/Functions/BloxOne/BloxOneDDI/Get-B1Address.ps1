@@ -45,10 +45,10 @@
 
     .EXAMPLE
         Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
@@ -111,7 +111,7 @@
       }
       if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
-      }      
+      }
       if ($OrderBy) {
         $QueryFilters.Add("_order_by=$OrderBy") | Out-Null
       }
@@ -125,7 +125,7 @@
       } else {
           $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       }
-  
+
       if ($Results -and $Reserved) {
           if ($Reserved) {
               $Results = $Results | Where-Object {$_.usage -contains "IPAM RESERVED"}

@@ -23,7 +23,7 @@
 
     .EXAMPLE
         PS> Get-B1SubnetNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space my-ipspace -CIDRSize 24 -Count 5 | ft address,cidr
-        
+
         address  cidr
         -------  ----
         10.0.0.0   24
@@ -31,7 +31,7 @@
         10.0.3.0   24
         10.0.4.0   24
         10.0.5.0   24
-    
+
     .EXAMPLE
         PS> Get-B1AddressBlock -Subnet 10.10.10.0/16 -Space my-ipspace | Get-B1SubnetNextAvailable -CIDRSize 24 -Count 5 | ft address,cidr
 
@@ -45,7 +45,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>

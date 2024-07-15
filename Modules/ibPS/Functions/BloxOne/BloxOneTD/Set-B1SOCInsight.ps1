@@ -17,10 +17,10 @@
 
     .EXAMPLE
         PS> Get-B1SOCInsight -ThreatType 'Lookalike Threat' -Priority LOW | Set-B1SOCInsight -Status Closed
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
 
@@ -46,7 +46,7 @@
       foreach ($ID in $insightId) {
         $Body.insight_ids += $ID
       }
-      
+
       if ($Status) {
         $Body.status = $Status
       }
@@ -55,7 +55,7 @@
       }
 
       $JSONBody = $Body | ConvertTo-Json -Depth 5
-      
+
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/status" -Method PUT -Data $JSONBody
 
       if ($Results) {

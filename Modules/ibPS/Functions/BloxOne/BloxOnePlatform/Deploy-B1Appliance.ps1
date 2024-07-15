@@ -76,7 +76,7 @@
         The full path to the BloxOne VHD/VHDX file
           Only used when -Type is Hyper-V
           -VHDPath and -DownloadLatestImage are mutually exclusive. -ImagesPath should be used for selecting the appropriate image cache location.
-          
+
     .PARAMETER HyperVServer
         The FQDN for the Hyper-V server where the BloxOne appliance will be deployed to
           Only used when -Type is Hyper-V
@@ -116,31 +116,31 @@
     .PARAMETER AzLocation
         The AzLocation parameter is used to define the Azure Location to deploy the new VM to.
           Only used when -Type is Azure
-          
+
     .PARAMETER AzResourceGroup
         The AzResourceGroup parameter is used to define the Azure Resource Group to deploy the new VM in.
           Only used when -Type is Azure
-          
+
     .PARAMETER AzVirtualNetwork
         The AzVirtualNetwork parameter is used to define the Azure Virtual Network to deploy the new VM in.
           Only used when -Type is Azure
-          
+
     .PARAMETER AzSubnet
         The AzSubnet parameter is used to define the Subnet in the selected Azure Virtual Network to deploy the new VM in.
           Only used when -Type is Azure
-          
+
     .PARAMETER AzOffer
         The AzOffer parameter is used to define the Azure Marketplace Image Offer to deploy the new VM with.
           Only used when -Type is Azure
-          
+
     .PARAMETER AzSku
         The AzSku parameter is used to define the Azure Marketplace Image SKU to deploy the new VM with.
           Only used when -Type is Azure
-          
+
     .PARAMETER AzSize
         The AzSize parameter is used to define the Azure VM Size to use when deploying the new VM.
           Only used when -Type is Azure
-          
+
     .PARAMETER AzAcceptTerms
         The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host.
           Only used when -Type is Azure
@@ -152,7 +152,7 @@
     .PARAMETER AzStorageAccount
         The AzStorageAccount is used to define the name of the storage account to use for Boot Diagnostics. This must be in the same Azure Resource Group and is only available when -AzBootDiagnostics is specified.
           Only used when -Type is Azure and when -AzBootDiagnostics is specified.
-          
+
     .PARAMETER DownloadLatestImage
         Using this parameter will download the latest relevant image prior to deployment.
 
@@ -162,7 +162,7 @@
 
     .PARAMETER ImagesPath
         Use this parameter to define the base path for images to be cached in when specifying the -DownloadLatestImage parameter.
-        
+
         This cannot be used in conjunction with -OVAPath or -VHDPath
 
     .PARAMETER CloudCheckTimeout
@@ -175,7 +175,7 @@
         Using this parameter will skip ping checks during deployment, for cases where the deployment machine and host are separated by a device which blocks ICMP.
 
         NOTE: This will also skip checking of IP Addresses which are already in use.
-    
+
     .PARAMETER SkipPowerOn
         Using this parameter will leave the VM in a powered off state once deployed
 
@@ -196,7 +196,7 @@
                             -Datastore "DATASTORE-001" `
                             -PortGroup "PORTGROUP" `
                             -PortGroupType "VDS"
-    
+
     .EXAMPLE
         PS> Deploy-B1Appliance -Type Hyper-V `
                            -Name "bloxoneddihost1" `
@@ -233,7 +233,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         VMware
 
@@ -357,7 +357,7 @@
              $vCenterAttribute.Mandatory = $true
              $vCenterAttribute.HelpMessageBaseName = "vCenter"
              $vCenterAttribute.HelpMessage = "The vCenter parameter is used to define the vCenter where the VM will be created."
-             
+
              $ClusterAttribute = New-Object System.Management.Automation.ParameterAttribute
              $ClusterAttribute.Position = 3
              $ClusterAttribute.Mandatory = $false
@@ -399,7 +399,7 @@
                 $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                 $AttributeCollection.Add($ParamItem)
                 if ($($ParamItem.HelpMessageBaseName -eq "Creds")) {
-                    $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [pscredential], $AttributeCollection)    
+                    $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [pscredential], $AttributeCollection)
                 } else {
                     $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
                 }
@@ -459,7 +459,7 @@
                     $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                     $AttributeCollection.Add($ParamItem)
                     if ($($ParamItem.HelpMessageBaseName -eq "CPU" -or $($ParamItem.HelpMessageBaseName) -eq "Memory")) {
-                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [int64], $AttributeCollection)    
+                        $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [int64], $AttributeCollection)
                     } else {
                         $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
                     }
@@ -544,7 +544,7 @@
                     $AttributeCollection.Add($ParamItem)
                     Switch($ParamItem.HelpMessageBaseName) {
                         {$_ -in @('AzAcceptTerms','AzBootDiagnostics')} {
-                            $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [switch], $AttributeCollection) 
+                            $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [switch], $AttributeCollection)
                         }
                         Default {
                             $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [String], $AttributeCollection)
@@ -749,7 +749,7 @@
                             Write-Error "Error. Failed to get Virtual Port Group, please check details and try again."
                             return $null
                         } else {
-            
+
                         }
                     }
                     "Default" {
@@ -763,13 +763,13 @@
                 } else {
                     $OVFConfig = Get-OvfConfiguration -Ovf $($ImageFile)
                 }
-            
+
                 if (Get-VM -Name $Name -ErrorAction SilentlyContinue) {
                     Write-Host "VM Already exists. Skipping.." -ForegroundColor Yellow
                 } else {
                     if ($OVFConfig) {
                         Write-Host "Generating OVFConfig file for BloxOne Appliance: $Name .." -ForegroundColor Cyan
-            
+
                         $OVFConfig.Common.address.Value = $PSBoundParameters.IP.IPAddressToString
                         $OVFConfig.Common.gateway.Value = $PSBoundParameters.Gateway.IPAddressToString
                         $OVFConfig.Common.netmask.Value = $PSBoundParameters.Netmask
@@ -779,15 +779,15 @@
                         $OVFConfig.Common.search.Value = $PSBoundParameters.DNSSuffix
                         $OVFConfig.Common.v4_mode.Value = "static"
                         $OVFConfig.NetworkMapping.lan.Value = $NetworkMapping
-                    
+
                     } else {
                         Write-Error "Error. Unable to retrieve OVF Configuration from $($ImageFile)."
                         return $null
                     }
-            
+
                     Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
                     $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $($ImageFile) -Name $Name -VMHost $VMHostObj -Datastore $Datastore -Force
-                
+
                     if ($VM) {
                         Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
                         if ($ENV:IBPSDebug -eq "Enabled") {$VM | Format-Table -AutoSize}
@@ -846,7 +846,7 @@
                 } else {
                     Write-Host "Successfully created customization ISO." -ForegroundColor Cyan
                 }
-    
+
                 if (!($PSBoundParameters['Memory'])) {
                     [int64]$Memory = 16GB
                 } else {
@@ -858,7 +858,7 @@
                 } else {
                     $CPU = $PSBoundParameters['CPU']
                 }
-                
+
                 Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
                 $VM = New-VM -Name $Name  -NoVHD  -Generation $($PSBoundParameters['HyperVGeneration']) -MemoryStartupBytes $Memory -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
 
@@ -869,7 +869,7 @@
                         Write-Host "Configuring Virtual Network VLAN.." -ForegroundColor Cyan
                         Set-VMNetworkAdapterVlan -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -VlanId $($PSBoundParameters['VirtualNetworkVLAN']) -Access
                     }
-                    
+
                     $OsDiskInfo = Get-Item $($ImageFile)
                     $RemoteBasePath = $($PSBoundParameters['VMPath']) -replace "`:","$"
                     if (!(Test-Path "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks")) {
@@ -900,19 +900,19 @@
                     Copy-Item -Path $OsDiskInfo -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\\Virtual Hard Disks\$($Name).$($VHDExtension)" | Out-Null
                     Write-Host "Copying Metadata ISO.." -ForegroundColor Cyan
                     Copy-Item -Path "work-dir/metadata.iso" -Destination "\\$($PSBoundParameters['HyperVServer'])\$($RemoteBasePath)\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso" | Out-Null
-                    
+
                     if (!(Get-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
                         Write-Host "Attaching $($VHDExtension).." -ForegroundColor Cyan
                         Add-VMHardDiskDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)"
                     }
-                    
+
                     Write-Host "Attaching Metadata ISO.." -ForegroundColor Cyan
                     if (!(Get-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']))) {
                         Add-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
                     } else {
                         Set-VMDvdDrive -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer'])  -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name)-metadata.iso"
                     }
-                    
+
                     Write-Host "Resizing $($VHDExtension).." -ForegroundColor Cyan
                     if (Get-VHD -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer'])) {
                         Resize-VHD -Path "$($PSBoundParameters['VMPath'])\$($Name)\Virtual Hard Disks\$($Name).$($VHDExtension)" -ComputerName $($PSBoundParameters['HyperVServer']) -SizeBytes 60GB
@@ -922,7 +922,7 @@
                         Write-Host "Configuring Secure Boot.." -ForegroundColor Cyan
                         Set-VMFirmware -VMName $Name -ComputerName $($PSBoundParameters['HyperVServer']) -EnableSecureBoot On -SecureBootTemplate MicrosoftUEFICertificateAuthority -BootOrder (Get-VMHardDiskDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name),(Get-VMDvdDrive -ComputerName $($PSBoundParameters['HyperVServer']) -VMName $Name)
                     }
-                    
+
                     if (!($PSBoundParameters.SkipPowerOn)) {
                         Write-Host "Powering on $Name.." -ForegroundColor Cyan
                         $VMStart = Start-VM -Name $Name -ComputerName $($PSBoundParameters['HyperVServer'])
@@ -937,7 +937,7 @@
                             }
                         }
                     }
-                  
+
                 }
             }
             "Azure" {
@@ -1000,7 +1000,7 @@
                             $UserData = New-B1Metadata -JoinToken $($PSBoundParameters.JoinToken) | Select-Object -ExpandProperty userdata
                             # Define Random Credential, this is only used as a placeholder and not actually configured on the deployed VM.
                             $AzVMUser = "AzDeploy";
-                            $AzVMPassword = (-join ((32..90) + (97..122) | Get-Random -Count 20 | % {[char]$_})) | ConvertTo-SecureString -AsPlainText -Force;  
+                            $AzVMPassword = (-join ((32..90) + (97..122) | Get-Random -Count 20 | % {[char]$_})) | ConvertTo-SecureString -AsPlainText -Force;
                             $AzVMCredential = New-Object System.Management.Automation.PSCredential ($AzVMUser, $AzVMPassword);
                             $VMConfig = $VMConfig | Set-AzVMOperatingSystem -Linux -CustomData $UserData -Credential $AzVMCredential -ComputerName $($PSBoundParameters.Name)
                             # Update VM Config with Azure Virtual Network / Subnet
@@ -1016,7 +1016,7 @@
                                         return $_.Exception.Message
                                     }
                                     $VMConfig = $VMConfig | Add-AzVMNetworkInterface -Id $AzureNetworkInterface.Id
-                                    
+
                                     ## Deploy VM
                                     try {
                                         Write-Host "Creating Virtual Machine: $($PSBoundParameters.Name).." -ForegroundColor Cyan

@@ -14,7 +14,7 @@
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-       
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
@@ -45,19 +45,19 @@
 
         id                  : dtc/policy/fef4g44gh-v44b-gh5g-bg44-g5h5gbhy6jy6jjyg0
         name                : Exchange
-        comment             : 
-        tags                : 
+        comment             :
+        tags                :
         disabled            : False
         method              : global_availability
         ttl                 : 0
         pools               : {@{pool_id=dtc/pool/656yhrft-gdf5-4gfs-tfg5-gg5ghbtg44d9; name=DTC-Exchange; weight=1}}
-        inheritance_sources : 
+        inheritance_sources :
         rules               : {}
         metadata            :
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

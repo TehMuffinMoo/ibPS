@@ -25,7 +25,7 @@
         A list of tags to add to the new Custom List
 
     .EXAMPLE
-        $Items = @{                                      
+        $Items = @{
          "domain.com" = "Description 1"
          "domain1.com" = "Description 2"
          "123.123.123.123" = "Some IP Address"
@@ -34,7 +34,7 @@
 
     .EXAMPLE
         -- CSV File
-         item,description  
+         item,description
          domain3.com,Description 3
          domain4.com,Description 4
          234.234.234.234,Some Other IP Address
@@ -44,7 +44,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

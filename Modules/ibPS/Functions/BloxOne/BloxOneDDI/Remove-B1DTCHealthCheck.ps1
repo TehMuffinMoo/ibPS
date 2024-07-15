@@ -21,10 +21,10 @@
         PS> Get-B1DTCHealth Check -Name "Exchange-HealthCheck"| Remove-B1DTCHealthCheck
 
         Successfully removed DTC Health Check: Exchange-HealthCheck
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>

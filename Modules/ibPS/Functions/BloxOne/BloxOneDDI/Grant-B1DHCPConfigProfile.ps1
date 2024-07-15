@@ -14,10 +14,10 @@
 
     .EXAMPLE
         PS> Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
@@ -52,7 +52,7 @@
         Write-Host "Failed to get DHCP Config Profile." -ForegroundColor Red
         break
       }
-    
+
       foreach ($LH in $LoopHosts) {
         $splat = @{
             "server" = $DHCPConfigProfileId

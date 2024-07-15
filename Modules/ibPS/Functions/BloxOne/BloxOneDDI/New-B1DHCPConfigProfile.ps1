@@ -29,7 +29,7 @@
         PS> $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
         PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions $DHCPOptions -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
     #>
@@ -88,7 +88,7 @@
 	        $splat.dhcp_config = @{}
 	        $splat.ddns_enabled = $true
 	        $splat.ddns_send_updates = $true
-            
+
             $ConfigProfileJson = @()
             foreach ($DDNSZone in $DDNSZones) {
                 $DDNSZone = $DDNSZone.TrimEnd(".")
@@ -114,11 +114,11 @@
         if ($DDNSDomain) {
             $splat.ddns_domain = $DDNSDomain
         }
-        
+
         $splat = $splat | ConvertTo-Json -Depth 4
 
         $Result = Invoke-CSP -Method POST -Uri "dhcp/server" -Data $splat | Select-Object -ExpandProperty result
-        
+
         if ($($Result).name -eq $Name) {
             Write-Host "DHCP Config Profile: $Name created successfully." -ForegroundColor Green
             return $Result

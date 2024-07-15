@@ -25,7 +25,7 @@
         $List = Get-B1InternalDomainList -Name 'My List'
         $List.internal_domains += 'new.corp.local'
         $List | Set-B1InternalDomainList
-        
+
         Internal Domain List  updated successfully.
 
         created_time     : 1/1/0001 12:00:00AM
@@ -37,10 +37,10 @@
         tags             : @{Owner=Me}
         updated_time     : 1/1/0001 12:00:00AM
 
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>

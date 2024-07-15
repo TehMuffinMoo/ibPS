@@ -42,10 +42,10 @@
 
     .EXAMPLE
         PS> Get-B1Space -Name "Global"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 

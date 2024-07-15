@@ -14,10 +14,10 @@
 
     .EXAMPLE
         PS> Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
@@ -31,7 +31,7 @@
     if (!$DNSConfigProfileId) {
         Write-Host "Failed to get DNS Config Profile." -ForegroundColor Red
     }
-    
+
     foreach ($DNSHost in $Hosts) {
         $DNSHostId = (Get-B1DNSHost -Name $DNSHost).id
 

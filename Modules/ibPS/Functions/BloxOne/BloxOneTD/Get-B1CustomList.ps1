@@ -55,7 +55,7 @@
         items_described  : {@{description=; item=123moviess.mom}, @{description=; item=auto-bg.info}, @{description=; item=cap-caps.shop}}
         name             : Threat Insight - Zero Day DNS
         policies         : {corporate-policy}
-        tags             : 
+        tags             :
         threat_level     : HIGH
         type             : zero_day_dns
         updated_time     : 6/12/2024 12:05:44 PM
@@ -65,14 +65,14 @@
 
         confidence_level : HIGH
         created_time     : 4/13/2023 12:51:56PM
-        description      : 
+        description      :
         id               : 123456
         item_count       : 14
         items            : {somebaddomain.com,anotherbaddomain.com, andanother...}
         items_described  : {@{description=Added from Dossier; item=somebaddomain.com},@{description=Added from Dossier; item=anotherbaddomain.com}}
         name             : main_blacklist
         policies         : {Main, Corporate}
-        tags             : 
+        tags             :
         threat_level     : HIGH
         type             : custom_list
         updated_time     : 4/3/2024 9:49:28AM
@@ -82,21 +82,21 @@
 
         confidence_level : HIGH
         created_time     : 4/13/2023 12:51:56PM
-        description      : 
+        description      :
         id               : 123456
         item_count       : 14
         items            : {somebaddomain.com,anotherbaddomain.com, andanother...}
         items_described  : {@{description=Added from Dossier; item=somebaddomain.com},@{description=Added from Dossier; item=anotherbaddomain.com}}
         name             : main_blacklist
         policies         : {Main, Corporate}
-        tags             : 
+        tags             :
         threat_level     : HIGH
         type             : custom_list
         updated_time     : 4/3/2024 9:49:28AM
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
@@ -177,7 +177,7 @@
         } else {
             $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
-    
+
         ## Temporary Workaround to API Filtering Limitations. This ensures -Name & -Description can still be used, but filtering is performed by Powershell instead of the API.
         if ($Name) {
             if ($Strict) {
@@ -197,7 +197,7 @@
         if ($ReturnItems) {
             $Results = $Results | Get-B1CustomList
         }
-    
+
         if ($Results) {
             return $Results
         }

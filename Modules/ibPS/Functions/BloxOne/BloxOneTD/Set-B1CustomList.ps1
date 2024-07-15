@@ -8,9 +8,9 @@
 
     .PARAMETER Name
         The name of the Custom List to update.
-        
+
         Whilst this is here, the API does not currently support filtering by name. (01/04/24)
-        
+
         For now, you should instead use pipeline to update objects as shown in the examples.
 
     .PARAMETER NewName
@@ -47,7 +47,7 @@
         The Custom List object to update. Accepts pipeline input from Get-B1CustomList.
 
     .EXAMPLE
-        $Items = @{                                      
+        $Items = @{
          "domain.com" = "Description 1"
          "domain1.com" = "Description 2"
          "123.123.123.123" = "Some IP Address"
@@ -88,7 +88,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
@@ -142,7 +142,7 @@
                 return $null
             }
         }
-        
+
         $NewObj = $Object | Select-Object * -ExcludeProperty created_time,updated_time,items,item_count,policies
 
         if ($NewName) {
@@ -226,6 +226,6 @@
             } else {
                 $Results
             }
-        }        
+        }
     }
 }

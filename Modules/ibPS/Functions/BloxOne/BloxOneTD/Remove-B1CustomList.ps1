@@ -8,9 +8,9 @@
 
     .PARAMETER Name
         The name of the Custom List to remove.
-        
+
         Whilst this is here, the API does not currently support filtering by name. (01/04/24)
-        
+
         For now, you should instead use pipeline to remove objects as shown in the examples.
 
     .PARAMETER Object
@@ -21,7 +21,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
@@ -50,9 +50,9 @@
                 return $null
             }
         }
-        
+
         $Results = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)"
-    
+
         if (!(Get-B1CustomList -id $Object.id -EA SilentlyContinue -WA SilentlyContinue)) {
             Write-Host "Successfully removed Custom List: $($Object.name)" -ForegroundColor Green
         } else {

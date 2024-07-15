@@ -57,10 +57,10 @@
 
     .EXAMPLE
         PS> Get-B1Subnet -Name "subnet-1" -Space "Global" -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
@@ -97,8 +97,8 @@
         }
     }
     if ($Subnet) {
-        if ($Subnet -match '/\d') { 
-            $IPandMask = $Subnet -Split '/' 
+        if ($Subnet -match '/\d') {
+            $IPandMask = $Subnet -Split '/'
             $Subnet = $IPandMask[0]
             $CIDR = $IPandMask[1]
         }

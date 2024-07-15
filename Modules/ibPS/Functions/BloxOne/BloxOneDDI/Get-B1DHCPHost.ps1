@@ -55,10 +55,10 @@
         My Subnet 10.0.1.0  24    My Subnet Description
         Other Sub 10.10.2.0 24    Other Subnet Description
 
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

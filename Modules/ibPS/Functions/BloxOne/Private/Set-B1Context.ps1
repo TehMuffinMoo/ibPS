@@ -15,7 +15,7 @@ function Set-B1Context {
         Write-Host "Creating new BloxOne connection profile: $($Name).." -ForegroundColor Green
         $Configs.Contexts | Add-Member -MemberType NoteProperty -Name $($Name) -Value $($Config)
     }
-    
+
     if (-not $NoSwitchProfile) {
         Write-Host "Active BloxOne connection profile set to: $($Name)" -ForegroundColor Cyan
         $Configs.CurrentContext = $($Name)

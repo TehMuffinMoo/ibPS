@@ -20,13 +20,13 @@
 
     .EXAMPLE
         PS> Remove-B1Range -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
-    
+
     .FUNCTIONALITY
         DHCP
     #>
@@ -44,7 +44,7 @@
       )]
       [String]$id
     )
-    
+
     process {
       if ($id) {
         $B1Range = Get-B1Range -id $id

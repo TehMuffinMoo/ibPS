@@ -36,10 +36,10 @@
 
     .EXAMPLE
         PS> Get-B1DHCPOptionCode -Name "routers"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
