@@ -25,8 +25,8 @@ jobs:
           git add .
           git status
           if ! git diff-index --quiet HEAD; then
-            git commit -m "Updated Build Version (${{ env.BuildVersion }})"
+            git commit -m "Updated Code Analysis"
             git push
           else
-            echo "Build Version Not Changed."
+            echo "Code Analysis not changed."
           fi
