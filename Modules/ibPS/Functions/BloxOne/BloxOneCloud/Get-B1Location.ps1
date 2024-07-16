@@ -122,6 +122,12 @@ function Get-B1Location {
     if ($Country) {
         $Filters.Add("address.country$MatchType`"$Country`"") | Out-Null
     }
+    if ($ContactName) {
+        $Filters.Add("contact_info.name$MatchType`"$ContactName`"") | Out-Null
+    }
+    if ($ContactEmail) {
+        $Filters.Add("contact_info.email$MatchType`"$ContactEmail`"") | Out-Null
+    }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
     }

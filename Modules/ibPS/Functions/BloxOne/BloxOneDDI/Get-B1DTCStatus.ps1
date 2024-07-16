@@ -93,7 +93,6 @@ function Get-B1DTCStatus {
                 if (!($LBDNItem)) {
                     $LBDNItem = Get-B1DTCLBDN -id $LBDNID
                 }
-                $PolicyItem = Get-B1DTCPolicy -id $Results.policy
                 $B1Hosts = @()
                 foreach ($OPHID in $Results.ophids) {
                     $B1Hosts += Get-B1Host -OPHID $OPHID
@@ -108,7 +107,7 @@ function Get-B1DTCStatus {
                 foreach ($PolicyReportItem in $($Results.reports.PSObject.Properties.Value)) {
                     Write-Colour "  [Policy]  ","$($PolicyReportItem.display_name)" -Colour DarkMagenta,Gray
                     foreach ($HostReportItem in $($PolicyReportItem.reports.PSObject.Properties.Value)) {
-                        $B1HostName = ($B1Hosts | where {$_.ophid -eq $($Results.reports.PSObject.Properties.Name)[$B1HostCount]}).display_name
+                        $B1HostName = ($B1Hosts | Where-Object {$_.ophid -eq $($Results.reports.PSObject.Properties.Name)[$B1HostCount]}).display_name
                         Write-Colour "    [B1Host]  ","$($B1HostName)" -Colour DarkGreen,Gray
                         Write-Colour "      [Pool]  ","$($HostReportItem.status): ","$($HostReportItem.display_name)" -Colour Cyan,$($Colours[$HostReportItem.status]),'Gray'
                         foreach ($ServerReportItem in $($HostReportItem.reports.PSObject.Properties.Value)) {

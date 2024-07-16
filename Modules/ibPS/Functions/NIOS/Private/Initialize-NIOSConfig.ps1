@@ -18,6 +18,6 @@ function Initialize-NIOSConfig {
             "CurrentContext" = $null
             "Contexts" = @{}
         } | ConvertTo-Json
-        $NewConfigFile = New-Item $Script:NIOSConfigFile -Type File -Value $ConfigBase
+        $null = New-Item $Script:NIOSConfigFile -Type File -Value $ConfigBase
     }
 }

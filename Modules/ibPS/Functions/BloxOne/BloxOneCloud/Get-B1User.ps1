@@ -18,9 +18,6 @@ function Get-B1User {
     .PARAMETER Type
         Filter the results by the user type
 
-    .PARAMETER Authenticator
-        Filter the results by the user's authenticator
-
     .PARAMETER Limit
         Use this parameter to limit the quantity of results returned. The default number of results is 100.
 
@@ -65,8 +62,6 @@ function Get-B1User {
         [String]$State,
         [ValidateSet("Local", "IdP","Service")]
         [String]$Type,
-        [ValidateSet("Local", "IdP","Service")]
-        [String]$Authenticator,
         [Int]$Limit = 101,
         [Int]$Offset = 0,
         [Switch]$Strict,
