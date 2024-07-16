@@ -1,4 +1,4 @@
-function Submit-B1TideData {
+﻿function Submit-B1TideData {
     <#
     .SYNOPSIS
         Used to submit threat indicators into a TIDE Data Profile

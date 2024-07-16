@@ -1,4 +1,4 @@
-function Get-B1DNSLog {
+﻿function Get-B1DNSLog {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI DNS Log

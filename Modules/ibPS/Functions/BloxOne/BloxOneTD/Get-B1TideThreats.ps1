@@ -1,4 +1,4 @@
-function Get-B1TideThreats {
+﻿function Get-B1TideThreats {
     <#
     .SYNOPSIS
         Queries active threats from the TIDE API

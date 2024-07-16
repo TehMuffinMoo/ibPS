@@ -1,4 +1,4 @@
-function Remove-B1APIKey {
+﻿function Remove-B1APIKey {
     <#
     .SYNOPSIS
         Removes a BloxOne Cloud API Key

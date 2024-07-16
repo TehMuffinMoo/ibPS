@@ -1,4 +1,4 @@
-function Get-B1CSPCurrentUser {
+﻿function Get-B1CSPCurrentUser {
     <#
     .SYNOPSIS
         Retrieves the user associated with the current API key

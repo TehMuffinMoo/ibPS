@@ -1,4 +1,4 @@
-function Get-B1APIKey {
+﻿function Get-B1APIKey {
     <#
     .SYNOPSIS
         Retrieves a list of BloxOne Cloud API Keys

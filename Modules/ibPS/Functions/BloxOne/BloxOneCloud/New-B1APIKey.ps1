@@ -1,4 +1,4 @@
-function New-B1APIKey {
+﻿function New-B1APIKey {
     <#
     .SYNOPSIS
         Creates a new BloxOne Cloud API Key

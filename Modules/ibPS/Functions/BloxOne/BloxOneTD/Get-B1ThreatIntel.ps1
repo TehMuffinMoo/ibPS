@@ -1,4 +1,4 @@
-function Get-B1ThreatIntel {
+﻿function Get-B1ThreatIntel {
     <#
     .SYNOPSIS
         Queries Threat Intel analysis, alerts, advisories & other reports from Infoblox Threat Intel

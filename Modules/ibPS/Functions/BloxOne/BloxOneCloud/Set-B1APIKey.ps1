@@ -1,4 +1,4 @@
-function Set-B1APIKey {
+﻿function Set-B1APIKey {
     <#
     .SYNOPSIS
         Updates an existing BloxOne Cloud API Key

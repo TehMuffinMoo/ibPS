@@ -1,4 +1,4 @@
-function Get-B1Location {
+﻿function Get-B1Location {
     <#
     .SYNOPSIS
         Retrieves a list of Locations defined within BloxOne Cloud

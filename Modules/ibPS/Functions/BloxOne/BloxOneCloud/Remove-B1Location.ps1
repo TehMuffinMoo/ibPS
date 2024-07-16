@@ -1,4 +1,4 @@
-function Remove-B1Location {
+﻿function Remove-B1Location {
     <#
     .SYNOPSIS
         Removes a Location from the BloxOne Cloud

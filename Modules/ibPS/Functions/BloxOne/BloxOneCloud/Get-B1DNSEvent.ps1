@@ -1,4 +1,4 @@
-function Get-B1DNSEvent {
+﻿function Get-B1DNSEvent {
     <#
     .SYNOPSIS
         Queries the BloxOne Threat Defense DNS Events

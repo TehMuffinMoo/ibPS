@@ -1,4 +1,4 @@
-function New-B1Location {
+﻿function New-B1Location {
     <#
     .SYNOPSIS
         Creates a new Location within BloxOne Cloud

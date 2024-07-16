@@ -1,4 +1,4 @@
-function Get-B1User {
+﻿function Get-B1User {
     <#
     .SYNOPSIS
         Retrieves a list of users from the BloxOne Cloud

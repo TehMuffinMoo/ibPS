@@ -1,4 +1,4 @@
-function Get-B1AuditLog {
+﻿function Get-B1AuditLog {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Audit Log

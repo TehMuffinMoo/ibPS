@@ -1,4 +1,4 @@
-function Get-B1Compartment {
+﻿function Get-B1Compartment {
     <#
     .SYNOPSIS
         Retrieves a list of Compartments from the BloxOne Cloud

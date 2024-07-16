@@ -1,4 +1,4 @@
-function Get-B1ThreatFeeds {
+﻿function Get-B1ThreatFeeds {
     <#
     .SYNOPSIS
         Use this cmdlet to retrieve information on all Threat Feed objects for the account

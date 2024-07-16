@@ -1,4 +1,4 @@
-function Get-B1SecurityLog {
+﻿function Get-B1SecurityLog {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Security Log

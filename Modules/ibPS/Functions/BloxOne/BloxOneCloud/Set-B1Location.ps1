@@ -1,4 +1,4 @@
-function Set-B1Location {
+﻿function Set-B1Location {
     <#
     .SYNOPSIS
         Updates a Location within BloxOne Cloud

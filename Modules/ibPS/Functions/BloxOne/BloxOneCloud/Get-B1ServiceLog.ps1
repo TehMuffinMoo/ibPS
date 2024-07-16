@@ -1,4 +1,4 @@
-function Get-B1ServiceLog {
+﻿function Get-B1ServiceLog {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Service Log

@@ -1,4 +1,4 @@
-function ConvertTo-PunyCode {
+﻿function ConvertTo-PunyCode {
     <#
     .SYNOPSIS
         Uses the BloxOne API to convert a domain name to Punycode
