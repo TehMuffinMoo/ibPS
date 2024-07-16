@@ -33,7 +33,7 @@ This function is used to update a custom list object within BloxOne Threat Defen
 
 ### EXAMPLE 1
 ```powershell
-$Items = @{                                      
+$Items = @{
  "domain.com" = "Description 1"
  "domain1.com" = "Description 2"
  "123.123.123.123" = "Some IP Address"

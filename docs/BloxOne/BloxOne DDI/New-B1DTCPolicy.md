@@ -34,7 +34,7 @@ id                  : dtc/policy/cgg5h6tgfs-dfg7-t5rf-f4tg-edgfre45g0
  method              : global_availability
  ttl                 : 10
  pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange Pool; weight=1}}
- inheritance_sources : 
+ inheritance_sources :
  rules               : {}
  metadata            :
 ```
@@ -46,12 +46,12 @@ New-B1DTCPolicy -Name 'Exchange-Policy' -Description 'Exchange Policy' -LoadBala
 id                  : dtc/policy/cgg5h6tgfs-dfg7-t5rf-f4tg-edgfre45g0
  name                : Exchange-Policy
  comment             : Exchange Policy
- tags                : 
+ tags                :
  disabled            : False
  method              : topology
  ttl                 : 10
  pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange Pool; weight=1}}
- inheritance_sources : 
+ inheritance_sources :
  rules               : {}
  metadata            :
 ```
@@ -67,12 +67,12 @@ New-B1DTCPolicy -Name 'Exchange-Policy' -Description 'Exchange Policy' -LoadBala
 id                  : dtc/policy/vduvr743-vcfr-jh9g-vcr3-fdbsv7bcd7
 name                : Exchange-Policy
 comment             : Exchange Policy
-tags                : 
+tags                :
 disabled            : False
 method              : topology
 ttl                 : 10
 pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange-Pool; weight=1}}
-inheritance_sources : 
+inheritance_sources :
 rules               : {@{name=Rule 1; source=subnet; subnets=System.Object[]; destination=code; code=nxdomain; pool_id=}, @{name=Default; source=default; subnets=System.Object[]; destination=pool; code=; pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f}}
 metadata
 ```

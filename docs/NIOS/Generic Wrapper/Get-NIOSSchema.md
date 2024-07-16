@@ -37,7 +37,7 @@ requested_version supported_objects                                    supported
 Get-NIOSSchema -ObjectType dtc:lbdn
 
 cloud_additional_restrictions : {all}
-fields                        : {@{is_array=True; name=auth_zones; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=auto_consolidated_monitors; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=comment; searchable_by=:=~; 
+fields                        : {@{is_array=True; name=auth_zones; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=auto_consolidated_monitors; standard_field=False; supports=rwu; type=System.Object[]}, @{is_array=False; name=comment; searchable_by=:=~;
                                 standard_field=True; supports=rwus; type=System.Object[]}, @{is_array=False; name=disable; standard_field=False; supports=rwu; type=System.Object[]}…}
 restrictions                  : {csv}
 type                          : dtc:lbdn

@@ -24,7 +24,7 @@ Generic Wrapper function for removing objects from the NIOS WAPI, either directl
 
 ### EXAMPLE 1
 ```powershell
-@{                                                                                        
+@{
     name = 'my.example.com'
     ipv4addr = '172.25.22.12'
     comment = 'My A Record'

@@ -16,9 +16,8 @@ Queries the BloxOne Threat Defense DNS Events
 Get-B1DNSEvent [[-Query] <String>] [[-IP] <String>] [[-Response] <String[]>] [[-Network] <String[]>]
  [[-Policy] <String[]>] [[-ThreatLevel] <String[]>] [[-ThreatClass] <String[]>] [[-FeedName] <String[]>]
  [[-FeedType] <String[]>] [[-AppCategory] <String[]>] [[-ThreatProperty] <String[]>]
- [[-ThreatIndicator] <String[]>] [[-PolicyAction] <String[]>] [[-EndpointGroup] <String[]>]
- [[-AppName] <String[]>] [[-DNSView] <String[]>] [[-Start] <DateTime>] [[-End] <DateTime>]
- [[-Fields] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [[-ThreatIndicator] <String[]>] [[-PolicyAction] <String[]>] [[-AppName] <String[]>] [[-DNSView] <String[]>]
+ [[-Start] <DateTime>] [[-End] <DateTime>] [[-Fields] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>]
 ```
 
 ## DESCRIPTION
@@ -229,21 +228,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -EndpointGroup
-Used to filter the DNS Events by Endpoint Group
-
-```yaml
-Type: String[]
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 14
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -AppName
 Used to filter the DNS Events by App Name
 
@@ -253,7 +237,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 15
+Position: 14
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -268,7 +252,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 16
+Position: 15
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -285,7 +269,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 17
+Position: 16
 Default value: $(Get-Date).AddDays(-1)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -300,7 +284,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 18
+Position: 17
 Default value: $(Get-Date)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -316,7 +300,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 19
+Position: 18
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -332,7 +316,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 20
+Position: 19
 Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -347,7 +331,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 21
+Position: 20
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False

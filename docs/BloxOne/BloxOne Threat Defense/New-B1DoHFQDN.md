@@ -23,8 +23,8 @@ This function is used to generate a new DNS over HTTPS FQDN for use in BloxOne T
 
 ### EXAMPLE 1
 ```powershell
-New-B1DoHFQDN                                                                                                                        
-                                                                                                                        
+New-B1DoHFQDN
+
 policy_id doh_fqdn
 --------- --------
         0 dfsdgghhdh-btrb-4bbb-bffb-cmjumbfgfnhm9.doh.threatdefense.infoblox.com

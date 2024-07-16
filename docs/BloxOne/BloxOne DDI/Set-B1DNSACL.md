@@ -34,7 +34,7 @@ This function is used to update a DNS ACL object within BloxOne
 Set-B1DNSACL -Name 'My ACL' -NewName 'My New ACL' -Tags @{'Tag1' = 'Val1'}
 
 comment        : Hello World
-compartment_id : 
+compartment_id :
 id             : dns/acl/2fwefef3r-sfef-44fg-bfg4-bgvdgrthfdd
 list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=allow; acl=; address=::; element=ip; tsig_key=}}
 name           : My New ACL
@@ -48,10 +48,10 @@ $ItemsToRemove += New-B1DNSACLItem -Address 10.24.0.0/16
 
 Get-B1DNSACL -Name 'My ACL' | Set-B1DNSACL -RemoveItems $ItemsToRemove
 
-comment        : 
-compartment_id : 
+comment        :
+compartment_id :
 id             : dns/acl/2fwefef3r-sfef-44fg-bfg4-bgvdgrthfdd
-list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=allow; acl=; address=10.0.0.0/16; 
+list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=allow; acl=; address=10.0.0.0/16;
                 element=ip; tsig_key=}}
 name           : My ACL
 tags           :
@@ -63,13 +63,13 @@ $ACLsToAdd = @()
 $ACLsToAdd += New-B1DNSACLItem -Access allow -Address 10.24.0.0/16
 
 Get-B1DNSACL 'My ACL' | Set-B1DNSACL -AddItems $ACLsToAdd
-              
+
 10.24.0.0/16 already exists in the list of ACLs, but with a different action. Updating the action to: deny
-                                                                                                                        
-comment        : 
-compartment_id : 
+
+comment        :
+compartment_id :
 id             : dns/acl/2fwefef3r-sfef-44fg-bfg4-bgvdgrthfdd
-list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=deny; acl=; address=10.24.0.0/16; element=ip; tsig_key=}, @{access=allow; acl=; address=10.0.0.0/16; 
+list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=deny; acl=; address=10.24.0.0/16; element=ip; tsig_key=}, @{access=allow; acl=; address=10.0.0.0/16;
                 element=ip; tsig_key=}}
 name           : My ACL
 tags           :

@@ -31,12 +31,12 @@ New-B1DTCPool -Name 'Exchange Pool' -Description 'Pool of Exchange Servers' -Loa
 id                          : dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f
  name                        : Exchange Pool
  comment                     : Pool of Exchange Servers
- tags                        : 
+ tags                        :
  disabled                    : False
  method                      : ratio
  servers                     : {@{server_id=dtc/server/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=MAILSERVER-01; weight=10}, @{server_id=dtc/server/8vdsrnv8-vnnu-777g-gdvd-sdrghjj3b2; name=MAILSERVER-02; weight=20}}
  ttl                         : 10
- inheritance_sources         : 
+ inheritance_sources         :
  pool_availability           : any
  pool_servers_quorum         : 0
  server_availability         : any

@@ -26,14 +26,14 @@ This function is used to set ibPS specific configuration, such as the BloxOne CS
 ### EXAMPLE 1
 ```powershell
 Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
-                                                                                                          
+
 BloxOne API key has been stored permanently for user on MAC-DSD984HG
 ```
 
 ### EXAMPLE 2
 ```powershell
 Set-ibPSConfiguration -CSPRegion EU
-                                                                                                          
+
 BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
 You can make the CSP URL persistent for this user on this machine by using the -persist parameter.
 ```

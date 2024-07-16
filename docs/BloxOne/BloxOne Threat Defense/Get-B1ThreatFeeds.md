@@ -31,8 +31,8 @@ A threat feed subscription for RPZ updates offers protection against malicious h
 Get-B1ThreatFeeds -Name "AntiMalware" | ft -AutoSize
 
 confidence_level description
----------------- -----------                                                                                                                                                                                                                                                                   
-HIGH             Suspicious/malicious as destinations: Enables protection against known malicious hostname threats that can take action on or control of your systems, such as Malware Command & Control, Malware Download, and active Phishing sites.                                         
+---------------- -----------
+HIGH             Suspicious/malicious as destinations: Enables protection against known malicious hostname threats that can take action on or control of your systems, such as Malware Command & Control, Malware Download, and active Phishing sites.
 MEDIUM           Suspicious/malicious as destinations: Enables protection against known malicious or compromised IP addresses. These are known to host threats that can take action on or control of your systems, such as Malware Command & Control, Malware Download, and active Phishing si…
 LOW              Suspicious/malicious as destinations: An extension of the AntiMalware IP feed that contains recently expired Malware IP's with an extended time-to-live (TTL) applied. The extended time-to-live (TTL) provides an extended reach of protection for the DNS FW, but may also …
 LOW              Suspicious/malicious as destinations: An extension of the Base and AntiMalware feed that contains recently expired hostname

@@ -26,7 +26,7 @@ This function is used to perform multiple simultaneous lookups against the BloxO
 Start-B1DossierBatchLookup -Type ip -Target "1.1.1.1","1.0.0.1" -Source "apt","mandiant"
 
 status  job_id                               job
-------  ------                               ---                                                                                                                                                                                                                                               
+------  ------                               ---
 pending 12345678-2228-433e-9578-12345678980d @{id=12345678-2228-433e-9578-12345678980d; state=created; status=pending; create_ts=1709744311615; create_time=3/6/2024 4:58:31PM; start_ts=1709744311615; start_time=3/6/2024 4:58:31PM; request_ttl=0; result_ttl=3600; pending_tasks=System.Ob…
 ```
 

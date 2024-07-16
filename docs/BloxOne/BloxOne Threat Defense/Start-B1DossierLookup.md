@@ -31,7 +31,7 @@ Start-B1DossierLookup -Type ip -Value 1.1.1.1
 Start-B1DossierLookup -Type host -Value eicar.co
 
 status  job_id                               job
-------  ------                               ---                                                                                                                                                                                                                                               
+------  ------                               ---
 pending 123456788-123d-4565-6452-05fgdgv54t4fvswe @{id=123456788-123d-4565-6452-05fgdgv54t4fvswe; state=created; status=pending; create_ts=1709744367885; create_time=2024-03-06T16:59:27.88511568Z; start_ts=1709744367885; start_time=2024-03-06T16:59:27.88511568Z; request_ttl=0; result_ttl=3600; p…
 ```
 

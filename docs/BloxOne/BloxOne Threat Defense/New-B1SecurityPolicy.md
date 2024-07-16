@@ -45,7 +45,7 @@ access_codes            : {}
 block_dns_rebind_attack : True
 created_time            : 6/3/2024 10:24:47 AM
 default_action          : action_allow
-default_redirect_name   : 
+default_redirect_name   :
 description             : My Policy
 dfp_services            : {cv4g9f4jg98jg854jt5g,v4m38jg983egjh9cff}
 dfps                    : {123456,654321}
@@ -61,12 +61,12 @@ network_lists           : {789456}
 onprem_resolve          : False
 precedence              : 12
 roaming_device_groups   : {}
-rules                   : {@{action=action_allow; data=All-Categories; type=category_filter}, @{action=action_block; data=Threat Insight - Zero Day DNS; description=Auto-generated; type=custom_list}, @{action=action_block; data=antimalware; description=Suspicious/malicious as destinations: 
+rules                   : {@{action=action_allow; data=All-Categories; type=category_filter}, @{action=action_block; data=Threat Insight - Zero Day DNS; description=Auto-generated; type=custom_list}, @{action=action_block; data=antimalware; description=Suspicious/malicious as destinations:
                         Enables protection against known malicious hostname threats that can take action on or control of your systems, such as Malware Command & Control, Malware Download, and active Phishing sites.; type=named_feed}}
 safe_search             : False
-scope_expr              : 
+scope_expr              :
 scope_tags              : {}
-tags                    : 
+tags                    :
 updated_time            : 6/3/2024 10:24:47 AM
 user_groups             : {}
 ```

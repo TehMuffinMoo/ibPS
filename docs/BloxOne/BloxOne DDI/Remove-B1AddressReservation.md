@@ -14,7 +14,7 @@ Removes an address reservation from BloxOneDDI IPAM
 
 ### Default
 ```
-Remove-B1AddressReservation -Address <String> -Space <String> [<CommonParameters>]
+Remove-B1AddressReservation -Address <String> -id <String> [<CommonParameters>]
 ```
 
 ### With ID
@@ -49,8 +49,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Space
-The IPAM space the reservation is contained in
+### -id
+The id of the Address Reservation to remove.
+Accepts pipeline input.
 
 ```yaml
 Type: String
@@ -64,10 +65,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the Address Reservation to remove.
-Accepts pipeline input.
-
 ```yaml
 Type: String
 Parameter Sets: With ID
@@ -76,7 +73,7 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

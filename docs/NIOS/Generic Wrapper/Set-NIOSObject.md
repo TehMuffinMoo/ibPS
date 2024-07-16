@@ -33,7 +33,7 @@ Generic Wrapper function for updating objects using the NIOS WAPI, either direct
 
 ### EXAMPLE 1
 ```powershell
-@{                                                                                        
+@{
     name = 'my.example.com'
     ipv4addr = '172.25.22.12'
     comment = 'My A Record'

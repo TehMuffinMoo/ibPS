@@ -15,7 +15,7 @@ Updates an existing Authoritative Zone in BloxOneDDI
 ### Default
 ```
 Set-B1AuthoritativeZone -FQDN <String> [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
- -View <Object> [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>]
+ -View <String> [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>]
  [-Compartment <String>] [-Tags <Object>] [<CommonParameters>]
 ```
 
@@ -103,7 +103,7 @@ Accept wildcard characters: False
 The DNS View the zone is located in
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: Default
 Aliases:
 
@@ -130,7 +130,7 @@ Accept wildcard characters: False
 ```
 
 ### -State
-Set whether the Forward Zone is enabled or disabled.
+Set whether the Authoritative Zone is enabled or disabled.
 
 ```yaml
 Type: String

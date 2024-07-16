@@ -32,10 +32,10 @@ name                : email.domain.corp.
 view                : dns/view/0f9fdgr4-97d7-sz9c-cv94-sgfdsg94r76
 dtc_policy          : @{policy_id=dtc/policy/ffdsfsf-f4tg-g54y-gg5h-fge765gg6; name=Exchange}
 precedence          : 50
-comment             : 
+comment             :
 disabled            : False
 ttl                 : 0
-tags                : 
+tags                :
 inheritance_sources :
 ```
 

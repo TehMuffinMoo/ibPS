@@ -38,9 +38,9 @@ Set-B1DTCServer -Name 'Exchange Server A' -Description 'New Exchange Node' -FQDN
 id                           : dtc/server/fsfsef8f3-3532-643h-jhjr-sdgfrgrg51349
  name                         : Exchange Server A
  comment                      : New Exchange Node
- tags                         : 
+ tags                         :
  disabled                     : False
- address                      : 
+ address                      :
  records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-3.company.corp}}
  fqdn                         : exchange-3.company.corp.
  endpoint_type                : fqdn
@@ -55,9 +55,9 @@ Get-B1DTCServer -Name 'Exchange Server B' | Set-B1DTCServer -State Disabled
 id                           : dtc/server/fg5hh56-3tf2-g54r-jbh6r-xsdvsrgzdv45
  name                         : Exchange Server B
  comment                      : New Exchange Node
- tags                         : 
+ tags                         :
  disabled                     : True
- address                      : 
+ address                      :
  records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-2.company.corp}}
  fqdn                         : exchange-2.company.corp.
  endpoint_type                : fqdn

@@ -38,9 +38,9 @@ New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active
 id                           : dtc/server/fsfsef8f3-3532-643h-jhjr-sdgfrgrg51349
  name                         : Exchange Server A
  comment                      : Exchange Server - Active Node
- tags                         : 
+ tags                         :
  disabled                     : False
- address                      : 
+ address                      :
  records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-1.company.corp}}
  fqdn                         : exchange-1.company.corp.
  endpoint_type                : fqdn

@@ -35,13 +35,13 @@ Set-B1DTCPolicy -Name 'Exchange-Policy' -LoadBalancingType Ratio -Pools Exchange
 
 id                  : dtc/policy/cgg5h6tgfs-dfg7-t5rf-f4tg-edgfre45g0
  name                : Exchange-Policy
- comment             : 
- tags                : 
+ comment             :
+ tags                :
  disabled            : False
  method              : global_availability
  ttl                 : 10
  pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange-Pool; weight=1}, ${pool_id=dtc/pool/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=Exchange-Pool-Backup; weight=10}}
- inheritance_sources : 
+ inheritance_sources :
  rules               : {@{name=Default; source=default; subnets=System.Object[]; destination=code; code=nodata; pool_id=}}
  metadata            :
 ```
@@ -52,13 +52,13 @@ Get-B1DTCPolicy -Name 'Exchange-Policy' | Set-B1DTCPolicy -LoadBalancingType Glo
 
 id                  : dtc/policy/cgg5h6tgfs-dfg7-t5rf-f4tg-edgfre45g0
  name                : Exchange-Policy
- comment             : 
- tags                : 
+ comment             :
+ tags                :
  disabled            : False
  method              : global_availability
  ttl                 : 10
  pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange-Pool; weight=1}}
- inheritance_sources : 
+ inheritance_sources :
  rules               : {@{name=Default; source=default; subnets=System.Object[]; destination=code; code=nodata; pool_id=}}
  metadata            :
 ```

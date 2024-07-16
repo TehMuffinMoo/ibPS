@@ -25,7 +25,7 @@ Generic Wrapper function for creating new objects from the NIOS WAPI, either dir
 
 ### EXAMPLE 1
 ```powershell
-@{                                                                                        
+@{
     name = 'my.example.com'
     ipv4addr = '172.25.22.12'
     comment = 'My A Record'

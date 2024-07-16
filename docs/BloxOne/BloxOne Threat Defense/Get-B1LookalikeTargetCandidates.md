@@ -38,15 +38,15 @@ Get-B1LookalikeTargetCandidates | Select-Object -ExpandProperty items_described
 item                        selected
 ----                        --------
 accuweather.com                 True
-active.aero                         
+active.aero
 adobe.com                       True
 airbnb.com                      True
-alibaba.com                         
+alibaba.com
 aliexpress.com                  True
 amazonaws.com                   True
 amazon.com                      True
 americafirst.com                True
-americanexpressbusiness.com         
+americanexpressbusiness.com
 ...
 ```
 

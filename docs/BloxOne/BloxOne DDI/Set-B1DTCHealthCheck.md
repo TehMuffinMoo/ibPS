@@ -52,19 +52,19 @@ Get-B1DTCHealthCheck -Name 'Exchange HTTPS Check' | Set-B1DTCHealthCheck -Respon
 
 id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
 name                           : Exchange HTTPS Check
-comment                        : 
+comment                        :
 disabled                       : False
 interval                       : 15
 timeout                        : 10
 retry_up                       : 1
 retry_down                     : 1
-tags                           : 
+tags                           :
 port                           : 443
 https                          : True
 request                        : GET /owa/auth/logon.aspx HTTP/1.1
                                  Host: webmail.company.corp
-codes                          : 
-metadata                       : 
+codes                          :
+metadata                       :
 check_response_body            : True
 check_response_body_regex      : (.*)
 check_response_body_negative   : False

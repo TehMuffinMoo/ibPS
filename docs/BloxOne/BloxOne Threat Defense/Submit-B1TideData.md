@@ -40,7 +40,7 @@ This function is used to submit threat indicators into a TIDE Data Profile
 ```powershell
 Submit-B1TideData -Profile my-dataprofile -ThreatClass Malicious -RecordType host -RecordValue superbaddomain.com -Detected (Get-Date).AddHours(-7) -ThreatLevel 10 -Confidence 30
 
-link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self}, 
+link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self},
                 @{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74/detail; rel=detail}}
 id             : csdv8d8s-fdss-14fe-vsee-cdsuddcs74
 submitted      : 3/13/2024 9:41:39PM
@@ -61,7 +61,7 @@ num_errors     : 0
 ## This supports all file types supported by TIDE, including CSV/TSV/PSV, JSON & XML
 PS> Submit-B1TideData -Profile my-dataprofile -File ../tide.csv
 
-link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self}, 
+link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self},
                 @{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74/detail; rel=detail}}
 id             : csdv8d8s-fdss-14fe-vsee-cdsuddcs74
 submitted      : 3/13/2024 9:42:14PM

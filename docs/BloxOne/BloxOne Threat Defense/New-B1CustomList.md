@@ -25,7 +25,7 @@ These are referred to and displayed as Custom Lists within the CSP.
 
 ### EXAMPLE 1
 ```powershell
-$Items = @{                                      
+$Items = @{
  "domain.com" = "Description 1"
  "domain1.com" = "Description 2"
  "123.123.123.123" = "Some IP Address"
@@ -36,7 +36,7 @@ New-B1CustomList -Name "Bad Stuff" -Description "This is a list of really bad st
 ### EXAMPLE 2
 ```powershell
 -- CSV File
- item,description  
+ item,description
  domain3.com,Description 3
  domain4.com,Description 4
  234.234.234.234,Some Other IP Address

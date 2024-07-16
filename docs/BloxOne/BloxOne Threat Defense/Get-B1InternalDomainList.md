@@ -39,7 +39,7 @@ id               : 123456
 internal_domains : {example, example.com, example.net, example.org…}
 is_default       : True
 name             : Default Bypass Domains/CIDRs
-tags             : 
+tags             :
 updated_time     : 1/20/2023 1:43:23PM
 ```
 
@@ -53,7 +53,7 @@ id               : 123456
 internal_domains : {example, example.com, example.net, example.org…}
 is_default       : True
 name             : Default Bypass Domains/CIDRs
-tags             : 
+tags             :
 updated_time     : 1/20/2023 1:43:23PM
 ```
 

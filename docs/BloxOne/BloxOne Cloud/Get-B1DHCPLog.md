@@ -14,8 +14,8 @@ Queries the BloxOneDDI DHCP Log
 
 ```
 Get-B1DHCPLog [[-Hostname] <String>] [[-State] <String>] [[-IP] <String>] [[-DHCPServer] <Object>]
- [[-Protocol] <String>] [[-MACAddress] <String>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>]
- [[-Offset] <Int32>]
+ [[-Protocol] <String>] [[-MACAddress] <String>] [[-Start] <DateTime>] [[-End] <DateTime>]
+ [[-OrderBy] <String>] [[-Order] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>]
 ```
 
 ## DESCRIPTION
@@ -153,6 +153,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderBy
+The field in which to order the results by.
+This field supports auto-complete, and defaults to timestamp.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 9
+Default value: Timestamp
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Order
+The direction to order results in.
+This defaults to ascending.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 10
+Default value: Asc
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Limit
 Use this parameter to limit the quantity of results.
 The default number of results is 100.
@@ -163,7 +195,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 11
 Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -178,7 +210,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 12
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False

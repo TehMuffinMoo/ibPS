@@ -34,7 +34,7 @@ id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
  comment             : Exchange Servers LBDN
  disabled            : False
  ttl                 : 10
- tags                : 
+ tags                :
  inheritance_sources :
 ```
 

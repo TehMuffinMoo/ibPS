@@ -25,8 +25,8 @@ This accepts pipeline input from Get-B1Subnet & Get-B1AddressBlock
 
 ### EXAMPLE 1
 ```powershell
-Get-NetworkInfo 10.10.10.0/24          
-                                                                                                                  
+Get-NetworkInfo 10.10.10.0/24
+
 IPAddress        : 10.10.10.0
 MaskBits         : 24
 NetworkAddress   : 10.10.10.0
@@ -41,7 +41,7 @@ HostAddressCount : 254
 ### EXAMPLE 2
 ```powershell
 Get-B1Subnet -Subnet 10.37.34.0 -CIDR 27 | Get-NetworkInfo
-                                                                                                                  
+
 IPAddress        : 10.37.34.0
 MaskBits         : 27
 NetworkAddress   : 10.37.34.0
@@ -56,7 +56,7 @@ HostAddressCount : 30
 ### EXAMPLE 3
 ```powershell
 Get-B1AddressBlock -Limit 1 | Get-NetworkInfo -GatewayAddress First
-                                                                                                                
+
 IPAddress        : 10.41.163.0
 MaskBits         : 24
 NetworkAddress   : 10.41.163.0
