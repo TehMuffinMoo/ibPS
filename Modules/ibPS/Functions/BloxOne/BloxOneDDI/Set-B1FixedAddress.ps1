@@ -58,7 +58,7 @@
     #>
     param(
       [Parameter(ParameterSetName="IP",Mandatory=$true)]
-      [String]$IP = $null,
+      [String]$IP,
       [Parameter(ParameterSetName="Name",Mandatory=$true)]
       [String]$Name,
       [Parameter(ParameterSetName="IP",Mandatory=$true)]

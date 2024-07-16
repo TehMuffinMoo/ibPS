@@ -29,7 +29,7 @@
     #>
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
-      [String]$IP = $null,
+      [String]$IP,
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Space,
       [Parameter(

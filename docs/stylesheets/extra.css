@@ -13,7 +13,7 @@
     left: -15rem !important;
 }
 @media screen and (max-width: 76.234375em) {
-    .md-nav--primary,.md-nav--primary {
+    .md-nav--primary {
         left: 2.7rem !important;
     }
 }
