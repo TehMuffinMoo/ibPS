@@ -963,7 +963,7 @@ function New-ibPSTelemetry {
       "_ee=1" ## External Event
     )
     $QueryString = ConvertTo-QueryString $Query
-    $OutNull = Invoke-WebRequest -Method POST -Uri "https://google-analytics.com/g/collect$($QueryString)" -UseBasicParsing | Out-Null
+    $null = Invoke-WebRequest -Method POST -Uri "https://google-analytics.com/g/collect$($QueryString)" -UseBasicParsing | Out-Null
   }
 }
 
