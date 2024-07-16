@@ -128,6 +128,9 @@
         if ($OrderByTag) {
             $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null
         }
+        if ($tfilter) {
+            $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
+        }
         if ($QueryFilters) {
             $QueryString = ConvertTo-QueryString $QueryFilters
         }

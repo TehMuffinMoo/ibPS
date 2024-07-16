@@ -117,6 +117,9 @@ function Set-B1Location {
             }
         }
 
+        if ($NewName) {
+            $Object.name = $($NewName)
+        }
         if ($Description) {
             $Object.description = $($Description)
         }

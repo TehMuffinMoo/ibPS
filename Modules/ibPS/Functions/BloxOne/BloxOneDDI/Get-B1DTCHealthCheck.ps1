@@ -112,6 +112,14 @@
     } else {
         $QueryURI = 'health_check_all'
     }
+    if ($Status) {
+        if ($Status -eq 'Enabled') {
+            $StatusVal = $False
+        } else {
+            $StatusVal = $True
+        }
+        $Filters.Add("disabled==$StatusVal") | Out-Null
+    }
     if ($Port) {
         $Filters.Add("port==$Port") | Out-Null
     }

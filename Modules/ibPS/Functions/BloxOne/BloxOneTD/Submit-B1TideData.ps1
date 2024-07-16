@@ -168,15 +168,18 @@ function Submit-B1TideData {
 
         $Feed = @{
             "feed" = @{
-            "profile" = "$($Profile)"
-            "record_type" = "$($RecordType)"
-            "record" = @(@{
-                "$($RecordType)" = "$($RecordValue)"
-                "detected" = "$($DetectedTime)"
-            })
+                "profile" = "$($Profile)"
+                "record_type" = "$($RecordType)"
+                "record" = @(@{
+                    "$($RecordType)" = "$($RecordValue)"
+                    "detected" = "$($DetectedTime)"
+                })
             }
         }
-
+        
+        if ($external_id) {
+            $Feed.feed.external_id = $external_id
+        }
         if ($ThreatClass) {
             $Feed.feed.record[0].class = "$($ThreatClass)"
         }

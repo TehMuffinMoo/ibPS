@@ -20,9 +20,6 @@ function Resolve-DoHQuery {
     .PARAMETER Section
         Optionally specify one or more sections to return (Answer/Authority/Additional)
 
-    .PARAMETER DNSSEC
-        Optionally validate DNSSEC
-
     .PARAMETER SourceIP
         Specify the Source IP to spoof using EDNS OPT 65523. This only works when using BloxOne Threat Defense.
 
@@ -121,8 +118,6 @@ function Resolve-DoHQuery {
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH }),
         [ValidateSet('Answer','Authority','Additional')]
         [String[]]$Section,
-        [Parameter(DontShow)]
-        [Switch]$DNSSEC,
         [String]$SourceIP,
         [String]$SourceMAC,
         [String]$SourceView,

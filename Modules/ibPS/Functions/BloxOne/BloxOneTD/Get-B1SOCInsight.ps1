@@ -78,7 +78,11 @@
         $QueryFilter = ConvertTo-QueryString $QueryFilters
       }
       Write-DebugMsg -Filters $QueryFilters
-      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights$QueryFilter" -Method GET | Select-Object -ExpandProperty insightList -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      if ($insightId) {
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$($insightId)$($QueryFilter)" -Method GET | Select-Object -ExpandProperty insight -ErrorAction SilentlyContinue -WarningAction SilentlyContinue        
+      } else {
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights$QueryFilter" -Method GET | Select-Object -ExpandProperty insightList -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      }
 
       if ($Results) {
         return $Results

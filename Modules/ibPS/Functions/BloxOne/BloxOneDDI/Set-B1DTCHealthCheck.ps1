@@ -175,6 +175,12 @@
         if ($RetryDown) {
             $NewObj.retry_down = $RetryDown
         }
+        if ($State) {
+            $NewObj.disabled = $(if ($State -eq 'Enabled') { $false } else { $true })
+        }
+        if ($Tags) {
+            $NewObj.tags = $Tags
+        }
 
         if ($Port) {
             if ($ObjectType -in @('tcp','http')) {

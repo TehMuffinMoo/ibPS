@@ -42,9 +42,6 @@ function Get-B1DNSEvent {
     .PARAMETER PolicyAction
         Used to filter the DNS Events by Policy Action
 
-    .PARAMETER EndpointGroup
-        Used to filter the DNS Events by Endpoint Group
-
     .PARAMETER AppName
         Used to filter the DNS Events by App Name
 
@@ -95,7 +92,6 @@ function Get-B1DNSEvent {
       [String[]]$ThreatIndicator,
       [ValidateSet("Log","Block","Default","Redirect")]
       [String[]]$PolicyAction,
-      [String[]]$EndpointGroup,
       [String[]]$AppName,
       [String[]]$DNSView,
       [datetime]$Start = $(Get-Date).AddDays(-1),
@@ -122,6 +118,9 @@ function Get-B1DNSEvent {
     if ($IP) {
       $Filters += "qip=$IP"
     }
+    if ($Response) {
+      $Filters += "rdata=$Response"
+    }
     if ($Network) {
       $Filters += "network=$Network"
     }
@@ -145,6 +144,9 @@ function Get-B1DNSEvent {
     }
     if ($FeedName) {
       $Filters += "feed_name=$FeedName"
+    }
+    if ($FeedType) {
+      $Filters += "feed_type=$FeedType"
     }
     if ($AppCategory) {
       $Filters += "app_category=$AppCategory"

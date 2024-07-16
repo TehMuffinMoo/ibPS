@@ -47,7 +47,7 @@
             "select" = @()
             "unselect" = $DisabledDomains
         } | ConvertTo-Json
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/lookalike_target_candidates" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        $null = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/lookalike_target_candidates" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
         $Candidates = Get-B1LookalikeTargetCandidates | Select-Object -ExpandProperty items_described
         foreach ($DisabledDomain in $DisabledDomains) {

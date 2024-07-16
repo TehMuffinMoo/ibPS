@@ -124,11 +124,6 @@ function Get-B1ThreatIntel {
         [Switch]$Unique
     )
 
-    $Start = $Start.ToUniversalTime()
-    $End = $End.ToUniversalTime()
-    $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ss.000")
-    $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ss.000")
-
     if ($ThreatActors) {
         $Filters = @(
             @{
@@ -144,7 +139,7 @@ function Get-B1ThreatIntel {
                 )
             }
         )
-		$Results = Invoke-B1CubeJS -Cube PortunusAggIPSummary -Measures count -Dimensions threat_indicator,actor_id -TimeDimension timestamp -Start $Start -End $End -Limit $TopCount -Grouped -Filters $Filters -OrderBy timestampMax -Order 'desc'
+		$Results = Invoke-B1CubeJS -Cube PortunusAggIPSummary -Measures count -Dimensions threat_indicator,actor_id -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Grouped -Filters $Filters -OrderBy timestampMax -Order 'desc'
         $ThreatActorData = @()
         $UniqueResults = $Results | Select-Object 'actor_id' -Unique
         ForEach ($UniqueResult in $UniqueResults) {

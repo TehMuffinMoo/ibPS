@@ -25,7 +25,7 @@
         The description for the zone to be updated to
 
     .PARAMETER State
-        Set whether the Forward Zone is enabled or disabled.
+        Set whether the Authoritative Zone is enabled or disabled.
 
     .PARAMETER NotifyExternalSecondaries
         Toggle whether to notify external secondary DNS Servers for this zone.
@@ -55,7 +55,7 @@
       [System.Object]$AddAuthNSGs,
       [System.Object]$RemoveAuthNSGs,
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
-      [System.Object]$View,
+      [String]$View,
       [String]$Description,
       [ValidateSet("Enabled","Disabled")]
       [String]$State,
@@ -89,7 +89,7 @@
                 return $null
             }
         } else {
-            $Object = Get-B1ForwardZone -FQDN $FQDN -Strict
+            $Object = Get-B1AuthoritativeZone -FQDN $FQDN -View $View -Strict
             if (!($Object)) {
                 Write-Error "Unable to find Authoritative Zone: $($FQDN)"
                 return $null

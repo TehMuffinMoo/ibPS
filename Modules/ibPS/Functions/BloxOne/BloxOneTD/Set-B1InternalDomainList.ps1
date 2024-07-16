@@ -70,6 +70,9 @@
             if ($Domains) {
                 $Object.internal_domains = $Domains
             }
+            if ($Description) {
+                $Object.description = $Description
+            }
             if ($Tags) {
                 $Object.tags = $Tags
             }

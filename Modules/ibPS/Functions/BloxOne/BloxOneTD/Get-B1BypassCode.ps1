@@ -88,6 +88,9 @@
         $Fields += "access_key"
         $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
     }
+    if ($OrderBy) {
+        $QueryFilters += "_order_by=$($OrderBy)"
+    }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }

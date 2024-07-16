@@ -61,6 +61,7 @@
 
         $splat = @{
 	        "fqdn" = $FQDN
+            "comment" = $Description
 	        "disabled" = $false
 	        "delegation_servers" = $ExternalHosts
 	        "view" = $ViewUUID

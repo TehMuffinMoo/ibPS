@@ -710,8 +710,7 @@ function Build-TopologyChildren {
       [System.Object[]]$Object,
       [Switch]$IncludeAddresses,
       [Switch]$IncludeRanges,
-      [Switch]$IncludeSubnets,
-      [Int]$Progress = 0
+      [Switch]$IncludeSubnets
   )
   process {
       $ParentObjectsToCheck = @("ipam/address_block")

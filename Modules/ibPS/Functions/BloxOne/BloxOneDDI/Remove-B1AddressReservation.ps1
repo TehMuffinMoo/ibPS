@@ -9,9 +9,6 @@
     .PARAMETER Address
         The IP address of the reservation to remove
 
-    .PARAMETER Space
-        The IPAM space the reservation is contained in
-
     .PARAMETER id
         The id of the Address Reservation to remove. Accepts pipeline input.
 
@@ -28,7 +25,6 @@
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Address,
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
-      [String]$Space,
       [Parameter(
         ValueFromPipelineByPropertyName = $true,
         ParameterSetName="With ID",

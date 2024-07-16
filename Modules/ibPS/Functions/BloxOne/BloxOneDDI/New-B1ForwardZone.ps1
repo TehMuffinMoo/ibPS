@@ -69,6 +69,7 @@
 
         $splat = @{
 	        "fqdn" = $FQDN
+            "comment" = $Description
 	        "disabled" = $false
             "forward_only" = if ($ForwardOnly) {$true} else {$false}
 	        "external_forwarders" = $ExternalHosts
