@@ -106,7 +106,7 @@
             }
             if ($TaskResults) {
                 $Tasks = @()
-                $WebResponse.tasks.PSObject.Properties.Name | %{
+                $WebResponse.tasks.PSObject.Properties.Name | ForEach-Object {
                     $Tasks += [PSCustomObject]@{
                         'task_id' = $_
                     }

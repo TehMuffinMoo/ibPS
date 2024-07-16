@@ -182,7 +182,7 @@ function Resolve-DoHQuery {
             [array]::Reverse($BinSplit)
             $BinaryResults = 0
             $BinCount = 0
-            $BinSplit | %{
+            $BinSplit | ForEach-Object {
                 $BinaryResults += [Int]$_ * [Math]::Pow(2,$BinCount)
                 $BinCount++
             }
@@ -197,7 +197,7 @@ function Resolve-DoHQuery {
             $Length = $Hex.Length
             $HexSplit = $Hex -split '(..)' -ne ''
             $Found = @()
-            $HexSplit | %{
+            $HexSplit | ForEach-Object {
                 $i++
                 if ($_ -match 'C0') {
                     $Match = "$($Matches[0])$($HexSplit[$i])"
@@ -207,10 +207,10 @@ function Resolve-DoHQuery {
                 }
             }
             $UniqueMatches = $Found | Select-Object -Unique
-            $UniqueMatches | %{
+            $UniqueMatches | ForEach-Object {
                 $ReplaceString = ""
                 $Offset = (ConvertBinary-ToDecimal (ConvertHex-ToBinary $($_)).substring(2,14))*2
-                (Decode-QNAME $Hex.substring($Offset,($Hex.Length-$Offset))).rdata | %{
+                (Decode-QNAME $Hex.substring($Offset,($Hex.Length-$Offset))).rdata | ForEach-Object {
                     $ReplaceString += "$('{0:X2}' -f $(($_.Length)/2))$($_)"
                 }
                 $ReplaceString += '00'
@@ -241,7 +241,7 @@ function Resolve-DoHQuery {
                 "E" = "1110"
                 "F" = "1111"
             }
-            ($String -split '(.)' -ne '' | %{$Table[$_]}) -join ''
+            ($String -split '(.)' -ne '' | ForEach-Object {$Table[$_]}) -join ''
         }
 
         $Result = [PSCustomObject]@{
@@ -470,7 +470,7 @@ function Resolve-DoHQuery {
                         $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                         ## Decode The Primary Name Server
                         $NewRDATA = [PSCustomObject]@{
-                            "NS" = ($QNAMEDecoded.rdata | %{($_ -Split '(..)' -ne '' | %{[char][byte]"0x$_"}) -join ''}) -join '.'
+                            "NS" = ($QNAMEDecoded.rdata | ForEach-Object {($_ -Split '(..)' -ne '' | ForEach-Object {[char][byte]"0x$_"}) -join ''}) -join '.'
                             "ADMIN" = ""
                             "SERIAL" = 0
                             "REFRESH" = 0

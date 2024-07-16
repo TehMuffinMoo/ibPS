@@ -64,11 +64,6 @@
         [datetime]$End = (Get-Date)
     )
 
-    $Start = $Start.ToUniversalTime()
-    $End = $End.ToUniversalTime()
-    $StartDate = $Start.ToString("yyyy-MM-ddTHH:mm:ss.000")
-    $EndDate = $End.ToString("yyyy-MM-ddTHH:mm:ss.000")
-
     if ($TopQueries) {
         switch ($QueryType) {
             "NXDOMAIN" {

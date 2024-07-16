@@ -32,24 +32,25 @@
       )]
       [String]$id
     )
+    process {
+        if ($id) {
+            $AddressReservation = Get-B1Address -id $id -Reserved
+          } else {
+            $AddressReservation = Get-B1Address -Address $Address -Reserved
+          }
+          if ($AddressReservation) {
+              Invoke-CSP -Method "DELETE" -Uri $($AddressReservation.id) | Out-Null
 
-    if ($id) {
-      $AddressReservation = Get-B1Address -id $id -Reserved
-    } else {
-      $AddressReservation = Get-B1Address -Address $Address -Reserved
-    }
-    if ($AddressReservation) {
-        Invoke-CSP -Method "DELETE" -Uri $($AddressReservation.id) | Out-Null
+              $AR = Get-B1Address -id $($AddressReservation.id) -Reserved
 
-        $AR = Get-B1Address -id $($AddressReservation.id) -Reserved
-
-        if (!($AR)) {
-            Write-Host "Address Reservation deleted successfully: $($AddressReservation.address)." -ForegroundColor Green
-        } else {
-            Write-Host "Failed to delete Address Reservation: $($AR.address)" -ForegroundColor Red
-            break
-        }
-    } else {
-        Write-Host "Error. Address reservation does not exist." -ForegroundColor Red
+              if (!($AR)) {
+                  Write-Host "Address Reservation deleted successfully: $($AddressReservation.address)." -ForegroundColor Green
+              } else {
+                  Write-Host "Failed to delete Address Reservation: $($AR.address)" -ForegroundColor Red
+                  break
+              }
+          } else {
+              Write-Host "Error. Address reservation does not exist." -ForegroundColor Red
+          }
     }
 }

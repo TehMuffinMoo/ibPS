@@ -47,6 +47,7 @@ function Set-ibPSConfiguration {
     .FUNCTIONALITY
         ibPS
     #>
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to obtain API Key')]
   param (
     [String]$CSPAPIKey,
     [ValidateSet("US","EU")]

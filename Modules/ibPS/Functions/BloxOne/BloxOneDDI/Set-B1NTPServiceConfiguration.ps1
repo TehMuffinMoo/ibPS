@@ -32,7 +32,6 @@
     [Switch]$UseGlobalNTPConfig = $true
   )
 
-  $MatchType = Match-Type $Strict
   $B1Service = Get-B1Service -Name $Name -Strict:$Strict
   if ($B1Service) {
     if ($B1Service.count -gt 1) {

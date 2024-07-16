@@ -49,7 +49,6 @@ function New-B1Service {
     [Parameter(Mandatory=$false)]
     [Switch]$Strict
   )
-  $MatchType = Match-Type $Strict
   $B1HostInfo = Get-B1Host -Name $B1Host -Detailed
   if ($B1HostInfo) {
     if ($B1HostInfo.count -gt 1) {

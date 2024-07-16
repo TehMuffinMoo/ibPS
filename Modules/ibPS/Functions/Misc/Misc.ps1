@@ -127,7 +127,8 @@ function Convert-NetmaskToCIDR {
   $bitCount
 }
 
-$CompositeStateSpaces = @(
+function Get-CompositeStateSpaces {
+  @(
     @{
         "Application" = "DFP"
         "FriendlyName" = "DNS Forwarding Proxy"
@@ -191,7 +192,8 @@ $CompositeStateSpaces = @(
         "Composite" = "64"
         "Service_Type" = "ntp"
     }
-) | ConvertTo-Json | ConvertFrom-Json
+  ) | ConvertTo-Json | ConvertFrom-Json
+}
 
 function Convert-Int64toIP ([int64]$int) {
   <#

@@ -61,40 +61,41 @@
       [System.Object]$Object
     )
 
-    if (!($Object)) {
-        $Object = Get-B1InternalDomainList -Name $Name -Strict
+    process {
         if (!($Object)) {
-          Write-Error "Unable to find Internal Domain list with name: $($Name)"
-          return $null
+            $Object = Get-B1InternalDomainList -Name $Name -Strict
+            if (!($Object)) {
+              Write-Error "Unable to find Internal Domain list with name: $($Name)"
+              return $null
+            } else {
+                if ($Domains) {
+                    $Object.internal_domains = $Domains
+                }
+                if ($Description) {
+                    $Object.description = $Description
+                }
+                if ($Tags) {
+                    $Object.tags = $Tags
+                }
+            }
+          } else {
+            if (!($Object.id -and $($Object.name) -and $($Object.internal_domains))) {
+              Write-Error 'Invalid input object. This cmdlet only accepts input from Get-B1InternalDomainList'
+              return $null
+            }
+          }
+
+        $Splat = $Object | Select-Object -Exclude created_time,updated_time,id,is_default
+
+        $JSON = $Splat | ConvertTo-Json -Depth 4
+
+        $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+        if ($Result.id -eq $($Object.id)) {
+            Write-Host "Internal Domain List $Name updated successfully." -ForegroundColor Green
+            return $Result
         } else {
-            if ($Domains) {
-                $Object.internal_domains = $Domains
-            }
-            if ($Description) {
-                $Object.description = $Description
-            }
-            if ($Tags) {
-                $Object.tags = $Tags
-            }
+            Write-Host "Failed to update Internal Domain List $Name." -ForegroundColor Red
+            break
         }
-      } else {
-        if (!($Object.id -and $($Object.name) -and $($Object.internal_domains))) {
-          Write-Error 'Invalid input object. This cmdlet only accepts input from Get-B1InternalDomainList'
-          return $null
-        }
-      }
-
-    $Splat = $Object | Select-Object -Exclude created_time,updated_time,id,is_default
-
-    $JSON = $Splat | ConvertTo-Json -Depth 4
-
-    $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-    if ($Result.id -eq $($Object.id)) {
-        Write-Host "Internal Domain List $Name updated successfully." -ForegroundColor Green
-        return $Result
-    } else {
-        Write-Host "Failed to update Internal Domain List $Name." -ForegroundColor Red
-        break
     }
-
 }

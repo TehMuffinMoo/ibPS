@@ -43,10 +43,10 @@
         $SpaceInfo = Get-B1Space -Name $Name -Strict
       }
 
-      if (($SpaceInfo | Measure-Object).Count -gt 1) {
+      if (($SpaceInfo).Count -gt 1) {
         Write-Host "More than one IP Spaces returned. These will not be removed. Please pipe Get-B1Space into Remove-B1Space to remove multiple objects." -ForegroundColor Red
         $SpaceInfo | Format-Table -AutoSize
-      } elseif (($SpaceInfo | Measure-Object).Count -eq 1) {
+      } elseif (($SpaceInfo).Count -eq 1) {
         Write-Host "Removing IP Space: $($SpaceInfo.Name).." -ForegroundColor Yellow
         Invoke-CSP -Method "DELETE" -Uri $($SpaceInfo.id) -Data $null | Out-Null
         $SI = Get-B1Space -id $($SpaceInfo.id) 6> $null

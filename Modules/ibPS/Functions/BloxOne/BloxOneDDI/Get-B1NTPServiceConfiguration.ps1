@@ -33,7 +33,6 @@
     [Switch]$Strict
   )
 
-  $MatchType = Match-Type $Strict
   if (!($ServiceId) -and $Name) {
     $B1Service = Get-B1Service -Name $Name -Strict:$Strict | Where-Object {$_.service_type -eq "ntp"}
     $ServiceId = $B1Service.id.replace("infra/service/","")

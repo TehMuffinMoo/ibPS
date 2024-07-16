@@ -52,12 +52,12 @@
         $B1Range = Get-B1Range -StartAddress $StartAddress -EndAddress $EndAddress -Space $Space
       }
 
-      if (($B1Range | measure).Count -gt 1) {
+      if (($B1Ranges).Count -gt 1) {
         Write-Host "More than one DHCP Ranges returned. These will not be removed. To remove multiple objects, please pipe Get-B1Range into Remove-B1Range." -ForegroundColor Red
         $B1Range | Format-Table comment,start,end,space,name -AutoSize
-      } elseif (($B1Range | measure).Count -eq 1) {
+      } elseif (($B1Range).Count -eq 1) {
         Write-Host "Removing DHCP Range: $($B1Range.start) - $($B1Range.end).." -ForegroundColor Yellow
-        $Result = Invoke-CSP -Method "DELETE" -Uri $($B1Range.id)
+        $null = Invoke-CSP -Method "DELETE" -Uri $($B1Range.id)
         $B1R = Get-B1Range -id $($B1Range.id)
         if ($B1R) {
           Write-Host "Error. Failed to remove DHCP Range: $($B1R.start) - $($B1R.end)" -ForegroundColor Red

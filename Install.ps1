@@ -16,7 +16,7 @@ if ($Selection -ne 's') {
 
     $elevated = ([Security.Principal.WindowsPrincipal] `
     [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) 
+    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     }
 
     if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
@@ -36,7 +36,7 @@ function Context-Menu {
     )
     Clear-Host
     Write-Host "================ $Title ================"
-    
+
     Write-Host "i: Press 'i' to install ibPS as current user."
     Write-Host "g: Press 'g' to install globally (Must be run as Administrator/Sudo)."
     Write-Host "r: Press 'r' to uninstall ibPS from current user."
@@ -101,7 +101,7 @@ do {
       'g' {
         if (!($elevated)) {
             Write-Host "You must run this script as an administrator/sudo to install ibPS globally." -ForegroundColor Red
-            break      
+            break
         } else {
               Write-Host "Installing ibPS Globally.." -ForegroundColor Yellow
               if (!(Test-Path "$GlobalModuleDirectory")) {
@@ -137,7 +137,7 @@ do {
                 Write-Host "ibPS uninstall failed." -ForegroundColor Red
             }
         }
-      } 
+      }
       'a' {
         if (!($elevated)) {
             Write-Host "You must run this script as an administrator to uninstall ibPS globally." -ForegroundColor Red

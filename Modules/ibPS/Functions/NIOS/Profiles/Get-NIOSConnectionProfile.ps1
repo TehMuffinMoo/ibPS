@@ -60,7 +60,7 @@ function Get-NIOSConnectionProfile {
         }
     } elseif ($List) {
         $ReturnList = @()
-        $Configs.Contexts.PSObject.Properties.Name | %{
+        $Configs.Contexts.PSObject.Properties.Name | ForEach-Object {
             $ReturnList += $Configs.Contexts."$($_)" | Select-Object @ReturnProperties
         }
         return $ReturnList

@@ -37,26 +37,28 @@
     [String]$id
   )
 
-  if ($id) {
-    $OPH = Get-B1Host -id $id
-  } else {
-    $OPH = Get-B1Host -Name $B1Host
-  }
+  process {
+    if ($id) {
+      $OPH = Get-B1Host -id $id
+    } else {
+      $OPH = Get-B1Host -Name $B1Host
+    }
 
-  if ($OPH.id) {
-    $splat = @{
-      "ophid" = $OPH.ophid
-      "cmd" = @{
-        "name" = "reboot"
+    if ($OPH.id) {
+      $splat = @{
+        "ophid" = $OPH.ophid
+        "cmd" = @{
+          "name" = "reboot"
+        }
       }
+      if (!($NoWarning)) {
+          Write-Warning "WARNING! Are you sure you want to reboot this host? $($OPH.display_name)" -WarningAction Inquire
+      }
+      Write-Host "Rebooting $($OPH.display_name).." -ForegroundColor Yellow
+      $splat = $splat | ConvertTo-Json
+      Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+    } else {
+      Write-Host "BloxOne Host $B1Host$id not found" -ForegroundColor Red
     }
-    if (!($NoWarning)) {
-        Write-Warning "WARNING! Are you sure you want to reboot this host? $($OPH.display_name)" -WarningAction Inquire
-    }
-    Write-Host "Rebooting $($OPH.display_name).." -ForegroundColor Yellow
-    $splat = $splat | ConvertTo-Json
-    Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-  } else {
-    Write-Host "BloxOne Host $B1Host$id not found" -ForegroundColor Red
   }
 }

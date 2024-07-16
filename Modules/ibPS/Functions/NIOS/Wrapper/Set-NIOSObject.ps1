@@ -149,7 +149,7 @@ function Set-NIOSObject {
         ## Strip non-writable fields
         $PUTFields = (Get-NIOSSchema @InvokeOpts -ObjectType $ObjectType -Fields -Method PUT).name
         $FieldsToRemove = $Object.PSObject.Properties.Name | Where-Object {$_ -notin $PUTFields}
-        $FieldsToRemove | %{
+        $FieldsToRemove | ForEach-Object {
             $Object.PSObject.Properties.Remove($_)
         }
 

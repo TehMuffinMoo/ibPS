@@ -58,10 +58,10 @@
         $SubnetInfo = Get-B1Subnet -Subnet $Subnet -CIDR $CIDR -Space $Space -Name $Name -Strict
       }
 
-      if (($SubnetInfo | measure).Count -gt 1) {
+      if (($SubnetInfo).Count -gt 1) {
         Write-Host "More than one subnets returned. These will not be removed. Please pipe Get-B1Subnet into Remove-B1Subnet to remove multiple objects." -ForegroundColor Red
         $SubnetInfo | Format-Table -AutoSize
-      } elseif (($SubnetInfo | measure).Count -eq 1) {
+      } elseif (($SubnetInfo).Count -eq 1) {
         Write-Host "Removing Subnet: $($SubnetInfo.Address)/$($SubnetInfo.cidr).." -ForegroundColor Yellow
         Invoke-CSP -Method "DELETE" -Uri $($SubnetInfo.id) -Data $null | Out-Null
         $SI = Get-B1Subnet -id $($SubnetInfo.id)

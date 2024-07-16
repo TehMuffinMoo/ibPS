@@ -176,7 +176,7 @@ function Submit-B1TideData {
                 })
             }
         }
-        
+
         if ($external_id) {
             $Feed.feed.external_id = $external_id
         }

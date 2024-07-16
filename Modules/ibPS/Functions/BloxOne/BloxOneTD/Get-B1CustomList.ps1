@@ -132,7 +132,7 @@
     )
 
     process {
-        $MatchType = Match-Type $Strict
+        #$MatchType = Match-Type $Strict
         [System.Collections.ArrayList]$Filters = @()
         [System.Collections.ArrayList]$QueryFilters = @()
         if ($CustomFilters) {

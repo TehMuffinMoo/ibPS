@@ -46,10 +46,10 @@
         $ViewInfo = Get-B1DNSView -Name $Name -Strict
       }
 
-      if (($ViewInfo | Measure-Object).Count -gt 1) {
+      if (($ViewInfo).Count -gt 1) {
         Write-Host "More than one DNS Views returned. These will not be removed. Please pipe Get-B1DNSView into Remove-B1DNSView to remove multiple objects." -ForegroundColor Red
         $ViewInfo | Format-Table -AutoSize
-      } elseif (($ViewInfo | Measure-Object).Count -eq 1) {
+      } elseif (($ViewInfo).Count -eq 1) {
         Write-Host "Removing DNS View: $($ViewInfo.Name).." -ForegroundColor Yellow
         Invoke-CSP -Method "DELETE" -Uri $($ViewInfo.id) -Data $null | Out-Null
         $SI = Get-B1DNSView -id $($ViewInfo.id) 6> $null

@@ -513,7 +513,7 @@ function Copy-NIOSDTCToBloxOne {
                         "Name" = $MigrationPool.name
                         "LoadBalancingType" = $MethodArr[$MigrationPool.method]
                         "State" = $(if ($($MigrationPool.disable)) { "Disabled" } else { "Enabled" })
-                        "Servers" = $(if ($MigrationPool.method -eq "ratio") { ($MigrationPool.Servers | Select *,@{name="ratio-host";expression={"$($_.name):$($_.weight)"}}).'ratio-host' } else { $MigrationPool.Servers.name })
+                        "Servers" = $(if ($MigrationPool.method -eq "ratio") { ($MigrationPool.Servers | Select-Object *,@{name="ratio-host";expression={"$($_.name):$($_.weight)"}}).'ratio-host' } else { $MigrationPool.Servers.name })
                         "PoolHealthyWhen" = $ChecksArr[$MigrationPool.availability]
                         "PoolHealthyCount" = $MigrationPool.quorum
                         "HealthChecks" = $HealthChecks

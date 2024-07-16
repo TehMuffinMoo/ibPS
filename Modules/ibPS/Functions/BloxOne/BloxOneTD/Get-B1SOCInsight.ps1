@@ -79,7 +79,7 @@
       }
       Write-DebugMsg -Filters $QueryFilters
       if ($insightId) {
-        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$($insightId)$($QueryFilter)" -Method GET | Select-Object -ExpandProperty insight -ErrorAction SilentlyContinue -WarningAction SilentlyContinue        
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$($insightId)$($QueryFilter)" -Method GET | Select-Object -ExpandProperty insight -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       } else {
         $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights$QueryFilter" -Method GET | Select-Object -ExpandProperty insightList -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
       }

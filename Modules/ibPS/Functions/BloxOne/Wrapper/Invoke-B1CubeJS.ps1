@@ -103,7 +103,7 @@ function Invoke-B1CubeJS {
 
     if ($Measures) {
         $splat.Measures = @($(
-            $Measures | %{
+            $Measures | ForEach-Object {
                 "$($Cube).$($_)"
             }
         ))
@@ -123,7 +123,7 @@ function Invoke-B1CubeJS {
             $splat.Dimensions = @((Get-B1CubeJSDimensions -Cube $Cube).Name)
         } else {
             $splat.Dimensions = @($(
-                $Dimensions | %{
+                $Dimensions | ForEach-Object {
                     "$($Cube).$($_)"
                 }
             ))
@@ -132,7 +132,7 @@ function Invoke-B1CubeJS {
 
     if ($Segments) {
         $splat.segments = @($(
-            $Segments | %{
+            $Segments | ForEach-Object {
                 "$($Cube).$($_)"
             }
         ))
@@ -164,7 +164,7 @@ function Invoke-B1CubeJS {
                 $ReturnProperties = @{
                     Property = @()
                 }
-                $Result.result.data[0].PSObject.Properties | %{
+                $Result.result.data[0].PSObject.Properties | ForEach-Object {
                     $ReturnProperties.Property += @{n=$($_.Name.Replace("$($Cube).",""));e=$([ScriptBlock]::Create("`$`_.`'$($($_.Name))`'"))}
                 }
                 return $Result.result.data | Select-Object @ReturnProperties

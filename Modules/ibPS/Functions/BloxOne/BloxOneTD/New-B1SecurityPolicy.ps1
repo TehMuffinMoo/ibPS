@@ -139,7 +139,7 @@
         }
 
         if ($DFPs) {
-            $DFPs | %{
+            $DFPs | ForEach-Object {
                 $DFPService = Get-B1Service -Type dfp -Name $_ -Detailed -Strict
                 if ($DFPService) {
                     $Splat.dfp_services += $DFPService.id
@@ -151,7 +151,7 @@
         }
 
         if ($ExternalNetworks) {
-            $ExternalNetworks | %{
+            $ExternalNetworks | ForEach-Object {
                 $ExternalNetwork = Get-B1NetworkList -Name $_ -Strict
                 if ($ExternalNetwork) {
                     $Splat.network_lists += $ExternalNetwork.id

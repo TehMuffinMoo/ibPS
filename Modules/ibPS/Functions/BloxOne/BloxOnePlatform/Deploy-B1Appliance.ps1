@@ -246,6 +246,7 @@
     .NOTES
         Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to generate random dummy Azure SSH Credentials.')]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("VMware","Hyper-V","Azure")]
@@ -582,7 +583,7 @@
             "Azure" {
                 $MissingPackages = @()
                 #,'Az.Resources'
-                @('Az.Accounts','Az.Compute','Az.Network','Az.MarketplaceOrdering') | %{
+                @('Az.Accounts','Az.Compute','Az.Network','Az.MarketplaceOrdering') | ForEach-Object {
                     if (!(Get-Module -ListAvailable -Name $_)) {
                         $MissingPackages += $_
                     }
@@ -1000,7 +1001,7 @@
                             $UserData = New-B1Metadata -JoinToken $($PSBoundParameters.JoinToken) | Select-Object -ExpandProperty userdata
                             # Define Random Credential, this is only used as a placeholder and not actually configured on the deployed VM.
                             $AzVMUser = "AzDeploy";
-                            $AzVMPassword = (-join ((32..90) + (97..122) | Get-Random -Count 20 | % {[char]$_})) | ConvertTo-SecureString -AsPlainText -Force;
+                            $AzVMPassword = (-join ((32..90) + (97..122) | Get-Random -Count 20 | ForEach-Object {[char]$_})) | ConvertTo-SecureString -AsPlainText -Force;
                             $AzVMCredential = New-Object System.Management.Automation.PSCredential ($AzVMUser, $AzVMPassword);
                             $VMConfig = $VMConfig | Set-AzVMOperatingSystem -Linux -CustomData $UserData -Credential $AzVMCredential -ComputerName $($PSBoundParameters.Name)
                             # Update VM Config with Azure Virtual Network / Subnet
