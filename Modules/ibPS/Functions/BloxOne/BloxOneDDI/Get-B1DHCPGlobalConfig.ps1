@@ -26,8 +26,10 @@
         ConfirmImpact = 'Low'
     )]
     param (
-        [String[]]$Fields
+        [String[]]$Fields,
+        [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     [System.Collections.ArrayList]$Filters = @()
     if ($Fields) {
         $Fields += "id"

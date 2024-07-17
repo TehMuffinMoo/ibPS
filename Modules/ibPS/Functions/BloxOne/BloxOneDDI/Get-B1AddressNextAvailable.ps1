@@ -83,10 +83,12 @@
         ParameterSetName = "ID",
         Mandatory=$true
       )]
-      [String[]]$ID
+      [String[]]$ID,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($ID) {
             $PermittedInputs = "address_block","subnet","range"
             if (($ID.split('/')[1]) -notin $PermittedInputs) {

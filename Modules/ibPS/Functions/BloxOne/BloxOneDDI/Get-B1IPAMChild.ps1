@@ -90,10 +90,12 @@
             ValueFromPipeline = $true,
             Mandatory=$true
         )]
-        [System.Object[]]$Object
+        [System.Object[]]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Recurse -or $($NetworkTopology)) {
             if ($Recurse) {
                 Write-Host "Performing recursive search. This may take a moment.." -ForegroundColor Magenta

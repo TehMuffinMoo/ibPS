@@ -87,8 +87,10 @@
         [Int]$Offset = 0,
         [String[]]$Fields,
         [String]$OrderBy,
-        [switch]$Strict
+        [switch]$Strict,
+        [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $MatchType = Match-Type $Strict
 
     if ($Range -or $RangeStart -or $RangeEnd) {

@@ -75,7 +75,8 @@
       [String]$OrderByTag,
       $CustomFilters,
       [Parameter(ParameterSetName="With ID")]
-      [String]$id
+      [String]$id,
+      [Switch]$Force
     )
 
     process {

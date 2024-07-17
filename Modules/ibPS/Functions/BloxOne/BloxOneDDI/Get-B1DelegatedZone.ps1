@@ -80,8 +80,10 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
-      [String]$id
+      [String]$id,
+      [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()

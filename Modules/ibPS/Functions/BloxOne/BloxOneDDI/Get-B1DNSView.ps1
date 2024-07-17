@@ -63,8 +63,10 @@
         [String]$OrderBy,
         [String]$OrderByTag,
         $CustomFilters,
-        [String]$id
+        [String]$id,
+        [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()

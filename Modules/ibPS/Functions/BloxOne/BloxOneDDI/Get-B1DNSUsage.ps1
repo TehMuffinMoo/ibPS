@@ -34,8 +34,10 @@
     param(
         [String]$Address,
         [String]$Space,
-        [Switch]$ParseDetails
+        [Switch]$ParseDetails,
+        [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     [System.Collections.ArrayList]$Filters = @()
     if ($Address) {
         $Filters.Add("address==`'$Address`'") | Out-Null

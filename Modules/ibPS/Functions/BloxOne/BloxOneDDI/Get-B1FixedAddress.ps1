@@ -71,9 +71,10 @@
         [String]$OrderBy,
         [String]$OrderByTag,
         $CustomFilters,
-        [String]$id
+        [String]$id,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if ($Space) {$SpaceUUID = (Get-B1Space -Name $Space -Strict).id}
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()

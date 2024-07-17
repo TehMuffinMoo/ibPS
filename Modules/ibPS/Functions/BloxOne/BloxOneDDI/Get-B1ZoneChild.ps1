@@ -82,10 +82,12 @@
             ValueFromPipeline = $true,
             Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $MatchType = Match-Type $Strict
         $PermittedInputs = "view","auth_zone","forward_zone"
         if (($Object.id.split('/')[1]) -notin $PermittedInputs) {

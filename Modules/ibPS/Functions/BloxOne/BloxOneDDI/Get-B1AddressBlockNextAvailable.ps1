@@ -60,10 +60,12 @@
         ParameterSetName = "ID",
         Mandatory=$true
       )]
-      [String[]]$ID
+      [String[]]$ID,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($ID) {
             if (($ID.split('/')[1]) -ne "address_block") {
                 Write-Error "Error. Unsupported pipeline object. The input must be of type: address_block"

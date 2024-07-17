@@ -63,9 +63,11 @@ function Get-B1DTCStatus {
             ParameterSetName = 'With ID',
             Mandatory=$true
         )]
-        [String[]]$id
+        [String[]]$id,
+        [Switch]$Force
     )
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $Colours = @{
             "HEALTHY" = "Green"
             "ERROR" = "Red"

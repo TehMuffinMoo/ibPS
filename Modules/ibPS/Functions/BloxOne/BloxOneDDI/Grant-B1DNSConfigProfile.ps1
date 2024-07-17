@@ -33,9 +33,10 @@
         [Parameter(Mandatory=$true)]
         [String]$Name,
         [Parameter(Mandatory=$true)]
-        [System.Object]$Hosts
+        [System.Object]$Hosts,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $DNSConfigProfileId = (Get-B1DNSConfigProfile -Name $Name -Strict).id
     if (!$DNSConfigProfileId) {
         Write-Error "Failed to get DNS Config Profile."

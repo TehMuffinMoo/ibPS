@@ -27,9 +27,10 @@
     )]
     param(
       [ValidateSet('ByCategory','ByVendor','ByRegion','ByAccount')]
-      [String]$Type
+      [String]$Type,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     Switch($Type) {
         "ByCategory" {
             ## List Asset Count, Category & Context
