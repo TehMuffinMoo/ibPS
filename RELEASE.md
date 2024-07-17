@@ -3,6 +3,7 @@
 - Add new CubeJS wrapper functions for interacting with the BloxOne CubeJS API
 - Add `-VMHost` parameter to `Deploy-B1Appliance` when using `-Type VMware`. This is used both to specify a specific host on a Cluster, or on its own to enable support for deploying to standalone hosts.
 - Various minor code improvements & fixes
+- Refactored all code to remove unneccessary whitespace and unused variables 
 
 ### Breaking Changes
 Support for `ShouldProcess` is being added for all functions, which enables three new parameters. `-Confirm`, `-WhatIf` & `-Force`.  
