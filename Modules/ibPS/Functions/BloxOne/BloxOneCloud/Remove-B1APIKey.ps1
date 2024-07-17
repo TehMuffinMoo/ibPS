@@ -22,6 +22,9 @@
     .PARAMETER id
         The id of the API Key. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified.
+
     .EXAMPLE
         PS> Remove-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
@@ -34,6 +37,10 @@
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
         [Parameter(Mandatory=$true,ParameterSetName="Default")]
         $Name,
@@ -50,34 +57,37 @@
           ParameterSetName="With ID",
           Mandatory=$true
         )]
-        [String]$id
+        [String]$id,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($id) {
-            $APIKey = Get-B1APIkey -id $id
+            $APIKey = Get-B1APIkey -id $id -Confirm:$false
         } else {
             if ($Type -and $State) {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -State $State -Strict
+                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -State $State -Strict -Confirm:$false
             } elseif ($Type) {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict
+                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict -Confirm:$false
             } elseif ($State) {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -State $State -Strict
+                $APIKey = Get-B1APIKey -User $User -Name $Name -State $State -Strict -Confirm:$false
             } else {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -Strict
+                $APIKey = Get-B1APIKey -User $User -Name $Name -Strict -Confirm:$false
             }
         }
         if ($APIKey) {
           if ($APIKey.count -eq 1) {
             $APIKeyIdSplit = $APIKey.id -split "identity/apikeys/"
             if ($APIKeyIdSplit[1]) {
-
-                Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])"
-            }
-            if (Get-B1APIkey -id $($APIKey.id)) {
-              Write-Error "Error. Failed to delete API Key: $($APIKey.name)"
-            } else {
-              Write-Host "Successfully deleted API Key: $($APIKey.name)" -ForegroundColor Green
+                if($PSCmdlet.ShouldProcess($($APIKeyIdSplit[1]))){
+                    Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])"
+                    if (Get-B1APIkey -id $($APIKey.id) -Confirm:$false) {
+                        Write-Error "Error. Failed to delete API Key: $($APIKey.name)"
+                      } else {
+                        Write-Host "Successfully deleted API Key: $($APIKey.name)" -ForegroundColor Green
+                    }
+                }
             }
           } else {
             Write-Error "More than one result returned. To remove multiple objects, pipe Get-B1APIKey into Remove-B1APIKey instead"

@@ -12,6 +12,9 @@
     .PARAMETER filePath
         The local file path where the export should be downloaded to
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1Export -data_ref (Get-B1BulkOperation -Name "Backup of all CSP data").data_ref -filePath "C:\Backups"
 
@@ -34,6 +37,10 @@
     .FUNCTIONALITY
         Backup
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
         [Parameter(
             ValueFromPipelineByPropertyName = $true,
@@ -41,13 +48,17 @@
           )]
         [string]$data_ref,
         [Parameter(Mandatory=$true)]
-        [string]$filePath
+        [string]$filePath,
+        [Switch]$Force
     )
     process {
-        $B1Export = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/storage?data_ref=$data_ref&direction=download"
-        if ($B1Export.result.url) {
-            $JSON = Invoke-RestMethod -Uri $B1Export.result.url
-            $JSON.data | ConvertTo-Json -Depth 15 | Out-File $filePath -Force -Encoding utf8
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+        if($PSCmdlet.ShouldProcess($data_ref,"Get BloxOne Data Export")){
+            $B1Export = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/storage?data_ref=$data_ref&direction=download"
+            if ($B1Export.result.url) {
+                $JSON = Invoke-RestMethod -Uri $B1Export.result.url
+                $JSON.data | ConvertTo-Json -Depth 15 | Out-File $filePath -Force -Encoding utf8
+            }
         }
     }
 }

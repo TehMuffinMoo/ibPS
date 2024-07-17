@@ -36,6 +36,9 @@
     .PARAMETER ContactPhone
         The contact phone number for the new location
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1Location -Name "Madrid" -Description "Real Madrid Museum" -Address "Estadio Santiago Bernabeu Avenida Concha Espina" -PostCode "28036" -State "Madrid" -Country "Spain" -ContactName "Curator" -ContactEmail "Curator@realmadrid.com"
 
@@ -58,6 +61,10 @@
     .FUNCTIONALITY
         BloxOneDDI
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,
@@ -71,9 +78,10 @@
         [String]$Country,
         [String]$ContactEmail,
         [String]$ContactName,
-        [String]$ContactPhone
+        [String]$ContactPhone,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $Splat = @{
         "name" = $($Name)
         "address" = @{
@@ -194,10 +202,11 @@
     $Splat.latitude = $GeoCode.latitude
 
     $JSON = $Splat | ConvertTo-Json -Depth 5 -Compress
+    if($PSCmdlet.ShouldProcess($(JSONPretty($JSON)),"Create new BloxOne Location",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
 
-    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
-
-    if ($Results) {
-        return $Results | Select-Object -ExpandProperty result
+        if ($Results) {
+            return $Results | Select-Object -ExpandProperty result
+        }
     }
 }

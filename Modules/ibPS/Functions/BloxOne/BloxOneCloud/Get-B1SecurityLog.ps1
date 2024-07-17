@@ -43,6 +43,9 @@
     .PARAMETER Raw
         Return results as raw without additional parsing
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "nginx" -Type "nginx.access" -Domain "domain.com"
 
@@ -52,6 +55,10 @@
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [string]$Username,
       [string]$ClientIP,
@@ -64,9 +71,10 @@
       [Int]$Offset,
       [switch]$Strict,
       $CustomFilters,
-      [switch]$Raw
+      [switch]$Raw,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()
 
@@ -112,19 +120,21 @@
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $QueryFilters
-    if ($QueryString) {
-        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } else {
-        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-    if ($Results) {
-        if ($Raw) {
-            return $Results
+    if($PSCmdlet.ShouldProcess("Query the CSP Security Logs","Query the CSP Security Logs",$MyInvocation.MyCommand)){
+        if ($QueryString) {
+            $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
-            $Results.log | ConvertFrom-Json | ConvertFrom-Json
+            $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/security-events/v1/security_events" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
-    } else {
-        Write-Host "Error. Unable to find any security logs." -ForegroundColor Red
-        break
+        if ($Results) {
+            if ($Raw) {
+                return $Results
+            } else {
+                $Results.log | ConvertFrom-Json | ConvertFrom-Json
+            }
+        } else {
+            Write-Host "Error. Unable to find any security logs." -ForegroundColor Red
+            break
+        }
     }
 }

@@ -44,6 +44,9 @@
     .PARAMETER id
         The id of the API Key to filter by
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
@@ -53,6 +56,10 @@
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
         [String]$User,
         [string]$CreatedBy,
@@ -67,9 +74,10 @@
         [String[]]$Fields,
         [String]$OrderBy,
         $CustomFilters,
-        [String]$id
+        [String]$id,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     $MatchType = Match-Type $Strict
@@ -116,11 +124,10 @@
     }
 
     Write-DebugMsg -Filters $QueryFilters
-
-    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/api_keys$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-
-    if ($Results) {
-        return $Results
+    if($PSCmdlet.ShouldProcess('List API Keys','List API Keys',$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/api_keys$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        if ($Results) {
+            return $Results
+        }
     }
-
 }

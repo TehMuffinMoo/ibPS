@@ -908,6 +908,8 @@ function DevelopmentFunctions {
     "Initialize-B1Config"
     "Write-Chart"
     "Write-Graph"
+    "Confirm-ShouldProcess"
+    "JSONPretty"
   )
 }
 
@@ -1022,4 +1024,22 @@ function Write-Chart {
   $(1..$($Map.Count) | ForEach-Object { Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$([char]9516)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })
   Write-Host ""
   Write-Graph -YAxisLabel '        ' -Row "  $($DateStrings -join "  $([char]9474)  ")" -RowColor Black -LabelColor 'Blue'
+}
+
+function Confirm-ShouldProcess {
+  param(
+    [Parameter(Mandatory=$true)]
+    [System.Object]$Params
+  )
+
+  if ($Params.Force -and -not $Params.Confirm){
+    $Pref = 'None'
+    return $Pref
+  } else {
+    return $ConfirmPreference
+  }
+}
+
+function JSONPretty($JSON) {
+  $JSON | ConvertFrom-Json | ConvertTo-Json -Depth 20
 }

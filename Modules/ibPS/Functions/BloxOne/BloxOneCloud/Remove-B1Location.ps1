@@ -12,6 +12,9 @@
     .PARAMETER Object
         The Location Object. Accepts pipeline input from Get-B1Location
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified.
+
     .EXAMPLE
         PS> Remove-B1Location -Name "Madrid"
 
@@ -25,6 +28,10 @@
     .FUNCTIONALITY
         BloxOneDDI
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'High'
+    )]
     param(
         [Parameter(Mandatory=$true,ParameterSetName="Default")]
         [String]$Name,
@@ -33,10 +40,12 @@
           ParameterSetName="Pipeline",
           Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if (!($Object)) {
             $Object = Get-B1Location -Name $Name -Strict
         }
@@ -48,11 +57,13 @@
           }
           if ($Object.count -eq 1) {
             $ObjectID = ($Object.id -Split ('/'))[2]
-            $Results = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)"
-            if (Get-B1Location -id $($Object.id)) {
-                Write-Error "Error. Failed to delete Location: $($Object.name)"
-            } else {
-                Write-Host "Successfully deleted Location: $($Object.name)" -ForegroundColor Green
+            if($PSCmdlet.ShouldProcess($($ObjectID))){
+                $Results = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)"
+                if (Get-B1Location -id $($Object.id)) {
+                    Write-Error "Error. Failed to delete Location: $($Object.name)"
+                } else {
+                    Write-Host "Successfully deleted Location: $($Object.name)" -ForegroundColor Green
+                }
             }
           } else {
             Write-Error "More than one result returned. To remove multiple objects, pipe Get-B1Location into Remove-B1Location instead"

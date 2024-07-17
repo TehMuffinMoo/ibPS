@@ -39,6 +39,9 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
           PS> Get-B1DFPLog -IP "10.10.132.10" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
 
@@ -51,6 +54,10 @@
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [string]$Query,
       [string]$IP,
@@ -63,9 +70,10 @@
       [ValidateSet('asc','desc')]
       [String]$Order = 'asc',
       [int]$Limit = 100,
-      [int]$Offset = 0
+      [int]$Offset = 0,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $Cube = 'PortunusDnsLogs'
 
     $Dimensions = @(
@@ -158,10 +166,12 @@
         }
     }
 
-    $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
-    if ($Result) {
-        return $Result
-    } else {
-        Write-Host "Error: No DNS logs returned." -ForegroundColor Red
+    if($PSCmdlet.ShouldProcess("Query the DNS Activity Logs","Query the DNS Activity Logs",$MyInvocation.MyCommand)){
+        $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
+        if ($Result) {
+            return $Result
+        } else {
+            Write-Host "Error: No DNS logs returned." -ForegroundColor Red
+        }
     }
 }

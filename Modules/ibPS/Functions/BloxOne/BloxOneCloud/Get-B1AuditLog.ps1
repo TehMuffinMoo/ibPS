@@ -49,6 +49,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
 
@@ -58,6 +61,10 @@
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [string]$Username,
       [string]$ResourceType,
@@ -73,9 +80,10 @@
       [String]$OrderBy,
       [String[]]$Fields,
       $CustomFilters,
-      [switch]$Strict
+      [switch]$Strict,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()
 
@@ -135,11 +143,13 @@
     Write-DebugMsg -Filters $QueryFilters
 
     if ($QueryString) {
-        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-    if ($Results) {
-        return $Results
-    } else {
-        return $null
+        if($PSCmdlet.ShouldProcess('Retrive Audit Log','Retrive Audit Log',$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            if ($Results) {
+                return $Results
+            } else {
+                return $null
+            }
+        }
     }
 }

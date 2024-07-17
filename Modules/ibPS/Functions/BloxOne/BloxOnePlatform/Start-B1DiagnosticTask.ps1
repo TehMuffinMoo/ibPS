@@ -151,16 +151,16 @@
       $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
       if ($Result) {
         if ($WaitForOutput) {
-          while ((Get-B1DiagnosticTask -id $Result.id).status -eq "InProgress") {
+          while ((Get-B1DiagnosticTask -id $Result.id -Confirm:$false).status -eq "InProgress") {
             Write-Host "Waiting for task to complete on $($OPH.display_name).." -ForegroundColor Yellow
             Wait-Event -Timeout 5
           }
           if ($DNSConfiguration) {
-            $Job = Get-B1DiagnosticTask -id $Result.id -Download
+            $Job = Get-B1DiagnosticTask -id $Result.id -Download -Confirm:$false
           } elseif ($DHCPConfiguration) {
-            $Job = Get-B1DiagnosticTask -id $Result.id -Download | Select-Object -ExpandProperty Dhcp4 -ErrorAction SilentlyContinue
+            $Job = Get-B1DiagnosticTask -id $Result.id -Download -Confirm:$false | Select-Object -ExpandProperty Dhcp4 -ErrorAction SilentlyContinue
           } else {
-            $Job = Get-B1DiagnosticTask -id $Result.id
+            $Job = Get-B1DiagnosticTask -id $Result.id -Confirm:$false
           }
           if ($Job) {
             return $Job

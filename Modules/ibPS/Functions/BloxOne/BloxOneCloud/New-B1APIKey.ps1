@@ -27,6 +27,9 @@
     .PARAMETER Expires
         The date/time when the key will expire. Defaults to 1 year.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         New-B1APIKey -Name "somename" -Type Interactive
 
@@ -39,12 +42,17 @@
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
         [ValidateSet("Interactive", "Service")]
         [String]$Type,
         [Parameter(Mandatory=$true)]
         [String]$Name,
-        [DateTime]$Expires = $(Get-Date).AddYears(1)
+        [DateTime]$Expires = $(Get-Date).AddYears(1),
+        [Switch]$Force
     )
 
     DynamicParam {
@@ -73,19 +81,20 @@
              $paramDictionary.Add('UserName', $userNameParam)
              return $paramDictionary
        }
-   }
+    }
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       $ExpiresAt = Get-Date $Expires -Format o
       switch($Type) {
         "Service" {
           $UserEmail = $PSBoundParameters['UserEmail']
           $UserName = $PSBoundParameters['UserName']
-          $ExistingAPIKey = Get-B1APIKey -Name $Name -User $UserEmail -Type Service
+          $ExistingAPIKey = Get-B1APIKey -Name $Name -User $UserEmail -Type Service -Confirm:$false
           if ($UserEmail) {
-            $AttachUser = Get-B1User -Email $UserEmail -Strict -Type Service
+            $AttachUser = Get-B1User -Email $UserEmail -Strict -Type Service -Confirm:$false
           } elseif ($UserName) {
-            $AttachUser = Get-B1User -Name $UserName -Strict -Type Service
+            $AttachUser = Get-B1User -Name $UserName -Strict -Type Service -Confirm:$false
           }
           if ($AttachUser) {
             if ($AttachUser.count -gt 1) {
@@ -108,10 +117,12 @@
             "user_id" = $UserID
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new BloxOne API Key",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          }
         }
         "Interactive" {
-            $ExistingAPIKey = Get-B1UserAPIKey -Name $Name -Strict
+            $ExistingAPIKey = Get-B1UserAPIKey -Name $Name -Strict -Confirm:$false
             if ($ExistingAPIKey) {
               Write-Error "Error. API Key: $($ExistingAPIKey.name) already exists."
               break
@@ -120,18 +131,22 @@
             "name" = $Name
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new BloxOne API Key",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          }
         }
       }
 
-      if ($Results) {
-        Write-Host "Successfully created API Key: $($Results.name)" -ForegroundColor Green
-        Write-Host "Your new API Key is: $($Results.key)" -ForegroundColor Cyan
-        Write-Host "Please ensure you copy this key somewhere safe, it is not retrievable again." -ForegroundColor Yellow
-        return $Results
-      } else {
-        Write-Error "Failed to create new API Key: $($Name)"
-        break
+      if($PSCmdlet.ShouldProcess($MyInvocation.MyCommand,'Results')){
+        if ($Results) {
+          Write-Host "Successfully created API Key: $($Results.name)" -ForegroundColor Green
+          Write-Host "Your new API Key is: $($Results.key)" -ForegroundColor Cyan
+          Write-Host "Please ensure you copy this key somewhere safe, it is not retrievable again." -ForegroundColor Yellow
+          return $Results
+        } else {
+          Write-Error "Failed to create new API Key: $($Name)"
+          break
+        }
       }
     }
 }

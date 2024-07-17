@@ -42,6 +42,9 @@
     .PARAMETER Object
         The Location Object. Accepts pipeline input from Get-B1Location
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Get-B1Location -Name "Madrid" | Set-B1Location -NewName "Rome" -Description "Rome Office (Moved from Madrid)" -Address "1 Via Cavour" -PostCode "00184" -State "Rome" -Country "Italy" -ContactName "Curator" -ContactEmail "Curator@rome.com"
 
@@ -80,7 +83,10 @@
     .FUNCTIONALITY
         BloxOneDDI
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(ParameterSetName='Default',Mandatory=$true)]
         [String]$Name,
@@ -99,10 +105,12 @@
             ParameterSetName="Pipeline",
             Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/location") {
@@ -240,10 +248,11 @@
         $JSON = $Object | Select-Object * -ExcludeProperty id,updated_at,created_at | ConvertTo-Json -Depth 5 -Compress
 
         $ObjectID = ($Object.id -Split ('/'))[2]
-        $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
-
-        if ($Results) {
-            return $Results | Select-Object -ExpandProperty result
+        if($PSCmdlet.ShouldProcess("Update BloxOne Location`n$(JSONPretty($JSON))","Update BloxOne Location: $($ObjectID)",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
+            if ($Results) {
+                return $Results | Select-Object -ExpandProperty result
+            }
         }
     }
 }

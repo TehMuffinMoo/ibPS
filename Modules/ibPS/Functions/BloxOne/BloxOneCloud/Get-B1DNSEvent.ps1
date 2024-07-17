@@ -66,6 +66,9 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
 
@@ -75,6 +78,10 @@
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Low'
+    )]
     param(
       [String]$Query,
       [String]$IP,
@@ -98,9 +105,10 @@
       [datetime]$End = $(Get-Date),
       [String[]]$Fields,
       [int]$Limit = 100,
-      [int]$Offset = 0
+      [int]$Offset = 0,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $StartEpoch = [math]::round($((Get-Date -Date ($Start) -UFormat %s)))
     $EndEpoch = [math]::round($((Get-Date -Date ($End) -UFormat %s)))
 
@@ -174,9 +182,11 @@
         $Filter = ConvertTo-QueryString($Filters)
     }
     Write-DebugMsg -Filters $Filters
-    if ($Filter) {
-      Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-    } else {
-      Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    if($PSCmdlet.ShouldProcess("Query the DNS Security Logs","Query the DNS Security Logs",$MyInvocation.MyCommand)){
+      if ($Filter) {
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      } else {
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+      }
     }
 }

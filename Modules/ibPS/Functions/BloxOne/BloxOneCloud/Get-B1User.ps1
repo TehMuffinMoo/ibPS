@@ -40,6 +40,9 @@
     .PARAMETER id
         The id of the authoritative zone to filter by
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1User -Name "MyName"
 
@@ -55,6 +58,10 @@
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
         [String]$Name,
         [String]$Email,
@@ -68,9 +75,10 @@
         [String[]]$Fields,
         [String]$OrderBy,
         $CustomFilters,
-        [String]$id
+        [String]$id,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
@@ -113,13 +121,14 @@
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $QueryFilters
-    if ($QueryString) {
-        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } else {
-        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    if($PSCmdlet.ShouldProcess("List Users","List Users",$MyInvocation.MyCommand)){
+        if ($QueryString) {
+            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        } else {
+            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/users" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        }
+        if ($Results) {
+            return $Results
+        }
     }
-    if ($Results) {
-        return $Results
-    }
-
 }
