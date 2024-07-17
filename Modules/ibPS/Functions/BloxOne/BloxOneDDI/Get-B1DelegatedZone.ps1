@@ -48,6 +48,9 @@
     .PARAMETER id
         Return results based on Delegated Zone id
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1DelegatedZone -FQDN "prod.mydomain.corp"
 
@@ -60,6 +63,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [String]$FQDN,
       [bool]$Disabled,

@@ -21,6 +21,9 @@
     .PARAMETER ID
         The ID of the Parent Address Block. This accepts pipeline input from Get-B1AddressBlock
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1SubnetNextAvailable -ParentAddressBlock 10.0.0.0/16 -Space my-ipspace -CIDRSize 24 -Count 5 | ft address,cidr
 
@@ -49,6 +52,10 @@
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [Int]$CIDRSize,

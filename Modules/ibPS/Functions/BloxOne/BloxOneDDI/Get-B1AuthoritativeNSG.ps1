@@ -37,6 +37,9 @@
     .PARAMETER id
         Return results based on the authoritative NSG id
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1AuthoritativeNSG -Name "Data Centre" -Strict
 
@@ -46,6 +49,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
         [String]$Name,
         [Switch]$Strict = $false,

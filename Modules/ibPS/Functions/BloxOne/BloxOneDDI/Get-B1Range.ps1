@@ -49,6 +49,9 @@
     .PARAMETER id
         Filter the results by range id
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
 
@@ -61,6 +64,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [String]$StartAddress,
       [String]$EndAddress,

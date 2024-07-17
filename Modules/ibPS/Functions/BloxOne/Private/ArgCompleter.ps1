@@ -76,6 +76,19 @@ $B1TDLookalikeTargetCandidates = {
 }
 Register-ArgumentCompleter -CommandName Enable-B1LookalikeTargetCandidate,Disable-B1LookalikeTargetCandidate -ParameterName Domain -ScriptBlock $B1TDLookalikeTargetCandidates
 
+$B1TDTideSources = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    $ReturnSources = @()
+    $Sources = Get-B1DossierSupportedSources -Target $($fakeBoundParameters.Type)
+    $Sources.PSObject.Properties.Name | ForEach-Object {
+        if (($Sources."$($_)") -eq $True) {
+            $ReturnSources += $_
+        }
+    }
+    return $ReturnSources | Where-Object {$_ -like "$($wordToComplete)*"}
+}
+Register-ArgumentCompleter -CommandName Start-B1DossierLookup -ParameterName Source -ScriptBlock $B1TDTideSources
+
 $B1TDTideThreatClass = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     [System.Collections.ArrayList]$ReturnArr = @()

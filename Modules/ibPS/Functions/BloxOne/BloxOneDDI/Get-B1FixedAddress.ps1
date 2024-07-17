@@ -43,6 +43,9 @@
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1FixedAddress -IP 10.10.100.12
 
@@ -52,6 +55,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
         [String]$IP,
         [String]$Name,

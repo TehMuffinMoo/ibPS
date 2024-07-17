@@ -248,7 +248,7 @@
         $JSON = $Object | Select-Object * -ExcludeProperty id,updated_at,created_at | ConvertTo-Json -Depth 5 -Compress
 
         $ObjectID = ($Object.id -Split ('/'))[2]
-        if($PSCmdlet.ShouldProcess("Update BloxOne Location`n$(JSONPretty($JSON))","Update BloxOne Location: $($ObjectID)",$MyInvocation.MyCommand)){
+        if($PSCmdlet.ShouldProcess("Update BloxOne Location`n$(JSONPretty($JSON))","Update BloxOne Location: $($Object.name) ($($ObjectID))",$MyInvocation.MyCommand)){
             $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
             if ($Results) {
                 return $Results | Select-Object -ExpandProperty result

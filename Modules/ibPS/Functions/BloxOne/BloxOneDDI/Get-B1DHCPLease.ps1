@@ -52,6 +52,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1DHCPLease -Range -RangeStart 10.10.100.20 -RangeEnd 10.10.100.50 -Limit 100
 
@@ -64,7 +67,11 @@
     .FUNCTIONALITY
         DHCP
     #>
-    [CmdletBinding(DefaultParameterSetName="st")]
+    [CmdletBinding(
+        DefaultParameterSetName="st",
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param (
         [Switch][parameter(ParameterSetName="htree")] $Range,
         [String][parameter(ParameterSetName="htree", Mandatory=$true)] $RangeStart,

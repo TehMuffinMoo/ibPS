@@ -12,6 +12,9 @@
     .PARAMETER Hosts
         A list of BloxOneDDI Hosts to apply the DHCP Config Profile to
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
     .EXAMPLE
         PS> Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 
@@ -22,6 +25,10 @@
         DHCP
     #>
     [Alias("Apply-B1HostDHCPConfigProfile")]
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,

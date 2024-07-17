@@ -118,6 +118,7 @@
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
           if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new BloxOne API Key",$MyInvocation.MyCommand)){
+            $ShouldProcess = $true
             $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
           }
         }
@@ -132,12 +133,13 @@
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
           if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new BloxOne API Key",$MyInvocation.MyCommand)){
+            $ShouldProcess = $true
             $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
           }
         }
       }
 
-      if($PSCmdlet.ShouldProcess($MyInvocation.MyCommand,'Results')){
+      if($ShouldProcess) {
         if ($Results) {
           Write-Host "Successfully created API Key: $($Results.name)" -ForegroundColor Green
           Write-Host "Your new API Key is: $($Results.key)" -ForegroundColor Cyan

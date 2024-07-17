@@ -15,6 +15,9 @@
     .PARAMETER ParseDetails
         Whether to enhance the data by resolving the Authoritative Zone, IPAM Space & DNS View names
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1DNSUsage -Address "10.10.100.30" -Space "Global" -ParseDetails
 
@@ -24,6 +27,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
         [String]$Address,
         [String]$Space,

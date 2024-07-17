@@ -39,6 +39,9 @@
     .PARAMETER End
         The end date/time for searching aggregated metrics. Default is now.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1TopMetrics -TopQueries DFP -TopCount 50 -Start (Get-Date).AddDays(-1)
 
@@ -51,7 +54,11 @@
     .FUNCTIONALITY
         Metrics
     #>
-    [CmdletBinding(DefaultParameterSetName="default")]
+	[CmdletBinding(
+		DefaultParameterSetName="default",
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param (
         [switch][parameter(ParameterSetName="topQueries")] $TopQueries,
         [string][parameter(ParameterSetName="topQueries", Mandatory=$true)][ValidateSet("NXDOMAIN","NXRRSET","DNS","DFP")] $QueryType,

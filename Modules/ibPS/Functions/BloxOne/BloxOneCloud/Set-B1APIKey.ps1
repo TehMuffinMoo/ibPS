@@ -67,9 +67,9 @@
             $Type = $Object.type
         } else {
             if ($Type) {
-                $Object = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict
+                $Object = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict -Confirm:$false
             } else {
-                $Object = Get-B1APIKey -User $User -Name $Name -Strict
+                $Object = Get-B1APIKey -User $User -Name $Name -Strict -Confirm:$false
             }
             if (!($Object)) {
                 Write-Error "Unable to find API Key: $($Name)"
@@ -88,7 +88,7 @@
         }
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-        if($PSCmdlet.ShouldProcess("Update BloxOne API Key`n$(JSONPretty($JSON))","Update BloxOne API Key: $($APIKeyIdSplit[1])",$MyInvocation.MyCommand)){
+        if($PSCmdlet.ShouldProcess("Update BloxOne API Key`n$(JSONPretty($JSON))","Update BloxOne API Key: $($NewObj.name) ($($APIKeyIdSplit[1]))",$MyInvocation.MyCommand)){
             $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])" -Data $JSON
             if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
                 $Results | Select-Object -ExpandProperty result

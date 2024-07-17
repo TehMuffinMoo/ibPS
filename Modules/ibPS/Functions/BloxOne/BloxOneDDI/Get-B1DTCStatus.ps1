@@ -15,6 +15,9 @@ function Get-B1DTCStatus {
     .PARAMETER id
         The id of the DTC LBDN to get the status for. Accepts pipeline input from Get-B1DTCLBDN
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1DTCLBDN -Name 'email.domain.corp' | Get-B1DTCStatus
 
@@ -44,6 +47,10 @@ function Get-B1DTCStatus {
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
         [Parameter(
             ParameterSetName='None',

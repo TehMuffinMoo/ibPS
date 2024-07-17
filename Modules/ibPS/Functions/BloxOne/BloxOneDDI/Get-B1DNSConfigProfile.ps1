@@ -37,12 +37,19 @@
     .PARAMETER id
         Return results based on DNS Config Profile id
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1DNSConfigProfile -Name "Data Centre" -Strict
 
     .FUNCTIONALITY
         BloxOneDDI
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
         [String]$Name,
         [Switch]$Strict,

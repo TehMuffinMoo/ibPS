@@ -52,6 +52,9 @@
     .PARAMETER id
         Filter by the id of the address block
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1AddressBlock -Subnet "10.10.0.0/12" -Space "Global"
 
@@ -64,6 +67,10 @@
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [String]$Subnet,
       [ValidateRange(0,32)]

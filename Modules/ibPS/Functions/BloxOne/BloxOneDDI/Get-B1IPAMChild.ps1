@@ -51,6 +51,9 @@
 
         This uses the -Recurse parameter and so very large network structures may take a long time to generate.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Get-B1Space -Name "my-ipspace" | Get-B1IPAMChild
 
@@ -66,6 +69,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param (
         [String[]]$Type,
         [String]$Label,

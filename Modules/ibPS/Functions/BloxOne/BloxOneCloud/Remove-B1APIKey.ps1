@@ -23,7 +23,7 @@
         The id of the API Key. Accepts pipeline input
 
     .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified.
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
@@ -80,7 +80,7 @@
           if ($APIKey.count -eq 1) {
             $APIKeyIdSplit = $APIKey.id -split "identity/apikeys/"
             if ($APIKeyIdSplit[1]) {
-                if($PSCmdlet.ShouldProcess($($APIKeyIdSplit[1]))){
+                if($PSCmdlet.ShouldProcess("$($APIKey.name) ($($APIKeyIdSplit[1]))")){
                     Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])"
                     if (Get-B1APIkey -id $($APIKey.id) -Confirm:$false) {
                         Write-Error "Error. Failed to delete API Key: $($APIKey.name)"
