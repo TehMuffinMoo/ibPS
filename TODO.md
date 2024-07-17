@@ -28,5 +28,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add IPAM Hosts, Tags & Metadata Network Scope support for `New-B1SecurityPolicy` & `Set-B1SecurityPolicy`
 - [ ] Add help info on new CubeJS Wrapper
 - [ ] Add help info on new `Get-B1Asset` function
+- [ ] Fix issues listed in PSScriptAnalyzer
+- [ ] Implement ShouldProcess on all functions
 
 ## Bug Fixes
