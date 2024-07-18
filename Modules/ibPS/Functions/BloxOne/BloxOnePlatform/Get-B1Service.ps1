@@ -52,6 +52,7 @@
     .FUNCTIONALITY
         Service
     #>
+    [CmdletBinding()]
     param(
         [Parameter(ParameterSetName="Default",Mandatory=$false)]
         [String]$Name,

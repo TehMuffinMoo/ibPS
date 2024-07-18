@@ -36,6 +36,7 @@ function Invoke-CSP {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("GET","POST","PUT", "PATCH", "DELETE")]

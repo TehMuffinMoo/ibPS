@@ -57,7 +57,7 @@
 
       $DHCPConfigProfileId = (Get-B1DHCPConfigProfile -Name $Name -Strict).id
       if (!$DHCPConfigProfileId) {
-        Write-Host "Failed to get DHCP Config Profile." -ForegroundColor Red
+        Write-Error "Failed to get DHCP Config Profile."
         break
       }
 

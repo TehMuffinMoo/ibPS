@@ -33,13 +33,14 @@ function Get-ibPSVersion {
     .FUNCTIONALITY
         ibPS
     #>
-  param (
-    [Switch]$Details,
-    [Switch]$CheckForUpdates,
-    [Switch]$Update,
-    [Switch]$Cleanup,
-    [Switch]$Force
-  )
+    [CmdletBinding()]
+    param (
+      [Switch]$Details,
+      [Switch]$CheckForUpdates,
+      [Switch]$Update,
+      [Switch]$Cleanup,
+      [Switch]$Force
+    )
 
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path.Count -gt 1) {

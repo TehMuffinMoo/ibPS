@@ -116,6 +116,7 @@ function Get-B1Schema {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding()]
     param(
       [String]$Product,
       [String]$App,

@@ -28,7 +28,9 @@ function Get-B1TideThreatClassDefaultTTL {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
+    param()
+    
     $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/default/ttl" -Method GET | Select-Object -ExpandProperty default_ttl -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Select-Object class,property,ttl -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
     if ($Results) {

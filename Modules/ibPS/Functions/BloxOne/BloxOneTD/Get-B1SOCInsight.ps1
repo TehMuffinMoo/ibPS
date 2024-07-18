@@ -53,6 +53,7 @@
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding()]
     param(
       [ValidateSet('Active','Closed')]
       [String]$Status,

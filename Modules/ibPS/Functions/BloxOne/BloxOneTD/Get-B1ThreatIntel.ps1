@@ -105,6 +105,7 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [Parameter(ParameterSetName='ThreatActors')]
         [Switch]$ThreatActors,

@@ -90,11 +90,11 @@
         "Service" {
           $UserEmail = $PSBoundParameters['UserEmail']
           $UserName = $PSBoundParameters['UserName']
-          $ExistingAPIKey = Get-B1APIKey -Name $Name -User $UserEmail -Type Service -Confirm:$false
+          $ExistingAPIKey = Get-B1APIKey -Name $Name -User $UserEmail -Type Service
           if ($UserEmail) {
-            $AttachUser = Get-B1User -Email $UserEmail -Strict -Type Service -Confirm:$false
+            $AttachUser = Get-B1User -Email $UserEmail -Strict -Type Service
           } elseif ($UserName) {
-            $AttachUser = Get-B1User -Name $UserName -Strict -Type Service -Confirm:$false
+            $AttachUser = Get-B1User -Name $UserName -Strict -Type Service
           }
           if ($AttachUser) {
             if ($AttachUser.count -gt 1) {
@@ -123,7 +123,7 @@
           }
         }
         "Interactive" {
-            $ExistingAPIKey = Get-B1UserAPIKey -Name $Name -Strict -Confirm:$false
+            $ExistingAPIKey = Get-B1UserAPIKey -Name $Name -Strict
             if ($ExistingAPIKey) {
               Write-Error "Error. API Key: $($ExistingAPIKey.name) already exists."
               break

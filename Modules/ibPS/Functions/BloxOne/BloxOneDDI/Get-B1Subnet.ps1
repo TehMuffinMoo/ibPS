@@ -52,9 +52,6 @@
     .PARAMETER id
         Use this parameter to query a particular subnet id
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1Subnet -Subnet 10.10.100.0 -CIDR 24 -IncludeInheritance
 
@@ -67,10 +64,7 @@
     .FUNCTIONALITY
         IPAM
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
       [String]$Subnet,
       [ValidateRange(0,32)]
@@ -87,10 +81,8 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
-      [String]$id,
-      [Switch]$Force
+      [String]$id
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()

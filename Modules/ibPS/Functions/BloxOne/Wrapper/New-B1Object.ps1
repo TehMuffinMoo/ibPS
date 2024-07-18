@@ -46,6 +46,7 @@ function New-B1Object {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Product,

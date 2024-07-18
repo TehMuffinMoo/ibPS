@@ -49,9 +49,6 @@ function Get-B1DFP {
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1DFP -Name "My DFP" -Strict
 
@@ -64,10 +61,7 @@ function Get-B1DFP {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
         [String[]]$Name,
         [String]$SiteID,
@@ -82,10 +76,8 @@ function Get-B1DFP {
         [String]$OrderBy,
         [String]$OrderByTag,
         $CustomFilters,
-        [String]$id,
-        [Switch]$Force
+        [String]$id
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()

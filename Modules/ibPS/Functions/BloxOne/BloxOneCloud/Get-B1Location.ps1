@@ -58,9 +58,6 @@
     .PARAMETER id
         The id of the Location to filter by
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1Location -Name "Madrid"
 
@@ -77,10 +74,7 @@
     .FUNCTIONALITY
         BloxOneDDI
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
         [String]$Name,
         [String]$Description,
@@ -98,10 +92,9 @@
         [String]$OrderBy,
         [String]$OrderByTag,
         $CustomFilters,
-        [String]$id,
-        [Switch]$Force
+        [String]$id
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+
     $MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
@@ -163,11 +156,9 @@
 
     Write-DebugMsg -Filters $QueryFilters
 
-    if($PSCmdlet.ShouldProcess("List Locations","List Locations",$MyInvocation.MyCommand)){
-        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations$CombinedFilter" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
-        if ($Results) {
-            return $Results
-        }
+    if ($Results) {
+        return $Results
     }
 }

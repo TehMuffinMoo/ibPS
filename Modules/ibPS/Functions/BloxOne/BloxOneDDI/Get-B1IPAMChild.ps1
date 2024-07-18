@@ -51,9 +51,6 @@
 
         This uses the -Recurse parameter and so very large network structures may take a long time to generate.
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1Space -Name "my-ipspace" | Get-B1IPAMChild
 
@@ -69,10 +66,7 @@
     .FUNCTIONALITY
         DHCP
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param (
         [String[]]$Type,
         [String]$Label,
@@ -90,12 +84,10 @@
             ValueFromPipeline = $true,
             Mandatory=$true
         )]
-        [System.Object[]]$Object,
-        [Switch]$Force
+        [System.Object[]]$Object
     )
 
     process {
-        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Recurse -or $($NetworkTopology)) {
             if ($Recurse) {
                 Write-Host "Performing recursive search. This may take a moment.." -ForegroundColor Magenta

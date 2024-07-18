@@ -44,9 +44,6 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1DNSView -Name "my-dnsview" | Get-B1ZoneChild
 
@@ -62,10 +59,7 @@
     .FUNCTIONALITY
         DHCP
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param (
         [String]$Type,
         [String]$Name,
@@ -82,12 +76,10 @@
             ValueFromPipeline = $true,
             Mandatory=$true
         )]
-        [System.Object]$Object,
-        [Switch]$Force
+        [System.Object]$Object
     )
 
     process {
-        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $MatchType = Match-Type $Strict
         $PermittedInputs = "view","auth_zone","forward_zone"
         if (($Object.id.split('/')[1]) -notin $PermittedInputs) {

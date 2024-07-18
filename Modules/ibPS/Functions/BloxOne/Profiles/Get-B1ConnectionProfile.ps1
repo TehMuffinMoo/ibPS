@@ -42,6 +42,7 @@ function Get-B1ConnectionProfile {
         Authentication
     #>
     [Alias('Get-BCP')]
+    [CmdletBinding()]
     param(
         [String]$Name,
         [Switch]$List,

@@ -31,7 +31,7 @@ function Get-B1TideThreatCounts {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
     param(
         [Switch]$Historical
     )

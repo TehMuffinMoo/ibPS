@@ -46,9 +46,6 @@
     .PARAMETER id
         Filter the results by forward zone id
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1ForwardZone -FQDN "prod.mydomain.corp"
 
@@ -58,10 +55,7 @@
     .FUNCTIONALITY
         DNS
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
       [String]$FQDN,
       [bool]$Disabled,
@@ -75,10 +69,8 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
-      [String]$id,
-      [Switch]$Force
+      [String]$id
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()

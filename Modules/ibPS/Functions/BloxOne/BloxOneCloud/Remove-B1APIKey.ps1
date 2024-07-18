@@ -64,16 +64,16 @@
     process {
         $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($id) {
-            $APIKey = Get-B1APIkey -id $id -Confirm:$false
+            $APIKey = Get-B1APIkey -id $id
         } else {
             if ($Type -and $State) {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -State $State -Strict -Confirm:$false
+                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -State $State -Strict
             } elseif ($Type) {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict -Confirm:$false
+                $APIKey = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict
             } elseif ($State) {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -State $State -Strict -Confirm:$false
+                $APIKey = Get-B1APIKey -User $User -Name $Name -State $State -Strict
             } else {
-                $APIKey = Get-B1APIKey -User $User -Name $Name -Strict -Confirm:$false
+                $APIKey = Get-B1APIKey -User $User -Name $Name -Strict
             }
         }
         if ($APIKey) {
@@ -82,7 +82,7 @@
             if ($APIKeyIdSplit[1]) {
                 if($PSCmdlet.ShouldProcess("$($APIKey.name) ($($APIKeyIdSplit[1]))")){
                     Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])"
-                    if (Get-B1APIkey -id $($APIKey.id) -Confirm:$false) {
+                    if (Get-B1APIkey -id $($APIKey.id)) {
                         Write-Error "Error. Failed to delete API Key: $($APIKey.name)"
                       } else {
                         Write-Host "Successfully deleted API Key: $($APIKey.name)" -ForegroundColor Green

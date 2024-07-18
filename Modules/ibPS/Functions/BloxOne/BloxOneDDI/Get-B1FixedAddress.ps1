@@ -43,9 +43,6 @@
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1FixedAddress -IP 10.10.100.12
 
@@ -55,10 +52,7 @@
     .FUNCTIONALITY
         DHCP
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
         [String]$IP,
         [String]$Name,
@@ -71,10 +65,8 @@
         [String]$OrderBy,
         [String]$OrderByTag,
         $CustomFilters,
-        [String]$id,
-        [Switch]$Force
+        [String]$id
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if ($Space) {$SpaceUUID = (Get-B1Space -Name $Space -Strict).id}
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()

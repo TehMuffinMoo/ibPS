@@ -15,6 +15,7 @@ function Get-B1RPZFeed {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [String[]]$FeedName
     )

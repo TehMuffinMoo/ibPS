@@ -26,6 +26,7 @@ function Get-B1DossierSupportedTargets {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [String]$Source
     )

@@ -9,9 +9,6 @@
     .PARAMETER FQDN
         The fully qualified domain name to convert to Punycode
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         This example shows a domain where the 'c' is using a cyrillic character set, which looks identical to a normal 'c'.
 
@@ -38,33 +35,23 @@
     .FUNCTIONALITY
         Logs
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
-      [string[]]$FQDN,
-      [Switch]$Force
+      [string[]]$FQDN
     )
 
     process {
-        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $Results = @()
         foreach ($iFQDN in $FQDN) {
-            if($PSCmdlet.ShouldProcess("Convert $($iFQDN) to PunyCode","Convert $($iFQDN) to PunyCode",$MyInvocation.MyCommand)){
-                $Results += Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/convert_domain_name/$($iFQDN)" -Method GET | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
-                $ShouldProcess = $true
-            }
+            $Results += Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/convert_domain_name/$($iFQDN)" -Method GET | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
         }
 
-        if ($ShouldProcess) {
-            if ($Results) {
-                return $Results
-            } else {
-                Write-Host "Error. Unable to convert domain name." -ForegroundColor Red
-                break
-            }
+        if ($Results) {
+            return $Results
+        } else {
+            Write-Host "Error. Unable to convert domain name." -ForegroundColor Red
+            break
         }
     }
 }

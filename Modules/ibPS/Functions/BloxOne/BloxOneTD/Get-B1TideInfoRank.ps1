@@ -33,7 +33,7 @@ function Get-B1TideInfoRank {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true)]
       [string]$Domain,

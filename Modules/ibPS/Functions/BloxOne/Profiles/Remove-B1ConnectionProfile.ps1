@@ -35,6 +35,7 @@ function Remove-B1ConnectionProfile {
         Authentication
     #>
     [Alias('Remove-BCP')]
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,

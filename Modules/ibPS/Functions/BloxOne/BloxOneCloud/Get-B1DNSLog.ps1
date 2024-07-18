@@ -42,9 +42,6 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination. Only works if -Limit is less than 10,000 and combined Limit and Offset do not exceed 10,000
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1DNSLog -IP "10.10.172.35" -Query "google.com" -Type "A" -Response "216.58.201.110" -Start (Get-Date).AddHours(-6) -End (Get-Date) -Limit 1000 -Offset 0
 
@@ -57,10 +54,7 @@
     .FUNCTIONALITY
         Logs
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
       [string]$Query,
       [string[]]$IP,
@@ -75,10 +69,9 @@
       [datetime]$End = (Get-Date),
       [ValidateRange(1,50000)]
       [int]$Limit = 100,
-      [int]$Offset = 0,
-      [Switch]$Force
+      [int]$Offset = 0
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+
     $Cube = 'NstarDnsActivity'
 
     if ($Limit -ge 10001) {
@@ -173,24 +166,22 @@
 
     $Data = $splat | ConvertTo-Json -Depth 4 -Compress
     $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-    if($PSCmdlet.ShouldProcess("Query the DNS Logs","Query the DNS Logs",$MyInvocation.MyCommand)){
-        if ($UseExport) {
-            $Options = '{"output":"csv","header":{"enabled":true,"display":["timestamp","query","response","query_type","dns_view","device_ip","mac_address","dhcp_fingerprint","name","query_nanosec"]}}'
-            Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
-            $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/export?query=$Query&options=$Options"
-            $ResultData = ConvertFrom-Csv $Result
-            if ($ResultData) {
-                $ResultData
-            } else {
-                Write-Host "Error: No DNS logs returned." -ForegroundColor Red
-            }
+    if ($UseExport) {
+        $Options = '{"output":"csv","header":{"enabled":true,"display":["timestamp","query","response","query_type","dns_view","device_ip","mac_address","dhcp_fingerprint","name","query_nanosec"]}}'
+        Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
+        $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/export?query=$Query&options=$Options"
+        $ResultData = ConvertFrom-Csv $Result
+        if ($ResultData) {
+            $ResultData
         } else {
-            $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
-            if ($Result) {
-                return $Result | Select-Object @{name="dns_server";Expression={$siteId = $_.'site_id'; (@($DNSServices).where({ $_.site_id -eq $siteId })).name}},*
-            } else {
-                Write-Host "Error: No DNS logs returned." -ForegroundColor Red
-            }
+            Write-Host "Error: No DNS logs returned." -ForegroundColor Red
+        }
+    } else {
+        $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
+        if ($Result) {
+            return $Result | Select-Object @{name="dns_server";Expression={$siteId = $_.'site_id'; (@($DNSServices).where({ $_.site_id -eq $siteId })).name}},*
+        } else {
+            Write-Host "Error: No DNS logs returned." -ForegroundColor Red
         }
     }
 }

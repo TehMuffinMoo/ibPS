@@ -62,6 +62,7 @@ function Get-B1SecurityPolicyRules {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [parameter(ParameterSetName="Default")]
         [Int]$PolicyID,

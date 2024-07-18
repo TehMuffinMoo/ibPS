@@ -38,6 +38,7 @@ function New-B1ConnectionProfile {
     #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to obtain API Key')]
     [Alias('New-BCP')]
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory=$true)]
         [String]$Name,

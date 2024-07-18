@@ -27,6 +27,7 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         $CustomFilters
     )

@@ -29,6 +29,7 @@ function Switch-B1ConnectionProfile {
         Authentication
     #>
     [Alias('Switch-BCP')]
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name

@@ -67,9 +67,9 @@
             $Type = $Object.type
         } else {
             if ($Type) {
-                $Object = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict -Confirm:$false
+                $Object = Get-B1APIKey -User $User -Name $Name -Type $Type -Strict
             } else {
-                $Object = Get-B1APIKey -User $User -Name $Name -Strict -Confirm:$false
+                $Object = Get-B1APIKey -User $User -Name $Name -Strict
             }
             if (!($Object)) {
                 Write-Error "Unable to find API Key: $($Name)"

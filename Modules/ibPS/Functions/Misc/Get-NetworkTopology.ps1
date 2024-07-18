@@ -89,6 +89,7 @@ function Get-NetworkTopology {
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding()]
     param(
         [Switch]$IncludeRanges,
         [Switch]$IncludeAddresses,

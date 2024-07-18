@@ -18,14 +18,7 @@
     .FUNCTIONALITY
         NTP
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
-    param(
-      [Switch]$Force
-    )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+    [CmdletBinding()]
     $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ntp/v1/account/config"
     if ($Result) {
       $Result | Select-Object -ExpandProperty account_config

@@ -36,6 +36,7 @@
     .FUNCTIONALITY
         Bootstrap
     #>
+    [CmdletBinding()]
     param(
         [Parameter(
             ParameterSetName=("Default"),

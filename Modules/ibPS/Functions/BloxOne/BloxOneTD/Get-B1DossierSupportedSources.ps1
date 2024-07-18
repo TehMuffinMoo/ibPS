@@ -73,6 +73,7 @@ function Get-B1DossierSupportedSources {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [ValidateSet("ip","host","url","email","hash")]
         [String]$Target

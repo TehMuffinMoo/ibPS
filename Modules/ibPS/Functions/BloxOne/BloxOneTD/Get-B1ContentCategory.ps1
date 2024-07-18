@@ -42,6 +42,7 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding()]
     param(
     )
 

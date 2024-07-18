@@ -17,6 +17,7 @@ function Get-B1CSPUrl {
     .FUNCTIONALITY
         API
     #>
+    [CmdletBinding()]
     param(
         $Profile
     )

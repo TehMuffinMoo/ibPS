@@ -7,11 +7,9 @@
 - Add auto-complete to `-Source` parameter on `Start-B1DossierLookup`
 
 ### Breaking Changes
-Support for `ShouldProcess` is being added for all functions, which enables three new parameters. `-Confirm`, `-WhatIf` & `-Force`.  
+Support for `ShouldProcess` is being added for all state-changing functions, which enables three new parameters. `-Confirm`, `-WhatIf` & `-Force`.  
 The default PowerShell configuration has `$ConfirmPreference` set to **High**. Unless you have changed this, only `Remove` operations will be impacted by this change.
 
-- All `Get` and equivilent read commands are set to `ConfirmImpact=Low`.
-  - These commands will not prompt for confirmation if `$ConfirmPreference` is None, Medium or High.
 - All `Set` and equivilent update commands are set to `ConfirmImpact=Medium`.
   - These commands will not prompt for confirmation if `$ConfirmPreference` is None or High.
 - All `New` and equivilent new commands are set to `ConfirmImpact=Medium`.
@@ -25,7 +23,6 @@ A handy reference table has been included below;
 
 |       Operation Type       |       Confirm Impact       |       No Prompt When       |
 |:---------------------------|:---------------------------|:---------------------------|
-| `Get`                      | `Low`                      | `None`, `Medium`, `High`   |
 | `Set`                      | `Medium`                   | `None`, `High`             |
 | `New`                      | `Medium`                   | `None`, `High`             |
 | `Remove`                   | `High`                     | `None`                     |

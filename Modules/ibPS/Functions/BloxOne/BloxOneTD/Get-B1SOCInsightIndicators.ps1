@@ -50,6 +50,7 @@
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding()]
     param(
       [String]$Confidence,
       [String]$Indicator,

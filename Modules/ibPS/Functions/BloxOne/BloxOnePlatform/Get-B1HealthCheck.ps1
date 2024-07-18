@@ -21,6 +21,7 @@
     .FUNCTIONALITY
         Health
     #>
+    [CmdletBinding()]
     param(
       [Alias('OnPremHost')]
       [Parameter(Mandatory=$true)]

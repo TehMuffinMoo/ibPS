@@ -55,6 +55,7 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
       [String]$Domain,
       [String]$LookalikeHost,

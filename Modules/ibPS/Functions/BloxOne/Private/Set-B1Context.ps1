@@ -1,4 +1,5 @@
 function Set-B1Context {
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,

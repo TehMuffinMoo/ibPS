@@ -15,9 +15,6 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
 
@@ -27,20 +24,15 @@
     .FUNCTIONALITY
         Service
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param (
         [Parameter(Mandatory=$false)]
         [String]$Name,
         [Parameter(Mandatory=$false)]
         [String]$ServiceId,
         [Parameter(Mandatory=$false)]
-        [Switch]$Strict,
-        [Switch]$Force
+        [Switch]$Strict
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (!($ServiceId) -and $Name) {
         $B1Service = Get-B1Service -Name $Name -Strict:$Strict | Where-Object {$_.service_type -eq "ntp"}
         $ServiceId = $B1Service.id.replace("infra/service/","")

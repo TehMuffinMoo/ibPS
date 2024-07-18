@@ -50,6 +50,7 @@
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding()]
     param(
       [IPAddress]$IP,
       [String]$MACAddress,

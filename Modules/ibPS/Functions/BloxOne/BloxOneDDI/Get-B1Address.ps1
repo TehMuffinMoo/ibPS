@@ -43,9 +43,6 @@
     .PARAMETER id
         Return results based on the address id
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
 
@@ -55,11 +52,7 @@
     .FUNCTIONALITY
         IPAM
     #>
-    [CmdletBinding(
-      DefaultParameterSetName = 'None',
-      SupportsShouldProcess,
-      ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding(DefaultParameterSetName = 'None')]
     param(
       [Parameter(ParameterSetName="With Address")]
       [String]$Address,
@@ -75,12 +68,10 @@
       [String]$OrderByTag,
       $CustomFilters,
       [Parameter(ParameterSetName="With ID")]
-      [String]$id,
-      [Switch]$Force
+      [String]$id
     )
 
     process {
-      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       [System.Collections.ArrayList]$Filters = @()
       [System.Collections.ArrayList]$QueryFilters = @()
       if ($CustomFilters) {
@@ -129,19 +120,17 @@
       }
       $QueryString = ConvertTo-QueryString $QueryFilters
       Write-DebugMsg -Filters $QueryFilters
-      if($PSCmdlet.ShouldProcess('List BloxOne Addresses(es)','List BloxOne Address(es)',$MyInvocation.MyCommand)){
-        if ($QueryString) {
-            $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        } else {
-            $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        }
-
-        if ($Results -and $Reserved) {
-            if ($Reserved) {
-                $Results = $Results | Where-Object {$_.usage -contains "IPAM RESERVED"}
-            }
-        }
-        return $Results
+      if ($QueryString) {
+          $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+      } else {
+          $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       }
+
+      if ($Results -and $Reserved) {
+          if ($Reserved) {
+              $Results = $Results | Where-Object {$_.usage -contains "IPAM RESERVED"}
+          }
+      }
+      return $Results
     }
 }

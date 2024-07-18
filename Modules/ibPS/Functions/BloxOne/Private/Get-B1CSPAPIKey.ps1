@@ -15,6 +15,7 @@ function Get-B1CSPAPIKey {
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding()]
     param(
         $Profile
     )

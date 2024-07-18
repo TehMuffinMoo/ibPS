@@ -21,6 +21,7 @@ function Get-B1DossierSupportedFeedback {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
     )
 

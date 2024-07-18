@@ -29,6 +29,7 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
       [String]$Name
     )

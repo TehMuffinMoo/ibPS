@@ -22,6 +22,7 @@ function Get-B1TideThreatEnrichment {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("Threat Actor","Nameserver Reputation","URLHaus","ThreatFox","TLD Risk","Mandiant","Whois","Geoinfo")] ## Mitre Lookup not yet implemented

@@ -43,9 +43,6 @@
     .PARAMETER id
         Return results based on DHCP Host id
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
 
@@ -65,10 +62,7 @@
     .FUNCTIONALITY
         DHCP
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
         [String]$Name,
         [String]$IP,
@@ -81,10 +75,8 @@
         [String]$OrderByTag,
         [Switch]$Associations,
         $CustomFilters,
-        [String]$id,
-        [Switch]$Force
+        [String]$id
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()

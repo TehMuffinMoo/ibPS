@@ -67,6 +67,7 @@ function Get-NetworkInfo {
     .NOTES
       Credit: https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Public%5CGet-Subnet.ps1
     #>
+    [CmdletBinding()]
     param (
         [parameter(Mandatory=$true,ValueFromPipelineByPropertyName)]
         [Alias('Address')]

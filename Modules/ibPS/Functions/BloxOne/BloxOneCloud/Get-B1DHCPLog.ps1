@@ -42,9 +42,6 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1DHCPLog -Hostname "dhcpclient.mydomain.corp" -State "Assignments" -IP "10.10.10.100" -Protocol "IPv4 Address" -DHCPServer "bloxoneddihost1.mydomain.corp" -Start (Get-Date).AddHours(-24) -End (Get-Date) -Limit 100 -Offset 0
 
@@ -57,10 +54,7 @@
     .FUNCTIONALITY
         DHCP
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
       [string]$Hostname,
       [string]$State,
@@ -74,10 +68,9 @@
       [ValidateSet('asc','desc')]
       [String]$Order = 'asc',
       [int]$Limit = 100,
-      [int]$Offset = 0,
-      [Switch]$Force
+      [int]$Offset = 0
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+
     $Cube = 'NstarLeaseActivity'
 
     ## Replace with CubeJS Query?
@@ -185,12 +178,10 @@
         }
     }
 
-    if($PSCmdlet.ShouldProcess("Query the DHCP Logs","Query the DHCP Logs",$MyInvocation.MyCommand)){
-        $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
-        if ($Result) {
-            return $Result | Select-Object @{name="dhcp_server";Expression={Match-DHCPHost -id $_.'host_id'}},*
-        } else {
-            Write-Host "Error: No DHCP logs returned." -ForegroundColor Red
-        }
+    $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
+    if ($Result) {
+        return $Result | Select-Object @{name="dhcp_server";Expression={Match-DHCPHost -id $_.'host_id'}},*
+    } else {
+        Write-Host "Error: No DHCP logs returned." -ForegroundColor Red
     }
 }

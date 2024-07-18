@@ -9,9 +9,6 @@
     .PARAMETER Summary
         Provides a summary of discovered asset counts by category
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
 
     .FUNCTIONALITY
@@ -21,16 +18,11 @@
         Discovery
 
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
       [ValidateSet('ByCategory','ByVendor','ByRegion','ByAccount')]
-      [String]$Type,
-      [Switch]$Force
+      [String]$Type
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     Switch($Type) {
         "ByCategory" {
             ## List Asset Count, Category & Context

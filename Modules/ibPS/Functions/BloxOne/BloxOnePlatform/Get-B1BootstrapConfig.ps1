@@ -36,6 +36,7 @@
     .FUNCTIONALITY
         Host
     #>
+    [CmdletBinding()]
     param(
         [String]$B1Host,
         [Int]$Limit = 100,

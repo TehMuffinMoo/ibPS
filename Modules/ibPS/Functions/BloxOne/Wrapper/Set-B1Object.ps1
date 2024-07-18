@@ -50,6 +50,7 @@ function Set-B1Object {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         $Data,

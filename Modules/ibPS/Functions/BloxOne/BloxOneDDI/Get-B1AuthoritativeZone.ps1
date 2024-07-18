@@ -49,9 +49,6 @@
     .PARAMETER id
         The id of the authoritative zone to filter by
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1AuthoritativeZone -FQDN "prod.mydomain.corp"
 
@@ -61,10 +58,7 @@
     .FUNCTIONALITY
         DNS
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
       [String]$FQDN,
       [ValidateSet("Primary","Secondary")]
@@ -80,10 +74,8 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
-      [String]$id,
-      [Switch]$Force
+      [String]$id
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($View) {$ViewUUID = (Get-B1DNSView -Name $View -Strict).id}

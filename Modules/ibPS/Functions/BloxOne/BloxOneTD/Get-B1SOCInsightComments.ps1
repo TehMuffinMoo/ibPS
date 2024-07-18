@@ -34,6 +34,7 @@
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding()]
     param(
       [DateTime]$Start,
       [DateTime]$End,

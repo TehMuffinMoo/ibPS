@@ -61,6 +61,7 @@
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding()]
     param(
       [String]$ThreatLevel,
       [String]$ConfidenceLevel,

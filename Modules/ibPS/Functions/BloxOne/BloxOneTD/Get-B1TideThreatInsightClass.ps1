@@ -22,7 +22,7 @@ function Get-B1TideThreatInsightClass {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
     param(
     )
 

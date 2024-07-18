@@ -47,6 +47,7 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [Switch]$AccountSpecific
     )

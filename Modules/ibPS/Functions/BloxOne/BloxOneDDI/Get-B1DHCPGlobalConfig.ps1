@@ -9,9 +9,6 @@
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1DHCPGlobalConfig
 
@@ -21,15 +18,10 @@
     .FUNCTIONALITY
         DHCP
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param (
-        [String[]]$Fields,
-        [Switch]$Force
+        [String[]]$Fields
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     [System.Collections.ArrayList]$Filters = @()
     if ($Fields) {
         $Fields += "id"

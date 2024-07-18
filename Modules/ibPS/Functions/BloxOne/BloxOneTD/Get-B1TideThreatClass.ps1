@@ -26,7 +26,7 @@ function Get-B1TideThreatClass {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
     param(
       [string]$id
     )

@@ -24,9 +24,6 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1ServiceLog -B1Host "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
 
@@ -36,10 +33,7 @@
     .FUNCTIONALITY
         Logs
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
       [Alias('OnPremHost')]
       [string]$B1Host,
@@ -47,10 +41,9 @@
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
       [Int]$Limit = 100,
-      [Int]$Offset,
-      [Switch]$Force
+      [Int]$Offset
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()
 
@@ -84,18 +77,16 @@
 
     $QueryFilters = ConvertTo-QueryString -Filters $Filters
     Write-DebugMsg -Filters $Filters
-    if($PSCmdlet.ShouldProcess("Query the BloxOne Services Logs","Query the BloxOne Services Logs",$MyInvocation.MyCommand)){
-        $B1Hosts = Get-B1Host -Detailed -Fields ohpid,display_name -Limit 2500
-        if ($QueryFilters) {
-            $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET
-        } else {
-            $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET
-        }
-        if ($Results) {
-            return $Results.logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
-        } else {
-            Write-Host "Error. Unable to find any service logs." -ForegroundColor Red
-            break
-        }
+    $B1Hosts = Get-B1Host -Detailed -Fields ohpid,display_name -Limit 2500
+    if ($QueryFilters) {
+        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET
+    } else {
+        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs" -Method GET
+    }
+    if ($Results) {
+        return $Results.logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
+    } else {
+        Write-Host "Error. Unable to find any service logs." -ForegroundColor Red
+        break
     }
 }

@@ -28,9 +28,6 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1Tag -Name "siteCode"
 
@@ -40,10 +37,7 @@
     .FUNCTIONALITY
         Tags
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
         [String]$Name,
         [ValidateSet("active","revoked")]
@@ -52,11 +46,10 @@
         [String[]]$Fields,
         [Int]$Limit = 100,
         [Int]$Offset,
-        $CustomFilters,
-        [Switch]$Force
+        $CustomFilters
     )
-    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
-	$MatchType = Match-Type $Strict
+
+    $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
@@ -87,11 +80,9 @@
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $QueryFilters
-    if($PSCmdlet.ShouldProcess("List Tags","List Tags",$MyInvocation.MyCommand)){
-        if ($QueryString) {
-            Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        } else {
-            Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        }
+    if ($QueryString) {
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    } else {
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atlas-tagging/v2/tags" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

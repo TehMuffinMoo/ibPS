@@ -32,9 +32,6 @@
     .PARAMETER id
         The id of the authoritative zone to filter by
 
-    .PARAMETER Force
-        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
     .EXAMPLE
         PS> Get-B1UserAPIKey -Name "somename" -State Enabled
 
@@ -47,10 +44,7 @@
     .FUNCTIONALITY
         Authentication
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'Low'
-    )]
+    [CmdletBinding()]
     param(
         [String]$Name,
         [ValidateSet("Enabled", "Disabled")]
@@ -60,8 +54,7 @@
         [Switch]$Strict,
         [String[]]$Fields,
         $CustomFilters,
-        [String]$id,
-        [Switch]$Force
+        [String]$id
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
 	$MatchType = Match-Type $Strict
@@ -97,15 +90,13 @@
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $QueryFilters
-    if($PSCmdlet.ShouldProcess("List User API Keys","List User API Keys",$MyInvocation.MyCommand)){
-        if ($QueryString) {
-            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        } else {
-            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-        }
+    if ($QueryString) {
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    } else {
+        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    }
 
-        if ($Results) {
-            return $Results
-        }
+    if ($Results) {
+        return $Results
     }
 }

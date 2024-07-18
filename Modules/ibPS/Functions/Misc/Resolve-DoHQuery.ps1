@@ -107,7 +107,7 @@ function Resolve-DoHQuery {
         Headers       : {[AnswerRRs, 1], [AdditionalRRs, 0], [Questions, 1], [TransactionID, 0]…}
     #>
     [Alias("dohdig")]
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
         [Parameter(Position=1)]
         [String]$Query,

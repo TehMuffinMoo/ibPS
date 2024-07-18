@@ -41,6 +41,7 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [Int]$Limit = 1000,

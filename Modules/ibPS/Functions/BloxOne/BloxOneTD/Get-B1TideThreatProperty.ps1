@@ -42,7 +42,7 @@ function Get-B1TideThreatProperty {
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
     param(
       [string]$id,
       [string]$Name,
