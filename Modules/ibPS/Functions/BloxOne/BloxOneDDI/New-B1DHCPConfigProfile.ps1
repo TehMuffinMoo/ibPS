@@ -24,6 +24,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the new DHCP Config Profile
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> $DHCPOptions = @()
         PS> $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
@@ -33,6 +36,10 @@
     .FUNCTIONALITY
         BloxOneDDI
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -40,14 +47,14 @@
       [System.Object]$DHCPOptions = @(),
       [String]$DDNSDomain,
       [System.Object]$DDNSZones,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $ConfigProfile = Get-B1DHCPConfigProfile -Name $Name -Strict -IncludeInheritance
     if ($ConfigProfile) {
         Write-Host "The DHCP Config Profile: $Name already exists." -ForegroundColor Yellow
     } else {
-        Write-Host "Creating DHCP Config Profile: $Name..." -ForegroundColor Gray
-
         $splat = @{
             "name" = $Name
             "comment" = $Description
@@ -100,7 +107,8 @@
                     $AuthZoneSplat = $AuthZoneSplat | ConvertTo-Json | ConvertFrom-Json
                     $ConfigProfileJson += $AuthZoneSplat
                 } else {
-                    Write-Host "Error: Authoritative Zone not found." -ForegroundColor Red
+                    Write-Error "Error: Authoritative Zone: $($DDNSZone) not found."
+                    return $null
                 }
                 $ToUpdate += $DDNSZone
             }
@@ -117,14 +125,17 @@
 
         $splat = $splat | ConvertTo-Json -Depth 4
 
-        $Result = Invoke-CSP -Method POST -Uri "dhcp/server" -Data $splat | Select-Object -ExpandProperty result
+        if($PSCmdlet.ShouldProcess("Create new DHCP Config Profile:`n$($splat)","Create new DHCP Config Profile: $($Name)",$MyInvocation.MyCommand)){
+            Write-Host "Creating DHCP Config Profile: $Name..." -ForegroundColor Gray
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/server" -Data $splat | Select-Object -ExpandProperty result
 
-        if ($($Result).name -eq $Name) {
-            Write-Host "DHCP Config Profile: $Name created successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create DHCP Config Profile: $Name" -ForegroundColor Red
-            break
+            if ($($Result).name -eq $Name) {
+                Write-Host "DHCP Config Profile: $Name created successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create DHCP Config Profile: $Name" -ForegroundColor Red
+                break
+            }
         }
     }
 }

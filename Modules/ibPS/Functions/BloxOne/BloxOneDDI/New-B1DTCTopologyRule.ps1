@@ -38,6 +38,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'None'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -50,7 +54,6 @@
       [String]$Pool,
       [System.Object]$Subnets
     )
-
     $MethodArr = @{
         'RoundRobin' = 'round_robin'
         'Ratio' = 'ratio'

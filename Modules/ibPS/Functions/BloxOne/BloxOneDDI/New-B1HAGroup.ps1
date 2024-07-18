@@ -21,6 +21,9 @@
     .PARAMETER Description
         The description of the new HA Group
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
           PS> New-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group"
 
@@ -33,6 +36,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -43,9 +50,10 @@
       [String]$PrimaryNode,
       [Parameter(Mandatory=$true)]
       [String]$SecondaryNode,
-      [String]$Description
+      [String]$Description,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (Get-B1HAGroup -Name $Name -Strict) {
         Write-Host "HA Group already exists by the name $Name." -ForegroundColor Red
     } else {
@@ -69,13 +77,14 @@
         }
 
         $splat = $splat | ConvertTo-Json
-
-        $Result = Invoke-CSP -Method POST -Uri "dhcp/ha_group" -Data $splat | Select-Object -ExpandProperty result
-        if ($Result.name -eq $Name) {
-            Write-Host "Created DHCP HA Group $Name Successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create DHCP HA Group $Name." -ForegroundColor Red
+        if($PSCmdlet.ShouldProcess("Create new DHCP HA Group:`n$($splat)","Create new DHCP HA Group: $($Name)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/ha_group" -Data $splat | Select-Object -ExpandProperty result
+            if ($Result.name -eq $Name) {
+                Write-Host "Created DHCP HA Group $Name Successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create DHCP HA Group $Name." -ForegroundColor Red
+            }
         }
     }
 }

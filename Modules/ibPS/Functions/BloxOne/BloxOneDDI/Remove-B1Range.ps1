@@ -15,8 +15,11 @@
     .PARAMETER Space
         Use this parameter to filter the list of Address Blocks by Space
 
-    .PARAMETER id
-        The id of the range. Accepts pipeline input
+    .PARAMETER Object
+        The range object to remove. Accepts pipeline input
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1Range -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global"
@@ -30,6 +33,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$StartAddress,
@@ -38,34 +45,39 @@
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Space,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-      if ($id) {
-        $B1Range = Get-B1Range -id $id
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+        $SplitID = $Object.id.split('/')
+        if (("$($SplitID[0])/$($SplitID[1])") -ne "ipam/range") {
+            Write-Error "Error. Unsupported pipeline object. This function only supports 'ipam/range' objects as input"
+            return $null
+        }
       } else {
-        $B1Range = Get-B1Range -StartAddress $StartAddress -EndAddress $EndAddress -Space $Space
+          $Object = Get-B1Range -StartAddress $StartAddress -EndAddress $EndAddress -Space $Space
+          if (!($Object)) {
+              Write-Error "Unable to find DHCP Range: $($StartAddress)-$($EndAddress) in IP Space: $($Space)."
+              return $null
+          }
       }
 
-      if (($B1Ranges).Count -gt 1) {
-        Write-Host "More than one DHCP Ranges returned. These will not be removed. To remove multiple objects, please pipe Get-B1Range into Remove-B1Range." -ForegroundColor Red
-        $B1Range | Format-Table comment,start,end,space,name -AutoSize
-      } elseif (($B1Range).Count -eq 1) {
-        Write-Host "Removing DHCP Range: $($B1Range.start) - $($B1Range.end).." -ForegroundColor Yellow
-        $null = Invoke-CSP -Method "DELETE" -Uri $($B1Range.id)
-        $B1R = Get-B1Range -id $($B1Range.id)
+      if($PSCmdlet.ShouldProcess("$($Object.start) - $($Object.end) ($($Object.id))")){
+        Write-Host "Removing DHCP Range: $($Object.start) - $($Object.end).." -ForegroundColor Yellow
+        $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)"
+        $B1R = Get-B1Range -id $($Object.id)
         if ($B1R) {
           Write-Host "Error. Failed to remove DHCP Range: $($B1R.start) - $($B1R.end)" -ForegroundColor Red
         } else {
-          Write-Host "Successfully removed DHCP Range: $($B1Range.start) - $($B1Range.end)" -ForegroundColor Green
+          Write-Host "Successfully removed DHCP Range: $($Object.start) - $($Object.end)" -ForegroundColor Green
         }
-      } else {
-        Write-Host "DHCP Range does not exist: $StartAddress$id" -ForegroundColor Gray
       }
     }
 }

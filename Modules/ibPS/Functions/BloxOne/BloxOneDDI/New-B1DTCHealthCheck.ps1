@@ -33,6 +33,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the DTC health check
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1DTCHealthCheck -Name 'Exchange HTTPS Check' -Type HTTP -UseHTTPS -Port 443 -HTTPRequest "GET /owa/auth/logon.aspx HTTP/1.1`nHost: webmail.company.corp"
 
@@ -96,6 +99,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -107,8 +114,10 @@
       [Int]$Timeout = 10,
       [Int]$RetryUp = 1,
       [Int]$RetryDown = 1,
+      [ValidateSet("Enabled","Disabled")]
       [String]$State = 'Enabled',
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
 
     DynamicParam {
@@ -193,6 +202,7 @@
    }
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $splat = @{
             "name" = $Name
             "comment" = $Description
@@ -257,12 +267,13 @@
         }
 
         $JSON = $splat | ConvertTo-Json -Depth 5
-
-        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/health_check_$($Type.ToLower())" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Create new DTC Health Check:`n$($JSON)","Create new DTC Health Check: $($Name)",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/health_check_$($Type.ToLower())" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

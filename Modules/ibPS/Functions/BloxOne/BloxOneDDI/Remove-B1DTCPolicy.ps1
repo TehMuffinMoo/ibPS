@@ -12,6 +12,9 @@
     .PARAMETER Object
         The DTC Policy Object(s) to remove. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
     .EXAMPLE
         PS> Remove-B1DTCPolicy -Name "Exchange-Policy"
 
@@ -28,18 +31,24 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'High'
+    )]
     param(
         [Parameter(ParameterSetName="Default",Mandatory=$true)]
         [String]$Name,
         [Parameter(
             ValueFromPipeline = $true,
-            ParameterSetName="With ID",
+            ParameterSetName="Object",
             Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "dtc/policy") {
@@ -53,12 +62,13 @@
                 return $null
             }
         }
-
-        $Result = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)"
-        if (!(Get-B1DTCPolicy -id $Object.id)) {
-            Write-Host "Successfully removed DTC Policy: $($Object.name)" -ForegroundColor Green
-        } else {
-            Write-Error "Failed to remove DTC Policy: $($Object.name)"
+        if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
+            $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)"
+            if (!(Get-B1DTCPolicy -id $Object.id)) {
+                Write-Host "Successfully removed DTC Policy: $($Object.name)" -ForegroundColor Green
+            } else {
+                Write-Error "Failed to remove DTC Policy: $($Object.name)"
+            }
         }
     }
 }

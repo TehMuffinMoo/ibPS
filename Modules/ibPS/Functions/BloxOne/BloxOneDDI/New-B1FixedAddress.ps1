@@ -35,6 +35,9 @@
     .PARAMETER Space
         Use this parameter to filter the list of fixed addresses by Space
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 
@@ -44,6 +47,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$IP,
@@ -58,10 +65,11 @@
       [String]$MatchValue,
       [Parameter(Mandatory=$true)]
       [String]$Space,
-      [System.Object]$DHCPOptions = $null,
-      [System.Object]$Tags = $null
+      [System.Object]$DHCPOptions,
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if ($Space) {$SpaceUUID = (Get-B1Space -Name $Space -Strict).id}
 
     $splat = @{
@@ -75,12 +83,13 @@
       tags = $Tags
     }
     $splat = $splat | ConvertTo-Json -Depth 10
-
-    $Result = Invoke-CSP -Method POST -Uri "dhcp/fixed_address" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-    if ($Result.address -eq $IP) {
-      Write-Host "Created Fixed Address Successfully." -ForegroundColor Green
-      return $Result
-    } else {
-      Write-Host "Failed to create Fixed Address." -ForegroundColor Red
+    if($PSCmdlet.ShouldProcess("Create new Fixed Address:`n$($splat)","Create new Fixed Address: $($Name)",$MyInvocation.MyCommand)){
+        $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/fixed_address" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        if ($Result.address -eq $IP) {
+            Write-Host "Created Fixed Address Successfully." -ForegroundColor Green
+            return $Result
+        } else {
+            Write-Host "Failed to create Fixed Address." -ForegroundColor Red
+        }
     }
 }

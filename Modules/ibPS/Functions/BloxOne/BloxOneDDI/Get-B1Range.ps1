@@ -138,8 +138,8 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Invoke-CSP -Uri "ipam/range$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/range$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Invoke-CSP -Uri "ipam/range?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/range?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

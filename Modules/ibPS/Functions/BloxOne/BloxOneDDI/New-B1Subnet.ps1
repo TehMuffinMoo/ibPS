@@ -33,6 +33,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the subnet
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1Subnet -Subnet "10.30.5.0" -CIDR "24" -Space "Global" -Name "My Subnet" -Description "My Production Subnet"
 
@@ -49,6 +52,10 @@
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Subnet,
@@ -62,9 +69,10 @@
       [String]$Description,
       [System.Object]$DHCPOptions,
       [String]$DDNSDomain,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
     if ($HAGroup) {
         $DHCPHost = (Get-B1HAGroup -Name $HAGroup).id
@@ -73,8 +81,6 @@
     if (Get-B1Subnet -Subnet $Subnet -Space $Space -CIDR $CIDR) {
         Write-Host "The subnet $Subnet/$CIDR already exists." -ForegroundColor Yellow
     } else {
-        Write-Host "Creating subnet..." -ForegroundColor Gray
-
         $splat = @{
             "space" = $SpaceUUID
             "address" = $Subnet
@@ -101,14 +107,16 @@
         }
 
         $splat = $splat | ConvertTo-Json -Depth 4
-
-        $Result = Invoke-CSP -Method POST -Uri "ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
-        if ($Result.address -eq $Subnet) {
-            Write-Host "Subnet $Subnet/$CIDR created successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create subnet $Subnet/$CIDR." -ForegroundColor Red
-            break
+        if($PSCmdlet.ShouldProcess("Create new Subnet:`n$($splat)","Create new Subnet: $($Subnet)/$($CIDR)",$MyInvocation.MyCommand)){
+            Write-Host "Creating subnet..." -ForegroundColor Gray
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.address -eq $Subnet) {
+                Write-Host "Subnet $Subnet/$CIDR created successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create subnet $Subnet/$CIDR." -ForegroundColor Red
+                break
+            }
         }
     }
 }

@@ -58,6 +58,8 @@
       [String]$Address,
       [Parameter(ParameterSetName="With Address")]
       [String]$State,
+      [Parameter(ParameterSetName="With Address")]
+      [String]$Space,
       [Switch]$Reserved,
       [String]$Compartment,
       [Int]$Limit = 1000,
@@ -83,6 +85,10 @@
       if ($State) {
         $Filters.Add("state==`"$State`"") | Out-Null
       }
+      if ($Space) {
+        $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
+        $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
+    }
       if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
       }

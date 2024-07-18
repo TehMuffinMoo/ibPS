@@ -9,8 +9,11 @@ function Remove-B1DHCPConfigProfile {
     .PARAMETER Name
         The name of the DHCP Config Profile to remove
 
-    .PARAMETER id
-        The id of the DHCP Config Profile to remove. Accepts pipeline input
+    .PARAMETER Object
+        The DHCP Config Profile Object to remove. Accepts pipeline input
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1DHCPConfigProfile -Name "My Config Profile"
@@ -22,41 +25,51 @@ function Remove-B1DHCPConfigProfile {
         BloxOneDDI
 
     #>
-    [CmdletBinding(DefaultParameterSetName="Default")]
+    [CmdletBinding(
+      DefaultParameterSetName="Default",
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
-      [parameter(ParameterSetName="Default")]
+      [parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-      if ($Name) {
-        $ConfigProfile = Get-B1DHCPConfigProfile -Name $Name -Strict
-      } elseif ($id) {
-        $ConfigProfile = Get-B1DHCPConfigProfile -id $id
-      } else {
-        Write-Error "Neither -Name or -id were specified in the request."
-      }
-
-      if ($ConfigProfile) {
-        Invoke-CSP -Method DELETE -Uri "$($ConfigProfile.id)"
-        if ($Name) {
-            $ConfigProfileCheck = Get-B1DHCPConfigProfile -Name $Name -Strict
-        } elseif ($id) {
-            $ConfigProfileCheck = Get-B1DHCPConfigProfile -id $id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
-        }
-        if ($ConfigProfileCheck) {
-            Write-Error "Failed to delete DHCP Config Profile: $($ConfigProfile.name)"
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+        if ($Object) {
+            $SplitID = $Object.id.split('/')
+            if (("$($SplitID[0])/$($SplitID[1])") -ne "dhcp/server") {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'dhcp/server' objects as input"
+                return $null
+            }
         } else {
-            Write-Host "Successfully deleted DHCP Config Profile: $($ConfigProfile.name)" -ForegroundColor Green
+            $Object = Get-B1DHCPConfigProfile -Name $Name -Strict
+            if (!($Object)) {
+                Write-Error "Unable to find DHCP Config Profile: $($Name)"
+                return $null
+            }
+            if ($Object.count -gt 1) {
+                Write-Error "Multiple DHCP Config Profiles were found, to remove more than one DHCP Config Profile you should pass those objects using pipe instead."
+                return $null
+            }
         }
-      } else {
-        Write-Error "Unable to find DHCP Config Profile: $id$Name"
-      }
+
+        if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
+            $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)"
+            $ConfigProfileCheck = Get-B1DHCPConfigProfile -id $Object.id
+            if ($ConfigProfileCheck) {
+                Write-Error "Failed to delete DHCP Config Profile: $($Object.name)"
+            } else {
+                Write-Host "Successfully deleted DHCP Config Profile: $($Object.name)" -ForegroundColor Green
+            }
+        }
     }
 }

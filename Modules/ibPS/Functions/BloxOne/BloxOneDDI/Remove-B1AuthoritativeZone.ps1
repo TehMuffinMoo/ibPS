@@ -12,8 +12,11 @@
     .PARAMETER View
         The DNS View the zone is located in
 
-    .PARAMETER id
-        The id of the authoritative zone. Accepts pipeline input
+    .PARAMETER Object
+        The authoritative zone object. Accepts pipeline input
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default"
@@ -24,35 +27,52 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(Mandatory=$true,ParameterSetName="Default")]
       [String]$FQDN,
       [Parameter(Mandatory=$true,ParameterSetName="Default")]
       [System.Object]$View,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-      if ($id) {
-        $Zone = Get-B1AuthoritativeZone -id $id
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+          $SplitID = $Object.id.split('/')
+          if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/auth_zone") {
+              Write-Error "Error. Unsupported pipeline object. This function only supports 'dns/auth_zone' objects as input"
+              return $null
+          }
       } else {
-        $Zone = Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View
+          $Object = Get-B1AuthoritativeZone -FQDN $FQDN -Strict -View $View
+          if (!($Object)) {
+              Write-Error "Unable to find Authoritative Zone: $($FQDN) in DNS View: $($View)"
+              return $null
+          }
+          if ($Object.count -gt 1) {
+              Write-Error "Multiple Authoritative Zones were found, to remove more than one Authoritative Zone you should pass those objects using pipe instead."
+              return $null
+          }
       }
-      if ($Zone) {
-        Invoke-CSP -Method "DELETE" -Uri "$($Zone.id)" | Out-Null
+
+      if($PSCmdlet.ShouldProcess("$($Object.fqdn) ($($Object.id))")){
+        $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Zone.id)" | Out-Null
         $B1Zone = Get-B1AuthoritativeZone -id $($Zone.id)
         if ($B1Zone) {
             Write-Host "Error. Failed to delete Authoritative Zone: $($B1Zone.fqdn)" -ForegroundColor Red
         } else {
             Write-Host "Successfully deleted Authoritative Zone: $($Zone.fqdn)" -ForegroundColor Green
         }
-      } else {
-        Write-Host "Zone $FQDN$id does not exist." -ForegroundColor Yellow
       }
     }
 }

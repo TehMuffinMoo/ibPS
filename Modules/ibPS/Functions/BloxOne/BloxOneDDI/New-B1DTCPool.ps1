@@ -48,6 +48,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the DTC Pool
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
        PS> New-B1DTCPool -Name 'Exchange Pool' -Description 'Pool of Exchange Servers' -LoadBalancingType Ratio -Servers MAILSERVER-01:10,MAILSERVER-02:20 -HealthChecks 'ICMP health check','Exchange HTTPS Check' -TTL 10
 
@@ -73,6 +76,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -91,9 +98,10 @@
       [Int]$TTL,
       [ValidateSet("Enabled","Disabled")]
       [String]$State = 'Enabled',
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $ChecksArr = @{
         'Any' = 'any'
         'All' = 'all'
@@ -171,12 +179,12 @@
     }
 
     $JSON = $splat | ConvertTo-Json -Depth 5 -Compress
-
-    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/pool" -Data $JSON
-    if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-    } else {
-        $Results
+    if($PSCmdlet.ShouldProcess("Create new DTC Pool:`n$(JSONPretty($JSON))","Create new DTC Pool: $($Name)",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/pool" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
-
 }

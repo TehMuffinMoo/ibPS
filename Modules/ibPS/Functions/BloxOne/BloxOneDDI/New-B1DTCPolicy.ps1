@@ -34,6 +34,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the DTC policy
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
        PS> New-B1DTCPolicy -Name 'Exchange-Policy' -Description 'Exchange Policy' -LoadBalancingType GlobalAvailability -Pools 'Exchange Pool' -TTL 10 -Tags @{'Owner' = 'Network Team'}
 
@@ -89,6 +92,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -101,8 +108,10 @@
       [Int]$TTL,
       [ValidateSet("Enabled","Disabled")]
       [String]$State = 'Enabled',
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $MethodArr = @{
         'RoundRobin' = 'round_robin'
         'Ratio' = 'ratio'
@@ -158,12 +167,12 @@
         }
     }
     $JSON = $splat | ConvertTo-Json -Depth 5 -Compress
-
-    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/policy" -Data $JSON
-    if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-    } else {
-        $Results
+    if($PSCmdlet.ShouldProcess("Create new DTC Policy:`n$(JSONPretty($JSON))","Create new DTC Policy: $($Name)",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/policy" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
-
 }

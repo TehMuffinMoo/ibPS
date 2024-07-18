@@ -46,6 +46,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'None'
+    )]
     param(
         [Parameter(ParameterSetName='IP',Mandatory=$true)]
         [Parameter(ParameterSetName='TSIG',Mandatory=$true)]
@@ -58,7 +62,6 @@
         [Parameter(ParameterSetName='TSIG')]
         $TSIG_KEY
     )
-
     if ($Address) {
         $PSBoundParameters.address = $Address
         $PSBoundParameters.element = 'ip'

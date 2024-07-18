@@ -21,6 +21,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the delegated zone
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1DelegatedZone -FQDN "mysubzone.mycompany.corp" -View "default" -Description "My Delegated Zone"
 
@@ -30,6 +33,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$FQDN,
@@ -38,9 +45,10 @@
       [Parameter(Mandatory=$true)]
       [System.Object]$DelegationServers,
       [String]$Description,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (Get-B1DelegatedZone -FQDN $FQDN -View $View) {
         Write-Host "The $FQDN Zone already exists in DNS." -ForegroundColor Red
     } else {
@@ -70,13 +78,15 @@
 
         $splat = $splat | ConvertTo-Json
 
-        $Result = Invoke-CSP -Method POST -Uri "dns/delegation" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        if($PSCmdlet.ShouldProcess("Create new Delegated Zone:`n$($splat)","Create new Delegated Zone: $($FQDN)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/delegation" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 
-        if ($Result) {
-            Write-Host "Created Delegated DNS Zone $FQDN successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create Delegated DNS Zone $FQDN." -ForegroundColor Red
+            if ($Result) {
+                Write-Host "Created Delegated DNS Zone $FQDN successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create Delegated DNS Zone $FQDN." -ForegroundColor Red
+            }
         }
     }
 }

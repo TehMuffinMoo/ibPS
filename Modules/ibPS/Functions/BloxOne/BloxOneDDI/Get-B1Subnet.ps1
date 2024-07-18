@@ -153,8 +153,8 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Invoke-CSP -Uri "ipam/subnet$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/subnet$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Invoke-CSP -Uri "ipam/subnet?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/subnet?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

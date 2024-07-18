@@ -9,8 +9,11 @@
     .PARAMETER Name
         The name of the DNS View to remove
 
-    .PARAMETER id
-        The id of the DNS View. Accepts pipeline input
+    .PARAMETER Object
+        The DNS View Object to remove. Accepts pipeline input
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1DNSView -Name "My DNS View"
@@ -27,39 +30,51 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-
-      if ($id) {
-        $ViewInfo = Get-B1DNSView -id $id
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+          $SplitID = $Object.id.split('/')
+          if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/view") {
+              Write-Error "Error. Unsupported pipeline object. This function only supports 'dns/view' objects as input"
+              return $null
+          }
       } else {
-        $ViewInfo = Get-B1DNSView -Name $Name -Strict
+          $Object = Get-B1DNSView -Name $Name -Strict
+          if (!($Object)) {
+              Write-Error "Unable to find DNS View: $($Name)"
+              return $null
+          }
+          if ($Object.count -gt 1) {
+              Write-Error "Multiple DNS Views were found, to remove more than one DNS View you should pass those objects using pipe instead."
+              return $null
+          }
       }
 
-      if (($ViewInfo).Count -gt 1) {
-        Write-Host "More than one DNS Views returned. These will not be removed. Please pipe Get-B1DNSView into Remove-B1DNSView to remove multiple objects." -ForegroundColor Red
-        $ViewInfo | Format-Table -AutoSize
-      } elseif (($ViewInfo).Count -eq 1) {
-        Write-Host "Removing DNS View: $($ViewInfo.Name).." -ForegroundColor Yellow
-        Invoke-CSP -Method "DELETE" -Uri $($ViewInfo.id) -Data $null | Out-Null
-        $SI = Get-B1DNSView -id $($ViewInfo.id) 6> $null
+      if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
+        Write-Host "Removing DNS View: $($Object.Name).." -ForegroundColor Yellow
+        $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" | Out-Null
+        $SI = Get-B1DNSView -id $($Object.id) 6> $null
         if ($SI) {
           Write-Host "Failed to remove DNS View: $($SI.Name)" -ForegroundColor Red
         } else {
-          Write-Host "Successfully removed DNS View: $($ViewInfo.Name)" -ForegroundColor Green
+          Write-Host "Successfully removed DNS View: $($Object.Name)" -ForegroundColor Green
         }
-      } else {
-        Write-Host "DNS View does not exist." -ForegroundColor Gray
       }
     }
 }
