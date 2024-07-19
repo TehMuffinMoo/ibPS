@@ -30,6 +30,9 @@
     .PARAMETER Object
         The HA Group Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
           PS> Set-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group" -Tags @{"TagName"="TagValue"}
 
@@ -42,6 +45,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(ParameterSetName="Default",Mandatory=$true)]
         [String]$Name,
@@ -57,10 +64,12 @@
           ParameterSetName="Object",
           Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "dhcp/ha_group") {

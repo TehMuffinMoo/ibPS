@@ -15,6 +15,9 @@
     .PARAMETER UseGlobalNTPConfig
         Use this parameter to apply the NTP Configuration from the Global NTP Configuration
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict -UseGlobalNTPConfig
 
@@ -24,14 +27,19 @@
     .FUNCTIONALITY
         Service
     #>
+  [CmdletBinding(
+    SupportsShouldProcess,
+    ConfirmImpact = 'Medium'
+  )]
   param (
     [Parameter(Mandatory=$true)]
     [String]$Name,
     [Parameter(Mandatory=$false)]
     [Switch]$Strict,
-    [Switch]$UseGlobalNTPConfig = $true
+    [Switch]$UseGlobalNTPConfig = $true,
+    [Switch]$Force
   )
-
+  $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
   $B1Service = Get-B1Service -Name $Name -Strict:$Strict
   if ($B1Service) {
     if ($B1Service.count -gt 1) {

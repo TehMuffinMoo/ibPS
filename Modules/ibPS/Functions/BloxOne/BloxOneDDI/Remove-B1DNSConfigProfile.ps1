@@ -1,4 +1,4 @@
-function Remove-B1DNSConfigProfile {
+﻿function Remove-B1DNSConfigProfile {
     <#
     .SYNOPSIS
         Removes a DNS Config Profile

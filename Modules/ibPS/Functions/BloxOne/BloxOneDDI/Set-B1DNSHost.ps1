@@ -21,6 +21,9 @@
     .PARAMETER Object
         The DNS Host Object to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
 
@@ -33,6 +36,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(ParameterSetName="Default",Mandatory=$true)]
         [String]$Name,
@@ -43,10 +50,12 @@
           ParameterSetName="Object",
           Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
           $SplitID = $Object.id.split('/')
           if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/host") {

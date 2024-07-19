@@ -60,6 +60,9 @@
     .PARAMETER Object
         The DTC Health Check Object(s) to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         $HeaderRegexes = @(
             @{
@@ -102,7 +105,11 @@
     .FUNCTIONALITY
         DNS
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+        DefaultParameterSetName = 'Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName='Default',Mandatory=$true)]
       [String]$Name,
@@ -132,9 +139,11 @@
           ParameterSetName="With ID",
           Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             $PermittedInputs = @('dtc/health_check_icmp','dtc/health_check_tcp','dtc/health_check_http')

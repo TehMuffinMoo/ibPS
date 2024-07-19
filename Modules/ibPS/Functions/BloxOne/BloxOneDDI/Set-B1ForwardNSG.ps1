@@ -30,6 +30,9 @@
     .PARAMETER Object
         The Forward DNS Server Group Object to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1ForwardNSG -Name "InfoBlox DTC" -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 
@@ -42,6 +45,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
@@ -56,10 +63,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if ($AddHosts -and $RemoveHosts) {
         Write-Error "Error. -AddHosts and -RemoveHosts are mutually exclusive."
         return $null

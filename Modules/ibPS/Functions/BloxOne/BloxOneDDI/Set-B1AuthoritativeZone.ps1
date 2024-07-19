@@ -39,6 +39,9 @@
     .PARAMETER Object
         The Authoritative Zone Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -AddAuthNSGs "Data Centre"
 
@@ -48,6 +51,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$FQDN,
@@ -68,10 +75,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     begin {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Compartment) {
             $CompartmentID = (Get-B1Compartment -Name $Compartment -Strict).id
             if (!($CompartmentID)) {
@@ -147,11 +156,13 @@
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
 
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Update Authoritative Zone:`n$(JSONPretty($JSON))","Update Authoritative Zone: $($Object.fqdn) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

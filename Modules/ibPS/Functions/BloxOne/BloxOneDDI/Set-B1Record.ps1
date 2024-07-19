@@ -54,6 +54,9 @@
     .PARAMETER Object
         The Range Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.50.10" -TTL 600
 
@@ -63,6 +66,10 @@
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+  )]
     param(
       [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
@@ -96,10 +103,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if ($Object) {
         $SplitID = $Object.id.split('/')
         if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/record") {

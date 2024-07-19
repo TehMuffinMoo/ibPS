@@ -72,7 +72,7 @@
                 $splat = @{
                     "server" = $DNSConfigProfileId
                 }
-        
+
                 $splat = $splat | ConvertTo-Json
 
                 if($PSCmdlet.ShouldProcess("Assign DNS Config Profile: $($Name) to Host: $($iObject.name)","Assign DNS Config Profile: $($Name) to Host: $($iObject.name)",$MyInvocation.MyCommand)){

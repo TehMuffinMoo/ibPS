@@ -36,6 +36,9 @@
     .PARAMETER Object
         The DNS ACL object to update. Accepts pipeline input from Get-B1DNSACLItem.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         Set-B1DNSACL -Name 'My ACL' -NewName 'My New ACL' -Tags @{'Tag1' = 'Val1'}
 
@@ -82,7 +85,11 @@
     .FUNCTIONALITY
         Threat Defense
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+        DefaultParameterSetName = 'Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName='Default',Mandatory=$true)]
       [String]$Name,
@@ -97,10 +104,12 @@
           ParameterSetName="Pipeline",
           Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne 'dns/acl') {

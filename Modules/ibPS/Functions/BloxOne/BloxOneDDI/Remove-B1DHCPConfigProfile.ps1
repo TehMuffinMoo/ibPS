@@ -1,4 +1,4 @@
-function Remove-B1DHCPConfigProfile {
+﻿function Remove-B1DHCPConfigProfile {
     <#
     .SYNOPSIS
         Removes a DHCP Config Profile

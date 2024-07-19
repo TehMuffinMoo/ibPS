@@ -33,6 +33,9 @@
     .PARAMETER Object
         The Range Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description "Some Description" -Tags @{"siteCode"="12345"}
 
@@ -48,6 +51,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Range",Mandatory=$true)]
       [String]$StartAddress,
@@ -67,10 +74,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     begin {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($HAGroup) {
             $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
             if (!($HAGroupID)) {

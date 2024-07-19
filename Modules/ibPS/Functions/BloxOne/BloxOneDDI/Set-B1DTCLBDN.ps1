@@ -36,6 +36,9 @@
     .PARAMETER Object
         The DTC LBDN Object(s) to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
        PS> Set-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 10 -TTL 10
 
@@ -70,7 +73,11 @@
     .FUNCTIONALITY
         DNS
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+        DefaultParameterSetName = 'Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName='Default',Mandatory=$true)]
       [String]$Name,
@@ -88,10 +95,12 @@
           ParameterSetName="With ID",
           Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "dtc/lbdn") {

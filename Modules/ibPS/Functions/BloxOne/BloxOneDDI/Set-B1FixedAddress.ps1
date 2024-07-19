@@ -36,6 +36,9 @@
     .PARAMETER Object
         The Fixed Address Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 
@@ -56,6 +59,10 @@
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="IP",Mandatory=$true)]
       [String]$IP,
@@ -76,10 +83,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if ($Object) {
           $SplitID = $Object.id.split('/')
           if (("$($SplitID[0])/$($SplitID[1])") -ne "dhcp/fixed_address") {

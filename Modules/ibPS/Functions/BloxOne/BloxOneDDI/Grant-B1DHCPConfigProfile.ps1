@@ -72,9 +72,9 @@
         $splat = @{
             "server" = $DHCPConfigProfileId
         }
-  
+
         $splat = $splat | ConvertTo-Json
-  
+
         if($PSCmdlet.ShouldProcess("Assign DHCP Config Profile: $($Name) to Host: $($iObject.name)","Assign DHCP Config Profile: $($Name) to Host: $($iObject.name)",$MyInvocation.MyCommand)){
           $Result = Invoke-CSP -Method "PATCH" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($iObject.id)" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
           if ($Result.server -eq $DHCPConfigProfileId) {

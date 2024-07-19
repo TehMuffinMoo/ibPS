@@ -42,6 +42,9 @@
     .PARAMETER Object
         The Subnet Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -NewName "MySubnet" -Space "Global" -Description "Comment for description"
 
@@ -63,6 +66,10 @@
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
       [String]$Subnet,
@@ -86,10 +93,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     begin {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($HAGroup) {
             $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
             if (!($HAGroupID)) {
