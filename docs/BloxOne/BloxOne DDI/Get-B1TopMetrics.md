@@ -14,25 +14,25 @@ Retrieves top metrics from BloxOneDDI
 
 ### default (Default)
 ```
-Get-B1TopMetrics [-TopCount <Int32>] [-Start <DateTime>] [-End <DateTime>] [<CommonParameters>]
+Get-B1TopMetrics [-TopCount <Int32>] [-Start <DateTime>] [-End <DateTime>] [-Force] [<CommonParameters>]
 ```
 
 ### topQueries
 ```
 Get-B1TopMetrics [-TopQueries] -QueryType <String> [-TopCount <Int32>] [-Start <DateTime>] [-End <DateTime>]
- [<CommonParameters>]
+ [-Force] [<CommonParameters>]
 ```
 
 ### topClients
 ```
 Get-B1TopMetrics [-TopClients] [-TopClientLogType <String>] [-TopCount <Int32>] [-Start <DateTime>]
- [-End <DateTime>] [<CommonParameters>]
+ [-End <DateTime>] [-Force] [<CommonParameters>]
 ```
 
 ### topDNSServers
 ```
 Get-B1TopMetrics [-TopDNSServers] [-Granularity <String>] [-TopCount <Int32>] [-Start <DateTime>]
- [-End <DateTime>] [<CommonParameters>]
+ [-End <DateTime>] [-Force] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -192,6 +192,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: (Get-Date)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+{{ Fill Force Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

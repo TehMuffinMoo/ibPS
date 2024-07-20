@@ -12,7 +12,7 @@ Used to query a DNS over HTTPS Server to verify connectivity and responses
 
 ## SYNTAX
 
-### Default
+### Default (Default)
 ```
 Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [-Section <String[]>]
  [-SourceIP <String>] [-SourceMAC <String>] [-SourceView <String>] [-OutDig] [<CommonParameters>]

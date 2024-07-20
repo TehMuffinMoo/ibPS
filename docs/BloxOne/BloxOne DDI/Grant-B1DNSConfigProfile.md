@@ -12,8 +12,14 @@ Applies a DNS Config Profile to one or most BloxOneDDI Hosts
 
 ## SYNTAX
 
+### Default
 ```
-Grant-B1DNSConfigProfile [-Name] <String> [-Hosts] <Object> [<CommonParameters>]
+Grant-B1DNSConfigProfile -Name <String> -Hosts <String[]> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Object
+```
+Grant-B1DNSConfigProfile -Name <String> -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -37,7 +43,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -47,12 +53,74 @@ Accept wildcard characters: False
 A list of BloxOneDDI Hosts to apply the DNS Config Profile to
 
 ```yaml
-Type: Object
-Parameter Sets: (All)
+Type: String[]
+Parameter Sets: Default
 Aliases:
 
 Required: True
-Position: 2
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+The DNS Host object(s) to grant the DNS Config Profile to
+
+```yaml
+Type: Object
+Parameter Sets: Object
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

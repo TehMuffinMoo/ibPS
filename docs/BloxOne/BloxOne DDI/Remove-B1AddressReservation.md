@@ -14,12 +14,13 @@ Removes an address reservation from BloxOneDDI IPAM
 
 ### Default
 ```
-Remove-B1AddressReservation -Address <String> -id <String> [<CommonParameters>]
+Remove-B1AddressReservation -Address <String> -Space <String> [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
-Remove-B1AddressReservation -id <String> [<CommonParameters>]
+Remove-B1AddressReservation -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,9 +50,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the Address Reservation to remove.
-Accepts pipeline input.
+### -Space
+{{ Fill Space Description }}
 
 ```yaml
 Type: String
@@ -65,12 +65,63 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Object
+The Address Reservation Object to remove.
+Accepts pipeline input.
+
 ```yaml
-Type: String
-Parameter Sets: With ID
+Type: Object
+Parameter Sets: Object
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

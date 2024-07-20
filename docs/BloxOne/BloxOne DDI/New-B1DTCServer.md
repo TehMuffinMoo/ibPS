@@ -15,15 +15,15 @@ Creates a new server object within BloxOne DTC
 ### FQDN
 ```
 New-B1DTCServer -Name <String> [-Description <String>] -FQDN <String> [-AutoCreateResponses <String>]
- [-SynthesizedA <IPAddress[]>] [-SynthesizedCNAME <String>] [-State <String>] [-Tags <Object>]
- [<CommonParameters>]
+ [-SynthesizedA <IPAddress[]>] [-SynthesizedCNAME <String>] [-State <String>] [-Tags <Object>] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### IP
 ```
 New-B1DTCServer -Name <String> [-Description <String>] -IP <IPAddress> [-AutoCreateResponses <String>]
- [-SynthesizedA <IPAddress[]>] [-SynthesizedCNAME <String>] [-State <String>] [-Tags <Object>]
- [<CommonParameters>]
+ [-SynthesizedA <IPAddress[]>] [-SynthesizedCNAME <String>] [-State <String>] [-Tags <Object>] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -181,6 +181,53 @@ Any tags you want to apply to the DTC Server.
 Type: Object
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
 
 Required: False
 Position: Named

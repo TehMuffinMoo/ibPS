@@ -15,8 +15,7 @@ Queries the BloxOneDDI DHCP Log
 ```
 Get-B1DHCPLog [[-Hostname] <String>] [[-State] <String>] [[-IP] <String>] [[-DHCPServer] <Object>]
  [[-Protocol] <String>] [[-MACAddress] <String>] [[-Start] <DateTime>] [[-End] <DateTime>]
- [[-OrderBy] <String>] [[-Order] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Force] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [[-OrderBy] <String>] [[-Order] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -213,53 +212,6 @@ Aliases:
 Required: False
 Position: 12
 Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Force
-Perform the operation without prompting for confirmation.
-By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
-
-Required: False
-Position: Named
-Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

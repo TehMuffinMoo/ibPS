@@ -20,9 +20,9 @@ Get-B1Address [-Reserved] [-Compartment <String>] [-Limit <Int32>] [-Offset <Int
 
 ### With Address
 ```
-Get-B1Address [-Address <String>] [-State <String>] [-Reserved] [-Compartment <String>] [-Limit <Int32>]
- [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>]
- [-CustomFilters <Object>] [<CommonParameters>]
+Get-B1Address [-Address <String>] [-State <String>] [-Space <String>] [-Reserved] [-Compartment <String>]
+ [-Limit <Int32>] [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>]
+ [-OrderByTag <String>] [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### With ID
@@ -61,6 +61,21 @@ Accept wildcard characters: False
 
 ### -State
 Use this parameter to filter by State
+
+```yaml
+Type: String
+Parameter Sets: With Address
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Space
+{{ Fill Space Description }}
 
 ```yaml
 Type: String
