@@ -9,11 +9,11 @@
     .PARAMETER Name
         The name of the BloxOneDDI host to remove
 
-    .PARAMETER id
-        The id of the BloxOneDDI Host. Accepts pipeline input
+    .PARAMETER Object
+        The BloxOneDDI Host Object(s) to remove. Accepts pipeline input
 
-    .PARAMETER NoWarning
-        Using -NoWarning will stop warnings prior to deleting a host
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
@@ -24,46 +24,53 @@
     .FUNCTIONALITY
         Host
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id,
-      [Switch]$NoWarning
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-
-      if ($id) {
-        if ($id -like "infra/host/*") {
-          $idshort = $id.replace("infra/host/","")
-        } else {
-          $idshort = $id
-        }
-        $hostID = Get-B1Host -id $idshort -Detailed
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+          $SplitID = $Object.id.split('/')
+          if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/host") {
+              $Object = Get-B1Host -id $($Object.id) -Detailed
+              if (-not $Object) {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/host' objects as input"
+                return $null
+              }
+              $HostID = $Object.id
+          } else {
+            $HostID = $SplitID[2]
+          }
       } else {
-        $hostID = Get-B1Host -Name $Name -Strict -Detailed
+          $Object = Get-B1Host -Name $Name -Strict -Detailed
+          if (!($Object)) {
+              Write-Error "Unable to find BloxOne Host: $($Name)"
+              return $null
+          }
+          $HostID = $Object.id
       }
-      if ($hostID) {
 
-        if (!$NoWarning) {
-          Write-Warning "Are you sure you want to delete: $($hostID.display_name)?" -WarningAction Inquire
-        }
-
-        Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$($hostID.id)" | Out-Null
-        $HID = Get-B1Host -id $($hostID.id) -Detailed
-
+      if($PSCmdlet.ShouldProcess("$($Object.display_name) ($($HostID))")){
+        Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$($HostID)" | Out-Null
+        $HID = Get-B1Host -id $($Object.id)
         if ($HID) {
           Write-Host "Error. Failed to delete BloxOneDDI Host: $($HID.display_name)" -ForegroundColor Red
         } else {
-          Write-Host "Successfully deleted BloxOneDDI Host: $($hostID.display_name)" -ForegroundColor Green
+          Write-Host "Successfully deleted BloxOneDDI Host: $($Object.display_name)" -ForegroundColor Green
         }
-      } else {
-        Write-Host "Error. Unable to find Host ID: $Name$id" -ForegroundColor Red
       }
     }
 }

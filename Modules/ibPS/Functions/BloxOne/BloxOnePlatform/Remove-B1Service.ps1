@@ -9,11 +9,11 @@
     .PARAMETER Name
         The name of the BloxOneDDI Service to remove
 
-    .PARAMETER id
-        The id of the BloxOneDDI Host. Accepts pipeline input
+    .PARAMETER Object
+        The BloxOneDDI Service Object(s) to remove. Accepts pipeline input
 
-    .PARAMETER NoWarning
-        Using -NoWarning will stop warnings prior to deleting a host
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
@@ -24,46 +24,53 @@
     .FUNCTIONALITY
         Service
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id,
-      [Switch]$NoWarning
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-      if ($id) {
-        if ($id -like "infra/service/*") {
-          $idshort = $id.replace("infra/service/","")
-        } else {
-          $idshort = $id
-        }
-        $B1Service = Get-B1Service -id $idshort -Detailed
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+          $SplitID = $Object.id.split('/')
+          if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/service") {
+              $Object = Get-B1Service -id $($Object.id) -Detailed
+              if (-not $Object) {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/service' objects as input"
+                return $null
+              }
+              $ServiceID = $Object.id
+          } else {
+            $ServiceID = $SplitID[2]
+          }
       } else {
-        $B1Service = Get-B1Service -Name $Name -Strict -Detailed
+          $Object = Get-B1Service -Name $Name -Strict -Detailed
+          if (!($Object)) {
+              Write-Error "Unable to find BloxOne Service: $($Name)"
+              return $null
+          }
+          $ServiceID = $Object.id
       }
 
-      if ($B1Service.count -gt 1) {
-        Write-Host "More than one service returned. Check the name/id or pipe Get-B1Service into Remove-B1Service when removing multiple objects." -ForegroundColor Red
-        $B1Service | Format-Table name,service_type,@{label='host_id';e={$_.configs.host_id}} -AutoSize
-      } elseif ($B1Service) {
-
-        if (!$NoWarning) {
-          Write-Warning "Are you sure you want to delete: $($B1Service.name)?" -WarningAction Inquire
-        }
-
-        Write-Host "Removing $($B1Service.name).." -ForegroundColor Cyan
-        Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/services/$($B1Service.id)" | Out-Null
-        $B1S = Get-B1Service -id $($B1Service.id) -Detailed
+      if($PSCmdlet.ShouldProcess("$($Object.name) ($($ServiceID))")){
+        Write-Host "Removing $($Object.name).." -ForegroundColor Cyan
+        Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/services/$($ServiceID)" | Out-Null
+        $B1S = Get-B1Service -id $($Object.id) -Detailed
         if ($B1S) {
           Write-Host "Failed to delete service: $($B1S.name)" -ForegroundColor Red
         } else {
-          Write-Host "Service deleted successfully: $($B1Service.name)." -ForegroundColor Green
+          Write-Host "Service deleted successfully: $($Object.name)." -ForegroundColor Green
         }
       }
     }

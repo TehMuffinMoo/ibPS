@@ -33,6 +33,9 @@
     .PARAMETER Object
         The host object to update. Accepts pipeline input from Get-B1Host
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
 
@@ -45,6 +48,10 @@
     .FUNCTIONALITY
         Host
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Default")]
       [String]$Name,
@@ -62,90 +69,97 @@
         ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if ($Object) {
-        $SplitID = $Object.id.split('/')
-        if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/host") {
-            Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/host' objects as input"
-            return $null
-        } else {
-          $B1Host = $Object
-        }
-      } else {
-        if ($IP) {
-          $B1Host = Get-B1Host -IP $IP -Strict
-          if (!($B1Host)) {
-              Write-Host "On-Prem Host $IP does not exist." -ForegroundColor Gray
+          $SplitID = $Object.id.split('/')
+          if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/host") {
+              $Object = Get-B1Host -id $($Object.id) -Detailed
+              if (-not $Object) {
+                Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/host' objects as input"
+                return $null
+              }
+              $HostID = $Object.id
+          } else {
+            $HostID = $SplitID[2]
           }
-        } elseif ($Name) {
-          $B1Host = Get-B1Host -Name $Name -Strict
-          if (!($B1Host)) {
-              Write-Host "On-Prem Host $Name does not exist." -ForegroundColor Gray
+      } else {
+          if ($IP) {
+            $Object = Get-B1Host -IP $IP -Strict
+            if (!($Object)) {
+                Write-Host "On-Prem Host $IP does not exist." -ForegroundColor Gray
+            }
+          } elseif ($Name) {
+            $Object = Get-B1Host -Name $Name -Strict
+            if (!($Object)) {
+                Write-Host "On-Prem Host $Name does not exist." -ForegroundColor Gray
+            }
+          }
+          $HostID = $Object.id
+      }
+
+      $NewObj = $Object | Select-Object * -ExcludeProperty id,configs,created_at
+
+      if ($NewName) {
+        $NewObj.display_name = $NewName
+      }
+      if ($TimeZone) {$NewObj.timezone = $TimeZone}
+      if ($Space) {
+        if ($NewObj.ip_space) {
+            $NewObj.ip_space = (Get-B1Space -Name $Space -Strict).id
+        } else {
+            $NewObj | Add-Member -MemberType NoteProperty -Name "ip_space" -Value (Get-B1Space -Name $Space -Strict).id
+        }
+      }
+      if ($Description) {
+        if ($NewObj.description) {
+            $NewObj.description = $Description
+        } else {
+            $NewObj | Add-Member -MemberType NoteProperty -Name "description" -Value $Description
+        }
+      }
+      if ($Location) {
+        if ($Location -eq 'None') {
+          if ($NewObj.location) {
+            $NewObj.location_id = $null
+          } else {
+              $NewObj | Add-Member -MemberType NoteProperty -Name "location_id" -Value $null
+          }
+        } else {
+          $LocationID = (Get-B1Location -Name $Location -Strict).id
+          if ($LocationID) {
+            if ($NewObj.location) {
+              $NewObj.location_id = $LocationID
+            } else {
+                $NewObj | Add-Member -MemberType NoteProperty -Name "location_id" -Value $LocationID
+            }
+          } else {
+            Write-Error "Unable to find Location: $($Location)"
+            return $null
           }
         }
       }
+      if ($Tags) {
+        if ($NewObj.tags) {
+            $NewObj.tags = $Tags
+        } else {
+            $NewObj | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
+        }
+      }
 
-      if ($B1Host) {
-        if ($NewName) {
-          $B1Host.display_name = $NewName
-        }
-        if ($TimeZone) {$B1Host.timezone = $TimeZone}
-        if ($Space) {
-          if ($B1Host.ip_space) {
-              $B1Host.ip_space = (Get-B1Space -Name $Space -Strict).id
-          } else {
-              $B1Host | Add-Member -MemberType NoteProperty -Name "ip_space" -Value (Get-B1Space -Name $Space -Strict).id
-          }
-        }
-        if ($Description) {
-          if ($B1Host.description) {
-              $B1Host.description = $Description
-          } else {
-              $B1Host | Add-Member -MemberType NoteProperty -Name "description" -Value $Description
-          }
-        }
-        if ($Location) {
-          if ($Location -eq 'None') {
-            if ($B1Host.location) {
-              $B1Host.location_id = $null
-            } else {
-                $B1Host | Add-Member -MemberType NoteProperty -Name "location_id" -Value $null
-            }
-          } else {
-            $LocationID = (Get-B1Location -Name $Location -Strict).id
-            if ($LocationID) {
-              if ($B1Host.location) {
-                $B1Host.location_id = $LocationID
-              } else {
-                  $B1Host | Add-Member -MemberType NoteProperty -Name "location_id" -Value $LocationID
-              }
-            } else {
-              Write-Error "Unable to find Location: $($Location)"
-              return $null
-            }
-          }
-        }
-        if ($Tags) {
-          if ($B1Host.tags) {
-              $B1Host.tags = $Tags
-          } else {
-              $B1Host | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
-          }
-        }
+      $JSON = $NewObj | Select-Object * -ExcludeProperty id,configs,created_at | ConvertTo-Json -Depth 10 -Compress
 
-        $hostID = $B1Host.id.replace("infra/host/","")
-
-        $splat = $B1Host | Select-Object * -ExcludeProperty id,configs,created_at | ConvertTo-Json -Depth 10 -Compress
-        $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$hostID" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        if ($($Results.id) -eq $($B1Host.id)) {
-          Write-Host "Updated BloxOne Host Configuration $($B1Host.display_name) successfuly." -ForegroundColor Green
+      if($PSCmdlet.ShouldProcess("Update BloxOne Host`n$(JSONPretty($JSON))","Update BloxOne Host: $($NewObj.display_name) ($($NewObj.id))",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$HostID" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        if ($($Results.id.split('/')[2]) -eq $($HostID)) {
+          Write-Host "Updated BloxOne Host Configuration $($NewObj.display_name) successfuly." -ForegroundColor Green
           return $Results
         } else {
-          Write-Error "Failed to update BloxOne Host Configuration on $($B1Host.display_name)."
+          Write-Error "Failed to update BloxOne Host Configuration on $($NewObj.display_name)."
           return $Results
         }
       }
