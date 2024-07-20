@@ -74,7 +74,7 @@
       [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
       [Parameter(ParameterSetName="RDATA",Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
+      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV","IBMETA")]
       [String]$Type,
       [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [String]$Name,
@@ -128,7 +128,7 @@
             return $null
         }
     }
-    $NewObj = $Object | Select-Object * -ExcludeProperty id,provider_metadata,source,view_name,dns_name_in_zone,dns_absolute_zone_name,dns_absolute_name_spec,absolute_name_spec,absolute_zone_name,absolute_zone_spec,dns_rdata,delegation,created_at,updated_at,ipam_host,subtype,type,view,record,zone
+    $NewObj = $Object | Select-Object * -ExcludeProperty id,provider_metadata,source,view_name,dns_name_in_zone,dns_absolute_zone_name,dns_absolute_name_spec,absolute_name_spec,absolute_zone_name,absolute_zone_spec,dns_rdata,delegation,created_at,updated_at,ipam_host,subtype,type,view,record,zone,compartment_id,nios_metadata
 
     if ($rdata) {
       switch ($Type) {
@@ -213,11 +213,13 @@
       $NewObj.disabled = $(if ($State -eq 'Enabled') { $false } else { $true })
     }
     $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-    $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-    if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-    } else {
-        $Results
+    if($PSCmdlet.ShouldProcess("Update DNS Record:`n$(JSONPretty($JSON))","Update DNS Record: $($Object.absolute_name_spec) ($($Object.id))",$MyInvocation.MyCommand)){
+      $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+      if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+          $Results | Select-Object -ExpandProperty result
+      } else {
+          $Results
+      }
     }
   }
 }

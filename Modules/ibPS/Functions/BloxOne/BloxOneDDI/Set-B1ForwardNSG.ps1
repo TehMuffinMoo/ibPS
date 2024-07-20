@@ -136,13 +136,14 @@
           }
         }
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-        if ($Results.id -eq $Object.id) {
-          Write-Host "Successfully updated Forward NSG: $($NewObj.name)" -ForegroundColor Green
-          return $Results
-        } else {
-          Write-Host "Error. Failed to update Forward NSG: $($NewObj.name)" -ForegroundColor Red
+        if($PSCmdlet.ShouldProcess("Update Foward DNS Server Group:`n$(JSONPretty($JSON))","Update Foward DNS Server Group: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+          $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if ($Results.id -eq $Object.id) {
+            Write-Host "Successfully updated Forward NSG: $($NewObj.name)" -ForegroundColor Green
+            return $Results
+          } else {
+            Write-Host "Error. Failed to update Forward NSG: $($NewObj.name)" -ForegroundColor Red
+          }
         }
       }
     }

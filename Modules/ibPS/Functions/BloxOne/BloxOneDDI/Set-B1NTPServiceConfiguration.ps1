@@ -49,14 +49,17 @@
       if ($UseGlobalNTPConfig) {
         $GlobalNTPConfig = Get-B1GlobalNTPConfig
         $ServiceId = $($B1Service.id).replace("infra/service/","")
-        $ConfigSplat = @{
+        $JSON = @{
           "ntp_config" = $GlobalNTPConfig.ntp_config
         } | ConvertTo-Json -Depth 5 -Compress
-        $NewConfigResult = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ntp/v1/service/config/$ServiceId" -Data $ConfigSplat | Select-Object -ExpandProperty ntp_service -ErrorAction SilentlyContinue
-        if ($NewConfigResult.id) {
-          Write-Host "Global NTP configuration applied successfully on $($B1Service.name)" -ForegroundColor Green
-        } else {
-          Write-Host "Failed to apply NTP Configuration on $($B1Service.name)" -ForegroundColor Red
+
+        if($PSCmdlet.ShouldProcess("Update NTP Service Configuration:`n$(JSONPretty($JSON))","Update NTP Service Configuration on: $($Name)",$MyInvocation.MyCommand)){
+          $NewConfigResult = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ntp/v1/service/config/$ServiceId" -Data $JSON | Select-Object -ExpandProperty ntp_service -ErrorAction SilentlyContinue
+          if ($NewConfigResult.id) {
+            Write-Host "Global NTP configuration applied successfully on $($B1Service.name)" -ForegroundColor Green
+          } else {
+            Write-Host "Failed to apply NTP Configuration on $($B1Service.name)" -ForegroundColor Red
+          }
         }
       }
     }

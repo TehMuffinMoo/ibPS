@@ -30,5 +30,6 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add help info on new `Get-B1Asset` function
 - [ ] Fix issues listed in PSScriptAnalyzer
 - [ ] Implement ShouldProcess on all functions
+- [ ] Re-factor Set-B1NTPServiceConfiguration
 
 ## Bug Fixes

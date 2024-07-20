@@ -123,11 +123,13 @@
         $NewObj.tags = $Tags
       }
       $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
-      $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-      if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-      } else {
-          $Results
+      if($PSCmdlet.ShouldProcess("Update Fixed Address:`n$(JSONPretty($JSON))","Update Fixed Address: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+        if ($Results) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
       }
     }
 }

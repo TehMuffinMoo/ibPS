@@ -70,7 +70,8 @@
             }
         }
         if ($Object) {
-            $NewObj = $Object | Select-Object * -ExcludeProperty id,site_id,provider_id,current_version,dfp,dfp_service,external_providers_metadata,ophid,address,name,anycast_addresses,comment,tags,associated_server.name,protocol_absolute_name
+            $NewObj = $Object | Select-Object * -ExcludeProperty id,site_id,provider_id,current_version,dfp,dfp_service,external_providers_metadata,ophid,address,name,anycast_addresses,comment,tags,protocol_absolute_name
+            $NewObj.associated_server = $NewObj.associated_server | Select-Object id
             if ($DNSConfigProfile) {
                 if ($DNSConfigProfile -eq 'None') {
                     $NewObj.associated_server = $null
@@ -100,13 +101,15 @@
                 }
             }
             $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-
-            if ($($Results.id) -eq $($Object.id)) {
-                Write-Host "DNS Host: $($NewObj.absolute_name) updated successfully." -ForegroundColor Green
-                return $Results
-            } else {
-                Write-Host "Failed to update DNS Host: $($NewObj.absolute_name)." -ForegroundColor Red
+            
+            if($PSCmdlet.ShouldProcess("Update DNS Host:`n$(JSONPretty($JSON))","Update DNS Host: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+                $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+                if ($($Results.id) -eq $($Object.id)) {
+                    Write-Host "DNS Host: $($NewObj.name) updated successfully." -ForegroundColor Green
+                    return $Results
+                } else {
+                    Write-Host "Failed to update DNS Host: $($NewObj.name)." -ForegroundColor Red
+                }
             }
         }
     }
