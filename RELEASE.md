@@ -5,6 +5,7 @@
 - Various minor code improvements & fixes
 - Refactored all code to remove unneccessary whitespace and unused variables
 - Add auto-complete to `-Source` parameter on `Start-B1DossierLookup`
+- Minor bugfixes for new `nios_metadata` field which has been added to the API Schema for DNS Zones & Records
 
 ### Breaking Changes
 Support for `ShouldProcess` is being added for all state-changing functions, which enables three new parameters. `-Confirm`, `-WhatIf` & `-Force`.  

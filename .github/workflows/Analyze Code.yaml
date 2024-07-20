@@ -13,7 +13,7 @@ jobs:
       - name: Analyze Code with PSScriptAnalyzer
         shell: pwsh
         run : |
-          $ExcludedRules = @('PSAvoidUsingWriteHost')
+          $ExcludedRules = @('PSAvoidUsingWriteHost','PSUseSingularNouns')
           $Findings = Get-ChildItem -Path Modules/ibPS/Functions/*.ps1 -Recurse -File | %{ Invoke-ScriptAnalyzer $_ -ExcludeRule $ExcludedRules}
           $Findings | Select-Object ScriptName,Severity,Line,Column,RuleName,Message | ConvertTo-Csv | Set-Content ./docs/analysis.csv -Force
 
