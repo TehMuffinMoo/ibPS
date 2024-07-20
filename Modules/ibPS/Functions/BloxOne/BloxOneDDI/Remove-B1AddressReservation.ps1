@@ -12,6 +12,9 @@
     .PARAMETER Object
         The Address Reservation Object to remove. Accepts pipeline input.
 
+    .PARAMETER Space
+        The IPAM space where the address reservation is located.
+
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 

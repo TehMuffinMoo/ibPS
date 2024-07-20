@@ -23,6 +23,9 @@
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
+    .PARAMETER Object
+        The DHCP Global Config object to update. Accepts pipeline input.
+
     .EXAMPLE
         PS> Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -DNSView "default"
 

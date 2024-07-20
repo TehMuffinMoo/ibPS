@@ -61,8 +61,7 @@
 		[string][parameter(ParameterSetName="topDNSServers")][ValidateSet("minute","hour","day","week","month","year")] $Granularity,
         [int]$TopCount = "20",
         [datetime]$Start = (Get-Date).AddDays(-1),
-        [datetime]$End = (Get-Date),
-		[Switch]$Force
+        [datetime]$End = (Get-Date)
     )
     if ($TopQueries) {
         switch ($QueryType) {

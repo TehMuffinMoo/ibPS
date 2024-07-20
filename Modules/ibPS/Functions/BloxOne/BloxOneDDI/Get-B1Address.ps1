@@ -12,6 +12,9 @@
     .PARAMETER State
         Use this parameter to filter by State
 
+    .PARAMETER Space
+        Use this parameter to filter the list of Addresses by Space
+
     .PARAMETER Reserved
         Use this parameter to filter the list of addresses to those which have a usage of Reserved
 

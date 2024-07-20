@@ -13,7 +13,7 @@
         A list of BloxOneDDI Hosts to remove the DHCP Config Profile from
 
     .PARAMETER Object
-        The DHCP Host object(s) to revoke DHCP Config Profiles from
+        The DHCP Host object(s) to revoke DHCP Config Profiles from. Accepts pipeline input.
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
