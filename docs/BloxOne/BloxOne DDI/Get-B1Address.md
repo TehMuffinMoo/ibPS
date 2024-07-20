@@ -75,7 +75,7 @@ Accept wildcard characters: False
 ```
 
 ### -Space
-{{ Fill Space Description }}
+Use this parameter to filter the list of Addresses by Space
 
 ```yaml
 Type: String

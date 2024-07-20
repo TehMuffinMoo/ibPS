@@ -51,7 +51,7 @@ Accept wildcard characters: False
 ```
 
 ### -Space
-{{ Fill Space Description }}
+The IPAM space where the address reservation is located.
 
 ```yaml
 Type: String

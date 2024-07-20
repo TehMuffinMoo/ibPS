@@ -116,7 +116,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The DHCP Global Config object to update.
+Accepts pipeline input.
 
 ```yaml
 Type: Object

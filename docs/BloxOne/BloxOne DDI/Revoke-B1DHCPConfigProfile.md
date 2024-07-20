@@ -50,7 +50,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-The DHCP Host object(s) to revoke DHCP Config Profiles from
+The DHCP Host object(s) to revoke DHCP Config Profiles from.
+Accepts pipeline input.
 
 ```yaml
 Type: Object

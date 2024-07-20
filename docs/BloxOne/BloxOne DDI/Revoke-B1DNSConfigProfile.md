@@ -50,7 +50,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The DHCP Host object(s) to revoke DNS Config Profiles from.
+Accepts pipeline input.
 
 ```yaml
 Type: Object
