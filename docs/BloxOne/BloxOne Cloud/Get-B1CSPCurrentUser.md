@@ -12,6 +12,11 @@ Retrieves the user associated with the current API key
 
 ## SYNTAX
 
+### Default (Default)
+```
+Get-B1CSPCurrentUser [<CommonParameters>]
+```
+
 ### Groups
 ```
 Get-B1CSPCurrentUser [-Groups] [<CommonParameters>]

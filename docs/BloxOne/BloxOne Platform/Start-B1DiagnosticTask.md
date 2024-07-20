@@ -15,30 +15,31 @@ Initiates a BloxOneDDI Diagnostic Task
 ### traceroute
 ```
 Start-B1DiagnosticTask [-B1Host <String>] [-Traceroute] -Target <String> [-Port <String>] [-WaitForOutput]
- [-id <String>] [<CommonParameters>]
+ [-Object <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### dnstest
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DNSTest] -FQDN <String> [-WaitForOutput] [-id <String>]
- [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DNSTest] -FQDN <String> [-WaitForOutput] [-Object <Object>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ntptest
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-NTPTest] [-WaitForOutput] [-id <String>] [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-NTPTest] [-WaitForOutput] [-Object <Object>] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### dnsconf
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DNSConfiguration] [-WaitForOutput] [-id <String>]
- [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DNSConfiguration] [-WaitForOutput] [-Object <Object>] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### dhcpconf
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DHCPConfiguration] [-WaitForOutput] [-id <String>]
- [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DHCPConfiguration] [-WaitForOutput] [-Object <Object>] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -209,19 +210,66 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the BloxOneDDI Host to run the diagnostic task on.
+### -Object
+The BloxOneDDI Host Object(s) to run the diagnostic task on.
 Accepts pipeline input
 
 ```yaml
-Type: String
+Type: Object
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
