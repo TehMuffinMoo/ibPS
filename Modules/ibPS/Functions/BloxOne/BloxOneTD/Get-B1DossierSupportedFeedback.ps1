@@ -1,4 +1,4 @@
-function Get-B1DossierSupportedFeedback {
+﻿function Get-B1DossierSupportedFeedback {
     <#
     .SYNOPSIS
         Queries a list of available dossier feedback types

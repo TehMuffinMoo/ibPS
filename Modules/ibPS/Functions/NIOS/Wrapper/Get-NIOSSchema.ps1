@@ -1,4 +1,4 @@
-function Get-NIOSSchema {
+﻿function Get-NIOSSchema {
     <#
     .SYNOPSIS
         Generic Wrapper function for retrieving schema information from the NIOS WAPI

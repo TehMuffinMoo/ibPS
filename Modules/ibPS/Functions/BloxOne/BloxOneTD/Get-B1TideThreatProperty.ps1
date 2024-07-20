@@ -1,4 +1,4 @@
-function Get-B1TideThreatProperty {
+﻿function Get-B1TideThreatProperty {
     <#
     .SYNOPSIS
         Queries a list of threat properties

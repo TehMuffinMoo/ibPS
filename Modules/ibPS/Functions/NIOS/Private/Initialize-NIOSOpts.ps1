@@ -1,4 +1,4 @@
-function Initialize-NIOSOpts {
+﻿function Initialize-NIOSOpts {
     param(
         [Parameter(
             Mandatory=$true,

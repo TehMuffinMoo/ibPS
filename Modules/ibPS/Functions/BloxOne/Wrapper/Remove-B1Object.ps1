@@ -1,4 +1,4 @@
-function Remove-B1Object {
+﻿function Remove-B1Object {
     <#
     .SYNOPSIS
         Generic Wrapper for removing existing objects from the CSP (Cloud Services Portal)

@@ -1,4 +1,4 @@
-function Set-NIOSContext {
+﻿function Set-NIOSContext {
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,

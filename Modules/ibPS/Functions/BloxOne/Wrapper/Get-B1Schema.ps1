@@ -1,4 +1,4 @@
-function Get-B1Schema {
+﻿function Get-B1Schema {
     <#
     .SYNOPSIS
         Used for obtaining API Schema information for use with generic wrapper cmdlets

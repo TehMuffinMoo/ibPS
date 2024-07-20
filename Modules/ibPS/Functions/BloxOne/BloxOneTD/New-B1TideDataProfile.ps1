@@ -1,4 +1,4 @@
-function New-B1TideDataProfile {
+﻿function New-B1TideDataProfile {
     <#
     .SYNOPSIS
         Creates a new TIDE Data Profile

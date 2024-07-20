@@ -1,4 +1,4 @@
-function Get-B1TideThreatEnrichment {
+﻿function Get-B1TideThreatEnrichment {
     <#
     .SYNOPSIS
         Used to retrieve threat enrichment data from BloxOne Threat Defense

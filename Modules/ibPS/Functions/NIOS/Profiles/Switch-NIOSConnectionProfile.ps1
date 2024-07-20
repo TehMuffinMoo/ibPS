@@ -1,4 +1,4 @@
-function Switch-NIOSConnectionProfile {
+﻿function Switch-NIOSConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to switch between saved connection profiles.

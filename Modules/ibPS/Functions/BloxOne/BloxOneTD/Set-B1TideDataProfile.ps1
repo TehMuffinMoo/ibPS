@@ -1,4 +1,4 @@
-function Set-B1TideDataProfile {
+﻿function Set-B1TideDataProfile {
     <#
     .SYNOPSIS
         Updates an existing TIDE Data Profile

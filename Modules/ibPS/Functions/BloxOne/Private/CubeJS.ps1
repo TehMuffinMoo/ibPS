@@ -1,4 +1,4 @@
-function Get-B1CubeJSCubes {
+﻿function Get-B1CubeJSCubes {
     param(
         [String]$Cube
     )

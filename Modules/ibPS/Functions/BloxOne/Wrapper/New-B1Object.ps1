@@ -1,4 +1,4 @@
-function New-B1Object {
+﻿function New-B1Object {
     <#
     .SYNOPSIS
         Generic Wrapper for creating new objects within the CSP (Cloud Services Portal)

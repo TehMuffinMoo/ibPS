@@ -1,4 +1,4 @@
-function Remove-B1LookalikeTarget {
+﻿function Remove-B1LookalikeTarget {
   <#
   .SYNOPSIS
     Remove a lookalike target domain from the account

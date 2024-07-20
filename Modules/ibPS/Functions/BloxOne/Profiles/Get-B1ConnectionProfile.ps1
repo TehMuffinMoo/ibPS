@@ -1,4 +1,4 @@
-function Get-B1ConnectionProfile {
+﻿function Get-B1ConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to retrieved saved BloxOne connection profiles. By default, the active profile is returned.

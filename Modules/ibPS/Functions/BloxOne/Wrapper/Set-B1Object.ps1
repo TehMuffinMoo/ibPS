@@ -1,4 +1,4 @@
-function Set-B1Object {
+﻿function Set-B1Object {
     <#
     .SYNOPSIS
         Generic Wrapper for updating existing objects within the CSP (Cloud Services Portal)

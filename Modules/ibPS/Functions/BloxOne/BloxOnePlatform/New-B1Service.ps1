@@ -1,4 +1,4 @@
-function New-B1Service {
+﻿function New-B1Service {
     <#
     .SYNOPSIS
         Creates a new BloxOneDDI Service

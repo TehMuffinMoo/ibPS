@@ -1,4 +1,4 @@
-function New-NIOSObject {
+﻿function New-NIOSObject {
     <#
     .SYNOPSIS
         Generic Wrapper function for creating new objects from the NIOS WAPI

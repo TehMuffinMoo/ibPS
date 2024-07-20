@@ -1,4 +1,4 @@
-function Remove-NIOSObject {
+﻿function Remove-NIOSObject {
     <#
     .SYNOPSIS
         Generic Wrapper function for removing objects from the NIOS WAPI

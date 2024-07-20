@@ -1,4 +1,4 @@
-function Set-NIOSWebSession {
+﻿function Set-NIOSWebSession {
     param(
         [Parameter(Mandatory=$true)]
         [String]$Server,

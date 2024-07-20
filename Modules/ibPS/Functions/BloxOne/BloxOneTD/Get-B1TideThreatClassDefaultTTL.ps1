@@ -1,4 +1,4 @@
-function Get-B1TideThreatClassDefaultTTL {
+﻿function Get-B1TideThreatClassDefaultTTL {
     <#
     .SYNOPSIS
         Queries the default TTL for threat classes

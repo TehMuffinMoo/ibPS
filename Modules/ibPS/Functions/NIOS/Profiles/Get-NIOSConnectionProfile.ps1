@@ -1,4 +1,4 @@
-function Get-NIOSConnectionProfile {
+﻿function Get-NIOSConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to retrieved saved NIOS connection profiles. By default, the active profile is returned.

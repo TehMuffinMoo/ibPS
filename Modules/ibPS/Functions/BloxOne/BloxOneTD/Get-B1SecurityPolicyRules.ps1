@@ -1,4 +1,4 @@
-function Get-B1SecurityPolicyRules {
+﻿function Get-B1SecurityPolicyRules {
     <#
     .SYNOPSIS
         Use this cmdlet to retrieve a list of security policy rules

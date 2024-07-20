@@ -1,4 +1,4 @@
-function Remove-B1ConnectionProfile {
+﻿function Remove-B1ConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to remove a saved BloxOne connection profile.

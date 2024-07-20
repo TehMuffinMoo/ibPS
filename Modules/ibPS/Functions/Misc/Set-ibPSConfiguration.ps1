@@ -1,4 +1,4 @@
-function Set-ibPSConfiguration {
+﻿function Set-ibPSConfiguration {
     <#
     .SYNOPSIS
         Used to set ibPS specific configuration

@@ -1,4 +1,4 @@
-function Set-B1Context {
+﻿function Set-B1Context {
     [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]

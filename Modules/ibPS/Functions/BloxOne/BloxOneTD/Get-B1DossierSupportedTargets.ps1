@@ -1,4 +1,4 @@
-function Get-B1DossierSupportedTargets {
+﻿function Get-B1DossierSupportedTargets {
     <#
     .SYNOPSIS
         Queries a list of available dossier indicator types

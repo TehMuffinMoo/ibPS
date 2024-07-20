@@ -1,4 +1,4 @@
-class TSIGKey {
+﻿class TSIGKey {
     # Class properties
     [string]   $algorithm
     [string]   $comment

@@ -1,4 +1,4 @@
-function Get-ibPSVersion {
+﻿function Get-ibPSVersion {
     <#
     .SYNOPSIS
         Checks the version of ibPS, with the option to update if a version is available

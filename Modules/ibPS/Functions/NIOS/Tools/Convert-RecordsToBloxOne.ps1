@@ -1,4 +1,4 @@
-function Convert-RecordsToBloxOne {
+﻿function Convert-RecordsToBloxOne {
     <#
     .SYNOPSIS
         Provides a simple way to convert NIOS Record Object data to BloxOne CSV Import Format

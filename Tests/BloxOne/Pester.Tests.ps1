@@ -1,4 +1,4 @@
-BeforeAll {
+﻿BeforeAll {
     $Name = "ibPS-PesterTests"
     $Description = "Used for ibPS Pester Tests - https://ibPS.readthedocs.io"
     $Tags = @{

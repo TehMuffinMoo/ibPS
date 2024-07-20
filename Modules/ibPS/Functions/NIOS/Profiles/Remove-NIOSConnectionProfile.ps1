@@ -1,4 +1,4 @@
-function Remove-NIOSConnectionProfile {
+﻿function Remove-NIOSConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to remove a saved connection profile.

@@ -1,4 +1,4 @@
-function Get-B1TideThreatCounts {
+﻿function Get-B1TideThreatCounts {
     <#
     .SYNOPSIS
         Queries the threats count from TIDE API

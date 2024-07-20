@@ -1,4 +1,4 @@
-function New-B1SecurityPolicyIPAMNetwork {
+﻿function New-B1SecurityPolicyIPAMNetwork {
     <#
     .SYNOPSIS
         This function is used to simplify the creation of the list of Subnets/Address Blocks/Ranges to append or remove to/from an existing or a New Security Policy, using Set-B1SecurityPolicy / New-B1SecurityPolicy.

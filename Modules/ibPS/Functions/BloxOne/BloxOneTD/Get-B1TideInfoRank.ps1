@@ -1,4 +1,4 @@
-function Get-B1TideInfoRank {
+﻿function Get-B1TideInfoRank {
     <#
     .SYNOPSIS
         Queries the InfoRank List

@@ -1,4 +1,4 @@
-function Initialize-NIOSConfig {
+﻿function Initialize-NIOSConfig {
     if (-not $Script:NIOSConfigFolder) {
         if (-not $PSEdition -or $PSEdition -eq 'Desktop' -or $IsWindows) {
             $script:NIOSConfigFolder = $env:LOCALAPPDATA

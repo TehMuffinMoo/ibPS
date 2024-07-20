@@ -1,4 +1,4 @@
-function Switch-B1ConnectionProfile {
+﻿function Switch-B1ConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to switch between saved BloxOne connection profiles.

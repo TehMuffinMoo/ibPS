@@ -1,4 +1,4 @@
-function Set-NIOSObject {
+﻿function Set-NIOSObject {
     <#
     .SYNOPSIS
         Generic Wrapper function for updating objects using the NIOS WAPI

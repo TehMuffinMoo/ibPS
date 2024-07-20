@@ -1,4 +1,4 @@
-function New-B1ConnectionProfile {
+﻿function New-B1ConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to create new BloxOne connection profiles. By default, the new profile will be set as active.

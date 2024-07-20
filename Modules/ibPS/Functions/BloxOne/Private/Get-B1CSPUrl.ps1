@@ -1,4 +1,4 @@
-function Get-B1CSPUrl {
+﻿function Get-B1CSPUrl {
     <#
     .SYNOPSIS
         Retrieves the stored BloxOneDDI CSP Url, if available.

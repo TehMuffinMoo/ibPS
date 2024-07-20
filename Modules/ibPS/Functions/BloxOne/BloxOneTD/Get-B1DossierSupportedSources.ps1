@@ -1,4 +1,4 @@
-function Get-B1DossierSupportedSources {
+﻿function Get-B1DossierSupportedSources {
     <#
     .SYNOPSIS
         Queries a list of available dossier sources

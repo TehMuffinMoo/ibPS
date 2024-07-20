@@ -1,4 +1,4 @@
-function Get-B1RPZFeed {
+﻿function Get-B1RPZFeed {
     <#
     .SYNOPSIS
         Return a list of current records within one or more RPZ Feeds

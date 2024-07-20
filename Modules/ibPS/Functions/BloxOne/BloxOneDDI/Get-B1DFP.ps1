@@ -1,4 +1,4 @@
-function Get-B1DFP {
+﻿function Get-B1DFP {
     <#
     .SYNOPSIS
         Queries a list of BloxOneDDI DFPs (DNS Forwarding Proxies)

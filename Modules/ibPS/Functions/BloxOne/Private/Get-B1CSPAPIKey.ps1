@@ -1,4 +1,4 @@
-function Get-B1CSPAPIKey {
+﻿function Get-B1CSPAPIKey {
     <#
     .SYNOPSIS
         Retrieves the stored BloxOneDDI API Key from the local machine, if available.

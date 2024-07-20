@@ -1,4 +1,4 @@
-function Resolve-DoHQuery {
+﻿function Resolve-DoHQuery {
     <#
     .SYNOPSIS
         Used to query a DNS over HTTPS Server to verify connectivity and responses

@@ -1,4 +1,4 @@
-function New-B1LookalikeTarget {
+﻿function New-B1LookalikeTarget {
   <#
   .SYNOPSIS
     Adds a new lookalike target domain for the account

@@ -1,4 +1,4 @@
-function Invoke-B1CubeJS {
+﻿function Invoke-B1CubeJS {
     <#
     .SYNOPSIS
     .DESCRIPTION

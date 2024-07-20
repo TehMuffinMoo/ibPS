@@ -1,4 +1,4 @@
-function Initialize-B1Config {
+﻿function Initialize-B1Config {
     if (-not $Script:B1ConfigFolder) {
         if (-not $PSEdition -or $PSEdition -eq 'Desktop' -or $IsWindows) {
             $Script:B1ConfigFolder = $env:LOCALAPPDATA

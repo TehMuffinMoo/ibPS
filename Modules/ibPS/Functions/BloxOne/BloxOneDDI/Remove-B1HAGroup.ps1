@@ -1,4 +1,4 @@
-function Remove-B1HAGroup {
+﻿function Remove-B1HAGroup {
     <#
     .SYNOPSIS
         Removes a DHCP HA Group

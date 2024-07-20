@@ -1,4 +1,4 @@
-function Get-NetworkInfo {
+﻿function Get-NetworkInfo {
     <#
     .SYNOPSIS
         Used to generate commonly used network information from a subnet

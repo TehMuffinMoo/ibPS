@@ -1,4 +1,4 @@
-function Get-ibPSConfiguration {
+﻿function Get-ibPSConfiguration {
     <#
     .SYNOPSIS
         Used to get the current configuration for ibPS

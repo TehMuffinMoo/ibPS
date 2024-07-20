@@ -1,4 +1,4 @@
-function Get-NetworkTopology {
+﻿function Get-NetworkTopology {
     <#
     .SYNOPSIS
         Used to build a text or HTML based visual topology of all related child networks

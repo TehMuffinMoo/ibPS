@@ -1,4 +1,4 @@
-function New-NIOSConnectionProfile {
+﻿function New-NIOSConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to create new NIOS connection profiles. By default, the new profile will be set as active.

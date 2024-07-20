@@ -1,4 +1,4 @@
-function Get-B1TideThreatInsightClass {
+﻿function Get-B1TideThreatInsightClass {
     <#
     .SYNOPSIS
         Queries a list of threat insight classes

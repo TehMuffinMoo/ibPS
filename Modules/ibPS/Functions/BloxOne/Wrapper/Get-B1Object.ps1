@@ -1,4 +1,4 @@
-function Get-B1Object {
+﻿function Get-B1Object {
     <#
     .SYNOPSIS
         Generic Wrapper for interaction with the CSP (Cloud Services Portal) via GET requests
