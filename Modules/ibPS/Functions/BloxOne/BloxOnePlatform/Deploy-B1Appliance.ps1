@@ -253,7 +253,7 @@
     [CmdletBinding(
         SupportsShouldProcess,
         ConfirmImpact = 'Medium'
-      )]
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("VMware","Hyper-V","Azure")]

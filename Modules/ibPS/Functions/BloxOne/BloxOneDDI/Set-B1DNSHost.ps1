@@ -101,7 +101,7 @@
                 }
             }
             $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-            
+
             if($PSCmdlet.ShouldProcess("Update DNS Host:`n$(JSONPretty($JSON))","Update DNS Host: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
                 $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
                 if ($($Results.id) -eq $($Object.id)) {

@@ -220,7 +220,7 @@
         $Record = Get-B1Record -Name $Name -View $view -Strict -Type $Type -Zone $Zone
         if ($Record -and -not $IgnoreExists) {
             if (!$SkipExistsErrors -and !$Debug) {Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow}
-            return $false
+            return $null
         } else {
             $AuthZoneId = (Get-B1AuthoritativeZone -FQDN $Zone -Strict -View $view).id
             if (!($AuthZoneId)) {

@@ -24,7 +24,7 @@
     .FUNCTIONALITY
         Authentication
     #>
-    [CmdletBinding()]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
         [Parameter(ParameterSetName="Groups")]
         [Switch]$Groups,

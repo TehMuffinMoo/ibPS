@@ -17,10 +17,15 @@
     #>
     [CmdletBinding()]
     param(
-        $Profile
+        [String]$Profile,
+        [Switch]$DefaultProfile
+
     )
-    if ($Profile) {
+    if ($Profile -or $DefaultProfile) {
         $Configs = Get-B1Context
+        if ($DefaultProfile) {
+            $Profile = $Configs.CurrentContext
+        }
         if ($Configs.Contexts."$($Profile)") {
             $ApiKey = ($Configs.Contexts | Select-Object -ExpandProperty $Profile).'API Key'
         } else {

@@ -56,9 +56,9 @@
     } elseif ($ENV:B1APIKey) {
         ## Get Stored API Key (Legacy)
         $B1ApiKey = "Token $(Get-B1CSPAPIKey)"
-    } elseif ($BCP = Get-BCP -IncludeAPIKey -Name $Profile) {
+    } elseif ($ProfileKey = Get-B1CSPAPIKey -DefaultProfile) {
         ## Get API Key from Active Connection Profile
-        $B1ApiKey = "Token $($BCP.'API Key')"
+        $B1ApiKey = "Token $($ProfileKey)"
     }
 
     $B1CSPUrl = Get-B1CSPUrl -Profile $Profile
