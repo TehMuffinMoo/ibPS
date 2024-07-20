@@ -15,7 +15,7 @@ Deploys a BloxOneDDI Virtual Appliance to VMware, Hyper-V or Azure.
 ### VMware
 ```
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <IPAddress> [-Netmask] <String> [-Gateway] <IPAddress>
- [-DNSServers] <IPAddress[]> [-NTPServers] <IPAddress[]> [-DNSSuffix] <String> [-JoinToken] <String>
+ [-DNSServers] <IPAddress[]> [-NTPServers] <IPAddress[]> [-DNSSuffix] <String> [-JoinToken] <String> [-Force] [-WhatIf] [-Confirm]
  [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-CloudCheckTimeout] <Int> [-SkipPingChecks] [-SkipPowerOn]
  [-OVAPath] <String> [-vCenter] <String> [-Cluster] <String> [-VMHost] <String> [-Datastore] <String> [-PortGroup] <String>
  [-PortGroupType] <String> [-Creds] <PSCredential>
@@ -25,7 +25,7 @@ Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <IPAddress> [-Netmask
 ### Hyper-V
 ```
 Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <IPAddress> [-Netmask] <String> [-Gateway] <IPAddress>
- [-DNSServers] <IPAddress[]> [-NTPServers] <IPAddress[]> [-DNSSuffix] <String> [-JoinToken] <String>
+ [-DNSServers] <IPAddress[]> [-NTPServers] <IPAddress[]> [-DNSSuffix] <String> [-JoinToken] <String> [-Force] [-WhatIf] [-Confirm]
  [-DownloadLatestImage] [[-ImagesPath] <String>] [-SkipCloudChecks] [-CloudCheckTimeout] <Int> [-SkipPingChecks] [-SkipPowerOn]
  [-VHDPath] <String> [-HyperVServer] <String> [-HyperVGeneration] <Int> [-VMPath] <String> [-VirtualNetwork] <String>
  [-VirtualNetworkVLAN] <Int> [-CPU] <Int> [-Memory] <Int>
@@ -34,8 +34,8 @@ Deploy-B1Appliance [-Type] <String> [-Name] <String> [-IP] <IPAddress> [-Netmask
 
 ### Azure
 ```
-Deploy-B1Appliance [-Type] <String> [-Name] <String> [-JoinToken] <String> [-AzTenant] <String>
- [-AzSubscription] <String> [-AzLocation] <String> [-AzOffer] <String> [-AzSku] <String>
+Deploy-B1Appliance [-Type] <String> [-Name] <String> [-JoinToken] <String>  [-Force] [-WhatIf] [-Confirm]
+ [-AzTenant] <String> [-AzSubscription] <String> [-AzLocation] <String> [-AzOffer] <String> [-AzSku] <String>
  [-AzResourceGroup] <String> [-AzVirtualNetwork] <String> [-AzSubnet] <String> [-AzSize] <String>
  [-AzAcceptTerms] [-SkipCloudChecks] [-SkipPingChecks] [-CloudCheckTimeout] <Int>
  [<CommonParameters>]
@@ -196,6 +196,53 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

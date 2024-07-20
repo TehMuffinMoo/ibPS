@@ -123,7 +123,6 @@
               $DNSHostId = (Get-B1DNSHost -Name $B1Host -Strict).id
               if ($DNSHostId) {
                 if ($DNSHostId -in $NewObj.hosts) {
-                  $Update = $true
                   Write-Host "Removing $B1Host from $($NewObj.name)" -ForegroundColor Cyan
                   $NewObj.hosts = $NewObj.hosts | Where-Object {$_ -ne $DNSHostId}
                 } else {

@@ -1,3 +1,6 @@
+[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+param()
+
 $B1FederatedHosts = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1Host -tfilter '"host/federation"==true' -Name $wordToComplete).display_name

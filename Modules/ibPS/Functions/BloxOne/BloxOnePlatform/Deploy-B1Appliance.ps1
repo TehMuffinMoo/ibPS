@@ -179,6 +179,9 @@
     .PARAMETER SkipPowerOn
         Using this parameter will leave the VM in a powered off state once deployed
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Deploy-B1Appliance -Type "VMware" `
                             -Name "bloxoneddihost1" `
@@ -247,7 +250,10 @@
         Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
     #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to generate random dummy Azure SSH Credentials.')]
-    [CmdletBinding()]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+      )]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("VMware","Hyper-V","Azure")]
@@ -261,7 +267,8 @@
       [Parameter(Mandatory=$false)]
       [Switch]$SkipCloudChecks,
       [Parameter(Mandatory=$false)]
-      [Switch]$SkipPingChecks
+      [Switch]$SkipPingChecks,
+      [Switch]$Force
     )
 
     DynamicParam {
@@ -560,7 +567,7 @@
    }
 
     process {
-
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $CurrentOS = Detect-OS
 
         switch ($Type) {
