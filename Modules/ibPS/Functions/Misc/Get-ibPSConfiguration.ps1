@@ -36,12 +36,12 @@
     $ibPSModule = Get-Module -ListAvailable -Name ibPS
 
     $CurrentConfig = [PSCustomObject]@{
-        "CSP Url" = $(if ($ENV:B1CSPUrl) {$ENV:B1CSPUrl} elseif ($BCP = Get-BCP) {$BCP.'CSP URL'} else {'https://csp.infoblox.com'})
-        "CSP API User" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser).name} elseif ($BCP = Get-BCP) {$BCP.'CSP User'} else {'API Key Not Set'})
-        "CSP Account" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser -Account).name} elseif ($BCP = Get-BCP) {$BCP.'CSP Account'} else {'API Key Not Set'})
-        "CSP API Key" = $(if ($ENV:B1APIKey) {if ($IncludeAPIKey) {Get-B1CSPAPIKey} else { "********" }} elseif ($BCP = Get-BCP -IncludeAPIKey:$IncludeAPIKey) {$BCP.'API Key'} else {'API Key Not Set'})
-        "BloxOne Profile" = $(if ($ENV:B1APIKey) { 'The Global API Key is overriding the Active profile' } elseif ($BCP = Get-BCP) { $BCP.Name } else { 'None' })
-        "NIOS Profile" = $(if ($NCP = Get-NCP) { $NCP.Name} else { 'None' })
+        "CSP Url" = $(if ($ENV:B1CSPUrl) {$ENV:B1CSPUrl} elseif ($BCP = Get-B1ConnectionProfile) {$BCP.'CSP URL'} else {'https://csp.infoblox.com'})
+        "CSP API User" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser).name} elseif ($BCP = Get-B1ConnectionProfile) {$BCP.'CSP User'} else {'API Key Not Set'})
+        "CSP Account" = $(if ($ENV:B1APIKey) {(Get-B1CSPCurrentUser -Account).name} elseif ($BCP = Get-B1ConnectionProfile) {$BCP.'CSP Account'} else {'API Key Not Set'})
+        "CSP API Key" = $(if ($ENV:B1APIKey) {if ($IncludeAPIKey) {Get-B1CSPAPIKey} else { "********" }} elseif ($BCP = Get-B1ConnectionProfile -IncludeAPIKey:$IncludeAPIKey) {$BCP.'API Key'} else {'API Key Not Set'})
+        "BloxOne Profile" = $(if ($ENV:B1APIKey) { 'The Global API Key is overriding the Active profile' } elseif ($BCP = Get-B1ConnectionProfile) { $BCP.Name } else { 'None' })
+        "NIOS Profile" = $(if ($NCP = Get-NIOSConnectionProfile) { $NCP.Name} else { 'None' })
         "DoH Server" = $(if ($ENV:IBPSDoH) {$ENV:IBPSDoH} else { 'Not Set' })
         "ibPS Version" = $ibPSModule.Version.ToString()
         "Debug Mode" = $(if ($ENV:IBPSDebug) {$ENV:IBPSDebug} else {'Disabled'})

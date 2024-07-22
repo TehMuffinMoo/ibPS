@@ -18,6 +18,6 @@
             "CurrentContext" = $null
             "Contexts" = @{}
         } | ConvertTo-Json
-        $NewConfigFile = New-Item $Script:B1ConfigFile -Type File -Value $ConfigBase
+        $null = New-Item $Script:B1ConfigFile -Type File -Value $ConfigBase
     }
 }

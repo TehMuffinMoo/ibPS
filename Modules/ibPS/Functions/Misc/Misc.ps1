@@ -240,6 +240,7 @@ function ConvertTo-HexString {
       https://www.powershellgallery.com/packages/Utility.PS/1.0.0.1/Content/ConvertTo-HexString.ps1
   #>
   [CmdletBinding()]
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Delimiter', Justification = 'False positive as rule does not scan child scopes')]
   param (
       # Value to convert
       [Parameter(Mandatory=$true, Position = 0, ValueFromPipeline=$true)]
@@ -666,25 +667,21 @@ function Write-NetworkTopology {
       Switch($ObjectType) {
         "address_block" {
           $Colour = 'green'
-          $Prefix = 'AB'
         }
         "subnet" {
           $Colour = 'cyan'
-          $Prefix = 'SN'
           if (!($IncludeSubnets)) {
             $Include = $false
           }
         }
         "range" {
           $Colour = 'magenta'
-          $Prefix = 'RG'
           if (!($IncludeRanges)) {
             $Include = $false
           }
         }
         "address" {
           $Colour = 'DarkYellow'
-          $Prefix = 'AD'
           if (!($IncludeAddresses)) {
             $Include = $false
           }
@@ -841,7 +838,7 @@ function Build-HTMLTopologyChildren {
 function ConvertFrom-ComplexJSON([string]$text) {
   $parser = New-Object Web.Script.Serialization.JavaScriptSerializer
   $parser.MaxJsonLength = $text.length
-  Write-Output -NoEnumerate (($parser.Deserialize($text, [hashtable])) | ConvertFrom-HashTable)
+  Write-Output -NoEnumerate -InputObject (($parser.Deserialize($text, [hashtable])) | ConvertFrom-HashTable)
   #Write-Output -NoEnumerate $parser.DeserializeObject($text)
   # To deserialize to a dictionary, use $parser.DeserializeObject($text) instead
 }
@@ -930,6 +927,7 @@ function Write-Colour {
 
 function New-ibPSTelemetry {
   [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', 'echo', Justification = 'echo required for Mac/Unix')]
   param(
     $Method = 'GET'
   )

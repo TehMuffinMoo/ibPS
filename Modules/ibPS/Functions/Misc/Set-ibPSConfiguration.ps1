@@ -48,6 +48,7 @@
         ibPS
     #>
   [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to obtain API Key')]
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', 'echo', Justification = 'echo required for Mac/Unix')]
   [CmdletBinding()]
   param (
     [String]$CSPAPIKey,

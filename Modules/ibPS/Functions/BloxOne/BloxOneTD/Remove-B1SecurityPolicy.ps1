@@ -60,7 +60,7 @@
       }
       if ($SecurityPolicy) {
         if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
-          Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$($SecurityPolicy.id)"
+          $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$($SecurityPolicy.id)"
           if ($Name) {
               $SecurityPolicyCheck = Get-B1SecurityPolicy -Name $Name -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
           } elseif ($id) {

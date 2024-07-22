@@ -94,9 +94,6 @@
                   Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/host' objects as input"
                   return $null
                 }
-                $HostID = $Object.id
-            } else {
-              $HostID = $SplitID[2]
             }
         } else {
             $Object = Get-B1Host -Name $B1Host -Strict -Detailed
@@ -104,7 +101,6 @@
                 Write-Error "Unable to find BloxOne Host: $($B1Host)"
                 return $null
             }
-            $HostID = $Object.id
         }
 
         if ($Traceroute) {

@@ -19,18 +19,18 @@
     #>
     [CmdletBinding()]
     param(
-        $Profile
+        $ProfileName
     )
-    if ($Profile -or !($ENV:B1APIKey)) {
+    if ($ProfileName -or !($ENV:B1APIKey)) {
         $Configs = Get-B1Context
         if ($Configs.Contexts.PSObject.Properties.Name.Count -gt 0) {
-            if (!$($Profile)) {
-                $Profile = $Configs.CurrentContext
+            if (!$($ProfileName)) {
+                $ProfileName = $Configs.CurrentContext
             }
-            if ($Configs.Contexts."$($Profile)") {
-                $CSPUrl = ($Configs.Contexts | Select-Object -ExpandProperty $Profile).'URL'
+            if ($Configs.Contexts."$($ProfileName)") {
+                $CSPUrl = ($Configs.Contexts | Select-Object -ExpandProperty $ProfileName).'URL'
             } else {
-                Write-Error "Unable to find BloxOne Connection Profile: $($Profile)"
+                Write-Error "Unable to find BloxOne Connection Profile: $($ProfileName)"
                 return $null
             }
         } else {

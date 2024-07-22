@@ -56,7 +56,7 @@
       }
 
       if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
-        Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists/$($NetworkList.id)"
+        $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists/$($NetworkList.id)"
         $NetworkListCheck = Get-B1NetworkList -id $Object.id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
         if ($NetworkListCheck) {
             Write-Error "Failed to delete network list: $($NetworkList.name)"

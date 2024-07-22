@@ -48,7 +48,7 @@
       [String]$InFile,
       [System.Object]$AdditionalHeaders,
       [String]$APIKey,
-      [String]$Profile
+      [String]$ProfileName
     )
 
     if ($APIKey) {
@@ -56,12 +56,16 @@
     } elseif ($ENV:B1APIKey) {
         ## Get Stored API Key (Legacy)
         $B1ApiKey = "Token $(Get-B1CSPAPIKey)"
+    } elseif ($ProfileName) {
+        ## Get API Key from Selected Connection Profile
+        $ProfileKey = Get-B1CSPAPIKey -ProfileName $ProfileName
+        $B1ApiKey = "Token $($ProfileKey)"
     } elseif ($ProfileKey = Get-B1CSPAPIKey -DefaultProfile) {
-        ## Get API Key from Active Connection Profile
+        ## Get API Key from Default Connection Profile
         $B1ApiKey = "Token $($ProfileKey)"
     }
 
-    $B1CSPUrl = Get-B1CSPUrl -Profile $Profile
+    $B1CSPUrl = Get-B1CSPUrl -ProfileName $ProfileName
 
     if ($AdditionalHeaders) {
         $CSPHeaders = @{

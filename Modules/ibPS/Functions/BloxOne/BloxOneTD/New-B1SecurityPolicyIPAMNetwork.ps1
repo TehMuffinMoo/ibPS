@@ -45,7 +45,6 @@
                 return $null
             }
         }
-        $ParentID = $(if ($Object.parent) {($Object.parent -split '/')[2]})
         $Obj = [PSCustomObject]@{
             external_scope_id = $SplitID[2]
             ip_space_id = ($Object.space -split '/')[2]

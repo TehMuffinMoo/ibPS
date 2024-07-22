@@ -17,19 +17,19 @@
     #>
     [CmdletBinding()]
     param(
-        [String]$Profile,
+        [String]$ProfileName,
         [Switch]$DefaultProfile
 
     )
-    if ($Profile -or $DefaultProfile) {
+    if ($ProfileName -or $DefaultProfile) {
         $Configs = Get-B1Context
         if ($DefaultProfile) {
-            $Profile = $Configs.CurrentContext
+            $ProfileName = $Configs.CurrentContext
         }
-        if ($Configs.Contexts."$($Profile)") {
-            $ApiKey = ($Configs.Contexts | Select-Object -ExpandProperty $Profile).'API Key'
+        if ($Configs.Contexts."$($ProfileName)") {
+            $ApiKey = ($Configs.Contexts | Select-Object -ExpandProperty $ProfileName).'API Key'
         } else {
-            Write-Error "Unable to find BloxOne Connection Profile: $($Profile)"
+            Write-Error "Unable to find BloxOne Connection Profile: $($ProfileName)"
             Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
             return $null
         }

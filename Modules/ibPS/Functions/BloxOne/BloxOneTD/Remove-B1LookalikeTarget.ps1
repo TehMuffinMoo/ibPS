@@ -52,7 +52,7 @@
   $JSON = ($LookalikeTargetList | Select-Object items_described | ConvertTo-Json -Depth 5)
   if($PSCmdlet.ShouldProcess("Remove Lookalike Target:`n$($JSON)","Remove Lookalike Target: $($Domain -join ', ')",$MyInvocation.MyCommand)){
     if ($Changed) {
-      $Result = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data $JSON
+      $null = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data $JSON
 
       $LookalikeTargetList = Get-B1LookalikeTargets
       foreach ($DomainToRemove in $Domain) {

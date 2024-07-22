@@ -117,6 +117,7 @@
         Core
     #>
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '')]
     param(
       [String]$Product,
       [String]$App,

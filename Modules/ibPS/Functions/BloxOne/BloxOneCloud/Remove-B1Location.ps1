@@ -58,7 +58,7 @@
           if ($Object.count -eq 1) {
             $ObjectID = ($Object.id -Split ('/'))[2]
             if($PSCmdlet.ShouldProcess("$($Object.name) ($($ObjectID))")){
-                $Results = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)"
+                $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)"
                 if (Get-B1Location -id $($Object.id)) {
                     Write-Error "Error. Failed to delete Location: $($Object.name)"
                 } else {

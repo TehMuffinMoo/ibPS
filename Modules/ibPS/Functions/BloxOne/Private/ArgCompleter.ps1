@@ -174,6 +174,7 @@ $B1ConnectionProfiles = {
     (Get-B1ConnectionProfile -List | Where-Object {$_.Name -like "$($wordToComplete)*"}).Name
 }
 Register-ArgumentCompleter -CommandName Get-B1ConnectionProfile,Set-B1ConnectionProfile,Switch-B1ConnectionProfile,Remove-B1ConnectionProfile -ParameterName Name -ScriptBlock $B1ConnectionProfiles
+Register-ArgumentCompleter -CommandName Invoke-CSP -ParameterName ProfileName -ScriptBlock $B1ConnectionProfiles
 
 $B1CubeJSCubes = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

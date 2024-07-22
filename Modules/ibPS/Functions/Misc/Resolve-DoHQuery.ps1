@@ -194,7 +194,6 @@
                 $Hex
             )
             $i = 0
-            $Length = $Hex.Length
             $HexSplit = $Hex -split '(..)' -ne ''
             $Found = @()
             $HexSplit | ForEach-Object {
@@ -349,7 +348,6 @@
             $SourceIPHexLength = "{0:X4}" -f [Uint32]$($SourceIPHex.length / 2)
             $EDNSOptHex = "{0:X4}" -f [Uint32]'65523'
             $AdditionalRecordHex += "$EDNSOptHex $SourceIPHexLength $SourceIPHex" -replace ' ',''
-            $OPT = $true
         }
         if ($SourceMAC) {
             $AdditionalRecordsCount++
@@ -357,7 +355,6 @@
             $SourceMACHexLength = "{0:X4}" -f [Uint32]$($SourceMACHex.length / 2)
             $EDNSOptHex = "{0:X4}" -f [Uint32]'65524'
             $AdditionalRecordHex += "$EDNSOptHex $SourceMACHexLength $SourceMACHex" -replace ' ',''
-            $OPT = $true
         }
         if ($SourceView) {
             $AdditionalRecordsCount++
@@ -365,7 +362,6 @@
             $SourceViewHexLength = "{0:X4}" -f [Uint32]$($SourceViewHex.length / 2)
             $EDNSOptHex = "{0:X4}" -f [Uint32]'65526'
             $AdditionalRecordHex += "$EDNSOptHex $SourceViewHexLength $SourceViewHex" -replace ' ',''
-            $OPT = $true
         }
         $AdditionalRecordsCountHex =  "{0:X4}" -f [Uint32]$AdditionalRecordsCount
         $HeaderHex = "$TransactionIDHex 01 00 00 01 00 00 00 00 $AdditionalRecordsCountHex"

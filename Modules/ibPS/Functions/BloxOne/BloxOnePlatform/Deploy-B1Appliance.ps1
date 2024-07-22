@@ -249,6 +249,7 @@
     .NOTES
         Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '')]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to generate random dummy Azure SSH Credentials.')]
     [CmdletBinding(
         SupportsShouldProcess,

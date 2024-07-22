@@ -51,12 +51,6 @@
       [String]$Pool,
       [System.Object]$Subnets
     )
-    $MethodArr = @{
-        'RoundRobin' = 'round_robin'
-        'Ratio' = 'ratio'
-        'GlobalAvailability' = 'global_availability'
-        'Topology' = 'topology'
-    }
 
     $TypeArr = @{
         "NOERROR" = "nodata"

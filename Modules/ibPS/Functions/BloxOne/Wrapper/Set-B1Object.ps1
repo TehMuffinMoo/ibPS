@@ -15,6 +15,9 @@
     .PARAMETER Data
         The data to update
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         ## This example will update the comment/description against multiple DNS Records
 
@@ -50,7 +53,10 @@
     .FUNCTIONALITY
         Core
     #>
-    [CmdletBinding()]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
         $Data,
@@ -63,15 +69,20 @@
             ValueFromPipelineByPropertyName = $true,
             Mandatory = $true
         )]
-        [String]$id
+        [String]$id,
+        [Switch]$Force
     )
 
     process {
-        $Data.PSObject.Properties.Remove('_ref')
-        $Data.PSObject.Properties.Remove('id')
-        $Results = Invoke-CSP -Method PATCH -Uri "$($_ref)/$($id)" -Data ($Data | ConvertTo-Json -Depth 10 -Compress) | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
-        if ($Results) {
-            return $Results
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+        $JSON = ($Data | ConvertTo-Json -Depth 10 -Compress)
+        if($PSCmdlet.ShouldProcess("Update BloxOne Object:`n$(JSONPretty($JSON))","Update BloxOne Object: ($($id))",$MyInvocation.MyCommand)){
+            $Data.PSObject.Properties.Remove('_ref')
+            $Data.PSObject.Properties.Remove('id')
+            $Results = Invoke-CSP -Method PATCH -Uri "$($_ref)/$($id)" -Data $JSON | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+            if ($Results) {
+                return $Results
+            }
         }
     }
 }

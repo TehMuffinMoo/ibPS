@@ -56,7 +56,7 @@
         }
       }
       if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.access_key))")){
-        $Result = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/access_codes/$($Object.access_key)"
+        $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/access_codes/$($Object.access_key)"
         if (Get-B1BypassCode -Name $Name -Strict -EA SilentlyContinue -WA SilentlyContinue) {
           Write-Error "Failed to delete Bypass Code: $($Object.name) ($($Object.access_key))"
           break

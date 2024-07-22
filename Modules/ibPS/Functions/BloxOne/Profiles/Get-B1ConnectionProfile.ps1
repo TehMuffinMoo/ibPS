@@ -43,6 +43,7 @@
     #>
     [Alias('Get-BCP')]
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'IncludeAPIKey', Justification = 'False positive as rule does not scan child scopes')]
     param(
         [String]$Name,
         [Switch]$List,
@@ -50,28 +51,28 @@
     )
     $Configs = Get-B1Context
 
-    function GetCurrentAccountInfo($Profile) {
+    function GetCurrentAccountInfo($ProfileName) {
         if (-not $Script:B1AI) {
             $Script:B1AI = @{}
         }
-        if (-not $Script:B1AI."$Profile") {
-            $B1CU = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -Profile $Profile)/v2/current_user" -APIKey (Get-B1CSPAPIKey -Profile $Profile) -Profile $Profile | Select-Object -ExpandProperty result
-            $B1CA = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -Profile $Profile)/v2/current_user/accounts" -APIKey (Get-B1CSPAPIKey -Profile $Profile) -Profile $Profile | Select-Object -ExpandProperty results | Where-Object {$_.id -eq $B1CU.account_id}
-            $Script:B1AI."$Profile" = @{
+        if (-not $Script:B1AI."$ProfileName") {
+            $B1CU = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -ProfileName $ProfileName)/v2/current_user" -APIKey (Get-B1CSPAPIKey -ProfileName $ProfileName) -ProfileName $ProfileName | Select-Object -ExpandProperty result
+            $B1CA = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl -ProfileName $ProfileName)/v2/current_user/accounts" -APIKey (Get-B1CSPAPIKey -ProfileName $ProfileName) -ProfileName $ProfileName | Select-Object -ExpandProperty results | Where-Object {$_.id -eq $B1CU.account_id}
+            $Script:B1AI."$ProfileName" = @{
                 'User' = $(if ($B1CU.Name) {$B1CU.Name} else { 'Invalid or Expired API Key' })
                 'Account' = $(if ($B1CA.Name) {$B1CA.Name} else { 'Invalid or Expired API Key' })
             }
         }
-        return $Script:B1AI."$Profile"
+        return $Script:B1AI."$ProfileName"
     }
 
     $ReturnProperties = @{
         Property =  @{n="Active";e={if ($_.Name -eq $Configs.CurrentContext) { $True } else { $False } }},
                     @{n="Name";e={$_.Name}},
                     @{n="CSP URL";e={$_.URL}},
-                    @{n="CSP User";e={(GetCurrentAccountInfo -Profile $_.Name).User}},
-                    @{n="CSP Account";e={(GetCurrentAccountInfo -Profile $_.Name).Account}},
-                    @{n="API Key";e={if ($IncludeAPIKey) {Get-B1CSPAPIKey -Profile $_.Name} else { "********" }}}
+                    @{n="CSP User";e={(GetCurrentAccountInfo -ProfileName $_.Name).User}},
+                    @{n="CSP Account";e={(GetCurrentAccountInfo -ProfileName $_.Name).Account}},
+                    @{n="API Key";e={if ($IncludeAPIKey) {Get-B1CSPAPIKey -ProfileName $_.Name} else { "********" }}}
     }
     if ($Name) {
         if ($Configs.Contexts."$($Name)") {

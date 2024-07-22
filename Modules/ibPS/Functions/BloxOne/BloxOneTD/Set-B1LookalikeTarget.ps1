@@ -73,7 +73,7 @@
   }
   $JSON = ($LookalikeTargetList | ConvertTo-Json -Depth 5 -Compress)
   if($PSCmdlet.ShouldProcess("Update Lookalike Targets:`n$(JSONPretty($JSON))","Update Lookalike Targets: $($Domain -join ', ')",$MyInvocation.MyCommand)){
-    $Result = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data 
+    $null = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data
 
     $LookalikeTargetList = Get-B1LookalikeTargets
     foreach ($UpdatedLookalike in $UpdatedLookalikes) {

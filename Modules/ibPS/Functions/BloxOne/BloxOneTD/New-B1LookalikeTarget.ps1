@@ -76,7 +76,7 @@
   }
   $JSON = ($LookalikeTargetList | ConvertTo-Json -Depth 5)
   if($PSCmdlet.ShouldProcess("Create new Lookalike Target:`n$($JSON)","Create new Lookalike Target: $($Domain)",$MyInvocation.MyCommand)){
-    $null = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data 
+    $null = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data
 
     $LookalikeTargetList = Get-B1LookalikeTargets
     foreach ($NewLookalike in $NewLookalikes) {

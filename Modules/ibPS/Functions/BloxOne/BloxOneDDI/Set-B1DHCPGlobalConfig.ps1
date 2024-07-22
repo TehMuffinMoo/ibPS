@@ -114,7 +114,6 @@
                     $DDNSZone = $DDNSZone.TrimEnd(".")
                     if (("$DDNSZone.") -in $Object.ddns_zones.fqdn) {
                         $SelectedDDNSObj = $Object.ddns_zones | Where-Object {$_.fqdn -eq "$($DDNSZone)."}
-                        $NewObj.ddns_zones | Where-Object {$_.zone -ne $SelectedDDNSObj.zone} | fl
                         $NewObj.ddns_zones = $NewObj.ddns_zones | Where-Object {$_.zone -ne $SelectedDDNSObj.zone}
                     } else {
                         Write-Host "$DDNSZone does not exist in the Global Configuration. Skipping.." -ForegroundColor Yellow

@@ -60,7 +60,7 @@
             }
         }
         if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
-            $Results = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)"
+            $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)"
 
             if (!(Get-B1CustomList -id $Object.id -EA SilentlyContinue -WA SilentlyContinue)) {
                 Write-Host "Successfully removed Custom List: $($Object.name)" -ForegroundColor Green
