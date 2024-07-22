@@ -55,7 +55,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The BloxOne Threat Defense Security Policy Object(s) to remove.
+Accepts pipeline input
 
 ```yaml
 Type: Object

@@ -13,7 +13,7 @@ Remove a lookalike target domain from the account
 ## SYNTAX
 
 ```
-Remove-B1LookalikeTarget [-Domain] <String[]> [-NoWarning] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+Remove-B1LookalikeTarget [-Domain] <String[]> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,21 +41,6 @@ Aliases:
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -NoWarning
-{{ Fill NoWarning Description }}
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
