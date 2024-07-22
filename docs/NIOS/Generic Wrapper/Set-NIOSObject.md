@@ -16,14 +16,14 @@ Generic Wrapper function for updating objects using the NIOS WAPI
 ```
 Set-NIOSObject -Object <PSObject> [-Fields <String[]>] [-AllFields] [-BaseFields] [-Server <String>]
  [-GridUID <String>] [-GridName <String>] [-ApiVersion <String>] [-SkipCertificateCheck]
- [-Creds <PSCredential>] [<CommonParameters>]
+ [-Creds <PSCredential>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Ref
 ```
 Set-NIOSObject -ObjectRef <String> -TemplateObject <PSObject> [-Fields <String[]>] [-AllFields] [-BaseFields]
  [-Server <String>] [-GridUID <String>] [-GridName <String>] [-ApiVersion <String>] [-SkipCertificateCheck]
- [-Creds <PSCredential>] [<CommonParameters>]
+ [-Creds <PSCredential>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -236,6 +236,53 @@ This is used only when connecting to NIOS directly.
 Type: PSCredential
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
 
 Required: False
 Position: Named
