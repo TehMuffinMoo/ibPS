@@ -14,17 +14,17 @@ This function is used to create new ACL Items to append or remove to/from an exi
 
 ### TSIG
 ```
-New-B1DNSACLItem -Access <Object> [-TSIG_KEY <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-B1DNSACLItem -Access <Object> [-TSIG_KEY <Object>] [<CommonParameters>]
 ```
 
 ### IP
 ```
-New-B1DNSACLItem -Access <Object> [-Address <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-B1DNSACLItem -Access <Object> [-Address <Object>] [<CommonParameters>]
 ```
 
 ### NamedACL
 ```
-New-B1DNSACLItem [-ACL <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-B1DNSACLItem [-ACL <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -114,37 +114,6 @@ This selects the ACL Element to 'tsig_key'
 Type: Object
 Parameter Sets: TSIG
 Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: wi
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases: cf
 
 Required: False
 Position: Named

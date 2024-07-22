@@ -12,23 +12,30 @@ Used to submit threat indicators into a TIDE Data Profile
 
 ## SYNTAX
 
+### Default (Default)
+```
+Submit-B1TideData [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
 ### File
 ```
-Submit-B1TideData -Profile <String> -File <String> [<CommonParameters>]
+Submit-B1TideData -Profile <String> -File <String> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Property
 ```
 Submit-B1TideData -Profile <String> -RecordType <String> -RecordValue <String> -external_id <String>
  -Detected <DateTime> -ThreatProperty <String> [-Confidence <Int32>] [-Domain <String>] [-Duration <String>]
- [-Expiration <DateTime>] [-ThreatLevel <String>] [-Target <String>] [-TLD <String>] [<CommonParameters>]
+ [-Expiration <DateTime>] [-ThreatLevel <String>] [-Target <String>] [-TLD <String>] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### Class
 ```
 Submit-B1TideData -Profile <String> -RecordType <String> -RecordValue <String> -external_id <String>
  -Detected <DateTime> -ThreatClass <String> [-Confidence <Int32>] [-Domain <String>] [-Duration <String>]
- [-Expiration <DateTime>] [-ThreatLevel <String>] [-Target <String>] [-TLD <String>] [<CommonParameters>]
+ [-Expiration <DateTime>] [-ThreatLevel <String>] [-Target <String>] [-TLD <String>] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -85,7 +92,7 @@ Supports tab-completion.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: File, Property, Class
 Aliases:
 
 Required: True
@@ -313,6 +320,53 @@ Parameter Sets: File
 Aliases:
 
 Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
 Position: Named
 Default value: None
 Accept pipeline input: False

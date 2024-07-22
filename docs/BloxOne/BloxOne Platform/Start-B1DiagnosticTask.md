@@ -14,32 +14,32 @@ Initiates a BloxOneDDI Diagnostic Task
 
 ### traceroute
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-Traceroute] -Target <String> [-Port <String>] [-WaitForOutput]
- [-Object <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-Traceroute] -Target <String> [-Port <String>]
+ [-WaitForOutput <Boolean>] [-Object <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### dnstest
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DNSTest] -FQDN <String> [-WaitForOutput] [-Object <Object>]
- [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DNSTest] -FQDN <String> [-WaitForOutput <Boolean>]
+ [-Object <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ntptest
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-NTPTest] [-WaitForOutput] [-Object <Object>] [-Force] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-NTPTest] [-WaitForOutput <Boolean>] [-Object <Object>] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### dnsconf
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DNSConfiguration] [-WaitForOutput] [-Object <Object>] [-Force]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DNSConfiguration] [-WaitForOutput <Boolean>] [-Object <Object>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### dhcpconf
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DHCPConfiguration] [-WaitForOutput] [-Object <Object>] [-Force]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+Start-B1DiagnosticTask [-B1Host <String>] [-DHCPConfiguration] [-WaitForOutput <Boolean>] [-Object <Object>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -199,7 +199,7 @@ Indicates whether the function should wait for results to be returned from the d
 This defaults to $true
 
 ```yaml
-Type: SwitchParameter
+Type: Boolean
 Parameter Sets: (All)
 Aliases:
 
