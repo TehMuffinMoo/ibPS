@@ -51,6 +51,9 @@
     .PARAMETER Object
         The Security Policy Object(s) to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         ## Example of copying rules from one Security Policy to another.
 
@@ -95,6 +98,10 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
@@ -121,10 +128,12 @@
         ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             if ('onprem_resolve' -notin $Object.PSObject.Properties.Name) {
                 Write-Error "Unsupported pipeline object. This function only supports Security Policy objects as input. (Get-B1SecurityPolicy)"
@@ -200,15 +209,15 @@
             $NewObj.rules = $Rules
         }
 
-        $JSON = $NewObj | ConvertTo-Json -Depth 5
-
-        $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-        if ($Result.id -eq $Object.id) {
-            return $Result
-        } else {
-            Write-Host "Failed to update Security Policy: $Name." -ForegroundColor Red
-            break
+        $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
+        if($PSCmdlet.ShouldProcess("Update Security Policy:`n$(JSONPretty($JSON))","Update Security Policy: $($NewObj.name)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.id -eq $Object.id) {
+                return $Result
+            } else {
+                Write-Host "Failed to update Security Policy: $Name." -ForegroundColor Red
+                break
+            }
         }
-
     }
 }

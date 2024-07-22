@@ -14,6 +14,9 @@
   .PARAMETER Description
     The updated description from the selected domain
 
+  .PARAMETER Force
+    Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
   .EXAMPLE
     PS> Set-B1LookalikeTarget -Domain "mydomain.com" -Description "New description.."
 
@@ -32,15 +35,19 @@
   .NOTES
     Credits: Ollie Sheridan
   #>
-
+  [CmdletBinding(
+    SupportsShouldProcess,
+    ConfirmImpact = 'Medium'
+  )]
   param(
     [Parameter(Mandatory=$true)]
     [String[]]$Domain,
     [Parameter(Mandatory=$true)]
-    [String[]]$Description
+    [String[]]$Description,
+    [Switch]$Force
   )
-
-  $LookalikeTargetList = Get-B1LookalikeTarget
+  $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+  $LookalikeTargetList = Get-B1LookalikeTargets
   $UpdatedLookalikes = @()
 
   if ($Domain.Count -gt 1) {
@@ -64,15 +71,17 @@
       Write-Host "Lookalike target already exists: $($NewDomain)" -ForegroundColor Yellow
     }
   }
+  $JSON = ($LookalikeTargetList | ConvertTo-Json -Depth 5 -Compress)
+  if($PSCmdlet.ShouldProcess("Update Lookalike Targets:`n$(JSONPretty($JSON))","Update Lookalike Targets: $($Domain -join ', ')",$MyInvocation.MyCommand)){
+    $Result = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data 
 
-  $Result = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | ConvertTo-Json -Depth 5)
-
-  $LookalikeTargetList = Get-B1LookalikeTarget
-  foreach ($UpdatedLookalike in $UpdatedLookalikes) {
-    if ($UpdatedLookalike -notin $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
-      Write-Error "Failed to update lookalike target: $($UpdatedLookalike)"
-    } else {
-      Write-Host "Successfully updated lookalike target: $($UpdatedLookalike)" -ForegroundColor Green
+    $LookalikeTargetList = Get-B1LookalikeTargets
+    foreach ($UpdatedLookalike in $UpdatedLookalikes) {
+      if ($UpdatedLookalike -notin $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
+        Write-Error "Failed to update lookalike target: $($UpdatedLookalike)"
+      } else {
+        Write-Host "Successfully updated lookalike target: $($UpdatedLookalike)" -ForegroundColor Green
+      }
     }
   }
 }

@@ -38,10 +38,7 @@
     .FUNCTIONALITY
         DNS
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'None'
-    )]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,

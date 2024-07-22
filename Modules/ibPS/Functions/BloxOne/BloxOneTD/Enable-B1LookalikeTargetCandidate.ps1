@@ -11,6 +11,9 @@
 
         This parameter auto-completes based on the current list of disabled domains
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Enable-B1LookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
 
@@ -31,26 +34,26 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
-      [String[]]$Domain
+      [String[]]$Domain,
+      [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
 
-    $EnabledDomains = @()
+    $JSONData = @{
+        "select" = $Domain
+        "unselect" = @()
+    } | ConvertTo-Json
 
-    foreach ($DomainToEnable in $Domain) {
-        $EnabledDomains += $DomainToEnable
-    }
-
-    if ($EnabledDomains) {
-        $JSONData = @{
-            "select" = $EnabledDomains
-            "unselect" = @()
-        } | ConvertTo-Json
+    if($PSCmdlet.ShouldProcess("Enable Lookalike Target Candidate(s): $($Domain -join ', ')","Enable Lookalike Target Candidate(s): $($Domain -join ', ')",$MyInvocation.MyCommand)){
         $null = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/lookalike_target_candidates" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-
         $Candidates = Get-B1LookalikeTargetCandidates | Select-Object -ExpandProperty items_described
-        foreach ($EnabledDomain in $EnabledDomains) {
+        foreach ($EnabledDomain in $Domain) {
             if (($Candidates | Where-Object {$_.item -eq $EnabledDomain}).selected -eq "True") {
                 Write-Host "Successfully enabled lookalike candidate: $($EnabledDomain)" -ForegroundColor Green
             } else {

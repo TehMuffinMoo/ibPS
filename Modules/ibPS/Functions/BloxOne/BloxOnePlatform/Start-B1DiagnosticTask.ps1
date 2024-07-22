@@ -78,7 +78,7 @@
       [parameter(ParameterSetName="dnstest",Mandatory=$true)]
       [String]$FQDN,
       [parameter(Mandatory=$false)]
-      [Switch]$WaitForOutput = $true,
+      [Bool]$WaitForOutput = $true,
       [Parameter(ValueFromPipeline = $true)]
       [System.Object]$Object,
       [Switch]$Force

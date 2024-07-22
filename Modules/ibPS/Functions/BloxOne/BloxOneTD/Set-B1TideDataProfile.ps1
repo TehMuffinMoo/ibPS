@@ -21,6 +21,9 @@
     .PARAMETER DefaultTTL
         This value indicates if to use the default TTL for threats
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1TideDataProfile -Name "My Profile" -Description "New Description" -RPZFeed "New RPZ Feed" -Active $true -DefaultTTL $false
 
@@ -38,30 +41,35 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(
             ValueFromPipelineByPropertyName = $true,
             Mandatory=$true
         )]
         [String]$Name,
-        [String]$Description = "notset",
-        [AllowEmptyString()]
-        [String]$RPZFeed = "notset",
+        [String]$Description,
+        [String]$RPZFeed,
         [ValidateSet("Activated","Deactivated")]
         [String]$State,
         [ValidateSet("True","False")]
-        [String]$DefaultTTL
+        [String]$DefaultTTL,
+        [Switch]$Force
     )
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       $TIDEDataProfile = Get-B1TideDataProfile -Name $Name
       if (!$TIDEDataProfile) {
           Write-Host "Failed to find Data Profile with name: $Name." -ForegroundColor Red
       } else {
-        if ($Description -ne "notset") {
+        if ($Description) {
           $TIDEDataProfile.description = $Description
         }
-        if ($RPZFeed -ne "notset") {
+        if ($RPZFeed) {
           $TIDEDataProfile.rpzfeedname = $RPZFeed
         }
         if ($State) {
@@ -84,15 +92,17 @@
               }
           }
         }
-        $splat = $TIDEDataProfile | Select-Object * -ExcludeProperty id | ConvertTo-Json -Compress
-        $Result = Invoke-CSP -Method "PUT" -Uri "$(Get-B1CSPUrl)/tide/admin/v1/resources/dataprofiles/$Name" -Data $splat | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
+        $JSON = $TIDEDataProfile | Select-Object * -ExcludeProperty id | ConvertTo-Json -Compress
 
-        if ($Result) {
-          Write-Host "Successfully updated TIDE Data Profile: $Name" -ForegroundColor Green
-        } else {
-          Write-Host "Failed to update TIDE Data Profile: $Name" -ForegroundColor Red
+        if($PSCmdlet.ShouldProcess("Update TIDE Data Profile:`n$(JSONPretty($JSON))","Update TIDE Data Profile: $($TIDEDataProfile.name)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method "PUT" -Uri "$(Get-B1CSPUrl)/tide/admin/v1/resources/dataprofiles/$Name" -Data $JSON | Select-Object -ExpandProperty profile -ErrorAction SilentlyContinue
+            if ($Result) {
+            Write-Host "Successfully updated TIDE Data Profile: $Name" -ForegroundColor Green
+            } else {
+            Write-Host "Failed to update TIDE Data Profile: $Name" -ForegroundColor Red
+            }
+            return $Result
         }
-        return $Result
       }
     }
 }

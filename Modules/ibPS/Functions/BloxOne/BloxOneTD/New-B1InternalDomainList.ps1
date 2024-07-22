@@ -18,6 +18,9 @@
     .PARAMETER Tags
         A list of tags to add to the new Internal Domain list
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1InternalDomainList -Name 'My List' -Description 'A list of domains' -Domains 'mydomain.corp','ext.domain.corp','partner.corp' -Tags @{'Owner'='Me'}
 
@@ -39,14 +42,19 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
       [String]$Description,
       [System.Object]$Domains,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $Splat = @{
         "name" = $Name
         "description" = $Description
@@ -60,13 +68,15 @@
 
     $JSON = $Splat | ConvertTo-Json -Depth 4
 
-    $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-    if ($Result.name -eq $Name) {
-        Write-Host "Internal Domain List $Name created successfully." -ForegroundColor Green
-        return $Result
-    } else {
-        Write-Host "Failed to create Internal Domain List $Name." -ForegroundColor Red
-        break
+    if($PSCmdlet.ShouldProcess("Create new Internal Domain List:`n$($JSON)","Create new Internal Domain List: $($Name)",$MyInvocation.MyCommand)){
+        $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+        if ($Result.name -eq $Name) {
+            Write-Host "Internal Domain List $Name created successfully." -ForegroundColor Green
+            return $Result
+        } else {
+            Write-Host "Failed to create Internal Domain List $Name." -ForegroundColor Red
+            break
+        }
     }
 
 }

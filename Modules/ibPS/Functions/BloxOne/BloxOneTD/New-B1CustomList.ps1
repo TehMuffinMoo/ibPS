@@ -24,6 +24,9 @@
     .PARAMETER Tags
         A list of tags to add to the new Custom List
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         $Items = @{
          "domain.com" = "Description 1"
@@ -48,6 +51,10 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -60,10 +67,12 @@
       [Parameter(Mandatory=$true)]
       [ValidateSet('LOW','MEDIUM','HIGH')]
       [String]$ConfidenceLevel,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $Splat = @{
             "name" = $($Name)
             "description" = $($Description)
@@ -94,15 +103,15 @@
         }
         $Splat.items_described = $NewItems
         $JSON = $Splat | ConvertTo-Json -Depth 5
-
-        $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-        if ($Result.name -eq $Name) {
-            Write-Host "Custom List: $Name created successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create Custom List: $Name." -ForegroundColor Red
-            break
+        if($PSCmdlet.ShouldProcess("Create new Custom List:`n$(JSONPretty($JSON))","Create new Custom List: $($Name)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.name -eq $Name) {
+                Write-Host "Custom List: $Name created successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create Custom List: $Name." -ForegroundColor Red
+                break
+            }
         }
-
     }
 }

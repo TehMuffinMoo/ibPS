@@ -45,6 +45,9 @@
     .PARAMETER Tags
         A list of tags to add to the new Security Policy
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         $PolicyRules = @()
         $PolicyRules += New-B1SecurityPolicyRule -Action Allow -Type Category -Object All-Categories
@@ -96,6 +99,10 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -115,10 +122,12 @@
       [String[]]$ExternalNetworks,
       [System.Object]$IPAMNetworks,
       [System.Object]$Rules,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $Splat = @{
             "name" = $($Name)
             "description" = $($Description)
@@ -172,13 +181,14 @@
 
         $JSON = $Splat | ConvertTo-Json -Depth 5
 
-        $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-        if ($Result.name -eq $Name) {
-            return $Result
-        } else {
-            Write-Host "Failed to create Security Policy: $Name." -ForegroundColor Red
-            break
+        if($PSCmdlet.ShouldProcess("Create new Security Policy:`n$($JSON)","Create new Security Policy: $($Name)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.name -eq $Name) {
+                return $Result
+            } else {
+                Write-Host "Failed to create Security Policy: $Name." -ForegroundColor Red
+                break
+            }
         }
-
     }
 }

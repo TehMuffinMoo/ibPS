@@ -58,7 +58,7 @@
           }
           $ServiceID = $Object.id
       }
-      
+
       if($PSCmdlet.ShouldProcess("Stop BloxOne Service: $($Object.name)","Stop BloxOne Service: $($Object.name)",$MyInvocation.MyCommand)){
         Write-Host "Stopping $($Object.name).." -ForegroundColor Cyan
         $Object.desired_state = "Stop"

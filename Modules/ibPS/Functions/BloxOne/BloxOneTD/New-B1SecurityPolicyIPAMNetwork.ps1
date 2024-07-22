@@ -26,6 +26,7 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
         [Parameter(
             ValueFromPipeline = $true,

@@ -58,7 +58,7 @@
           }
           $ServiceID = $Object.id
       }
-      
+
       if($PSCmdlet.ShouldProcess("Start BloxOne Service: $($Object.name)","Start BloxOne Service: $($Object.name)",$MyInvocation.MyCommand)){
         Write-Host "Starting $($Object.name).." -ForegroundColor Cyan
         $Object.desired_state = "start"

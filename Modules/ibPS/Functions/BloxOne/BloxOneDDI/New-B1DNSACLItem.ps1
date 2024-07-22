@@ -46,10 +46,7 @@
     .FUNCTIONALITY
         DNS
     #>
-    [CmdletBinding(
-        SupportsShouldProcess,
-        ConfirmImpact = 'None'
-    )]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
         [Parameter(ParameterSetName='IP',Mandatory=$true)]
         [Parameter(ParameterSetName='TSIG',Mandatory=$true)]

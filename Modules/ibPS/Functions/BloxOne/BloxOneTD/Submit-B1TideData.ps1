@@ -60,6 +60,9 @@
 
         This should conform to the formats listed here: https://docs.infoblox.com/space/BloxOneThreatDefense/35434535/TIDE+Data+Submission+Overview
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Submit-B1TideData -Profile my-dataprofile -ThreatClass Malicious -RecordType host -RecordValue superbaddomain.com -Detected (Get-Date).AddHours(-7) -ThreatLevel 10 -Confidence 30
 
@@ -103,6 +106,11 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding(
+        DefaultParameterSetName='Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     Param(
         [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
         [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
@@ -149,11 +157,12 @@
         [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [String]$TLD,
         [Parameter(Mandatory=$true,ParameterSetName="File")]
-        [String]$File
+        [String]$File,
+        [Switch]$Force
 	  )
 
     Process {
-
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if (!(Get-B1TideDataProfile -Name $($Profile))) {
         Write-Error "Error. TIDE Data Profile does not exist: $($Profile)"
         break
@@ -161,7 +170,9 @@
 
       if ($File) {
         $FileContents = Get-Content $($File) -Raw
-        Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -AdditionalHeaders @{'Content-Type' = 'text/plain'}
+        if($PSCmdlet.ShouldProcess("Upload TIDE Data from File: $($File).","Upload TIDE Data from File: $($File).",$MyInvocation.MyCommand)){
+            Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -AdditionalHeaders @{'Content-Type' = 'text/plain'}
+        }
       } else {
 
         $DetectedTime = $Detected.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.000Z")
@@ -209,9 +220,10 @@
             $Feed.feed.record[0].tld = "$($TLD)"
         }
 
-        $JSONFeed = $Feed | ConvertTo-Json -Depth 5
-
-        Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $JSONFeed
+        $JSON = $Feed | ConvertTo-Json -Depth 5
+        if($PSCmdlet.ShouldProcess("Upload TIDE Data:`n$($JSON).","Upload TIDE Data.",$MyInvocation.MyCommand)){
+            Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $JSONFeed
+        }
       }
     }
 }

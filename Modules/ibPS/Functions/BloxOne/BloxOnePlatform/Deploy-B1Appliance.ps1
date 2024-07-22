@@ -396,7 +396,6 @@
              $PortGroupTypeAttribute.Mandatory = $true
              $PortGroupTypeAttribute.HelpMessageBaseName = "PortGroupType"
              $PortGroupTypeAttribute.HelpMessage = "The PortGroupType parameter is used to define the type of port group to use. (vDS / Standard)"
-             $PortGroupTypeValidation = [System.Management.Automation.ValidateSetAttribute]::new("vDS","Standard")
 
              $CredsAttribute = New-Object System.Management.Automation.ParameterAttribute
              $CredsAttribute.Position = 8
@@ -407,6 +406,9 @@
              foreach ($ParamItem in ($OVAPathAttribute,$vCenterAttribute,$ClusterAttribute,$VMHostAttribute,$DatastoreAttribute,$PortGroupAttribute,$PortGroupTypeAttribute,$CredsAttribute)) {
                 $AttributeCollection = New-Object System.Collections.ObjectModel.Collection[System.Attribute]
                 $AttributeCollection.Add($ParamItem)
+                if ($($ParamItem.HelpMessageBaseName -eq "PortGroupType")) {
+                    $AttributeCollection.Add((New-Object System.Management.Automation.ValidateSetAttribute("vDS","Standard")))
+                }
                 if ($($ParamItem.HelpMessageBaseName -eq "Creds")) {
                     $DefinedParam = New-Object System.Management.Automation.RuntimeDefinedParameter($($ParamItem.HelpMessageBaseName), [pscredential], $AttributeCollection)
                 } else {
@@ -978,8 +980,6 @@
                     if ($AzureSku) {
                         $AzureImage = Get-AzVMImage -Location $($PSBoundParameters.AzLocation) -PublisherName 'infoblox' -Offer $AzureOffer.Offer -Sku $($AzureSku.Skus)
                         if ($AzureImage) {
-                            $AzureImageURN = "infoblox:$($PSBoundParameters.AzOffer):$($PSBoundParameters.AzSku):$($AzureImage.Version)"
-                            
                             if($PSCmdlet.ShouldProcess("Deploy BloxOne VMware Appliance: $($Name)","Deploy BloxOne VMware Appliance: $($Name)",$MyInvocation.MyCommand)){
                                 ## Check if marketplace terms have been accepted.
                                 $MarketplaceTerms = Get-AzMarketplaceTerms -Name $($AzureSku.Skus) -Product $($AzureOffer.Offer) -Publisher 'infoblox' -EA SilentlyContinue -WA SilentlyContinue

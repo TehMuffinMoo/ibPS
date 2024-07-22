@@ -19,6 +19,9 @@
     .PARAMETER Wait
         If this switch is set, the API call will wait for job completion before returning
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Start-B1DossierLookup -Type ip -Value 1.1.1.1
 
@@ -35,6 +38,10 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("host", "ip", "url", "hash", "email")]
@@ -42,9 +49,10 @@
       [Parameter(Mandatory=$true)]
       [String]$Value,
       [String[]]$Source,
-      [Switch]$Wait
+      [Switch]$Wait,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $Filters = @()
 
     $Filters += "value=$Value"
@@ -57,36 +65,38 @@
 
     $CombinedFilters = ConvertTo-QueryString $Filters
 
-    if ($CombinedFilters) {
-        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/indicator/$Type$CombinedFilters" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-    }
-
-    if ($Results) {
-        if (($Results.GetType().Name -eq 'String')) {
-            try {
-                Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
-                if ($PSVersionTable.PSVersion.Major -le 5) {
-                    $Results = ConvertFrom-ComplexJSON $Results
-                } else {
-                    $Results = $Results | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
-                }
-            } catch {
-                Write-Error "Failed to convert JSON response."
-                Write-Error $_
-                return $null
-            }
+    if($PSCmdlet.ShouldProcess("Start Dossier Lookup.","Start Dossier Lookup.",$MyInvocation.MyCommand)){
+        if ($CombinedFilters) {
+            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/indicator/$Type$CombinedFilters" -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
         }
-        if ($Wait) {
-            $ReturnProperties = @{
-                Property =  @{n="status";e={$_.status}},
-                            @{n="job_id";e={$_.job_id}},
-                            @{n="job";e={$_.job}},
-                            @{n="tasks";e={$_.tasks}},
-                            @{n="results";e={$_.results | ConvertFrom-HashTable}}
+
+        if ($Results) {
+            if (($Results.GetType().Name -eq 'String')) {
+                try {
+                    Write-Debug 'Invoke response failed to convert JSON. Attempting alternative conversion..'
+                    if ($PSVersionTable.PSVersion.Major -le 5) {
+                        $Results = ConvertFrom-ComplexJSON $Results
+                    } else {
+                        $Results = $Results | ConvertFrom-Json -AsHashtable | ConvertFrom-HashTable
+                    }
+                } catch {
+                    Write-Error "Failed to convert JSON response."
+                    Write-Error $_
+                    return $null
+                }
             }
-            return $Results | Select-Object @ReturnProperties
-        } else {
-            return $Results
+            if ($Wait) {
+                $ReturnProperties = @{
+                    Property =  @{n="status";e={$_.status}},
+                                @{n="job_id";e={$_.job_id}},
+                                @{n="job";e={$_.job}},
+                                @{n="tasks";e={$_.tasks}},
+                                @{n="results";e={$_.results | ConvertFrom-HashTable}}
+                }
+                return $Results | Select-Object @ReturnProperties
+            } else {
+                return $Results
+            }
         }
     }
 }

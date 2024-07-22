@@ -15,6 +15,9 @@
     .PARAMETER insightId
         The insightId of the Insight to update. Accepts pipeline input (See examples)
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Get-B1SOCInsight -ThreatType 'Lookalike Threat' -Priority LOW | Set-B1SOCInsight -Status Closed
 
@@ -27,6 +30,10 @@
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet('Active','Closed')]
@@ -36,10 +43,12 @@
         ValueFromPipelineByPropertyName = $true,
         Mandatory=$true
       )]
-      [String[]]$insightId
+      [String[]]$insightId,
+      [Switch]$Force
     )
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       $Body = @{
         "insight_ids" = @()
       }
@@ -54,12 +63,13 @@
         $Body.comment = $Comment
       }
 
-      $JSONBody = $Body | ConvertTo-Json -Depth 5
+      $JSON = $Body | ConvertTo-Json -Depth 5
+      if($PSCmdlet.ShouldProcess("Update SOC Insight:`n$(JSONPretty($JSON))","Update SOC Insight: $($insightId -join ', ')",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/status" -Method PUT -Data $JSON
 
-      $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/status" -Method PUT -Data $JSONBody
-
-      if ($Results) {
-        return $Results
+        if ($Results) {
+          return $Results
+        }
       }
     }
 }

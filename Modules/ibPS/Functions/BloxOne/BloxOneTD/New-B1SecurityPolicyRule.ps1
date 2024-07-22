@@ -30,6 +30,7 @@
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
         [ValidateSet('Allow','Block','Redirect','AllowWithLocalResolution')]
         $Action,
@@ -40,7 +41,6 @@
         $Object,
         $Redirect
     )
-
     Switch($Action) {
         "Allow" {
             Switch($Log) {

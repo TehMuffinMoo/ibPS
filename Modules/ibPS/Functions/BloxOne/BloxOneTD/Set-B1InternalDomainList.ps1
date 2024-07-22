@@ -21,6 +21,9 @@
     .PARAMETER Object
         The Internal Domain List object to update. Expects pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         $List = Get-B1InternalDomainList -Name 'My List'
         $List.internal_domains += 'new.corp.local'
@@ -44,6 +47,10 @@
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true,ParameterSetName="None")]
       [String]$Name,
@@ -58,10 +65,12 @@
         ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if (!($Object)) {
             $Object = Get-B1InternalDomainList -Name $Name -Strict
             if (!($Object)) {
@@ -88,14 +97,15 @@
         $Splat = $Object | Select-Object -Exclude created_time,updated_time,id,is_default
 
         $JSON = $Splat | ConvertTo-Json -Depth 4
-
-        $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-        if ($Result.id -eq $($Object.id)) {
-            Write-Host "Internal Domain List $Name updated successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to update Internal Domain List $Name." -ForegroundColor Red
-            break
+        if($PSCmdlet.ShouldProcess("Update Internal Domain List:`n$(JSONPretty($JSON))","Update Internal Domain List: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.id -eq $($Object.id)) {
+                Write-Host "Internal Domain List $Name updated successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to update Internal Domain List $Name." -ForegroundColor Red
+                break
+            }
         }
     }
 }
