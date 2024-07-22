@@ -61,7 +61,8 @@
         [String]$CSPUrl,
         [Parameter(Mandatory=$true)]
         [String]$APIKey,
-        [Switch]$NoSwitchProfile
+        [Switch]$NoSwitchProfile,
+        [Switch]$Force
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if ($CSPRegion) {

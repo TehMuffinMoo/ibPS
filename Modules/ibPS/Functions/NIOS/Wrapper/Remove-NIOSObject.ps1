@@ -43,6 +43,9 @@
 
         This is used only when connecting to NIOS directly.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
     .EXAMPLE
         PS> @{
             name = 'my.example.com'
@@ -58,6 +61,10 @@
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'High'
+    )]
     param(
         [Parameter(
             Mandatory = $true,
@@ -70,17 +77,21 @@
         [String]$GridName,
         [String]$ApiVersion,
         [Switch]$SkipCertificateCheck,
-        [PSCredential]$Creds
+        [PSCredential]$Creds,
+        [Switch]$Force
     )
 
     begin {
         ## Initialize Query Filters
         $InvokeOpts = Initialize-NIOSOpts $PSBoundParameters
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     }
 
     process {
         try {
-            Invoke-NIOS @InvokeOpts -Uri $ObjectRef -Method DELETE
+            if ($PSCmdlet.ShouldProcess("$($ObjectRef)")){
+                Invoke-NIOS @InvokeOpts -Uri $ObjectRef -Method DELETE
+            }
         } catch {
             Write-Error $_
             break

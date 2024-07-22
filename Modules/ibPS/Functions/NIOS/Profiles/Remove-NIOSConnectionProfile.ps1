@@ -35,22 +35,25 @@
         Authentication
     #>
     [Alias('Remove-NCP')]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'High'
+    )]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,
-        [Bool]$Confirm = $true
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (Get-NIOSConnectionProfile -Name $Name) {
         $ContextConfig = (Get-NIOSContext)
         if ($ContextConfig.CurrentContext -ne $Name) {
-            if ($Confirm) {
-                Write-Warning "Are you sure you want to delete the NIOS connection profile: $($Name)?" -WarningAction Inquire
+            if($PSCmdlet.ShouldProcess("Remove NIOS Connection Profile: $($Name)","Remove NIOS Connection Profile: $($Name)",$MyInvocation.MyCommand)){
+                $ContextConfig.Contexts.PSObject.Members.Remove($Name)
+                $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:NIOSConfigFile -Force
+                Write-Host "Removed NIOS connection profile: $($Name)" -ForegroundColor Green
+                break
             }
-            $ContextConfig.Contexts.PSObject.Members.Remove($Name)
-            $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:NIOSConfigFile -Force
-            Write-Host "Removed NIOS connection profile: $($Name)" -ForegroundColor Green
-            break
         } else {
             Write-Error "Cannot delete $($Name) as it the current active NIOS connection profile."
             break

@@ -1,4 +1,5 @@
 ﻿function Set-NIOSContext {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,

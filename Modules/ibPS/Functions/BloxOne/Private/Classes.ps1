@@ -1,4 +1,6 @@
-﻿class TSIGKey {
+﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidAssignmentToAutomaticVariable', 'this', Justification = 'Assignment required by class')]
+param()
+class TSIGKey {
     # Class properties
     [string]   $algorithm
     [string]   $comment

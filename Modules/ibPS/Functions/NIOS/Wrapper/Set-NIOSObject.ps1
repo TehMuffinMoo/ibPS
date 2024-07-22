@@ -58,6 +58,9 @@
 
         This is used only when connecting to NIOS directly.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> @{
             name = 'my.example.com'
@@ -73,6 +76,10 @@
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(
             Mandatory=$true,
@@ -104,13 +111,15 @@
         [String]$GridName,
         [String]$ApiVersion,
         [Switch]$SkipCertificateCheck,
-        [PSCredential]$Creds
+        [PSCredential]$Creds,
+        [Switch]$Force
     )
 
     begin {
         ## Initialize Query Filters
         [System.Collections.ArrayList]$QueryFilters = @()
         $InvokeOpts = Initialize-NIOSOpts $PSBoundParameters
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     }
 
     process {
@@ -156,7 +165,9 @@
         $JSON = $Object | ConvertTo-Json -Depth 5
 
         try {
-            Invoke-NIOS @InvokeOpts -Uri $Uri -Method PUT -Data $JSON
+            if($PSCmdlet.ShouldProcess("Update NIOS Object:`n$(JSONPretty($JSON))","Update NIOS Object: ($($Uri))",$MyInvocation.MyCommand)){
+                Invoke-NIOS @InvokeOpts -Uri $Uri -Method PUT -Data $JSON
+            }
         } catch {
             Write-Error $_
             break

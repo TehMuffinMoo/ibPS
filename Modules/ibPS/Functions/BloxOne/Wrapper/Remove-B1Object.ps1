@@ -13,7 +13,7 @@
         The id of the object to remove
 
     .PARAMETER Force
-        This is used to suppress the confirmation prompt if run non-interactively
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         ## This example shows removing several address block objects based on tag
@@ -28,7 +28,7 @@
     #>
     [CmdletBinding(
         SupportsShouldProcess,
-        ConfirmImpact = 'Medium'
+        ConfirmImpact = 'High'
     )]
     param(
         [Parameter(
@@ -46,9 +46,6 @@
 
     process {
         $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
-        if ($Force -and -not $Confirm) {
-            $ConfirmPreference = 'None'
-        }
 
         if ($PSCmdlet.ShouldProcess("$($id)")){
             Write-Host "Removing Object: $($_ref)/$($id)" -ForegroundColor Gray

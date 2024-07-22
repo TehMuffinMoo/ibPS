@@ -40,6 +40,9 @@
     .PARAMETER NoSwitchProfile
         Do not make this profile active upon creation
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-NCP
 
@@ -56,6 +59,10 @@
         Authentication
     #>
     [Alias('New-NCP')]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param (
         [Parameter(Mandatory=$true)]
         [String]$Name,
@@ -71,9 +78,10 @@
         [String]$GridUID,
         [Parameter(Mandatory=$true,ParameterSetName='FederatedName')]
         [String]$GridName,
-        [Switch]$NoSwitchProfile
+        [Switch]$NoSwitchProfile,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     Switch ($PSCmdlet.ParameterSetName) {
         'FederatedUID' {
             $GridMember = Get-B1Host -tfilter "`"host/license_uid`"==`"$($GridUID)`""
@@ -130,5 +138,7 @@
             "SkipCertificateCheck" = $(if ($SkipCertificateCheck) { $True } else { $False })
         }
     }
-    Set-NIOSContext -Name $Name -Config $Config -NoSwitchProfile:$($NoSwitchProfile)
+    if($PSCmdlet.ShouldProcess("Create new NIOS Connection Profile:`n$($Config | ConvertTo-Json)","Create new NIOS Connection Profile: $($Name)",$MyInvocation.MyCommand)){
+        Set-NIOSContext -Name $Name -Config $Config -NoSwitchProfile:$($NoSwitchProfile)
+    }
 }

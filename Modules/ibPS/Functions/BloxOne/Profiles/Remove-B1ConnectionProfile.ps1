@@ -9,6 +9,9 @@
     .PARAMETER Name
         Specify the connection profile name to remove. This field supports tab completion.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
     .EXAMPLE
         PS> Remove-B1ConnectionProfile Dev
 
@@ -41,9 +44,10 @@
     )]
     param(
         [Parameter(Mandatory=$true)]
-        [String]$Name
+        [String]$Name,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (Get-B1ConnectionProfile -Name $Name) {
         $ContextConfig = (Get-B1Context)
         if ($ContextConfig.CurrentContext -ne $Name) {
