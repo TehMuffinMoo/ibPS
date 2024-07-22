@@ -6,8 +6,8 @@
     .DESCRIPTION
         This function is used to remove a BloxOne Threat Defense Security Policy
 
-    .PARAMETER id
-        The id of the BloxOne Threat Defense Security Policy. Accepts pipeline input
+    .PARAMETER Object
+        The BloxOne Threat Defense Security Policy Object(s) to remove. Accepts pipeline input
 
     .PARAMETER Name
         The name of the BloxOne Threat Defense Security Policy to delete.

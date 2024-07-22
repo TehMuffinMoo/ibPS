@@ -1,5 +1,6 @@
 ﻿function Set-B1Context {
     [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,

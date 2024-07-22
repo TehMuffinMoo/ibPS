@@ -21,6 +21,9 @@
     .PARAMETER NoSwitchProfile
         Do not make this profile active upon creation
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-BCP
 
@@ -36,9 +39,12 @@
     .FUNCTIONALITY
         Authentication
     #>
-    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to obtain API Key')]
     [Alias('New-BCP')]
-    [CmdletBinding()]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to obtain API Key')]
     param (
         [Parameter(Mandatory=$true)]
         [String]$Name,
@@ -57,7 +63,7 @@
         [String]$APIKey,
         [Switch]$NoSwitchProfile
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if ($CSPRegion) {
         switch ($CSPRegion) {
             "US" {
@@ -74,5 +80,7 @@
        "URL" = $CSPUrl
        "API Key" = $([Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($($APIKey | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString))))
     }
-    Set-B1Context -Name $Name -Config $Config -NoSwitchProfile:$($NoSwitchProfile)
+    if($PSCmdlet.ShouldProcess("Create new BloxOne Connection Profile:`n$($Config | ConvertTo-Json)","Create new BloxOne Connection Profile: $($Name)",$MyInvocation.MyCommand)){
+        Set-B1Context -Name $Name -Config $Config -NoSwitchProfile:$($NoSwitchProfile)
+    }
 }

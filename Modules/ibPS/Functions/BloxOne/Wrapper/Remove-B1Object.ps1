@@ -26,7 +26,10 @@
     .FUNCTIONALITY
         Core
     #>
-    [CmdletBinding(SupportsShouldProcess,ConfirmImpact = 'High')]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(
             ValueFromPipelineByPropertyName = $true,
@@ -42,6 +45,7 @@
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Force -and -not $Confirm) {
             $ConfirmPreference = 'None'
         }

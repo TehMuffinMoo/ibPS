@@ -436,6 +436,7 @@ function ConvertTo-Base64Url {
 }
 
 function New-B1Metadata {
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
   param(
       [IPAddress]$IP,
       [String]$Netmask,
@@ -506,6 +507,7 @@ function New-B1Metadata {
 }
 
 function New-ISOFile {
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
   param(
       [Parameter(Mandatory=$true)]
       [String]$Source,
@@ -927,6 +929,7 @@ function Write-Colour {
 }
 
 function New-ibPSTelemetry {
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
   param(
     $Method = 'GET'
   )

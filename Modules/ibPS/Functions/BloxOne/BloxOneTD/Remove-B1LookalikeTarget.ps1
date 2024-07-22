@@ -33,7 +33,6 @@
   param(
     [Parameter(Mandatory=$true)]
     [String[]]$Domain,
-    [Switch]$NoWarning,
     [Switch]$Force
   )
   $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters

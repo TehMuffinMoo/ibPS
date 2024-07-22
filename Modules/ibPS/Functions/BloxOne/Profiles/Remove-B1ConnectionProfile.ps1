@@ -35,23 +35,24 @@
         Authentication
     #>
     [Alias('Remove-BCP')]
-    [CmdletBinding()]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'High'
+    )]
     param(
         [Parameter(Mandatory=$true)]
-        [String]$Name,
-        [Bool]$Confirm = $true
+        [String]$Name
     )
 
     if (Get-B1ConnectionProfile -Name $Name) {
         $ContextConfig = (Get-B1Context)
         if ($ContextConfig.CurrentContext -ne $Name) {
-            if ($Confirm) {
-                Write-Warning "Are you sure you want to delete the BloxOne connection profile: $($Name)?" -WarningAction Inquire
+            if($PSCmdlet.ShouldProcess("Remove BloxOne Connection Profile: $($Name)","Remove BloxOne Connection Profile: $($Name)",$MyInvocation.MyCommand)){
+                $ContextConfig.Contexts.PSObject.Members.Remove($Name)
+                $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:B1ConfigFile -Force -Confirm:$false
+                Write-Host "Removed BloxOne connection profile: $($Name)" -ForegroundColor Green
+                break
             }
-            $ContextConfig.Contexts.PSObject.Members.Remove($Name)
-            $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:B1ConfigFile -Force
-            Write-Host "Removed BloxOne connection profile: $($Name)" -ForegroundColor Green
-            break
         } else {
             Write-Error "Cannot delete $($Name) as it the current active BloxOne connection profile."
             break
