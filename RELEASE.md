@@ -1,1 +1,2 @@
- 
+- Fix bug with BloxOne Schema caching
+- Add `Get-B1ThreatActor` function to enable querying Threat Actors from TIDE and additionally return related IOCs.

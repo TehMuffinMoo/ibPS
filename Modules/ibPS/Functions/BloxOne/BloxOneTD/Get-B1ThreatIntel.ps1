@@ -143,17 +143,19 @@
 		$Results = Invoke-B1CubeJS -Cube PortunusAggIPSummary -Measures count -Dimensions threat_indicator,actor_id -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Grouped -Filters $Filters -OrderBy timestampMax -Order 'desc'
         $ThreatActorData = @()
         $UniqueResults = $Results | Select-Object 'actor_id' -Unique
+        $IndicatorPayload = @{
+            'actor_indicators' = @()
+        }
         ForEach ($UniqueResult in $UniqueResults) {
             $SimilarResults = $Results | Where-Object {$UniqueResult.'actor_id' -eq $_.'actor_id'}
-            $IndicatorPayload = @{
+            $IndicatorPayload.actor_indicators += @{
                 "indicators" = @($SimilarResults.'threat_indicator')
                 "actor_id" = $UniqueResult.'actor_id'
             }
-            $IndicatorJSONPayload = $IndicatorPayload | ConvertTo-Json
-            Write-DebugMsg -Query $IndicatorJSONPayload
-            $ThreatActorData += Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide-ng-threat-actor/v1/actor_summary_with_indicators" -Data $IndicatorJSONPayload
         }
-        return $ThreatActorData
+        $IndicatorJSONPayload = $IndicatorPayload | ConvertTo-Json -Depth 5
+        $ThreatActorData += Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide-ng-threat-actor/v1/batch_actor_summary_with_indicators" -Data $IndicatorJSONPayload
+        return $ThreatActorData | Select-Object -ExpandProperty actor_responses
     }
 
     if ($Publications) {
