@@ -1,15 +1,38 @@
-﻿function Get-B1Asset {
+﻿function Get-B1AssetSummary {
     <#
     .SYNOPSIS
-        Queries a list of Assets discovered by BloxOne
+        Summerise a list of Assets discovered by BloxOne
 
     .DESCRIPTION
-        This function is used to query a list of Assets discovered by BloxOne
-
-    .PARAMETER Summary
-        Provides a summary of discovered asset counts by category
+        This function is used to summerise a list of Assets discovered by BloxOne
 
     .EXAMPLE
+        Get-B1Asset ByRegion
+
+        assets doc_asset_region doc_asset_vendor
+        ------ ---------------- ----------------
+        140    us-east-1        aws
+        121    us-east-2        aws
+        68     us-west-1        aws
+        42     us-west-2        aws
+        23     eu-north-1       aws
+        18     ap-southeast-2   aws
+        18     eu-west-1        aws
+        10                      azure
+        7                       aws
+        17     ap-northeast-1   aws
+        14     ap-northeast-2   aws
+        13     westeurope       azure
+        12     ap-northeast-3   aws
+        12     ap-south-1       aws
+        12     ap-southeast-1   aws
+        12     ca-central-1     aws
+        12     eu-west-2        aws
+        12     eu-west-3        aws
+        12     sa-east-1        aws
+        7      global           azure
+        6      eu-central-1     aws
+        1      uksouth          azure
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -70,18 +93,4 @@
             break
         }
     }
-
-
-
-
-
-    # $Filters = @(
-    #     @{
-    #         "member" = "asset_daily_counts.asset_context"
-    #         "operator" = "equals"
-    #         "values" = @("cloud","onprem")
-    #     }
-    # )
-    # Invoke-B1CubeJS -Cube asset_daily_counts -Measures asset_count -Dimensions asset_context -TimeDimension asset_date -Granularity day -Start (Get-Date).AddDays(-30) -Filters $Filters -Grouped
-
 }

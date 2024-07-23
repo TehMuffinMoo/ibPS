@@ -26,10 +26,10 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Improve coverage of Pester Tests
 - [ ] Add TSIG_KEY support to `Set-B1DNSACL` & `New-B1DNSACLItem`
 - [ ] Add IPAM Hosts, Tags & Metadata Network Scope support for `New-B1SecurityPolicy` & `Set-B1SecurityPolicy`
-- [ ] Add help info on new CubeJS Wrapper
-- [ ] Add help info on new `Get-B1Asset` function
-- [ ] Fix issues listed in PSScriptAnalyzer
-- [ ] Implement ShouldProcess on all functions
+- [X] Add help info on new CubeJS Wrapper
+- [X] Add help info on new `Get-B1Asset` function
+- [X] Fix issues listed in PSScriptAnalyzer
+- [X] Implement ShouldProcess on all functions
 - [ ] Re-factor Set-B1NTPServiceConfiguration
 
 ## Bug Fixes
