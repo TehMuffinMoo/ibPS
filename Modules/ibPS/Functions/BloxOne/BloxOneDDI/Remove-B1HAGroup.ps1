@@ -1,4 +1,4 @@
-function Remove-B1HAGroup {
+﻿function Remove-B1HAGroup {
     <#
     .SYNOPSIS
         Removes a DHCP HA Group
@@ -9,54 +9,62 @@ function Remove-B1HAGroup {
     .PARAMETER Name
         The name of the HA Group to remove
 
-    .PARAMETER id
-        The id of the HA Group to remove. Accepts pipeline input
+    .PARAMETER Object
+        The HA Group Object to remove. Accepts pipeline input
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1HAGroup -Name "My HA Group"
 
     .EXAMPLE
         PS> Get-B1HAGroup -Name "My HA Group" | Remove-B1HAGroup
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     [CmdletBinding(DefaultParameterSetName="Default")]
     param(
       [parameter(ParameterSetName="Default")]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-      if ($Name) {
-        $HAGroup = Get-B1HAGroup -Name $Name -Strict
-      } elseif ($id) {
-        $HAGroup = Get-B1HAGroup -id $id
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+        $SplitID = $Object.id.split('/')
+        if (("$($SplitID[0])/$($SplitID[1])") -ne "dhcp/ha_group") {
+            Write-Error "Error. Unsupported pipeline object. This function only supports 'dhcp/ha_group' objects as input"
+            return $null
+        }
       } else {
-        Write-Error "Neither -Name or -id were specified in the request."
+          $Object = Get-B1HAGroup -Name $Name -Strict
+          if (!($Object)) {
+              Write-Error "Unable to find HA Group: $($Name)."
+              return $null
+          }
       }
 
-      if ($HAGroup) {
-        Invoke-CSP -Method DELETE -Uri "$($HAGroup.id)"
-        if ($Name) {
-            $HAGroupCheck = Get-B1HAGroup -Name $Name -Strict
-        } elseif ($id) {
-            $HAGroupCheck = Get-B1HAGroup -id $id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
-        }
+      if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
+        $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)"
+        $HAGroupCheck = Get-B1HAGroup -id $Object.id
         if ($HAGroupCheck) {
-            Write-Error "Failed to delete HA Group: $($HAGroup.name)"
+            Write-Error "Failed to delete HA Group: $($Object.name)"
         } else {
-            Write-Host "Successfully deleted HA Group: $($HAGroup.name)" -ForegroundColor Green
+            Write-Host "Successfully deleted HA Group: $($Object.name)" -ForegroundColor Green
         }
-      } else {
-        Write-Error "Unable to find HA Group: $id$Name"
       }
     }
 }

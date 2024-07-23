@@ -1,4 +1,4 @@
-function Get-B1Object {
+﻿function Get-B1Object {
     <#
     .SYNOPSIS
         Generic Wrapper for interaction with the CSP (Cloud Services Portal) via GET requests
@@ -42,6 +42,7 @@ function Get-B1Object {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Product,
@@ -79,7 +80,7 @@ function Get-B1Object {
         }
         $QueryFilters.Add("_filter="+(Combine-Filters $B1Filters)) | Out-Null
     }
-    
+
     if ($tfilter) {
       $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }

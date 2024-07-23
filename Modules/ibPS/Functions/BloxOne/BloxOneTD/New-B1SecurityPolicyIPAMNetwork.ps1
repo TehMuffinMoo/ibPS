@@ -1,4 +1,4 @@
-function New-B1SecurityPolicyIPAMNetwork {
+﻿function New-B1SecurityPolicyIPAMNetwork {
     <#
     .SYNOPSIS
         This function is used to simplify the creation of the list of Subnets/Address Blocks/Ranges to append or remove to/from an existing or a New Security Policy, using Set-B1SecurityPolicy / New-B1SecurityPolicy.
@@ -22,10 +22,11 @@ function New-B1SecurityPolicyIPAMNetwork {
         10.15.0.0/16                             00015644-7t55-fsrg-g564-dfgbdrg48gdo fdsjvf98-489j-v8rj-g54t-gefsffsdf34d SUBNET
                         10.0.1.200  10.0.1.240   00015644-7t55-fsrg-g564-dfgbdrg48gdo fdsjvf98-489j-v8rj-g54t-gefsffsdf34d RANGE
 
-        
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
         [Parameter(
             ValueFromPipeline = $true,
@@ -34,7 +35,7 @@ function New-B1SecurityPolicyIPAMNetwork {
           )]
           [System.Object]$Object
     )
-    
+
     process {
         if ($Object) {
             $SplitID = $Object.id.split('/')
@@ -44,7 +45,6 @@ function New-B1SecurityPolicyIPAMNetwork {
                 return $null
             }
         }
-        $ParentID = $(if ($Object.parent) {($Object.parent -split '/')[2]})
         $Obj = [PSCustomObject]@{
             external_scope_id = $SplitID[2]
             ip_space_id = ($Object.space -split '/')[2]

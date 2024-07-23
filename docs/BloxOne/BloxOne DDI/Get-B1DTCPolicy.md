@@ -15,7 +15,7 @@ Retrieves a list BloxOne DTC Policies
 ```
 Get-B1DTCPolicy [[-Name] <String>] [[-Description] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
  [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-CustomFilters] <Object>] [[-id] <String>]
+ [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,13 +29,13 @@ Get-B1DTCPolicy -Name 'Exchange'
 
 id                  : dtc/policy/fef4g44gh-v44b-gh5g-bg44-g5h5gbhy6jy6jjyg0
 name                : Exchange
-comment             : 
-tags                : 
+comment             :
+tags                :
 disabled            : False
 method              : global_availability
 ttl                 : 0
 pools               : {@{pool_id=dtc/pool/656yhrft-gdf5-4gfs-tfg5-gg5ghbtg44d9; name=DTC-Exchange; weight=1}}
-inheritance_sources : 
+inheritance_sources :
 rules               : {}
 metadata            :
 ```
@@ -214,6 +214,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

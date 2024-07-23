@@ -12,17 +12,24 @@
     .PARAMETER Object
         The Internal Domain List object to remove. Expects pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
     .EXAMPLE
         PS> Get-B1InternalDomainList -Name 'My List' | Remove-B1InternalDomainList
 
         Successfully deleted Internal Domain list: My List / 123456
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(Mandatory=$true,ParameterSetName="Default")]
       [String]$Name,
@@ -31,11 +38,12 @@
         ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if (!($Object)) {
         $id = (Get-B1InternalDomainList -Name $Name -Strict).id
         if (!($id)) {
@@ -52,17 +60,14 @@
         }
       }
 
-      $JSON = @{
-        "ids" = @(
-          $id
-        )
-      } | ConvertTo-Json -Depth 2
-      $Result = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists" -Data $JSON
-      if ((Get-B1InternalDomainList -Name $Name -Strict -EA SilentlyContinue -WA SilentlyContinue).id) {
-        Write-Error "Failed to delete Internal Domain list: $($Name) / $($id)"
-        break
-      } else {
-        Write-Host "Successfully deleted Internal Domain list: $($Name) / $($id)" -ForegroundColor Green
+      if($PSCmdlet.ShouldProcess("$($Name) ($($id))")){
+        $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists"
+        if ((Get-B1InternalDomainList -Name $Name -Strict -EA SilentlyContinue -WA SilentlyContinue).id) {
+          Write-Error "Failed to delete Internal Domain list: $($Name) / $($id)"
+          break
+        } else {
+          Write-Host "Successfully deleted Internal Domain list: $($Name) / $($id)" -ForegroundColor Green
+        }
       }
     }
 }

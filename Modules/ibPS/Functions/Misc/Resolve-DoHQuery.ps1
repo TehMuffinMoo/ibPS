@@ -1,4 +1,4 @@
-function Resolve-DoHQuery {
+﻿function Resolve-DoHQuery {
     <#
     .SYNOPSIS
         Used to query a DNS over HTTPS Server to verify connectivity and responses
@@ -8,7 +8,7 @@ function Resolve-DoHQuery {
 
     .PARAMETER DoHServer
         Optionally specify a DNS over HTTPS Server for this specific query.
-        
+
         This field is mandatory, unless the DoH Server has been pre-configured using: Set-ibPSConfiguration -DoHServer 'fqdn.infoblox.com' -Persist
 
     .PARAMETER Query
@@ -19,9 +19,6 @@ function Resolve-DoHQuery {
 
     .PARAMETER Section
         Optionally specify one or more sections to return (Answer/Authority/Additional)
-
-    .PARAMETER DNSSEC
-        Optionally validate DNSSEC
 
     .PARAMETER SourceIP
         Specify the Source IP to spoof using EDNS OPT 65523. This only works when using BloxOne Threat Defense.
@@ -40,12 +37,12 @@ function Resolve-DoHQuery {
 
     .EXAMPLE
         PS> Resolve-DoHQuery -Query google.com -Type TXT -DoHServer cloudflare-dns.com
-                                                                                                                        
+
         QNAME         : google.com
         QTYPE         : TXT
         QCLASS        : IN
-        AnswerRRs     : {@{RDATA=docusign=05958488-4752-4ef2-95eb-aa7ba8a3bd0e; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=46; TXT_LENGTH=45}, @{RDATA=v=spf1 include:_spf.google.com ~all; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=36; TXT_LENGTH=35}, 
-                        @{RDATA=google-site-verification=TV9-DBe4R80X4v0M4U_bd_J9cpOJM0nikft0jAgjmsQ; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=69; TXT_LENGTH=68}, @{RDATA=globalsign-smime-dv=CDYX+XFHUw2wml6/Gb8+59BsH31KzUr6c1l2BPvqKX8=; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; 
+        AnswerRRs     : {@{RDATA=docusign=05958488-4752-4ef2-95eb-aa7ba8a3bd0e; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=46; TXT_LENGTH=45}, @{RDATA=v=spf1 include:_spf.google.com ~all; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=36; TXT_LENGTH=35},
+                        @{RDATA=google-site-verification=TV9-DBe4R80X4v0M4U_bd_J9cpOJM0nikft0jAgjmsQ; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=69; TXT_LENGTH=68}, @{RDATA=globalsign-smime-dv=CDYX+XFHUw2wml6/Gb8+59BsH31KzUr6c1l2BPvqKX8=; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600;
                         LENGTH=65; TXT_LENGTH=64}…}
         AuthorityRRs  : {}
         AdditionalRRs : {}
@@ -53,7 +50,7 @@ function Resolve-DoHQuery {
 
     .EXAMPLE
         PS> Resolve-DoHQuery -Query google.com -Type TXT | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
-                                                                                                                                
+
         RDATA                                                                RNAME      RTYPE RCLASS  TTL LENGTH TXT_LENGTH
         -----                                                                -----      ----- ------  --- ------ ----------
         google-site-verification=TV9-DBe4R80X4v0M4U_bd_J9cpOJM0nikft0jAgjmsQ google.com TXT   IN     3600     69         68
@@ -70,7 +67,7 @@ function Resolve-DoHQuery {
 
     .EXAMPLE
         PS> Resolve-DoHQuery -Query bbc.co.uk -Type SOA -OutDig
-                                                                                                                        
+
         ; <<>> ibPS v1.9.6.0 <<>> bbc.co.uk
         ;; global options: +cmd
         ;; Got answer:
@@ -90,7 +87,7 @@ function Resolve-DoHQuery {
 
     .EXAMPLE
         PS> Resolve-DoHQuery -Query bbc.co.uk -Type A | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
-                                                                                                                        
+
         RDATA          RNAME     RTYPE RCLASS TTL LENGTH
         -----          -----     ----- ------ --- ------
         151.101.192.81 bbc.co.uk A     IN     163      4
@@ -100,17 +97,17 @@ function Resolve-DoHQuery {
 
     .EXAMPLE
         PS> Get-B1SecurityPolicy -Name 'My Policy' | Resolve-DoHQuery -Query 'google.com' -Type A
-                                                                                                                        
+
         QNAME         : google.com
         QTYPE         : A
         QCLASS        : IN
         AnswerRRs     : {@{RDATA=172.217.169.14; RNAME=google.com; RTYPE=A; RCLASS=IN; TTL=300; LENGTH=4}}
         AuthorityRRs  : {}
         AdditionalRRs : {}
-        Headers       : {[AnswerRRs, 1], [AdditionalRRs, 0], [Questions, 1], [TransactionID, 0]…}           
+        Headers       : {[AnswerRRs, 1], [AdditionalRRs, 0], [Questions, 1], [TransactionID, 0]…}
     #>
     [Alias("dohdig")]
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
         [Parameter(Position=1)]
         [String]$Query,
@@ -121,8 +118,6 @@ function Resolve-DoHQuery {
         [String]$DoHServer = $(if ($ENV:IBPSDoH) { $ENV:IBPSDoH }),
         [ValidateSet('Answer','Authority','Additional')]
         [String[]]$Section,
-        [Parameter(DontShow)]
-        [Switch]$DNSSEC,
         [String]$SourceIP,
         [String]$SourceMAC,
         [String]$SourceView,
@@ -135,6 +130,9 @@ function Resolve-DoHQuery {
         [System.Object]$Object
     )
     process {
+        if ($MyInvocation.Line -like 'dohdig*') {
+            $OutDig = $true
+        }
         if ($Object) {
             if ($Object.doh_fqdn) {
                 $DoHServer = $Object.doh_fqdn
@@ -144,12 +142,12 @@ function Resolve-DoHQuery {
                 return $null
             }
         }
-    
+
         if (!($DOHServer)) {
             Write-Error "Error. DNS over HTTPS Server is not set. Specify the -DoHServer parameter or use Set-ibPSConfiguration to set the DoH Server to use."
             return $null
         }
-    
+
         function Decode-QNAME {
             param(
                 $RDATA
@@ -184,7 +182,7 @@ function Resolve-DoHQuery {
             [array]::Reverse($BinSplit)
             $BinaryResults = 0
             $BinCount = 0
-            $BinSplit | %{
+            $BinSplit | ForEach-Object {
                 $BinaryResults += [Int]$_ * [Math]::Pow(2,$BinCount)
                 $BinCount++
             }
@@ -196,10 +194,9 @@ function Resolve-DoHQuery {
                 $Hex
             )
             $i = 0
-            $Length = $Hex.Length
             $HexSplit = $Hex -split '(..)' -ne ''
             $Found = @()
-            $HexSplit | %{
+            $HexSplit | ForEach-Object {
                 $i++
                 if ($_ -match 'C0') {
                     $Match = "$($Matches[0])$($HexSplit[$i])"
@@ -209,10 +206,10 @@ function Resolve-DoHQuery {
                 }
             }
             $UniqueMatches = $Found | Select-Object -Unique
-            $UniqueMatches | %{
+            $UniqueMatches | ForEach-Object {
                 $ReplaceString = ""
                 $Offset = (ConvertBinary-ToDecimal (ConvertHex-ToBinary $($_)).substring(2,14))*2
-                (Decode-QNAME $Hex.substring($Offset,($Hex.Length-$Offset))).rdata | %{
+                (Decode-QNAME $Hex.substring($Offset,($Hex.Length-$Offset))).rdata | ForEach-Object {
                     $ReplaceString += "$('{0:X2}' -f $(($_.Length)/2))$($_)"
                 }
                 $ReplaceString += '00'
@@ -243,9 +240,9 @@ function Resolve-DoHQuery {
                 "E" = "1110"
                 "F" = "1111"
             }
-            ($String -split '(.)' -ne '' | %{$Table[$_]}) -join ''
+            ($String -split '(.)' -ne '' | ForEach-Object {$Table[$_]}) -join ''
         }
-    
+
         $Result = [PSCustomObject]@{
             "RCODE" = ""
             "QNAME" = ""
@@ -256,7 +253,7 @@ function Resolve-DoHQuery {
             "AdditionalRRs" = @()
             "Headers" = @{}
         }
-    
+
         ## Query/Response Types
         $QTYPEList = @{
             'A' = 1        ## Address Record
@@ -283,7 +280,7 @@ function Resolve-DoHQuery {
             'ANY' = 255    ## Any/Wildcard Record from Cache
             'URI' = 256    ## Uniform Resource Identifier
         }
-    
+
         ## Query/Response Class
         $QCLASSList = @{
             1 = 'IN'
@@ -330,10 +327,10 @@ function Resolve-DoHQuery {
             22 = 'BADTRUNC'
             23 = 'BADCOOKIE'
         }
-    
+
         $SplitQuery = $Query.Split('.')
         $JoinedQuery = ""
-    
+
         foreach ($SplitItem in $SplitQuery) {
             $JoinedQuery += "$('{0:X2}' -f ([uint32]$SplitItem.Length))$($SplitItem | ConvertTo-HexString)"
         }
@@ -351,7 +348,6 @@ function Resolve-DoHQuery {
             $SourceIPHexLength = "{0:X4}" -f [Uint32]$($SourceIPHex.length / 2)
             $EDNSOptHex = "{0:X4}" -f [Uint32]'65523'
             $AdditionalRecordHex += "$EDNSOptHex $SourceIPHexLength $SourceIPHex" -replace ' ',''
-            $OPT = $true
         }
         if ($SourceMAC) {
             $AdditionalRecordsCount++
@@ -359,7 +355,6 @@ function Resolve-DoHQuery {
             $SourceMACHexLength = "{0:X4}" -f [Uint32]$($SourceMACHex.length / 2)
             $EDNSOptHex = "{0:X4}" -f [Uint32]'65524'
             $AdditionalRecordHex += "$EDNSOptHex $SourceMACHexLength $SourceMACHex" -replace ' ',''
-            $OPT = $true
         }
         if ($SourceView) {
             $AdditionalRecordsCount++
@@ -367,7 +362,6 @@ function Resolve-DoHQuery {
             $SourceViewHexLength = "{0:X4}" -f [Uint32]$($SourceViewHex.length / 2)
             $EDNSOptHex = "{0:X4}" -f [Uint32]'65526'
             $AdditionalRecordHex += "$EDNSOptHex $SourceViewHexLength $SourceViewHex" -replace ' ',''
-            $OPT = $true
         }
         $AdditionalRecordsCountHex =  "{0:X4}" -f [Uint32]$AdditionalRecordsCount
         $HeaderHex = "$TransactionIDHex 01 00 00 01 00 00 00 00 $AdditionalRecordsCountHex"
@@ -377,7 +371,7 @@ function Resolve-DoHQuery {
         $OPTDataLengthHex =  "{0:X4}" -f [Uint32]$($AdditionalRecordHex.length / 2)
         $OPTHex = "00 00 29 10 00 00 00 00 00 $OPTDataLengthHex $AdditionalRecordHex"
         $Hex = "$HeaderHex $QNAMEHex $QTYPEHex $QCLASSHex $OPTHex" -replace ' ',''
-    
+
         $Bytes = New-Object -TypeName byte[] -ArgumentList ($Hex.Length / 2)
         for ($i = 0; $i -lt $hex.Length; $i += 2) {
             $Bytes[$i / 2] = [System.Convert]::ToByte($hex.Substring($i, 2), 16)
@@ -385,11 +379,11 @@ function Resolve-DoHQuery {
 
         $Base64 = [System.Convert]::ToBase64String($Bytes)
         $Base64Encoded = ConvertTo-Base64Url -FromBase64 $($Base64)
-    
+
         $StartDateTime = Get-Date
-        $Response = Invoke-WebRequest -Method GET -Uri "https://$($DOHServer)/dns-query?dns=$($Base64Encoded)" -Headers @{'content-type' = 'application/dns-message'}            
+        $Response = Invoke-WebRequest -Method GET -Uri "https://$($DOHServer)/dns-query?dns=$($Base64Encoded)" -Headers @{'content-type' = 'application/dns-message'}
         $EndDateTime = Get-Date
-    
+
         if ($Response) {
             ## Decode Header
             $ResponseHeaderHex = ($Response.Content|ForEach-Object ToString X2) -join ''
@@ -419,18 +413,18 @@ function Resolve-DoHQuery {
             $Result.Headers.AnswerRRs = $([uint32]"0x$($ResponseHeaderHex.substring(12,4))")
             $Result.Headers.AuthorityRRs = $([uint32]"0x$($ResponseHeaderHex.substring(16,4))")
             $Result.Headers.AdditionalRRs = $([uint32]"0x$($ResponseHeaderHex.substring(20,4))")
-        
+
             ## Decode QNAME
             $RDATA = $ResponseHeaderHex.substring(24,$ResponseHeaderHex.length-24)
             $QNAMEDecoded = Decode-QNAME $RDATA
             $Result.QNAME = $(($QNAMEDecoded.rdata | ConvertFrom-HexString) -join '.')
-        
+
             ## Decode QTYPE
             $Result.QTYPE = ($QTYPEList.GetEnumerator().Where{$_.value -eq [uint32]"0x$($QNAMEDecoded.remaining.substring(0,4))"}).key
-        
+
             ## Decode QCLASS
             $Result.QCLASS = $QCLASSList[[int]$([uint32]$QNAMEDecoded.remaining.substring(4,4))]
-        
+
             ## Strip QTYPE/QCLASS
             $QNAMEDecoded.remaining = $QNAMEDecoded.remaining.substring(8,$QNAMEDecoded.remaining.length-8)
             $TotalLen = $QNAMEDecoded.remaining.length
@@ -472,7 +466,7 @@ function Resolve-DoHQuery {
                         $QNAMEDecoded = Decode-QNAME $QNAMEDecoded.remaining
                         ## Decode The Primary Name Server
                         $NewRDATA = [PSCustomObject]@{
-                            "NS" = ($QNAMEDecoded.rdata | %{($_ -Split '(..)' -ne '' | %{[char][byte]"0x$_"}) -join ''}) -join '.'
+                            "NS" = ($QNAMEDecoded.rdata | ForEach-Object {($_ -Split '(..)' -ne '' | ForEach-Object {[char][byte]"0x$_"}) -join ''}) -join '.'
                             "ADMIN" = ""
                             "SERIAL" = 0
                             "REFRESH" = 0

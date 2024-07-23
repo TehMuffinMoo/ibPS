@@ -1,4 +1,4 @@
-function Remove-B1DNSConfigProfile {
+﻿function Remove-B1DNSConfigProfile {
     <#
     .SYNOPSIS
         Removes a DNS Config Profile
@@ -9,54 +9,67 @@ function Remove-B1DNSConfigProfile {
     .PARAMETER Name
         The name of the DNS Config Profile to remove
 
-    .PARAMETER id
-        The id of the DNS Config Profile to remove. Accepts pipeline input
+    .PARAMETER Object
+        The DNS Config Profile Object to remove. Accepts pipeline input
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1DNSConfigProfile -Name "My Config Profile"
 
     .EXAMPLE
         PS> Get-B1DNSConfigProfile -Name "My Config Profile" | Remove-B1DNSConfigProfile
-   
+
     .FUNCTIONALITY
         BloxOneDDI
 
     #>
-    [CmdletBinding(DefaultParameterSetName="Default")]
+    [CmdletBinding(
+      DefaultParameterSetName="Default",
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
-      [parameter(ParameterSetName="Default")]
+      [parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-      if ($Name) {
-        $ConfigProfile = Get-B1DNSConfigProfile -Name $Name -Strict
-      } elseif ($id) {
-        $ConfigProfile = Get-B1DNSConfigProfile -id $id
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+          $SplitID = $Object.id.split('/')
+          if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/server") {
+              Write-Error "Error. Unsupported pipeline object. This function only supports 'dns/server' objects as input"
+              return $null
+          }
       } else {
-        Write-Error "Neither -Name or -id were specified in the request."
+          $Object = Get-B1DNSConfigProfile -Name $Name -Strict
+          if (!($Object)) {
+              Write-Error "Unable to find DNS Config Profile: $($Name)"
+              return $null
+          }
+          if ($Object.count -gt 1) {
+              Write-Error "Multiple DNS Config Profiles were found, to remove more than one DNS Config Profile you should pass those objects using pipe instead."
+              return $null
+          }
       }
 
-      if ($ConfigProfile) {
-        Invoke-CSP -Method DELETE -Uri "$($ConfigProfile.id)"
-        if ($Name) {
-            $ConfigProfileCheck = Get-B1DNSConfigProfile -Name $Name -Strict
-        } elseif ($id) {
-            $ConfigProfileCheck = Get-B1DNSConfigProfile -id $id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
-        }
+      if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
+        $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)"
+        $ConfigProfileCheck = Get-B1DNSConfigProfile -id $Object.id
         if ($ConfigProfileCheck) {
-            Write-Error "Failed to delete DNS Config Profile: $($ConfigProfile.name)"
+            Write-Error "Failed to delete DNS Config Profile: $($Object.name)"
         } else {
-            Write-Host "Successfully deleted DNS Config Profile: $($ConfigProfile.name)" -ForegroundColor Green
+            Write-Host "Successfully deleted DNS Config Profile: $($Object.name)" -ForegroundColor Green
         }
-      } else {
-        Write-Error "Unable to find DNS Config Profile: $id$Name"
       }
     }
 }

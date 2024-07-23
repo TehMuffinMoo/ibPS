@@ -15,7 +15,7 @@ Retrieves a list BloxOne DTC Pools
 ```
 Get-B1DTCPool [[-Name] <String>] [[-Description] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
  [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-CustomFilters] <Object>] [[-id] <String>]
+ [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,13 +29,13 @@ Get-B1DTCPool -Name 'DTC-Exchange'
 
 id                          : dtc/pool/656yhrft-gdf5-4gfs-tfg5-gg5ghbtg44d9
 name                        : DTC-Exchange
-comment                     : 
-tags                        : 
+comment                     :
+tags                        :
 disabled                    : False
 method                      : ratio
 servers                     : {@{server_id=dtc/server/vdr5g5t-fgfg-gds4-svsv-f44gdbdbfbvbxv; name=EXCHANGE-MAIL01; weight=2}, @{server_id=dtc/server/348t54gg8-r3f4-g455-g4vr-sdvre545g3; name=EXCHANGE-MAIL02; weight=1}}
 ttl                         : 0
-inheritance_sources         : 
+inheritance_sources         :
 pool_availability           : any
 pool_servers_quorum         : 0
 server_availability         : all
@@ -218,6 +218,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

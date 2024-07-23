@@ -14,7 +14,8 @@ Creates a new LBDN object within BloxOne DTC
 
 ```
 New-B1DTCLBDN [-Name] <String> [[-Description] <String>] [-DNSView] <String> [[-Policy] <String>]
- [[-Precedence] <Int32>] [[-TTL] <Int32>] [[-State] <String>] [[-Tags] <Object>] [<CommonParameters>]
+ [[-Precedence] <Int32>] [[-TTL] <Int32>] [[-State] <String>] [[-Tags] <Object>] [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,7 +35,7 @@ id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
  comment             : Exchange Servers LBDN
  disabled            : False
  ttl                 : 10
- tags                : 
+ tags                :
  inheritance_sources :
 ```
 
@@ -157,6 +158,53 @@ Aliases:
 
 Required: False
 Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

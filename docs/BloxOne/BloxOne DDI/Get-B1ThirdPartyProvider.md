@@ -15,7 +15,7 @@ Retrieves a list of configured third party DNS & IPAM providers
 ```
 Get-B1ThirdPartyProvider [[-Name] <String>] [[-Description] <String>] [[-Type] <String>] [[-Vendor] <String>]
  [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>] [[-OrderBy] <String>] [-Strict]
- [[-CustomFilters] <Object>] [[-id] <String>]
+ [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -206,6 +206,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

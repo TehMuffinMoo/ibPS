@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new pool object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC pool object to create
 
@@ -48,31 +48,38 @@
     .PARAMETER Tags
         Any tags you want to apply to the DTC Pool
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
        PS> New-B1DTCPool -Name 'Exchange Pool' -Description 'Pool of Exchange Servers' -LoadBalancingType Ratio -Servers MAILSERVER-01:10,MAILSERVER-02:20 -HealthChecks 'ICMP health check','Exchange HTTPS Check' -TTL 10
 
         id                          : dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f
         name                        : Exchange Pool
         comment                     : Pool of Exchange Servers
-        tags                        : 
+        tags                        :
         disabled                    : False
         method                      : ratio
         servers                     : {@{server_id=dtc/server/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=MAILSERVER-01; weight=10}, @{server_id=dtc/server/8vdsrnv8-vnnu-777g-gdvd-sdrghjj3b2; name=MAILSERVER-02; weight=20}}
         ttl                         : 10
-        inheritance_sources         : 
+        inheritance_sources         :
         pool_availability           : any
         pool_servers_quorum         : 0
         server_availability         : any
         server_health_checks_quorum : 0
         health_checks               : {@{health_check_id=dtc/health_check_icmp/vdsg4g4-vdg4-4g43-b3d8-c55xseve5b; name=ICMP health check}, @{health_check_id=dtc/health_check_icmp/fset4g4fg-h6hg-878f-ssw3-cdfu894d32; name=Exchange HTTPS Check}}
-        metadata 
-   
+        metadata
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -91,9 +98,10 @@
       [Int]$TTL,
       [ValidateSet("Enabled","Disabled")]
       [String]$State = 'Enabled',
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $ChecksArr = @{
         'Any' = 'any'
         'All' = 'all'
@@ -171,12 +179,12 @@
     }
 
     $JSON = $splat | ConvertTo-Json -Depth 5 -Compress
-
-    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/pool" -Data $JSON
-    if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-    } else {
-        $Results
+    if($PSCmdlet.ShouldProcess("Create new DTC Pool:`n$(JSONPretty($JSON))","Create new DTC Pool: $($Name)",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/pool" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
-
 }

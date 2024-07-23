@@ -23,7 +23,7 @@
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-       
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 1000.
 
@@ -59,10 +59,11 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [String]$Description,
@@ -111,6 +112,14 @@
         }
     } else {
         $QueryURI = 'health_check_all'
+    }
+    if ($Status) {
+        if ($Status -eq 'Enabled') {
+            $StatusVal = $False
+        } else {
+            $StatusVal = $True
+        }
+        $Filters.Add("disabled==$StatusVal") | Out-Null
     }
     if ($Port) {
         $Filters.Add("port==$Port") | Out-Null

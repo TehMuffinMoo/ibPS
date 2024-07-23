@@ -17,7 +17,7 @@
 
 function Combine-Filters {
     param(
-      [parameter(Mandatory=$true)]  
+      [parameter(Mandatory=$true)]
       $Filters,
       $Type = "and"
     )
@@ -127,7 +127,8 @@ function Convert-NetmaskToCIDR {
   $bitCount
 }
 
-$CompositeStateSpaces = @(
+function Get-CompositeStateSpaces {
+  @(
     @{
         "Application" = "DFP"
         "FriendlyName" = "DNS Forwarding Proxy"
@@ -191,7 +192,8 @@ $CompositeStateSpaces = @(
         "Composite" = "64"
         "Service_Type" = "ntp"
     }
-) | ConvertTo-Json | ConvertFrom-Json
+  ) | ConvertTo-Json | ConvertFrom-Json
+}
 
 function Convert-Int64toIP ([int64]$int) {
   <#
@@ -201,13 +203,13 @@ function Convert-Int64toIP ([int64]$int) {
   (([math]::truncate($int / 16777216)).tostring() + "." + ([math]::truncate(($int % 16777216) / 65536)).tostring() + "." + ([math]::truncate(($int % 65536) / 256)).tostring() + "." + ([math]::truncate($int % 256)).tostring() )
 }
 
-function Convert-IPtoInt64 ($ip) { 
+function Convert-IPtoInt64 ($ip) {
   <#
     .LINK
       https://www.powershellgallery.com/packages/Subnet/1.0.14/Content/Private%5CConvert-IPtoInt64.ps1
   #>
-  $octets = $ip.split(".") 
-  [int64]([int64]$octets[0] * 16777216 + [int64]$octets[1] * 65536 + [int64]$octets[2] * 256 + [int64]$octets[3]) 
+  $octets = $ip.split(".")
+  [int64]([int64]$octets[0] * 16777216 + [int64]$octets[1] * 65536 + [int64]$octets[2] * 256 + [int64]$octets[3])
 }
 
 function Get-NetworkClass {
@@ -238,6 +240,7 @@ function ConvertTo-HexString {
       https://www.powershellgallery.com/packages/Utility.PS/1.0.0.1/Content/ConvertTo-HexString.ps1
   #>
   [CmdletBinding()]
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', 'Delimiter', Justification = 'False positive as rule does not scan child scopes')]
   param (
       # Value to convert
       [Parameter(Mandatory=$true, Position = 0, ValueFromPipeline=$true)]
@@ -434,6 +437,7 @@ function ConvertTo-Base64Url {
 }
 
 function New-B1Metadata {
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
   param(
       [IPAddress]$IP,
       [String]$Netmask,
@@ -460,7 +464,7 @@ function New-B1Metadata {
         '"instance-id": ""'
         '}'
     ) -join "`r`n"
-    
+
     $network = @(
         "ethernets:"
         "  eth0:"
@@ -473,7 +477,7 @@ function New-B1Metadata {
         "version: 2"
     ) -join "`r`n"
   }
-  
+
   $userdata = @()
   $userdata += "#cloud-config"
   if ($LocalDebug) {
@@ -504,6 +508,7 @@ function New-B1Metadata {
 }
 
 function New-ISOFile {
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
   param(
       [Parameter(Mandatory=$true)]
       [String]$Source,
@@ -594,7 +599,7 @@ function New-ISOFile {
         return $targetFile
 
     }
-    
+
     "Mac" {
       hdiutil makehybrid -iso -iso-volume-name "$VolumeName" -joliet -joliet-volume-name "$VolumeName" -o "$Destination" "$Source"
     }
@@ -662,25 +667,21 @@ function Write-NetworkTopology {
       Switch($ObjectType) {
         "address_block" {
           $Colour = 'green'
-          $Prefix = 'AB'
         }
         "subnet" {
           $Colour = 'cyan'
-          $Prefix = 'SN'
           if (!($IncludeSubnets)) {
             $Include = $false
           }
         }
         "range" {
           $Colour = 'magenta'
-          $Prefix = 'RG'
           if (!($IncludeRanges)) {
             $Include = $false
           }
         }
         "address" {
           $Colour = 'DarkYellow'
-          $Prefix = 'AD'
           if (!($IncludeAddresses)) {
             $Include = $false
           }
@@ -710,8 +711,7 @@ function Build-TopologyChildren {
       [System.Object[]]$Object,
       [Switch]$IncludeAddresses,
       [Switch]$IncludeRanges,
-      [Switch]$IncludeSubnets,
-      [Int]$Progress = 0
+      [Switch]$IncludeSubnets
   )
   process {
       $ParentObjectsToCheck = @("ipam/address_block")
@@ -823,7 +823,7 @@ function Build-HTMLTopologyChildren {
           if ($Icon) {
             New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $($Object.label) -IconColor $Colour -IconSolid $Icon
           } else {
-            New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $($Object.label) -ColorBackground $Colour           
+            New-DiagramNode -Label $($ChildObject.label) -Id $_.Id -To $($Object.label) -ColorBackground $Colour
           }
         }
       }
@@ -835,10 +835,10 @@ function Build-HTMLTopologyChildren {
   }
 }
 
-function ConvertFrom-ComplexJSON([string]$text) {                           
+function ConvertFrom-ComplexJSON([string]$text) {
   $parser = New-Object Web.Script.Serialization.JavaScriptSerializer
   $parser.MaxJsonLength = $text.length
-  Write-Output -NoEnumerate (($parser.Deserialize($text, [hashtable])) | ConvertFrom-HashTable)
+  Write-Output -NoEnumerate -InputObject (($parser.Deserialize($text, [hashtable])) | ConvertFrom-HashTable)
   #Write-Output -NoEnumerate $parser.DeserializeObject($text)
   # To deserialize to a dictionary, use $parser.DeserializeObject($text) instead
 }
@@ -897,10 +897,18 @@ function DevelopmentFunctions {
     "ConvertTo-HexString"
     "ConvertTo-Base64Url"
     "Initialize-NIOSOpts"
+    "Initialize-NIOSConfig"
     "Get-NIOSContext"
     "Set-NIOSContext"
     "Get-NIOSWebSession"
     "Set-NIOSWebSession"
+    "Get-B1Context"
+    "Set-B1Context"
+    "Initialize-B1Config"
+    "Write-Chart"
+    "Write-Graph"
+    "Confirm-ShouldProcess"
+    "JSONPretty"
   )
 }
 
@@ -918,6 +926,8 @@ function Write-Colour {
 }
 
 function New-ibPSTelemetry {
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', 'echo', Justification = 'echo required for Mac/Unix')]
   param(
     $Method = 'GET'
   )
@@ -956,6 +966,81 @@ function New-ibPSTelemetry {
       "_ee=1" ## External Event
     )
     $QueryString = ConvertTo-QueryString $Query
-    $OutNull = Invoke-WebRequest -Method POST -Uri "https://google-analytics.com/g/collect$($QueryString)" -UseBasicParsing | Out-Null
+    $null = Invoke-WebRequest -Method POST -Uri "https://google-analytics.com/g/collect$($QueryString)" -UseBasicParsing | Out-Null
   }
+}
+
+Function Write-Graph($YAxisLabel, $Row, $RowColor) {
+  Write-Host -Object $([char]9474) -NoNewline
+  Write-Host -Object "$($YAxisLabel.tostring().PadLeft($LengthOfMaxYAxisLabel+2) + [Char]9508)" -NoNewline
+  Write-Host -Object $Row -ForegroundColor $RowColor -NoNewline
+  Write-Host -Object "  $([char]9474)"
+}
+
+function Write-Chart {
+  param(
+      [Int[]]$YAxis,
+      [ValidateScript({
+          if($_.Count -gt 30){
+          Throw "Maximum date plots supported is 30"
+          }
+          else{
+              $true
+          }
+      })]
+      [DateTime[]]$XAxis
+  )
+  $DateStrings = $XAxis | ForEach-Object { $_.ToString('dd/MM') }
+  $UnderChar = [Char]9472
+
+  $C = 0
+  $Map = @($XAxis | ForEach-Object {
+      [PSCustomObject]@{ "Date" = $_
+                         "_Count" = $YAxis[$C]
+                         "Instance" = $C
+      }
+      $C++
+  })
+
+
+  Write-Host "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$(1..$($Map.Count) | ForEach-Object { Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })"
+  $YAxisUnique = $Map._Count | Select-Object -Unique | Sort-Object -Desc
+  foreach ($YAU in $YAxisUnique) {
+      $Row = ""
+      ## Get list of X-Axis which have the same count
+      $XAxisObjs = $Map | Where-Object {$_._Count -eq $YAU}
+      $(0..$($Map.Count-1) | ForEach-Object {
+          ## Check if the instance exists in list to print
+          $Instance = $_
+          if ($XAxisObjs | Where-Object {$_.Instance -eq $Instance}) {
+              $Row += "$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)$([char]9608)"
+          } else {
+              $Row += "          "
+          }
+      })
+      Write-Graph -YAxisLabel $("$($YAU)".PadLeft(8)) -Row $Row -RowColor Green -LabelColor 'Blue'
+  }
+
+  Write-Host "$([char]9474)$(''.PadLeft(8))$([char]9474)" -NoNewline
+  $(1..$($Map.Count) | ForEach-Object { Write-Host -NoNewline "$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)$([char]9516)$($UnderChar)$($UnderChar)$($UnderChar)$($UnderChar)" })
+  Write-Host ""
+  Write-Graph -YAxisLabel '        ' -Row "  $($DateStrings -join "  $([char]9474)  ")" -RowColor Black -LabelColor 'Blue'
+}
+
+function Confirm-ShouldProcess {
+  param(
+    [Parameter(Mandatory=$true)]
+    [System.Object]$Params
+  )
+
+  if ($Params.Force -and -not $Params.Confirm){
+    $Pref = 'None'
+    return $Pref
+  } else {
+    return $ConfirmPreference
+  }
+}
+
+function JSONPretty($JSON) {
+  $JSON | ConvertFrom-Json | ConvertTo-Json -Depth 20
 }

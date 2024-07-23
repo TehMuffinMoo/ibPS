@@ -1,4 +1,4 @@
-function Get-B1CSPCurrentUser {
+﻿function Get-B1CSPCurrentUser {
     <#
     .SYNOPSIS
         Retrieves the user associated with the current API key
@@ -24,7 +24,7 @@ function Get-B1CSPCurrentUser {
     .FUNCTIONALITY
         Authentication
     #>
-    [CmdletBinding(DefaultParameterSetName = 'None')]
+    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
         [Parameter(ParameterSetName="Groups")]
         [Switch]$Groups,
@@ -33,6 +33,7 @@ function Get-B1CSPCurrentUser {
         [Parameter(ParameterSetName="Compartments")]
         [Switch]$Compartments
     )
+
     if ($Groups) {
         Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user/groups" | Select-Object -ExpandProperty results
     } elseif ($Account) {

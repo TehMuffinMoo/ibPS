@@ -13,7 +13,8 @@ Performs a single lookup against the BloxOne Threat Defense Dossier
 ## SYNTAX
 
 ```
-Start-B1DossierLookup [-Type] <String> [-Value] <String> [[-Source] <String[]>] [-Wait] [<CommonParameters>]
+Start-B1DossierLookup [-Type] <String> [-Value] <String> [[-Source] <String[]>] [-Wait] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,7 +32,7 @@ Start-B1DossierLookup -Type ip -Value 1.1.1.1
 Start-B1DossierLookup -Type host -Value eicar.co
 
 status  job_id                               job
-------  ------                               ---                                                                                                                                                                                                                                               
+------  ------                               ---
 pending 123456788-123d-4565-6452-05fgdgv54t4fvswe @{id=123456788-123d-4565-6452-05fgdgv54t4fvswe; state=created; status=pending; create_ts=1709744367885; create_time=2024-03-06T16:59:27.88511568Z; start_ts=1709744367885; start_time=2024-03-06T16:59:27.88511568Z; request_ttl=0; result_ttl=3600; p…
 ```
 
@@ -95,6 +96,53 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

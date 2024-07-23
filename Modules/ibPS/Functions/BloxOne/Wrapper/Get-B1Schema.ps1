@@ -1,4 +1,4 @@
-function Get-B1Schema {
+﻿function Get-B1Schema {
     <#
     .SYNOPSIS
         Used for obtaining API Schema information for use with generic wrapper cmdlets
@@ -30,7 +30,7 @@ function Get-B1Schema {
     .EXAMPLE
         PS> Get-B1Schema -Product 'BloxOne DDI'
 
-        Available Apps: 
+        Available Apps:
 
         app                     label
         ---                     -----
@@ -43,7 +43,7 @@ function Get-B1Schema {
         CloudDiscoveryProviders Cloud Discovery Providers
 
     .EXAMPLE
-        PS> Get-B1Schema -Product 'BloxOne DDI' -App DnsConfig | Select Endpoint,Description  
+        PS> Get-B1Schema -Product 'BloxOne DDI' -App DnsConfig | Select Endpoint,Description
 
         Endpoint                               Description
         --------                               -----------
@@ -82,11 +82,11 @@ function Get-B1Schema {
         name    type   description
         ----    ----   -----------
         _filter string
-                    
+
                     A collection of response resources can be filtered by a logical expression string that includes JSON tag references to values in each resource, literal values, and logical operators. If a resource does not have the specified tag, its value is assumed to be null.
-                    
+
                     Literal values include numbers (integer and floating-point), and quoted (both single- or double-quoted) literal strings, and 'null'. The following operators are commonly used in filter expressions:
-                    
+
                     |  Op   |  Description               |
                     |  --   |  -----------               |
                     |  ==   |  Equal                     |
@@ -101,13 +101,13 @@ function Get-B1Schema {
                     |  or   |  Logical OR                |
                     |  not  |  Logical NOT               |
                     |  ()   |  Groupping Operators       |
-                    
-                    
+
+
         _fields string
-                    
+
                     A collection of response resources can be transformed by specifying a set of JSON tags to be returned. For a “flat” resource, the tag name is straightforward. If field selection is allowed on non-flat hierarchical resources, the service should implement a qualified
                     naming scheme such as dot-qualification to reference data down the hierarchy. If a resource does not have the specified tag, the tag does not appear in the output resource.
-                    
+
                     Specify this parameter as a comma-separated list of JSON tag names.
 
     .FUNCTIONALITY
@@ -116,6 +116,8 @@ function Get-B1Schema {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '')]
     param(
       [String]$Product,
       [String]$App,

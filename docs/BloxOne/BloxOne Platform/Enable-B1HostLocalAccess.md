@@ -14,22 +14,26 @@ Enables the Bootstrap UI Local Access for the given BloxOne Host
 
 ### Typed Credentials B1Host
 ```
-Enable-B1HostLocalAccess -B1Host <String> -Credentials <PSCredential> [-Wait] [<CommonParameters>]
+Enable-B1HostLocalAccess -B1Host <String> -Credentials <PSCredential> [-Wait] [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### Default Credentials B1Host
 ```
-Enable-B1HostLocalAccess -B1Host <String> [-UseDefaultCredentials] [-Wait] [<CommonParameters>]
+Enable-B1HostLocalAccess -B1Host <String> [-UseDefaultCredentials] [-Wait] [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### Default Credentials Pipeline
 ```
-Enable-B1HostLocalAccess [-UseDefaultCredentials] [-Wait] -OPH <PSObject[]> [<CommonParameters>]
+Enable-B1HostLocalAccess [-UseDefaultCredentials] [-Wait] -OPH <PSObject[]> [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### Typed Credentials Pipeline
 ```
-Enable-B1HostLocalAccess -Credentials <PSCredential> [-Wait] -OPH <PSObject[]> [<CommonParameters>]
+Enable-B1HostLocalAccess -Credentials <PSCredential> [-Wait] -OPH <PSObject[]> [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -134,6 +138,53 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

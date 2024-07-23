@@ -15,7 +15,7 @@ Retrieves a list of Authoritative DNS Server Groups from BloxOneDDI
 ```
 Get-B1AuthoritativeNSG [[-Name] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
  [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-CustomFilters] <Object>] [[-id] <String>]
+ [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -187,6 +187,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

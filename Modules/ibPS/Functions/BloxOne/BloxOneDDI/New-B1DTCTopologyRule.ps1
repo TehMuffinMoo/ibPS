@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to creates a new DTC Toplogy rule to be used with DTC Policies
-    
+
     .PARAMETER Name
         The name of the DTC Topology Rule to create
 
@@ -31,13 +31,14 @@
         name        : Subnet Rule
         source      : subnet
         subnets     : {10.10.10.0/24, 10.20.0.0/24}
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -50,13 +51,6 @@
       [String]$Pool,
       [System.Object]$Subnets
     )
-
-    $MethodArr = @{
-        'RoundRobin' = 'round_robin'
-        'Ratio' = 'ratio'
-        'GlobalAvailability' = 'global_availability'
-        'Topology' = 'topology'
-    }
 
     $TypeArr = @{
         "NOERROR" = "nodata"
@@ -82,6 +76,6 @@
             $rule | Add-Member -MemberType NoteProperty -Name 'pool_id' -Value $DTCPool
         }
     }
-    
+
     return $rule
 }

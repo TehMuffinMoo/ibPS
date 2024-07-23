@@ -1,4 +1,4 @@
-function Remove-NIOSObject {
+﻿function Remove-NIOSObject {
     <#
     .SYNOPSIS
         Generic Wrapper function for removing objects from the NIOS WAPI
@@ -43,8 +43,11 @@ function Remove-NIOSObject {
 
         This is used only when connecting to NIOS directly.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
     .EXAMPLE
-        PS> @{                                                                                        
+        PS> @{
             name = 'my.example.com'
             ipv4addr = '172.25.22.12'
             comment = 'My A Record'
@@ -58,6 +61,10 @@ function Remove-NIOSObject {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'High'
+    )]
     param(
         [Parameter(
             Mandatory = $true,
@@ -70,18 +77,21 @@ function Remove-NIOSObject {
         [String]$GridName,
         [String]$ApiVersion,
         [Switch]$SkipCertificateCheck,
-        [PSCredential]$Creds
+        [PSCredential]$Creds,
+        [Switch]$Force
     )
 
     begin {
         ## Initialize Query Filters
-        [System.Collections.ArrayList]$QueryFilters = @()
         $InvokeOpts = Initialize-NIOSOpts $PSBoundParameters
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     }
 
     process {
         try {
-            Invoke-NIOS @InvokeOpts -Uri $ObjectRef -Method DELETE
+            if ($PSCmdlet.ShouldProcess("$($ObjectRef)")){
+                Invoke-NIOS @InvokeOpts -Uri $ObjectRef -Method DELETE
+            }
         } catch {
             Write-Error $_
             break

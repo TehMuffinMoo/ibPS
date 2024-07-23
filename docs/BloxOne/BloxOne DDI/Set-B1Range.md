@@ -15,19 +15,20 @@ Updates an existing DHCP Range in BloxOneDDI IPAM
 ### Range
 ```
 Set-B1Range -StartAddress <String> [-EndAddress <String>] -Space <String> [-NewName <String>]
- [-Description <String>] [-HAGroup <String>] [-Tags <Object>] [<CommonParameters>]
+ [-Description <String>] [-HAGroup <String>] [-Tags <Object>] [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ### Name
 ```
 Set-B1Range -Space <String> -Name <String> [-NewName <String>] [-Description <String>] [-HAGroup <String>]
- [-Tags <Object>] [<CommonParameters>]
+ [-Tags <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Object
 ```
 Set-B1Range [-NewName <String>] [-Description <String>] [-HAGroup <String>] [-Tags <Object>] -Object <Object>
- [<CommonParameters>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -184,6 +185,53 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

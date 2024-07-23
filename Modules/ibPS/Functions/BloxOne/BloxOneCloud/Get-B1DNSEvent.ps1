@@ -1,4 +1,4 @@
-function Get-B1DNSEvent {
+﻿function Get-B1DNSEvent {
     <#
     .SYNOPSIS
         Queries the BloxOne Threat Defense DNS Events
@@ -42,9 +42,6 @@ function Get-B1DNSEvent {
     .PARAMETER PolicyAction
         Used to filter the DNS Events by Policy Action
 
-    .PARAMETER EndpointGroup
-        Used to filter the DNS Events by Endpoint Group
-      
     .PARAMETER AppName
         Used to filter the DNS Events by App Name
 
@@ -68,16 +65,17 @@ function Get-B1DNSEvent {
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
-        
+
     .EXAMPLE
         PS> Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding()]
     param(
       [String]$Query,
       [String]$IP,
@@ -95,7 +93,6 @@ function Get-B1DNSEvent {
       [String[]]$ThreatIndicator,
       [ValidateSet("Log","Block","Default","Redirect")]
       [String[]]$PolicyAction,
-      [String[]]$EndpointGroup,
       [String[]]$AppName,
       [String[]]$DNSView,
       [datetime]$Start = $(Get-Date).AddDays(-1),
@@ -122,6 +119,9 @@ function Get-B1DNSEvent {
     if ($IP) {
       $Filters += "qip=$IP"
     }
+    if ($Response) {
+      $Filters += "rdata=$Response"
+    }
     if ($Network) {
       $Filters += "network=$Network"
     }
@@ -145,6 +145,9 @@ function Get-B1DNSEvent {
     }
     if ($FeedName) {
       $Filters += "feed_name=$FeedName"
+    }
+    if ($FeedType) {
+      $Filters += "feed_type=$FeedType"
     }
     if ($AppCategory) {
       $Filters += "app_category=$AppCategory"
@@ -173,8 +176,8 @@ function Get-B1DNSEvent {
     }
     Write-DebugMsg -Filters $Filters
     if ($Filter) {
-      Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event$Filter" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     } else {
-      Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/dnsdata/v2/dns_event" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
     }
 }

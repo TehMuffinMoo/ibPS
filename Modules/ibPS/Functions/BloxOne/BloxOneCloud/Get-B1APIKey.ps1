@@ -1,4 +1,4 @@
-function Get-B1APIKey {
+﻿function Get-B1APIKey {
     <#
     .SYNOPSIS
         Retrieves a list of BloxOne Cloud API Keys
@@ -46,13 +46,14 @@ function Get-B1APIKey {
 
     .EXAMPLE
         PS> Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
-        
+
     .FUNCTIONALITY
         BloxOneDDI
 
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding()]
     param(
         [String]$User,
         [string]$CreatedBy,
@@ -116,11 +117,8 @@ function Get-B1APIKey {
     }
 
     Write-DebugMsg -Filters $QueryFilters
-
     $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/api_keys$QueryString" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-
     if ($Results) {
         return $Results
     }
-
 }

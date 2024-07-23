@@ -29,13 +29,14 @@
 
     .EXAMPLE
         PS> Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Host
     #>
+    [CmdletBinding()]
     param(
         [String]$B1Host,
         [Int]$Limit = 100,

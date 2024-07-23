@@ -14,7 +14,7 @@
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
-        
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -30,13 +30,14 @@
 
     .EXAMPLE
         PS> Get-B1Tag -Name "siteCode"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Tags
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [ValidateSet("active","revoked")]
@@ -47,7 +48,8 @@
         [Int]$Offset,
         $CustomFilters
     )
-	$MatchType = Match-Type $Strict
+
+    $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {

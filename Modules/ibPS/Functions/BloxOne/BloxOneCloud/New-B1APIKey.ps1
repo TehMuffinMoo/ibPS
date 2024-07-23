@@ -1,4 +1,4 @@
-function New-B1APIKey {
+﻿function New-B1APIKey {
     <#
     .SYNOPSIS
         Creates a new BloxOne Cloud API Key
@@ -27,6 +27,9 @@ function New-B1APIKey {
     .PARAMETER Expires
         The date/time when the key will expire. Defaults to 1 year.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         New-B1APIKey -Name "somename" -Type Interactive
 
@@ -39,12 +42,17 @@ function New-B1APIKey {
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
         [ValidateSet("Interactive", "Service")]
         [String]$Type,
         [Parameter(Mandatory=$true)]
         [String]$Name,
-        [DateTime]$Expires = $(Get-Date).AddYears(1)
+        [DateTime]$Expires = $(Get-Date).AddYears(1),
+        [Switch]$Force
     )
 
     DynamicParam {
@@ -73,9 +81,10 @@ function New-B1APIKey {
              $paramDictionary.Add('UserName', $userNameParam)
              return $paramDictionary
        }
-   }
+    }
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       $ExpiresAt = Get-Date $Expires -Format o
       switch($Type) {
         "Service" {
@@ -108,7 +117,10 @@ function New-B1APIKey {
             "user_id" = $UserID
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new BloxOne API Key",$MyInvocation.MyCommand)){
+            $ShouldProcess = $true
+            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          }
         }
         "Interactive" {
             $ExistingAPIKey = Get-B1UserAPIKey -Name $Name -Strict
@@ -120,18 +132,23 @@ function New-B1APIKey {
             "name" = $Name
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new BloxOne API Key",$MyInvocation.MyCommand)){
+            $ShouldProcess = $true
+            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          }
         }
       }
 
-      if ($Results) {
-        Write-Host "Successfully created API Key: $($Results.name)" -ForegroundColor Green
-        Write-Host "Your new API Key is: $($Results.key)" -ForegroundColor Cyan
-        Write-Host "Please ensure you copy this key somewhere safe, it is not retrievable again." -ForegroundColor Yellow
-        return $Results
-      } else {
-        Write-Error "Failed to create new API Key: $($Name)"
-        break
+      if($ShouldProcess) {
+        if ($Results) {
+          Write-Host "Successfully created API Key: $($Results.name)" -ForegroundColor Green
+          Write-Host "Your new API Key is: $($Results.key)" -ForegroundColor Cyan
+          Write-Host "Please ensure you copy this key somewhere safe, it is not retrievable again." -ForegroundColor Yellow
+          return $Results
+        } else {
+          Write-Error "Failed to create new API Key: $($Name)"
+          break
+        }
       }
     }
 }

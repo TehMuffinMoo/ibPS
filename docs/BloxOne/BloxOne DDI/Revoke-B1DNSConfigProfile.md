@@ -12,8 +12,14 @@ Removes a DNS Config Profile from one or more BloxOneDDI hosts
 
 ## SYNTAX
 
+### Default
 ```
-Revoke-B1DNSConfigProfile [-Hosts] <Object> [<CommonParameters>]
+Revoke-B1DNSConfigProfile -Hosts <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### Object
+```
+Revoke-B1DNSConfigProfile -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,11 +39,74 @@ A list of BloxOneDDI Hosts to remove the DNS Config Profile from
 
 ```yaml
 Type: Object
-Parameter Sets: (All)
+Parameter Sets: Default
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+The DHCP Host object(s) to revoke DNS Config Profiles from.
+Accepts pipeline input.
+
+```yaml
+Type: Object
+Parameter Sets: Object
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

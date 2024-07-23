@@ -1,4 +1,4 @@
-function Set-B1Location {
+﻿function Set-B1Location {
     <#
     .SYNOPSIS
         Updates a Location within BloxOne Cloud
@@ -42,6 +42,9 @@ function Set-B1Location {
     .PARAMETER Object
         The Location Object. Accepts pipeline input from Get-B1Location
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Get-B1Location -Name "Madrid" | Set-B1Location -NewName "Rome" -Description "Rome Office (Moved from Madrid)" -Address "1 Via Cavour" -PostCode "00184" -State "Rome" -Country "Italy" -ContactName "Curator" -ContactEmail "Curator@rome.com"
 
@@ -76,11 +79,14 @@ function Set-B1Location {
         longitude    : 12.873967
         name         : Madrid
         updated_at   : 2024-05-01T13:06:44.873541805Z
-        
+
     .FUNCTIONALITY
         BloxOneDDI
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(ParameterSetName='Default',Mandatory=$true)]
         [String]$Name,
@@ -99,10 +105,12 @@ function Set-B1Location {
             ParameterSetName="Pipeline",
             Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/location") {
@@ -117,6 +125,9 @@ function Set-B1Location {
             }
         }
 
+        if ($NewName) {
+            $Object.name = $($NewName)
+        }
         if ($Description) {
             $Object.description = $($Description)
         }
@@ -152,7 +163,7 @@ function Set-B1Location {
             $GeoCodeJSON = @{
                 "address" = $Object.address
             } | ConvertTo-Json -Depth 5
-    
+
             $GeoCode = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/geocode" -Data ([System.Text.Encoding]::UTF8.GetBytes($GeoCodeJSON)) `
                         | Select-Object -ExpandProperty results `
                         | Select-Object @{name="Address";expression={$_.address.address}}, `
@@ -161,7 +172,7 @@ function Set-B1Location {
                         @{name="PostCode";expression={$_.address.postal_code}}, `
                         @{name="State";expression={$_.address.state}}, `
                         Longitude, Latitude
-    
+
             if ($GeoCode) {
                 if ($GeoCode.count -gt 1) {
                     $Count = 0
@@ -173,13 +184,13 @@ function Set-B1Location {
                     }
                     $ValidChoices = 0..$GeoCodes.'#'.GetUpperBound(0) + 'x'
                     $Choice = ''
-    
+
                     while ([string]::IsNullOrEmpty($Choice)) {
                         $GeoCodes | Format-Table '#',Address,City,Country,PostCode,State,Longitude,Latitude -AutoSize
-    
+
                         $Choice = Read-Host -Prompt 'Select the correct address by entering the # or x to cancel.'
                         Write-Host ''
-            
+
                         if ($Choice -notin $ValidChoices) {
                             Write-Warning ('    [ {0} ] is not a valid selection.' -f $Choice)
                             Write-Warning '    Please try again.'
@@ -187,7 +198,7 @@ function Set-B1Location {
                             pause
                         }
                     }
-            
+
                     if ($Choice -eq 'x') {
                         return $null
                     } else {
@@ -199,7 +210,7 @@ function Set-B1Location {
                     $GeoCode | Format-Table '#',Address,City,Country,PostCode,State,Longitude,Latitude -AutoSize
                     $Choice = Read-Host -Prompt 'Do you want to replace the address information with those listed? (Yes/No)'
                     Write-Host ''
-    
+
                     if ($Choice -notin @('Yes','No')) {
                         Write-Warning ('    [ {0} ] is not a valid selection.' -f $Choice)
                         Write-Warning '    Please use Yes or No.'
@@ -207,7 +218,7 @@ function Set-B1Location {
                         pause
                     }
                 }
-    
+
                 if ($Choice -eq 'Yes') {
                     if ($GeoCode.Address) {
                         $Object.address.address = $GeoCode.Address
@@ -229,18 +240,19 @@ function Set-B1Location {
                 Write-Error 'Unable to find Longitude & Latitude from the specified address. Please re-enter the address and try again.'
                 return $null
             }
-    
+
             $Object.longitude = $GeoCode.longitude
             $Object.latitude = $GeoCode.latitude
         }
-        
+
         $JSON = $Object | Select-Object * -ExcludeProperty id,updated_at,created_at | ConvertTo-Json -Depth 5 -Compress
 
         $ObjectID = ($Object.id -Split ('/'))[2]
-        $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
-
-        if ($Results) {
-            return $Results | Select-Object -ExpandProperty result
+        if($PSCmdlet.ShouldProcess("Update BloxOne Location`n$(JSONPretty($JSON))","Update BloxOne Location: $($Object.name) ($($ObjectID))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations/$($ObjectID)" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
+            if ($Results) {
+                return $Results | Select-Object -ExpandProperty result
+            }
         }
     }
 }

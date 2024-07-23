@@ -1,4 +1,4 @@
-function Get-B1TideThreatEnrichment {
+﻿function Get-B1TideThreatEnrichment {
     <#
     .SYNOPSIS
         Used to retrieve threat enrichment data from BloxOne Threat Defense
@@ -15,13 +15,14 @@ function Get-B1TideThreatEnrichment {
 
     .EXAMPLE
         PS> Get-B1TideThreatEnrichment
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("Threat Actor","Nameserver Reputation","URLHaus","ThreatFox","TLD Risk","Mandiant","Whois","Geoinfo")] ## Mitre Lookup not yet implemented

@@ -14,7 +14,7 @@ Used for obtaining API Schema information for use with generic wrapper cmdlets
 
 ```
 Get-B1Schema [[-Product] <String>] [[-App] <String>] [[-Endpoint] <String>] [[-Method] <String>]
- [-ListParameters] [-GetBasePath] [-Quiet]
+ [-ListParameters] [-GetBasePath] [-Quiet] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,7 +26,7 @@ This is used for obtaining API Schema information for use with generic wrapper c
 ```powershell
 Get-B1Schema -Product 'BloxOne DDI'
 
-Available Apps: 
+Available Apps:
 
 app                     label
 ---                     -----
@@ -82,11 +82,11 @@ Get-B1Schema -Product 'BloxOne Cloud' -App 'CDC' -Endpoint /v2/flows/data -Metho
 name    type   description
 ----    ----   -----------
 _filter string
-            
+
             A collection of response resources can be filtered by a logical expression string that includes JSON tag references to values in each resource, literal values, and logical operators. If a resource does not have the specified tag, its value is assumed to be null.
-            
+
             Literal values include numbers (integer and floating-point), and quoted (both single- or double-quoted) literal strings, and 'null'. The following operators are commonly used in filter expressions:
-            
+
             |  Op   |  Description               |
             |  --   |  -----------               |
             |  ==   |  Equal                     |
@@ -101,13 +101,13 @@ _filter string
             |  or   |  Logical OR                |
             |  not  |  Logical NOT               |
             |  ()   |  Groupping Operators       |
-            
-            
+
+
 _fields string
-            
+
             A collection of response resources can be transformed by specifying a set of JSON tags to be returned. For a "flat" resource, the tag name is straightforward. If field selection is allowed on non-flat hierarchical resources, the service should implement a qualified
             naming scheme such as dot-qualification to reference data down the hierarchy. If a resource does not have the specified tag, the tag does not appear in the output resource.
-            
+
             Specify this parameter as a comma-separated list of JSON tag names.
 ```
 
@@ -217,6 +217,9 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

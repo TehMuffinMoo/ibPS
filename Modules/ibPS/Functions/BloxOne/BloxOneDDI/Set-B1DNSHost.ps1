@@ -21,18 +21,25 @@
     .PARAMETER Object
         The DNS Host Object to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
 
     .EXAMPLE
         Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" | Set-B1DNSHost -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(ParameterSetName="Default",Mandatory=$true)]
         [String]$Name,
@@ -43,10 +50,12 @@
           ParameterSetName="Object",
           Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
           $SplitID = $Object.id.split('/')
           if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/host") {
@@ -61,7 +70,8 @@
             }
         }
         if ($Object) {
-            $NewObj = $Object | Select-Object * -ExcludeProperty id,site_id,provider_id,current_version,dfp,dfp_service,external_providers_metadata,ophid,address,name,anycast_addresses,comment,tags,associated_server.name,protocol_absolute_name
+            $NewObj = $Object | Select-Object * -ExcludeProperty id,site_id,provider_id,current_version,dfp,dfp_service,external_providers_metadata,ophid,address,name,anycast_addresses,comment,tags,protocol_absolute_name
+            $NewObj.associated_server = $NewObj.associated_server | Select-Object id
             if ($DNSConfigProfile) {
                 if ($DNSConfigProfile -eq 'None') {
                     $NewObj.associated_server = $null
@@ -91,13 +101,15 @@
                 }
             }
             $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-      
-            if ($($Results.id) -eq $($Object.id)) {
-                Write-Host "DNS Host: $($NewObj.absolute_name) updated successfully." -ForegroundColor Green
-                return $Results
-            } else {
-                Write-Host "Failed to update DNS Host: $($NewObj.absolute_name)." -ForegroundColor Red
+
+            if($PSCmdlet.ShouldProcess("Update DNS Host:`n$(JSONPretty($JSON))","Update DNS Host: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+                $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+                if ($($Results.id) -eq $($Object.id)) {
+                    Write-Host "DNS Host: $($NewObj.name) updated successfully." -ForegroundColor Green
+                    return $Results
+                } else {
+                    Write-Host "Failed to update DNS Host: $($NewObj.name)." -ForegroundColor Red
+                }
             }
         }
     }

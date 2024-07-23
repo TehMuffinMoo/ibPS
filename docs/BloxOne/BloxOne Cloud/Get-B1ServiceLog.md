@@ -14,7 +14,7 @@ Queries the BloxOneDDI Service Log
 
 ```
 Get-B1ServiceLog [[-B1Host] <String>] [[-Container] <String>] [[-Start] <DateTime>] [[-End] <DateTime>]
- [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -122,6 +122,9 @@ Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

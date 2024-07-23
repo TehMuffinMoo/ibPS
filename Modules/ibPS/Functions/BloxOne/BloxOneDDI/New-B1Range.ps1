@@ -27,18 +27,25 @@
     .PARAMETER Tags
         Any tags you want to apply to the DHCP Range
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1Range -Name "Client Range" -StartAddress "10.250.20.20" -EndAddress "10.250.20.100" -Space "Global" -Description "Range for Client IPs"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -50,9 +57,10 @@
       [string]$Space,
       [String]$Description,
       [String]$HAGroup,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (Get-B1Range -StartAddress $StartAddress) {
         Write-Host "DHCP Range already exists." -ForegroundColor Red
     } else {
@@ -79,13 +87,14 @@
         }
 
         $splat = $splat | ConvertTo-Json -Depth 10
-
-        $Result = Invoke-CSP -Method POST -Uri "ipam/range" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        if ($Result.start -eq $StartAddress -and $Result.end -eq $EndAddress) {
-            Write-Host "Created DHCP Range Successfully. Start: $StartAddress - End: $EndAddress" -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create DHCP Range." -ForegroundColor Red
+        if($PSCmdlet.ShouldProcess("Create new DHCP Range:`n$($splat)","Create new DHCP Range: $($Name)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/range" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+            if ($Result.start -eq $StartAddress -and $Result.end -eq $EndAddress) {
+                Write-Host "Created DHCP Range Successfully. Start: $StartAddress - End: $EndAddress" -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create DHCP Range." -ForegroundColor Red
+            }
         }
     }
 }

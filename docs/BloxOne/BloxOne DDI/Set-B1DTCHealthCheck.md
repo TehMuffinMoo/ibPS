@@ -12,13 +12,13 @@ Updates a health check object within BloxOne DTC
 
 ## SYNTAX
 
-### Default
+### Default (Default)
 ```
 Set-B1DTCHealthCheck -Name <String> [-NewName <String>] [-Description <String>] [-Interval <Int32>]
  [-Timeout <Int32>] [-RetryUp <Int32>] [-RetryDown <Int32>] [-State <String>] [-Port <Int32>]
  [-UseHTTPS <String>] [-HTTPRequest <String>] [-ResponseBody <String>] [-ResponseBodyRegex <String>]
  [-ResponseHeader <String>] [-ResponseHeaderRegexes <Object>] [-StatusCodes <Nullable`1[]>] [-Tags <Object>]
- [<CommonParameters>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### With ID
@@ -26,8 +26,8 @@ Set-B1DTCHealthCheck -Name <String> [-NewName <String>] [-Description <String>] 
 Set-B1DTCHealthCheck [-NewName <String>] [-Description <String>] [-Interval <Int32>] [-Timeout <Int32>]
  [-RetryUp <Int32>] [-RetryDown <Int32>] [-State <String>] [-Port <Int32>] [-UseHTTPS <String>]
  [-HTTPRequest <String>] [-ResponseBody <String>] [-ResponseBodyRegex <String>] [-ResponseHeader <String>]
- [-ResponseHeaderRegexes <Object>] [-StatusCodes <Nullable`1[]>] [-Tags <Object>] -Object <Object>
- [<CommonParameters>]
+ [-ResponseHeaderRegexes <Object>] [-StatusCodes <Nullable`1[]>] [-Tags <Object>] -Object <Object> [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -52,19 +52,19 @@ Get-B1DTCHealthCheck -Name 'Exchange HTTPS Check' | Set-B1DTCHealthCheck -Respon
 
 id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
 name                           : Exchange HTTPS Check
-comment                        : 
+comment                        :
 disabled                       : False
 interval                       : 15
 timeout                        : 10
 retry_up                       : 1
 retry_down                     : 1
-tags                           : 
+tags                           :
 port                           : 443
 https                          : True
 request                        : GET /owa/auth/logon.aspx HTTP/1.1
                                  Host: webmail.company.corp
-codes                          : 
-metadata                       : 
+codes                          :
+metadata                       :
 check_response_body            : True
 check_response_body_regex      : (.*)
 check_response_body_negative   : False
@@ -348,6 +348,53 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

@@ -1,4 +1,4 @@
-function Convert-RecordsToBloxOne {
+﻿function Convert-RecordsToBloxOne {
     <#
     .SYNOPSIS
         Provides a simple way to convert NIOS Record Object data to BloxOne CSV Import Format
@@ -29,7 +29,7 @@ function Convert-RecordsToBloxOne {
 
     .EXAMPLE
         ## Using -DNSView to override the view name
-        
+
         PS> Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne -DNSView 'Corporate'
 
         HEADER-dnsdata-v2-record,key,name_in_zone,comment,disabled,zone,ttl,type,rdata,options,tags,ttl_action
@@ -49,7 +49,7 @@ function Convert-RecordsToBloxOne {
 
     .FUNCTIONALITY
         NIOS
-    
+
     .FUNCTIONALITY
         Migration
     #>

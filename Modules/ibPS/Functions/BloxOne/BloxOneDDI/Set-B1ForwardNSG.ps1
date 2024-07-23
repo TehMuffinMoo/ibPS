@@ -30,18 +30,25 @@
     .PARAMETER Object
         The Forward DNS Server Group Object to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1ForwardNSG -Name "InfoBlox DTC" -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 
     .EXAMPLE
         PS> Get-B1ForwardNSG -Name "InfoBlox DTC" | Set-B1ForwardNSG -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -NewName "Infoblox DTC New"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
@@ -56,10 +63,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if ($AddHosts -and $RemoveHosts) {
         Write-Error "Error. -AddHosts and -RemoveHosts are mutually exclusive."
         return $null
@@ -114,7 +123,6 @@
               $DNSHostId = (Get-B1DNSHost -Name $B1Host -Strict).id
               if ($DNSHostId) {
                 if ($DNSHostId -in $NewObj.hosts) {
-                  $Update = $true
                   Write-Host "Removing $B1Host from $($NewObj.name)" -ForegroundColor Cyan
                   $NewObj.hosts = $NewObj.hosts | Where-Object {$_ -ne $DNSHostId}
                 } else {
@@ -127,13 +135,14 @@
           }
         }
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-        if ($Results.id -eq $Object.id) {
-          Write-Host "Successfully updated Forward NSG: $($NewObj.name)" -ForegroundColor Green
-          return $Results
-        } else {
-          Write-Host "Error. Failed to update Forward NSG: $($NewObj.name)" -ForegroundColor Red
+        if($PSCmdlet.ShouldProcess("Update Foward DNS Server Group:`n$(JSONPretty($JSON))","Update Foward DNS Server Group: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+          $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+          if ($Results.id -eq $Object.id) {
+            Write-Host "Successfully updated Forward NSG: $($NewObj.name)" -ForegroundColor Green
+            return $Results
+          } else {
+            Write-Host "Error. Failed to update Forward NSG: $($NewObj.name)" -ForegroundColor Red
+          }
         }
       }
     }

@@ -15,6 +15,7 @@ Queries a list of lookalike domains
 ```
 Get-B1Lookalikes [[-Domain] <String>] [[-LookalikeDomain] <String>] [[-Reason] <String>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Muted] <String>] [-Strict] [[-CustomFilters] <Object>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -182,6 +183,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

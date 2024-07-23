@@ -1,4 +1,4 @@
-function Invoke-CSP {
+﻿function Invoke-CSP {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Cloud Services Portal
@@ -18,8 +18,11 @@ function Invoke-CSP {
     .PARAMETER InFile
         File path of data to submit as part of POST request
 
-    .PARAMETER ContentType
-        The Content-Type header to be passed in requests. Defaults to 'application/json'
+    .PARAMETER AdditionalHeaders
+        This parameter can be used to pass additional headers, or override the Content-Type header (defaults to application/json).
+
+    .PARAMETER APIKey
+        Optionally provide a specific API Key for this request.
 
     .EXAMPLE
         Invoke-CSP -Method GET -Uri "ipam/subnet?_filter=address==`"10.10.10.10`""
@@ -33,6 +36,7 @@ function Invoke-CSP {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("GET","POST","PUT", "PATCH", "DELETE")]
@@ -42,19 +46,42 @@ function Invoke-CSP {
       [Alias("Body")]
       $Data,
       [String]$InFile,
-      [String]$ContentType = 'application/json'
+      [System.Object]$AdditionalHeaders,
+      [String]$APIKey,
+      [String]$ProfileName
     )
 
-    ## Get Stored API Key
-    $B1ApiKey = Get-B1CSPAPIKey
+    if ($APIKey) {
+        $B1ApiKey = "Token $($APIKey)"
+    } elseif ($ENV:B1APIKey) {
+        ## Get Stored API Key (Legacy)
+        $B1ApiKey = "Token $(Get-B1CSPAPIKey)"
+    } elseif ($ProfileName) {
+        ## Get API Key from Selected Connection Profile
+        $ProfileKey = Get-B1CSPAPIKey -ProfileName $ProfileName
+        $B1ApiKey = "Token $($ProfileKey)"
+    } elseif ($ProfileKey = Get-B1CSPAPIKey -DefaultProfile) {
+        ## Get API Key from Default Connection Profile
+        $B1ApiKey = "Token $($ProfileKey)"
+    }
 
-    ## Get Saved CSP URL
-    $B1CSPUrl = Get-B1CSPUrl
+    $B1CSPUrl = Get-B1CSPUrl -ProfileName $ProfileName
 
-    ## Set Headers
-    $CSPHeaders = @{
-        'Authorization' = "Token $B1ApiKey"
-        'Content-Type' = $ContentType
+    if ($AdditionalHeaders) {
+        $CSPHeaders = @{
+            'Authorization' = "$B1ApiKey"
+        }
+        $CSPHeaders += $AdditionalHeaders
+        if (!($CSPHeaders.'Content-Type')) {
+            $CSPHeaders += @{
+                'Content-Type' = 'application/json'
+            }
+        }
+    } else {
+        $CSPHeaders = @{
+            'Authorization' = "$B1ApiKey"
+            'Content-Type' = 'application/json'
+        }
     }
 
     $ErrorOnEmpty = $true
@@ -133,7 +160,7 @@ function Invoke-CSP {
         Write-Host "Error. No results from API."
       }
     #} catch {
-    #    Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__ 
+    #    Write-Host "StatusCode:" $_.Exception.Response.StatusCode.value__
     #    Write-Host "StatusDescription:" $_.Exception.Response.StatusDescription
     #    if ($PSVersionTable.PSVersion -lt "7.0.0") {
     #        $reader = New-Object System.IO.StreamReader($result)

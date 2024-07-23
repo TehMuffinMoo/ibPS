@@ -1,4 +1,4 @@
-function Submit-B1TideData {
+﻿function Submit-B1TideData {
     <#
     .SYNOPSIS
         Used to submit threat indicators into a TIDE Data Profile
@@ -24,13 +24,13 @@ function Submit-B1TideData {
 
     .PARAMETER Confidence
         The threat's confidence score ranging from 0 - 100 (optional).
-    
+
     .PARAMETER Domain
         The domain string (optional).
 
     .PARAMETER Duration
         The duration of the threat in Xd format or XyXmXwXdXh format.
-        
+
         The expiration date will be set to the detected date + this duration (optional).
 
     .PARAMETER Expiration
@@ -43,27 +43,30 @@ function Submit-B1TideData {
         The target of the threat (optional). For example: “fakeamazon.com” is a threat targeting “amazon.com”.
 
     .PARAMETER TLD
-        The top-level domain, string (optional). 
+        The top-level domain, string (optional).
 
     .PARAMETER ThreatClass
         The Threat/Indicator class i.e: Sinkhole. Supports tab-completion.
-        
+
         This is mutually exclusive with -ThreatProperty
 
     .PARAMETER ThreatProperty
         The Threat/Indicator property i.e: Sinkhole_SinkholedHost.  Supports tab-completion.
-        
+
         This is mutually exclusive with -ThreatClass
 
     .PARAMETER File
         The -File parameter accepts a CSV/TSV/PSV, JSON or XML file.
 
         This should conform to the formats listed here: https://docs.infoblox.com/space/BloxOneThreatDefense/35434535/TIDE+Data+Submission+Overview
-    
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Submit-B1TideData -Profile my-dataprofile -ThreatClass Malicious -RecordType host -RecordValue superbaddomain.com -Detected (Get-Date).AddHours(-7) -ThreatLevel 10 -Confidence 30
 
-        link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self}, 
+        link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self},
                         @{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74/detail; rel=detail}}
         id             : csdv8d8s-fdss-14fe-vsee-cdsuddcs74
         submitted      : 3/13/2024 9:41:39PM
@@ -82,7 +85,7 @@ function Submit-B1TideData {
         ## This supports all file types supported by TIDE, including CSV/TSV/PSV, JSON & XML
         PS> Submit-B1TideData -Profile my-dataprofile -File ../tide.csv
 
-        link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self}, 
+        link           : {@{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74; rel=self},
                         @{href=/data/batches/csdv8d8s-fdss-14fe-vsee-cdsuddcs74/detail; rel=detail}}
         id             : csdv8d8s-fdss-14fe-vsee-cdsuddcs74
         submitted      : 3/13/2024 9:42:14PM
@@ -96,13 +99,18 @@ function Submit-B1TideData {
         total          : 1422
         num_successful : 1422
         num_errors     : 0
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-        
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding(
+        DefaultParameterSetName='Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     Param(
         [Parameter(Mandatory=$true,ParameterSetName=("Class"))]
         [Parameter(Mandatory=$true,ParameterSetName=("Property"))]
@@ -149,11 +157,12 @@ function Submit-B1TideData {
         [Parameter(Mandatory=$false,ParameterSetName=("Property"))]
         [String]$TLD,
         [Parameter(Mandatory=$true,ParameterSetName="File")]
-        [String]$File
+        [String]$File,
+        [Switch]$Force
 	  )
 
     Process {
-
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if (!(Get-B1TideDataProfile -Name $($Profile))) {
         Write-Error "Error. TIDE Data Profile does not exist: $($Profile)"
         break
@@ -161,22 +170,27 @@ function Submit-B1TideData {
 
       if ($File) {
         $FileContents = Get-Content $($File) -Raw
-        Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -ContentType 'text/plain'
+        if($PSCmdlet.ShouldProcess("Upload TIDE Data from File: $($File).","Upload TIDE Data from File: $($File).",$MyInvocation.MyCommand)){
+            Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $FileContents -AdditionalHeaders @{'Content-Type' = 'text/plain'}
+        }
       } else {
 
         $DetectedTime = $Detected.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.000Z")
-        
+
         $Feed = @{
             "feed" = @{
-            "profile" = "$($Profile)"
-            "record_type" = "$($RecordType)"
-            "record" = @(@{
-                "$($RecordType)" = "$($RecordValue)"
-                "detected" = "$($DetectedTime)"
-            })
+                "profile" = "$($Profile)"
+                "record_type" = "$($RecordType)"
+                "record" = @(@{
+                    "$($RecordType)" = "$($RecordValue)"
+                    "detected" = "$($DetectedTime)"
+                })
             }
         }
 
+        if ($external_id) {
+            $Feed.feed.external_id = $external_id
+        }
         if ($ThreatClass) {
             $Feed.feed.record[0].class = "$($ThreatClass)"
         }
@@ -206,9 +220,10 @@ function Submit-B1TideData {
             $Feed.feed.record[0].tld = "$($TLD)"
         }
 
-        $JSONFeed = $Feed | ConvertTo-Json -Depth 5
-
-        Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $JSONFeed
+        $JSON = $Feed | ConvertTo-Json -Depth 5
+        if($PSCmdlet.ShouldProcess("Upload TIDE Data:`n$($JSON).","Upload TIDE Data.",$MyInvocation.MyCommand)){
+            Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/data/batches?profile=$($Profile)" -Data $JSONFeed
+        }
       }
     }
 }

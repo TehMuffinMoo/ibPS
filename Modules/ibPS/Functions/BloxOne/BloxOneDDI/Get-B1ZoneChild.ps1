@@ -49,16 +49,17 @@
 
     .EXAMPLE
         PS> Get-B1AuthoritativeZone -FQDN "my.dns.zone" | Get-B1ZoneChild
-        
+
     .EXAMPLE
         PS> Get-B1ForwardZone -FQDN "my.dns.zone" | Get-B1ZoneChild
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding()]
     param (
         [String]$Type,
         [String]$Name,
@@ -127,6 +128,9 @@
         }
         if ($OrderByTag) {
             $QueryFilters.Add("_torder_by=$OrderByTag") | Out-Null
+        }
+        if ($tfilter) {
+            $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
         }
         if ($QueryFilters) {
             $QueryString = ConvertTo-QueryString $QueryFilters

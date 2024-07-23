@@ -23,13 +23,13 @@
 
     .PARAMETER SafeSearch
         Enable or Disable the Safe Search option.
-        
+
     .PARAMETER DoHPerPolicy
         Enable or Disable the DoH Per Policy option.
-        
+
     .PARAMETER BlockDNSRebinding
         Enable or Disable the Block DNS Rebinding Attacks option.
-        
+
     .PARAMETER LocalOnPremResolution
         Enable or Disable the Local On-Prem Resolution option.
 
@@ -44,12 +44,15 @@
 
     .PARAMETER Rules
         A list of Policy Rules to apply to the new Security Policy. You can build this list of rules using New-B1SecurityPolicyRule, see the examples.
-        
+
     .PARAMETER Tags
         A list of tags to apply to the Security Policy
 
     .PARAMETER Object
         The Security Policy Object(s) to update. Accepts pipeline input.
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
         ## Example of copying rules from one Security Policy to another.
@@ -64,7 +67,7 @@
         block_dns_rebind_attack : True
         created_time            : 6/3/2024 10:24:47 AM
         default_action          : action_allow
-        default_redirect_name   : 
+        default_redirect_name   :
         description             : My Policy
         dfp_services            : {cv4g9f4jg98jg854jt5g,v4m38jg983egjh9cff}
         dfps                    : {123456,654321}
@@ -80,21 +83,25 @@
         onprem_resolve          : True
         precedence              : 5
         roaming_device_groups   : {}
-        rules                   : {@{action=action_allow; data=All-Categories; type=category_filter}, @{action=action_block; data=Threat Insight - Zero Day DNS; description=Auto-generated; type=custom_list}, @{action=action_block; data=antimalware; description=Suspicious/malicious as destinations: 
+        rules                   : {@{action=action_allow; data=All-Categories; type=category_filter}, @{action=action_block; data=Threat Insight - Zero Day DNS; description=Auto-generated; type=custom_list}, @{action=action_block; data=antimalware; description=Suspicious/malicious as destinations:
                                 Enables protection against known malicious hostname threats that can take action on or control of your systems, such as Malware Command & Control, Malware Download, and active Phishing sites.; type=named_feed}}
         safe_search             : False
-        scope_expr              : 
+        scope_expr              :
         scope_tags              : {}
-        tags                    : 
+        tags                    :
         updated_time            : 6/3/2024 10:24:47 AM
         user_groups             : {}
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
@@ -121,10 +128,12 @@
         ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             if ('onprem_resolve' -notin $Object.PSObject.Properties.Name) {
                 Write-Error "Unsupported pipeline object. This function only supports Security Policy objects as input. (Get-B1SecurityPolicy)"
@@ -172,7 +181,7 @@
             }
         }
         if ($DFPs) {
-            $DFPs | %{
+            $DFPs | ForEach-Object {
                 $DFPService = Get-B1Service -Type dfp -Name $_ -Detailed -Strict
                 if ($DFPService) {
                     $NewObj.dfp_services += $DFPService.id
@@ -183,7 +192,7 @@
             }
         }
         if ($ExternalNetworks) {
-            $ExternalNetworks | %{
+            $ExternalNetworks | ForEach-Object {
                 $ExternalNetwork = Get-B1NetworkList -Name $_ -Strict
                 if ($ExternalNetwork) {
                     $NewObj.network_lists += $ExternalNetwork.id
@@ -200,15 +209,15 @@
             $NewObj.rules = $Rules
         }
 
-        $JSON = $NewObj | ConvertTo-Json -Depth 5
-
-        $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-        if ($Result.id -eq $Object.id) {
-            return $Result
-        } else {
-            Write-Host "Failed to update Security Policy: $Name." -ForegroundColor Red
-            break
+        $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
+        if($PSCmdlet.ShouldProcess("Update Security Policy:`n$(JSONPretty($JSON))","Update Security Policy: $($NewObj.name)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.id -eq $Object.id) {
+                return $Result
+            } else {
+                Write-Host "Failed to update Security Policy: $Name." -ForegroundColor Red
+                break
+            }
         }
-
     }
 }

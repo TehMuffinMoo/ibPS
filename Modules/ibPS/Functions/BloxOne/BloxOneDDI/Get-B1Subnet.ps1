@@ -57,13 +57,14 @@
 
     .EXAMPLE
         PS> Get-B1Subnet -Name "subnet-1" -Space "Global" -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding()]
     param(
       [String]$Subnet,
       [ValidateRange(0,32)]
@@ -82,7 +83,6 @@
       $CustomFilters,
       [String]$id
     )
-
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
@@ -97,8 +97,8 @@
         }
     }
     if ($Subnet) {
-        if ($Subnet -match '/\d') { 
-            $IPandMask = $Subnet -Split '/' 
+        if ($Subnet -match '/\d') {
+            $IPandMask = $Subnet -Split '/'
             $Subnet = $IPandMask[0]
             $CIDR = $IPandMask[1]
         }
@@ -153,8 +153,8 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Invoke-CSP -Uri "ipam/subnet$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/subnet$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Invoke-CSP -Uri "ipam/subnet?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/subnet?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

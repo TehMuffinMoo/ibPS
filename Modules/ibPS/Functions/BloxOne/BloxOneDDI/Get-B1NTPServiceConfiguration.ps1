@@ -17,37 +17,36 @@
 
     .EXAMPLE
         PS> Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Service
     #>
-  param (
-    [Parameter(Mandatory=$false)]
-    [String]$Name,
-    [Parameter(Mandatory=$false)]
-    [String]$ServiceId,
-    [Parameter(Mandatory=$false)]
-    [Switch]$Strict
-  )
-
-  $MatchType = Match-Type $Strict
-  if (!($ServiceId) -and $Name) {
-    $B1Service = Get-B1Service -Name $Name -Strict:$Strict | Where-Object {$_.service_type -eq "ntp"}
-    $ServiceId = $B1Service.id.replace("infra/service/","")
-  }
-  if ($B1Service) {
-    if ($B1Service.count -gt 1) {
-      Write-Host "Too many services returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
-    } else {
-      $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ntp/v1/service/config/$ServiceId" | Select-Object -ExpandProperty ntp_service -ErrorAction SilentlyContinue
-      if ($Result) {
-        $Result
-      } else {
-        Write-Host "Error. Failed to retrieve NTP Configuration for $Name" -ForegroundColor Red
-      }
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory=$false)]
+        [String]$Name,
+        [Parameter(Mandatory=$false)]
+        [String]$ServiceId,
+        [Parameter(Mandatory=$false)]
+        [Switch]$Strict
+    )
+    if (!($ServiceId) -and $Name) {
+        $B1Service = Get-B1Service -Name $Name -Strict:$Strict | Where-Object {$_.service_type -eq "ntp"}
+        $ServiceId = $B1Service.id.replace("infra/service/","")
     }
-  }
+    if ($B1Service) {
+        if ($B1Service.count -gt 1) {
+            Write-Host "Too many services returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
+        } else {
+            $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ntp/v1/service/config/$ServiceId" | Select-Object -ExpandProperty ntp_service -ErrorAction SilentlyContinue
+            if ($Result) {
+              $Result
+            } else {
+              Write-Host "Error. Failed to retrieve NTP Configuration for $Name" -ForegroundColor Red
+            }
+        }
+    }
 }

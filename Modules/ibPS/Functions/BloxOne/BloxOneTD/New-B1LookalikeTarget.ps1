@@ -1,11 +1,11 @@
-function New-B1LookalikeTarget {
+﻿function New-B1LookalikeTarget {
   <#
   .SYNOPSIS
     Adds a new lookalike target domain for the account
 
   .DESCRIPTION
     This function is used to add a new lookalike target domain for the account.
-    
+
     The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
   .PARAMETER Domain
@@ -14,32 +14,39 @@ function New-B1LookalikeTarget {
   .PARAMETER Description
     The description to apply to the selected domain
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
   .EXAMPLE
-    PS> New-B1LookalikeTarget -Domain "mydomain.com" -Description "Some description.." 
+    PS> New-B1LookalikeTarget -Domain "mydomain.com" -Description "Some description.."
 
   .EXAMPLE
     PS> New-B1LookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Description 1","Description 2"
 
   .EXAMPLE
     PS> New-B1LookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Common description"
-    
+
   .FUNCTIONALITY
     BloxOneDDI
-    
+
   .FUNCTIONALITY
     BloxOne Threat Defense
 
   .NOTES
     Credits: Ollie Sheridan
   #>
-  
+  [CmdletBinding(
+    SupportsShouldProcess,
+    ConfirmImpact = 'Medium'
+  )]
   param(
     [Parameter(Mandatory=$true)]
     [String[]]$Domain,
     [Parameter(Mandatory=$false)]
-    [String[]]$Description
+    [String[]]$Description,
+    [Switch]$Force
   )
-
+  $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
   $LookalikeTargetList = Get-B1LookalikeTargets
   $NewLookalikes = @()
 
@@ -67,16 +74,18 @@ function New-B1LookalikeTarget {
       Write-Host "Lookalike target already exists: $($NewDomain)" -ForegroundColor Yellow
     }
   }
+  $JSON = ($LookalikeTargetList | ConvertTo-Json -Depth 5)
+  if($PSCmdlet.ShouldProcess("Create new Lookalike Target:`n$($JSON)","Create new Lookalike Target: $($Domain)",$MyInvocation.MyCommand)){
+    $null = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data
 
-  $Result = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_targets" -Method PUT -Data ($LookalikeTargetList | ConvertTo-Json -Depth 5)
-
-  $LookalikeTargetList = Get-B1LookalikeTargets
-  foreach ($NewLookalike in $NewLookalikes) {
-    if ($NewLookalike -notin $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
-      Write-Error "Failed to create new lookalike target: $($NewLookalike)"
-    } else {
-      Write-Host "Successfully created new lookalike target: $($NewLookalike)" -ForegroundColor Green
-      $($LookalikeTargetList) | Select-Object -ExpandProperty items_described | Where-Object {$_.item -eq $NewLookalike}
+    $LookalikeTargetList = Get-B1LookalikeTargets
+    foreach ($NewLookalike in $NewLookalikes) {
+      if ($NewLookalike -notin $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
+        Write-Error "Failed to create new lookalike target: $($NewLookalike)"
+      } else {
+        Write-Host "Successfully created new lookalike target: $($NewLookalike)" -ForegroundColor Green
+        $($LookalikeTargetList) | Select-Object -ExpandProperty items_described | Where-Object {$_.item -eq $NewLookalike}
+      }
     }
   }
 

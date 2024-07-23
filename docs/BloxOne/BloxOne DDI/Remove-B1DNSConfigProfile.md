@@ -14,12 +14,12 @@ Removes a DNS Config Profile
 
 ### Default (Default)
 ```
-Remove-B1DNSConfigProfile [-Name <String>] [<CommonParameters>]
+Remove-B1DNSConfigProfile -Name <String> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
-Remove-B1DNSConfigProfile -id <String> [<CommonParameters>]
+Remove-B1DNSConfigProfile -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -47,6 +47,54 @@ Type: String
 Parameter Sets: Default
 Aliases:
 
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+The DNS Config Profile Object to remove.
+Accepts pipeline input
+
+```yaml
+Type: Object
+Parameter Sets: Object
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
 Required: False
 Position: Named
 Default value: None
@@ -54,19 +102,18 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the DNS Config Profile to remove.
-Accepts pipeline input
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
 
 ```yaml
-Type: String
-Parameter Sets: With ID
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
 
-Required: True
+Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

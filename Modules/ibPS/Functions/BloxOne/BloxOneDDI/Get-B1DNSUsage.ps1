@@ -14,16 +14,17 @@
 
     .PARAMETER ParseDetails
         Whether to enhance the data by resolving the Authoritative Zone, IPAM Space & DNS View names
-        
+
     .EXAMPLE
         PS> Get-B1DNSUsage -Address "10.10.100.30" -Space "Global" -ParseDetails
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding()]
     param(
         [String]$Address,
         [String]$Space,

@@ -1,4 +1,4 @@
-function Get-B1UserAPIKey {
+﻿function Get-B1UserAPIKey {
     <#
     .SYNOPSIS
         Retrieves a list of Interactive BloxOne Cloud API Keys for your user
@@ -24,7 +24,7 @@ function Get-B1UserAPIKey {
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.
-        
+
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
@@ -44,6 +44,7 @@ function Get-B1UserAPIKey {
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [ValidateSet("Enabled", "Disabled")]
@@ -55,7 +56,7 @@ function Get-B1UserAPIKey {
         $CustomFilters,
         [String]$id
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
@@ -98,5 +99,4 @@ function Get-B1UserAPIKey {
     if ($Results) {
         return $Results
     }
-
 }

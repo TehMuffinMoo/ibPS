@@ -42,16 +42,17 @@
 
     .EXAMPLE
         PS> Get-B1ThirdPartyProvider -Name "corp.domain"
-    
+
     .EXAMPLE
         PS> Get-B1ThirdPartyProvider -Type IPAM/DHCP
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [String]$Description,

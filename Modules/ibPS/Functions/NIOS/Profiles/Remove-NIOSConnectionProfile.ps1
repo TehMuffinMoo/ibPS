@@ -1,10 +1,10 @@
-function Remove-NIOSConnectionProfile {
+﻿function Remove-NIOSConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to remove a saved connection profile.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. A list of connection profiles can be retrieved using [Get-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Get-NIOSConnectionProfile/). 
+        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. A list of connection profiles can be retrieved using [Get-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Get-NIOSConnectionProfile/).
 
     .PARAMETER Name
         Specify the connection profile name to remove. This field supports tab completion.
@@ -35,27 +35,30 @@ function Remove-NIOSConnectionProfile {
         Authentication
     #>
     [Alias('Remove-NCP')]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'High'
+    )]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,
-        [Bool]$Confirm = $true
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (Get-NIOSConnectionProfile -Name $Name) {
         $ContextConfig = (Get-NIOSContext)
         if ($ContextConfig.CurrentContext -ne $Name) {
-            if ($Confirm) {
-                Write-Warning "Are you sure you want to delete the connection profile: $($Name)?" -WarningAction Inquire
+            if($PSCmdlet.ShouldProcess("Remove NIOS Connection Profile: $($Name)","Remove NIOS Connection Profile: $($Name)",$MyInvocation.MyCommand)){
+                $ContextConfig.Contexts.PSObject.Members.Remove($Name)
+                $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:NIOSConfigFile -Force
+                Write-Host "Removed NIOS connection profile: $($Name)" -ForegroundColor Green
+                break
             }
-            $ContextConfig.Contexts.PSObject.Members.Remove($Name)
-            $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:NIOSConfigFile -Force
-            Write-Host "Removed connection profile: $($Name)" -ForegroundColor Green
-            break
         } else {
-            Write-Error "Cannot delete $($Name) as it the current active connection profile."
+            Write-Error "Cannot delete $($Name) as it the current active NIOS connection profile."
             break
         }
     } else {
-        Write-Error "Unable to find a connection profile with name: $($Name)"
+        Write-Error "Unable to find a NIOS connection profile with name: $($Name)"
     }
 }

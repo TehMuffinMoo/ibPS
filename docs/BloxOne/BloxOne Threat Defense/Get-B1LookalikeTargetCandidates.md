@@ -13,7 +13,7 @@ Queries a list of all lookalike target candidates
 ## SYNTAX
 
 ```
-Get-B1LookalikeTargetCandidates [-AccountSpecific]
+Get-B1LookalikeTargetCandidates [-AccountSpecific] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,15 +38,15 @@ Get-B1LookalikeTargetCandidates | Select-Object -ExpandProperty items_described
 item                        selected
 ----                        --------
 accuweather.com                 True
-active.aero                         
+active.aero
 adobe.com                       True
 airbnb.com                      True
-alibaba.com                         
+alibaba.com
 aliexpress.com                  True
 amazonaws.com                   True
 amazon.com                      True
 americafirst.com                True
-americanexpressbusiness.com         
+americanexpressbusiness.com
 ...
 ```
 
@@ -77,6 +77,9 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

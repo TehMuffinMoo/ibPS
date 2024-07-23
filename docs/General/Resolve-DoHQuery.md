@@ -12,15 +12,15 @@ Used to query a DNS over HTTPS Server to verify connectivity and responses
 
 ## SYNTAX
 
-### Default
+### Default (Default)
 ```
-Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [-Section <String[]>] [-DNSSEC]
+Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [[-DoHServer] <String>] [-Section <String[]>]
  [-SourceIP <String>] [-SourceMAC <String>] [-SourceView <String>] [-OutDig] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [-Section <String[]>] [-DNSSEC] [-SourceIP <String>]
+Resolve-DoHQuery [[-Query] <String>] [[-Type] <String>] [-Section <String[]>] [-SourceIP <String>]
  [-SourceMAC <String>] [-SourceView <String>] [-OutDig] -Object <Object> [<CommonParameters>]
 ```
 
@@ -33,12 +33,12 @@ This has no dependency on the client, so will work regardless of if DoH is confi
 ### EXAMPLE 1
 ```powershell
 Resolve-DoHQuery -Query google.com -Type TXT -DoHServer cloudflare-dns.com
-                                                                                                                
+
 QNAME         : google.com
 QTYPE         : TXT
 QCLASS        : IN
-AnswerRRs     : {@{RDATA=docusign=05958488-4752-4ef2-95eb-aa7ba8a3bd0e; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=46; TXT_LENGTH=45}, @{RDATA=v=spf1 include:_spf.google.com ~all; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=36; TXT_LENGTH=35}, 
-                @{RDATA=google-site-verification=TV9-DBe4R80X4v0M4U_bd_J9cpOJM0nikft0jAgjmsQ; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=69; TXT_LENGTH=68}, @{RDATA=globalsign-smime-dv=CDYX+XFHUw2wml6/Gb8+59BsH31KzUr6c1l2BPvqKX8=; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; 
+AnswerRRs     : {@{RDATA=docusign=05958488-4752-4ef2-95eb-aa7ba8a3bd0e; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=46; TXT_LENGTH=45}, @{RDATA=v=spf1 include:_spf.google.com ~all; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=36; TXT_LENGTH=35},
+                @{RDATA=google-site-verification=TV9-DBe4R80X4v0M4U_bd_J9cpOJM0nikft0jAgjmsQ; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600; LENGTH=69; TXT_LENGTH=68}, @{RDATA=globalsign-smime-dv=CDYX+XFHUw2wml6/Gb8+59BsH31KzUr6c1l2BPvqKX8=; RNAME=google.com; RTYPE=TXT; RCLASS=IN; TTL=3600;
                 LENGTH=65; TXT_LENGTH=64}…}
 AuthorityRRs  : {}
 AdditionalRRs : {}
@@ -48,7 +48,7 @@ Headers       : {[AnswerRRs, 11], [AdditionalRRs, 0], [Questions, 1], [Transacti
 ### EXAMPLE 2
 ```powershell
 Resolve-DoHQuery -Query google.com -Type TXT | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
-                                                                                                                        
+
 RDATA                                                                RNAME      RTYPE RCLASS  TTL LENGTH TXT_LENGTH
 -----                                                                -----      ----- ------  --- ------ ----------
 google-site-verification=TV9-DBe4R80X4v0M4U_bd_J9cpOJM0nikft0jAgjmsQ google.com TXT   IN     3600     69         68
@@ -67,7 +67,7 @@ onetrust-domain-verification=de01ed21f2fa4d8781cbc3ffb89cf4ef        google.com 
 ### EXAMPLE 3
 ```powershell
 Resolve-DoHQuery -Query bbc.co.uk -Type SOA -OutDig
-                                                                                                                
+
 ; <<>> ibPS v1.9.6.0 <<>> bbc.co.uk
 ;; global options: +cmd
 ;; Got answer:
@@ -89,7 +89,7 @@ bbc.co.uk.         900    IN    SOA     ns.bbc.co.uk. hostmaster.bbc.co.uk. 2024
 ### EXAMPLE 4
 ```powershell
 Resolve-DoHQuery -Query bbc.co.uk -Type A | Select-Object -ExpandProperty AnswerRRs | ft -AutoSize
-                                                                                                                
+
 RDATA          RNAME     RTYPE RCLASS TTL LENGTH
 -----          -----     ----- ------ --- ------
 151.101.192.81 bbc.co.uk A     IN     163      4
@@ -101,7 +101,7 @@ RDATA          RNAME     RTYPE RCLASS TTL LENGTH
 ### EXAMPLE 5
 ```powershell
 Get-B1SecurityPolicy -Name 'My Policy' | Resolve-DoHQuery -Query 'google.com' -Type A
-                                                                                                                
+
 QNAME         : google.com
 QTYPE         : A
 QCLASS        : IN
@@ -171,21 +171,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -DNSSEC
-Optionally validate DNSSEC
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

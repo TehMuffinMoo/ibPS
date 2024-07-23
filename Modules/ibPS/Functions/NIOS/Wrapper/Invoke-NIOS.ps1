@@ -89,7 +89,7 @@
                 Set-NIOSWebSession -Server $($Server) -Creds $($Creds) -WebSession (New-Object -TypeName Microsoft.PowerShell.Commands.WebRequestSession -Property @{Credentials=$Creds})
             }
             $WebSession = Get-NIOSWebSession -Server $Server -Creds $Creds
-                
+
             if ($SkipCertificateCheck) {
                 if ($PSVersionTable.PSVersion.ToString() -lt 7) {
                   if (-not ([System.Management.Automation.PSTypeName]'CertValidation').Type) {
@@ -125,7 +125,7 @@
             $WAPIBase = "https://wapi.$($CSP.DnsSafeHost)/wapi/v$ApiVersion"
         }
     }
-    
+
     $Splat = @{
         Method = $Method
         Uri = "$WAPIBase/$Uri"
@@ -142,7 +142,7 @@
 
     Write-DebugMsg -URI "$($Method): $($Splat.Uri)" -Body $Data
     switch ($Method) {
-        'GET' { 
+        'GET' {
             $Result = Invoke-RestMethod @Splat
         }
         'POST' {

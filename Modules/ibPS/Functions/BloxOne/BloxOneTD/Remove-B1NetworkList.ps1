@@ -9,56 +9,60 @@
     .PARAMETER Name
         The name of the network list to remove
 
-    .PARAMETER id
-        The id of the network list to remove
+    .PARAMETER Object
+        The network list object(s) to remove. Accepts pipeline input.
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1NetworkList -Name "My Network List"
 
     .EXAMPLE
         PS> Get-B1NetworkList -Name "My Network List" | Remove-B1NetworkList
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
-    [CmdletBinding(DefaultParameterSetName="Default")]
+    [CmdletBinding(
+      DefaultParameterSetName="Default",
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [parameter(ParameterSetName="Default")]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-      if ($Name) {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+        $NetworkList = Get-B1NetworkList -id $Object.id
+      } elseif ($Name) {
         $NetworkList = Get-B1NetworkList -Name $Name -Strict
-      } elseif ($id) {
-        $NetworkList = Get-B1NetworkList -id $id
       } else {
-        Write-Error "Neither -Name or -id were specified in the request."
+        Write-Error "No network list was specified."
+        break
       }
 
-      if ($NetworkList) {
-        Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists/$($NetworkList.id)"
-        if ($Name) {
-            $NetworkListCheck = Get-B1NetworkList -Name $Name -Strict
-        } elseif ($id) {
-            $NetworkListCheck = Get-B1NetworkList -id $id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
-        }
+      if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
+        $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/network_lists/$($NetworkList.id)"
+        $NetworkListCheck = Get-B1NetworkList -id $Object.id -ErrorAction SilentlyContinue -WarningAction SilentlyContinue 6> $null
         if ($NetworkListCheck) {
             Write-Error "Failed to delete network list: $($NetworkList.name)"
         } else {
             Write-Host "Successfully deleted network list: $($NetworkList.name)" -ForegroundColor Green
         }
-      } else {
-        Write-Error "Unable to find network list: $id$Name"
       }
     }
 }

@@ -51,13 +51,14 @@
 
     .EXAMPLE
         PS> Get-B1AuthoritativeZone -FQDN "prod.mydomain.corp"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding()]
     param(
       [String]$FQDN,
       [ValidateSet("Primary","Secondary")]

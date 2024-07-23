@@ -13,7 +13,7 @@ Queries the default TTL for threat classes
 ## SYNTAX
 
 ```
-Get-B1TideThreatClassDefaultTTL
+Get-B1TideThreatClassDefaultTTL [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -40,6 +40,9 @@ Cryptocurrency         Cryptocurrency_GenericThreat          14 days
 ```
 
 ## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

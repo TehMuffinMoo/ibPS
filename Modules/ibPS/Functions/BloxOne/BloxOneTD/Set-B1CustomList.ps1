@@ -8,9 +8,9 @@
 
     .PARAMETER Name
         The name of the Custom List to update.
-        
+
         Whilst this is here, the API does not currently support filtering by name. (01/04/24)
-        
+
         For now, you should instead use pipeline to update objects as shown in the examples.
 
     .PARAMETER NewName
@@ -46,8 +46,11 @@
     .PARAMETER Object
         The Custom List object to update. Accepts pipeline input from Get-B1CustomList.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
-        $Items = @{                                      
+        $Items = @{
          "domain.com" = "Description 1"
          "domain1.com" = "Description 2"
          "123.123.123.123" = "Some IP Address"
@@ -88,11 +91,15 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+        DefaultParameterSetName='Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName='Default',Mandatory=$true)]
       [String]$Name,
@@ -111,10 +118,12 @@
           ParameterSetName="Pipeline",
           Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             if ($Object.type -ne "custom_list") {
                 Write-Error "Error. Unsupported pipeline object. This function only supports 'custom_list' objects as input"
@@ -142,7 +151,7 @@
                 return $null
             }
         }
-        
+
         $NewObj = $Object | Select-Object * -ExcludeProperty created_time,updated_time,items,item_count,policies
 
         if ($NewName) {
@@ -189,14 +198,20 @@
 
         if ($NewName -or $Description -or $ThreatLevel -or $ConfidenceLevel -or $Tags -or $Items) {
             $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-            $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)" -Data $JSON
+            if($PSCmdlet.ShouldProcess("Update Custom List:`n$(JSONPretty($JSON))","Update Custom List: $($NewObj.name) ($($Object.id))",$MyInvocation.MyCommand)){
+                $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)" -Data $JSON
+                $ShouldProcess = $true
+            }
         }
         if ($AddItems) {
             $NewItemsToAdd = @{
                 "items_described" = $NewItems
             }
             $JSON = $NewItemsToAdd | ConvertTo-Json -Depth 5 -Compress
-            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)/items" -Data $JSON
+            if($PSCmdlet.ShouldProcess("Add Custom List Items:`n$(JSONPretty($JSON))","Add Custom List Items: $($NewObj.name) ($($Object.id))",$MyInvocation.MyCommand)){
+                $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)/items" -Data $JSON
+                $ShouldProcess = $true
+            }
         }
         if ($RemoveItems) {
             if ($RemoveItems.item) {
@@ -209,23 +224,27 @@
                 }
             }
             $JSON = $ItemsToRemove | ConvertTo-Json -Depth 5 -Compress
-            $Results = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)/items" -Data $JSON
+            if($PSCmdlet.ShouldProcess("Remove Custom List Items:`n$(JSONPretty($JSON))","Remove Custom List Items: $($NewObj.name) ($($Object.id))",$MyInvocation.MyCommand)){
+                $Results = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/named_lists/$($Object.id)/items" -Data $JSON
+                $ShouldProcess = $true
+            }
         }
 
-        $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-        if ($AddItems -or $RemoveItems) {
-            if (($AddItems -and $Results.ToString() -eq "") -or ($RemoveItems -and -not $Results)) {
-                return Get-B1CustomList -id $($Object.id)
+        if ($ShouldProcess) {
+            if ($AddItems -or $RemoveItems) {
+                if (($AddItems -and $Results.ToString() -eq "") -or ($RemoveItems -and -not $Results)) {
+                    return Get-B1CustomList -id $($Object.id)
+                } else {
+                    Write-Error "Failed to update items for Custom List: $($Object.name)"
+                    return $Results
+                }
             } else {
-                Write-Error "Failed to update items for Custom List: $($Object.name)"
-                return $Results
+                if ($Results | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue) {
+                    $Results | Select-Object -ExpandProperty results
+                } else {
+                    $Results
+                }
             }
-        } else {
-            if ($Results | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue) {
-                $Results | Select-Object -ExpandProperty results
-            } else {
-                $Results
-            }
-        }        
+        }
     }
 }

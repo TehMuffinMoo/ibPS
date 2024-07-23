@@ -36,16 +36,17 @@
 
     .PARAMETER id
         Return results based on DNS Access Control List id
-        
+
     .EXAMPLE
         PS> Get-B1DNSACL -Name "Servers_ACL"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [Int]$Limit = 100,
@@ -58,7 +59,6 @@
         $CustomFilters,
         [String]$id
     )
-
 	$MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()

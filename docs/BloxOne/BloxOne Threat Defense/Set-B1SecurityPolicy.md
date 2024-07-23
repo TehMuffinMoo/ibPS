@@ -17,7 +17,7 @@ Updates an existing Security Policy in BloxOne Threat Defense
 Set-B1SecurityPolicy -Name <String> [-NewName <String>] [-Description <String>] [-Precedence <Int32>]
  [-GeoLocation <String>] [-SafeSearch <String>] [-DoHPerPolicy <String>] [-BlockDNSRebinding <String>]
  [-LocalOnPremResolution <String>] [-DFPs <String[]>] [-ExternalNetworks <String[]>] [-IPAMNetworks <Object>]
- [-Rules <Object>] [-Tags <Object>] [<CommonParameters>]
+ [-Rules <Object>] [-Tags <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Pipeline
@@ -25,7 +25,7 @@ Set-B1SecurityPolicy -Name <String> [-NewName <String>] [-Description <String>] 
 Set-B1SecurityPolicy [-NewName <String>] [-Description <String>] [-Precedence <Int32>] [-GeoLocation <String>]
  [-SafeSearch <String>] [-DoHPerPolicy <String>] [-BlockDNSRebinding <String>]
  [-LocalOnPremResolution <String>] [-DFPs <String[]>] [-ExternalNetworks <String[]>] [-IPAMNetworks <Object>]
- [-Rules <Object>] [-Tags <Object>] -Object <Object> [<CommonParameters>]
+ [-Rules <Object>] [-Tags <Object>] -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,7 +49,7 @@ access_codes            : {}
 block_dns_rebind_attack : True
 created_time            : 6/3/2024 10:24:47 AM
 default_action          : action_allow
-default_redirect_name   : 
+default_redirect_name   :
 description             : My Policy
 dfp_services            : {cv4g9f4jg98jg854jt5g,v4m38jg983egjh9cff}
 dfps                    : {123456,654321}
@@ -65,12 +65,12 @@ network_lists           : {789456}
 onprem_resolve          : True
 precedence              : 5
 roaming_device_groups   : {}
-rules                   : {@{action=action_allow; data=All-Categories; type=category_filter}, @{action=action_block; data=Threat Insight - Zero Day DNS; description=Auto-generated; type=custom_list}, @{action=action_block; data=antimalware; description=Suspicious/malicious as destinations: 
+rules                   : {@{action=action_allow; data=All-Categories; type=category_filter}, @{action=action_block; data=Threat Insight - Zero Day DNS; description=Auto-generated; type=custom_list}, @{action=action_block; data=antimalware; description=Suspicious/malicious as destinations:
                         Enables protection against known malicious hostname threats that can take action on or control of your systems, such as Malware Command & Control, Malware Download, and active Phishing sites.; type=named_feed}}
 safe_search             : False
-scope_expr              : 
+scope_expr              :
 scope_tags              : {}
-tags                    : 
+tags                    :
 updated_time            : 6/3/2024 10:24:47 AM
 user_groups             : {}
 ```
@@ -304,6 +304,53 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

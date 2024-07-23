@@ -13,7 +13,7 @@ Used to query BloxOne Bulk Operations
 ## SYNTAX
 
 ```
-Get-B1BulkOperation [[-id] <String>] [[-Name] <String>] [-Strict]
+Get-B1BulkOperation [[-id] <String>] [[-Name] <String>] [-Strict] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -74,6 +74,9 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

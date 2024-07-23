@@ -36,13 +36,14 @@
 
     .EXAMPLE
         PS> Get-B1DHCPOptionSpace -Name dhcp4 -Protocol ip4 -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [ValidateSet("ip4","ip6")]

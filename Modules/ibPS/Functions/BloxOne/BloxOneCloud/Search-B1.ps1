@@ -18,25 +18,25 @@
 
     .EXAMPLE
         PS> Search-B1 "mysubzone.corp.com"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Search
     #>
+    [CmdletBinding()]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Query,
         [Switch]$IncludeQueryDetails
     )
-
     $Body = @{
       "query"=$Query
-    } | ConvertTo-Json | % { [System.Text.RegularExpressions.Regex]::Unescape($_)}
+    } | ConvertTo-Json | ForEach-Object { [System.Text.RegularExpressions.Regex]::Unescape($_)}
     $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-search-api/v1/search" -Method "POST" -Data $Body
     if ($IncludeQueryDetails) {
-        $Results        
+        $Results
     } else {
         $Results.hits | Select-Object -ExpandProperty hits
     }

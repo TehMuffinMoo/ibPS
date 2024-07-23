@@ -1,4 +1,4 @@
-function Get-B1SecurityLog {
+﻿function Get-B1SecurityLog {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Security Log
@@ -45,13 +45,14 @@ function Get-B1SecurityLog {
 
     .EXAMPLE
         PS> Get-B1SecurityLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -App "nginx" -Type "nginx.access" -Domain "domain.com"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding()]
     param(
       [string]$Username,
       [string]$ClientIP,
@@ -107,7 +108,7 @@ function Get-B1SecurityLog {
     }
     $QueryFilters.Add("_limit=$Limit") | Out-Null
     $QueryFilters.Add("_offset=$Offset") | Out-Null
-        
+
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }

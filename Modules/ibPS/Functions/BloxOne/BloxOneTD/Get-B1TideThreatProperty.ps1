@@ -1,4 +1,4 @@
-function Get-B1TideThreatProperty {
+﻿function Get-B1TideThreatProperty {
     <#
     .SYNOPSIS
         Queries a list of threat properties
@@ -38,11 +38,11 @@ function Get-B1TideThreatProperty {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
     param(
       [string]$id,
       [string]$Name,

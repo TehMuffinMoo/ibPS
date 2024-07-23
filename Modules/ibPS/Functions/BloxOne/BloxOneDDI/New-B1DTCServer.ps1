@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new server object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC server object to create
 
@@ -33,27 +33,34 @@
     .PARAMETER Tags
         Any tags you want to apply to the DTC Server.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
        PS> New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses
 
         id                           : dtc/server/fsfsef8f3-3532-643h-jhjr-sdgfrgrg51349
         name                         : Exchange Server A
         comment                      : Exchange Server - Active Node
-        tags                         : 
+        tags                         :
         disabled                     : False
-        address                      : 
+        address                      :
         records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-1.company.corp}}
         fqdn                         : exchange-1.company.corp.
         endpoint_type                : fqdn
         auto_create_response_records : False
         metadata                     :
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -68,9 +75,10 @@
       [String]$SynthesizedCNAME,
       [ValidateSet("Enabled","Disabled")]
       [String]$State = 'Enabled',
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $splat = @{
         "name" = $Name
         "comment" = $Description
@@ -121,12 +129,12 @@
     $splat.records = $Records
 
     $JSON = $splat | ConvertTo-Json -Depth 5 -Compress
-
-    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/server" -Data $JSON
-    if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-    } else {
-        $Results
+    if($PSCmdlet.ShouldProcess("Create new DTC Server:`n$(JSONPretty($JSON))","Create new DTC Server: $($Name)",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/server" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
-
 }

@@ -14,13 +14,14 @@
 
     .EXAMPLE
         PS> Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Health
     #>
+    [CmdletBinding()]
     param(
       [Alias('OnPremHost')]
       [Parameter(Mandatory=$true)]
@@ -40,8 +41,8 @@
             foreach ($B1App in $B1Host.services) {
                 $B1AppData = @{
                     "Host" = $B1Host.display_name
-                    "Application" = ($CompositeStateSpaces | Where-Object {$_.Service_Type -eq $B1App.service_type}).Application
-                    "Friendly Name" = ($CompositeStateSpaces | Where-Object {$_.Service_Type -eq $B1App.service_type}).FriendlyName
+                    "Application" = (Get-CompositeStateSpaces | Where-Object {$_.Service_Type -eq $B1App.service_type}).Application
+                    "Friendly Name" = (Get-CompositeStateSpaces | Where-Object {$_.Service_Type -eq $B1App.service_type}).FriendlyName
                     "Status" = $B1App.status.status
                 }
                 $B1AppStatus += $B1AppData

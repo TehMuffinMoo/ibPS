@@ -1,4 +1,4 @@
-function ConvertTo-PunyCode {
+﻿function ConvertTo-PunyCode {
     <#
     .SYNOPSIS
         Uses the BloxOne API to convert a domain name to Punycode
@@ -19,7 +19,7 @@ function ConvertTo-PunyCode {
         idn       punycode
         ---       --------
         bbс.co.uk xn--bb-pmc.co.uk
-    
+
     .EXAMPLE
         This example shows the same query as Example #1, but with a standard character set.
 
@@ -35,6 +35,7 @@ function ConvertTo-PunyCode {
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true,ValueFromPipeline=$true)]
       [string[]]$FQDN
@@ -43,7 +44,6 @@ function ConvertTo-PunyCode {
     process {
         $Results = @()
         foreach ($iFQDN in $FQDN) {
-            
             $Results += Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/convert_domain_name/$($iFQDN)" -Method GET | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
         }
 

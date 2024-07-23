@@ -42,16 +42,17 @@
 
     .EXAMPLE
         PS> Get-B1CloudProvider -Name "Azure Discovery"
-    
+
     .EXAMPLE
         PS> Get-B1CloudProvider -Type AWS
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [String]$Description,

@@ -62,7 +62,8 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-This is used to suppress the confirmation prompt if run non-interactively
+Perform the operation without prompting for confirmation.
+By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
 ```yaml
 Type: SwitchParameter

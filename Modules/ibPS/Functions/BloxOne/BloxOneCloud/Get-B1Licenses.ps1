@@ -11,7 +11,7 @@
 
     .EXAMPLE
         PS> Get-B1Licenses -State all
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
@@ -21,6 +21,7 @@
     .FUNCTIONALITY
         Licenses
     #>
+    [CmdletBinding()]
     param(
         [ValidateSet('all','active','expired')]
         [String]$State = "all"
@@ -32,12 +33,12 @@
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString($QueryFilters)
     }
-    
+
     $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/licensing/v1/licenses$QueryString" | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-    
+
     if ($Results) {
-      return $Results
+    return $Results
     } else {
-      Write-Host "Error. No BloxOne Licenses found." -ForegroundColor Red
+    Write-Host "Error. No BloxOne Licenses found." -ForegroundColor Red
     }
 }

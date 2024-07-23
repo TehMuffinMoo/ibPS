@@ -1,4 +1,4 @@
-function Get-B1DossierSupportedFeedback {
+﻿function Get-B1DossierSupportedFeedback {
     <#
     .SYNOPSIS
         Queries a list of available dossier feedback types
@@ -14,18 +14,19 @@ function Get-B1DossierSupportedFeedback {
         Infoblox Web Category is Incorrect
         Lookalike Detection is incorrect
         Application Detection is incorrect
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
     )
- 
+
     $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/feedback/types" -Method GET | Select-Object -ExpandProperty types -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-  
+
     if ($Results) {
       return $Results
     }

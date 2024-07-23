@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to update a health check object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC health check object to update
 
@@ -40,7 +40,7 @@
         The -HTTPRequest parameter is the HTTP Request that a HTTP Health Check will make when checking status. This accepts multi-line strings if separated by `n
 
     .PARAMETER ResponseBody
-        The -ResponseBody parameter is used to indicate if to check the body response content. This should be used in combination with -ResponseBodyRegex    
+        The -ResponseBody parameter is used to indicate if to check the body response content. This should be used in combination with -ResponseBodyRegex
 
     .PARAMETER ResponseBodyRegex
         The -ResponseBodyRegex parameter is used to specify the regex used when checking the body of the response
@@ -60,6 +60,9 @@
     .PARAMETER Object
         The DTC Health Check Object(s) to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         $HeaderRegexes = @(
             @{
@@ -76,33 +79,37 @@
 
         id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
         name                           : Exchange HTTPS Check
-        comment                        : 
+        comment                        :
         disabled                       : False
         interval                       : 15
         timeout                        : 10
         retry_up                       : 1
         retry_down                     : 1
-        tags                           : 
+        tags                           :
         port                           : 443
         https                          : True
         request                        : GET /owa/auth/logon.aspx HTTP/1.1
                                          Host: webmail.company.corp
-        codes                          : 
-        metadata                       : 
+        codes                          :
+        metadata                       :
         check_response_body            : True
         check_response_body_regex      : (.*)
         check_response_body_negative   : False
         check_response_header          : True
         check_response_header_regexes  : {@{header=X-A-Header; regex=(/w/s/w+)}, @{header=X-Hello-Header; regex=(.*)}}
         check_response_header_negative : True
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+        DefaultParameterSetName = 'Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName='Default',Mandatory=$true)]
       [String]$Name,
@@ -132,9 +139,11 @@
           ParameterSetName="With ID",
           Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             $PermittedInputs = @('dtc/health_check_icmp','dtc/health_check_tcp','dtc/health_check_http')
@@ -174,6 +183,12 @@
         }
         if ($RetryDown) {
             $NewObj.retry_down = $RetryDown
+        }
+        if ($State) {
+            $NewObj.disabled = $(if ($State -eq 'Enabled') { $false } else { $true })
+        }
+        if ($Tags) {
+            $NewObj.tags = $Tags
         }
 
         if ($Port) {
@@ -278,11 +293,13 @@
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
 
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Update DTC Health Check:`n$(JSONPretty($JSON))","Update DTC Health Check: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

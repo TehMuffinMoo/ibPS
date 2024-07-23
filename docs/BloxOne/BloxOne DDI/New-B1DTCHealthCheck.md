@@ -16,14 +16,14 @@ Creates a new health check object within BloxOne DTC
 ```
 New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String> [[-Interval] <Int32>]
  [[-Timeout] <Int32>] [[-RetryUp] <Int32>] [[-RetryDown] <Int32>] [[-State] <String>] [[-Tags] <Object>]
- [<CommonParameters>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### TCP Health Check
 ```
 New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String> [-Port] <Int32> [[-Interval] <Int32>]
  [[-Timeout] <Int32>] [[-RetryUp] <Int32>] [[-RetryDown] <Int32>] [[-State] <String>] [[-Tags] <Object>]
- [<CommonParameters>]
+ [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### HTTP Health Check
@@ -31,8 +31,7 @@ New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String>
 New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String> [-Port] <Int32> [-UseHTTPS] [-HTTPRequest]
  <String> [[-StatusCodes] <Object>] [-ResponseBody] <String> [-ResponseBodyRegex] <String> [-ResponseHeader] <String> 
  [[-ResponseHeaderRegex] <Object>] [[-Interval] <Int32>] [[-Timeout] <Int32>] [[-RetryUp] <Int32>] [[-RetryDown] <Int32>] [[-State] 
- <String>] [[-Tags] <Object>]
- [<CommonParameters>]
+ <String>] [[-Tags] <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -388,6 +387,53 @@ The -ResponseHeaderRegex parameter is used to specify a list of response headers
 Type: System.Object
 Parameter Sets: (All)
 Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
 
 Required: False
 Position: Named

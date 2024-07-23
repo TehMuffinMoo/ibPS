@@ -16,6 +16,7 @@ Queries the BloxOneDDI Audit Log
 Get-B1AuditLog [[-Username] <String>] [[-ResourceType] <String>] [[-Method] <String>] [[-ResponseCode] <Int32>]
  [[-ClientIP] <String>] [[-Action] <String>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [[-OrderBy] <String>] [[-Fields] <String[]>] [[-CustomFilters] <Object>] [-Strict]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -249,6 +250,9 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

@@ -1,4 +1,4 @@
-function Get-NIOSObject {
+﻿function Get-NIOSObject {
     <#
     .SYNOPSIS
         Generic Wrapper function for retrieving objects from the NIOS WAPI

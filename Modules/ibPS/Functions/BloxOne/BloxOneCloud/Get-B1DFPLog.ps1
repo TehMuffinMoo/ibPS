@@ -27,6 +27,12 @@
     .PARAMETER End
         A date parameter used as the end date/time of the log search.
 
+    .PARAMETER OrderBy
+        The field in which to order the results by. This field supports auto-complete, and defaults to timestamp.
+
+    .PARAMETER Order
+        The direction to order results in. This defaults to ascending.
+
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 100.
 
@@ -38,13 +44,14 @@
 
     .EXAMPLE
           PS> Get-B1DFPLog -Network "MyB1Host (DFP)" -Start (Get-Date).AddHours(-6) Limit 10
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding()]
     param(
       [string]$Query,
       [string]$IP,
@@ -53,149 +60,109 @@
       [string[]]$Network,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
+      [String]$OrderBy = 'timestamp',
+      [ValidateSet('asc','desc')]
+      [String]$Order = 'asc',
       [int]$Limit = 100,
       [int]$Offset = 0
     )
-    
-    # $DFPHostQuery = Get-B1DFP -Limit 1000
-    # $DFPServices += $DFPHostQuery
-    # if ($DFPHostQuery.count -eq 1000) {
-    #     $Offset = 1000
-    #     while ($DFPHostQuery.count -gt 0) {
-    #         $DFPHostQuery = Get-B1DNSHost -Limit 1000 -Offset $Offset
-    #         $DFPServices += $DFPHostQuery
-    #         $Offset += 1000
-    #     }
-    # }
 
-    $Start = $Start.ToUniversalTime()
-    $End = $End.ToUniversalTime()
-    $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ss.000")
-    $EndTime = $End.ToString("yyyy-MM-ddTHH:mm:ss.000")
+    $Cube = 'PortunusDnsLogs'
 
-    $splat = @{
-    	"measures" = @()
-	    "dimensions" = @(
-		    "PortunusDnsLogs.timestamp"
-		    "PortunusDnsLogs.qname"
-		    "PortunusDnsLogs.device_name"
-		    "PortunusDnsLogs.qip"
-		    "PortunusDnsLogs.network"
-		    "PortunusDnsLogs.response"
-		    "PortunusDnsLogs.dns_view"
-		    "PortunusDnsLogs.query_type"
-		    "PortunusDnsLogs.mac_address"
-		    "PortunusDnsLogs.dhcp_fingerprint"
-		    "PortunusDnsLogs.user"
-		    "PortunusDnsLogs.os_version"
-		    "PortunusDnsLogs.response_region"
-		    "PortunusDnsLogs.response_country"
-		    "PortunusDnsLogs.device_region"
-		    "PortunusDnsLogs.device_country"
-	    )
-	    "timeDimensions" = @(
-		    @{
-			    "dimension" = "PortunusDnsLogs.timestamp"
-			    "dateRange" = @(
-				    $StartTime
-				    $EndTime
-			    )
-		    }
-	    )
-	    "filters" = @(
-		    @{
-			    "member" = "PortunusDnsLogs.type"
-			    "operator" = "equals"
-			    "values" = @(
-				    "1"
-			    )
-		    }
-	    )
-	    "limit" = $Limit
-	    "offset" = $Offset
-	    "order" = @{
-		    "PortunusDnsLogs.timestamp" = "desc"
-	    }
-	    "ungrouped" = $true
-    }
+    $Dimensions = @(
+        "timestamp"
+        "qname"
+        "device_name"
+        "qip"
+        "network"
+        "response"
+        "dns_view"
+        "query_type"
+        "mac_address"
+        "dhcp_fingerprint"
+        "user"
+        "os_version"
+        "response_region"
+        "response_country"
+        "device_region"
+        "device_country"
+        # "severity"
+        # "actor_id"
+        # "app_category"
+        # "app_name"
+        # "app_vendor"
+        # "category"
+        # "confidence"
+        # "domain_category"
+        # "endpoint_groups"
+        # "feed_name"
+        # "policy_action"
+        # "policy_id"
+        # "policy_name"
+        # "private_ip"
+        # "qtype"
+        # "tclass"
+        # "tfamily"
+        # "threat_indicator"
+        # "tproperty"
+        # "type"
+        # "user_groups"
+    )
+    $Filters = @()
 
     if ($Query) {
         $QuerySplat = @{
-            "member" = "PortunusDnsLogs.qname"
+            "member" = "$($Cube).qname"
             "operator" = "contains"
             "values" = @(
                 $Query
             )
 		}
-        $splat.filters += $QuerySplat
+        $Filters += $QuerySplat
     }
 
     if ($Type) {
-        $QuerySplat = @{
-            "member" = "PortunusDnsLogs.query_type"
+        $Filters += @{
+            "member" = "$($Cube).query_type"
             "operator" = "equals"
             "values" = @(
                 $Type
             )
 		}
-        $splat.filters += $QuerySplat
     }
 
     if ($Response) {
-        $ResponseSplat = @{
-            "member" = "PortunusDnsLogs.response"
+        $Filters += @{
+            "member" = "$($Cube).response"
             "operator" = "contains"
             "values" = @(
                 $Response
             )
 		}
-        $splat.filters += $ResponseSplat
     }
 
     if ($IP) {
-        $IPSplat = @{
-            "member" = "PortunusDnsLogs.qip"
+        $Filters += @{
+            "member" = "$($Cube).qip"
             "operator" = "contains"
             "values" = @(
                 $IP
             )
 		}
-        $splat.filters += $IPSplat
     }
-    
+
     if ($Network) {
-        $NetworkSplat = @{
-            "member" = "PortunusDnsLogs.network"
+        $Filters += @{
+            "member" = "$($Cube).network"
             "operator" = "contains"
             "values" = $Network
         }
-        $splat.filters += $NetworkSplat
     }
 
-    $Data = $splat | ConvertTo-Json -Depth 4 -Compress
-
-    $Query = [System.Web.HTTPUtility]::UrlEncode($Data)
-    Write-DebugMsg -Query ($splat | ConvertTo-Json -Depth 4)
-    $Result = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/api/cubejs/v1/query?query=$Query"
-    if ($Result.result.data) {
-        $Result.result.data | Select-Object @{name="timestamp";Expression={$_.'PortunusDnsLogs.timestamp'}},`
-                                     @{name="query";Expression={$_.'PortunusDnsLogs.qname'}},`
-                                     @{name="device_name";Expression={$_.'PortunusDnsLogs.device_name'}},`
-                                     @{name="device_ip";Expression={$_.'PortunusDnsLogs.qip'}},`
-                                     @{name="network";Expression={$_.'PortunusDnsLogs.network'}},`
-                                     @{name="response";Expression={$_.'PortunusDnsLogs.response'}},`
-                                     @{name="dns_view";Expression={$_.'PortunusDnsLogs.dns_view'}},`
-                                     @{name="query_type";Expression={$_.'PortunusDnsLogs.query_type'}},`
-                                     @{name="mac_address";Expression={$_.'PortunusDnsLogs.mac_address'}},`
-                                     @{name="dhcp_fingerprint";Expression={$_.'PortunusDnsLogs.dhcp_fingerprint'}},`
-                                     @{name="user";Expression={$_.'PortunusDnsLogs.user'}},`
-                                     @{name="os_version";Expression={$_.'PortunusDnsLogs.os_version'}},`
-                                     @{name="response_region";Expression={$_.'PortunusDnsLogs.response_region'}},`
-                                     @{name="response_country";Expression={$_.'PortunusDnsLogs.response_country'}},`
-                                     @{name="device_region";Expression={$_.'PortunusDnsLogs.device_region'}},`
-                                     @{name="device_country";Expression={$_.'PortunusDnsLogs.device_country'}}
+    $Result = Invoke-B1CubeJS -Cube $($Cube) -Dimensions $Dimensions -TimeDimension timestamp -Start $Start -End $End -Limit $Limit -Offset $Offset -Filters $Filters -OrderBy $OrderBy -Order $Order
+    if ($Result) {
+        return $Result
     } else {
         Write-Host "Error: No DNS logs returned." -ForegroundColor Red
     }
-
 }

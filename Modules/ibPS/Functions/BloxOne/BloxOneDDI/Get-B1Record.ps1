@@ -65,13 +65,14 @@
 
     .EXAMPLE
         PS> Get-B1Record -Name "myArecord" -Zone "corp.mydomain.com" -View "default" | ft name_in_zone,rdata,type
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding()]
     param(
       [ValidateSet("A","AAAA","CAA","CNAME","DNAME","HTTPS","MX","NAPTR","NS","PTR","SRV","SVCB","TXT")]
       [String]$Type,
@@ -93,7 +94,6 @@
       $CustomFilters,
       [String]$id
     )
-
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()

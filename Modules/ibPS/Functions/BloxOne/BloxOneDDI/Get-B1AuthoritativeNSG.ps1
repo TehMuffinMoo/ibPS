@@ -26,7 +26,7 @@
 
     .PARAMETER OrderBy
         Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
-        
+
     .PARAMETER OrderByTag
         Optionally return the list ordered by a particular tag value. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
@@ -39,13 +39,14 @@
 
     .EXAMPLE
         PS> Get-B1AuthoritativeNSG -Name "Data Centre" -Strict
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [Switch]$Strict = $false,

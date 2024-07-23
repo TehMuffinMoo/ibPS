@@ -15,15 +15,15 @@ Updates an existing Authoritative Zone in BloxOneDDI
 ### Default
 ```
 Set-B1AuthoritativeZone -FQDN <String> [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
- -View <Object> [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>]
- [-Compartment <String>] [-Tags <Object>] [<CommonParameters>]
+ -View <String> [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>]
+ [-Compartment <String>] [-Tags <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Object
 ```
 Set-B1AuthoritativeZone [-DNSHosts <Object>] [-AddAuthNSGs <Object>] [-RemoveAuthNSGs <Object>]
  [-Description <String>] [-State <String>] [-NotifyExternalSecondaries <String>] [-Compartment <String>]
- [-Tags <Object>] -Object <Object> [<CommonParameters>]
+ [-Tags <Object>] -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -103,7 +103,7 @@ Accept wildcard characters: False
 The DNS View the zone is located in
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: Default
 Aliases:
 
@@ -130,7 +130,7 @@ Accept wildcard characters: False
 ```
 
 ### -State
-Set whether the Forward Zone is enabled or disabled.
+Set whether the Authoritative Zone is enabled or disabled.
 
 ```yaml
 Type: String
@@ -203,6 +203,53 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

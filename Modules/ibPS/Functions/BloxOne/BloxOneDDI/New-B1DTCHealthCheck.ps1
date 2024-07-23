@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new health check object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC health check object to create
 
@@ -33,24 +33,27 @@
     .PARAMETER Tags
         Any tags you want to apply to the DTC health check
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1DTCHealthCheck -Name 'Exchange HTTPS Check' -Type HTTP -UseHTTPS -Port 443 -HTTPRequest "GET /owa/auth/logon.aspx HTTP/1.1`nHost: webmail.company.corp"
 
         id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
         name                           : Exchange HTTPS Check
-        comment                        : 
+        comment                        :
         disabled                       : False
         interval                       : 15
         timeout                        : 10
         retry_up                       : 1
         retry_down                     : 1
-        tags                           : 
+        tags                           :
         port                           : 443
         https                          : True
         request                        : GET /owa/auth/logon.aspx HTTP/1.1
                                         Host: webmail.company.corp
         codes                          : 200,401
-        metadata                       : 
+        metadata                       :
 
     .EXAMPLE
         $HeaderRegexes = @(
@@ -70,32 +73,36 @@
 
         id                             : dtc/health_check_http/0fsdfef-34fg-dfvr-9dxf-svev4vgv21d9
         name                           : Exchange HTTPS Check
-        comment                        : 
+        comment                        :
         disabled                       : False
         interval                       : 15
         timeout                        : 10
         retry_up                       : 1
         retry_down                     : 1
-        tags                           : 
+        tags                           :
         port                           : 443
         https                          : True
         request                        : GET /owa/auth/logon.aspx HTTP/1.1
                                          Host: webmail.company.corp
-        codes                          : 
-        metadata                       : 
+        codes                          :
+        metadata                       :
         check_response_body            : True
         check_response_body_regex      : (.*)
         check_response_body_negative   : False
         check_response_header          : True
         check_response_header_regexes  : {@{header=X-Some-Header; regex=(.*)}, @{header=X-Another-Header; regex=(.*)}}
         check_response_header_negative : False
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -107,8 +114,10 @@
       [Int]$Timeout = 10,
       [Int]$RetryUp = 1,
       [Int]$RetryDown = 1,
+      [ValidateSet("Enabled","Disabled")]
       [String]$State = 'Enabled',
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
 
     DynamicParam {
@@ -193,6 +202,7 @@
    }
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $splat = @{
             "name" = $Name
             "comment" = $Description
@@ -248,7 +258,7 @@
                     $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header' -Value $false
                     $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_negative' -Value $false
                     $splat | Add-Member -MemberType NoteProperty -Name 'check_response_header_regexes' -Value $null
-                    
+
                 }
                 default {
                     $null
@@ -257,12 +267,13 @@
         }
 
         $JSON = $splat | ConvertTo-Json -Depth 5
-
-        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/health_check_$($Type.ToLower())" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Create new DTC Health Check:`n$($JSON)","Create new DTC Health Check: $($Name)",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/health_check_$($Type.ToLower())" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

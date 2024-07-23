@@ -98,7 +98,7 @@ confidence_score_vector : COSIS:1.0/SR:H/POP:N/TLD:N/CP:F
 risk_score              : 7.9
 risk_score_rating       : High
 risk_score_vector       : RSIS:1.0/TSS:M/TLD:N/CVSS:M/EX:L/MOD:L/AVL:L/T:M/DT:M
-extended                : @{cyberint_guid=0718b50d524c42a70eb459c28d9891bf; notes=This is an artificial indicator created by Infoblox for monitoring and testing the health of Infoblox managed services. It is also used in security demonstrations by the Infoblox sales and tech support 
+extended                : @{cyberint_guid=0718b50d524c42a70eb459c28d9891bf; notes=This is an artificial indicator created by Infoblox for monitoring and testing the health of Infoblox managed services. It is also used in security demonstrations by the Infoblox sales and tech support
                         teams. The "EICAR" name was inspired by the European Institute for Computer Antivirus Research (EICAR) antivirus test file called EICAR. This is not an inherently malicious domain.}
 ```
 

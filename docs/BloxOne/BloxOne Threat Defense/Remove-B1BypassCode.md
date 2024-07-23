@@ -14,12 +14,12 @@ Removes a bypass code from BloxOne Cloud
 
 ### Default
 ```
-Remove-B1BypassCode -Name <String> [<CommonParameters>]
+Remove-B1BypassCode -Name <String> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
-Remove-B1BypassCode -Access_Key <Object> [<CommonParameters>]
+Remove-B1BypassCode -Object <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -51,8 +51,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Access_Key
-The Access Key of the bypass code to remove.
+### -Object
+The bypass code object(s) to remove.
 Accepts pipeline input from Get-B1BypassCode
 
 ```yaml
@@ -63,7 +63,38 @@ Aliases:
 Required: True
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

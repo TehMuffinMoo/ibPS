@@ -1,4 +1,4 @@
-function Get-B1User {
+﻿function Get-B1User {
     <#
     .SYNOPSIS
         Retrieves a list of users from the BloxOne Cloud
@@ -18,9 +18,6 @@ function Get-B1User {
     .PARAMETER Type
         Filter the results by the user type
 
-    .PARAMETER Authenticator
-        Filter the results by the user's authenticator
-
     .PARAMETER Limit
         Use this parameter to limit the quantity of results returned. The default number of results is 100.
 
@@ -35,7 +32,7 @@ function Get-B1User {
 
     .PARAMETER OrderBy
         Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
-        
+
     .PARAMETER CustomFilters
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
@@ -58,6 +55,7 @@ function Get-B1User {
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [String]$Email,
@@ -65,8 +63,6 @@ function Get-B1User {
         [String]$State,
         [ValidateSet("Local", "IdP","Service")]
         [String]$Type,
-        [ValidateSet("Local", "IdP","Service")]
-        [String]$Authenticator,
         [Int]$Limit = 101,
         [Int]$Offset = 0,
         [Switch]$Strict,
@@ -126,5 +122,4 @@ function Get-B1User {
     if ($Results) {
         return $Results
     }
-
 }

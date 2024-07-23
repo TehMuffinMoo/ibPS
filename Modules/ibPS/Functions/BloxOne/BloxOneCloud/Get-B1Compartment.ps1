@@ -1,4 +1,4 @@
-function Get-B1Compartment {
+﻿function Get-B1Compartment {
     <#
     .SYNOPSIS
         Retrieves a list of Compartments from the BloxOne Cloud
@@ -33,13 +33,14 @@ function Get-B1Compartment {
 
     .EXAMPLE
         PS> Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
-        
+
     .FUNCTIONALITY
         BloxOneDDI
 
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [Int]$Limit,

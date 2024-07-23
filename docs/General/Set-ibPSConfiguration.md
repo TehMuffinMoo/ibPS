@@ -15,7 +15,7 @@ Used to set ibPS specific configuration
 ```
 Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl] <String>]
  [[-DoHServer] <String>] [-Persist] [[-DevelopmentMode] <String>] [[-DebugMode] <String>]
- [[-Telemetry] <String>]
+ [[-Telemetry] <String>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -26,14 +26,14 @@ This function is used to set ibPS specific configuration, such as the BloxOne CS
 ### EXAMPLE 1
 ```powershell
 Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
-                                                                                                          
+
 BloxOne API key has been stored permanently for user on MAC-DSD984HG
 ```
 
 ### EXAMPLE 2
 ```powershell
 Set-ibPSConfiguration -CSPRegion EU
-                                                                                                          
+
 BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
 You can make the CSP URL persistent for this user on this machine by using the -persist parameter.
 ```
@@ -174,6 +174,56 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

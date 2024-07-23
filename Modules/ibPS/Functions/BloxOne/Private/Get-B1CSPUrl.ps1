@@ -1,4 +1,4 @@
-function Get-B1CSPUrl {
+﻿function Get-B1CSPUrl {
     <#
     .SYNOPSIS
         Retrieves the stored BloxOneDDI CSP Url, if available.
@@ -8,7 +8,7 @@ function Get-B1CSPUrl {
 
     .EXAMPLE
         PS> Get-B1CSPUrl
-        
+
         https://csp.infoblox.com
 
     .FUNCTIONALITY
@@ -17,10 +17,32 @@ function Get-B1CSPUrl {
     .FUNCTIONALITY
         API
     #>
-    $CSPUrl = $ENV:B1CSPUrl
-    if (!$CSPUrl) {
-        return "https://csp.infoblox.com"
+    [CmdletBinding()]
+    param(
+        $ProfileName
+    )
+    if ($ProfileName -or !($ENV:B1APIKey)) {
+        $Configs = Get-B1Context
+        if ($Configs.Contexts.PSObject.Properties.Name.Count -gt 0) {
+            if (!$($ProfileName)) {
+                $ProfileName = $Configs.CurrentContext
+            }
+            if ($Configs.Contexts."$($ProfileName)") {
+                $CSPUrl = ($Configs.Contexts | Select-Object -ExpandProperty $ProfileName).'URL'
+            } else {
+                Write-Error "Unable to find BloxOne Connection Profile: $($ProfileName)"
+                return $null
+            }
+        } else {
+            Write-Error "No BloxOne Connection Profiles or Global CSP API Key has been configured."
+            Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
+            return $null
+        }
+    } elseif ($ENV:B1CSPUrl) {
+        $CSPUrl = $ENV:B1CSPUrl
     } else {
-        return $CSPUrl
+        $CSPUrl = "https://csp.infoblox.com"
     }
+
+    return $CSPUrl
 }

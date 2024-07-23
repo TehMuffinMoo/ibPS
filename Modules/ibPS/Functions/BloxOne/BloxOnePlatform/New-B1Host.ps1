@@ -18,23 +18,32 @@
     .PARAMETER Location
         The Location for the new BloxOne Host.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1Host -Name "bloxoneddihost1.mydomain.corp" -Description "My BloxOneDDI Host" -Space "Global"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
     .FUNCTIONALITY
         Host
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
       [Parameter(Mandatory=$true)]
       [String]$Space,
       [String]$Location,
-      [String]$Description
+      [String]$Description,
+      [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (Get-B1Host -Name $Name -Strict) {
         Write-Host "$Name already exists as an On-Prem host." -ForegroundColor Red
         break
@@ -56,13 +65,14 @@
       }
     }
 
-    $splat = $splat | ConvertTo-Json
-
-    $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-    $Result
-    if ($Result.display_name -eq $Name) {
-        Write-Host "On-Prem host $Name created successfully." -ForegroundColor Green
-    } else {
-        Write-Host "Failed to create On-Prem host $Name." -ForegroundColor Red
+    $JSON = $splat | ConvertTo-Json
+    if($PSCmdlet.ShouldProcess("Create new BloxOne Host:`n$($JSON)","Create new BloxOne Host",$MyInvocation.MyCommand)){
+        $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        $Result
+        if ($Result.display_name -eq $Name) {
+            Write-Host "On-Prem host $Name created successfully." -ForegroundColor Green
+        } else {
+            Write-Host "Failed to create On-Prem host $Name." -ForegroundColor Red
+        }
     }
 }

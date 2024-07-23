@@ -42,6 +42,9 @@
     .PARAMETER Object
         The Subnet Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -NewName "MySubnet" -Space "Global" -Description "Comment for description"
 
@@ -51,7 +54,7 @@
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
         PS> Get-B1Subnet -Subnet "10.10.10.0" -CIDR 24 | Set-B1Subnet -NewName "MySubnet" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
-    
+
     .EXAMPLE
         ## Example updating the HA Group and DDNSDomain properties of a subnet
 
@@ -59,10 +62,14 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Subnet",Mandatory=$true)]
       [String]$Subnet,
@@ -86,10 +93,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     begin {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($HAGroup) {
             $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
             if (!($HAGroupID)) {
@@ -153,11 +162,13 @@
             $NewObj.ddns_domain = $DDNSDomain
         }
         $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Update Subnet:`n$(JSONPretty($JSON))","Update Subnet: $($Object.address)/$($Object.cidr) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

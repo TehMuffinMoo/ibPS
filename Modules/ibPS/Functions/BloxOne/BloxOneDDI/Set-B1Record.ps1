@@ -54,20 +54,27 @@
     .PARAMETER Object
         The Range Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.50.10" -TTL 600
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+  )]
     param(
       [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
       [Parameter(ParameterSetName="RDATA",Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV")]
+      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV","IBMETA")]
       [String]$Type,
       [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [String]$Name,
@@ -96,10 +103,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
-    
+
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if ($Object) {
         $SplitID = $Object.id.split('/')
         if (("$($SplitID[0])/$($SplitID[1])") -ne "dns/record") {
@@ -119,7 +128,7 @@
             return $null
         }
     }
-    $NewObj = $Object | Select-Object * -ExcludeProperty id,provider_metadata,source,view_name,dns_name_in_zone,dns_absolute_zone_name,dns_absolute_name_spec,absolute_name_spec,absolute_zone_name,absolute_zone_spec,dns_rdata,delegation,created_at,updated_at,ipam_host,subtype,type,view,record,zone
+    $NewObj = $Object | Select-Object * -ExcludeProperty id,provider_metadata,source,view_name,dns_name_in_zone,dns_absolute_zone_name,dns_absolute_name_spec,absolute_name_spec,absolute_zone_name,absolute_zone_spec,dns_rdata,delegation,created_at,updated_at,ipam_host,subtype,type,view,record,zone,compartment_id,nios_metadata
 
     if ($rdata) {
       switch ($Type) {
@@ -196,7 +205,7 @@
     }
     if ($Tags) {
       $NewObj.tags = $Tags
-    }     
+    }
     if ($Description) {
       $NewObj.comment = $Description
     }
@@ -204,11 +213,13 @@
       $NewObj.disabled = $(if ($State -eq 'Enabled') { $false } else { $true })
     }
     $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-    $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-    if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-    } else {
-        $Results
+    if($PSCmdlet.ShouldProcess("Update DNS Record:`n$(JSONPretty($JSON))","Update DNS Record: $($Object.absolute_name_spec) ($($Object.id))",$MyInvocation.MyCommand)){
+      $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+      if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+          $Results | Select-Object -ExpandProperty result
+      } else {
+          $Results
+      }
     }
   }
 }

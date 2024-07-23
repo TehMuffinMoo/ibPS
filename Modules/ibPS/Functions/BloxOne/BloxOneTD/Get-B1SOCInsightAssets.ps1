@@ -43,13 +43,14 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
 
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding()]
     param(
       [IPAddress]$IP,
       [String]$MACAddress,
@@ -67,7 +68,7 @@
 
     process {
       $QueryFilters = @()
-      
+
       if ($IP) {
         $QueryFilters += "qip=$($IP.IPAddressToString)"
       }
@@ -98,7 +99,7 @@
       }
       Write-DebugMsg -Filters $QueryFilters
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$insightId/assets$QueryFilter" -Method GET | Select-Object -ExpandProperty assets -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-  
+
       if ($Results) {
         return $Results
       }

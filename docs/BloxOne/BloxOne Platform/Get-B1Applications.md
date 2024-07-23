@@ -13,7 +13,7 @@ Retrieves a list of supported BloxOneDDI Applications
 ## SYNTAX
 
 ```
-Get-B1Applications
+Get-B1Applications [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -41,6 +41,9 @@ discovery
 ```
 
 ## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

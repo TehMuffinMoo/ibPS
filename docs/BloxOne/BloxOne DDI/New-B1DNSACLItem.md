@@ -38,7 +38,7 @@ New-B1DNSACLItem -Access Allow -ACL 'My ACL'
 
 access   : allow
 acl      : dns/acl/1c4e5768-f4r4-dgsd-bewf-grdrggwt4se
-address  : 
+address  :
 element  : acl
 tsig_key :
 ```
@@ -53,7 +53,7 @@ $NewACLs | ft
 
 access acl                                          address     element tsig_key
 ------ ---                                          -------     ------- --------
-allow                                               10.0.0.0/16 ip      
+allow                                               10.0.0.0/16 ip
 deny   dns/acl/1c4e5768-f4r4-dgsd-bewf-grdrggwt4se              acl
 ```
 

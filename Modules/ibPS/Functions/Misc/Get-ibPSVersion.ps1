@@ -1,4 +1,4 @@
-function Get-ibPSVersion {
+﻿function Get-ibPSVersion {
     <#
     .SYNOPSIS
         Checks the version of ibPS, with the option to update if a version is available
@@ -29,17 +29,18 @@ function Get-ibPSVersion {
 
     .EXAMPLE
         Get-ibPSVersion -Update
-    
+
     .FUNCTIONALITY
         ibPS
     #>
-  param (
-    [Switch]$Details,
-    [Switch]$CheckForUpdates,
-    [Switch]$Update,
-    [Switch]$Cleanup,
-    [Switch]$Force
-  )
+    [CmdletBinding()]
+    param (
+      [Switch]$Details,
+      [Switch]$CheckForUpdates,
+      [Switch]$Update,
+      [Switch]$Cleanup,
+      [Switch]$Force
+    )
 
   $InstalledModule = Get-Module -ListAvailable -Name ibPS
   if (($InstalledModule).Path.Count -gt 1) {

@@ -1,4 +1,4 @@
-BeforeAll {
+﻿BeforeAll {
     $Name = "ibPS-PesterTests"
     $Description = "Used for ibPS Pester Tests - https://ibPS.readthedocs.io"
     $Tags = @{
@@ -113,13 +113,13 @@ Describe 'Get-*' {
             (Get-B1ForwardZone -FQDN 'forward.ibps.pester.tests' -View $Name).fqdn | Should -Be 'forward.ibps.pester.tests.'
         }
         It 'Get DNS A Record' {
-            (Get-B1Record -Type A -FQDN 'A.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'A.primary.ibps.pester.tests.'          
+            (Get-B1Record -Type A -FQDN 'A.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'A.primary.ibps.pester.tests.'
         }
         It 'Get DNS CNAME Record' {
-            (Get-B1Record -Type CNAME -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'CNAME.primary.ibps.pester.tests.'          
+            (Get-B1Record -Type CNAME -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'CNAME.primary.ibps.pester.tests.'
         }
         It 'Get DNS SRV Record' {
-            (Get-B1Record -Type SRV -FQDN 'SRV.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'SRV.primary.ibps.pester.tests.'          
+            (Get-B1Record -Type SRV -FQDN 'SRV.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'SRV.primary.ibps.pester.tests.'
         }
         It 'Get DHCP Config Profile' {
             (Get-B1DHCPConfigProfile -Name $Name).Name | Should -Be $Name

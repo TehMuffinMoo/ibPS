@@ -15,7 +15,7 @@ Retrieves a list of BloxOne Cloud API Keys
 ```
 Get-B1APIKey [[-User] <String>] [[-CreatedBy] <String>] [[-Name] <String>] [[-Type] <String>]
  [[-State] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>]
- [[-OrderBy] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
+ [[-OrderBy] <String>] [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -217,6 +217,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

@@ -51,16 +51,17 @@
 
     .EXAMPLE
         PS> Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
-    
+
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding()]
     param(
       [String]$StartAddress,
       [String]$EndAddress,
@@ -77,7 +78,6 @@
       $CustomFilters,
       [String]$id
     )
-
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
@@ -138,8 +138,8 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        Invoke-CSP -Uri "ipam/range$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/range$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        Invoke-CSP -Uri "ipam/range?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/range?_limit=$Limit&_offset=$Offset" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
 }

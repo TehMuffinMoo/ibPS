@@ -45,13 +45,14 @@
 
     .EXAMPLE
         PS> Get-B1FixedAddress -IP 10.10.100.12
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding()]
     param(
         [String]$IP,
         [String]$Name,
@@ -66,7 +67,6 @@
         $CustomFilters,
         [String]$id
     )
-
     if ($Space) {$SpaceUUID = (Get-B1Space -Name $Space -Strict).id}
     $MatchType = Match-Type $Strict
     [System.Collections.ArrayList]$Filters = @()

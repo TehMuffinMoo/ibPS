@@ -15,7 +15,7 @@ Retrieves a list BloxOne DTC LBDNs
 ```
 Get-B1DTCLBDN [[-Name] <String>] [[-Description] <String>] [[-View] <String>] [[-Status] <String>] [-Strict]
  [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
- [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
+ [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -32,10 +32,10 @@ name                : email.domain.corp.
 view                : dns/view/0f9fdgr4-97d7-sz9c-cv94-sgfdsg94r76
 dtc_policy          : @{policy_id=dtc/policy/ffdsfsf-f4tg-g54y-gg5h-fge765gg6; name=Exchange}
 precedence          : 50
-comment             : 
+comment             :
 disabled            : False
 ttl                 : 0
-tags                : 
+tags                :
 inheritance_sources :
 ```
 
@@ -243,6 +243,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

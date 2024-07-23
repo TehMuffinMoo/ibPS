@@ -39,13 +39,14 @@
 
     .EXAMPLE
         PS> Get-B1DNSView -Name "default"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [switch]$Strict,

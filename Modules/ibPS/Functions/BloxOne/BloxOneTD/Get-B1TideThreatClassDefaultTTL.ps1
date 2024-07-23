@@ -1,4 +1,4 @@
-function Get-B1TideThreatClassDefaultTTL {
+﻿function Get-B1TideThreatClassDefaultTTL {
     <#
     .SYNOPSIS
         Queries the default TTL for threat classes
@@ -24,10 +24,12 @@ function Get-B1TideThreatClassDefaultTTL {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
+    param()
 
     $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/data/default/ttl" -Method GET | Select-Object -ExpandProperty default_ttl -ErrorAction SilentlyContinue -WarningAction SilentlyContinue | Select-Object class,property,ttl -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 

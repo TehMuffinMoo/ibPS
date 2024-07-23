@@ -8,7 +8,7 @@
 
     .PARAMETER Type
         The type of authoritative zone to create (Primary / Secondary)
-    
+
     .PARAMETER FQDN
         The FQDN of the zone to create
 
@@ -36,15 +36,22 @@
     .PARAMETER Tags
         Any tags you want to apply to the authoritative zone
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
        PS> New-B1AuthoritativeZone -Type Primary -FQDN "mysubzone.mycompany.corp" -View "default" -AuthNSGs "Data Centre" -Description "My Subzone"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("Primary","Secondary")]
@@ -60,9 +67,10 @@
       [ValidateSet("Enabled","Disabled")]
       [String]$NotifyExternalSecondaries,
       [String]$Compartment,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if (Get-B1AuthoritativeZone -FQDN $FQDN -View $View -Strict) {
         Write-Host "The $FQDN Zone already exists in DNS." -ForegroundColor Red
         break
@@ -136,15 +144,16 @@
 
         $splat = $splat | ConvertTo-Json
 
-        $Result = Invoke-CSP -Method POST -Uri "dns/auth_zone" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        if($PSCmdlet.ShouldProcess("Create new Authoritative Zone:`n$($splat)","Create new Authoritative Zone: $($FQDN)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/auth_zone" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 
-        if ($Result) {
-            Write-Host "Created Authorative DNS Zone $FQDN successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create Authorative DNS Zone $FQDN." -ForegroundColor Red
+            if ($Result) {
+                Write-Host "Created Authorative DNS Zone $FQDN successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create Authorative DNS Zone $FQDN." -ForegroundColor Red
+            }
         }
-
     }
 
 }

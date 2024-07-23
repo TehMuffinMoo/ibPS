@@ -1,4 +1,4 @@
-function Set-NIOSObject {
+﻿function Set-NIOSObject {
     <#
     .SYNOPSIS
         Generic Wrapper function for updating objects using the NIOS WAPI
@@ -58,8 +58,11 @@ function Set-NIOSObject {
 
         This is used only when connecting to NIOS directly.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
-        PS> @{                                                                                        
+        PS> @{
             name = 'my.example.com'
             ipv4addr = '172.25.22.12'
             comment = 'My A Record'
@@ -73,6 +76,10 @@ function Set-NIOSObject {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(
             Mandatory=$true,
@@ -104,13 +111,15 @@ function Set-NIOSObject {
         [String]$GridName,
         [String]$ApiVersion,
         [Switch]$SkipCertificateCheck,
-        [PSCredential]$Creds
+        [PSCredential]$Creds,
+        [Switch]$Force
     )
 
     begin {
         ## Initialize Query Filters
         [System.Collections.ArrayList]$QueryFilters = @()
         $InvokeOpts = Initialize-NIOSOpts $PSBoundParameters
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     }
 
     process {
@@ -149,14 +158,16 @@ function Set-NIOSObject {
         ## Strip non-writable fields
         $PUTFields = (Get-NIOSSchema @InvokeOpts -ObjectType $ObjectType -Fields -Method PUT).name
         $FieldsToRemove = $Object.PSObject.Properties.Name | Where-Object {$_ -notin $PUTFields}
-        $FieldsToRemove | %{
+        $FieldsToRemove | ForEach-Object {
             $Object.PSObject.Properties.Remove($_)
         }
 
         $JSON = $Object | ConvertTo-Json -Depth 5
 
         try {
-            Invoke-NIOS @InvokeOpts -Uri $Uri -Method PUT -Data $JSON
+            if($PSCmdlet.ShouldProcess("Update NIOS Object:`n$(JSONPretty($JSON))","Update NIOS Object: ($($Uri))",$MyInvocation.MyCommand)){
+                Invoke-NIOS @InvokeOpts -Uri $Uri -Method PUT -Data $JSON
+            }
         } catch {
             Write-Error $_
             break

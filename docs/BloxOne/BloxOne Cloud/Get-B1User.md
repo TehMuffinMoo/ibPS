@@ -13,9 +13,9 @@ Retrieves a list of users from the BloxOne Cloud
 ## SYNTAX
 
 ```
-Get-B1User [[-Name] <String>] [[-Email] <String>] [[-State] <String>] [[-Type] <String>]
- [[-Authenticator] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>]
- [[-OrderBy] <String>] [[-CustomFilters] <Object>] [[-id] <String>]
+Get-B1User [[-Name] <String>] [[-Email] <String>] [[-State] <String>] [[-Type] <String>] [[-Limit] <Int32>]
+ [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-CustomFilters] <Object>]
+ [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -100,21 +100,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Authenticator
-Filter the results by the user's authenticator
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Limit
 Use this parameter to limit the quantity of results returned.
 The default number of results is 100.
@@ -125,7 +110,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 5
 Default value: 101
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -140,7 +125,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 6
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -173,7 +158,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -190,7 +175,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -206,7 +191,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -221,11 +206,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

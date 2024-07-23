@@ -9,45 +9,60 @@
     .PARAMETER Name
         The name of the bypass code to remove
 
-    .PARAMETER Access_Key
-        The Access Key of the bypass code to remove. Accepts pipeline input from Get-B1BypassCode
+    .PARAMETER Object
+        The bypass code object(s) to remove. Accepts pipeline input from Get-B1BypassCode
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Get-B1BypassCode -Name 'My Bypass Code' | Remove-B1BypassCode
 
         Successfully deleted Bypass Code: My Bypass Code
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(Mandatory=$true,ParameterSetName="Default")]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
+        ValueFromPipeline = $true,
         ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [System.Object]$Access_Key
+      [System.Object]$Object
     )
 
     process {
-      if (!($Access_Key)) {
-        $Access_Key = (Get-B1BypassCode -Name $Name -Strict).access_key
-        if (!($Access_Key)) {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if (!($Object)) {
+        $Object = (Get-B1BypassCode -Name $Name -Strict).access_key
+        if (!($Object)) {
           Write-Error "Unable to find Bypass Code with name: $($Name)"
+          break
+        }
+      } else {
+        if (!($Object.access_key)) {
+          Write-Error "Error. Unsupported pipeline object. This function only supports objects from Get-B1BypassCode as input."
+          break
         }
       }
-
-      $Result = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/access_codes/$($Access_Key)"
-      if (Get-B1BypassCode -Name $Name -Strict -EA SilentlyContinue -WA SilentlyContinue) {
-        Write-Error "Failed to delete Bypass Code: $($Access_Key)"
-        break
-      } else {
-        Write-Host "Successfully deleted Bypass Code: $($Access_Key)" -ForegroundColor Green
+      if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.access_key))")){
+        $null = Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/access_codes/$($Object.access_key)"
+        if (Get-B1BypassCode -Name $Name -Strict -EA SilentlyContinue -WA SilentlyContinue) {
+          Write-Error "Failed to delete Bypass Code: $($Object.name) ($($Object.access_key))"
+          break
+        } else {
+          Write-Host "Successfully deleted Bypass Code: $($Object.name) ($($Object.access_key))" -ForegroundColor Green
+        }
       }
     }
 }

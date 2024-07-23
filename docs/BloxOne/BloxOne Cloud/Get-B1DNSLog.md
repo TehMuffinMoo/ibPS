@@ -14,8 +14,8 @@ Queries the BloxOneDDI DNS Log
 
 ```
 Get-B1DNSLog [[-Query] <String>] [[-IP] <String[]>] [[-Name] <String[]>] [[-Type] <String>]
- [[-Response] <String>] [[-DNSServers] <String[]>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>]
- [[-Offset] <Int32>]
+ [[-Response] <String>] [[-DNSServers] <String[]>] [[-OrderBy] <String>] [[-Order] <String>]
+ [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -128,6 +128,38 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OrderBy
+The field in which to order the results by.
+This field supports auto-complete, and defaults to timestamp.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 7
+Default value: Timestamp
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Order
+The direction to order results in.
+This defaults to ascending.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 8
+Default value: Asc
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Start
 A date parameter used as the starting date/time of the log search.
 By default, the search will start from 24hrs ago and returns the latest results first.
@@ -139,7 +171,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 9
 Default value: (Get-Date).AddDays(-1)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -154,7 +186,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 10
 Default value: (Get-Date)
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -170,7 +202,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 11
 Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -186,11 +218,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 12
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

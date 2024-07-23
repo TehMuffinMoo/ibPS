@@ -1,4 +1,4 @@
-function New-B1Object {
+﻿function New-B1Object {
     <#
     .SYNOPSIS
         Generic Wrapper for creating new objects within the CSP (Cloud Services Portal)
@@ -27,6 +27,9 @@ function New-B1Object {
     .PARAMETER Method
         The method to use when creating new object. Defaults to POST
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         ##This example will create a new DNS Record
 
@@ -46,6 +49,10 @@ function New-B1Object {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Product,
@@ -57,20 +64,26 @@ function New-B1Object {
         [psobject]$Data,
         [Switch]$JSON,
         [ValidateSet("POST","PUT")]
-        $Method = "POST"
+        $Method = "POST",
+        [Switch]$Force
     )
-    
+
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $B1CSPUrl = Get-B1CSPUrl
         $BasePath = Get-B1Schema -Product $Product -App $App -Quiet -GetBasePath
 
         $Uri = "$($B1CSPUrl)$($BasePath)$($Endpoint)$($QueryString)" -replace "\*","``*"
         if (!($JSON)) {
             $Data = $Data | ConvertTo-Json -Depth 15 -Compress
+        } else {
+            $Data = $JSON
         }
-        $Results = Invoke-CSP -Method $Method -Uri $Uri -Data $Data
-        if ($Results) {
-            return $Results
+        if($PSCmdlet.ShouldProcess("Create new BloxOne Object:`n$(JSONPretty($Data))","Create new BloxOne Object: $($Endpoint)",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method $Method -Uri $Uri -Data $Data
+            if ($Results) {
+                return $Results
+            }
         }
     }
 }

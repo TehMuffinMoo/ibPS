@@ -1,3 +1,6 @@
+﻿[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+param()
+
 $B1FederatedHosts = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1Host -tfilter '"host/federation"==true' -Name $wordToComplete).display_name
@@ -23,8 +26,8 @@ $AvailableReturnFields = {
 }
 Register-ArgumentCompleter -CommandName Get-NIOSObject,Set-NIOSObject,New-NIOSObject -ParameterName Fields -ScriptBlock $AvailableReturnFields
 
-$ConnectionProfiles = {
+$NIOSConnectionProfiles = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-NIOSConnectionProfile -List | Where-Object {$_.Name -like "$($wordToComplete)*"}).Name
 }
-Register-ArgumentCompleter -CommandName Get-NIOSConnectionProfile,Set-NIOSConnectionProfile,Switch-NIOSConnectionProfile,Remove-NIOSConnectionProfile -ParameterName Name -ScriptBlock $ConnectionProfiles
+Register-ArgumentCompleter -CommandName Get-NIOSConnectionProfile,Set-NIOSConnectionProfile,Switch-NIOSConnectionProfile,Remove-NIOSConnectionProfile -ParameterName Name -ScriptBlock $NIOSConnectionProfiles

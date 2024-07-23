@@ -14,7 +14,7 @@ Retrieves a list of BloxOneDDI Tags
 
 ```
 Get-B1Tag [[-Name] <String>] [[-Status] <String>] [-Strict] [[-Fields] <String[]>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-CustomFilters] <Object>]
+ [[-Offset] <Int32>] [[-CustomFilters] <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -138,6 +138,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

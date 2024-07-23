@@ -50,7 +50,7 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
@@ -106,7 +106,7 @@
             }
             if ($TaskResults) {
                 $Tasks = @()
-                $WebResponse.tasks.PSObject.Properties.Name | %{
+                $WebResponse.tasks.PSObject.Properties.Name | ForEach-Object {
                     $Tasks += [PSCustomObject]@{
                         'task_id' = $_
                     }
@@ -116,7 +116,7 @@
                 $ReturnData = $WebResponse
             }
         }
-    
+
         if ($ReturnData) {
             $ReturnData
         }

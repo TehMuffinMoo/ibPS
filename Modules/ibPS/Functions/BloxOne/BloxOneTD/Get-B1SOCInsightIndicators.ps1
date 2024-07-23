@@ -31,7 +31,7 @@
         Set the limit for the quantity of event results (defaults to 100)
 
     .EXAMPLE
-        PS> Get-B1SOCInsight -Priority CRITICAL | Get-B1SOCInsightIndicators | ft -AutoSize            
+        PS> Get-B1SOCInsight -Priority CRITICAL | Get-B1SOCInsightIndicators | ft -AutoSize
 
         action      confidence count threatLevelMax indicator                                    timeMax              timeMin
         ------      ---------- ----- -------------- ---------                                    -------              -------
@@ -43,13 +43,14 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
 
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding()]
     param(
       [String]$Confidence,
       [String]$Indicator,
@@ -68,7 +69,7 @@
 
     process {
       $QueryFilters = @()
-      
+
       if ($Confidence) {
         $QueryFilters += "confidence=$($ConfidenceLevel)"
       }
@@ -99,7 +100,7 @@
       }
       Write-DebugMsg -Filters $QueryFilters
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$insightId/indicators$QueryFilter" -Method GET | Select-Object -ExpandProperty indicators -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-  
+
       if ($Results) {
         return $Results
       }

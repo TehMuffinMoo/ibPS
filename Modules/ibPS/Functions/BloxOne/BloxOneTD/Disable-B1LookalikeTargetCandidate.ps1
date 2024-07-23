@@ -11,6 +11,9 @@
 
         This parameter auto-completes based on the current list of enabled domains
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Disable-B1LookalikeTargetCandidate -Domain "adobe.com","airbnb.com"
 
@@ -27,30 +30,30 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
-      [String[]]$Domain
+      [String[]]$Domain,
+      [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+    $JSONData = @{
+        "select" = @()
+        "unselect" = $Domain
+    } | ConvertTo-Json
 
-    $DisabledDomains = @()
-
-    foreach ($DomainToDisable in $Domain) {
-        $DisabledDomains += $DomainToDisable
-    }
-
-    if ($DisabledDomains) {
-        $JSONData = @{
-            "select" = @()
-            "unselect" = $DisabledDomains
-        } | ConvertTo-Json
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/lookalike_target_candidates" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+    if($PSCmdlet.ShouldProcess("Disable Lookalike Target Candidate(s): $($Domain -join ', ')","Disable Lookalike Target Candidate(s): $($Domain -join ', ')",$MyInvocation.MyCommand)){
+        $null = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/lookalike_target_candidates" -Data $($JSONData) -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
 
         $Candidates = Get-B1LookalikeTargetCandidates | Select-Object -ExpandProperty items_described
-        foreach ($DisabledDomain in $DisabledDomains) {
+        foreach ($DisabledDomain in $Domain) {
             if (($Candidates | Where-Object {$_.item -eq $DisabledDomain}).selected -ne "True") {
                 Write-Host "Successfully disabled lookalike candidate: $($DisabledDomain)" -ForegroundColor Green
             } else {

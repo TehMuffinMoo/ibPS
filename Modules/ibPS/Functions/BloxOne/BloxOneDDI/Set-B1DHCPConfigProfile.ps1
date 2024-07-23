@@ -26,7 +26,7 @@
 
     .PARAMETER DDNSZones
         Provide a list of DDNS Zones to add or remove to/from the the DHCP Config Profile.
-        
+
         This is to be used in conjunction with -AddDDNSZones and -RemoveDDNSZones respectively.
 
     .PARAMETER AddDDNSZones
@@ -44,6 +44,9 @@
     .PARAMETER Object
         The DHCP Config Profile Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1DHCPConfigProfile -Name 'Data Centre DHCP' -AddDDNSZones -DDNSZones 'company.corp' -DNSView default
 
@@ -53,6 +56,10 @@
     .FUNCTIONALITY
         BloxOneDDI
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
@@ -74,10 +81,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($AddDDNSZones -and $RemoveDDNSZones) {
             Write-Error "Error. -AddDDNSZones and -RemoveDDNSZones are mutually exclusive parameters."
             return $null
@@ -96,8 +105,11 @@
                 Write-Error "Error. Unsupported pipeline object. This function only supports 'dhcp/server' objects as input"
                 return $null
             }
-            if (($DDNSDomain -or $AddDDNSZones -or $RemoveDDNSZones) -and ($Object.inheritance_sources -eq $null)) {
+            if (($DDNSDomain -or $AddDDNSZones -or $RemoveDDNSZones -or $EnableDDNS -or $SendDDNSUpdates) -and ($Object.inheritance_sources -eq $null)) {
                 $Object = Get-B1DHCPConfigProfile -id $Object.id -IncludeInheritance
+            }
+            if ($Object.inheritance_sources -eq $null) {
+                $Object.PSObject.Properties.Remove('inheritance_sources')
             }
         } else {
             $Object = Get-B1DHCPConfigProfile -Name $Name -IncludeInheritance -Strict
@@ -167,11 +179,14 @@
             }
         }
         $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+
+        if($PSCmdlet.ShouldProcess("Update DHCP Config Profile:`n$(JSONPretty($JSON))","Update DHCP Config Profile: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

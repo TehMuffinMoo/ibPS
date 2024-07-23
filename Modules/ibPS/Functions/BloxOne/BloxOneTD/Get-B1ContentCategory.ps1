@@ -35,13 +35,14 @@
                 10022 Auto Repair                          Automotive
                 10023 Buying/Selling Cars                  Automotive
                 ...
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding()]
     param(
     )
 

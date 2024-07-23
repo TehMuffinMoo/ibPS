@@ -1,4 +1,4 @@
-function New-B1Location {
+﻿function New-B1Location {
     <#
     .SYNOPSIS
         Creates a new Location within BloxOne Cloud
@@ -36,6 +36,9 @@ function New-B1Location {
     .PARAMETER ContactPhone
         The contact phone number for the new location
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1Location -Name "Madrid" -Description "Real Madrid Museum" -Address "Estadio Santiago Bernabeu Avenida Concha Espina" -PostCode "28036" -State "Madrid" -Country "Spain" -ContactName "Curator" -ContactEmail "Curator@realmadrid.com"
 
@@ -54,10 +57,14 @@ function New-B1Location {
         longitude    : -3.68742195874704
         name         : Madrid
         updated_at   : 2024-05-01T12:22:09.849259517Z
-    
+
     .FUNCTIONALITY
         BloxOneDDI
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Name,
@@ -71,9 +78,10 @@ function New-B1Location {
         [String]$Country,
         [String]$ContactEmail,
         [String]$ContactName,
-        [String]$ContactPhone
+        [String]$ContactPhone,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $Splat = @{
         "name" = $($Name)
         "address" = @{
@@ -139,7 +147,7 @@ function New-B1Location {
 
                 $Choice = Read-Host -Prompt 'Select the correct address by entering the # or x to cancel.'
                 Write-Host ''
-     
+
                 if ($Choice -notin $ValidChoices) {
                     Write-Warning ('    [ {0} ] is not a valid selection.' -f $Choice)
                     Write-Warning '    Please try again.'
@@ -147,7 +155,7 @@ function New-B1Location {
                     pause
                 }
             }
-     
+
             if ($Choice -eq 'x') {
                 return $null
             } else {
@@ -194,10 +202,11 @@ function New-B1Location {
     $Splat.latitude = $GeoCode.latitude
 
     $JSON = $Splat | ConvertTo-Json -Depth 5 -Compress
+    if($PSCmdlet.ShouldProcess($(JSONPretty($JSON)),"Create new BloxOne Location",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
 
-    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
-
-    if ($Results) {
-        return $Results | Select-Object -ExpandProperty result
+        if ($Results) {
+            return $Results | Select-Object -ExpandProperty result
+        }
     }
 }

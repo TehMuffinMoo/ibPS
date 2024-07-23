@@ -13,7 +13,7 @@ Retrieves a list of content categories from BloxOne Threat Defense
 ## SYNTAX
 
 ```
-Get-B1ContentCategory
+Get-B1ContentCategory [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -54,6 +54,9 @@ category_code category_name                        functional_group
 ```
 
 ## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

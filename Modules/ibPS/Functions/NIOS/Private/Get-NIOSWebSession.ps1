@@ -1,4 +1,4 @@
-function Get-NIOSWebSession {
+﻿function Get-NIOSWebSession {
     param(
         [Parameter(Mandatory=$true)]
         [String]$Server,
@@ -10,5 +10,5 @@ function Get-NIOSWebSession {
             $Script:NIOSWebSessions."$($Server)-$($Creds.UserName)"
         }
     }
-    
+
 }

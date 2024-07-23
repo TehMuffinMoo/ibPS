@@ -12,9 +12,21 @@ Updates the BloxOneDDI Global DHCP Configuration
 
 ## SYNTAX
 
+### Default (Default)
 ```
-Set-B1DHCPGlobalConfig [-AddDDNSZones] [-RemoveDDNSZones] [[-DDNSZones] <Object>] [-DNSView] <String>
- [<CommonParameters>]
+Set-B1DHCPGlobalConfig [-Object <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### AddDDNSZones
+```
+Set-B1DHCPGlobalConfig [-AddDDNSZones] -DDNSZones <Object> -DNSView <String> [-Object <Object>] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
+```
+
+### RemoveDDNSZones
+```
+Set-B1DHCPGlobalConfig [-RemoveDDNSZones] -DDNSZones <Object> [-DNSView <String>] [-Object <Object>] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,10 +46,10 @@ Using this switch indicates the zones specified in -DDNSZones are to be added to
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: AddDDNSZones
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: False
 Accept pipeline input: False
@@ -49,10 +61,10 @@ Using this switch indicates the zones specified in -DDNSZones are to be removed 
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: RemoveDDNSZones
 Aliases:
 
-Required: False
+Required: True
 Position: Named
 Default value: False
 Accept pipeline input: False
@@ -66,11 +78,11 @@ This is to be used in conjunction with -AddDDNSZones and -RemoveDDNSZones respec
 
 ```yaml
 Type: Object
-Parameter Sets: (All)
+Parameter Sets: AddDDNSZones, RemoveDDNSZones
 Aliases:
 
-Required: False
-Position: 1
+Required: True
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -81,11 +93,86 @@ The DNS View for applying the configuration to
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: AddDDNSZones
 Aliases:
 
 Required: True
-Position: 2
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+```yaml
+Type: String
+Parameter Sets: RemoveDDNSZones
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+The DHCP Global Config object to update.
+Accepts pipeline input.
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

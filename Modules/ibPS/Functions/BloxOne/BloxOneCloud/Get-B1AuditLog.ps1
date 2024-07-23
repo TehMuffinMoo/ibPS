@@ -1,4 +1,4 @@
-function Get-B1AuditLog {
+﻿function Get-B1AuditLog {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Audit Log
@@ -51,13 +51,14 @@ function Get-B1AuditLog {
 
     .EXAMPLE
         PS> Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
 
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding()]
     param(
       [string]$Username,
       [string]$ResourceType,
@@ -136,10 +137,10 @@ function Get-B1AuditLog {
 
     if ($QueryString) {
         $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/auditlog/v1/logs$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    }
-    if ($Results) {
-        return $Results
-    } else {
-        return $null
+        if ($Results) {
+            return $Results
+        } else {
+            return $null
+        }
     }
 }

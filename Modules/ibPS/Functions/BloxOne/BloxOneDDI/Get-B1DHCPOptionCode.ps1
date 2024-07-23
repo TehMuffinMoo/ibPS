@@ -36,13 +36,14 @@
 
     .EXAMPLE
         PS> Get-B1DHCPOptionCode -Name "routers"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [int]$Code,

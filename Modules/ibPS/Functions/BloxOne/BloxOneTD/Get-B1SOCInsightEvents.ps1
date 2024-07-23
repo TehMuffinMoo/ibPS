@@ -54,13 +54,14 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
 
     .FUNCTIONALITY
         SOC Insights
     #>
+    [CmdletBinding()]
     param(
       [String]$ThreatLevel,
       [String]$ConfidenceLevel,
@@ -81,7 +82,7 @@
 
     process {
       $QueryFilters = @()
-      
+
       if ($ThreatLevel) {
         $QueryFilters += "threat_level=$($ThreatLevel)"
       }
@@ -121,7 +122,7 @@
       }
       Write-DebugMsg -Filters $QueryFilters
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/v1/insights/$insightId/events$QueryFilter" -Method GET | Select-Object -ExpandProperty events -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-  
+
       if ($Results) {
         return $Results
       }

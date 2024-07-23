@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to update a policy object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC policy object to update
 
@@ -40,18 +40,21 @@
     .PARAMETER Object
         The DTC Policy Object(s) to update. Accepts pipeline input.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
        PS> Set-B1DTCPolicy -Name 'Exchange-Policy' -LoadBalancingType Ratio -Pools Exchange-Pool:5,Exchange-Pool-Backup:10 -TTL 10
-   
+
         id                  : dtc/policy/cgg5h6tgfs-dfg7-t5rf-f4tg-edgfre45g0
         name                : Exchange-Policy
-        comment             : 
-        tags                : 
+        comment             :
+        tags                :
         disabled            : False
         method              : global_availability
         ttl                 : 10
         pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange-Pool; weight=1}, ${pool_id=dtc/pool/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=Exchange-Pool-Backup; weight=10}}
-        inheritance_sources : 
+        inheritance_sources :
         rules               : {@{name=Default; source=default; subnets=System.Object[]; destination=code; code=nodata; pool_id=}}
         metadata            :
 
@@ -60,23 +63,27 @@
 
         id                  : dtc/policy/cgg5h6tgfs-dfg7-t5rf-f4tg-edgfre45g0
         name                : Exchange-Policy
-        comment             : 
-        tags                : 
+        comment             :
+        tags                :
         disabled            : False
         method              : global_availability
         ttl                 : 10
         pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange-Pool; weight=1}}
-        inheritance_sources : 
+        inheritance_sources :
         rules               : {@{name=Default; source=default; subnets=System.Object[]; destination=code; code=nodata; pool_id=}}
         metadata            :
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+        DefaultParameterSetName = 'Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName='Default',Mandatory=$true)]
       [String]$Name,
@@ -95,10 +102,12 @@
           ParameterSetName="With ID",
           Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "dtc/policy") {
@@ -184,13 +193,13 @@
         }
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Update DTC Policy:`n$(JSONPretty($JSON))","Update DTC Policy: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
-        
     }
 }

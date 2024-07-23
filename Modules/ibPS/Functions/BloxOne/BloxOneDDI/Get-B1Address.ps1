@@ -12,6 +12,9 @@
     .PARAMETER State
         Use this parameter to filter by State
 
+    .PARAMETER Space
+        Use this parameter to filter the list of Addresses by Space
+
     .PARAMETER Reserved
         Use this parameter to filter the list of addresses to those which have a usage of Reserved
 
@@ -45,10 +48,10 @@
 
     .EXAMPLE
         Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
@@ -58,6 +61,8 @@
       [String]$Address,
       [Parameter(ParameterSetName="With Address")]
       [String]$State,
+      [Parameter(ParameterSetName="With Address")]
+      [String]$Space,
       [Switch]$Reserved,
       [String]$Compartment,
       [Int]$Limit = 1000,
@@ -76,13 +81,17 @@
       [System.Collections.ArrayList]$QueryFilters = @()
       if ($CustomFilters) {
         $Filters.Add($CustomFilters) | Out-Null
-    }
+      }
       if ($Address) {
         $Filters.Add("address==`"$Address`"") | Out-Null
       }
       if ($State) {
         $Filters.Add("state==`"$State`"") | Out-Null
       }
+      if ($Space) {
+        $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
+        $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
+    }
       if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
       }
@@ -111,7 +120,7 @@
       }
       if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
-      }      
+      }
       if ($OrderBy) {
         $QueryFilters.Add("_order_by=$OrderBy") | Out-Null
       }
@@ -125,7 +134,7 @@
       } else {
           $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
       }
-  
+
       if ($Results -and $Reserved) {
           if ($Reserved) {
               $Results = $Results | Where-Object {$_.usage -contains "IPAM RESERVED"}

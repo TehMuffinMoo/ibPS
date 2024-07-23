@@ -1,4 +1,4 @@
-function Switch-NIOSConnectionProfile {
+﻿function Switch-NIOSConnectionProfile {
     <#
     .SYNOPSIS
         This function is used to switch between saved connection profiles.
@@ -11,12 +11,12 @@ function Switch-NIOSConnectionProfile {
 
     .EXAMPLE
         PS> Switch-NCP Corp-GM
-        
+
         Corp-GM has been set as the active connection profile.
 
     .EXAMPLE
         PS> Switch-NIOSConnectionProfile BloxOne-GM
-        
+
         BloxOne-GM has been set as the active connection profile.
 
     .FUNCTIONALITY
@@ -37,15 +37,15 @@ function Switch-NIOSConnectionProfile {
     if (Get-NIOSConnectionProfile -Name $Name) {
         $ContextConfig = (Get-NIOSContext)
         if ($ContextConfig.CurrentContext -ne $Name) {
-            Write-Host "$($Name) has been set as the active connection profile." -ForegroundColor Green
+            Write-Host "$($Name) has been set as the active NIOS connection profile." -ForegroundColor Green
             $ContextConfig.CurrentContext = $Name
             $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:NIOSConfigFile -Force
             break
         } else {
-            Write-Host "$($Name) is already the active connection profile." -ForegroundColor Green
+            Write-Host "$($Name) is already the active NIOS connection profile." -ForegroundColor Green
             break
         }
     } else {
-        Write-Error "Unable to find a connection profile with name: $($Name)"
+        Write-Error "Unable to find a NIOS connection profile with name: $($Name)"
     }
 }

@@ -36,11 +36,14 @@
     .PARAMETER Object
         The DNS ACL object to update. Accepts pipeline input from Get-B1DNSACLItem.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         Set-B1DNSACL -Name 'My ACL' -NewName 'My New ACL' -Tags @{'Tag1' = 'Val1'}
 
         comment        : Hello World
-        compartment_id : 
+        compartment_id :
         id             : dns/acl/2fwefef3r-sfef-44fg-bfg4-bgvdgrthfdd
         list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=allow; acl=; address=::; element=ip; tsig_key=}}
         name           : My New ACL
@@ -52,10 +55,10 @@
 
         Get-B1DNSACL -Name 'My ACL' | Set-B1DNSACL -RemoveItems $ItemsToRemove
 
-        comment        : 
-        compartment_id : 
+        comment        :
+        compartment_id :
         id             : dns/acl/2fwefef3r-sfef-44fg-bfg4-bgvdgrthfdd
-        list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=allow; acl=; address=10.0.0.0/16; 
+        list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=allow; acl=; address=10.0.0.0/16;
                         element=ip; tsig_key=}}
         name           : My ACL
         tags           :
@@ -63,26 +66,30 @@
     .EXAMPLE
         $ACLsToAdd = @()
         $ACLsToAdd += New-B1DNSACLItem -Access allow -Address 10.24.0.0/16
-        
+
         Get-B1DNSACL 'My ACL' | Set-B1DNSACL -AddItems $ACLsToAdd
-                      
+
         10.24.0.0/16 already exists in the list of ACLs, but with a different action. Updating the action to: deny
-                                                                                                                                
-        comment        : 
-        compartment_id : 
+
+        comment        :
+        compartment_id :
         id             : dns/acl/2fwefef3r-sfef-44fg-bfg4-bgvdgrthfdd
-        list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=deny; acl=; address=10.24.0.0/16; element=ip; tsig_key=}, @{access=allow; acl=; address=10.0.0.0/16; 
+        list           : {@{access=; acl=dns/acl/6fewfw3e8-ef4e-sfw3-9sdf-2drghdg4ed2; address=; element=acl; tsig_key=}, @{access=deny; acl=; address=10.24.0.0/16; element=ip; tsig_key=}, @{access=allow; acl=; address=10.0.0.0/16;
                         element=ip; tsig_key=}}
         name           : My ACL
         tags           :
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
+    [CmdletBinding(
+        DefaultParameterSetName = 'Default',
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName='Default',Mandatory=$true)]
       [String]$Name,
@@ -97,10 +104,12 @@
           ParameterSetName="Pipeline",
           Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne 'dns/acl') {
@@ -125,7 +134,7 @@
                 return $null
             }
         }
-        
+
         $NewObj = $Object | Select-Object * -ExcludeProperty id
 
         if ($NewName) {
@@ -195,11 +204,13 @@
         }
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
 
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Update DNS Access Control List:`n$(JSONPretty($JSON))","Update DNS Access Control List: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

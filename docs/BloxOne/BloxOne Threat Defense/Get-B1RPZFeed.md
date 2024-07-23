@@ -5,55 +5,40 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1DiagnosticTask
+# Get-B1RPZFeed
 
 ## SYNOPSIS
-Query a list of BloxOneDDI Diagnostic Tasks
+Return a list of current records within one or more RPZ Feeds
 
 ## SYNTAX
 
 ```
-Get-B1DiagnosticTask [-id] <String> [-download] [<CommonParameters>]
+Get-B1RPZFeed [[-FeedName] <String[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI Diagnostic Tasks
+Return a list of current records within one or more RPZ Feeds
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1DiagnosticTask -id diagnostic/task/abcde634-2113-ddef-4d05-d35ffs1sa4 -download
+
 ```
 
 ## PARAMETERS
 
-### -id
-The id of the diagnostic task to filter by
+### -FeedName
+One or more feed names to return current records for
 
 ```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -download
-This switch indicates if to download the results returned
-
-```yaml
-Type: SwitchParameter
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: Named
-Default value: False
+Position: 1
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

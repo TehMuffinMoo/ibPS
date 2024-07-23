@@ -14,7 +14,8 @@ Creates a new policy object within BloxOne DTC
 
 ```
 New-B1DTCPolicy [-Name] <String> [[-Description] <String>] [-LoadBalancingType] <String> [[-Pools] <Object>]
- [[-Rules] <Object>] [[-TTL] <Int32>] [[-State] <String>] [[-Tags] <Object>] [<CommonParameters>]
+ [[-Rules] <Object>] [[-TTL] <Int32>] [[-State] <String>] [[-Tags] <Object>] [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -34,7 +35,7 @@ id                  : dtc/policy/cgg5h6tgfs-dfg7-t5rf-f4tg-edgfre45g0
  method              : global_availability
  ttl                 : 10
  pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange Pool; weight=1}}
- inheritance_sources : 
+ inheritance_sources :
  rules               : {}
  metadata            :
 ```
@@ -46,12 +47,12 @@ New-B1DTCPolicy -Name 'Exchange-Policy' -Description 'Exchange Policy' -LoadBala
 id                  : dtc/policy/cgg5h6tgfs-dfg7-t5rf-f4tg-edgfre45g0
  name                : Exchange-Policy
  comment             : Exchange Policy
- tags                : 
+ tags                :
  disabled            : False
  method              : topology
  ttl                 : 10
  pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange Pool; weight=1}}
- inheritance_sources : 
+ inheritance_sources :
  rules               : {}
  metadata            :
 ```
@@ -67,12 +68,12 @@ New-B1DTCPolicy -Name 'Exchange-Policy' -Description 'Exchange Policy' -LoadBala
 id                  : dtc/policy/vduvr743-vcfr-jh9g-vcr3-fdbsv7bcd7
 name                : Exchange-Policy
 comment             : Exchange Policy
-tags                : 
+tags                :
 disabled            : False
 method              : topology
 ttl                 : 10
 pools               : {@{pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f; name=Exchange-Pool; weight=1}}
-inheritance_sources : 
+inheritance_sources :
 rules               : {@{name=Rule 1; source=subnet; subnets=System.Object[]; destination=code; code=nxdomain; pool_id=}, @{name=Default; source=default; subnets=System.Object[]; destination=pool; code=; pool_id=dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f}}
 metadata
 ```
@@ -203,6 +204,53 @@ Aliases:
 
 Required: False
 Position: 8
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

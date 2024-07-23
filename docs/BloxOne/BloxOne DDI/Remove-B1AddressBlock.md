@@ -14,13 +14,13 @@ Removes an address block from BloxOneDDI IPAM
 
 ### Default
 ```
-Remove-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Recurse] [-NoWarning]
+Remove-B1AddressBlock -Subnet <String> -CIDR <Int32> -Space <String> [-Recurse] [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
-### With ID
+### Object
 ```
-Remove-B1AddressBlock [-Recurse] [-NoWarning] -id <String> [<CommonParameters>]
+Remove-B1AddressBlock [-Recurse] -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -97,11 +97,28 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -NoWarning
+### -Object
+The address block object.
+Accepts pipeline input
+
+```yaml
+Type: Object
+Parameter Sets: Object
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
+
 WARNING!
-This is very dangerous if used inappropriately.
-The -NoWarning parameter is there to be combined with -Recurse.
-When specified, using -Recurse will not prompt for confirmation before deleting.
+This is very dangerous if used inappropriately with -Recurse.
 
 ```yaml
 Type: SwitchParameter
@@ -115,19 +132,34 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-The id of the address block.
-Accepts pipeline input
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
 
 ```yaml
-Type: String
-Parameter Sets: With ID
-Aliases:
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
 
-Required: True
+Required: False
 Position: Named
 Default value: None
-Accept pipeline input: True (ByPropertyName)
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

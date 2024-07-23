@@ -8,28 +8,28 @@ schema: 2.0.0
 # Set-B1NTPServiceConfiguration
 
 ## SYNOPSIS
-Updates the NTP configuration for a particular service
+This function is used to update an NTP Service with the Global NTP Configuration
 
 ## SYNTAX
 
 ```
-Set-B1NTPServiceConfiguration [-Name] <String> [-Strict] [-UseGlobalNTPConfig] [<CommonParameters>]
+Set-B1NTPServiceConfiguration [-Name] <String> [-Strict] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to update the NTP configuration for a particular service
+This function is used to update an NTP Service with the Global NTP Configuration
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Set-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict -UseGlobalNTPConfig
+Set-B1NTPServiceConfiguration -Name "ntp_mybloxonehost.corp.domain.com" -Strict
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI service to check the NTP configuration for
+The name of the NTP service to update the NTP configuration on
 
 ```yaml
 Type: String
@@ -60,8 +60,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -UseGlobalNTPConfig
-Use this parameter to apply the NTP Configuration from the Global NTP Configuration
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
 ```yaml
 Type: SwitchParameter
@@ -70,7 +71,38 @@ Aliases:
 
 Required: False
 Position: Named
-Default value: True
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

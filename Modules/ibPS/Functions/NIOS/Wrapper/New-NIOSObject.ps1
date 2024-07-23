@@ -1,4 +1,4 @@
-function New-NIOSObject {
+﻿function New-NIOSObject {
     <#
     .SYNOPSIS
         Generic Wrapper function for creating new objects from the NIOS WAPI
@@ -55,8 +55,11 @@ function New-NIOSObject {
 
         This is used only when connecting to NIOS directly.
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
-        PS> @{                                                                                        
+        PS> @{
             name = 'my.example.com'
             ipv4addr = '172.25.22.12'
             comment = 'My A Record'
@@ -70,6 +73,10 @@ function New-NIOSObject {
     .FUNCTIONALITY
         Core
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(Mandatory = $true)]
         [Alias('type')]
@@ -90,20 +97,23 @@ function New-NIOSObject {
         [String]$GridName,
         [String]$ApiVersion,
         [Switch]$SkipCertificateCheck,
-        [PSCredential]$Creds
+        [PSCredential]$Creds,
+        [Switch]$Force
     )
 
     begin {
         ## Initialize Query Filters
-        [System.Collections.ArrayList]$QueryFilters = @()
         $InvokeOpts = Initialize-NIOSOpts $PSBoundParameters
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     }
 
     process {
         try {
             $Uri = "$($ObjectType)$($QueryString)"
             $JSON = $Object | ConvertTo-Json -Depth 5
-            Invoke-NIOS @InvokeOpts -Uri $Uri -Method POST -Data $JSON
+            if($PSCmdlet.ShouldProcess("Create new NIOS Object:`n$(JSONPretty($JSON))","Create new NIOS Object: $($Uri)",$MyInvocation.MyCommand)){
+                Invoke-NIOS @InvokeOpts -Uri $Uri -Method POST -Data $JSON
+            }
         } catch {
             Write-Error $_
             break

@@ -12,18 +12,18 @@ Updates a server object within BloxOne DTC
 
 ## SYNTAX
 
-### Default
+### Default (Default)
 ```
 Set-B1DTCServer -Name <String> [-NewName <String>] [-Description <String>] [-FQDN <String>] [-IP <IPAddress>]
  [-AutoCreateResponses <String>] [-SynthesizedA <IPAddress[]>] [-SynthesizedCNAME <String>] [-State <String>]
- [-Tags <Object>] [<CommonParameters>]
+ [-Tags <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### With ID
 ```
 Set-B1DTCServer [-NewName <String>] [-Description <String>] [-FQDN <String>] [-IP <IPAddress>]
  [-AutoCreateResponses <String>] [-SynthesizedA <IPAddress[]>] [-SynthesizedCNAME <String>] [-State <String>]
- [-Tags <Object>] -Object <Object> [<CommonParameters>]
+ [-Tags <Object>] -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -38,9 +38,9 @@ Set-B1DTCServer -Name 'Exchange Server A' -Description 'New Exchange Node' -FQDN
 id                           : dtc/server/fsfsef8f3-3532-643h-jhjr-sdgfrgrg51349
  name                         : Exchange Server A
  comment                      : New Exchange Node
- tags                         : 
+ tags                         :
  disabled                     : False
- address                      : 
+ address                      :
  records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-3.company.corp}}
  fqdn                         : exchange-3.company.corp.
  endpoint_type                : fqdn
@@ -55,9 +55,9 @@ Get-B1DTCServer -Name 'Exchange Server B' | Set-B1DTCServer -State Disabled
 id                           : dtc/server/fg5hh56-3tf2-g54r-jbh6r-xsdvsrgzdv45
  name                         : Exchange Server B
  comment                      : New Exchange Node
- tags                         : 
+ tags                         :
  disabled                     : True
- address                      : 
+ address                      :
  records                      : {@{type=CNAME; rdata=; dns_rdata=exchange-2.company.corp}}
  fqdn                         : exchange-2.company.corp.
  endpoint_type                : fqdn
@@ -234,6 +234,53 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

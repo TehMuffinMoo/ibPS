@@ -16,19 +16,26 @@
         The sources to query. Multiple sources can be specified.
         A list of supported sources can be obtained by using the Get-B1DossierSupportedSources cmdlet
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Start-B1DossierBatchLookup -Type ip -Target "1.1.1.1","1.0.0.1" -Source "apt","mandiant"
 
         status  job_id                               job
-        ------  ------                               ---                                                                                                                                                                                                                                               
+        ------  ------                               ---
         pending 12345678-2228-433e-9578-12345678980d @{id=12345678-2228-433e-9578-12345678980d; state=created; status=pending; create_ts=1709744311615; create_time=3/6/2024 4:58:31PM; start_ts=1709744311615; start_time=3/6/2024 4:58:31PM; request_ttl=0; result_ttl=3600; pending_tasks=System.Ob…
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Low'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("host", "ip", "url", "hash", "email")]
@@ -36,15 +43,16 @@
       [Parameter(Mandatory=$true)]
       [String[]]$Target,
       [Parameter(Mandatory=$true)]
-      [String[]]$Source
+      [String[]]$Source,
+      [Switch]$Force
     )
-    
-    $RequestBody = @{
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+    $Splat = @{
       "target" = @()
     }
 
     if ($Target.count -eq 1) {
-        $RequestBody.target = @{
+        $Splat.target = @{
             "one" = @{
                 "type" = $Type
                 "target" = $Target[0]
@@ -52,7 +60,7 @@
             }
         }
     } elseif ($Target.count -gt 1) {
-        $RequestBody.target = @{
+        $Splat.target = @{
             "group" = @{
                 "type" = $Type
                 "targets" = $Target
@@ -61,14 +69,11 @@
         }
     }
 
-    $RequestJSON = $RequestBody | ConvertTo-Json -Depth 5
-
-    if ($RequestBody) {
-        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs" -Data $RequestJSON
+    $JSON = $Splat | ConvertTo-Json -Depth 5
+    if($PSCmdlet.ShouldProcess("Start Dossier Batch Lookup:`n$(JSONPretty($JSON))","Start Dossier Batch Lookup.",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/tide/api/services/intel/lookup/jobs" -Data $JSON
+        if ($Results) {
+            return $Results
+        }
     }
-
-    if ($Results) {
-        return $Results
-    }
-
 }

@@ -1,4 +1,4 @@
-function Set-B1APIKey {
+﻿function Set-B1APIKey {
     <#
     .SYNOPSIS
         Updates an existing BloxOne Cloud API Key
@@ -21,6 +21,9 @@ function Set-B1APIKey {
     .PARAMETER Object
         The API Key Object. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
@@ -30,6 +33,10 @@ function Set-B1APIKey {
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Medium'
+    )]
     param(
         [Parameter(Mandatory=$true,ParameterSetName="Default")]
         $Name,
@@ -45,10 +52,12 @@ function Set-B1APIKey {
           ParameterSetName="Object",
           Mandatory=$true
         )]
-        [System.Object]$Object
+        [System.Object]$Object,
+        [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "identity/apikeys") {
@@ -79,11 +88,13 @@ function Set-B1APIKey {
         }
 
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Update BloxOne API Key`n$(JSONPretty($JSON))","Update BloxOne API Key: $($NewObj.name) ($($APIKeyIdSplit[1]))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/v2/api_keys/$($APIKeyIdSplit[1])" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

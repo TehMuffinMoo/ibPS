@@ -20,13 +20,13 @@
 
     .PARAMETER SafeSearch
         Set the Safe Search option to Enabled/Disabled. (Defaults to Disabled)
-        
+
     .PARAMETER DoHPerPolicy
         Set the DoH Per Policy option to Enabled/Disabled. (Defaults to Disabled)
-        
+
     .PARAMETER BlockDNSRebinding
         Set the Block DNS Rebinding Attacks option to Enabled/Disabled. (Defaults to Disabled)
-        
+
     .PARAMETER LocalOnPremResolution
         Set the Local On-Prem Resolution option to Enabled/Disabled. (Defaults to Disabled)
 
@@ -41,9 +41,12 @@
 
     .PARAMETER Rules
         A list of Policy Rules to apply to the new Security Policy. You can build this list of rules using New-B1SecurityPolicyRule, see the examples.
-        
+
     .PARAMETER Tags
         A list of tags to add to the new Security Policy
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
         $PolicyRules = @()
@@ -65,7 +68,7 @@
         block_dns_rebind_attack : True
         created_time            : 6/3/2024 10:24:47 AM
         default_action          : action_allow
-        default_redirect_name   : 
+        default_redirect_name   :
         description             : My Policy
         dfp_services            : {cv4g9f4jg98jg854jt5g,v4m38jg983egjh9cff}
         dfps                    : {123456,654321}
@@ -81,21 +84,25 @@
         onprem_resolve          : False
         precedence              : 12
         roaming_device_groups   : {}
-        rules                   : {@{action=action_allow; data=All-Categories; type=category_filter}, @{action=action_block; data=Threat Insight - Zero Day DNS; description=Auto-generated; type=custom_list}, @{action=action_block; data=antimalware; description=Suspicious/malicious as destinations: 
+        rules                   : {@{action=action_allow; data=All-Categories; type=category_filter}, @{action=action_block; data=Threat Insight - Zero Day DNS; description=Auto-generated; type=custom_list}, @{action=action_block; data=antimalware; description=Suspicious/malicious as destinations:
                                 Enables protection against known malicious hostname threats that can take action on or control of your systems, such as Malware Command & Control, Malware Download, and active Phishing sites.; type=named_feed}}
         safe_search             : False
-        scope_expr              : 
+        scope_expr              :
         scope_tags              : {}
-        tags                    : 
+        tags                    :
         updated_time            : 6/3/2024 10:24:47 AM
         user_groups             : {}
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -115,10 +122,12 @@
       [String[]]$ExternalNetworks,
       [System.Object]$IPAMNetworks,
       [System.Object]$Rules,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $Splat = @{
             "name" = $($Name)
             "description" = $($Description)
@@ -139,7 +148,7 @@
         }
 
         if ($DFPs) {
-            $DFPs | %{
+            $DFPs | ForEach-Object {
                 $DFPService = Get-B1Service -Type dfp -Name $_ -Detailed -Strict
                 if ($DFPService) {
                     $Splat.dfp_services += $DFPService.id
@@ -151,7 +160,7 @@
         }
 
         if ($ExternalNetworks) {
-            $ExternalNetworks | %{
+            $ExternalNetworks | ForEach-Object {
                 $ExternalNetwork = Get-B1NetworkList -Name $_ -Strict
                 if ($ExternalNetwork) {
                     $Splat.network_lists += $ExternalNetwork.id
@@ -172,13 +181,14 @@
 
         $JSON = $Splat | ConvertTo-Json -Depth 5
 
-        $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-        if ($Result.name -eq $Name) {
-            return $Result
-        } else {
-            Write-Host "Failed to create Security Policy: $Name." -ForegroundColor Red
-            break
+        if($PSCmdlet.ShouldProcess("Create new Security Policy:`n$($JSON)","Create new Security Policy: $($Name)",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/security_policies" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.name -eq $Name) {
+                return $Result
+            } else {
+                Write-Host "Failed to create Security Policy: $Name." -ForegroundColor Red
+                break
+            }
         }
-
     }
 }

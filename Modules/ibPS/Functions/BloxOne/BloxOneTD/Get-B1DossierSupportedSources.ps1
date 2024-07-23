@@ -1,4 +1,4 @@
-function Get-B1DossierSupportedSources {
+﻿function Get-B1DossierSupportedSources {
     <#
     .SYNOPSIS
         Queries a list of available dossier sources
@@ -13,7 +13,7 @@ function Get-B1DossierSupportedSources {
         PS> Get-B1DossierSupportedSources -Target ip
 
     .EXAMPLE
-        PS> Get-B1DossierSupportedSources 
+        PS> Get-B1DossierSupportedSources
 
         acs                 : True
         activity            : True
@@ -66,24 +66,25 @@ function Get-B1DossierSupportedSources {
         urlhaus             : True
         whitelist           : True
         whois               : True
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [ValidateSet("ip","host","url","email","hash")]
         [String]$Target
     )
- 
+
     if ($Target) {
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/sources/target/$Target" -Method GET
     } else {
       $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/tide/api/services/intel/lookup/sources" -Method GET
     }
-  
+
     if ($Results) {
       return $Results
     }

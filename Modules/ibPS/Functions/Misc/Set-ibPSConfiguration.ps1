@@ -1,4 +1,4 @@
-function Set-ibPSConfiguration {
+﻿function Set-ibPSConfiguration {
     <#
     .SYNOPSIS
         Used to set ibPS specific configuration
@@ -30,14 +30,17 @@ function Set-ibPSConfiguration {
     .PARAMETER Telemetry
         Disabling Telemetry will prevent the module sending diagnostic information to Google Analytics. None of the diagnostic information sent contains any sensitive information, only the name of the executed function, any error associated error categories and source platform information (OS/Version).
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
-                                                                                                                  
+
         BloxOne API key has been stored permanently for user on MAC-DSD984HG
 
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPRegion EU
-                                                                                                                  
+
         BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
         You can make the CSP URL persistent for this user on this machine by using the -persist parameter.
 
@@ -47,6 +50,12 @@ function Set-ibPSConfiguration {
     .FUNCTIONALITY
         ibPS
     #>
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingConvertToSecureStringWithPlainText', '', Justification='Required to obtain API Key')]
+  [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingCmdletAliases', 'echo', Justification = 'echo required for Mac/Unix')]
+  [CmdletBinding(
+    SupportsShouldProcess,
+    ConfirmImpact = 'Low'
+)]
   param (
     [String]$CSPAPIKey,
     [ValidateSet("US","EU")]
@@ -59,143 +68,146 @@ function Set-ibPSConfiguration {
     [ValidateSet('Enabled','Disabled')]
     [String]$DebugMode,
     [ValidateSet('Enabled','Disabled')]
-    [String]$Telemetry
+    [String]$Telemetry,
+    [Switch]$Force
   )
-
-  if ($CSPRegion -and $CSPUrl) {
-    Write-Error "-CSPRegion and -CSPUrl are mutually exclusive and will overwrite one another. You must use only one of these parameters."
-    break
-  } else {
-    if ($CSPRegion -or $CSPUrl) {
-      switch ($CSPRegion) {
-        "US" {
-            $CSPUrl = "https://csp.infoblox.com"
+  $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+  if($PSCmdlet.ShouldProcess("Update the ibPS Configuration:`n$($PSBoundParameters | ConvertTo-Json)","Update the ibPS Configuration",$MyInvocation.MyCommand)){
+    if ($CSPRegion -and $CSPUrl) {
+      Write-Error "-CSPRegion and -CSPUrl are mutually exclusive and will overwrite one another. You must use only one of these parameters."
+      break
+    } else {
+      if ($CSPRegion -or $CSPUrl) {
+        switch ($CSPRegion) {
+          "US" {
+              $CSPUrl = "https://csp.infoblox.com"
+          }
+          "EU" {
+              $CSPUrl = "https://csp.eu.infoblox.com"
+          }
         }
-        "EU" {
-            $CSPUrl = "https://csp.eu.infoblox.com"
+        if ($Persist) {
+          $Platform = Detect-OS
+          if ($Platform -eq "Windows") {
+            [System.Environment]::SetEnvironmentVariable('B1CSPUrl',$CSPUrl,[System.EnvironmentVariableTarget]::User)
+            $ENV:B1CSPUrl = $CSPUrl
+            Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+          } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+            $ENV:B1CSPUrl = $CSPUrl
+            if (!(Test-Path ~/.zshenv)) {
+              touch ~/.zshenv
+            }
+            sed -i '' -e '/B1CSPUrl/d' ~/.zshenv
+            echo "export B1CSPUrl=$CSPUrl" >> ~/.zshenv
+            Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+          }
+        } else {
+            $ENV:B1CSPUrl = $CSPUrl
+            Write-Host "BloxOne CSP URL ($CSPUrl) has been stored for this session." -ForegroundColor Green
+            Write-Host "You can make the CSP URL persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
         }
       }
+    }
+
+    if ($CSPAPIKey) {
+      $B1APIKey = $CSPAPIKey | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString
+      $Bytes = [System.Text.Encoding]::Unicode.GetBytes($B1APIKey)
+      $Base64 = [Convert]::ToBase64String($Bytes)
       if ($Persist) {
         $Platform = Detect-OS
         if ($Platform -eq "Windows") {
-          [System.Environment]::SetEnvironmentVariable('B1CSPUrl',$CSPUrl,[System.EnvironmentVariableTarget]::User)
-          $ENV:B1CSPUrl = $CSPUrl
-          Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+          [System.Environment]::SetEnvironmentVariable('B1APIKey',$Base64,[System.EnvironmentVariableTarget]::User)
+          $ENV:B1APIKey = $Base64
+          Write-Host "BloxOne API key has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
         } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-          $ENV:B1CSPUrl = $CSPUrl
+          $ENV:B1APIKey = $Base64
           if (!(Test-Path ~/.zshenv)) {
             touch ~/.zshenv
           }
-          sed -i '' -e '/B1CSPUrl/d' ~/.zshenv
-          echo "export B1CSPUrl=$CSPUrl" >> ~/.zshenv
-          Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+          sed -i '' -e '/B1APIKey/d' ~/.zshenv
+          echo "export B1APIKey=$Base64" >> ~/.zshenv
+          Write-Host "BloxOne API key has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
         }
       } else {
-          $ENV:B1CSPUrl = $CSPUrl
-          Write-Host "BloxOne CSP URL ($CSPUrl) has been stored for this session." -ForegroundColor Green
-          Write-Host "You can make the CSP URL persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
+          $ENV:B1APIKey = $Base64
+          Write-Host "BloxOne API key has been stored for this session." -ForegroundColor Green
+          Write-Host "You can make the API key persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
       }
     }
-  }
 
-  if ($CSPAPIKey) {
-    $B1APIKey = $CSPAPIKey | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString
-    $Bytes = [System.Text.Encoding]::Unicode.GetBytes($B1APIKey)
-    $Base64 = [Convert]::ToBase64String($Bytes)
-    if ($Persist) {
+    if ($DoHServer) {
       $Platform = Detect-OS
       if ($Platform -eq "Windows") {
-        [System.Environment]::SetEnvironmentVariable('B1APIKey',$Base64,[System.EnvironmentVariableTarget]::User)
-        $ENV:B1APIKey = $Base64
-        Write-Host "BloxOne API key has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+        [System.Environment]::SetEnvironmentVariable('IBPSDoH',$DoHServer,[System.EnvironmentVariableTarget]::User)
       } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-        $ENV:B1APIKey = $Base64
         if (!(Test-Path ~/.zshenv)) {
           touch ~/.zshenv
         }
-        sed -i '' -e '/B1APIKey/d' ~/.zshenv
-        echo "export B1APIKey=$Base64" >> ~/.zshenv
-        Write-Host "BloxOne API key has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+        sed -i '' -e '/IBPSDoH/d' ~/.zshenv
+        echo "export IBPSDoH=$DoHServer" >> ~/.zshenv
       }
-    } else {
-        $ENV:B1APIKey = $Base64
-        Write-Host "BloxOne API key has been stored for this session." -ForegroundColor Green
-        Write-Host "You can make the API key persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
+      $ENV:IBPSDoH = $DoHServer
+      Write-Host "Set DNS over HTTPS Server to: $($DoHServer)." -ForegroundColor Green
     }
-  }
 
-  if ($DoHServer) {
+    if ($DevelopmentMode) {
     $Platform = Detect-OS
+    $ENV:IBPSDevelopment = $DevelopmentMode
     if ($Platform -eq "Windows") {
-      [System.Environment]::SetEnvironmentVariable('IBPSDoH',$DoHServer,[System.EnvironmentVariableTarget]::User)
+      [System.Environment]::SetEnvironmentVariable('IBPSDevelopment',$DevelopmentMode,[System.EnvironmentVariableTarget]::User)
     } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
       if (!(Test-Path ~/.zshenv)) {
         touch ~/.zshenv
       }
-      sed -i '' -e '/IBPSDoH/d' ~/.zshenv
-      echo "export IBPSDoH=$DoHServer" >> ~/.zshenv
+      sed -i '' -e '/IBPSDevelopment/d' ~/.zshenv
+      echo "export IBPSDevelopment=$DevelopmentMode" >> ~/.zshenv
     }
-    $ENV:IBPSDoH = $DoHServer
-    Write-Host "Set DNS over HTTPS Server to: $($DoHServer)." -ForegroundColor Green
-  }
-
-  if ($DevelopmentMode) {
-  $Platform = Detect-OS
-  $ENV:IBPSDevelopment = $DevelopmentMode
-  if ($Platform -eq "Windows") {
-    [System.Environment]::SetEnvironmentVariable('IBPSDevelopment',$DevelopmentMode,[System.EnvironmentVariableTarget]::User)
-  } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-    if (!(Test-Path ~/.zshenv)) {
-      touch ~/.zshenv
+    if ($DevelopmentMode -eq 'Enabled') {
+      Write-Host "Enabling Development Mode.." -ForegroundColor Cyan
+      $ModulePath = (Get-Module ibPS -ListAvailable).Path
+      $Keys = (Test-ModuleManifest $ModulePath).ExportedCommands.Keys
+      $Keys += DevelopmentFunctions
+      Update-ModuleManifest $ModulePath -FunctionsToExport $Keys
+      Import-Module $ModulePath -Force -DisableNameChecking
+      Write-Host "Enabled Development Mode. A restart of the Powershell session is required for this to take effect." -ForegroundColor Green
+    } elseif ($DevelopmentMode -eq 'Disabled') {
+      Write-Host "Disabling Development Mode.." -ForegroundColor Cyan
+      $ModulePath = (Get-Module ibPS -ListAvailable).Path
+      $Keys = (Test-ModuleManifest $ModulePath).ExportedCommands.Keys | Where-Object {$_ -notin $(DevelopmentFunctions)}
+      Update-ModuleManifest $ModulePath -FunctionsToExport $Keys
+      Import-Module $ModulePath -Force -DisableNameChecking
+      Write-Host "Disabled Development Mode. A restart of the Powershell session may be required for this to take effect." -ForegroundColor Green
     }
-    sed -i '' -e '/IBPSDevelopment/d' ~/.zshenv
-    echo "export IBPSDevelopment=$DevelopmentMode" >> ~/.zshenv
-  }
-  if ($DevelopmentMode -eq 'Enabled') {
-    Write-Host "Enabling Development Mode.." -ForegroundColor Cyan
-    $ModulePath = (Get-Module ibPS -ListAvailable).Path
-    $Keys = (Test-ModuleManifest $ModulePath).ExportedCommands.Keys
-    $Keys += DevelopmentFunctions
-    Update-ModuleManifest $ModulePath -FunctionsToExport $Keys
-    Import-Module $ModulePath -Force -DisableNameChecking
-    Write-Host "Enabled Development Mode. A restart of the Powershell session is required for this to take effect." -ForegroundColor Green
-  } elseif ($DevelopmentMode -eq 'Disabled') {
-    Write-Host "Disabling Development Mode.." -ForegroundColor Cyan
-    $ModulePath = (Get-Module ibPS -ListAvailable).Path
-    $Keys = (Test-ModuleManifest $ModulePath).ExportedCommands.Keys | Where-Object {$_ -notin $(DevelopmentFunctions)}
-    Update-ModuleManifest $ModulePath -FunctionsToExport $Keys
-    Import-Module $ModulePath -Force -DisableNameChecking
-    Write-Host "Disabled Development Mode. A restart of the Powershell session may be required for this to take effect." -ForegroundColor Green
-  }
-  }
+    }
 
-  if ($DebugMode) {
-    $Platform = Detect-OS
-    if ($Platform -eq "Windows") {
-      [System.Environment]::SetEnvironmentVariable('IBPSDebug',$DebugMode,[System.EnvironmentVariableTarget]::User)
-    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-      if (!(Test-Path ~/.zshenv)) {
-        touch ~/.zshenv
+    if ($DebugMode) {
+      $Platform = Detect-OS
+      if ($Platform -eq "Windows") {
+        [System.Environment]::SetEnvironmentVariable('IBPSDebug',$DebugMode,[System.EnvironmentVariableTarget]::User)
+      } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+        if (!(Test-Path ~/.zshenv)) {
+          touch ~/.zshenv
+        }
+        sed -i '' -e '/IBPSDebug/d' ~/.zshenv
+        echo "export IBPSDebug=$DebugMode" >> ~/.zshenv
       }
-      sed -i '' -e '/IBPSDebug/d' ~/.zshenv
-      echo "export IBPSDebug=$DebugMode" >> ~/.zshenv
+      $ENV:IBPSDebug = $DebugMode
+      Write-Host "$($DebugMode) Debug Mode." -ForegroundColor Green
     }
-    $ENV:IBPSDebug = $DebugMode
-    Write-Host "$($DebugMode) Debug Mode." -ForegroundColor Green
-  }
 
-  if ($Telemetry) {
-    $Platform = Detect-OS
-    if ($Platform -eq "Windows") {
-      [System.Environment]::SetEnvironmentVariable('IBPSTelemetry',$Telemetry,[System.EnvironmentVariableTarget]::User)
-    } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-      if (!(Test-Path ~/.zshenv)) {
-        touch ~/.zshenv
+    if ($Telemetry) {
+      $Platform = Detect-OS
+      if ($Platform -eq "Windows") {
+        [System.Environment]::SetEnvironmentVariable('IBPSTelemetry',$Telemetry,[System.EnvironmentVariableTarget]::User)
+      } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
+        if (!(Test-Path ~/.zshenv)) {
+          touch ~/.zshenv
+        }
+        sed -i '' -e '/IBPSTelemetry/d' ~/.zshenv
+        echo "export IBPSTelemetry=$Telemetry" >> ~/.zshenv
       }
-      sed -i '' -e '/IBPSTelemetry/d' ~/.zshenv
-      echo "export IBPSTelemetry=$Telemetry" >> ~/.zshenv
+      $ENV:IBPSTelemetry = $Telemetry
+      Write-Host "$($Telemetry) Telemetry." -ForegroundColor Green
     }
-    $ENV:IBPSTelemetry = $Telemetry
-    Write-Host "$($Telemetry) Telemetry." -ForegroundColor Green
   }
 }

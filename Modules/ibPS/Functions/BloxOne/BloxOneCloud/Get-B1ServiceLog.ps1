@@ -1,4 +1,4 @@
-function Get-B1ServiceLog {
+﻿function Get-B1ServiceLog {
     <#
     .SYNOPSIS
         Queries the BloxOneDDI Service Log
@@ -26,13 +26,14 @@ function Get-B1ServiceLog {
 
     .EXAMPLE
         PS> Get-B1ServiceLog -B1Host "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Logs
     #>
+    [CmdletBinding()]
     param(
       [Alias('OnPremHost')]
       [string]$B1Host,
@@ -76,7 +77,7 @@ function Get-B1ServiceLog {
 
     $QueryFilters = ConvertTo-QueryString -Filters $Filters
     Write-DebugMsg -Filters $Filters
-    $B1Hosts = Get-B1Host -Detailed
+    $B1Hosts = Get-B1Host -Detailed -Fields ohpid,display_name -Limit 2500
     if ($QueryFilters) {
         $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET
     } else {

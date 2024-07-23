@@ -24,18 +24,25 @@
     .PARAMETER Tags
         Any tags you want to apply to the new IP Space
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1Space -Name "Global"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -43,14 +50,14 @@
       [System.Object]$DHCPOptions,
       [String]$DDNSDomain,
       [String]$Compartment,
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $B1Space = Get-B1Space -Name $Name -Strict 6> $null
     if ($B1Space) {
         Write-Error "IP Space already exists with the name: $($Name)"
     } else {
-        Write-Host "Creating IP Space..." -ForegroundColor Gray
-
         $splat = @{
             "name" = $Name
             "comment" = $Description
@@ -84,14 +91,16 @@
 
         $splat = $splat | ConvertTo-Json -Depth 4 -Compress
 
-        $Result = Invoke-CSP -Method POST -Uri "ipam/ip_space" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
-        
-        if ($Result.name -eq $Name) {
-            Write-Host "IP Space $($Name) created successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create IP Space $($Name)." -ForegroundColor Red
-            break
+        if($PSCmdlet.ShouldProcess("Create new IP Space:`n$(JSONPretty($splat))","Create new IP Space: $($Name)",$MyInvocation.MyCommand)){
+            Write-Host "Creating IP Space..." -ForegroundColor Gray
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/ip_space" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
+            if ($Result.name -eq $Name) {
+                Write-Host "IP Space $($Name) created successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create IP Space $($Name)." -ForegroundColor Red
+                break
+            }
         }
     }
 }

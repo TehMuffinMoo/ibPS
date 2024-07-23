@@ -57,10 +57,10 @@
 
     .EXAMPLE
         PS> Get-B1DHCPLease -Address "10.10.100.30"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>

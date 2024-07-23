@@ -9,54 +9,71 @@
     .PARAMETER B1Host
         The FQDN of the host to reboot
 
-    .PARAMETER NoWarning
-        If this parameter is used, there will be no prompt for confirmation before rebooting
+    .PARAMETER Object
+        The BloxOneDDI Host Object(s) to restart. Accepts pipeline input
 
-    .PARAMETER id
-        The id of the BloxOneDDI Host. Accepts pipeline input
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Restart-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Host
     #>
-  param(
-    [Parameter(ParameterSetName="Default",Mandatory=$true)]
-    [Alias('OnPremHost')]
-    [String]$B1Host,
-    [Switch]$NoWarning,
-    [Parameter(
-      ValueFromPipelineByPropertyName = $true,
-      ParameterSetName="With ID",
-      Mandatory=$true
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
     )]
-    [String]$id
-  )
+    param(
+        [Parameter(ParameterSetName="Default",Mandatory=$true)]
+        [Alias('OnPremHost')]
+        [String]$B1Host,
+        [Parameter(
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
+        Mandatory=$true
+        )]
+        [System.Object]$Object,
+        [Switch]$Force
+    )
 
-  if ($id) {
-    $OPH = Get-B1Host -id $id
-  } else {
-    $OPH = Get-B1Host -Name $B1Host
-  }
+    process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+        if ($Object) {
+            $SplitID = $Object.id.split('/')
+            if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/host") {
+                $Object = Get-B1Host -id $($Object.id) -Detailed
+                if (-not $Object) {
+                  Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/host' objects as input"
+                  return $null
+                }
+                $HostID = $Object.id
+            } else {
+              $HostID = $SplitID[2]
+            }
+        } else {
+            $Object = Get-B1Host -Name $B1Host -Strict -Detailed
+            if (!($Object)) {
+                Write-Error "Unable to find BloxOne Host: $($B1Host)"
+                return $null
+            }
+            $HostID = $Object.id
+        }
 
-  if ($OPH.id) {
-    $splat = @{
-      "ophid" = $OPH.ophid
-      "cmd" = @{
-        "name" = "reboot"
-      }
+        $JSON = @{
+            "ophid" = $Object.ophid
+            "cmd" = @{
+            "name" = "reboot"
+            }
+        } | ConvertTo-Json
+
+        if($PSCmdlet.ShouldProcess("$($Object.display_name) ($($HostID))")){
+            Write-Host "Rebooting $($Object.display_name).." -ForegroundColor Yellow
+            Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+        }
     }
-    if (!($NoWarning)) {
-        Write-Warning "WARNING! Are you sure you want to reboot this host? $($OPH.display_name)" -WarningAction Inquire
-    }
-    Write-Host "Rebooting $($OPH.display_name).." -ForegroundColor Yellow
-    $splat = $splat | ConvertTo-Json
-    Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/privilegedtask" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-  } else {
-    Write-Host "BloxOne Host $B1Host$id not found" -ForegroundColor Red
-  }
 }

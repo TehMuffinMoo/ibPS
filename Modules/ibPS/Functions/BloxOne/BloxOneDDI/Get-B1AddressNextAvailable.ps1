@@ -43,7 +43,7 @@
             10.37.34.23
             10.37.34.24
             10.37.34.25
-    
+
     .EXAMPLE
         PS> Get-B1AddressBlock -Subnet 10.57.124.0/24 | Get-B1AddressNextAvailable -Count 5 -Contiguous | ft address
 
@@ -57,10 +57,11 @@
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding()]
     param(
       [Int]$Count = 1,
       [Switch]$Contiguous = $false,

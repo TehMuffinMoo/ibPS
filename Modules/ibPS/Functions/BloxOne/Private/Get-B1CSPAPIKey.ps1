@@ -1,4 +1,4 @@
-function Get-B1CSPAPIKey {
+﻿function Get-B1CSPAPIKey {
     <#
     .SYNOPSIS
         Retrieves the stored BloxOneDDI API Key from the local machine, if available.
@@ -15,10 +15,30 @@ function Get-B1CSPAPIKey {
     .FUNCTIONALITY
         Authentication
     #>
-    $ApiKey = $ENV:B1APIKey
+    [CmdletBinding()]
+    param(
+        [String]$ProfileName,
+        [Switch]$DefaultProfile
+
+    )
+    if ($ProfileName -or $DefaultProfile) {
+        $Configs = Get-B1Context
+        if ($DefaultProfile) {
+            $ProfileName = $Configs.CurrentContext
+        }
+        if ($Configs.Contexts."$($ProfileName)") {
+            $ApiKey = ($Configs.Contexts | Select-Object -ExpandProperty $ProfileName).'API Key'
+        } else {
+            Write-Error "Unable to find BloxOne Connection Profile: $($ProfileName)"
+            Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
+            return $null
+        }
+    } else {
+        $ApiKey = $ENV:B1APIKey
+    }
     if (!$ApiKey) {
-        Write-Host "Error. Missing API Key. Store your API Key first using 'Set-ibPSConfiguration -CSPAPIKey apikey' and re-run this script." -ForegroundColor Red
-        Write-Colour "See the following link for more information: ","https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/" -Colour Gray,Magenta
+        Write-Error "No BloxOne Connection Profiles or Global CSP API Key has been configured."
+        Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
         break
     } else {
         try {
@@ -30,9 +50,9 @@ function Get-B1CSPAPIKey {
                 return $B1APIKey
             }
         } catch {
-            Write-Colour 'Error. Unable to decode the API Key. Please set the API Key again using: ','Set-ibPSConfiguration -CSPAPIKey <apikey>' -Colour Red,Green
+            Write-Colour 'Error. Unable to decode the API Key. Please set the Global API Key again using: ','Set-ibPSConfiguration -CSPAPIKey <apikey>', ' or create a new connection profile.' -Colour Red,Green,Red
             Write-Colour 'If you have recently upgraded from a version older than ','v1.9.5.0',', you will need to update your API Key.' -Colour Yellow,Red,Yellow
-            Write-Colour "See the following link for more information: ","https://ibps.readthedocs.io/en/latest/General/Set-ibPSConfiguration/" -Colour Gray,Magenta
+            Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
             break
         }
     }

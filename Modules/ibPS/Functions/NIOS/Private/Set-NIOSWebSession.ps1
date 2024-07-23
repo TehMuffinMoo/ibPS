@@ -1,4 +1,5 @@
-function Set-NIOSWebSession {
+﻿function Set-NIOSWebSession {
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
         [Parameter(Mandatory=$true)]
         [String]$Server,

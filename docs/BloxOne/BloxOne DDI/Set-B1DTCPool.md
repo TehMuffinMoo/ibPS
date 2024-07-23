@@ -12,12 +12,12 @@ Updates a pool object within BloxOne DTC
 
 ## SYNTAX
 
-### Default
+### Default (Default)
 ```
 Set-B1DTCPool -Name <String> [-NewName <String>] [-Description <String>] [-LoadBalancingType <String>]
  [-Servers <Object>] [-HealthChecks <Object>] [-PoolHealthyWhen <String>] [-PoolHealthyCount <Int32>]
  [-ServersHealthyWhen <String>] [-ServersHealthyCount <Int32>] [-TTL <Int32>] [-State <String>]
- [-Tags <Object>] [<CommonParameters>]
+ [-Tags <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### With ID
@@ -25,7 +25,7 @@ Set-B1DTCPool -Name <String> [-NewName <String>] [-Description <String>] [-LoadB
 Set-B1DTCPool [-NewName <String>] [-Description <String>] [-LoadBalancingType <String>] [-Servers <Object>]
  [-HealthChecks <Object>] [-PoolHealthyWhen <String>] [-PoolHealthyCount <Int32>]
  [-ServersHealthyWhen <String>] [-ServersHealthyCount <Int32>] [-TTL <Int32>] [-State <String>]
- [-Tags <Object>] -Object <Object> [<CommonParameters>]
+ [-Tags <Object>] -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -39,13 +39,13 @@ Set-B1DTCPool -Name 'Exchange Pool' -TTL 60
 
 id                          : dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f
  name                        : Exchange Pool
- comment                     : 
- tags                        : 
+ comment                     :
+ tags                        :
  disabled                    : False
  method                      : ratio
  servers                     : {@{server_id=dtc/server/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=MAIL-PRIMARY; weight=10}, @{server_id=dtc/server/8vdsrnv8-vnnu-777g-gdvd-sdrghjj3b2; name=MAIL-BACKUP; weight=20}}
  ttl                         : 60
- inheritance_sources         : 
+ inheritance_sources         :
  pool_availability           : quorum
  pool_servers_quorum         : 1
  server_availability         : any
@@ -60,13 +60,13 @@ Get-B1DTCPool -Name 'Exchange Pool' | Set-B1DTCPool -PoolHealthyWhen AtLeast -Se
 
 id                          : dtc/pool/0gt45t5t-g5g5-h5hg-5h5f-8vd89dr39f
  name                        : Exchange Pool
- comment                     : 
- tags                        : 
+ comment                     :
+ tags                        :
  disabled                    : False
  method                      : ratio
  servers                     : {@{server_id=dtc/server/23404tg-gt54-g4vg-c442-cw4vw3v4f; name=MAIL-PRIMARY; weight=10}, @{server_id=dtc/server/8vdsrnv8-vnnu-777g-gdvd-sdrghjj3b2; name=MAIL-BACKUP; weight=20}}
  ttl                         : 0
- inheritance_sources         : 
+ inheritance_sources         :
  pool_availability           : quorum
  pool_servers_quorum         : 1
  server_availability         : any
@@ -298,6 +298,53 @@ Required: True
 Position: Named
 Default value: None
 Accept pipeline input: True (ByValue)
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
 Accept wildcard characters: False
 ```
 

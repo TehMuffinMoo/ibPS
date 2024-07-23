@@ -45,6 +45,9 @@
     .PARAMETER BackupAll
         Use this switch to enable all configuration & data types to be included in the export/backup
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
+
     .EXAMPLE
         PS> Start-B1Export -Name "Backup" -Description "Backup of all CSP data" -DNSConfig -DNSData -IPAMData -KeyData -ThreatDefense -Bootstrap -B1Hosts -Redirects -Tags
 
@@ -60,13 +63,17 @@
                 Wait-Event -Timeout 5
             }
         PS> $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Backup
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'Low'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -82,9 +89,10 @@
       [Switch]$B1Hosts,
       [Switch]$Redirects,
       [Switch]$Tags,
-      [Switch]$BackupAll
+      [Switch]$BackupAll,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $splat = @{
         "name" = $Name
         "description" = $Description
@@ -152,11 +160,12 @@
         $splat | Add-Member -Name "data_types" -Value $dataTypes -MemberType NoteProperty
     }
     $splat = $splat | ConvertTo-Json
-    $Export = Invoke-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
-
-    if ($Export.success.message -eq "Export pending") {
-        Write-Host "Data Export initalised successfully." -ForegroundColor Green
-    } else {
-        Write-Host "Data Export failed to initialise." -ForegroundColor Red
+    if($PSCmdlet.ShouldProcess("Start BloxOne Data Export`n$(JSONPretty($splat))","Start BloxOne Data Export",$MyInvocation.MyCommand)){
+        $Export = Invoke-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
+        if ($Export.success.message -eq "Export pending") {
+            Write-Host "Data Export initalised successfully." -ForegroundColor Green
+        } else {
+            Write-Host "Data Export failed to initialise." -ForegroundColor Red
+        }
     }
 }

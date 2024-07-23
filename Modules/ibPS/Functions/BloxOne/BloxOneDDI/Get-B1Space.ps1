@@ -42,16 +42,17 @@
 
     .EXAMPLE
         PS> Get-B1Space -Name "Global"
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding()]
     param(
       [String]$Name,
       [Switch]$Strict = $false,
@@ -65,7 +66,6 @@
       $CustomFilters,
       [String]$id
     )
-
 	$MatchType = Match-Type $Strict
 
     [System.Collections.ArrayList]$Filters = @()
@@ -117,9 +117,9 @@
     }
     Write-DebugMsg -Filters $QueryFilters
     if ($QueryString) {
-        $Results = Invoke-CSP -Uri "ipam/ip_space$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/ip_space$($QueryString)" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
-        $Results = Invoke-CSP -Uri "ipam/ip_space" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/ip_space" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     }
     if ($Results) {
         return $Results

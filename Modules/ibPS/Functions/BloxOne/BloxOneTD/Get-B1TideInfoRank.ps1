@@ -1,4 +1,4 @@
-function Get-B1TideInfoRank {
+﻿function Get-B1TideInfoRank {
     <#
     .SYNOPSIS
         Queries the InfoRank List
@@ -29,11 +29,11 @@ function Get-B1TideInfoRank {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
     param(
       [Parameter(Mandatory=$true)]
       [string]$Domain,

@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new LBDN object within BloxOne DTC
-    
+
     .PARAMETER Name
         The name of the DTC LBDN object to create
 
@@ -30,6 +30,9 @@
     .PARAMETER Tags
         Any tags you want to apply to the DTC LBDN
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
        PS> New-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 10
 
@@ -41,15 +44,19 @@
         comment             : Exchange Servers LBDN
         disabled            : False
         ttl                 : 10
-        tags                : 
+        tags                :
         inheritance_sources :
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Name,
@@ -61,9 +68,10 @@
       [Int]$TTL,
       [ValidateSet("Enabled","Disabled")]
       [String]$State = 'Enabled',
-      [System.Object]$Tags
+      [System.Object]$Tags,
+      [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $ViewID = (Get-B1DNSView -Name $DNSView -Strict).id
     if (!($ViewID)) {
         Write-Error "DNS View not found: $($DNSView)"
@@ -99,12 +107,12 @@
     }
 
     $JSON = $splat | ConvertTo-Json -Depth 5 -Compress
-
-    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/lbdn" -Data $JSON
-    if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-    } else {
-        $Results
+    if($PSCmdlet.ShouldProcess("Create new DTC LBDN:`n$(JSONPretty($JSON))","Create new DTC LBDN: $($Name)",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/lbdn" -Data $JSON
+        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
     }
-
 }

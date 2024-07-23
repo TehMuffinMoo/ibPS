@@ -23,12 +23,15 @@
 
     .PARAMETER DHCPOptions
         A list of DHCP Options you want to apply to the new address block.
-        
+
     .PARAMETER DDNSDomain
         The DDNS Domain to apply to the new address block
 
     .PARAMETER Compartment
         The name of the compartment to assign to this address block
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .PARAMETER Tags
         Any tags you want to apply to the address block
@@ -37,15 +40,19 @@
         ##Example usage when combined with Get-B1DHCPOptionCode
         $DHCPOptions = @()
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
-        
+
         PS> New-B1AddressBlock -Subnet "10.30.0.0" -CIDR "20" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [String]$Subnet,
@@ -60,16 +67,15 @@
       [System.Object]$DHCPOptions,
       [String]$DDNSDomain,
       [String]$Compartment,
-      [System.Object]$Tags
-      )
-
+      [System.Object]$Tags,
+      [Switch]$Force
+    )
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $SpaceUUID = (Get-B1Space -Name $Space -Strict).id
 
     if (Get-B1AddressBlock -Subnet $Subnet -Space $Space -CIDR $CIDR) {
         Write-Host "The Address Block $Subnet/$CIDR already exists." -ForegroundColor Yellow
     } else {
-        Write-Host "Creating Address Block $Subnet/$CIDR..." -ForegroundColor Gray
-
         $splat = @{
             "space" = $SpaceUUID
             "address" = $Subnet
@@ -105,14 +111,16 @@
 
         $splat = $splat | ConvertTo-Json -Depth 4
 
-        $Result = Invoke-CSP -Method POST -Uri "ipam/address_block" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        
-        if ($Result.address -eq $Subnet) {
-            Write-Host "Address Block $Subnet/$CIDR created successfully." -ForegroundColor Green
-            return $Result
-        } else {
-            Write-Host "Failed to create Address Block $Subnet." -ForegroundColor Red
-            break
+        if($PSCmdlet.ShouldProcess("Create new Address Block:`n$($splat)","Create new Address Block: $($Name)",$MyInvocation.MyCommand)){
+            Write-Host "Creating Address Block $Subnet/$CIDR..." -ForegroundColor Gray
+            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/address_block" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+            if ($Result.address -eq $Subnet) {
+                Write-Host "Address Block $Subnet/$CIDR created successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to create Address Block $Subnet." -ForegroundColor Red
+                break
+            }
         }
     }
 }

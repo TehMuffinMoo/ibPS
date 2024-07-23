@@ -13,7 +13,7 @@ Queries a list of threat classes
 ## SYNTAX
 
 ```
-Get-B1TideThreatClass [[-id] <String>]
+Get-B1TideThreatClass [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -29,8 +29,8 @@ link                                                            id              
 ----                                                            --                     ----                      -------
 {@{href=/data/threat_classes/APT; rel=self}}                    APT                    APT                       3/2/2016 6:57:24PM
 {@{href=/data/threat_classes/Bot; rel=self}}                    Bot                    Bot                       3/2/2016 6:57:24PM
-{@{href=/data/threat_classes/CompromisedDomain; rel=self}}      CompromisedDomain      Compromised Domain        
-{@{href=/data/threat_classes/CompromisedHost; rel=self}}        CompromisedHost        Compromised Host          
+{@{href=/data/threat_classes/CompromisedDomain; rel=self}}      CompromisedDomain      Compromised Domain
+{@{href=/data/threat_classes/CompromisedHost; rel=self}}        CompromisedHost        Compromised Host
 ...
 ```
 
@@ -50,6 +50,9 @@ Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

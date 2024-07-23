@@ -13,7 +13,7 @@ Queries a list of lookalike target domains for the account
 ## SYNTAX
 
 ```
-Get-B1LookalikeTargets
+Get-B1LookalikeTargets [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,6 +35,9 @@ name            : Global Lookalike Target List
 ```
 
 ## PARAMETERS
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

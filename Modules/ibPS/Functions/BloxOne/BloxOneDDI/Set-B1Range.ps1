@@ -33,21 +33,28 @@
     .PARAMETER Object
         The Range Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 -Description "Some Description" -Tags @{"siteCode"="12345"}
-    
+
     .EXAMPLE
         PS> Get-B1Range -StartAddress 10.250.20.20 -EndAddress 10.250.20.100 | Set-B1Range -Description "Some Description" -Tags @{"siteCode"="12345"}
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
 
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="Range",Mandatory=$true)]
       [String]$StartAddress,
@@ -67,10 +74,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     begin {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if ($HAGroup) {
             $HAGroupID = (Get-B1HAGroup -Name $HAGroup -Strict).id
             if (!($HAGroupID)) {
@@ -113,11 +122,13 @@
             $NewObj.dhcp_host = $HAGroupID
         }
         $JSON = $NewObj | ConvertTo-Json -Depth 5 -Compress
-        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-        if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-            $Results | Select-Object -ExpandProperty result
-        } else {
-            $Results
+        if($PSCmdlet.ShouldProcess("Update DHCP Range:`n$(JSONPretty($JSON))","Update DHCP Range: $($Object.start) - $($Object.end) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                $Results | Select-Object -ExpandProperty result
+            } else {
+                $Results
+            }
         }
     }
 }

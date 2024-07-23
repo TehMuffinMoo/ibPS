@@ -1,4 +1,4 @@
-function Get-B1SecurityPolicyRules {
+﻿function Get-B1SecurityPolicyRules {
     <#
     .SYNOPSIS
         Use this cmdlet to retrieve a list of security policy rules
@@ -43,7 +43,7 @@ function Get-B1SecurityPolicyRules {
         action_block CrowdStrike and Cyber threat coalition and Fortinet 1                522345     56924 Default Global Policy               @{tag_scope=; tags=} custom_list
         action_block CrowdStrike and Cyber threat coalition 1                             253356     56924 Default Global Policy               @{tag_scope=; tags=} custom_list
         ...
-    
+
     .EXAMPLE
         PS> Get-B1SecurityPolicyRules | Select -First 10 | ft -AutoSize
 
@@ -55,13 +55,14 @@ function Get-B1SecurityPolicyRules {
         action_log                Threat Insight - Notional Data Exfiltration                               0    453532 iot-policy                                               @{tag_scope=; tags=} custom_list
         action_block              Threat Insight - DNS Messenger                                            0    453532 iot-policy                                               @{tag_scope=; tags=} custom_list
         ...
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
+    [CmdletBinding()]
     param(
         [parameter(ParameterSetName="Default")]
         [Int]$PolicyID,
@@ -86,7 +87,7 @@ function Get-B1SecurityPolicyRules {
         } else {
             $PolicyID = $Object.id
         }
-    
+
         [System.Collections.ArrayList]$Filters = @()
         [System.Collections.ArrayList]$QueryFilters = @()
         if ($CustomFilters) {
@@ -123,7 +124,7 @@ function Get-B1SecurityPolicyRules {
         } else {
           $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/atcfw/v1/security_policy_rules" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
-      
+
         if ($Results) {
           return $Results
         }

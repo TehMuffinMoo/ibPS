@@ -57,15 +57,22 @@
     .PARAMETER IgnoreExists
         Whether to ignore if a record already exists and attempt to create it anyway
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default" -rdata "10.10.30.10" -TTL 300
-   
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DNS
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true)]
       [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX","CAA","NS")] ## To be added "HTTPS","NAPTR","SVCB"
@@ -82,7 +89,8 @@
       [bool]$CreatePTR = $true,
       [System.Object]$Tags,
       [switch]$SkipExistsErrors = $false,
-      [switch]$IgnoreExists = $false
+      [switch]$IgnoreExists = $false,
+      [Switch]$Force
     )
 
     DynamicParam {
@@ -201,171 +209,170 @@
     }
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+        if ($view) {
+            $viewId = (Get-B1DNSView -Name $view -Strict).id
+        }
 
-    if ($view) {
-        $viewId = (Get-B1DNSView -Name $view -Strict).id
-    }
-
-    $TTLAction = "inherit"
-    $FQDN = $Name+"."+$Zone
-    if ($PSBoundParameters['rdata']) {$rdata = $PSBoundParameters['rdata']}
-    $Record = Get-B1Record -Name $Name -View $view -Strict -Type $Type -Zone $Zone
-    if ($Record -and -not $IgnoreExists) {
-        if (!$SkipExistsErrors -and !$Debug) {Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow}
-        return $false
-    } else {
-        $AuthZoneId = (Get-B1AuthoritativeZone -FQDN $Zone -Strict -View $view).id
-        if (!($AuthZoneId)) {
-            Write-Host "Error. Authorative Zone not found." -ForegroundColor Red
+        $TTLAction = "inherit"
+        $FQDN = $Name+"."+$Zone
+        if ($PSBoundParameters['rdata']) {$rdata = $PSBoundParameters['rdata']}
+        $Record = Get-B1Record -Name $Name -View $view -Strict -Type $Type -Zone $Zone
+        if ($Record -and -not $IgnoreExists) {
+            if (!$SkipExistsErrors -and !$Debug) {Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow}
+            return $null
         } else {
-            switch ($Type) {
-                "A" {
-                    if ([bool]($rdata -as [ipaddress])) {
-                        $rdataSplat = @{
-                            "address" = $rdata
-	                    }
-                        $Options = @{
-	                        "create_ptr" = $CreatePTR
-	                        "check_rmz" = $false
-	                    }
-                    } else {
-                        Write-Host "Error. Invalid IP Address." -ForegroundColor Red
-                        break
-                    }
-                }
-                "AAAA" {
-                    if ([bool]($rdata -as [ipaddress])) {
-                        $rdataSplat = @{
-                            "address" = $rdata
-	                    }
-                        $Options = @{
-	                        "create_ptr" = $CreatePTR
-	                        "check_rmz" = $false
-	                    }
-                    }    else {
-                        Write-Host "Error. Invalid IP Address." -ForegroundColor Red
-                        break
-                    }
-                }
-                "CNAME" {
-                    if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\.)?$)") {
-                        if (!($rdata.EndsWith("."))) {
-                            $rdata = "$rdata."
+            $AuthZoneId = (Get-B1AuthoritativeZone -FQDN $Zone -Strict -View $view).id
+            if (!($AuthZoneId)) {
+                Write-Error "Error. Authorative Zone not found."
+                break
+            } else {
+                switch ($Type) {
+                    "A" {
+                        if ([bool]($rdata -as [ipaddress])) {
+                            $rdataSplat = @{
+                                "address" = $rdata
+                            }
+                            $Options = @{
+                                "create_ptr" = $CreatePTR
+                                "check_rmz" = $false
+                            }
+                        } else {
+                            Write-Host "Error. Invalid IP Address." -ForegroundColor Red
+                            break
                         }
-                        $rdataSplat = @{
-	                        "cname" = $rdata
-	                    }
-                    } else {
-                        Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
-                        break
                     }
-                }
-                "TXT" {
-                    $rdataSplat = @{
-                        "text" = $rdata
-	                }
-                }
-                "PTR" {
-                    $rdataSplat = @{
-                        "dname" = $rdata
-	                }
-                }
-                "SRV" {
-                    if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
-                        if ($PSBoundParameters['Priority'] -ge 0 -and $PSBoundParameters['Weight'] -ge 0 -and $PSBoundParameters['Port'] -ge 0) {
+                    "AAAA" {
+                        if ([bool]($rdata -as [ipaddress])) {
+                            $rdataSplat = @{
+                                "address" = $rdata
+                            }
+                            $Options = @{
+                                "create_ptr" = $CreatePTR
+                                "check_rmz" = $false
+                            }
+                        }    else {
+                            Write-Host "Error. Invalid IP Address." -ForegroundColor Red
+                            break
+                        }
+                    }
+                    "CNAME" {
+                        if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}(\.)?$)") {
                             if (!($rdata.EndsWith("."))) {
                                 $rdata = "$rdata."
                             }
                             $rdataSplat = @{
-		                        "priority" = $PSBoundParameters['Priority']
-		                        "weight" = $PSBoundParameters['Weight']
-		                        "port" = $PSBoundParameters['Port']
-		                        "target" = $rdata
-	                        }
+                                "cname" = $rdata
+                            }
                         } else {
-                            Write-Host "Error. When creating SRV records, -Priority, -Weight & -Port parameters are all required." -ForegroundColor Red
+                            Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
                             break
                         }
-                    } else {
-                        Write-Host "Error. SRV target must be an FQDN: $rdata" -ForegroundColor Red
+                    }
+                    "TXT" {
+                        $rdataSplat = @{
+                            "text" = $rdata
+                        }
+                    }
+                    "PTR" {
+                        $rdataSplat = @{
+                            "dname" = $rdata
+                        }
+                    }
+                    "SRV" {
+                        if ($rdata -match "(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.)+[a-zA-Z]{2,63}$)") {
+                            if ($PSBoundParameters['Priority'] -ge 0 -and $PSBoundParameters['Weight'] -ge 0 -and $PSBoundParameters['Port'] -ge 0) {
+                                if (!($rdata.EndsWith("."))) {
+                                    $rdata = "$rdata."
+                                }
+                                $rdataSplat = @{
+                                    "priority" = $PSBoundParameters['Priority']
+                                    "weight" = $PSBoundParameters['Weight']
+                                    "port" = $PSBoundParameters['Port']
+                                    "target" = $rdata
+                                }
+                            } else {
+                                Write-Host "Error. When creating SRV records, -Priority, -Weight & -Port parameters are all required." -ForegroundColor Red
+                                break
+                            }
+                        } else {
+                            Write-Host "Error. SRV target must be an FQDN: $rdata" -ForegroundColor Red
+                            break
+                        }
+                    }
+                    "MX" {
+                        if (!($rdata.EndsWith("."))) {
+                            $rdata = "$rdata."
+                        }
+                        $rdataSplat = @{
+                            "exchange" = $PSBoundParameters['Exchange']
+                            "preference" = $PSBoundParameters['Preference']
+                        }
+                    }
+                    "CAA" {
+                        $rdataSplat = @{
+                            "flags" = $PSBoundParameters['CAFlag']
+                            "tag" = $PSBoundParameters['CATag']
+                            "value" = $PSBoundParameters['CAValue']
+                        }
+                    }
+                    "NS" {
+                        if (!($rdata.EndsWith("."))) {
+                            $rdata = "$rdata."
+                        }
+                        $rdataSplat = @{
+                            "dname" = $rdata
+                        }
+                    }
+                    default {
+                        Write-Host "Error. Invalid record type: $Type" -ForegroundColor Red
                         break
                     }
                 }
-                "MX" {
-                    if (!($rdata.EndsWith("."))) {
-                        $rdata = "$rdata."
+                if ($rdataSplat) {
+                    if ($TTL) {
+                        $TTLAction = "override"
                     }
-                    $rdataSplat = @{
-                        "exchange" = $PSBoundParameters['Exchange']
-	                    "preference" = $PSBoundParameters['Preference']
-	                }
-                }
-                "CAA" {
-                    $rdataSplat = @{
-                        "flags" = $PSBoundParameters['CAFlag']
-	                    "tag" = $PSBoundParameters['CATag']
-                        "value" = $PSBoundParameters['CAValue']
-	                }
-                }
-                "NS" {
-                    if (!($rdata.EndsWith("."))) {
-                        $rdata = "$rdata."
+                    $splat = @{
+                        "name_in_zone" = $Name
+                        "zone" = $AuthZoneId
+                        "type" = $Type
+                        "rdata" = $rdataSplat
+                        "inheritance_sources" = @{
+                            "ttl" = @{
+                                "action" = $TTLAction
+                            }
+                        }
                     }
-                    $rdataSplat = @{
-                        "dname" = $rdata
-	                }
-                }
-                default {
-                    Write-Host "Error. Invalid record type: $Type" -ForegroundColor Red
-                    break
-                }
-            }
-            if ($rdataSplat) {
-                Write-Host "Creating $Type Record for $FQDN.." -ForegroundColor Gray
-            
-                if ($TTL) {
-                    $TTLAction = "override"
-                }
-                $splat = @{
-	                "name_in_zone" = $Name
-	                "zone" = $AuthZoneId
-	                "type" = $Type
-	                "rdata" = $rdataSplat
-	                "inheritance_sources" = @{
-		                "ttl" = @{
-			                "action" = $TTLAction
-		                }
-	                }
-                }
-                if ($Options) {
-                    $splat | Add-Member -Name "options" -Value $Options -MemberType NoteProperty
-                }               
-                if ($TTL) {
-                    $splat | Add-Member -Name "ttl" -Value $TTL -MemberType NoteProperty
-                }
-                if ($viewId) {
-                    #$splat | Add-Member -Name "view" -Value $viewId -MemberType NoteProperty
-                }
-                if ($Description) {
-                    $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
-                }
-                if ($Tags) {
-                    $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
-                }
+                    if ($Options) {
+                        $splat | Add-Member -Name "options" -Value $Options -MemberType NoteProperty
+                    }
+                    if ($TTL) {
+                        $splat | Add-Member -Name "ttl" -Value $TTL -MemberType NoteProperty
+                    }
+                    if ($viewId) {
+                        #$splat | Add-Member -Name "view" -Value $viewId -MemberType NoteProperty
+                    }
+                    if ($Description) {
+                        $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
+                    }
+                    if ($Tags) {
+                        $splat | Add-Member -MemberType NoteProperty -Name "tags" -Value $Tags
+                    }
 
-                $splat = $splat | ConvertTo-Json
-                $Result = Invoke-CSP -Method POST -Uri "dns/record" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-                if ($Result.dns_rdata -match $rdata) {
-                    Write-Host "DNS $Type Record has been successfully created for $FQDN." -ForegroundColor Green
-                    return $Result
-                } else {
-                    Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red
+                    $splat = $splat | ConvertTo-Json
+                    if($PSCmdlet.ShouldProcess("Create new DNS Record:`n$($splat)","Create new DNS Record: $($Name).$($Zone)",$MyInvocation.MyCommand)){
+                        Write-Host "Creating $Type Record for $FQDN.." -ForegroundColor Gray
+                        $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
+                        if ($Result.dns_rdata -match $rdata) {
+                            Write-Host "DNS $Type Record has been successfully created for $FQDN." -ForegroundColor Green
+                            return $Result
+                        } else {
+                            Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red
+                        }
+                    }
                 }
-
             }
         }
     }
-
-  }
-
 }

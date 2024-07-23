@@ -9,54 +9,65 @@
     .PARAMETER Name
         The name of the IP Space to remove
 
-    .PARAMETER id
-        The id of the IP Space. Accepts pipeline input
+    .PARAMETER Object
+        The IP Space Object to remove. Accepts pipeline input
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1Space -Name "My IP Space"
 
     .EXAMPLE
         PS> Get-B1Space -Name "My IP Space" | Remove-B1Space
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-
-      if ($id) {
-        $SpaceInfo = Get-B1Space -id $id
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+        $SplitID = $Object.id.split('/')
+        if (("$($SplitID[0])/$($SplitID[1])") -ne "ipam/ip_space") {
+            Write-Error "Error. Unsupported pipeline object. This function only supports 'ipam/ip_space' objects as input"
+            return $null
+        }
       } else {
-        $SpaceInfo = Get-B1Space -Name $Name -Strict
+        $Object = Get-B1Space -Name $Name -Strict
+        if (!($Object)) {
+            Write-Error "Unable to find IP Space: $($Name)."
+            return $null
+        }
       }
 
-      if (($SpaceInfo | Measure-Object).Count -gt 1) {
-        Write-Host "More than one IP Spaces returned. These will not be removed. Please pipe Get-B1Space into Remove-B1Space to remove multiple objects." -ForegroundColor Red
-        $SpaceInfo | Format-Table -AutoSize
-      } elseif (($SpaceInfo | Measure-Object).Count -eq 1) {
+      if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
         Write-Host "Removing IP Space: $($SpaceInfo.Name).." -ForegroundColor Yellow
-        Invoke-CSP -Method "DELETE" -Uri $($SpaceInfo.id) -Data $null | Out-Null
+        $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($SpaceInfo.id)" -Data $null | Out-Null
         $SI = Get-B1Space -id $($SpaceInfo.id) 6> $null
         if ($SI) {
           Write-Host "Failed to remove IP Space: $($SI.Name)" -ForegroundColor Red
         } else {
           Write-Host "Successfully removed IP Space: $($SpaceInfo.Name)" -ForegroundColor Green
         }
-      } else {
-        Write-Host "IP Space does not exist." -ForegroundColor Gray
       }
     }
 }

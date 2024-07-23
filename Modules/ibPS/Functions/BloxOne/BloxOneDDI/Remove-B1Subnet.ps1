@@ -18,21 +18,28 @@
     .PARAMETER Space
         The IPAM space where the subnet is located
 
-    .PARAMETER id
-        The id of the subnet. Accepts pipeline input
+    .PARAMETER Object
+        The subnet object to remove. Accepts pipeline input
+
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
         PS> Remove-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global"
 
     .EXAMPLE
         PS> Get-B1Subnet -Subnet 10.0.0.0 -CIDR 24 -Space "Global" | Remove-B1Subnet
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         IPAM
     #>
+    [CmdletBinding(
+      SupportsShouldProcess,
+      ConfirmImpact = 'High'
+    )]
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Subnet,
@@ -43,35 +50,39 @@
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Space,
       [Parameter(
-        ValueFromPipelineByPropertyName = $true,
-        ParameterSetName="With ID",
+        ValueFromPipeline = $true,
+        ParameterSetName="Object",
         Mandatory=$true
       )]
-      [String]$id
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
-
-      if ($id) {
-        $SubnetInfo = Get-B1Subnet -id $id
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
+      if ($Object) {
+        $SplitID = $Object.id.split('/')
+        if (("$($SplitID[0])/$($SplitID[1])") -ne "ipam/subnet") {
+            Write-Error "Error. Unsupported pipeline object. This function only supports 'ipam/subnet' objects as input"
+            return $null
+        }
       } else {
-        $SubnetInfo = Get-B1Subnet -Subnet $Subnet -CIDR $CIDR -Space $Space -Name $Name -Strict
+        $Object = Get-B1Subnet -Subnet $Subnet -CIDR $CIDR -Space $Space -Name $Name -Strict
+        if (!($Object)) {
+            Write-Error "Unable to find Subnet: $($Subnet)/$($CIDR) in IP Space: $($Space)."
+            return $null
+        }
       }
 
-      if (($SubnetInfo | measure).Count -gt 1) {
-        Write-Host "More than one subnets returned. These will not be removed. Please pipe Get-B1Subnet into Remove-B1Subnet to remove multiple objects." -ForegroundColor Red
-        $SubnetInfo | Format-Table -AutoSize
-      } elseif (($SubnetInfo | measure).Count -eq 1) {
+      if($PSCmdlet.ShouldProcess("$($Object.address)/$($Object.cidr) ($($Object.id))")){
         Write-Host "Removing Subnet: $($SubnetInfo.Address)/$($SubnetInfo.cidr).." -ForegroundColor Yellow
-        Invoke-CSP -Method "DELETE" -Uri $($SubnetInfo.id) -Data $null | Out-Null
+        Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($SubnetInfo.id)" -Data $null | Out-Null
         $SI = Get-B1Subnet -id $($SubnetInfo.id)
         if ($SI) {
           Write-Host "Failed to remove Subnet: $($SI.Address)/$($SI.cidr)" -ForegroundColor Red
         } else {
           Write-Host "Successfully removed Subnet: $($SubnetInfo.Address)/$($SubnetInfo.cidr)" -ForegroundColor Green
         }
-      } else {
-        Write-Host "Subnet does not exist." -ForegroundColor Gray
       }
     }
 }

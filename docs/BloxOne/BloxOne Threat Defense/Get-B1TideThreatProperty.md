@@ -14,6 +14,7 @@ Queries a list of threat properties
 
 ```
 Get-B1TideThreatProperty [[-id] <String>] [[-Name] <String>] [[-Class] <String>] [[-ThreatLevel] <Int32>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -104,6 +105,9 @@ Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 

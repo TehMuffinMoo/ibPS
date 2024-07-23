@@ -14,7 +14,7 @@ Creates a new Custom List in BloxOne Threat Defense
 
 ```
 New-B1CustomList [-Name] <String> [[-Description] <String>] [-Items] <Object> [-ThreatLevel] <String>
- [-ConfidenceLevel] <String> [[-Tags] <Object>] [<CommonParameters>]
+ [-ConfidenceLevel] <String> [[-Tags] <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -25,7 +25,7 @@ These are referred to and displayed as Custom Lists within the CSP.
 
 ### EXAMPLE 1
 ```powershell
-$Items = @{                                      
+$Items = @{
  "domain.com" = "Description 1"
  "domain1.com" = "Description 2"
  "123.123.123.123" = "Some IP Address"
@@ -36,7 +36,7 @@ New-B1CustomList -Name "Bad Stuff" -Description "This is a list of really bad st
 ### EXAMPLE 2
 ```powershell
 -- CSV File
- item,description  
+ item,description
  domain3.com,Description 3
  domain4.com,Description 4
  234.234.234.234,Some Other IP Address
@@ -133,6 +133,53 @@ Aliases:
 
 Required: False
 Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

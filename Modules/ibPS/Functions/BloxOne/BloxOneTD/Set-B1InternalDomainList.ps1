@@ -21,11 +21,14 @@
     .PARAMETER Object
         The Internal Domain List object to update. Expects pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         $List = Get-B1InternalDomainList -Name 'My List'
         $List.internal_domains += 'new.corp.local'
         $List | Set-B1InternalDomainList
-        
+
         Internal Domain List  updated successfully.
 
         created_time     : 1/1/0001 12:00:00AM
@@ -37,13 +40,17 @@
         tags             : @{Owner=Me}
         updated_time     : 1/1/0001 12:00:00AM
 
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         Threat Defense
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(Mandatory=$true,ParameterSetName="None")]
       [String]$Name,
@@ -58,40 +65,47 @@
         ParameterSetName="Pipeline",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
-    if (!($Object)) {
-        $Object = Get-B1InternalDomainList -Name $Name -Strict
+    process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         if (!($Object)) {
-          Write-Error "Unable to find Internal Domain list with name: $($Name)"
-          return $null
-        } else {
-            if ($Domains) {
-                $Object.internal_domains = $Domains
+            $Object = Get-B1InternalDomainList -Name $Name -Strict
+            if (!($Object)) {
+              Write-Error "Unable to find Internal Domain list with name: $($Name)"
+              return $null
+            } else {
+                if ($Domains) {
+                    $Object.internal_domains = $Domains
+                }
+                if ($Description) {
+                    $Object.description = $Description
+                }
+                if ($Tags) {
+                    $Object.tags = $Tags
+                }
             }
-            if ($Tags) {
-                $Object.tags = $Tags
+          } else {
+            if (!($Object.id -and $($Object.name) -and $($Object.internal_domains))) {
+              Write-Error 'Invalid input object. This cmdlet only accepts input from Get-B1InternalDomainList'
+              return $null
+            }
+          }
+
+        $Splat = $Object | Select-Object -Exclude created_time,updated_time,id,is_default
+
+        $JSON = $Splat | ConvertTo-Json -Depth 4
+        if($PSCmdlet.ShouldProcess("Update Internal Domain List:`n$(JSONPretty($JSON))","Update Internal Domain List: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+            $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
+            if ($Result.id -eq $($Object.id)) {
+                Write-Host "Internal Domain List $Name updated successfully." -ForegroundColor Green
+                return $Result
+            } else {
+                Write-Host "Failed to update Internal Domain List $Name." -ForegroundColor Red
+                break
             }
         }
-      } else {
-        if (!($Object.id -and $($Object.name) -and $($Object.internal_domains))) {
-          Write-Error 'Invalid input object. This cmdlet only accepts input from Get-B1InternalDomainList'
-          return $null
-        }
-      }
-
-    $Splat = $Object | Select-Object -Exclude created_time,updated_time,id,is_default
-
-    $JSON = $Splat | ConvertTo-Json -Depth 4
-
-    $Result = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/internal_domain_lists/$($Object.id)" -Data $JSON | Select-Object -ExpandProperty results -EA SilentlyContinue -WA SilentlyContinue
-    if ($Result.id -eq $($Object.id)) {
-        Write-Host "Internal Domain List $Name updated successfully." -ForegroundColor Green
-        return $Result
-    } else {
-        Write-Host "Failed to update Internal Domain List $Name." -ForegroundColor Red
-        break
     }
-
 }

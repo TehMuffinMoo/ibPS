@@ -36,6 +36,9 @@
     .PARAMETER Object
         The Fixed Address Object to update. Accepts pipeline input
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description"
 
@@ -49,16 +52,20 @@
         $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
         PS> Set-B1FixedAddress -IP 10.10.100.12 -Name "New name" -Description "A new description" -DHCPOptions $DHCPOptions
-    
+
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         DHCP
     #>
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param(
       [Parameter(ParameterSetName="IP",Mandatory=$true)]
-      [String]$IP = $null,
+      [String]$IP,
       [Parameter(ParameterSetName="Name",Mandatory=$true)]
       [String]$Name,
       [Parameter(ParameterSetName="IP",Mandatory=$true)]
@@ -76,10 +83,12 @@
         ParameterSetName="Object",
         Mandatory=$true
       )]
-      [System.Object]$Object
+      [System.Object]$Object,
+      [Switch]$Force
     )
 
     process {
+      $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
       if ($Object) {
           $SplitID = $Object.id.split('/')
           if (("$($SplitID[0])/$($SplitID[1])") -ne "dhcp/fixed_address") {
@@ -114,11 +123,13 @@
         $NewObj.tags = $Tags
       }
       $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
-      $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
-      if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-        $Results | Select-Object -ExpandProperty result
-      } else {
-          $Results
+      if($PSCmdlet.ShouldProcess("Update Fixed Address:`n$(JSONPretty($JSON))","Update Fixed Address: $($Object.name) ($($Object.id))",$MyInvocation.MyCommand)){
+        $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $JSON
+        if ($Results) {
+            $Results | Select-Object -ExpandProperty result
+        } else {
+            $Results
+        }
       }
     }
 }

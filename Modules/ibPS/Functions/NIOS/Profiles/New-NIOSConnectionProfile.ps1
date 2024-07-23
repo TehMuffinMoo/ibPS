@@ -1,10 +1,10 @@
-function New-NIOSConnectionProfile {
+﻿function New-NIOSConnectionProfile {
     <#
     .SYNOPSIS
-        This function is used to create a new connection profiles. By default, the new profile will be set as active.
+        This function is used to create new NIOS connection profiles. By default, the new profile will be set as active.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/). 
+        Connection profiles provide a convenient way of saving connection details to local or federated NIOS Grids. These can easily be switched between by using [Switch-NIOSConnectionProfile](https://ibps.readthedocs.io/en/latest/NIOS/Profiles/Switch-NIOSConnectionProfile/).
 
     .PARAMETER Name
         Specify the name for the new connection profile
@@ -40,6 +40,9 @@ function New-NIOSConnectionProfile {
     .PARAMETER NoSwitchProfile
         Do not make this profile active upon creation
 
+    .PARAMETER Force
+        Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
     .EXAMPLE
         PS> New-NCP
 
@@ -56,6 +59,10 @@ function New-NIOSConnectionProfile {
         Authentication
     #>
     [Alias('New-NCP')]
+    [CmdletBinding(
+        SupportsShouldProcess,
+        ConfirmImpact = 'Medium'
+    )]
     param (
         [Parameter(Mandatory=$true)]
         [String]$Name,
@@ -71,9 +78,10 @@ function New-NIOSConnectionProfile {
         [String]$GridUID,
         [Parameter(Mandatory=$true,ParameterSetName='FederatedName')]
         [String]$GridName,
-        [Switch]$NoSwitchProfile
+        [Switch]$NoSwitchProfile,
+        [Switch]$Force
     )
-
+    $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     Switch ($PSCmdlet.ParameterSetName) {
         'FederatedUID' {
             $GridMember = Get-B1Host -tfilter "`"host/license_uid`"==`"$($GridUID)`""
@@ -82,7 +90,7 @@ function New-NIOSConnectionProfile {
                 $GridName = $GridMember.display_name
             } else {
                 Write-Error "Failed to find Grid associated with UID: $($GridUID)"
-                break            
+                break
             }
         }
         'FederatedName' {
@@ -91,7 +99,7 @@ function New-NIOSConnectionProfile {
                 $FederatedGridUID = $GridMember
             } else {
                 Write-Error "Failed to find Grid associated with Name: $($GridName)"
-                break            
+                break
             }
         }
         'Local' {
@@ -130,5 +138,7 @@ function New-NIOSConnectionProfile {
             "SkipCertificateCheck" = $(if ($SkipCertificateCheck) { $True } else { $False })
         }
     }
-    Set-NIOSContext -Name $Name -Config $Config -NoSwitchProfile:$($NoSwitchProfile)
+    if($PSCmdlet.ShouldProcess("Create new NIOS Connection Profile:`n$($Config | ConvertTo-Json)","Create new NIOS Connection Profile: $($Name)",$MyInvocation.MyCommand)){
+        Set-NIOSContext -Name $Name -Config $Config -NoSwitchProfile:$($NoSwitchProfile)
+    }
 }

@@ -1,4 +1,4 @@
-function Get-B1TideThreatInsightClass {
+﻿function Get-B1TideThreatInsightClass {
     <#
     .SYNOPSIS
         Queries a list of threat insight classes
@@ -7,7 +7,7 @@ function Get-B1TideThreatInsightClass {
         This function will query a list of threat insight classes
 
     .EXAMPLE
-        PS> Get-B1TideThreatInsightClass                               
+        PS> Get-B1TideThreatInsightClass
 
         class                 family                  desc
         -----                 ------                  ----
@@ -18,11 +18,11 @@ function Get-B1TideThreatInsightClass {
 
     .FUNCTIONALITY
         BloxOneDDI
-    
+
     .FUNCTIONALITY
         BloxOne Threat Defense
     #>
-
+    [CmdletBinding()]
     param(
     )
 

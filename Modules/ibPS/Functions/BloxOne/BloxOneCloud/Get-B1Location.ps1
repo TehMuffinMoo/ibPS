@@ -1,4 +1,4 @@
-function Get-B1Location {
+﻿function Get-B1Location {
     <#
     .SYNOPSIS
         Retrieves a list of Locations defined within BloxOne Cloud
@@ -70,10 +70,11 @@ function Get-B1Location {
         longitude    : -3.68742195874704
         name         : Madrid
         updated_at   : 2024-05-01T12:22:09.849259517Z
-        
+
     .FUNCTIONALITY
         BloxOneDDI
     #>
+    [CmdletBinding()]
     param(
         [String]$Name,
         [String]$Description,
@@ -122,6 +123,12 @@ function Get-B1Location {
     if ($Country) {
         $Filters.Add("address.country$MatchType`"$Country`"") | Out-Null
     }
+    if ($ContactName) {
+        $Filters.Add("contact_info.name$MatchType`"$ContactName`"") | Out-Null
+    }
+    if ($ContactEmail) {
+        $Filters.Add("contact_info.email$MatchType`"$ContactEmail`"") | Out-Null
+    }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
     }
@@ -154,5 +161,4 @@ function Get-B1Location {
     if ($Results) {
         return $Results
     }
-
 }
