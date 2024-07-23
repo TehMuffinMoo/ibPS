@@ -47,9 +47,15 @@ jobs:
           $MiscellaneousFunctions = Get-ChildItem "./Modules/ibPS/Functions/Misc/*.ps1" | Where-Object {$_.BaseName -ne 'Misc'}
           $AdditionalFunctionsToExport = @('Invoke-CSP')
 
+          ## Export Aliases
+          Write-Host "Exporting aliases.."
+          $null = Import-Module './Modules/ibPS/BloxOne-Main.psm1'
+          $null = Resolve-DoHQuery -Query google.com -DoHServer 1.1.1.1
+          $Aliases = (Get-Alias | Where-Object {$_.Source -eq "BloxOne-Main"}).Name
+
           ## Export Functions
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
-          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -AliasesToExport '*' -ReleaseNotes "https://ibps.readthedocs.io/en/latest/Change%20Log/"
+          Update-ModuleManifest "./Modules/ibPS/ibPS.psd1" -ModuleVersion $ModuleVersion -FunctionsToExport ($(@($B1PublicFunctions + $NIOSPublicFunctions + $MiscellaneousFunctions) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -AliasesToExport $Aliases -ReleaseNotes "https://ibps.readthedocs.io/en/latest/Change%20Log/"
 
           ## Export Manifest info to JSON file
           Write-Host "Counting functions.."
