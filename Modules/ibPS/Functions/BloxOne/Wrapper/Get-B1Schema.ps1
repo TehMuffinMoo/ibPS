@@ -140,6 +140,9 @@
     if (-not $Script:B1Schema) {
         $Script:B1Schema = @{}
     }
+    if (-not $Script:B1Schema.Apps) {
+        $Script:B1Schema.Apps = @{}
+    }
     if (-not $Script:B1Schema.Endpoints) {
         $Script:B1Schema.Endpoints = @{}
     }
@@ -192,11 +195,11 @@
                 }
             }
         } else {
-            if (-not $Script:B1Schema.Apps) {
-                $Script:B1Schema.Apps = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products" | Where-Object {$_.title -eq $($PSBoundParameters['Product'])} | Select-Object -ExpandProperty apps
+            if (-not $Script:B1Schema.Apps."$($PSBoundParameters['Product'])") {
+                $Script:B1Schema.Apps."$($PSBoundParameters['Product'])" = Invoke-CSP GET "$(Get-B1CSPUrl)/apidoc/docs/list/products" | Where-Object {$_.title -eq $($PSBoundParameters['Product'])} | Select-Object -ExpandProperty apps
             }
             if (!$($Quiet)) {Write-Host "Available Apps: " -ForegroundColor Green}
-            $Script:B1Schema.Apps
+            $Script:B1Schema.Apps."$($PSBoundParameters['Product'])"
         }
     } else {
         if (-not $Script:B1Schema.Products) {
