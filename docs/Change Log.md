@@ -1,3 +1,6 @@
+## 1.9.8.1
+- Fix exported aliases
+
 ## 1.9.8.0
 - Add `New-B1ConnectionProfile`, `Get-B1ConnectionProfile`, `Remove-B1ConnectionProfile` & `Switch-B1ConnectionProfile` functions to enable configuring multiple CSP Accounts which can be easily switched between.
 - Add `Get-B1RPZFeed` function
@@ -402,6 +405,7 @@ See here for more information on [Preference Variables](https://learn.microsoft.
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 
