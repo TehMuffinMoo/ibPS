@@ -8,6 +8,7 @@ schema: 2.0.0
 # Invoke-B1CubeJS
 
 ## SYNOPSIS
+A wrapper function for interacting with the BloxOne CubeJS API
 
 ## SYNTAX
 
@@ -27,24 +28,50 @@ Invoke-B1CubeJS [-Cube <String>] [-Measures <String[]>] [-Dimensions <String[]>]
 ```
 
 ## DESCRIPTION
-{{ Fill in the Description }}
+This is a wrapper function used for interacting with the BloxOne CubeJS APIs.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
+$Filters = @(                                                        
+    @{                                                                                                                          
+        "member" = "asset_daily_counts.asset_context"
+        "operator" = "equals"
+        "values" = @(
+            'cloud'
+        )
+    }
+)
+Invoke-B1CubeJS -Cube asset_daily_counts `
+                -Measures asset_count `
+                -Dimensions asset_context `
+                -TimeDimension asset_date `
+                -Granularity day `
+                -Start (Get-Date).AddDays(-30) `
+                -Filters $Filters `
+                -Grouped -OrderBy asset_date `
+                -Order desc
 
-```
-
-### EXAMPLE 2
-```powershell
-
+asset_context asset_count asset_date            asset_date.day
+------------- ----------- ----------            --------------
+cloud         618         7/23/2024 12:00:00 AM 7/23/2024 12:00:00 AM
+cloud         618         7/22/2024 12:00:00 AM 7/22/2024 12:00:00 AM
+cloud         618         7/21/2024 12:00:00 AM 7/21/2024 12:00:00 AM
+cloud         618         7/20/2024 12:00:00 AM 7/20/2024 12:00:00 AM
+cloud         630         7/19/2024 12:00:00 AM 7/19/2024 12:00:00 AM
+cloud         69          7/18/2024 12:00:00 AM 7/18/2024 12:00:00 AM
+cloud         22          7/17/2024 12:00:00 AM 7/17/2024 12:00:00 AM
+cloud         22          7/16/2024 12:00:00 AM 7/16/2024 12:00:00 AM
+...
 ```
 
 ## PARAMETERS
 
 ### -Cube
-{{ Fill Cube Description }}
+Specify the name of the cube to query.
+This field supports auto/tab-completion.
+Cubes are a way to separate and organise individual tables and databases.
 
 ```yaml
 Type: String
@@ -59,7 +86,9 @@ Accept wildcard characters: False
 ```
 
 ### -Measures
-{{ Fill Measures Description }}
+Specify one or more measures.
+This field supports auto/tab-completion.
+Measures are referred to as quantitative data, such as number of units sold, number of unique queries, total count, etc.
 
 ```yaml
 Type: String[]
@@ -74,7 +103,9 @@ Accept wildcard characters: False
 ```
 
 ### -Dimensions
-{{ Fill Dimensions Description }}
+Specify one or more dimensions.
+This field supports auto/tab-completion.
+Dimensions are referred to as categorical data, such as ip address, hostname, status or timestamps.
 
 ```yaml
 Type: String[]
@@ -89,7 +120,9 @@ Accept wildcard characters: False
 ```
 
 ### -Segments
-{{ Fill Segments Description }}
+Specify one or more segments.
+This field supports auto/tab-completion.
+Segments are predefined filters, used to define complex filtering logic in SQL.
 
 ```yaml
 Type: String[]
@@ -104,7 +137,8 @@ Accept wildcard characters: False
 ```
 
 ### -AllDimensions
-{{ Fill AllDimensions Description }}
+Used to attempt to return all available dimensions.
+This discovers a list of dimensions from the CubeJS Meta endpoint, which may not be accurate and could cause errors.
 
 ```yaml
 Type: SwitchParameter
@@ -119,7 +153,22 @@ Accept wildcard characters: False
 ```
 
 ### -Filters
-{{ Fill Filters Description }}
+Used to provide a list of filters.
+
+A filter is a JavaScript object with the following properties:
+
+$Filters = @(
+    @{
+        "member" = "NstarLeaseActivity.state"  ## Dimension or measure to be used in the filter, for example: stories.isDraft.
+        "operator" = "contains"                ## An operator to be used in the filter.
+Only some operators are available for measures.
+For dimensions the available operators depend on the type of the dimension.
+        "values" = @(                          ## An array of values for the filter.
+Values must be of type String.
+            'Assignments'
+        )
+    }
+)
 
 ```yaml
 Type: Object
@@ -134,7 +183,8 @@ Accept wildcard characters: False
 ```
 
 ### -Limit
-{{ Fill Limit Description }}
+Limit the number of results returned.
+This can be used in combination with -Offset for pagination.
 
 ```yaml
 Type: Int32
@@ -149,7 +199,8 @@ Accept wildcard characters: False
 ```
 
 ### -Offset
-{{ Fill Offset Description }}
+Offset the returned results by the number specified.
+This can be used in combination with -Limit for pagination.
 
 ```yaml
 Type: Int32
@@ -196,7 +247,8 @@ Accept wildcard characters: False
 ```
 
 ### -TimeDimension
-{{ Fill TimeDimension Description }}
+In order to be able to work with time series data, Cube needs to identify a time dimension which is a timestamp column in the database.
+This field supports auto/tab-completion.
 
 ```yaml
 Type: String
@@ -211,7 +263,7 @@ Accept wildcard characters: False
 ```
 
 ### -Start
-{{ Fill Start Description }}
+Used in combination with -TimeDimension and -End to return time series data between specific time periods.
 
 ```yaml
 Type: DateTime
@@ -226,7 +278,7 @@ Accept wildcard characters: False
 ```
 
 ### -End
-{{ Fill End Description }}
+Used in combination with -TimeDimension and -Start to return time series data between specific time periods.
 
 ```yaml
 Type: DateTime
@@ -241,7 +293,7 @@ Accept wildcard characters: False
 ```
 
 ### -Granularity
-{{ Fill Granularity Description }}
+When returning aggregated results and with the -Grouped parameter, granularity allows you to group data based on time frame such as second, minute, hour, day, week, month, quarter or year.
 
 ```yaml
 Type: String
@@ -256,7 +308,7 @@ Accept wildcard characters: False
 ```
 
 ### -Grouped
-{{ Fill Grouped Description }}
+Specifying -Grouped will include all dimensions in the GROUP BY statement in the query.
 
 ```yaml
 Type: SwitchParameter
@@ -271,7 +323,7 @@ Accept wildcard characters: False
 ```
 
 ### -Raw
-{{ Fill Raw Description }}
+Return the Raw results from the API, instead of parsing the output.
 
 ```yaml
 Type: SwitchParameter
