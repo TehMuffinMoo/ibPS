@@ -4,10 +4,11 @@
         Queries Threat Intel analysis, alerts, advisories & other reports from Infoblox Threat Intel
 
     .DESCRIPTION
-        This function will query Threat Intel analysis, alerts, advisories & other reports from Infoblox Threat Intel
+        This function will query Threat Intel analysis, alerts, advisories & other reports from Infoblox Threat Intel.
+        A full list of Threat Actor IOCs can be retrieved through using Get-B1ThreatActor
 
     .PARAMETER ThreatActors
-        The -ThreatActors switch will return a list of threat actors in your environment.
+        The -ThreatActors switch will return a list of threat actors detected within your environment.
 
     .PARAMETER Start
         The -Start parameter allows you to define the Start date of which to begin searching. This is only applicable when using -ThreatActors. Defaults to 30 days ago.

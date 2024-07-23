@@ -19,8 +19,11 @@
         Return the threat actor summary, including only those IOCs which have been identified within the customer environment.
             A full list of threat actors observed within your environment can be found using "Get-B1ThreatIntel -ThreatActors"
 
-    .PARAMETER Live
-        Return live results instead of cached results.
+    .PARAMETER ReturnAllIndicators
+        Return all related indicators. This will enable automatic pagination.
+
+    .PARAMETER CF
+        Return results from threat enrichment API instead of tide-ng-threat-actor.
 
     .EXAMPLE
         ## Get Threat Actor by Indicator
@@ -28,18 +31,18 @@
 
         actor_id                       : 365173e1-b679-4267-bdee-fa6b5ba2ba7e
         actor_name                     : Decoy Dog
-        actor_description              : Decoy Dog is a DNS C2 malware toolkit discovered by Infoblox in April 2023. It is a variant of the open source remote 
-                                        access trojan (RAT) known as Pupy. There are several versions of the toolkit and is considerably advanced over Pupy. 
-                                        Infoblox was able to detect and describe the features of the toolkit based on DNS and domain registration data alone. 
-                                        Russian intel companies have subsequently reported that Decoy Dog was used by Ukrainian nation state actors against 
-                                        Russian critical infrastructure and government entities. It reportedly disrupted the Rosetelecom ISP for Russian users 
-                                        for over 24 hours and the actors deleted a substantial amount of proprietary data before exiting. Some of these domains 
-                                        are lookalikes. Because the IP resolution addresses for Decoy Dog are encrypted communication it is possible to have 
+        actor_description              : Decoy Dog is a DNS C2 malware toolkit discovered by Infoblox in April 2023. It is a variant of the open source remote
+                                        access trojan (RAT) known as Pupy. There are several versions of the toolkit and is considerably advanced over Pupy.
+                                        Infoblox was able to detect and describe the features of the toolkit based on DNS and domain registration data alone.
+                                        Russian intel companies have subsequently reported that Decoy Dog was used by Ukrainian nation state actors against
+                                        Russian critical infrastructure and government entities. It reportedly disrupted the Rosetelecom ISP for Russian users
+                                        for over 24 hours and the actors deleted a substantial amount of proprietary data before exiting. Some of these domains
+                                        are lookalikes. Because the IP resolution addresses for Decoy Dog are encrypted communication it is possible to have
                                         Decoy Dog domains falsely associated to other actors.
         infoblox_references            : {https://blogs.infoblox.com/cyber-threat-intelligence/decoy-dog-is-no-ordinary-pupy-distinguishing-malware-via-dns/, htt
                                         ps://blogs.infoblox.com/cyber-threat-intelligence/cyber-threat-advisory/dog-hunt-finding-decoy-dog-toolkit-via-anomalous
                                         -dns-traffic/}
-        external_references            : {https://www.ptsecurity.com/ww-en/analytics/pt-esc-threat-intelligence/hellhounds-operation-lahat/, 
+        external_references            : {https://www.ptsecurity.com/ww-en/analytics/pt-esc-threat-intelligence/hellhounds-operation-lahat/,
                                         https://forumsoc.ru/upload/iblock/f7c/6ncp0iit9pxcth1taxfku9varczadc5b.pdf}
         purpose                        : {malware}
         ttp                            : {dns_c2, dns_abuse, dns_tunneling, exfiltration…}
@@ -58,17 +61,17 @@
 
         actor_id                       : 131388ee-71fd-48bd-93cb-922fafb105f1
         actor_name                     : Prolific Puma
-        actor_description              : Underground link shortening service used for criminal activities, including phishing and malware distribution. The service 
-                                        has been active since at least January 2020 and includes more than 40k active domains. The service is hosted on anonymous 
-                                        hosting providers with dedicated IP address. The actor is known to use SMS as a distribution method. They successfully 
-                                        averted the transparency guardrails of the usTLD nexus requirements at NameSilo in October 2023. Their identity and location 
-                                        are unknown, although they appear to have some tie to Ukraine and have chosen hosting at times in Estonia. Prolific Puma 
-                                        occasionally abandons both domain names and IP addresses. Some of their dropped domain names have been registered by Chinese 
+        actor_description              : Underground link shortening service used for criminal activities, including phishing and malware distribution. The service
+                                        has been active since at least January 2020 and includes more than 40k active domains. The service is hosted on anonymous
+                                        hosting providers with dedicated IP address. The actor is known to use SMS as a distribution method. They successfully
+                                        averted the transparency guardrails of the usTLD nexus requirements at NameSilo in October 2023. Their identity and location
+                                        are unknown, although they appear to have some tie to Ukraine and have chosen hosting at times in Estonia. Prolific Puma
+                                        occasionally abandons both domain names and IP addresses. Some of their dropped domain names have been registered by Chinese
                                         phishing actors in the past.
         infoblox_references            : {https://blogs.infoblox.com/cyber-threat-intelligence/prolific-puma-shadowy-link-shortening-service-enables-cybercrime/}
-        external_references            : {https://urlscan.io/result/3be86d9f-e596-4a9b-9260-d331811262e5/, 
-                                        https://urlscan.io/result/00c1d82d-0f03-44b6-96d3-63b503fff464/, 
-                                        https://urlscan.io/result/26077ac3-1559-4329-ab48-120181555586/, 
+        external_references            : {https://urlscan.io/result/3be86d9f-e596-4a9b-9260-d331811262e5/,
+                                        https://urlscan.io/result/00c1d82d-0f03-44b6-96d3-63b503fff464/,
+                                        https://urlscan.io/result/26077ac3-1559-4329-ab48-120181555586/,
                                         https://urlscan.io/result/726b6baa-d259-4f67-a4f9-aef3bd93aca3/…}
         purpose                        : {phishing, malware, adware, scam}
         ttp                            : {rdga, url_shortener, redirect, sms…}
@@ -83,7 +86,46 @@
         related_indicators             : {0tj.us, 136.244.97.78, 18w.us, 1ma.us…}
 
     .EXAMPLE
-        ## Get List of related indicators for particular threat actor
+        ## Pipeline usage from Get-B1ThreatIntel to find all related IOCs for Prolific Puma
+        $Results = Get-B1ThreatIntel -ThreatActors | ? actor_name -eq 'Prolific Puma' | Get-B1ThreatActor -ReturnAllIndicators
+
+        ## Return list of pages
+        $Results | ft actor_name,page
+
+        actor_name    page
+        ----------    ----
+        Prolific Puma    1
+        Prolific Puma    2
+        Prolific Puma    3
+        Prolific Puma    4
+
+        ## Return Count of IOCs
+        $Results.related_indicators.count
+
+        39114
+
+        ## Return last 15 IOCs
+        $Results.related_indicators | Select -Last 15
+
+        ywrv.me
+        yxnr.info
+        yyey.info
+        yypb.me
+        zbss.info
+        zdud.me
+        zkfd.info
+        znkg.info
+        zvkg.info
+        zvnh.info
+        zvud.site
+        zwiv.info
+        zxhl.site
+        zziq.info
+        zzzo.info
+        ...
+
+    .EXAMPLE
+        ## Get List of related indicators for particular threat actor by id
         (Get-B1ThreatActor -actor_id '131388ee-71fd-48bd-93cb-922fafb105f1').related_indicators
 
         0tj.us
@@ -125,27 +167,41 @@
         [Int]$Page = 1,
         [Parameter(ParameterSetName="ByActorID")]
         [Switch]$Summary,
-        [Switch]$Live
+        [Switch]$ReturnAllIndicators,
+        [Switch]$CF
     )
 
     process {
         if ($Summary) {
-            $Results = Invoke-CSP -Method GET -Uri "https://csp.infoblox.com/tide-ng-threat-actor/v1/actor_summary?_filter=id==`"$($actor_id)`" and page==$($Page)"
+            $Uri = "/tide-ng-threat-actor/v1/actor_summary?_filter=id==`"$($actor_id)`" and page==$($Page)"
         } else {
             Switch ($PSCmdlet.ParameterSetName) {
                 "ByActorID" {
                     if ($Live) {
-                        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/threat-enrichment/clusterfox/actor/search?actor_id=$($actor_id)&page=$($Page)"
+                        $Uri = "/tide/threat-enrichment/clusterfox/actor/search?actor_id=$($actor_id)&page=$($Page)"
                     } else {
-                        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide-ng-threat-actor/v1/actor?_filter=id==`"$($actor_id)`" and page==$($Page)"
+                        $Uri = "/tide-ng-threat-actor/v1/actor?_filter=id==`"$($actor_id)`" and page==$($Page)"
                     }
                 }
                 "ByIOC" {
                     if ($Live) {
-                        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide/threat-enrichment/clusterfox/search?indicator=$($Indicator)&page=$($Page)"
+                        $Uri = "/tide/threat-enrichment/clusterfox/search?indicator=$($Indicator)&page=$($Page)"
                     } else {
-                        $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/tide-ng-threat-actor/v1/indicator?_filter=name==`"$($Indicator)`" and page==$($Page)"
+                        $Uri = "/tide-ng-threat-actor/v1/indicator?_filter=name==`"$($Indicator)`" and page==$($Page)"
                     }
+                }
+            }
+        }
+        $Results = @()
+        $Results += Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)$($Uri)"
+        if ($ReturnAllIndicators -and -not $Summary) {
+            if ($Results.related_count -gt 10000) {
+                $Pages = ([Math]::Ceiling($Results.related_count/10000))
+                2..$($Pages) | ForEach-Object {
+                    $PSB = $PSBoundParameters
+                    $null = $PSB.Page = $_
+                    $null = $PSB.Remove('ReturnAllIndicators')
+                    $Results += Get-B1ThreatActor @PSB
                 }
             }
         }
