@@ -34,8 +34,8 @@ This is a wrapper function used for interacting with the BloxOne CubeJS APIs.
 
 ### EXAMPLE 1
 ```powershell
-$Filters = @(                                                        
-    @{                                                                                                                          
+$Filters = @(
+    @{
         "member" = "asset_daily_counts.asset_context"
         "operator" = "equals"
         "values" = @(

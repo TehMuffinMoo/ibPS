@@ -28,7 +28,8 @@ Get-B1ThreatIntel [-ZeroDayDNS] [-Unique] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function will query Threat Intel analysis, alerts, advisories & other reports from Infoblox Threat Intel
+This function will query Threat Intel analysis, alerts, advisories & other reports from Infoblox Threat Intel.
+A full list of Threat Actor IOCs can be retrieved through using Get-B1ThreatActor
 
 ## EXAMPLES
 
@@ -109,7 +110,7 @@ publish_date : 6/3/2024 11:13:02 PM
 ## PARAMETERS
 
 ### -ThreatActors
-The -ThreatActors switch will return a list of threat actors in your environment.
+The -ThreatActors switch will return a list of threat actors detected within your environment.
 
 ```yaml
 Type: SwitchParameter
