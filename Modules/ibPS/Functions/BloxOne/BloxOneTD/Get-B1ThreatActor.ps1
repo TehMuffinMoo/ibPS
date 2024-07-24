@@ -6,8 +6,8 @@
     .DESCRIPTION
         This function will query Threat Actor information by Actor ID or IOC, with the option to return all associated IOCs.
 
-    .PARAMETER actor_id
-        A comma separated list of IDs for the threat actors to get details for.
+    .PARAMETER ActorID
+        A comma separated list of IDs for the threat actors to get details for. This accepts pipeline from "Get-B1ThreatIntel -ThreatActors"
 
     .PARAMETER Indicator
         A comma separated list of IPs, Hostnames or URLs to search related threat actor details for.
@@ -158,7 +158,8 @@
             ParameterSetName="ByActorID",
             Mandatory=$true
         )]
-        [String[]]$actor_id,
+        [Alias('actor_id')]
+        [String[]]$ActorID,
         [Parameter(
             ParameterSetName="ByIOC",
             Mandatory=$true
@@ -173,18 +174,18 @@
 
     process {
         if ($Summary) {
-            $Uri = "/tide-ng-threat-actor/v1/actor_summary?_filter=id==`"$($actor_id)`" and page==$($Page)"
+            $Uri = "/tide-ng-threat-actor/v1/actor_summary?_filter=id==`"$($ActorID)`" and page==$($Page)"
         } else {
             Switch ($PSCmdlet.ParameterSetName) {
                 "ByActorID" {
-                    if ($Live) {
-                        $Uri = "/tide/threat-enrichment/clusterfox/actor/search?actor_id=$($actor_id)&page=$($Page)"
+                    if ($CF) {
+                        $Uri = "/tide/threat-enrichment/clusterfox/actor/search?actor_id=$($ActorID)&page=$($Page)"
                     } else {
-                        $Uri = "/tide-ng-threat-actor/v1/actor?_filter=id==`"$($actor_id)`" and page==$($Page)"
+                        $Uri = "/tide-ng-threat-actor/v1/actor?_filter=id==`"$($ActorID)`" and page==$($Page)"
                     }
                 }
                 "ByIOC" {
-                    if ($Live) {
+                    if ($CF) {
                         $Uri = "/tide/threat-enrichment/clusterfox/search?indicator=$($Indicator)&page=$($Page)"
                     } else {
                         $Uri = "/tide-ng-threat-actor/v1/indicator?_filter=name==`"$($Indicator)`" and page==$($Page)"
