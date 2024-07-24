@@ -1,2 +1,3 @@
 - Fix bug with BloxOne Schema caching
 - Add `Get-B1ThreatActor` function to enable querying Threat Actors from TIDE and additionally return related IOCs.
+- Add `Get-NIOSFileOp` function for receiving files from NIOS
