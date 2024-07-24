@@ -43,6 +43,9 @@
     .PARAMETER OutFile
         The file path to save downloaded files to.
 
+    .PARAMETER AdditionalHeaders
+        This parameter can be used to pass additional headers, or override the Content-Type header (defaults to application/json).
+
     .PARAMETER SkipCertificateCheck
         If this parameter is set, SSL Certificates Checks will be ignored
 
