@@ -14,7 +14,7 @@ Queries Threat Actor information by Actor ID or IOC
 
 ### ByActorID
 ```
-Get-B1ThreatActor -actor_id <String[]> [-Page <Int32>] [-Summary] [-ReturnAllIndicators] [-CF]
+Get-B1ThreatActor -ActorID <String[]> [-Page <Int32>] [-Summary] [-ReturnAllIndicators] [-CF]
  [<CommonParameters>]
 ```
 
@@ -158,13 +158,14 @@ zzzo.info
 
 ## PARAMETERS
 
-### -actor_id
+### -ActorID
 A comma separated list of IDs for the threat actors to get details for.
+This accepts pipeline from "Get-B1ThreatIntel -ThreatActors"
 
 ```yaml
 Type: String[]
 Parameter Sets: ByActorID
-Aliases:
+Aliases: actor_id
 
 Required: True
 Position: Named

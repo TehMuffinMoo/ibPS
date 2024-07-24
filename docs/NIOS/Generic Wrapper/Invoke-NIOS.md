@@ -15,19 +15,20 @@ Queries a NIOS Grid Manager via Infoblox WAPI or the BloxOne CSP via NIOS Federa
 ### Local
 ```
 Invoke-NIOS [-Method <WebRequestMethod>] -Server <String> -Uri <String> -ApiVersion <String>
- -Creds <PSCredential> [-Data <String>] [-SkipCertificateCheck] [<CommonParameters>]
+ -Creds <PSCredential> [-Data <String>] [-OutFile <String>] [-SkipCertificateCheck]
+ [-AdditionalHeaders <Object>] [<CommonParameters>]
 ```
 
 ### FederatedUID
 ```
 Invoke-NIOS [-Method <WebRequestMethod>] -GridUID <String> -Uri <String> -ApiVersion <String> [-Data <String>]
- [<CommonParameters>]
+ [-OutFile <String>] [-AdditionalHeaders <Object>] [<CommonParameters>]
 ```
 
 ### FederatedName
 ```
 Invoke-NIOS [-Method <WebRequestMethod>] -GridName <String> -Uri <String> -ApiVersion <String> [-Data <String>]
- [<CommonParameters>]
+ [-OutFile <String>] [-AdditionalHeaders <Object>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -181,6 +182,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -OutFile
+The file path to save downloaded files to.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -SkipCertificateCheck
 If this parameter is set, SSL Certificates Checks will be ignored
 
@@ -194,6 +210,21 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -AdditionalHeaders
+{{ Fill AdditionalHeaders Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
