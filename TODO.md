@@ -28,4 +28,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add IPAM Hosts, Tags & Metadata Network Scope support for `New-B1SecurityPolicy` & `Set-B1SecurityPolicy`
 - [ ] Re-factor Set-B1NTPServiceConfiguration
 
+## Upcoming API Changes
+- [ ] Prep changes required for DHCP Config Profiles
+
 ## Bug Fixes
