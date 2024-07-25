@@ -4,4 +4,4 @@
 - Rename `Get-B1Export` to `Receive-B1Export`
 - Add new `Get-B1Export` convenience function to query a list of Bulk Operations with type Export
 - Add new `Get-B1Import` convenience function to query a list of Bulk Operations with type Import
-- Add new `-CaseInsensitive` parameter when using `Get-` functions. This works by appending `(?i)` to the search filters when using regex mode (Not `-Strict`).
+- Add new `-CaseInsensitive` parameter when using `Get-` functions. This works by appending `(?i)` to the search filters when using regex mode, and using `:=` instead of `==` when using `-Strict` mode.

@@ -172,8 +172,18 @@ Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-OrderBy`, `-O
     <td>
 This is used to apply strict name checking when querying objects.  
 The default is to perform wildcard/lazy matches based on submitted query parameters.  
-When using -Strict, search parameters use the `==` operator, ensuring only exact matches including case sensitivity.  
-When not using -Strict, search parameters use the `~` operator, this matches based on a regex string which is also case sensitive. To help fix this, the global regex modifier `(?i)` is automatically appended to search parameters. If you want to use case-sensitive regex, you can optionally specify the `-CaseSensitive` parameter on supported functions.
+When using -Strict, search parameters use the `==` operator, ensuring only exact matches. This is a case-insensitive search by default. To do a case-sensitive search, specify the `-CaseSensitive` switch parameter.
+When not using -Strict, search parameters use the `~` operator, this matches based on a regex string. A global regex modifier `(?i)` is automatically appended to search parameters. If you want to use case-sensitive regex, you can optionally specify the `-CaseSensitive` parameter on supported functions.
+    </td>
+  </tr>
+  <tr>
+    <td class="paramName">
+      -CaseSensitive
+    </td>
+    <td>
+This is used to perform Case Sensitive matching.
+The default is to perform case-insensitive matches based on submitted query parameters.  
+See -Strict for more information about the mechanism this uses.
     </td>
   </tr>
   <tr>

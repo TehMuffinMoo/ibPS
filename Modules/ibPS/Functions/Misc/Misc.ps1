@@ -86,10 +86,15 @@ function ConvertTo-QueryString {
 function Match-Type {
     param(
       [parameter(mandatory=$true)]
-      [bool]$Strict
+      [bool]$Strict,
+      [bool]$CaseSensitive
     )
-	if ($Strict) {
-        $MatchType = "=="
+    if ($Strict) {
+          if ($CaseSensitive) {
+            $MatchType = "=="
+          } else {
+            $MatchType = ":="
+          }
     } else {
         $MatchType = "~"
     }
