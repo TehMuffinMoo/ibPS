@@ -93,7 +93,8 @@
       [String]$OrderByTag,
       [switch]$BreakOnError,
       $CustomFilters,
-      [String]$id
+      [String]$id,
+      [Switch]$CaseSensitive
     )
 
 	$MatchType = Match-Type $Strict
@@ -131,7 +132,7 @@
     }
 
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {

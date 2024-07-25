@@ -171,7 +171,9 @@ Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-OrderBy`, `-O
     </td>
     <td>
 This is used to apply strict name checking when querying objects.  
-The default is to perform wildcard/lazy matches based on submitted query parameters.
+The default is to perform wildcard/lazy matches based on submitted query parameters.  
+When using -Strict, search parameters use the `==` operator, ensuring only exact matches including case sensitivity.  
+When not using -Strict, search parameters use the `~` operator, this matches based on a regex string which is also case sensitive. To help fix this, the global regex modifier `(?i)` is automatically appended to search parameters. If you want to use case-sensitive regex, you can optionally specify the `-CaseSensitive` parameter on supported functions.
     </td>
   </tr>
   <tr>
@@ -247,6 +249,7 @@ Literal values include numbers (integer and floating-point), and quoted (both si
 |----------|------------------------------|
 | ==	     | Equal                        |
 | !=	     | Not Equal                    |
+| :=       | Equal (Case Insensitive)     |
 | >	       | Greater Than                 |
 | >=	     | Greater Than or Equal To     |
 | <		     | Less Than                    |

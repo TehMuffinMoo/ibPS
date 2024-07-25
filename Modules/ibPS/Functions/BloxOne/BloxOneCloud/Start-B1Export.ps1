@@ -100,61 +100,52 @@
         "error_handling_id" = "1"
     }
 
-    $dataTypes = New-Object System.Collections.ArrayList
+    $dataTypes = @()
 
     if ($DNSConfig -or $BackupAll) {
-        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v2/authzonev2s.v2.dnsconfig.bulk.infoblox.com") | Out-Null ## Authoritative Zones
-        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v2/forwardzonev2s.v2.dnsconfig.bulk.infoblox.com") | Out-Null ## Forward Zones
-        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v2/serverv2s.v2.dnsconfig.bulk.infoblox.com") | Out-Null ## DNS Config Profiles
-        $dataTypes.Add("dnsconfig.bulk.infoblox.com/v2/viewv2s.v2.dnsconfig.bulk.infoblox.com") | Out-Null ## DNS Views
+        $dataTypes += (Build-BulkExportTypes -Types 'dnsconfig').DataType ## Authoritative Zones / Forward Zones / DNS Config Profiles / DNS Views
     }
     if ($DNSData -or $BackupAll) {
-        $dataTypes.Add("dnsdata.bulk.infoblox.com/v2/recordv2s.v2.dnsdata.bulk.infoblox.com") | Out-Null ## DNS Records
+        $dataTypes += (Build-BulkExportTypes -Types 'dnsdata').DataType ## DNS Records
     }
     if ($NTPData -or $BackupAll) {
-        $dataTypes.Add("ntp.bulk.infoblox.com/v1alpha1/ntpserviceconfigs.v1alpha1.ntp.bulk.infoblox.com") | Out-Null ## NTP Configuration
+        $dataTypes += (Build-BulkExportTypes -Types 'ntpserviceconfigs').DataType ## NTP Configuration
     }
     if ($IPAMData -or $BackupAll) {
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/addressblockv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## IPAM Address Blocks
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/addressv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## Addresses
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/fixedaddressv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## Fixed Addresses
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/hagroupv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## HA Groups
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/hardwarefilterv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## Hardware Filters
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/ipspacev3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## IP Spaces
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/optioncodev3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Option Codes
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/optionfilterv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Option Filters
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/optiongroupv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Option Groups
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/optionspacev3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Option Spaces
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/rangev3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Ranges
-		$dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/subnetv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## IPAM Subnets
-        $dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/ipamhostv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Hosts
-        $dataTypes.Add("ipamdhcp.bulk.infoblox.com/v3/serverv3s.v3.ipamdhcp.bulk.infoblox.com") | Out-Null ## DHCP Config Profiles
+        ### Includes;
+        ## IPAM Address Blocks
+        ## Addresses
+        ## Fixed Addresses
+        ## Hardware Filters
+        ## HA Groups
+        ## IP Spaces
+        ## DHCP Option Codes
+        ## DHCP Option Filters
+        ## DHCP Option Groups
+        ## DHCP Option Spaces
+        ## DHCP Ranges
+        ## IPAM Subnets
+        ## DHCP Hosts
+        ## DHCP Config Profiles
+		$dataTypes += (Build-BulkExportTypes -Types 'ipamdhcp').DataType
     }
     if ($KeyData -or $BackupAll) {
-        $dataTypes.Add("keys.bulk.infoblox.com/v1/tsigkeys.v1.keys.bulk.infoblox.com") | Out-Null
+        $dataTypes += (Build-BulkExportTypes -Types 'tsigkeys').DataType ## TSIG Keys
     }
     if ($ThreatDefense -or $BackupAll) {
-        $dataTypes.Add("atcapi.bulk.infoblox.com/v1alpha1/applicationfilters.v1alpha1.atcapi.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("atcapi.bulk.infoblox.com/v1alpha1/b1endpoints.v1alpha1.atcapi.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("atcapi.bulk.infoblox.com/v1alpha1/categoryfilters.v1alpha1.atcapi.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("atcapi.bulk.infoblox.com/v1alpha1/customdomains.v1alpha1.atcapi.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("atcapi.bulk.infoblox.com/v1alpha1/endpointgroups.v1alpha1.atcapi.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("atcapi.bulk.infoblox.com/v1alpha1/externalsubnets.v1alpha1.atcapi.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("atcapi.bulk.infoblox.com/v1alpha1/internaldomains.v1alpha1.atcapi.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("atcapi.bulk.infoblox.com/v1alpha1/securitypolicies.v1alpha1.atcapi.bulk.infoblox.com") | Out-Null
+        $dataTypes += (Build-BulkExportTypes -Types 'atcapi').DataType ## Threat Defense Types
     }
     if ($Bootstrap -or $BackupAll) {
-        $dataTypes.Add("bootstrap.bulk.infoblox.com/v1alpha1/hostconfigs.v1alpha1.bootstrap.bulk.infoblox.com") | Out-Null
+        $dataTypes += (Build-BulkExportTypes -Types 'bootstrap').DataType | Out-Null ## Bootstrap / Host Config
     }
     if ($B1Hosts -or $BackupAll) {
-        $dataTypes.Add("onprem.bulk.infoblox.com/v1alpha1/hosts.v1alpha1.onprem.bulk.infoblox.com") | Out-Null
+        $dataTypes += (Build-BulkExportTypes -Types 'hosts').DataType ## B1 Host Config / Host Config
     }
     if ($Redirects -or $BackupAll) {
-        $dataTypes.Add("redirect.bulk.infoblox.com/v1alpha1/customredirects.v1alpha1.redirect.bulk.infoblox.com") | Out-Null
+        $dataTypes += (Build-BulkExportTypes -Types 'customredirects').DataType ## Custom Redirects
     }
     if ($Tags -or $BackupAll) {
-        $dataTypes.Add("tagging.bulk.infoblox.com/v1alpha1/tags.v1alpha1.tagging.bulk.infoblox.com") | Out-Null
-		$dataTypes.Add("tagging.bulk.infoblox.com/v1alpha1/values.v1alpha1.tagging.bulk.infoblox.com") | Out-Null
+        $dataTypes += (Build-BulkExportTypes -Types 'tagging').DataType ## Tagging
     }
     if ($dataTypes) {
         $splat | Add-Member -Name "data_types" -Value $dataTypes -MemberType NoteProperty
@@ -164,6 +155,7 @@
         $Export = Invoke-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
         if ($Export.success.message -eq "Export pending") {
             Write-Host "Data Export initalised successfully." -ForegroundColor Green
+            $Export
         } else {
             Write-Host "Data Export failed to initialise." -ForegroundColor Red
         }

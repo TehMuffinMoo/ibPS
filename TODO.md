@@ -27,6 +27,7 @@ The list of items below are those which are not yet implemented within ibPS. Onc
 - [ ] Add TSIG_KEY support to `Set-B1DNSACL` & `New-B1DNSACLItem`
 - [ ] Add IPAM Hosts, Tags & Metadata Network Scope support for `New-B1SecurityPolicy` & `Set-B1SecurityPolicy`
 - [ ] Re-factor Set-B1NTPServiceConfiguration
+- [ ] Implement `-CaseSensitive` parameter across `Get-` functions
 
 ## Upcoming API Changes
 - [ ] Prep changes required for DHCP Config Profiles
