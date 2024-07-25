@@ -215,7 +215,7 @@ Accept wildcard characters: False
 ```
 
 ### -AdditionalHeaders
-{{ Fill AdditionalHeaders Description }}
+This parameter can be used to pass additional headers, or override the Content-Type header (defaults to application/json).
 
 ```yaml
 Type: Object

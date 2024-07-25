@@ -13,7 +13,8 @@ Used to query BloxOne Bulk Operations
 ## SYNTAX
 
 ```
-Get-B1BulkOperation [[-id] <String>] [[-Name] <String>] [-Strict] [<CommonParameters>]
+Get-B1BulkOperation [[-id] <String>] [[-Name] <String>] [[-Type] <String>] [[-Status] <String>] [-Strict]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +24,17 @@ This function is used to query BloxOne Bulk Operations
 
 ### EXAMPLE 1
 ```powershell
-Get-B1BulkOperation -Name "Backup of all CSP data"
+Get-B1BulkOperation -Name "My Import Job"
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1BulkOperation -Type 'export'
+```
+
+### EXAMPLE 3
+```powershell
+Get-B1BulkOperation -Type 'import'
 ```
 
 ## PARAMETERS
@@ -53,6 +64,36 @@ Aliases:
 
 Required: False
 Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Type
+Filter the results by the operation type, such as 'export' or 'import'.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Status
+Filter the results by the operation status, such as 'completed' or 'failed'.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

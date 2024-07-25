@@ -5,31 +5,31 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1Export
+# Get-B1Import
 
 ## SYNOPSIS
-Used to query BloxOne Export Jobs
+Used to query BloxOne Import Jobs
 
 ## SYNTAX
 
 ```
-Get-B1Export [[-id] <String>] [[-Name] <String>] [-Strict] [<CommonParameters>]
+Get-B1Import [[-id] <String>] [[-Name] <String>] [-Strict] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query BloxOne Export Jobs
+This function is used to query BloxOne Import Jobs
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1Export -Name "Backup of all CSP data"
+Get-B1Import -Name "Import backup"
 ```
 
 ## PARAMETERS
 
 ### -id
-Filter the results by the id of the export job
+Filter the results by the id of the import job
 
 ```yaml
 Type: String
@@ -44,7 +44,7 @@ Accept wildcard characters: False
 ```
 
 ### -Name
-Filter the results by the name of the export job
+Filter the results by the name of the import job
 
 ```yaml
 Type: String
