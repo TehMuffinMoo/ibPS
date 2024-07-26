@@ -181,7 +181,7 @@ When not using -Strict, search parameters use the <code>~</code> operator, this 
     </td>
     <td>
 This is used to perform Case Sensitive matching. The default is to perform case-insensitive matches based on submitted query parameters.<br><br>
-The nature of the BloxOne API means that not all API endpoints support case-sensitive searching. This is reflected by the `-CaseSensitive` parameter being present or ommitted from functions based on the support for it in the API.<br><br>
+The nature of the BloxOne API means that not all API endpoints support case-sensitive searching. This is reflected by the <code>-CaseSensitive</code> parameter being present or ommitted from functions based on the support for it in the API.<br><br>
 See -Strict for more information about the mechanism this uses.
     </td>
   </tr>
