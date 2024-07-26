@@ -34,6 +34,9 @@
     .PARAMETER Muted
         Using the -Muted parameter allows you to filter results based on muted status
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .EXAMPLE
         PS> Get-B1Lookalikes -Domain google.com -Reason "phishing" | ft registration_date,lookalike_domain,type,categories,reason -AutoSize
 
@@ -67,10 +70,11 @@
       [ValidateSet('true','false')]
       [String]$Muted,
       [Switch]$Strict,
-      $CustomFilters
+      $CustomFilters,
+      [Switch]$CaseSensitive
     )
 
-    $MatchType = Match-Type $Strict
+    $MatchType = Match-Type $Strict $CaseSensitive
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
@@ -90,7 +94,7 @@
         $Filters.Add("hidden==`"$($Muted)`"") | Out-Null
     }
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {

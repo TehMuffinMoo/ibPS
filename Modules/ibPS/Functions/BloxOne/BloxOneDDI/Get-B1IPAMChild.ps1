@@ -9,7 +9,7 @@
         This accepts pipeline input from Get-B1Space, Get-B1AddressBlock, Get-B1Subnet & Get-B1Range
 
     .PARAMETER Type
-        Filter results by the object one or more object types
+        Filter results by one or more object types, such as 'subnet', 'range' or 'address_block'
 
     .PARAMETER Label
         Filter results by the object label
@@ -51,6 +51,9 @@
 
         This uses the -Recurse parameter and so very large network structures may take a long time to generate.
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .EXAMPLE
         PS> Get-B1Space -Name "my-ipspace" | Get-B1IPAMChild
 
@@ -80,6 +83,7 @@
         [String]$tfilter,
         [Switch]$Recurse,
         [Switch]$NetworkTopology,
+        [Switch]$CaseSensitive,
         [Parameter(
             ValueFromPipeline = $true,
             Mandatory=$true
@@ -98,7 +102,7 @@
                 return $null
             }
         }
-        $MatchType = Match-Type $Strict
+        $MatchType = Match-Type $Strict $CaseSensitive
         $PermittedInputs = "ip_space","address_block","subnet","range"
         if (($Object.id.split('/')[1]) -notin $PermittedInputs) {
             Write-Error "Error. Unsupported pipeline object. Supported inputs are ip_space, address_block, subnet & range"
@@ -122,7 +126,7 @@
             $Filters.Add("description$($MatchType)`"$($Description)`"") | Out-Null
         }
         if ($Filters) {
-            $Filter = Combine-Filters $Filters
+            $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
             $QueryFilters.Add("_filter=$Filter") | Out-Null
         }
         $QueryFilters.Add("node=$($Object.id)") | Out-Null

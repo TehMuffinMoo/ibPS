@@ -41,6 +41,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .PARAMETER id
         The id of the API Key to filter by
 
@@ -68,12 +71,13 @@
         [String[]]$Fields,
         [String]$OrderBy,
         $CustomFilters,
+        [Switch]$CaseSensitive,
         [String]$id
     )
 
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
-    $MatchType = Match-Type $Strict
+    $MatchType = Match-Type $Strict $CaseSensitive
     if ($CustomFilters) {
         $Filters.Add($CustomFilters) | Out-Null
     }
@@ -96,7 +100,7 @@
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {

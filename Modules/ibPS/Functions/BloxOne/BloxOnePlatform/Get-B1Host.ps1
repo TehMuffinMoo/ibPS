@@ -36,9 +36,6 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
-    .PARAMETER CaseSensitive
-        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
-
     .PARAMETER NoIPSpace
         Filter by hosts which do not have an IPAM space assigned
 
@@ -64,6 +61,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
@@ -87,7 +87,6 @@
       [Switch]$Detailed,
       [Switch]$Reduced,
       [Switch]$Strict,
-      [Switch]$CaseSensitive,
       [Switch]$NoIPSpace,
       [Int]$Limit = 10001,
       [Int]$Offset = 0,
@@ -97,6 +96,7 @@
       [String]$OrderByTag,
       [Switch]$BreakOnError,
       $CustomFilters,
+      [Switch]$CaseSensitive,
       [String]$id
     )
 

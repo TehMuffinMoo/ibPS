@@ -33,6 +33,9 @@
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching for the filters
+
     .EXAMPLE
         PS> Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
 
@@ -54,7 +57,8 @@
       [System.Object]$Filters,
       [String]$tfilter,
       [Int]$Limit,
-      [Int]$Offset
+      [Int]$Offset,
+      [Switch]$CaseSensitive
     )
 
     ## Get Saved CSP URL
@@ -78,7 +82,7 @@
         foreach ($Filter in $Filters) {
             $B1Filters.Add("$($Filter)") | Out-Null
         }
-        $QueryFilters.Add("_filter="+(Combine-Filters $B1Filters)) | Out-Null
+        $QueryFilters.Add("_filter="+(Combine-Filters $B1Filters -CaseSensitive:$CaseSensitive)) | Out-Null
     }
 
     if ($tfilter) {

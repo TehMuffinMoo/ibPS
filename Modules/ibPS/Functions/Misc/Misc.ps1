@@ -28,7 +28,7 @@ function Combine-Filters {
       "System.Collections.ArrayList" {
         foreach ($filter in $Filters) {
           if (-not $CaseSensitive) {
-            if ($filter -match '(.*\~\")(.*)(\")') {
+            if ($filter -match '(.*\~\")(.*)(\"(\))?)' -and $filter -notmatch '\(\?i\)') {
               $filter = "$($Matches[1])(?i)$($Matches[2])$($Matches[3])"
             }
           }
@@ -60,6 +60,11 @@ function Combine-Filters {
       default {
         Write-Error "Unsupported Filter input"
       }
+    }
+    ## Force URLEncode for regex characters which would otherwise cause a problem
+    $ReplaceChars = @('\+')
+    $ReplaceChars | %{
+      $combinedFilter = $combinedFilter -replace $_,[System.Web.HTTPUtility]::UrlEncode($($_ -replace '\\',''))
     }
     return $combinedFilter
 }

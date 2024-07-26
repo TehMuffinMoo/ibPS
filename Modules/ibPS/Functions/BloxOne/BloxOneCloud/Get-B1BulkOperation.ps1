@@ -21,6 +21,9 @@
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .EXAMPLE
         PS> Get-B1BulkOperation -Name "My Import Job"
 
@@ -43,10 +46,11 @@
         [String]$Type,
         [ValidateSet('Active','Completed','Failed')]
         [String]$Status,
-        [Switch]$Strict
+        [Switch]$Strict,
+        [Switch]$CaseSensitive
     )
 
-	$MatchType = Match-Type $Strict
+	$MatchType = Match-Type $Strict $CaseSensitive
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($Name) {
@@ -62,7 +66,7 @@
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($QueryFilters) {
