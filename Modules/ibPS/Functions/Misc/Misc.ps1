@@ -211,6 +211,13 @@ function Get-CompositeStateSpaces {
         "AppType" = "20"
         "Composite" = "64"
         "Service_Type" = "ntp"
+    },
+    @{
+        "Application" = "Discovery"
+        "FriendlyName" = "Discovery"
+        "AppType" = $null
+        "Composite" = $null
+        "Service_Type" = "discovery"
     }
   ) | ConvertTo-Json | ConvertFrom-Json
 }

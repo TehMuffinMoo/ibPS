@@ -15,6 +15,21 @@
     .EXAMPLE
         PS> Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
 
+        B1Host    : B1DDI-01
+        DNS       : started
+        Discovery : started
+        CDC       : started
+        AnyCast   : started
+        DHCP      : started
+
+    .EXAMPLE
+        PS> Get-B1HealthCheck -B1Host "B1DDI" -Type "ApplicationHealth" | ft
+
+        B1Host    Discovery AnyCast DHCP    CDC     DNS
+        ------    --------- ------- ----    ---     ---
+        B1DDI-01  started   started started started started
+        B1DDI-01            started                 started
+
     .FUNCTIONALITY
         BloxOneDDI
 
@@ -35,12 +50,11 @@
       "ApplicationHealth" {
         $Hosts = Get-B1Host -Name $B1Host -Detailed
         $B1HealthStatus = @()
-        foreach ($B1Host in $Hosts) {
+        foreach ($B1HostObj in $Hosts) {
             $B1HostHealthStatus = @{}
             $B1AppStatus = @()
-            foreach ($B1App in $B1Host.services) {
+            foreach ($B1App in $B1HostObj.services) {
                 $B1AppData = @{
-                    "Host" = $B1Host.display_name
                     "Application" = (Get-CompositeStateSpaces | Where-Object {$_.Service_Type -eq $B1App.service_type}).Application
                     "Friendly Name" = (Get-CompositeStateSpaces | Where-Object {$_.Service_Type -eq $B1App.service_type}).FriendlyName
                     "Status" = $B1App.status.status
@@ -52,10 +66,10 @@
                 $($App.Application) = $($App.Status)
               }
             }
-            $B1HostHealthStatus."Host" = $B1Host.display_name
+            $B1HostHealthStatus."B1Host" = $B1HostObj.display_name
             $B1HealthStatus += $B1HostHealthStatus
         }
-        ($B1HealthStatus | ConvertTo-Json | ConvertFrom-Json) | Select-Object *
+        $B1HealthStatus | ConvertFrom-HashTable | Select-Object B1Host,* -EA SilentlyContinue
       }
     }
 }
