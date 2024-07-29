@@ -15,7 +15,7 @@ Retrieves a list of BloxOne Cloud API Keys
 ```
 Get-B1APIKey [[-User] <String>] [[-CreatedBy] <String>] [[-Name] <String>] [[-Type] <String>]
  [[-State] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>]
- [[-OrderBy] <String>] [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
+ [[-OrderBy] <String>] [[-CustomFilters] <Object>] [-CaseSensitive] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -199,6 +199,22 @@ Aliases:
 Required: False
 Position: 10
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

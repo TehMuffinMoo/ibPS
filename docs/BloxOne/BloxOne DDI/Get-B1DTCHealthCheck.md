@@ -16,7 +16,7 @@ Retrieves a list BloxOne DTC Health Checks
 Get-B1DTCHealthCheck [[-Name] <String>] [[-Description] <String>] [[-Type] <String>] [[-Status] <String>]
  [[-Port] <Int32>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
  [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>]
- [[-id] <String>] [<CommonParameters>]
+ [-CaseSensitive] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -235,6 +235,22 @@ Aliases:
 Required: False
 Position: 12
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

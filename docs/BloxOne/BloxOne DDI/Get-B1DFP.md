@@ -16,7 +16,7 @@ Queries a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
 Get-B1DFP [[-Name] <String[]>] [[-SiteID] <String>] [[-OPHID] <String>] [[-PolicyID] <Int32>]
  [-DefaultSecurityPolicy] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
  [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>]
- [[-id] <String>] [<CommonParameters>]
+ [-CaseSensitive] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -235,6 +235,22 @@ Aliases:
 Required: False
 Position: 11
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

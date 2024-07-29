@@ -24,6 +24,23 @@ This function is used to perform a health check on a BloxOneDDI Host
 ### EXAMPLE 1
 ```powershell
 Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
+
+B1Host    : B1DDI-01
+DNS       : started
+Discovery : started
+CDC       : started
+AnyCast   : started
+DHCP      : started
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1HealthCheck -B1Host "B1DDI" -Type "ApplicationHealth" | ft
+
+B1Host    Discovery AnyCast DHCP    CDC     DNS
+------    --------- ------- ----    ---     ---
+B1DDI-01  started   started started started started
+B1DDI-01            started                 started
 ```
 
 ## PARAMETERS

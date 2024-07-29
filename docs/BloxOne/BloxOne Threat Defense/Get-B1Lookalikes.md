@@ -15,7 +15,7 @@ Queries a list of lookalike domains
 ```
 Get-B1Lookalikes [[-Domain] <String>] [[-LookalikeDomain] <String>] [[-Reason] <String>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Muted] <String>] [-Strict] [[-CustomFilters] <Object>]
- [<CommonParameters>]
+ [-CaseSensitive] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -180,6 +180,22 @@ Aliases:
 Required: False
 Position: 8
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

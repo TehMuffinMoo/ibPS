@@ -15,7 +15,7 @@ Retrieves a list of users from the BloxOne Cloud
 ```
 Get-B1User [[-Name] <String>] [[-Email] <String>] [[-State] <String>] [[-Type] <String>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-CustomFilters] <Object>]
- [[-id] <String>] [<CommonParameters>]
+ [-CaseSensitive] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -193,6 +193,22 @@ Aliases:
 Required: False
 Position: 9
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

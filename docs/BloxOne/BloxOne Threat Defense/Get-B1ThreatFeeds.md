@@ -14,7 +14,7 @@ Use this cmdlet to retrieve information on all Threat Feed objects for the accou
 
 ```
 Get-B1ThreatFeeds [[-Name] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>] [-Strict]
- [[-CustomFilters] <Object>] [<CommonParameters>]
+ [[-CustomFilters] <Object>] [-CaseSensitive] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -131,6 +131,22 @@ Aliases:
 Required: False
 Position: 5
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

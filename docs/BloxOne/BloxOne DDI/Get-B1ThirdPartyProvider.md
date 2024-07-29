@@ -15,7 +15,7 @@ Retrieves a list of configured third party DNS & IPAM providers
 ```
 Get-B1ThirdPartyProvider [[-Name] <String>] [[-Description] <String>] [[-Type] <String>] [[-Vendor] <String>]
  [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>] [[-OrderBy] <String>] [-Strict]
- [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
+ [[-CustomFilters] <Object>] [-CaseSensitive] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -188,6 +188,22 @@ Aliases:
 Required: False
 Position: 9
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

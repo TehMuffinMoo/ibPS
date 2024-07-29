@@ -5,55 +5,46 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1ApplicationFilter
+# Get-B1CustomRedirect
 
 ## SYNOPSIS
-Retrieves an Application Filter from BloxOne Threat Defense
+Retrieves a Custom Redirects from BloxOne Threat Defense
 
 ## SYNTAX
 
 ### Default (Default)
 ```
-Get-B1ApplicationFilter [-Name <String>] [-Description <String>] [-Limit <Int32>] [-Offset <Int32>]
- [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-Strict] [-CustomFilters <Object>]
- [-CaseSensitive] [<CommonParameters>]
+Get-B1CustomRedirect [-Name <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>]
+ [-OrderBy <String>] [-CustomFilters <Object>] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Get-B1ApplicationFilter [-Fields <String[]>] [-CaseSensitive] -id <String> [<CommonParameters>]
+Get-B1CustomRedirect [-Fields <String[]>] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve application filter(s) from BloxOne Threat Defense.
-These are referred to and displayed as 'App Filters' within the CSP.
+This function is used to retrieve named redirects from BloxOne Threat Defense.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
+Get-B1CustomRedirect -Name 'guest-redirect'
 
+created_time : 6/18/2024 11:59:25 AM
+data         : 2.3.4.5
+id           : 1234
+name         : guest-redirect
+policy_ids   : {123456}
+policy_names : {guest-policy}
+updated_time : 6/18/2024 11:59:25 AM
 ```
 
 ## PARAMETERS
 
 ### -Name
 Filter results by Name.
-
-```yaml
-Type: String
-Parameter Sets: Default
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Description
-Filter results by Description.
 
 ```yaml
 Type: String
@@ -130,39 +121,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OrderByTag
-Optionally return the list ordered by a particular tag value.
-Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
-
-```yaml
-Type: String
-Parameter Sets: Default
-Aliases:
-
-Required: False
-Position: Named
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Strict
-Use strict filter matching.
-By default, filters are searched using wildcards where possible.
-Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: Default
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -CustomFilters
 Accepts either an Object, ArrayList or String containing one or more custom filters.
 See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
@@ -175,22 +133,6 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CaseSensitive
-Use Case Sensitive matching.
-By default, case-insensitive matching both for -Strict matching and regex matching.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

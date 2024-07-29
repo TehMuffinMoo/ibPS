@@ -15,7 +15,7 @@ Retrieves a list of BloxOne Threat Defense Security Policies
 ### Default (Default)
 ```
 Get-B1SecurityPolicy [-Name <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>]
- [-tfilter <String>] [-Strict] [-CustomFilters <Object>] [<CommonParameters>]
+ [-tfilter <String>] [-Strict] [-CustomFilters <Object>] [-CaseSensitive] [<CommonParameters>]
 ```
 
 ### With ID
@@ -165,6 +165,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

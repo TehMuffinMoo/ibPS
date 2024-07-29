@@ -14,7 +14,7 @@ Used to query BloxOne Bulk Operations
 
 ```
 Get-B1BulkOperation [[-id] <String>] [[-Name] <String>] [[-Type] <String>] [[-Status] <String>] [-Strict]
- [<CommonParameters>]
+ [-CaseSensitive] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -103,6 +103,22 @@ Accept wildcard characters: False
 Use strict filter matching.
 By default, filters are searched using wildcards where possible.
 Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
 
 ```yaml
 Type: SwitchParameter

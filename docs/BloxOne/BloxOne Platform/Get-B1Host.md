@@ -14,9 +14,9 @@ Queries a list of BloxOneDDI Hosts
 
 ```
 Get-B1Host [[-Name] <String>] [[-IP] <String>] [[-OPHID] <String>] [[-Space] <String>] [[-Status] <String>]
- [-Detailed] [-Reduced] [-Strict] [-CaseSensitive] [-NoIPSpace] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [-BreakOnError]
- [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
+ [-Detailed] [-Reduced] [-Strict] [-NoIPSpace] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [-BreakOnError]
+ [[-CustomFilters] <Object>] [-CaseSensitive] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -141,22 +141,6 @@ Accept wildcard characters: False
 Use strict filter matching.
 By default, filters are searched using wildcards where possible.
 Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -CaseSensitive
-Use Case Sensitive matching.
-By default, case-insensitive matching both for -Strict matching and regex matching.
 
 ```yaml
 Type: SwitchParameter
@@ -307,6 +291,22 @@ Aliases:
 Required: False
 Position: 12
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
