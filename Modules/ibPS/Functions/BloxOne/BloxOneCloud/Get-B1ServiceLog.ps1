@@ -77,7 +77,7 @@
 
     $QueryFilters = ConvertTo-QueryString -Filters $Filters
     Write-DebugMsg -Filters $Filters
-    $B1Hosts = Get-B1Host -Detailed -Fields ohpid,display_name -Limit 2500
+    $B1Hosts = Get-B1Host -Detailed -Fields ophid,display_name -Limit 2500
     if ($QueryFilters) {
         $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/logs$QueryFilters" -Method GET
     } else {

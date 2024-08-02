@@ -6,3 +6,4 @@
 - Add new `Get-B1Import` convenience function to query a list of Bulk Operations with type Import
 - Add new `-CaseInsensitive` parameter when using supported `Get-` functions. The default is now case-insensitive searching, to fix some inconsistent query experiences. [More information here](https://ibps.readthedocs.io/en/dev/#common-parameters).
 - Add new `Get-B1CustomRedirect` function
+- Fix bug with `New-B1LookalikeTarget`
