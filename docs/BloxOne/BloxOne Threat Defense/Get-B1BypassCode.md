@@ -15,12 +15,13 @@ Retrieves a list of Bypass Codes from BloxOne Cloud
 ### Default (Default)
 ```
 Get-B1BypassCode [-Name <String>] [-Description <String>] [-Limit <Int32>] [-Offset <Int32>]
- [-Fields <String[]>] [-OrderBy <String>] [-Strict] [-CustomFilters <Object>] [<CommonParameters>]
+ [-Fields <String[]>] [-OrderBy <String>] [-Strict] [-CustomFilters <Object>] [-CaseSensitive]
+ [<CommonParameters>]
 ```
 
 ### With ID
 ```
-Get-B1BypassCode [-Fields <String[]>] [-access_key <String>] [<CommonParameters>]
+Get-B1BypassCode [-Fields <String[]>] [-CaseSensitive] [-access_key <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -157,6 +158,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

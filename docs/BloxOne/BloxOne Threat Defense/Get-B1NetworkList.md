@@ -16,7 +16,7 @@ Retrieves network lists (External Networks) from BloxOne Threat Defense
 ```
 Get-B1NetworkList [-Name <String>] [-Description <String>] [-PolicyID <Int32>] [-DefaultSecurityPolicy]
  [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>] [-Strict]
- [-CustomFilters <Object>] [<CommonParameters>]
+ [-CustomFilters <Object>] [-CaseSensitive] [<CommonParameters>]
 ```
 
 ### With ID
@@ -224,6 +224,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

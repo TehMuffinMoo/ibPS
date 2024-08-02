@@ -40,6 +40,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .PARAMETER id
         Return results based on DHCP Host id
 
@@ -75,9 +78,10 @@
         [String]$OrderByTag,
         [Switch]$Associations,
         $CustomFilters,
+        [Switch]$CaseSensitive,
         [String]$id
     )
-    $MatchType = Match-Type $Strict
+    $MatchType = Match-Type $Strict $CaseSensitive
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
@@ -93,7 +97,7 @@
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {

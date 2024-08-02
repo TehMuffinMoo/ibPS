@@ -5,63 +5,59 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1HealthCheck
+# Receive-B1Export
 
 ## SYNOPSIS
-Performs a health check on a BloxOneDDI Host
+Retrieves a BloxOneDDI Export/Backup
 
 ## SYNTAX
 
 ```
-Get-B1HealthCheck [-B1Host] <String> [-Type] <String> [<CommonParameters>]
+Receive-B1Export [-data_ref] <String> [-filePath] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to perform a health check on a BloxOneDDI Host
+This function is used to retrieve a BloxOneDDI Export/Backup
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
-
-B1Host    : B1DDI-01
-DNS       : started
-Discovery : started
-CDC       : started
-AnyCast   : started
-DHCP      : started
+Receive-B1Export -data_ref (Get-B1BulkOperation -Name "Backup of all CSP data").data_ref -filePath "C:\Backups"
 ```
 
 ### EXAMPLE 2
 ```powershell
-Get-B1HealthCheck -B1Host "B1DDI" -Type "ApplicationHealth" | ft
+$ExportName = "B1-Export-$((Get-Date).ToString('dd-MM-yy hh-mm-ss'))"
 
-B1Host    Discovery AnyCast DHCP    CDC     DNS
-------    --------- ------- ----    ---     ---
-B1DDI-01  started   started started started started
-B1DDI-01            started                 started
+PS> Start-B1Export -Name $ExportName -BackupAll
+PS> while (($ExportJob = Get-B1Export -Name $ExportName -Strict).overall_status -ne "Completed") {
+      Write-Host "Waiting for export to complete.."
+      Wait-Event -Timeout 5
+    }
+PS> $ExportJob | Receive-B1Export -filePath "/tmp/$($ExportName)"
 ```
 
 ## PARAMETERS
 
-### -B1Host
-The BloxOneDDI Host name/fqdn
+### -data_ref
+The data_ref provided by the Get-B1BulkOperation or Get-B1Export function.
+This accepts pipeline input.
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: OnPremHost
+Aliases:
 
 Required: True
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 
-### -Type
-The type of health check to perform
+### -filePath
+The local file path where the export should be saved to.
 
 ```yaml
 Type: String

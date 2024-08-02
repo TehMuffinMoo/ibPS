@@ -34,6 +34,9 @@
     .PARAMETER Muted
         Using the -Muted parameter allows you to filter results based on muted status
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .EXAMPLE
         PS> Get-B1Lookalikes -Domain google.com -Reason "phishing" | ft registration_date,lookalike_domain,type,categories,reason -AutoSize
 
@@ -58,7 +61,8 @@
     #>
     [CmdletBinding()]
     param(
-      [String]$Domain,
+      [Parameter(ValueFromPipeline)]
+      [String[]]$Domain,
       [String]$LookalikeDomain,
       [String]$Reason,
       [Int]$Limit = 1000,
@@ -67,52 +71,57 @@
       [ValidateSet('true','false')]
       [String]$Muted,
       [Switch]$Strict,
-      $CustomFilters
+      $CustomFilters,
+      [Switch]$CaseSensitive
     )
 
-    $MatchType = Match-Type $Strict
-
-    [System.Collections.ArrayList]$Filters = @()
-    [System.Collections.ArrayList]$QueryFilters = @()
-    if ($CustomFilters) {
-        $Filters.Add($CustomFilters) | Out-Null
-    }
-    if ($Domain) {
-      $Filters.Add("target_domain$($MatchType)`"$Domain`"") | Out-Null
-    }
-    if ($LookalikeDomain) {
-      $Filters.Add("lookalike_domain$($MatchType)`"$LookalikeDomain`"") | Out-Null
-    }
-    if ($Reason) {
-      $Filters.Add("reason$($MatchType)`"$Reason`"") | Out-Null
-    }
-    if ($Muted) {
-        $Filters.Add("hidden==`"$($Muted)`"") | Out-Null
-    }
-    if ($Filters) {
-        $Filter = Combine-Filters $Filters
-        $QueryFilters.Add("_filter=$Filter") | Out-Null
-    }
-    if ($Limit) {
-        $QueryFilters.Add("_limit=$Limit") | Out-Null
-    }
-    if ($Offset) {
-        $QueryFilters.Add("_offset=$Offset") | Out-Null
-    }
-    if ($Fields) {
-        $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
-    }
-    if ($QueryFilters) {
-        $QueryString = ConvertTo-QueryString $QueryFilters
-    }
-    Write-DebugMsg -Filters $QueryFilters
-    if ($QueryString) {
-        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
-    } else {
-        $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+    begin {
+        $MatchType = Match-Type $Strict $CaseSensitive
     }
 
-    if ($Results) {
-      return $Results
+    process {
+        [System.Collections.ArrayList]$Filters = @()
+        [System.Collections.ArrayList]$QueryFilters = @()
+        if ($CustomFilters) {
+            $Filters.Add($CustomFilters) | Out-Null
+        }
+        if ($Domain) {
+        $Filters.Add("target_domain$($MatchType)`"$Domain`"") | Out-Null
+        }
+        if ($LookalikeDomain) {
+        $Filters.Add("lookalike_domain$($MatchType)`"$LookalikeDomain`"") | Out-Null
+        }
+        if ($Reason) {
+        $Filters.Add("reason$($MatchType)`"$Reason`"") | Out-Null
+        }
+        if ($Muted) {
+            $Filters.Add("hidden==`"$($Muted)`"") | Out-Null
+        }
+        if ($Filters) {
+            $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
+            $QueryFilters.Add("_filter=$Filter") | Out-Null
+        }
+        if ($Limit) {
+            $QueryFilters.Add("_limit=$Limit") | Out-Null
+        }
+        if ($Offset) {
+            $QueryFilters.Add("_offset=$Offset") | Out-Null
+        }
+        if ($Fields) {
+            $QueryFilters.Add("_fields=$($Fields -join ",")") | Out-Null
+        }
+        if ($QueryFilters) {
+            $QueryString = ConvertTo-QueryString $QueryFilters
+        }
+        Write-DebugMsg -Filters $QueryFilters
+        if ($QueryString) {
+            $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        } else {
+            $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalikes" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+        }
+
+        if ($Results) {
+        return $Results
+        }
     }
 }

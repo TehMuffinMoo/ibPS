@@ -44,6 +44,9 @@
     .PARAMETER tfilter
         Use this parameter to filter the results returned by tag.
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .EXAMPLE
         PS> Get-B1DNSView -Name "my-dnsview" | Get-B1ZoneChild
 
@@ -80,7 +83,7 @@
     )
 
     process {
-        $MatchType = Match-Type $Strict
+        $MatchType = Match-Type $Strict $CaseSensitive
         $PermittedInputs = "view","auth_zone","forward_zone"
         if (($Object.id.split('/')[1]) -notin $PermittedInputs) {
             Write-Error "Error. Unsupported pipeline object. Supported inputs are view, auth_zone & forward_zone"
@@ -109,7 +112,7 @@
         }
         $Filters.Add("parent==`"$($Object.id)`"") | Out-Null
         if ($Filters) {
-            $Filter = Combine-Filters $Filters
+            $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
             $QueryFilters.Add("_filter=$Filter") | Out-Null
         }
         $QueryFilters.Add("view=SPACE") | Out-Null

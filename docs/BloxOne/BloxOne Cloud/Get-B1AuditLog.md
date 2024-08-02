@@ -15,8 +15,8 @@ Queries the BloxOneDDI Audit Log
 ```
 Get-B1AuditLog [[-Username] <String>] [[-ResourceType] <String>] [[-Method] <String>] [[-ResponseCode] <Int32>]
  [[-ClientIP] <String>] [[-Action] <String>] [[-Start] <DateTime>] [[-End] <DateTime>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-OrderBy] <String>] [[-Fields] <String[]>] [[-CustomFilters] <Object>] [-Strict]
- [<CommonParameters>]
+ [[-Offset] <Int32>] [[-OrderBy] <String>] [[-Fields] <String[]>] [[-CustomFilters] <Object>] [-CaseSensitive]
+ [-Strict] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -230,6 +230,22 @@ Aliases:
 Required: False
 Position: 13
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

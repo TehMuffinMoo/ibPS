@@ -19,13 +19,19 @@ function Combine-Filters {
     param(
       [parameter(Mandatory=$true)]
       $Filters,
-      $Type = "and"
+      $Type = "and",
+      [Switch]$CaseSensitive
     )
     $combinedFilter = $null
     $FilterCount = $Filters.Count
     switch ($Filters.GetType().FullName) {
       "System.Collections.ArrayList" {
         foreach ($filter in $Filters) {
+          if (-not $CaseSensitive) {
+            if ($filter -match '(.*\~\")(.*)(\"(\))?)' -and $filter -notmatch '\(\?i\)') {
+              $filter = "$($Matches[1])(?i)$($Matches[2])$($Matches[3])"
+            }
+          }
           if ($FilterCount -le 1) {
               $combinedFilter += $Filter
           } else {
@@ -35,7 +41,11 @@ function Combine-Filters {
         }
       }
       "System.Object[]" {
-        foreach ($filter in $Filters) {
+        $NewFilters = $Filters | Select-Object *
+        foreach ($filter in $NewFilters) {
+          if (-not $CaseSensitive -and $Filter.Operator -eq '~') {
+            $Filter.Value = "(?i)$($Filter.Value)"
+          }
           if ($FilterCount -le 1) {
             $combinedFilter += "$($Filter.Property)$($Filter.Operator)`"$($Filter.Value)`""
           } else {
@@ -50,6 +60,11 @@ function Combine-Filters {
       default {
         Write-Error "Unsupported Filter input"
       }
+    }
+    ## Force URLEncode for regex characters which would otherwise cause a problem
+    $ReplaceChars = @('\+')
+    $ReplaceChars | ForEach-Object {
+      $combinedFilter = $combinedFilter -replace $_,[System.Web.HTTPUtility]::UrlEncode($($_ -replace '\\',''))
     }
     return $combinedFilter
 }
@@ -76,10 +91,15 @@ function ConvertTo-QueryString {
 function Match-Type {
     param(
       [parameter(mandatory=$true)]
-      [bool]$Strict
+      [bool]$Strict,
+      [bool]$CaseSensitive
     )
-	if ($Strict) {
-        $MatchType = "=="
+    if ($Strict) {
+          if ($CaseSensitive) {
+            $MatchType = "=="
+          } else {
+            $MatchType = ":="
+          }
     } else {
         $MatchType = "~"
     }
@@ -191,6 +211,13 @@ function Get-CompositeStateSpaces {
         "AppType" = "20"
         "Composite" = "64"
         "Service_Type" = "ntp"
+    },
+    @{
+        "Application" = "Discovery"
+        "FriendlyName" = "Discovery"
+        "AppType" = $null
+        "Composite" = $null
+        "Service_Type" = "discovery"
     }
   ) | ConvertTo-Json | ConvertFrom-Json
 }
@@ -909,6 +936,7 @@ function DevelopmentFunctions {
     "Write-Graph"
     "Confirm-ShouldProcess"
     "JSONPretty"
+    "Build-BulkExportTypes"
   )
 }
 
@@ -1043,4 +1071,47 @@ function Confirm-ShouldProcess {
 
 function JSONPretty($JSON) {
   $JSON | ConvertFrom-Json | ConvertTo-Json -Depth 20
+}
+
+function Build-BulkExportTypes {
+  param(
+      [Parameter(ParameterSetName='List')]
+      [Switch]$List,
+      [Parameter(ParameterSetName='Types')]
+      [String[]]$Types,
+      [Switch]$Raw
+  )
+
+  if (-not $Script:B1BulkExportTypes) {
+      $Script:B1BulkExportTypes = Invoke-CSP -Method GET -Uri 'https://csp.infoblox.com/bulk/v1/types' | Select-Object -ExpandProperty results
+  }
+
+  $ReturnProperties = @{
+      Property =  @{n="Category";e={$_.display_name}},
+                  @{n="DataType";e={
+                      $GroupVersion = $_.group_version -split '/'
+                      "$($_.data_type).$($GroupVersion[1]).$($GroupVersion[0])"
+                  }},
+                  @{n="Formats";e={$_.supported_file_formats}}
+  }
+
+  if ($List) {
+      if (-not $Raw) {
+          $Script:B1BulkExportTypes | Select-Object @ReturnProperties
+      } else {
+          $Script:B1BulkExportTypes
+      }
+  }
+
+  if ($Types) {
+      $Results = @()
+      ForEach ($Type in $Types) {
+          $Results += $Script:B1BulkExportTypes | Where-Object {$_.data_type -like "*$($Type)*"}
+      }
+      if (-not $Raw) {
+          return $Results | Select-Object @ReturnProperties
+      } else {
+          return $Results
+      }
+  }
 }

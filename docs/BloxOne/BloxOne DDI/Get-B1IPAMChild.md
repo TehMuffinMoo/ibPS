@@ -15,7 +15,7 @@ Retrieves a list of child objects from IPAM
 ```
 Get-B1IPAMChild [[-Type] <String[]>] [[-Label] <String>] [[-Description] <String>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-tfilter] <String>] [-Recurse] [-NetworkTopology] [-Object] <Object[]> [<CommonParameters>]
+ [[-tfilter] <String>] [-Recurse] [-NetworkTopology] [-CaseSensitive] [-Object] <Object[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -43,7 +43,7 @@ Get-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Space "my-ipspace" | Get-B1IPAMChild
 ## PARAMETERS
 
 ### -Type
-Filter results by the object one or more object types
+Filter results by one or more object types, such as 'subnet', 'range' or 'address_block'
 
 ```yaml
 Type: String[]
@@ -219,6 +219,22 @@ Accept wildcard characters: False
 This does the same as: Get-B1IPAMChild | Get-NetworkTopology
 
 This uses the -Recurse parameter and so very large network structures may take a long time to generate.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
 
 ```yaml
 Type: SwitchParameter

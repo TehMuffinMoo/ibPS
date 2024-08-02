@@ -15,7 +15,7 @@ Retrives the summary metrics from the Lookalike Activity Page within the CSP
 ```
 Get-B1LookalikeTargetSummary [[-Domain] <String>] [[-ThreatClass] <String[]>] [[-Limit] <Int32>]
  [[-Offset] <Int32>] [[-Fields] <String[]>] [[-Start] <DateTime>] [-Strict] [[-CustomFilters] <Object>]
- [<CommonParameters>]
+ [-CaseSensitive] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -172,6 +172,22 @@ Aliases:
 Required: False
 Position: 7
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

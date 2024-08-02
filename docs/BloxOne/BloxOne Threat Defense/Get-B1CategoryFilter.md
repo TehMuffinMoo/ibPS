@@ -16,12 +16,12 @@ Retrieves a Category Filter from BloxOne Threat Defense
 ```
 Get-B1CategoryFilter [-Name <String>] [-Description <String>] [-Limit <Int32>] [-Offset <Int32>]
  [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>] [-Strict] [-CustomFilters <Object>]
- [<CommonParameters>]
+ [-CaseSensitive] [<CommonParameters>]
 ```
 
 ### ID
 ```
-Get-B1CategoryFilter [-Fields <String[]>] -id <String> [<CommonParameters>]
+Get-B1CategoryFilter [-Fields <String[]>] [-CaseSensitive] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -174,6 +174,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

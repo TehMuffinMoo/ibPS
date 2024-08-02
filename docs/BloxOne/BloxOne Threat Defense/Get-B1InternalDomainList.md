@@ -16,7 +16,7 @@ Retrieves information on Internal Domain objects for this account
 ```
 Get-B1InternalDomainList [-Name <String>] [-Description <String>] [-IsDefault] [-Strict] [-Limit <Int32>]
  [-Offset <Int32>] [-tfilter <String>] [-Fields <String[]>] [-OrderBy <String>] [-OrderByTag <String>]
- [-CustomFilters <Object>] [<CommonParameters>]
+ [-CustomFilters <Object>] [-CaseSensitive] [<CommonParameters>]
 ```
 
 ### With ID
@@ -228,6 +228,22 @@ Aliases:
 Required: False
 Position: Named
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Default
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

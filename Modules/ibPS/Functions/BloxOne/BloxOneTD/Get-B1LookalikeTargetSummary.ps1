@@ -31,6 +31,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .EXAMPLE
         PS> Get-B1LookalikeTargetSummary
 
@@ -65,10 +68,11 @@
       [String[]]$Fields,
       [datetime]$Start = (Get-Date).AddDays(-30),
       [Switch]$Strict,
-      $CustomFilters
+      $CustomFilters,
+      [Switch]$CaseSensitive
     )
 
-	$MatchType = Match-Type $Strict
+	$MatchType = Match-Type $Strict $CaseSensitive
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
@@ -88,14 +92,14 @@
         foreach ($TC in $ThreatClass) {
             $ThreatClasses.Add("$($TC)==`"true`"") | Out-Null
         }
-        $ThreatClassFilter = Combine-Filters $ThreatClasses -Type 'or'
+        $ThreatClassFilter = Combine-Filters $ThreatClasses -Type 'or' -CaseSensitive:$CaseSensitive
         if ($ThreatClasses) {
             $Filters.Add("($ThreatClassFilter)") | Out-Null
         }
     }
 
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {

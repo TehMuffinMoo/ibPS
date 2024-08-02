@@ -49,6 +49,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .EXAMPLE
         PS> Get-B1AuditLog -Limit "25" -Offset "0" -Username "my.email@domain.com" -Method "POST" -Action "Create" -ClientIP "1.2.3.4" -ResponseCode "200"
 
@@ -74,13 +77,14 @@
       [String]$OrderBy,
       [String[]]$Fields,
       $CustomFilters,
+      [Switch]$CaseSensitive,
       [switch]$Strict
     )
 
     $Start = $Start.ToUniversalTime()
     $End = $End.ToUniversalTime()
 
-    $MatchType = Match-Type $Strict
+    $MatchType = Match-Type $Strict $CaseSensitive
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($CustomFilters) {
@@ -113,7 +117,7 @@
         $Filters.Add("created_at<=`"$EndTime`"") | Out-Null
     }
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
     }
     if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null

@@ -50,7 +50,8 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-{{ Fill Object Description }}
+The BloxOneDDI Service Object(s) to stop.
+Accepts pipeline input
 
 ```yaml
 Type: Object

@@ -15,20 +15,20 @@ Retrieves a list of DHCP Leases from BloxOneDDI IPAM
 ### st (Default)
 ```
 Get-B1DHCPLease [-Space <String>] [-Limit <Int32>] [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>]
- [-Strict] [<CommonParameters>]
+ [-Strict] [-CaseSensitive] [<CommonParameters>]
 ```
 
 ### htree
 ```
 Get-B1DHCPLease [-Range] -RangeStart <String> [-RangeEnd <String>] [-Space <String>] [-Limit <Int32>]
- [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>] [-Strict] [<CommonParameters>]
+ [-Offset <Int32>] [-Fields <String[]>] [-OrderBy <String>] [-Strict] [-CaseSensitive] [<CommonParameters>]
 ```
 
 ### std
 ```
 Get-B1DHCPLease [-Address <String>] [-MACAddress <String>] [-Hostname <String>] [-HAGroup <String>]
  [-DHCPServer <String>] [-CustomFilters <String>] [-Space <String>] [-Limit <Int32>] [-Offset <Int32>]
- [-Fields <String[]>] [-OrderBy <String>] [-Strict] [<CommonParameters>]
+ [-Fields <String[]>] [-OrderBy <String>] [-Strict] [-CaseSensitive] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -266,6 +266,22 @@ Accept wildcard characters: False
 Use strict filter matching.
 By default, filters are searched using wildcards where possible.
 Using strict matching will only return results matching exactly what is entered in the applicable parameters.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
 
 ```yaml
 Type: SwitchParameter

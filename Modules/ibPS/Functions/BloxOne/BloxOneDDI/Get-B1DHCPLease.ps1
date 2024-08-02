@@ -52,6 +52,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .EXAMPLE
         PS> Get-B1DHCPLease -Range -RangeStart 10.10.100.20 -RangeEnd 10.10.100.50 -Limit 100
 
@@ -80,9 +83,10 @@
         [Int]$Offset = 0,
         [String[]]$Fields,
         [String]$OrderBy,
-        [switch]$Strict
+        [switch]$Strict,
+        [Switch]$CaseSensitive
     )
-    $MatchType = Match-Type $Strict
+    $MatchType = Match-Type $Strict $CaseSensitive
 
     if ($Range -or $RangeStart -or $RangeEnd) {
         $Range = $true
@@ -144,7 +148,7 @@
             $Filters.Add("space==`"$SpaceUUID`"") | Out-Null
         }
         if ($Filters) {
-            $Filter = Combine-Filters $Filters
+            $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
             $QueryFilters.Add("_filter=$Filter") | Out-Null
         }
         if ($Limit) {

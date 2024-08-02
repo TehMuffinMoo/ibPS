@@ -6,6 +6,9 @@
     .DESCRIPTION
         This function is used to summerise a list of Assets discovered by BloxOne
 
+    .PARAMETER Type
+        The type of summary report to return
+
     .EXAMPLE
         Get-B1Asset ByRegion
 

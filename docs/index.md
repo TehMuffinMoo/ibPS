@@ -154,7 +154,7 @@ Get-Help New-B1AddressBlock -Detailed
 ```
 
 ### Common Parameters
-Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-OrderBy`, `-OrderByTag`, `-Limit` & `-Offset` parameters. Their use is described below.
+Supported `Get-*` cmdlets have `-Strict`, `-CaseSensitive`, `-tfilter`, `-Fields`, `-OrderBy`, `-OrderByTag`, `-Limit` & `-Offset` parameters. Their use is described below.
 
 <table>
   <tr>
@@ -170,8 +170,19 @@ Supported `Get-*` cmdlets have `-Strict`, `-tfilter`, `-Fields`, `-OrderBy`, `-O
       -Strict
     </td>
     <td>
-This is used to apply strict name checking when querying objects.  
-The default is to perform wildcard/lazy matches based on submitted query parameters.
+This is used to apply strict name checking when querying objects. The default is to perform wildcard/lazy matches based on submitted query parameters.<br><br>
+When using -Strict, search parameters use the <code>:=</code> operator, ensuring only exact matches. This is a case-insensitive search by default. To do a case-sensitive search, specify the <code>-CaseSensitive</code> switch parameter which will instead use the <code>==</code> operator<br><br>
+When not using -Strict, search parameters use the <code>~</code> operator, this matches based on a regex string. A global regex modifier <code>(?i)</code> is automatically appended to search parameters. If you want to use case-sensitive regex, you can optionally specify the <code>-CaseSensitive</code> parameter on supported functions.
+    </td>
+  </tr>
+  <tr>
+    <td class="paramName">
+      -CaseSensitive
+    </td>
+    <td>
+This is used to perform Case Sensitive matching. The default is to perform case-insensitive matches based on submitted query parameters.<br><br>
+The nature of the BloxOne API means that not all API endpoints support case-sensitive searching. This is reflected by the <code>-CaseSensitive</code> parameter being present or ommitted from functions based on the support for it in the API.<br><br>
+See -Strict for more information about the mechanism this uses.
     </td>
   </tr>
   <tr>
@@ -247,6 +258,7 @@ Literal values include numbers (integer and floating-point), and quoted (both si
 |----------|------------------------------|
 | ==	     | Equal                        |
 | !=	     | Not Equal                    |
+| :=       | Equal (Case Insensitive)     |
 | >	       | Greater Than                 |
 | >=	     | Greater Than or Equal To     |
 | <		     | Less Than                    |

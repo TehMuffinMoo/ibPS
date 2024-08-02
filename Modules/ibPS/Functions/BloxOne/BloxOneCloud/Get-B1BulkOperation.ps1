@@ -12,14 +12,26 @@
     .PARAMETER Name
         Filter the results by bulk operation name
 
+    .PARAMETER Type
+        Filter the results by the operation type, such as 'export' or 'import'.
+
+    .PARAMETER Status
+        Filter the results by the operation status, such as 'completed' or 'failed'.
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
-    .PARAMETER Fields
-        Specify a list of fields to return. The default is to return all fields.
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
 
     .EXAMPLE
-        PS> Get-B1BulkOperation -Name "Backup of all CSP data"
+        PS> Get-B1BulkOperation -Name "My Import Job"
+
+    .EXAMPLE
+        PS> Get-B1BulkOperation -Type 'export'
+
+    .EXAMPLE
+        PS> Get-B1BulkOperation -Type 'import'
 
     .FUNCTIONALITY
         BloxOneDDI
@@ -29,22 +41,32 @@
     #>
     [CmdletBinding()]
     param(
-        [string]$id,
-        [string]$Name,
-        [Switch]$Strict
+        [String]$id,
+        [String]$Name,
+        [String]$Type,
+        [ValidateSet('Active','Completed','Failed')]
+        [String]$Status,
+        [Switch]$Strict,
+        [Switch]$CaseSensitive
     )
 
-	$MatchType = Match-Type $Strict
+	$MatchType = Match-Type $Strict $CaseSensitive
     [System.Collections.ArrayList]$Filters = @()
     [System.Collections.ArrayList]$QueryFilters = @()
     if ($Name) {
         $Filters.Add("name$MatchType`"$Name`"") | Out-Null
     }
+    if ($Type) {
+        $Filters.Add("operation_type$MatchType`"$Type`"") | Out-Null
+    }
+    if ($Status) {
+        $Filters.Add("overall_status==`"$($Status.ToLower())`"") | Out-Null
+    }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($QueryFilters) {

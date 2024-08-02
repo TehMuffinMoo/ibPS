@@ -71,8 +71,8 @@
         Return the Raw results from the API, instead of parsing the output.
 
     .EXAMPLE
-        $Filters = @(                                                        
-            @{                                                                                                                          
+        $Filters = @(
+            @{
                 "member" = "asset_daily_counts.asset_context"
                 "operator" = "equals"
                 "values" = @(

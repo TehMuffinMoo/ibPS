@@ -61,6 +61,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER CaseSensitive
+        Use Case Sensitive matching. By default, case-insensitive matching both for -Strict matching and regex matching.
+
     .PARAMETER id
         Use the id parameter to filter the results by ID
 
@@ -81,22 +84,23 @@
       [String]$Space,
       [ValidateSet("online","pending","degraded","error")]
       [String]$Status,
-      [switch]$Detailed,
-      [switch]$Reduced,
-      [switch]$Strict,
-      [switch]$NoIPSpace,
+      [Switch]$Detailed,
+      [Switch]$Reduced,
+      [Switch]$Strict,
+      [Switch]$NoIPSpace,
       [Int]$Limit = 10001,
       [Int]$Offset = 0,
       [String]$tfilter,
       [String[]]$Fields,
       [String]$OrderBy,
       [String]$OrderByTag,
-      [switch]$BreakOnError,
+      [Switch]$BreakOnError,
       $CustomFilters,
+      [Switch]$CaseSensitive,
       [String]$id
     )
 
-	$MatchType = Match-Type $Strict
+	$MatchType = Match-Type $Strict $CaseSensitive
 
     if ($Space) {$IPSpace = (Get-B1Space -Name $Space -Strict).id}
 
@@ -114,8 +118,11 @@
     if ($OPHID) {
         $Filters.Add("ophid$MatchType`"$OPHID`"") | Out-Null
     }
-    if ($Space) {
+    if ($Space -and -not $NoIPSpace) {
         $Filters.Add("ip_space==`"$IPSpace`"") | Out-Null
+    }
+    if ($NoIPSpace) {
+        $Filters.Add('ip_space==""') | Out-Null
     }
     if ($Status) {
       $Filters.Add("composite_status==`"$Status`"") | Out-Null
@@ -131,7 +138,7 @@
     }
 
     if ($Filters) {
-        $Filter = Combine-Filters $Filters
+        $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {
@@ -153,6 +160,7 @@
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
     }
+
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
@@ -164,9 +172,6 @@
     }
 
     if ($Results) {
-        if ($NoIPSpace) {
-            $Results = $Results | Where-Object {!($_.ip_space)}
-        }
         if ($Reduced) {
             return $Results | Select-Object display_name,ip_address,description,host_subtype,host_version,mac_address,nat_ip,last_seen,updated_at
         } else {

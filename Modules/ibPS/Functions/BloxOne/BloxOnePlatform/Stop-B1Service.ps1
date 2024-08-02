@@ -9,8 +9,8 @@
     .PARAMETER Name
         The name of the BloxOneDDI Service to stop
 
-    .PARAMETER id
-        The id of the BloxOneDDI Service to stop. Accepts pipeline input
+    .PARAMETER Object
+        The BloxOneDDI Service Object(s) to stop. Accepts pipeline input
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.

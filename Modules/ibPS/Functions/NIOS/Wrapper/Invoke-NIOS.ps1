@@ -40,6 +40,12 @@
     .PARAMETER Data
         Data to be submitted on POST/PUT/PATCH/DELETE requests
 
+    .PARAMETER OutFile
+        The file path to save downloaded files to.
+
+    .PARAMETER AdditionalHeaders
+        This parameter can be used to pass additional headers, or override the Content-Type header (defaults to application/json).
+
     .PARAMETER SkipCertificateCheck
         If this parameter is set, SSL Certificates Checks will be ignored
 
@@ -73,13 +79,24 @@
       [Alias('Credentials')]
       [PSCredential]$Creds,
       [String]$Data,
+      [String]$OutFile,
       [Parameter(ParameterSetName='Local')]
-      [Switch]$SkipCertificateCheck
+      [Switch]$SkipCertificateCheck,
+      [System.Object]$AdditionalHeaders
     )
 
-    ## Set Headers
-    $Headers = @{
-        'Content-Type' = 'application/json'
+    if ($AdditionalHeaders) {
+        $Headers = @{}
+        $Headers += $AdditionalHeaders
+        if (!($Headers.'Content-Type')) {
+            $Headers += @{
+                'Content-Type' = 'application/json; charset=utf-8'
+            }
+        }
+    } else {
+        $Headers = @{
+            'Content-Type' = 'application/json; charset=utf-8'
+        }
     }
 
     Switch($PSCmdlet.ParameterSetName) {
@@ -112,13 +129,13 @@
             $WAPIBase = "https://$Server/wapi/v$ApiVersion"
         }
         'FederatedUID' {
-            $Headers.Authorization = "Token $(Get-B1CSPAPIKey)"
+            $Headers.Authorization = "Token $(Get-B1CSPAPIKey -DefaultProfile)"
             $Headers.license_uid = $($GridUID)
             [Uri]$CSP = Get-B1CSPUrl
             $WAPIBase = "https://wapi.$($CSP.DnsSafeHost)/wapi/v$ApiVersion"
         }
         'FederatedName' {
-            $Headers.Authorization = "Token $(Get-B1CSPAPIKey)"
+            $Headers.Authorization = "Token $(Get-B1CSPAPIKey -DefaultProfile)"
             $GridUID = (Get-B1Host -Name $GridName -Strict).tags.'host/license_uid'
             $Headers.license_uid = $($GridUID)
             [Uri]$CSP = Get-B1CSPUrl
@@ -126,9 +143,17 @@
         }
     }
 
+    ## Allow full API or only endpoint to be specified.
+    ##  Default to WAPI endpoint
+    if ($Uri -like "http*/*/*") {
+        $FullUri = $Uri
+    } else {
+        $FullUri = "$WAPIBase/$Uri"
+    }
+
     $Splat = @{
         Method = $Method
-        Uri = "$WAPIBase/$Uri"
+        Uri = $FullUri
         Headers = $Headers
     }
 
@@ -140,9 +165,16 @@
         $Splat.SkipCertificateCheck = $SkipCertificateCheck
     }
 
+    if ($OutFile) {
+        $Splat.OutFile = $OutFile
+    }
+
     Write-DebugMsg -URI "$($Method): $($Splat.Uri)" -Body $Data
     switch ($Method) {
         'GET' {
+            if ($Data -ne $null) {
+                $Splat.body = $Data
+            }
             $Result = Invoke-RestMethod @Splat
         }
         'POST' {
