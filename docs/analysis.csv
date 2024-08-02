@@ -1,4 +1,2 @@
 "ScriptName","Severity","Line","Column","RuleName","Message"
-"Get-B1LookalikeDomains.ps1","Information","76","55","PSAvoidTrailingWhitespace","Line has trailing whitespace"
-"Get-B1LookalikeDomains.ps1","Information","116","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
-"Misc.ps1","Warning","66","21","PSAvoidUsingCmdletAliases","'%' is an alias of 'ForEach-Object'. Alias can introduce possible problems and make scripts hard to maintain. Please consider changing alias to its full content."
+"Misc.ps1","Warning","66","21","PSAvoidUsingCmdletAliases","'ForEach' is an alias of 'ForEach-Object'. Alias can introduce possible problems and make scripts hard to maintain. Please consider changing alias to its full content."
