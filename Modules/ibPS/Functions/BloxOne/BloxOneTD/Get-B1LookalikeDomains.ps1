@@ -73,7 +73,7 @@
     )
 
     begin {
-        $MatchType = Match-Type $Strict $CaseSensitive   
+        $MatchType = Match-Type $Strict $CaseSensitive
     }
 
     process {
@@ -113,7 +113,7 @@
         } else {
             $Results = Invoke-CSP -Uri "$(Get-B1CspUrl)/api/tdlad/v1/lookalike_domains" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
-    
+
         if ($Results) {
           return $Results
         }
