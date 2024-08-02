@@ -1,3 +1,14 @@
+## 1.9.8.2
+- Fix bug with BloxOne Schema caching
+- Add `Get-B1ThreatActor` function to enable querying Threat Actors from TIDE and additionally return related IOCs.
+- Add `Get-NIOSFileOp` function for receiving files from NIOS
+- Rename `Get-B1Export` to `Receive-B1Export`
+- Add new `Get-B1Export` convenience function to query a list of Bulk Operations with type Export
+- Add new `Get-B1Import` convenience function to query a list of Bulk Operations with type Import
+- Add new `-CaseInsensitive` parameter when using supported `Get-` functions. The default is now case-insensitive searching, to fix some inconsistent query experiences. [More information here](https://ibps.readthedocs.io/en/dev/#common-parameters).
+- Add new `Get-B1CustomRedirect` function
+- Fix bug with `New-B1LookalikeTarget`
+
 ## 1.9.8.1
 - Fix exported aliases
 
@@ -405,6 +416,7 @@ See here for more information on [Preference Variables](https://learn.microsoft.
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 
