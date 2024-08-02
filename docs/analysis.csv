@@ -1,2 +1,1 @@
 "ScriptName","Severity","Line","Column","RuleName","Message"
-"Misc.ps1","Warning","66","21","PSAvoidUsingCmdletAliases","'ForEach' is an alias of 'ForEach-Object'. Alias can introduce possible problems and make scripts hard to maintain. Please consider changing alias to its full content."
