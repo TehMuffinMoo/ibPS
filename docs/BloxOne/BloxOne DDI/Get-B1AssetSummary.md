@@ -54,7 +54,7 @@ assets doc_asset_region doc_asset_vendor
 ## PARAMETERS
 
 ### -Type
-{{ Fill Type Description }}
+The type of summary report to return
 
 ```yaml
 Type: String

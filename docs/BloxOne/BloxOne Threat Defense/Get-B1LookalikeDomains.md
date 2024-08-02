@@ -13,9 +13,9 @@ Queries a list of detected Lookalike Domain objects with target domains specifie
 ## SYNTAX
 
 ```
-Get-B1LookalikeDomains [[-Domain] <String>] [[-LookalikeHost] <String>] [[-Reason] <String>] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-Fields] <String[]>] [-Strict] [[-CustomFilters] <Object>] [-CaseSensitive]
- [<CommonParameters>]
+Get-B1LookalikeDomains [[-Domain] <String[]>] [[-LookalikeHost] <String>] [[-Reason] <String>]
+ [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>] [-Strict] [[-CustomFilters] <Object>]
+ [-CaseSensitive] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -49,14 +49,14 @@ detected_at         lookalike_domain                                            
 Filter the results by target domain
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 1
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 
