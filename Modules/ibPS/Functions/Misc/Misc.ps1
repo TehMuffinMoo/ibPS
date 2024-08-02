@@ -63,7 +63,7 @@ function Combine-Filters {
     }
     ## Force URLEncode for regex characters which would otherwise cause a problem
     $ReplaceChars = @('\+')
-    $ReplaceChars | ForEach {
+    $ReplaceChars | ForEach-Object {
       $combinedFilter = $combinedFilter -replace $_,[System.Web.HTTPUtility]::UrlEncode($($_ -replace '\\',''))
     }
     return $combinedFilter
