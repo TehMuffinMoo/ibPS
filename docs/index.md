@@ -138,6 +138,16 @@ Alternatively, you can simply store your API Key for the current powershell sess
 Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>"
 ```
 
+##### Environment Variable
+You can additionally pass the API Key via an Environment Variable. This will pass in the credentials as clear text, but can be used for non-persistent transactions such as leveraging ibPS via Ansible .
+```bash
+export IBPSB1APIKEY = '<ApiKeyFromCSP>'
+```
+
+```powershell
+$ENV:IBPSB1APIKEY = '<ApiKeyFromCSP>'
+```
+
 #### Managing multiple BloxOne Accounts
 When managing more than one account, you can use the Profiles configuration. Configuration Profiles enable you to save API keys for multiple accounts, and easily switch between them.
 
