@@ -141,7 +141,7 @@ Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>"
 ##### Environment Variable
 You can additionally pass the API Key via an Environment Variable. This will pass in the credentials as clear text, but can be used for non-persistent transactions such as leveraging ibPS via Ansible .
 ```bash
-export IBPSB1APIKEY = '<ApiKeyFromCSP>'
+export IBPSB1APIKEY='<ApiKeyFromCSP>'
 ```
 
 ```powershell
