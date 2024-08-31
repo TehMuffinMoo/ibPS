@@ -33,6 +33,9 @@
             Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
             return $null
         }
+    } elseif ($ENV:IBPSB1APIKEY) {
+        $ApiKey = $ENV:IBPSB1APIKEY
+        $PlainText = $true
     } else {
         $ApiKey = $ENV:B1APIKey
     }
@@ -41,19 +44,23 @@
         Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
         break
     } else {
-        try {
-            $Bytes = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($ApiKey)) | ConvertTo-SecureString
-            $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($Bytes)
-            $B1APIKey = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($BSTR)
-            [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
-            if ($B1APIKey) {
-                return $B1APIKey
+        if (!$PlainText) {
+            try {
+                $Bytes = [System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($ApiKey)) | ConvertTo-SecureString
+                $BSTR = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($Bytes)
+                $B1APIKey = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($BSTR)
+                [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($BSTR)
+                if ($B1APIKey) {
+                    return $B1APIKey
+                }
+            } catch {
+                Write-Colour 'Error. Unable to decode the API Key. Please set the Global API Key again using: ','Set-ibPSConfiguration -CSPAPIKey <apikey>', ' or create a new connection profile.' -Colour Red,Green,Red
+                Write-Colour 'If you have recently upgraded from a version older than ','v1.9.5.0',', you will need to update your API Key.' -Colour Yellow,Red,Yellow
+                Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
+                break
             }
-        } catch {
-            Write-Colour 'Error. Unable to decode the API Key. Please set the Global API Key again using: ','Set-ibPSConfiguration -CSPAPIKey <apikey>', ' or create a new connection profile.' -Colour Red,Green,Red
-            Write-Colour 'If you have recently upgraded from a version older than ','v1.9.5.0',', you will need to update your API Key.' -Colour Yellow,Red,Yellow
-            Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
-            break
+        } else {
+            return $ApiKey
         }
     }
 }

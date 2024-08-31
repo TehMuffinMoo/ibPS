@@ -53,8 +53,8 @@
 
     if ($APIKey) {
         $B1ApiKey = "Token $($APIKey)"
-    } elseif ($ENV:B1APIKey) {
-        ## Get Stored API Key (Legacy)
+    } elseif ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY) {
+        ## Get Stored Global API Key or Plain-Text API Key from ENV
         $B1ApiKey = "Token $(Get-B1CSPAPIKey)"
     } elseif ($ProfileName) {
         ## Get API Key from Selected Connection Profile
