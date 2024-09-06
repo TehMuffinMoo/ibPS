@@ -1,1 +1,2 @@
 - Fix bug when using `-Query` parameter on `Get-B1DNSEvent`
+- Fix bug when using `-Bootstrap` parameter on `Start-B1Export`
