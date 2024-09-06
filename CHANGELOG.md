@@ -1,3 +1,8 @@
+## 1.9.8.3
+- Fix bug when using `-Query` parameter on `Get-B1DNSEvent`
+- Fix bug when using `-Bootstrap` parameter on `Start-B1Export`
+- Add the ability to pass the API Key via Environment Variables. [More information here](https://ibps.readthedocs.io/en/main/#environment-variable).
+
 ## 1.9.8.2
 - Fix bug with BloxOne Schema caching
 - Add `Get-B1ThreatActor` function to enable querying Threat Actors from TIDE and additionally return related IOCs.
@@ -416,6 +421,7 @@ See here for more information on [Preference Variables](https://learn.microsoft.
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 
