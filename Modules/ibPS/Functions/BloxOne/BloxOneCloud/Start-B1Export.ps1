@@ -136,7 +136,7 @@
         $dataTypes += (Build-BulkExportTypes -Types 'atcapi').DataType ## Threat Defense Types
     }
     if ($Bootstrap -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'bootstrap').DataType | Out-Null ## Bootstrap / Host Config
+        $dataTypes += (Build-BulkExportTypes -Types 'bootstrap').DataType ## Bootstrap / Host Config
     }
     if ($B1Hosts -or $BackupAll) {
         $dataTypes += (Build-BulkExportTypes -Types 'hosts').DataType ## B1 Host Config / Host Config

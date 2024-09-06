@@ -1083,7 +1083,7 @@ function Build-BulkExportTypes {
   )
 
   if (-not $Script:B1BulkExportTypes) {
-      $Script:B1BulkExportTypes = Invoke-CSP -Method GET -Uri 'https://csp.infoblox.com/bulk/v1/types' | Select-Object -ExpandProperty results
+      $Script:B1BulkExportTypes = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/bulk/v1/types" | Select-Object -ExpandProperty results
   }
 
   $ReturnProperties = @{

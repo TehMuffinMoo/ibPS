@@ -114,7 +114,7 @@
         $Filters += "t1=$EndEpoch"
       }
     if ($Query) {
-      $Filters += "qname=$Name"
+      $Filters += "qname=$Query"
     }
     if ($IP) {
       $Filters += "qip=$IP"
