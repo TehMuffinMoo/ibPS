@@ -84,6 +84,7 @@
         $Filters.Add($CustomFilters) | Out-Null
     }
     if ($FQDN) {
+        if ($Strict -and !($FQDN.EndsWith('.'))) { $FQDN += '.' }
         $Filters.Add("fqdn$MatchType`"$FQDN`"") | Out-Null
     }
     if ($Type) {

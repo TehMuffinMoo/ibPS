@@ -113,19 +113,11 @@
         $Filters.Add("id==`"$id`"") | Out-Null
     }
     if ($FQDN) {
-        if ($Strict) {
-            if (!($FQDN.EndsWith("."))) {
-                $FQDN = "$FQDN."
-            }
-        }
+        if ($Strict -and !($FQDN.EndsWith('.'))) { $FQDN += '.' }
         $Filters.Add("absolute_name_spec$MatchType`"$FQDN`"") | Out-Null
     }
     if ($Zone) {
-        if ($Strict) {
-            if (!($Zone.EndsWith("."))) {
-                $Zone = "$Zone."
-            }
-        }
+        if ($Strict -and !($Zone.EndsWith('.'))) { $Zone += '.' }
         $Filters.Add("absolute_zone_name$MatchType`"$Zone`"") | Out-Null
     }
     if ($Compartment) {
