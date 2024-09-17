@@ -1,3 +1,1 @@
-- Fix bug when using `-Query` parameter on `Get-B1DNSEvent`
-- Fix bug when using `-Bootstrap` parameter on `Start-B1Export`
-- Add the ability to pass the API Key via Environment Variables. [More information here](https://ibps.readthedocs.io/en/main/#environment-variable).
+- Fix bug when using `-Strict` and `-FQDN` with `Get-B1AuthoritativeZone`, `Get-B1ForwardZone` & `Get-B1DelegatedZone`  [#167](https://github.com/TehMuffinMoo/ibPS/issues/167)
