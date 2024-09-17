@@ -1,3 +1,6 @@
+## 1.9.8.4
+- Fix bug when using `-Strict` and `-FQDN` with `Get-B1AuthoritativeZone`, `Get-B1ForwardZone` & `Get-B1DelegatedZone`  [#167](https://github.com/TehMuffinMoo/ibPS/issues/167)
+
 ## 1.9.8.3
 - Fix bug when using `-Query` parameter on `Get-B1DNSEvent`
 - Fix bug when using `-Bootstrap` parameter on `Start-B1Export`
@@ -421,6 +424,7 @@ See here for more information on [Preference Variables](https://learn.microsoft.
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 
