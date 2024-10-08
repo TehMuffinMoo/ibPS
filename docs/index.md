@@ -9,7 +9,7 @@
   <br>
   <!--<a href=""><img src="" alt="Markdownify" width="200"></a>-->
   <br>
-  InfoBlox BloxOneDDI & BloxOne Threat Defense Powershell Module
+  InfoBlox Portal & Threat Defense Powershell Module
   <br>
 </h1>
 
@@ -26,7 +26,8 @@
   <a href="https://www.codefactor.io/repository/github/tehmuffinmoo/ibps"><img src="https://www.codefactor.io/repository/github/tehmuffinmoo/ibps/badge"></a>
 </p>
 
-<h4 align="center">A series of PowerShell Cmdlets used to interact with the InfoBlox BloxOne APIs.</h4>
+<h4 align="center">A series of PowerShell Cmdlets used to interact with the InfoBlox Universal DDI & Threat Defense APIs.</h4>
+<h6 align="center" style="margin-top:0px!important;margin-bottom:0px!important;">Formally known as BloxOne DDI & BloxOne Threat Defense.</h6>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -39,22 +40,22 @@
 
 ## Key Features
 
-* Automate end-to-end deployments of BloxOne
-* Create, Edit & Remove objects from BloxOne Cloud (Records, Subnets, Ranges, Zones, HAGroups, etc.)
-* Apply DNS/DHCP Configuration Policies to On-Prem hosts
-* Deploy Azure, VMware & Hyper-V BloxOne Appliances
+* Automate end-to-end deployments of Univerval DDI
+* Create, Edit & Remove objects from Infoblox Portal (Records, Subnets, Ranges, Zones, HAGroups, etc.)
+* Apply DNS/DHCP Configuration Policies to NIOS-X Servers
+* Deploy Azure, VMware & Hyper-V NIOS-X & NIOS-XaaS Appliances
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
-* Build custom scripts/functions leveraging the [BloxOne Wrapper Cmdlets](BloxOne/Generic%20Wrapper/).
-* Fully featured NIOS Wrapper using Native API or BloxOne Federation [NIOS Wrapper Cmdlets](NIOS/Generic%20Wrapper/)
+* Build custom scripts/functions leveraging the [Infoblox Portal Wrapper Cmdlets](BloxOne/Generic%20Wrapper/).
+* Fully featured NIOS Wrapper using Native API or NIOS Federation [NIOS Wrapper Cmdlets](NIOS/Generic%20Wrapper/)
 * Automate the world!
 
 ## Feature Requests
 
 * If the cmdlet you are looking for is not yet built into the Module, you can raise a feature request via Github Issues.
 * You can also use this module as a generic wrapper by leveraging the:
-[BloxOne Wrapper Cmdlets](BloxOne/Generic%20Wrapper/) & 
+[Infoblox Portal Wrapper Cmdlets](BloxOne/Generic%20Wrapper/) & 
 [NIOS Wrapper Cmdlets](NIOS/Generic%20Wrapper/).
 
 ## How To Use
@@ -119,10 +120,10 @@ Import-Module -Name ".\Modules\ibPS\BloxOne-Main.psm1" -DisableNameChecking
 ```
 
 ### Authentication (API Key)
-In order to authenticate against the BloxOne CSP (Cloud Services Portal), you must first set your API Key. There are a few ways to do this, depending on your use-case.
+In order to authenticate against the Infoblox Portal, you must first set your API Key. There are a few ways to do this, depending on your use-case.
 
-#### Managing a single BloxOne Account
-When managing a single BloxOne Account, you can use the 'Global' configuration. You can do this for either your current powershell session or save the API Key as persistent for your current user.
+#### Managing a single Infoblox Portal Account
+When managing a single Infoblox Portal Account, you can use the 'Global' configuration. You can do this for either your current powershell session or save the API Key as persistent for your current user.
 
 Using the 'Global' method will always override any active configuration profiles. This can be useful if you want to quickly test a new API key, without having to save it as a connection profile.
 
@@ -148,7 +149,7 @@ export IBPSB1APIKEY='<ApiKeyFromCSP>'
 $ENV:IBPSB1APIKEY = '<ApiKeyFromCSP>'
 ```
 
-#### Managing multiple BloxOne Accounts
+#### Managing multiple Infoblox Portal Accounts
 When managing more than one account, you can use the Profiles configuration. Configuration Profiles enable you to save API keys for multiple accounts, and easily switch between them.
 
 See [Get-B1ConnectionProfile](BloxOne/Profiles/Get-B1ConnectionProfile/) for more information
@@ -156,7 +157,7 @@ See [Get-B1ConnectionProfile](BloxOne/Profiles/Get-B1ConnectionProfile/) for mor
 New-B1ConnectionProfile -Name 'Prod' -CSPRegion 'US' -APIKey '<ApiKeyFromCSP>'
 ```
 
-## BloxOne Cmdlets
+## Infoblox Portal Cmdlets
 All Cmdlets are listed in the left-hand menu. You can also use the `Get-Help` cmdlet to get detailed information on usage. Example;
 
 ```powershell
@@ -191,7 +192,7 @@ When not using -Strict, search parameters use the <code>~</code> operator, this 
     </td>
     <td>
 This is used to perform Case Sensitive matching. The default is to perform case-insensitive matches based on submitted query parameters.<br><br>
-The nature of the BloxOne API means that not all API endpoints support case-sensitive searching. This is reflected by the <code>-CaseSensitive</code> parameter being present or ommitted from functions based on the support for it in the API.<br><br>
+The nature of the Infoblox Portal API means that not all API endpoints support case-sensitive searching. This is reflected by the <code>-CaseSensitive</code> parameter being present or ommitted from functions based on the support for it in the API.<br><br>
 See -Strict for more information about the mechanism this uses.
     </td>
   </tr>
