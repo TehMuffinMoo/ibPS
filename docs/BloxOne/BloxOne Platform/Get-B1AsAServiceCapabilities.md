@@ -30,12 +30,19 @@ This function is used query a list of NIOS-XaaS Service Capabilities for a parti
 ### EXAMPLE 1
 ```powershell
 Get-B1AsAServiceCapabilities -Service Production | ft -AutoSize
+
+type  service_status  profile_id                            profile_name              association_count
+----  --------------  ----------                            ------------              -----------------
+dns   Available       fdsu98uv-rgg5-5ge4d-g5eg-cgecgcgfdfgf NIOS-XaaS DNS Profile     459
+ntp   Available                                                                     
+dhcp  Available       sdfdsxfb-rbf5-dxzvdx-dxvd-cxdvdxvvxd4 NIOS-XaaS DHCP Profile    2931
 ```
 
 ## PARAMETERS
 
 ### -Service
-{{ Fill Service Description }}
+The name of the Universal DDI Service to query capabilities for.
+Either Service or ServiceID is required.
 
 ```yaml
 Type: String
@@ -50,7 +57,8 @@ Accept wildcard characters: False
 ```
 
 ### -ServiceID
-{{ Fill ServiceID Description }}
+The id of the Universal DDI Service to query capabilities for.
+Either ServiceID or Service is required.
 
 ```yaml
 Type: String

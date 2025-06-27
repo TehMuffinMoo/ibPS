@@ -40,7 +40,8 @@ jca2xysvhkhhaef6gqlchg335zaqmrsr mcox-demo   AWS Europe (London)       192.168.1
 ## PARAMETERS
 
 ### -Service
-{{ Fill Service Description }}
+The name of the Universal DDI Service to query deployments for.
+Either Service or ServiceID is required.
 
 ```yaml
 Type: String
@@ -55,7 +56,8 @@ Accept wildcard characters: False
 ```
 
 ### -ServiceID
-{{ Fill ServiceID Description }}
+The id of the Universal DDI Service to query deployments for.
+Either ServiceID or Service is required.
 
 ```yaml
 Type: String
@@ -70,7 +72,8 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-{{ Fill Location Description }}
+The name of the Access Location to filter the deployments by.
+This parameter is optional.
 
 ```yaml
 Type: String

@@ -29,13 +29,33 @@ This function is used query the connection information of NIOS-X As A Service IP
 
 ### EXAMPLE 1
 ```powershell
-Get-B1AsAServiceTunnels -Service Production | ft -AutoSize
+Get-B1AsAServiceTunnels -Service Production
+
+id               : fdsdfoi9sdejf98ewsgfn98e4whfsue
+name             : GB-DC
+wan_ip           : 66.66.66.66
+identity_type    : FQDN
+physical_tunnels : {@{path=secondary; remote_id=infoblox.cloud; identity=df43ewf34rf444g.infoblox.com; credential_id=fdsfsfdse-fesfsfs-seffe43gf45-g444gg4g4; 
+                  credential_name=Path-A-PSK; status=Connected}, @{path=primary; remote_id=infoblox.cloud; identity=fsef4f4f4thd4rt.infoblox.com; 
+                  credential_id=fdfsdf4e-87iik87i-h656urf9ddf-fdsgsd9sx; credential_name=Path-B-PSK; status=Connected}}
+remote_id        : infoblox.cloud
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1AsAServiceTunnels -Service Production -ReturnStatus
+
+path      remote_id      identity                      credential_id                        credential_name      status
+----      ---------      --------                      -------------                        ---------------      ------
+secondary infoblox.cloud df43ewf34rf444g.infoblox.com fdsfsfdse-fesfsfs-seffe43gf45-g444gg4g4 Path-A-PSK         Connected
+primary   infoblox.cloud fsef4f4f4thd4rt.infoblox.com fdfsdf4e-87iik87i-h656urf9ddf-fdsgsd9sx Path-B-PSK         Connected
 ```
 
 ## PARAMETERS
 
 ### -Service
-{{ Fill Service Description }}
+The name of the Universal DDI Service to query the tunnel status for.
+Either Service or ServiceID is required.
 
 ```yaml
 Type: String
@@ -50,7 +70,8 @@ Accept wildcard characters: False
 ```
 
 ### -ServiceID
-{{ Fill ServiceID Description }}
+The id of the Universal DDI Service to query the tunnel status for.
+Either ServiceID or Service is required.
 
 ```yaml
 Type: String
@@ -65,7 +86,8 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-{{ Fill Location Description }}
+The name of the Access Location to filter the the tunnel status by.
+This parameter is optional.
 
 ```yaml
 Type: String
@@ -80,7 +102,7 @@ Accept wildcard characters: False
 ```
 
 ### -ReturnStatus
-{{ Fill ReturnStatus Description }}
+If specified, the function will return only the status of the tunnels.
 
 ```yaml
 Type: SwitchParameter

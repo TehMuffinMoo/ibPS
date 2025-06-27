@@ -40,7 +40,8 @@ ej7vgf7hlwxmyubjitxdatpnidk3a32r AWS US East (N. Virginia) dffsf43trgd8j489tjg89
 ## PARAMETERS
 
 ### -Service
-{{ Fill Service Description }}
+The name of the Universal DDI Service to query the service status for.
+Either Service or ServiceID is required.
 
 ```yaml
 Type: String
@@ -55,7 +56,8 @@ Accept wildcard characters: False
 ```
 
 ### -ServiceID
-{{ Fill ServiceID Description }}
+The id of the Universal DDI Service to query the service status for.
+Either ServiceID or Service is required.
 
 ```yaml
 Type: String
@@ -70,7 +72,8 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-{{ Fill Location Description }}
+The name of the Access Location to filter the the service status by.
+This parameter is optional.
 
 ```yaml
 Type: String
