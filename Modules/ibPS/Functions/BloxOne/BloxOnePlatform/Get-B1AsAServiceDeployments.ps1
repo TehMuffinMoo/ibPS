@@ -18,10 +18,10 @@ function Get-B1AsAServiceDeployments {
     .EXAMPLE
         PS> Get-B1AsAServiceDeployments -Service Production | ft -AutoSize
 
-        id                               name        service_location          service_ip     cnames                          access_location_count size  neighbour_ips                    preferred_provider routing_type
-        --                               ----        ----------------          ----------     ------                          --------------------- ----  -------------                    ------------------ ------------
-        g3oox35c6wgsjuk2dl76zmofqzzgobsf mcox-demo-2 AWS US East (N. Virginia) 192.168.200.10 {52.71.149.43, 44.215.57.240}   1                     Small {192.168.200.11, 192.168.200.12} Any                static
-        jca2xysvhkhhaef6gqlchg335zaqmrsr mcox-demo   AWS Europe (London)       192.168.100.10 {18.169.197.52, 18.132.218.240} 1                     Small {192.168.100.11, 192.168.100.12} AWS                static
+        id                               name           service_location          service_ip     cnames                          access_location_count size  neighbour_ips                    preferred_provider routing_type
+        --                               ----           ----------------          ----------     ------                          --------------------- ----  -------------                    ------------------ ------------
+        g3oox35c6wgsjuk2dl76zmofqzzgobsf Production-US  AWS US East (N. Virginia) 192.168.200.10 {66.77.88.99, 55.66.77.88}      1                     Small {192.168.200.11, 192.168.200.12} Any                static
+        jca2xysvhkhhaef6gqlchg335zaqmrsr Production-GB  AWS Europe (London)       192.168.100.10 {22.33.44.55, 33.44.55.66}      1                     Small {192.168.100.11, 192.168.100.12} AWS                static
 
     .FUNCTIONALITY
         Universal DDI
