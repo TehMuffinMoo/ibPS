@@ -238,3 +238,19 @@ $B1CubeJSTimeDimensions = {
     }  | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['TimeDimension'])}
 }
 Register-ArgumentCompleter -CommandName Invoke-B1CubeJS -ParameterName TimeDimension -ScriptBlock $B1CubeJSTimeDimensions
+
+$AsAServiceServices = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1AsAServiceServices | Where-Object {$_.name -like "$wordToComplete*"}).name
+}
+Register-ArgumentCompleter -CommandName Get-B1AsAServiceServiceStatus,Get-B1AASServiceStatus,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceCapabilities,Get-B1AASCapabilities,Get-B1AsAServiceTunnels,Get-B1AASTunnels -ParameterName Service -ScriptBlock $AsAServiceServices
+
+$AsAServiceAccessLocations = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    if (-not $fakeBoundParameters['Service']) {
+        Write-Host "`nService parameter is required when specifying a location." -ForegroundColor Red
+        return
+    }
+    (Get-B1AsAServiceServiceStatus -Service $fakeBoundParameters['Service'] | Where-Object {$_.access_location_name -like "$wordToComplete*"}).access_location_name
+}
+Register-ArgumentCompleter -CommandName Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceTunnels,Get-B1AASTunnels -ParameterName Location -ScriptBlock $AsAServiceAccessLocations

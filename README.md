@@ -3,7 +3,7 @@
   <br>
   <!--<a href=""><img src="" alt="Markdownify" width="200"></a>-->
   <br>
-  InfoBlox BloxOneDDI & BloxOne Threat Defense Powershell Module
+  InfoBlox Portal & Threat Defense Powershell Module
   <br>
 </h1>
 
@@ -20,7 +20,8 @@
   <a href="https://www.codefactor.io/repository/github/tehmuffinmoo/ibps"><img src="https://www.codefactor.io/repository/github/tehmuffinmoo/ibps/badge"></a>
 </p>
 
-<h4 align="center">A series of PowerShell Cmdlets used to interact with the InfoBlox BloxOne APIs.</h4>
+<h4 align="center">A series of PowerShell Cmdlets used to interact with the InfoBlox Universal DDI & Threat Defense APIs.</h4>
+<h6 align="center" style="margin-top:0px!important;margin-bottom:0px!important;">Formally known as BloxOne DDI & BloxOne Threat Defense.</h6>
 
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -33,15 +34,15 @@
 
 ## Key Features
 
-* Automate end-to-end deployments of BloxOne
-* Create, Edit & Remove objects from BloxOne Cloud (Records, Subnets, Ranges, Zones, HAGroups, etc.)
-* Apply DNS/DHCP Configuration Policies to On-Prem hosts
-* Deploy Azure, VMware & Hyper-V BloxOne Appliances
+* Automate end-to-end deployments of Univerval DDI
+* Create, Edit & Remove objects from Infoblox Portal (Records, Subnets, Ranges, Zones, HAGroups, etc.)
+* Apply DNS/DHCP Configuration Policies to NIOS-X Servers
+* Deploy Azure, VMware & Hyper-V NIOS-X & NIOS-XaaS Appliances
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
-* Build custom scripts/functions leveraging the [Generic Wrapper Cmdlets](https://ibps.readthedocs.io/en/latest/BloxOne/Generic%20Wrapper/).
-* Fully featured NIOS Wrapper using Native API or BloxOne Federation [NIOS Wrapper Cmdlets](https://ibps.readthedocs.io/en/latest/NIOS/Generic%20Wrapper/)
+* Build custom scripts/functions leveraging the [Infoblox Portal Wrapper Cmdlets](https://ibps.readthedocs.io/en/latest/BloxOne/Generic%20Wrapper/).
+* Fully featured NIOS Wrapper using Native API or NIOS Federation [NIOS Wrapper Cmdlets](https://ibps.readthedocs.io/en/latest/NIOS/Generic%20Wrapper/)
 * Automate the world!
 
 ## How To Use
