@@ -243,7 +243,7 @@ $AsAServiceServices = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1AsAServiceServices | Where-Object {$_.name -like "$wordToComplete*"}).name
 }
-Register-ArgumentCompleter -CommandName Get-B1AsAServiceConnectionStatus,Get-B1AASConnectionStatus,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceCapabilities,Get-B1AASCapabilities,Get-B1AsAServiceTunnelStatus,Get-B1AASTunnelStatus -ParameterName Service -ScriptBlock $AsAServiceServices
+Register-ArgumentCompleter -CommandName Get-B1AsAServiceConnectionStatus,Get-B1AASConnectionStatus,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceCapabilities,Get-B1AASCapabilities,Get-B1AsAServiceTunnels,Get-B1AASTunnels -ParameterName Service -ScriptBlock $AsAServiceServices
 
 $AsAServiceAccessLocations = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
@@ -253,4 +253,4 @@ $AsAServiceAccessLocations = {
     }
     (Get-B1AsAServiceServiceStatus -Service $fakeBoundParameters['Service'] | Where-Object {$_.access_location_name -like "$wordToComplete*"}).access_location_name
 }
-Register-ArgumentCompleter -CommandName Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceTunnelStatus,Get-B1AASTunnelStatus -ParameterName Location -ScriptBlock $AsAServiceAccessLocations
+Register-ArgumentCompleter -CommandName Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceTunnels,Get-B1AASTunnels -ParameterName Location -ScriptBlock $AsAServiceAccessLocations
