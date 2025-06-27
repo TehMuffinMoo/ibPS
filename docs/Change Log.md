@@ -1,5 +1,5 @@
 ## 1.9.8.5
-- Fix bug when using `-Strict` and `-FQDN` with `Get-B1AuthoritativeZone`, `Get-B1ForwardZone` & `Get-B1DelegatedZone`  [#167](https://github.com/TehMuffinMoo/ibPS/issues/167)
+- Add `Get-` cmdlets for NIOS-X As A Service
 
 ## 1.9.8.4
 - Fix bug when using `-Strict` and `-FQDN` with `Get-B1AuthoritativeZone`, `Get-B1ForwardZone` & `Get-B1DelegatedZone`  [#167](https://github.com/TehMuffinMoo/ibPS/issues/167)
