@@ -6,8 +6,20 @@ function Get-B1AsAServiceCapabilities {
     .DESCRIPTION
         This function is used query a list of NIOS-XaaS Service Capabilities for a particular Service
 
+    .PARAMETER Service
+        The name of the Universal DDI Service to query capabilities for. Either Service or ServiceID is required.
+
+    .PARAMETER ServiceID
+        The id of the Universal DDI Service to query capabilities for. Either ServiceID or Service is required.
+
     .EXAMPLE
         PS> Get-B1AsAServiceCapabilities -Service Production | ft -AutoSize
+
+        type  service_status  profile_id                            profile_name              association_count
+        ----  --------------  ----------                            ------------              -----------------
+        dns   Available       fdsu98uv-rgg5-5ge4d-g5eg-cgecgcgfdfgf NIOS-XaaS DNS Profile     459
+        ntp   Available                                                                     
+        dhcp  Available       sdfdsxfb-rbf5-dxzvdx-dxvd-cxdvdxvvxd4 NIOS-XaaS DHCP Profile    2931
 
     .FUNCTIONALITY
         Universal DDI
@@ -33,7 +45,7 @@ function Get-B1AsAServiceCapabilities {
         "universal_service_id" = $ServiceID
     } | ConvertTo-Json
 
-    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/universalinfra/v1/consolidated/getcapabilities" -Data $Data | Select-Object -ExpandProperty universal_service -ErrorAction SilentlyContinue
+    $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/universalinfra/v1/consolidated/getcapabilities" -Data $Data | Select-Object -ExpandProperty universal_service -ErrorAction SilentlyContinue | Select-Object -ExpandProperty capabilities -ErrorAction SilentlyContinue
 
     if ($Results) {
       return $Results

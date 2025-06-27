@@ -6,6 +6,15 @@ function Get-B1AsAServiceServiceStatus {
     .DESCRIPTION
         This function is used query the connection status of NIOS-X As A Service connections
 
+    .PARAMETER Service
+        The name of the Universal DDI Service to query the service status for. Either Service or ServiceID is required.
+
+    .PARAMETER ServiceID
+        The id of the Universal DDI Service to query the service status for. Either ServiceID or Service is required.
+
+    .PARAMETER Location
+        The name of the Access Location to filter the the service status by. This parameter is optional.
+
     .EXAMPLE
         PS> Get-B1AsAServiceServiceStatus -Service Production | ft -AutoSize
 

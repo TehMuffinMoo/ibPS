@@ -6,6 +6,15 @@ function Get-B1AsAServiceConfigChanges {
     .DESCRIPTION
         This function is used query a list of configuration changes for NIOS-X As A Service, optionally filtering by service or location.
 
+    .PARAMETER Service
+        The name of the Universal DDI Service to query configuration changes for. Either Service or ServiceID is required.
+
+    .PARAMETER ServiceID
+        The id of the Universal DDI Service to query configuration changes for. Either ServiceID or Service is required.
+
+    .PARAMETER Location
+        The name of the Access Location to filter the configuration changes by. This parameter is optional.
+
     .EXAMPLE
         PS> Get-B1AASConfigChanges -Service NIOS-XaaS | ft -AutoSize           
 

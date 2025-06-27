@@ -243,7 +243,7 @@ $AsAServiceServices = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1AsAServiceServices | Where-Object {$_.name -like "$wordToComplete*"}).name
 }
-Register-ArgumentCompleter -CommandName Get-B1AsAServiceConnectionStatus,Get-B1AASConnectionStatus,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceCapabilities,Get-B1AASCapabilities,Get-B1AsAServiceTunnels,Get-B1AASTunnels -ParameterName Service -ScriptBlock $AsAServiceServices
+Register-ArgumentCompleter -CommandName Get-B1AsAServiceServiceStatus,Get-B1AASServiceStatus,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceCapabilities,Get-B1AASCapabilities,Get-B1AsAServiceTunnels,Get-B1AASTunnels -ParameterName Service -ScriptBlock $AsAServiceServices
 
 $AsAServiceAccessLocations = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

@@ -6,6 +6,15 @@ function Get-B1AsAServiceDeployments {
     .DESCRIPTION
         This function is used query a list of NIOS-XaaS Service Deployments for a particular Service
 
+    .PARAMETER Service
+        The name of the Universal DDI Service to query deployments for. Either Service or ServiceID is required.
+
+    .PARAMETER ServiceID
+        The id of the Universal DDI Service to query deployments for. Either ServiceID or Service is required.
+
+    .PARAMETER Location
+        The name of the Access Location to filter the deployments by. This parameter is optional.
+
     .EXAMPLE
         PS> Get-B1AsAServiceDeployments -Service Production | ft -AutoSize
 
