@@ -31,12 +31,12 @@ This function is used to update a Forward DNS Server Group in BloxOneDDI
 
 ### EXAMPLE 1
 ```powershell
-Set-B1ForwardNSG -Name "InfoBlox DTC" -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+Set-B1ForwardNSG -Name "Infoblox DTC" -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
 ```
 
 ### EXAMPLE 2
 ```powershell
-Get-B1ForwardNSG -Name "InfoBlox DTC" | Set-B1ForwardNSG -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -NewName "Infoblox DTC New"
+Get-B1ForwardNSG -Name "Infoblox DTC" | Set-B1ForwardNSG -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -NewName "Infoblox DTC New"
 ```
 
 ## PARAMETERS

@@ -2,8 +2,8 @@
 .SYNOPSIS
    BloxOne REST API for PowerShell
 .DESCRIPTION
-   A collection of PowerShell Cmdlets to interact with the InfoBlox BloxOne DDI & BloxOne Threat Defense REST API located at https://csp.infoblox.com/apidoc
-   Also supports some limited Cmdlets for InfoBlox NIOS (Grid).
+   A collection of PowerShell Cmdlets to interact with the Infoblox BloxOne DDI & Threat Defense REST API located at https://csp.infoblox.com/apidoc
+   Also supports some limited Cmdlets for Infoblox NIOS (Grid).
 .NOTES
    Documentation located at: https://ibps.readthedocs.io
 .AUTHOR

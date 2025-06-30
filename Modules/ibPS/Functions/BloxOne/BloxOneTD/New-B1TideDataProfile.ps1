@@ -4,7 +4,7 @@
         Creates a new TIDE Data Profile
 
     .DESCRIPTION
-        This function is used to create a new TIDE Data Profile in BloxOne Threat Defense.
+        This function is used to create a new TIDE Data Profile in Infoblox Threat Defense.
 
     .PARAMETER Name
         The name of the TIDE Data Profile to create
@@ -38,7 +38,7 @@
         BloxOneDDI
 
     .FUNCTIONALITY
-        BloxOne Threat Defense
+        Infoblox Threat Defense
     #>
     [CmdletBinding(
         SupportsShouldProcess,

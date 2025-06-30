@@ -4,7 +4,7 @@
         Updates a custom list object
 
     .DESCRIPTION
-        This function is used to update a custom list object within BloxOne Threat Defense
+        This function is used to update a custom list object within Infoblox Threat Defense
 
     .PARAMETER Name
         The name of the Custom List to update.

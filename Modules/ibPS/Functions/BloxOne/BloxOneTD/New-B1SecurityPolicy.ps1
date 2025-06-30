@@ -1,10 +1,10 @@
 ﻿function New-B1SecurityPolicy {
     <#
     .SYNOPSIS
-        Creates a new Security Policy in BloxOne Threat Defense
+        Creates a new Security Policy in Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to create a new Security Policy in BloxOne Threat Defense.
+        This function is used to create a new Security Policy in Infoblox Threat Defense.
 
     .PARAMETER Name
         The name of the new Security Policy.

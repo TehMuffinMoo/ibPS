@@ -24,7 +24,7 @@
 
 
     .FUNCTIONALITY
-        BloxOne Threat Defense
+        Infoblox Threat Defense
     #>
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(

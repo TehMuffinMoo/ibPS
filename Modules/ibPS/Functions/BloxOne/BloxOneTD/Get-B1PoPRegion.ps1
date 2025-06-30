@@ -1,10 +1,10 @@
 ﻿function Get-B1PoPRegion {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOne Threat Defense PoP Regions
+        Retrieves a list of Infoblox Threat Defense PoP Regions
 
     .DESCRIPTION
-        This function is used to query a list of BloxOne Threat Defense Point of Presence (PoP) Regions
+        This function is used to query a list of Infoblox Threat Defense Point of Presence (PoP) Regions
 
     .PARAMETER Region
         Filter results by Region. Whilst this is here, the API does not currently support filtering by region. 22/05/24

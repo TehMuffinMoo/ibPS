@@ -1,10 +1,10 @@
 ﻿function Get-B1DossierLookup {
     <#
     .SYNOPSIS
-        Retrieves details about a BloxOne Threat Defense Dossier Lookup
+        Retrieves details about a Infoblox Threat Defense Dossier Lookup
 
     .DESCRIPTION
-        This function is used to retrieve details about a BloxOne Threat Defense Dossier Lookup
+        This function is used to retrieve details about a Infoblox Threat Defense Dossier Lookup
 
     .PARAMETER job_id
         The job ID given when starting the lookup using Start-B1DossierLookup. Accepts pipeline input from Start-B1DossierLookup cmdlet

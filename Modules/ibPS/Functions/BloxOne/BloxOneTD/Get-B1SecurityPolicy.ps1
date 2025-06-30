@@ -1,10 +1,10 @@
 ﻿function Get-B1SecurityPolicy {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOne Threat Defense Security Policies
+        Retrieves a list of Infoblox Threat Defense Security Policies
 
     .DESCRIPTION
-        This function is used to query a list of BloxOne Threat Defense Security Policies
+        This function is used to query a list of Infoblox Threat Defense Security Policies
 
     .PARAMETER Name
         Filter results by Name

@@ -1,19 +1,19 @@
 ﻿function Convert-RecordsToBloxOne {
     <#
     .SYNOPSIS
-        Provides a simple way to convert NIOS Record Object data to BloxOne CSV Import Format
+        Provides a simple way to convert NIOS Record Object data to Universal DDI CSV Import Format
 
     .DESCRIPTION
         This function accepts NIOS Record Objects either through -Object or via Pipeline. This can be any of the 'record:X' object types or supported data from the 'allrecords' object type.
 
     .PARAMETER Object
-        The NIOS Record Object(s) to convert to BloxOne CSV format. Accepts pipeline input from 'Get-NIOSObject'.
+        The NIOS Record Object(s) to convert to Universal DDI CSV format. Accepts pipeline input from 'Get-NIOSObject'.
 
     .PARAMETER DNSView
-        This provides a way to override the BloxOne DNS View name which will be used when converting. By default, the NIOS Network View name is used.
+        This provides a way to override the Universal DDI DNS View name which will be used when converting. By default, the NIOS Network View name is used.
 
     .PARAMETER ReturnType
-        The results type to return. This can be Object, CSV or JSON. Object/JSON are convenience features only. CSV is currently the only output that is supported by BloxOne Data Import.
+        The results type to return. This can be Object, CSV or JSON. Object/JSON are convenience features only. CSV is currently the only output that is supported by Universal DDI Data Import.
 
     .EXAMPLE
         PS> Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne
@@ -243,7 +243,7 @@
                 return $Results
             }
             'JSON' {
-                Write-Warning 'The current JSON output format does not work with BloxOne import. Use CSV instead for this purpose.'
+                Write-Warning 'The current JSON output format does not work with Universal DDI import. Use CSV instead for this purpose.'
                 return $Results | ConvertTo-Json -Depth 5
             }
             'CSV' {

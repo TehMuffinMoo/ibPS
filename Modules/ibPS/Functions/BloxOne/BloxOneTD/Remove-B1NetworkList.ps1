@@ -1,10 +1,10 @@
 ﻿function Remove-B1NetworkList {
     <#
     .SYNOPSIS
-        Removes a network list from BloxOne Threat Defense
+        Removes a network list from Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to remove a network list from BloxOne Threat Defense
+        This function is used to remove a network list from Infoblox Threat Defense
 
     .PARAMETER Name
         The name of the network list to remove

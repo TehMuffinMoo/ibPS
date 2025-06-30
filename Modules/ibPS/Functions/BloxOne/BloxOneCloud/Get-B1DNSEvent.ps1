@@ -1,10 +1,10 @@
 ﻿function Get-B1DNSEvent {
     <#
     .SYNOPSIS
-        Queries the BloxOne Threat Defense DNS Events
+        Queries the Infoblox Threat Defense DNS Events
 
     .DESCRIPTION
-        This function is used to query the BloxOne Threat Defense DNS Events. This is the log which contains all security policy hits.
+        This function is used to query the Infoblox Threat Defense DNS Events. This is the log which contains all security policy hits.
 
     .PARAMETER Query
         Use this parameter to filter the DNS Events by hostname or FQDN

@@ -1,10 +1,10 @@
 ﻿function New-B1CustomList {
     <#
     .SYNOPSIS
-        Creates a new Custom List in BloxOne Threat Defense
+        Creates a new Custom List in Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to create a new named list in BloxOne Threat Defense. These are referred to and displayed as Custom Lists within the CSP.
+        This function is used to create a new named list in Infoblox Threat Defense. These are referred to and displayed as Custom Lists within the CSP.
 
     .PARAMETER Name
         The name of the new custom list.

@@ -1,10 +1,10 @@
 ﻿function Get-B1TideThreatEnrichment {
     <#
     .SYNOPSIS
-        Used to retrieve threat enrichment data from BloxOne Threat Defense
+        Used to retrieve threat enrichment data from Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to retrieve threat enrichment data from BloxOne Threat Defense
+        This function is used to retrieve threat enrichment data from Infoblox Threat Defense
 
     .PARAMETER Type
         Use this parameter to specify the type of enrichment search to perform
@@ -20,7 +20,7 @@
         BloxOneDDI
 
     .FUNCTIONALITY
-        BloxOne Threat Defense
+        Infoblox Threat Defense
     #>
     [CmdletBinding()]
     param(

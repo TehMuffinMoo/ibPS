@@ -13,7 +13,7 @@
         PS>
 
     .FUNCTIONALITY
-        BloxOne Threat Defense
+        Infoblox Threat Defense
     #>
     [CmdletBinding()]
     param(

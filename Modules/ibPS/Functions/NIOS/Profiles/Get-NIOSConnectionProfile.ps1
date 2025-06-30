@@ -17,14 +17,14 @@
 
         Active   Name          Type        APIVersion   GridName                              GridUID                           Server  Username  SkipCertificateCheck
         ------   ----          ----        ----------   --------                              -------                           ------  --------  --------------------
-        True     BloxOne-GM1   Federated   2.12         Infoblox_infoblox.localdomain_A9E9CF  adsudas09dus0fu4rsf8yfsyysfd8fu9  -       -         -
+        True     Corp-GM1   Federated   2.12         Infoblox_infoblox.localdomain_A9E9CF  adsudas09dus0fu4rsf8yfsyysfd8fu9  -       -         -
 
     .EXAMPLE
         PS> Get-NIOSConnectionProfile -List | ft
 
         Active  Name          Type      APIVersion GridName                             GridUID                          Server                   Username  SkipCertificateCheck
         ------  ----          ----      ---------- --------                             -------                          ------                   --------  --------------------
-        True    BloxOne-GM1   Federated 2.12.3     Infoblox_infoblox.localdomain_A9E9CF adsudas09dus0fu4rsf8yfsyysfd8fu9 -                        -         -
+        True    Corp-GM1   Federated 2.12.3     Infoblox_infoblox.localdomain_A9E9CF adsudas09dus0fu4rsf8yfsyysfd8fu9 -                        -         -
         False   Corp-GM1      Local     2.12       -                                    -                                10.10.175.225            admin     True
         False   DMZ-GM1       Local     2.12       -                                    -                                172.26.21.22             infoblox  False
 

@@ -1,10 +1,10 @@
 ﻿function Get-B1ContentCategory {
     <#
     .SYNOPSIS
-        Retrieves a list of content categories from BloxOne Threat Defense
+        Retrieves a list of content categories from Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to retrieve a list of content categories from BloxOne Threat Defense
+        This function is used to retrieve a list of content categories from Infoblox Threat Defense
 
     .EXAMPLE
         PS> Get-B1ContentCategory

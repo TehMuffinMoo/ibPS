@@ -1,10 +1,10 @@
 ﻿function Get-B1Endpoint {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOne Endpoints from BloxOne Threat Defense.
+        Retrieves a list of Infoblox Endpoints from Infoblox Threat Defense.
 
     .DESCRIPTION
-        This function is used to retrieve a list of BloxOne Endpoints from BloxOne Threat Defense.
+        This function is used to retrieve a list of Infoblox Endpoints from Infoblox Threat Defense.
 
     .PARAMETER Name
         Filter results by Device Name.

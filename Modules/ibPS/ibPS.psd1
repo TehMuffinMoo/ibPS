@@ -30,7 +30,7 @@ CompanyName = 'TMM Networks'
 Copyright = '(c) 2021-2025 Mat Cox. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'InfoBlox BloxOne PowerShell Module'
+Description = 'Infoblox BloxOne PowerShell Module'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''

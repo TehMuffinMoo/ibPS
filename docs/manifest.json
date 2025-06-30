@@ -1,7 +1,7 @@
 {
   "Name": "ibPS",
   "Version": "1.9.8.6",
-  "Description": "InfoBlox BloxOne PowerShell Module",
+  "Description": "Infoblox BloxOne PowerShell Module",
   "Author": "Mat Cox",
   "ProjectUri": "https://github.com/TehMuffinMoo/ibPS",
   "LicenseUri": "https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE",

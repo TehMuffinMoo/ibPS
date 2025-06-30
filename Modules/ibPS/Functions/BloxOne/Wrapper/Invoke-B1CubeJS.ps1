@@ -1,10 +1,10 @@
 ﻿function Invoke-B1CubeJS {
     <#
     .SYNOPSIS
-        A wrapper function for interacting with the BloxOne CubeJS API
+        A wrapper function for interacting with the Infoblox Portal CubeJS API
 
     .DESCRIPTION
-        This is a wrapper function used for interacting with the BloxOne CubeJS APIs.
+        This is a wrapper function used for interacting with the Infoblox Portal CubeJS APIs.
 
     .PARAMETER Cube
         Specify the name of the cube to query. This field supports auto/tab-completion.
@@ -106,7 +106,7 @@
         CubeJS
 
     .FUNCTIONALITY
-        BloxOne Threat Defense
+        Infoblox Threat Defense
 
     .FUNCTIONALITY
         BloxOneDDI

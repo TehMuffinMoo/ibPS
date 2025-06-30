@@ -76,7 +76,7 @@
     process {
         $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $JSON = ($Data | ConvertTo-Json -Depth 10 -Compress)
-        if($PSCmdlet.ShouldProcess("Update BloxOne Object:`n$(JSONPretty($JSON))","Update BloxOne Object: ($($id))",$MyInvocation.MyCommand)){
+        if($PSCmdlet.ShouldProcess("Update Object:`n$(JSONPretty($JSON))","Update Object: ($($id))",$MyInvocation.MyCommand)){
             $Data.PSObject.Properties.Remove('_ref')
             $Data.PSObject.Properties.Remove('id')
             $Results = Invoke-CSP -Method PATCH -Uri "$($_ref)/$($id)" -Data $JSON | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue

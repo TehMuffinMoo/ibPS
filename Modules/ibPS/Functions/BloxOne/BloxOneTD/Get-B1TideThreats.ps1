@@ -98,7 +98,7 @@
         BloxOneDDI
 
     .FUNCTIONALITY
-        BloxOne Threat Defense
+        Infoblox Threat Defense
     #>
     [CmdletBinding(DefaultParameterSetName = 'host')]
     param(

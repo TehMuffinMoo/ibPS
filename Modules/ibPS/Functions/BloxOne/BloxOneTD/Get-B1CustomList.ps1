@@ -1,10 +1,10 @@
 ﻿function Get-B1CustomList {
     <#
     .SYNOPSIS
-        Retrieves a Custom List from BloxOne Threat Defense
+        Retrieves a Custom List from Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to retrieve named lists from BloxOne Threat Defense. These are referred to and displayed as Custom Lists within the CSP.
+        This function is used to retrieve named lists from Infoblox Threat Defense. These are referred to and displayed as Custom Lists within the CSP.
 
     .PARAMETER Name
         Filter results by Name.

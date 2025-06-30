@@ -25,7 +25,7 @@
         BloxOneDDI
 
     .FUNCTIONALITY
-        BloxOne Threat Defense
+        Infoblox Threat Defense
 
     .FUNCTIONALITY
         SOC Insights

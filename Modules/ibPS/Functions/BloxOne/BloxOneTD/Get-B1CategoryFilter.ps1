@@ -1,10 +1,10 @@
 ﻿function Get-B1CategoryFilter {
     <#
     .SYNOPSIS
-        Retrieves a Category Filter from BloxOne Threat Defense
+        Retrieves a Category Filter from Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to retrieve category filter(s) from BloxOne Threat Defense.
+        This function is used to retrieve category filter(s) from Infoblox Threat Defense.
 
     .PARAMETER Name
         Filter results by Name.

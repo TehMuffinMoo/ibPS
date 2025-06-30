@@ -1,10 +1,10 @@
 ﻿function Get-B1NetworkList {
     <#
     .SYNOPSIS
-        Retrieves network lists (External Networks) from BloxOne Threat Defense
+        Retrieves network lists (External Networks) from Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to retrieve network lists from BloxOne Threat Defense. These are referred to and displayed as "External Networks" within the CSP.
+        This function is used to retrieve network lists from Infoblox Threat Defense. These are referred to and displayed as "External Networks" within the CSP.
 
     .PARAMETER Name
         Filter results by Name

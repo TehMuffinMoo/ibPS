@@ -4,7 +4,7 @@
         Updates an existing TIDE Data Profile
 
     .DESCRIPTION
-        This function is used to update an existing TIDE Data Profile from BloxOne Threat Defense.
+        This function is used to update an existing TIDE Data Profile from Infoblox Threat Defense.
 
     .PARAMETER Name
         The name of the TIDE Data Profile to update
@@ -39,7 +39,7 @@
         BloxOneDDI
 
     .FUNCTIONALITY
-        BloxOne Threat Defense
+        Infoblox Threat Defense
     #>
     [CmdletBinding(
         SupportsShouldProcess,

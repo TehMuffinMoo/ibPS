@@ -30,7 +30,7 @@
     BloxOneDDI
 
   .FUNCTIONALITY
-    BloxOne Threat Defense
+    Infoblox Threat Defense
 
   .NOTES
     Credits: Ollie Sheridan

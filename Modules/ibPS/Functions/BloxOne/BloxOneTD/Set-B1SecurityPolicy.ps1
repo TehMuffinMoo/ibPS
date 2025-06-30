@@ -1,10 +1,10 @@
 ﻿function Set-B1SecurityPolicy {
     <#
     .SYNOPSIS
-        Updates an existing Security Policy in BloxOne Threat Defense
+        Updates an existing Security Policy in Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to update an existing Security Policy in BloxOne Threat Defense.
+        This function is used to update an existing Security Policy in Infoblox Threat Defense.
 
     .PARAMETER Name
         The name of the new Security Policy.

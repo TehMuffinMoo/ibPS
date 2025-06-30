@@ -1,10 +1,10 @@
 ﻿function Start-B1DossierLookup {
     <#
     .SYNOPSIS
-        Performs a single lookup against the BloxOne Threat Defense Dossier
+        Performs a single lookup against the Infoblox Threat Defense Dossier
 
     .DESCRIPTION
-        This function is used to perform a single lookup against the BloxOne Threat Defense Dossier
+        This function is used to perform a single lookup against the Infoblox Threat Defense Dossier
 
     .PARAMETER Type
         The indicator type to search on

@@ -1,28 +1,28 @@
 ﻿function Copy-NIOSDTCToBloxOne {
     <#
     .SYNOPSIS
-        Used to migrate LBDNs from NIOS DTC to BloxOne DTC
+        Used to migrate LBDNs from NIOS DTC to Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to BloxOne DTC
+        This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to Universal DDI DTC
 
-        BloxOne DDI only currently supports Round Robin, Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks. Unsupported Load Balancing Methods will fail, but unsupported Health Checks will be skipped gracefully.
+        Universal DDI DDI only currently supports Round Robin, Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks. Unsupported Load Balancing Methods will fail, but unsupported Health Checks will be skipped gracefully.
 
     .PARAMETER B1DNSView
-        The DNS View within BloxOne DDI in which to assign the new LBDNs to. The LBDNs will not initialise unless the zone(s) exist within the specified DNS View.
+        The DNS View within Universal DDI DDI in which to assign the new LBDNs to. The LBDNs will not initialise unless the zone(s) exist within the specified DNS View.
 
     .PARAMETER NIOSLBDN
-        The LBDN Name within NIOS that you would like to migrate to BloxOne DDI.
+        The LBDN Name within NIOS that you would like to migrate to Universal DDI DDI.
 
     .PARAMETER PolicyName
-        Optionally specify a DTC Policy name. DTC Policies are new in BloxOne DDI, so by default they will inherit the name of the DTC LBDN if this parameter is not specified.
+        Optionally specify a DTC Policy name. DTC Policies are new in Universal DDI DDI, so by default they will inherit the name of the DTC LBDN if this parameter is not specified.
 
     .PARAMETER LBDNTransform
         Use this parameter to transform the DTC LBDN FQDN from an old to new domain.
 
         Example: -LBDNTransform 'dtc.mydomain.com:b1dtc.mydomain.com'
 
-        |           NIOS DTC          |        BloxOne DDI DTC        |
+        |           NIOS DTC          |        Universal DDI DDI DTC        |
         |-----------------------------|-------------------------------|
         | myservice.dtc.mydomain.com  | myservice.b1dtc.mydomain.com  |
 
@@ -32,7 +32,7 @@
     .EXAMPLE
         PS> Copy-NIOSDTCToBloxOne -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp' -ApplyChanges
 
-        Querying BloxOne DNS View: My DNS View
+        Querying Universal DDI DNS View: My DNS View
         Querying DTC LBDN: Exchange Server
         Querying DTC Pool: dtc:pool/ZG5zLmlkbnNfcG9vbCRFeGNoYW5nZSBQb29s:Exchange%20Pool
         Querying DTC Server: dtc:server/ZG5zLmlkbnNfc2VydmVyJEV4Y2hhbmdlIFNlcnZlciAx:Exchange%20Server%201
@@ -234,7 +234,7 @@
     }
 
     process {
-        Write-Host "Querying BloxOne DNS View: $($B1DNSView)" -ForegroundColor Cyan
+        Write-Host "Querying Universal DDI DNS View: $($B1DNSView)" -ForegroundColor Cyan
         if (!(Get-B1DNSView $B1DNSView -Strict)) {
             Write-Error "Unable to find DNS View: $($B1DNSView)"
             return $null
@@ -303,7 +303,7 @@
                             ## Nothing to add
                         }
                         default {
-                            Write-Host "Found unsupported DTC Monitor. BloxOne DTC currently supports TCP, HTTP or ICMP Health Checks, so this one will be skipped: $($Monitor)" -ForegroundColor Red
+                            Write-Host "Found unsupported DTC Monitor. Universal DDI DTC currently supports TCP, HTTP or ICMP Health Checks, so this one will be skipped: $($Monitor)" -ForegroundColor Red
                             $Process = $false
                         }
                     }
@@ -311,11 +311,11 @@
                         Write-Host "Querying DTC Monitor: $($Monitor)" -ForegroundColor Cyan
                         $NIOSMonitor = Invoke-NIOS -Method GET -Uri "$($Monitor)?_return_fields%2b=$($ReturnFields -join ',')" @InvokeOpts
                         if ($NIOSMonitor.content_check -eq "EXTRACT") {
-                            Write-Host "Found unsupported DTC Monitor Regex. BloxOne DTC does not currently support multiple regex capture groups, so this one will be skipped: $($Monitor)" -ForegroundColor Red
+                            Write-Host "Found unsupported DTC Monitor Regex. Universal DDI DTC does not currently support multiple regex capture groups, so this one will be skipped: $($Monitor)" -ForegroundColor Red
                         } else {
                             if ($Monitor -like "dtc:monitor:http*") {
                                 if ($NIOSMonitor.content_check_input -eq "HEADERS" -or "ALL") {
-                                    Write-Host "Found unsupported DTC Monitor configuration. BloxOne DTC does support checking HTTP Headers, but requires the header name is specified. As this is not available in NIOS, this portion of the health check will not be created: $($Monitor)" -ForegroundColor Yellow
+                                    Write-Host "Found unsupported DTC Monitor configuration. Universal DDI DTC does support checking HTTP Headers, but requires the header name is specified. As this is not available in NIOS, this portion of the health check will not be created: $($Monitor)" -ForegroundColor Yellow
                                     $NIOSMonitor.content_check_input = "BODY"
                                 }
                                 if ($NIOSMonitor.request -notlike "*HTTP/1.*") {
@@ -369,7 +369,7 @@
                         $iNIOSTopologyRule = Invoke-NIOS -Method GET -Uri "$($NIOSTopologyRule._ref)?_return_fields%2b=dest_type,return_type,sources,valid,destination_link" @InvokeOpts
                         foreach ($Source in $iNIOSTopologyRule.sources) {
                             if ($Source.source_type -ne 'SUBNET') {
-                                Write-Host "Found unsupported DTC Topology Rule Source: $($Source.source_type). BloxOne only supports Subnet and Default rules. Geography and Extensible Attribute/Tag based rules are not yet supported and will be skipped." -ForegroundColor Cyan
+                                Write-Host "Found unsupported DTC Topology Rule Source: $($Source.source_type). Universal DDI only supports Subnet and Default rules. Geography and Extensible Attribute/Tag based rules are not yet supported and will be skipped." -ForegroundColor Cyan
                             }
                             $Sources = $Sources | Where-Object {$_.source_type -eq 'SUBNET'}
                         }
@@ -377,7 +377,7 @@
                             $iNIOSTopologyRule | Add-Member -MemberType NoteProperty -Name "default" -Value $true
                         }
                         if ($iNIOSTopologyRule.dest_type -eq "SERVER") {
-                            Write-Host "Found unsupported DTC Topology Rule Destination. BloxOne only supports Pool topology rulesets. Any rulesets defined as Server will need to be changed to Pool prior to migration. This one will be skipped: $($iNIOSTopologyRule._ref)" -ForegroundColor Red
+                            Write-Host "Found unsupported DTC Topology Rule Destination. Universal DDI only supports Pool topology rulesets. Any rulesets defined as Server will need to be changed to Pool prior to migration. This one will be skipped: $($iNIOSTopologyRule._ref)" -ForegroundColor Red
                         } else {
                             $NewPolicy.rules += $iNIOSTopologyRule
                         }
@@ -390,7 +390,7 @@
                 "Policy" = $NewPolicy
                 "Pools" = $NewPools
             }
-            ## Apply changes (Publish in BloxOne DDI)
+            ## Apply changes (Publish in Universal DDI DDI)
             if ($ApplyChanges) {
                 ## Create DTC Pool(s), Servers(s) & Associations
                 $PoolList = @()
@@ -500,7 +500,7 @@
                                     }
                                 }
                             } else {
-                                Write-Host "Found unsupported DTC Monitor. BloxOne DTC currently supports TCP, HTTP or ICMP Health Checks, so this one will be skipped: $($Monitor)" -ForegroundColor Red
+                                Write-Host "Found unsupported DTC Monitor. Universal DDI DTC currently supports TCP, HTTP or ICMP Health Checks, so this one will be skipped: $($Monitor)" -ForegroundColor Red
                             }
                         } else {
                             if ($B1DTCHealthCheckName) {

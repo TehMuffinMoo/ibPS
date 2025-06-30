@@ -1,10 +1,10 @@
 ﻿function Get-B1CustomRedirect {
     <#
     .SYNOPSIS
-        Retrieves a Custom Redirects from BloxOne Threat Defense
+        Retrieves a Custom Redirects from Infoblox Threat Defense
 
     .DESCRIPTION
-        This function is used to retrieve named redirects from BloxOne Threat Defense.
+        This function is used to retrieve named redirects from Infoblox Threat Defense.
 
     .PARAMETER Name
         Filter results by Name.

@@ -1,16 +1,16 @@
 ﻿function Remove-B1SecurityPolicy {
     <#
     .SYNOPSIS
-        Removes a BloxOne Threat Defense Security Policy
+        Removes a Infoblox Threat Defense Security Policy
 
     .DESCRIPTION
-        This function is used to remove a BloxOne Threat Defense Security Policy
+        This function is used to remove a Infoblox Threat Defense Security Policy
 
     .PARAMETER Object
-        The BloxOne Threat Defense Security Policy Object(s) to remove. Accepts pipeline input
+        The Infoblox Threat Defense Security Policy Object(s) to remove. Accepts pipeline input
 
     .PARAMETER Name
-        The name of the BloxOne Threat Defense Security Policy to delete.
+        The name of the Infoblox Threat Defense Security Policy to delete.
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.

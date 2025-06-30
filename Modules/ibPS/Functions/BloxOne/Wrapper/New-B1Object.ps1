@@ -79,7 +79,7 @@
         } else {
             $Data = $JSON
         }
-        if($PSCmdlet.ShouldProcess("Create new BloxOne Object:`n$(JSONPretty($Data))","Create new BloxOne Object: $($Endpoint)",$MyInvocation.MyCommand)){
+        if($PSCmdlet.ShouldProcess("Create new Object:`n$(JSONPretty($Data))","Create new Object: $($Endpoint)",$MyInvocation.MyCommand)){
             $Results = Invoke-CSP -Method $Method -Uri $Uri -Data $Data
             if ($Results) {
                 return $Results

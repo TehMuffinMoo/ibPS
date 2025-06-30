@@ -4,7 +4,7 @@
         Generates a new DoH FQDN
 
     .DESCRIPTION
-        This function is used to generate a new DNS over HTTPS FQDN for use in BloxOne Threat Defense security policies
+        This function is used to generate a new DNS over HTTPS FQDN for use in Infoblox Threat Defense security policies
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.

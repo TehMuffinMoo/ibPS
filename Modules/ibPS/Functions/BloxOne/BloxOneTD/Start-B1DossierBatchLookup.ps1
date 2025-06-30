@@ -1,10 +1,10 @@
 ﻿function Start-B1DossierBatchLookup {
     <#
     .SYNOPSIS
-        Perform multiple simultaneous lookups against the BloxOne Threat Defense Dossier
+        Perform multiple simultaneous lookups against the Infoblox Threat Defense Dossier
 
     .DESCRIPTION
-        This function is used to perform multiple simultaneous lookups against the BloxOne Threat Defense Dossier
+        This function is used to perform multiple simultaneous lookups against the Infoblox Threat Defense Dossier
 
     .PARAMETER Type
         The indicator type to search on
