@@ -1,1 +1,1 @@
-- Add `Get-` cmdlets for NIOS-X As A Service
+- Bugfix with Remove-B1Record when using pipe
