@@ -19,19 +19,19 @@ Get-B1Object [-Product] <String> [-App] <String> [-Endpoint] <String> [[-Fields]
 ```
 
 ## DESCRIPTION
-This is a Generic Wrapper for getting objects from the BloxOne CSP (Cloud Services Portal).
+This is a Generic Wrapper for getting objects from the Infoblox Cloud.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
+Get-B1Object -Product 'Universal DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
 ```
 
 ## PARAMETERS
 
 ### -Product
-Specify the product to use, such as 'BloxOne DDI'.
+Specify the product to use, such as 'Universal DDI'.
 This parameter is auto-populated when using tab
 
 ```yaml

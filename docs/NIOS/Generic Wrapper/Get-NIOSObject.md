@@ -210,7 +210,7 @@ Accept wildcard characters: False
 ```
 
 ### -GridName
-Specify the NIOS Grid Name in Universal DDI DDI instead of the GridUID.
+Specify the NIOS Grid Name in Universal DDI instead of the GridUID.
 This is convient, but requires resolving the license_uid on every API Call.
 
 This parameter can be ommitted if the Federated Grid has been stored by using Set-NIOSConnectionProfile

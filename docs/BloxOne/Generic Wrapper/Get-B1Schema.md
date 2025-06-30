@@ -24,7 +24,7 @@ This is used for obtaining API Schema information for use with generic wrapper c
 
 ### EXAMPLE 1
 ```powershell
-Get-B1Schema -Product 'BloxOne DDI'
+Get-B1Schema -Product 'Universal DDI'
 
 Available Apps:
 
@@ -41,7 +41,7 @@ CloudDiscoveryProviders Cloud Discovery Providers
 
 ### EXAMPLE 2
 ```powershell
-Get-B1Schema -Product 'BloxOne DDI' -App DnsConfig | Select Endpoint,Description
+Get-B1Schema -Product 'Universal DDI' -App DnsConfig | Select Endpoint,Description
 
 Endpoint                               Description
 --------                               -----------
@@ -77,7 +77,7 @@ Endpoint                               Description
 
 ### EXAMPLE 3
 ```powershell
-Get-B1Schema -Product 'BloxOne Cloud' -App 'CDC' -Endpoint /v2/flows/data -Method get -ListParameters
+Get-B1Schema -Product 'Infoblox Portal' -App 'CDC' -Endpoint /v2/flows/data -Method get -ListParameters
 
 name    type   description
 ----    ----   -----------

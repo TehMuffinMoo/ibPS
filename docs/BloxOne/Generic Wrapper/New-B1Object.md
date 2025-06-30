@@ -34,13 +34,13 @@ PS> $Splat = @{
             "address" = "10.10.10.10"
         }
     }
-PS> New-B1Object -Product 'BloxOne DDI' -App DnsData -Endpoint /dns/record -Data $Splat
+PS> New-B1Object -Product 'Universal DDI' -App DnsData -Endpoint /dns/record -Data $Splat
 ```
 
 ## PARAMETERS
 
 ### -Product
-Specify the product to use, such as 'BloxOne DDI'.
+Specify the product to use, such as 'Universal DDI'.
 This parameter is auto-populated when using tab
 
 ```yaml

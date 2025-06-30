@@ -19,7 +19,7 @@ Get-B1ThreatFeeds [[-Name] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-F
 
 ## DESCRIPTION
 Use this cmdlet to retrieve information on all Threat Feed objects for the account.
-BloxOne Cloud provides predefined threat intelligence feeds based on your subscription.
+Infoblox Portal provides predefined threat intelligence feeds based on your subscription.
 The Plus subscription offers a few more feeds than the Standard subscription.
 The Advanced subscription offers a few more feeds than the Plus subscription.
 A threat feed subscription for RPZ updates offers protection against malicious hostnames.

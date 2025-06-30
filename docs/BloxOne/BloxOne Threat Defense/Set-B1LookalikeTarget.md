@@ -20,7 +20,7 @@ Set-B1LookalikeTarget [-Domain] <String[]> [-Description] <String[]> [-Force] [-
 ## DESCRIPTION
 This function is used to update an existing lookalike target domain for the account.
 
-The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
+The Lookalike Target Domains are second-level domains Threat Defense uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
 ## EXAMPLES
 
