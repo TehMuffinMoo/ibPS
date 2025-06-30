@@ -19,7 +19,7 @@
         PS> Remove-B1Service -Name "dns_ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
         Service

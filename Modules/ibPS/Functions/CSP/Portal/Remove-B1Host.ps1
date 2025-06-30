@@ -19,10 +19,7 @@
         PS> Remove-B1Host -Name "ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
-        Universal DDI
-
-    .FUNCTIONALITY
-        Host
+        NIOS-X
     #>
     [CmdletBinding(
       SupportsShouldProcess,

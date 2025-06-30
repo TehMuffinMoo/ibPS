@@ -24,7 +24,7 @@
         discovery
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
         Service

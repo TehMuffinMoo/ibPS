@@ -235,7 +235,7 @@
                            -AzAcceptTerms
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
         VMware

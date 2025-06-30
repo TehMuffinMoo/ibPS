@@ -16,8 +16,8 @@
 
 ## Import Functions
 $MiscellaneousFunctions = Get-ChildItem "$PSScriptRoot\Functions\Misc\*.ps1"
-$B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne" -Exclude Private | Get-ChildItem -Recurse
-$B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\BloxOne\Private\*.ps1"
+$B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP" -Exclude Private | Get-ChildItem -Recurse
+$B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP\Private\*.ps1"
 $NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS" -Exclude Private | Get-ChildItem -Recurse
 $NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1"
 $AdditionalFunctionsToExport = @('Invoke-CSP')

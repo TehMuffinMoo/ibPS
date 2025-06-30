@@ -33,7 +33,7 @@
         PS> New-B1Service -Type dhcp -Name "dhcp_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
         Service

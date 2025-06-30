@@ -4,7 +4,7 @@
         Removes a Infoblox Portal API Key
 
     .DESCRIPTION
-        This function is used to remove an API Key from the Infoblox Portal
+        This function is used to remove an API Key from the Infoblox Portal.
         The API Key must be disabled prior to deleting
 
     .PARAMETER User

@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'BloxOne-Main.psm1'
+RootModule = 'ibPS-Main.psm1'
 
 # Version number of this module.
 ModuleVersion = '1.9.8.6'
@@ -161,7 +161,7 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Invoke-B1CubeJS', 'New-B1Object', 'Remove-B1Object', 'Set-B1Object', 
                'Get-NIOSConnectionProfile', 'New-NIOSConnectionProfile', 
                'Remove-NIOSConnectionProfile', 'Switch-NIOSConnectionProfile', 
-               'Convert-RecordsToBloxOne', 'Copy-NIOSDTCToBloxOne', 'Get-NIOSFileOp', 
+               'Convert-RecordsToUDDI', 'Copy-NIOSDTCToUDDI', 'Get-NIOSFileOp', 
                'Get-NIOSObject', 'Get-NIOSSchema', 'Invoke-NIOS', 'New-NIOSObject', 
                'Remove-NIOSObject', 'Set-NIOSObject', 'Get-ibPSConfiguration', 
                'Get-ibPSVersion', 'Get-NetworkInfo', 'Get-NetworkTopology', 

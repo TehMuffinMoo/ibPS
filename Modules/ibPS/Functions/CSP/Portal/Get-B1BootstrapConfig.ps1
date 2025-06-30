@@ -31,10 +31,10 @@
         PS> Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
-        Host
+        Bootstrap
     #>
     [CmdletBinding()]
     param(

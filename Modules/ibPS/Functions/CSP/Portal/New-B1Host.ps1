@@ -25,10 +25,7 @@
         PS> New-B1Host -Name "ddihost1.mydomain.corp" -Description "My NIOS-X Host" -Space "Global"
 
     .FUNCTIONALITY
-        Universal DDI
-
-    .FUNCTIONALITY
-        Host
+        NIOS-X
     #>
     [CmdletBinding(
         SupportsShouldProcess,

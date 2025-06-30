@@ -134,7 +134,7 @@ Accept wildcard characters: False
 
 ### -GridUID
 Specify the NIOS Grid UID (license_uid) to use for the new connection profile.
-This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+This indicates which Grid to connect to when using NIOS Federation within Universal DDI.
 
 Using this parameter will set the connection profile type to Federated.
 

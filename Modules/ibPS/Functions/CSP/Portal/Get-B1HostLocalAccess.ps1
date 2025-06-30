@@ -31,7 +31,7 @@
         ...
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
         Bootstrap

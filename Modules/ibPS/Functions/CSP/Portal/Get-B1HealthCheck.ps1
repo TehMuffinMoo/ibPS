@@ -31,10 +31,10 @@
         B1DDI-01            started                 started
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
-        Health
+        Service
     #>
     [CmdletBinding()]
     param(

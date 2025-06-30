@@ -47,7 +47,7 @@
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
-* Build custom scripts/functions leveraging the [Infoblox Portal Wrapper Cmdlets](BloxOne/Generic%20Wrapper/).
+* Build custom scripts/functions leveraging the [Infoblox Portal Wrapper Cmdlets](CSP/Generic%20Wrapper/).
 * Fully featured NIOS Wrapper using Native API or NIOS Federation [NIOS Wrapper Cmdlets](NIOS/Generic%20Wrapper/)
 * Automate the world!
 
@@ -55,7 +55,7 @@
 
 * If the cmdlet you are looking for is not yet built into the Module, you can raise a feature request via Github Issues.
 * You can also use this module as a generic wrapper by leveraging the:
-[Infoblox Portal Wrapper Cmdlets](BloxOne/Generic%20Wrapper/) & 
+[Infoblox Portal Wrapper Cmdlets](CSP/Generic%20Wrapper/) & 
 [NIOS Wrapper Cmdlets](NIOS/Generic%20Wrapper/).
 
 ## How To Use
@@ -110,13 +110,13 @@ Get-ibPSVersion -Update
 #### Explicitly Import Module
 ```powershell
 # You can import the module directly by using;
-Import-Module -Name ".\Modules\ibPS\BloxOne-Main.psm1" -DisableNameChecking
+Import-Module -Name ".\Modules\ibPS\ibPS-Main.psm1" -DisableNameChecking
 ```
 
 #### Explicitly Import Functions
 ```powershell
 # You can load the functions directly by using;
-. .\Modules\BloxOne-Main.ps1
+. .\Modules\ibPS-Main.ps1
 ```
 
 ### Authentication (API Key)
@@ -152,7 +152,7 @@ $ENV:IBPSB1APIKEY = '<ApiKeyFromCSP>'
 #### Managing multiple Infoblox Portal Accounts
 When managing more than one account, you can use the Profiles configuration. Configuration Profiles enable you to save API keys for multiple accounts, and easily switch between them.
 
-See [Get-B1ConnectionProfile](BloxOne/Profiles/Get-B1ConnectionProfile/) for more information
+See [Get-B1ConnectionProfile](CSP/Profiles/Get-B1ConnectionProfile/) for more information
 ```powershell
 New-B1ConnectionProfile -Name 'Prod' -CSPRegion 'US' -APIKey '<ApiKeyFromCSP>'
 ```

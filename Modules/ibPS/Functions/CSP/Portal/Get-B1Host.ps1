@@ -71,10 +71,7 @@
         PS> Get-B1Host -Name "ddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
 
     .FUNCTIONALITY
-        Universal DDI
-
-    .FUNCTIONALITY
-        Host
+        NIOS-X
     #>
     [CmdletBinding(DefaultParameterSetName="default")]
     param(

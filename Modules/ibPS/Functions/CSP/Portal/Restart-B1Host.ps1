@@ -19,10 +19,7 @@
         PS> Restart-B1Host -B1Host "ddihost1.mydomain.corp" -NoWarning
 
     .FUNCTIONALITY
-        Universal DDI
-
-    .FUNCTIONALITY
-        Host
+        NIOS-X
     #>
     [CmdletBinding(
       SupportsShouldProcess,

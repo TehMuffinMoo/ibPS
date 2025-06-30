@@ -4,7 +4,7 @@
         This function is used to create new connection profiles. By default, the new profile will be set as active.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts. These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Switch-B1ConnectionProfile/).
+        Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts. These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/CSP/Profiles/Switch-B1ConnectionProfile/).
 
     .PARAMETER Name
         Specify the name for the new connection profile
@@ -31,7 +31,7 @@
         PS> New-B1ConnectionProfile
 
     .FUNCTIONALITY
-        BloxOne
+        Infoblox Portal
 
     .FUNCTIONALITY
         Core

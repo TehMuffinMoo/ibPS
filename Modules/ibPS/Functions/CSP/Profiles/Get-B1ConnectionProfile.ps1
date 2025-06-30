@@ -4,7 +4,7 @@
         This function is used to retrieved saved Infoblox Portal connection profiles. By default, the active profile is returned.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts. These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Switch-B1ConnectionProfile/).
+        Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts. These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/CSP/Profiles/Switch-B1ConnectionProfile/).
 
     .PARAMETER Name
         Return a specific connection profile based on its name
@@ -33,7 +33,7 @@
         False   Test   svc-ps     ACME Corp | Sandbox (Test) ********
 
     .FUNCTIONALITY
-        BloxOne
+        Infoblox Portal
 
     .FUNCTIONALITY
         Core

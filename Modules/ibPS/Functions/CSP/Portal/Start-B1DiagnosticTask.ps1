@@ -49,7 +49,7 @@
         PS> Start-B1DiagnosticTask -DHCPConfiguration
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
         Tasks

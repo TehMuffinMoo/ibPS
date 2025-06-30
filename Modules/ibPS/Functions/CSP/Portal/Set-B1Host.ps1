@@ -44,10 +44,8 @@
         PS> Get-B1Host -Name "ddihost1.mydomain.corp" | Set-B1Host -NewName "mynewhostname.mydomain.corp"
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
-    .FUNCTIONALITY
-        Host
     #>
     [CmdletBinding(
       SupportsShouldProcess,

@@ -15,22 +15,22 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Updating changes to Module.."
-          Copy-Item "./Modules/BloxOne-Main.ps1" "./Modules/ibPS/BloxOne-Main.psm1" -Force
+          Copy-Item "./Modules/ibPS-Main.ps1" "./Modules/ibPS/ibPS-Main.psm1" -Force
 
           Write-Host "Testing Module Manifest.."
           $Module = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
 
           ## Functions to export
-          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
+          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/CSP/" -Exclude Private | Get-ChildItem -Recurse
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/" -Exclude Private | Get-ChildItem -Recurse
           $MiscellaneousFunctions = Get-ChildItem "./Modules/ibPS/Functions/Misc/*.ps1" | Where-Object {$_.BaseName -ne 'Misc'}
           $AdditionalFunctionsToExport = @('Invoke-CSP')
 
           ## Export Aliases
           Write-Host "Exporting aliases.."
-          $null = Import-Module './Modules/ibPS/BloxOne-Main.psm1'
+          $null = Import-Module './Modules/ibPS/ibPS-Main.psm1'
           $null = Resolve-DoHQuery -Query google.com -DoHServer 1.1.1.1
-          $Aliases = (Get-Alias | Where-Object {$_.Source -eq "BloxOne-Main"}).Name
+          $Aliases = (Get-Alias | Where-Object {$_.Source -eq "ibPS-Main"}).Name
           
           ## Export Functions
           Write-Host "Exporting functions.."

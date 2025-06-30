@@ -1,48 +1,43 @@
-﻿function Enable-B1HostLocalAccess {
+﻿function Disable-B1HostLocalAccess {
     <#
     .SYNOPSIS
-        Enables the Bootstrap UI Local Access for the given NIOS-X Host
+        Disabled the Bootstrap UI Local Access for the given NIOS-X Host
 
     .DESCRIPTION
-        This function is used to enable the Bootstrap UI Local Access for the given NIOS-X Host
+        This function is used to disable the Bootstrap UI Local Access for the given NIOS-X Host
 
     .PARAMETER B1Host
-        The name of the NIOS-X Host to enable local access for
+        The name of the NIOS-X Host to disable local access for
 
     .PARAMETER UseDefaultCredentials
         Using the -UseDefaultCredentials parameter will attempt to use the default credentials (admin + last 8 characters of serial number)
 
     .PARAMETER Credentials
-        The -Credentials parameter allows entering the Local Access credentials required to enable it
+        The -Credentials parameter allows entering the Local Access credentials required to disable it
 
     .PARAMETER Wait
-        Using the -Wait parameter will wait and check if the local access is enabled successfully. This can be manually checked using Get-B1HostLocalAccess
+        Using the -Wait parameter will wait and check if the local access is disabled successfully. This can be manually checked using Get-B1HostLocalAccess
 
     .PARAMETER OPH
-        The NIOS-X Host object to submit a enable local access request for. This accepts pipeline input from Get-B1Host
+        The NIOS-X Host object to submit a disable local access request for. This accepts pipeline input from Get-B1Host
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
-        PS> Get-B1Host my-host-1 | Enable-B1HostLocalAccess -UseDefaultCredentials -Wait
+        PS> Get-B1Host my-host-1 | Disable-B1HostLocalAccess -UseDefaultCredentials -Wait
 
-            Local access enable request successfully sent for: my-host-1
-            Checking local access enabled state..
-            Local Access Enabled Successfully.
-            You can access this by browsing to: https://10.15.23.101
-
-            enabled  time_left    period    B1Host
-            -------  ---------    ------    ------
-            True     1h 59m 50s   2h 0m 0s  my-host-1
+            Local access disable request successfully sent for: my-host-1
+            Checking local access disabled state..
+            Local Access Disabled Successfully.
 
     .EXAMPLE
-        PS> Enable-B1HostLocalAccess -B1Host my-host-1 -UseDefaultCredentials
+        PS> Disable-B1HostLocalAccess -B1Host my-host-1 -UseDefaultCredentials
 
-            Local access enable request successfully sent for: my-host-1
+            Local access disable request successfully sent for: my-host-1
 
     .FUNCTIONALITY
-        Universal DDI
+        NIOS-X
 
     .FUNCTIONALITY
         Bootstrap
@@ -149,21 +144,20 @@
                 "password" = $LocalAccessCredentials.Password
             } | ConvertTo-Json
 
-            if($PSCmdlet.ShouldProcess("Enable Local Access on: $($OPH.display_name)","Enable Local Access on: $($OPH.display_name)",$MyInvocation.MyCommand)){
-                $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CspUrl)/bootstrap-app/v1/host/$($OPHID)/enable_local_access" -Data $($JSONData)
+            if($PSCmdlet.ShouldProcess("Disable Local Access on: $($OPH.display_name)","Disable Local Access on: $($OPH.display_name)",$MyInvocation.MyCommand)){
+                $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CspUrl)/bootstrap-app/v1/host/$($OPHID)/disable_local_access" -Data $($JSONData)
                 if ($Results.Count -eq 1) {
-                    Write-Host "Local access enable request successfully sent for: $($OPH.display_name)" -ForegroundColor Green
+                    Write-Host "Local access disable request successfully sent for: $($OPH.display_name)" -ForegroundColor Green
                     if ($Wait) {
                         $Count = 0
                         while ($Count -lt 60) {
-                            Write-Host "Checking local access enabled state.." -ForegroundColor Yellow
+                            Write-Host "Checking local access disabled state.." -ForegroundColor Yellow
                             $B1HostLocalAccess = $OPH | Get-B1HostLocalAccess
-                            if ($B1HostLocalAccess.enabled -eq "True") {
-                                Write-Host "Local Access Enabled Successfully." -ForegroundColor Green
-                                Write-Host "You can access this by browsing to: https://$($OPH.ip_address)" -ForegroundColor Cyan
-                                return $B1HostLocalAccess
+                            if ($B1HostLocalAccess.enabled -ne "True") {
+                                Write-Host "Local Access disabled Successfully." -ForegroundColor Green
+                                return $null
                             } else {
-                                $AuditLog = Get-B1AuditLog -Action "LocalAccessEnabled" -Start $ProcessStart -ErrorAction SilentlyContinue
+                                $AuditLog = Get-B1AuditLog -Action "LocalAccessDisabled" -Start $ProcessStart -ErrorAction SilentlyContinue
                                 if ($AuditLog) {
                                     $Entries = $AuditLog | Where-Object {($_.event_metadata.value | ConvertFrom-Json).ophid -eq "$($OPHID)"}
                                     $LatestEntry = $Entries | Sort-Object created_at -Desc | Select-Object -First 1
@@ -176,10 +170,10 @@
                             Wait-Event -Timeout 10
                             $Count += 10
                         }
-                        Write-Error "Error. Timed out waiting for Local Access to be enabled."
+                        Write-Error "Error. Timed out waiting for Local Access to be disabled."
                     }
                 } else {
-                    Write-Error "Error. Failed to sent local access enable request for: $($OPH.display_name)"
+                    Write-Error "Error. Failed to sent local access disable request for: $($OPH.display_name)"
                 }
             }
         }
