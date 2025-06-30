@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1TideThreatEnrichment
 
 ## SYNOPSIS
-Used to retrieve threat enrichment data from BloxOne Threat Defense
+Used to retrieve threat enrichment data from Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1TideThreatEnrichment [-Type] <String> [-Indicator] <String> [<CommonParame
 ```
 
 ## DESCRIPTION
-This function is used to retrieve threat enrichment data from BloxOne Threat Defense
+This function is used to retrieve threat enrichment data from Infoblox Threat Defense
 
 ## EXAMPLES
 

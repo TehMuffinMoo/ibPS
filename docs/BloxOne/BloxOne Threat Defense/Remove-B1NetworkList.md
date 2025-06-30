@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1NetworkList
 
 ## SYNOPSIS
-Removes a network list from BloxOne Threat Defense
+Removes a network list from Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1NetworkList -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonPara
 ```
 
 ## DESCRIPTION
-This function is used to remove a network list from BloxOne Threat Defense
+This function is used to remove a network list from Infoblox Threat Defense
 
 ## EXAMPLES
 

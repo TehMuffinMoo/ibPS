@@ -17,7 +17,7 @@ New-B1DoHFQDN [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to generate a new DNS over HTTPS FQDN for use in BloxOne Threat Defense security policies
+This function is used to generate a new DNS over HTTPS FQDN for use in Infoblox Threat Defense security policies
 
 ## EXAMPLES
 

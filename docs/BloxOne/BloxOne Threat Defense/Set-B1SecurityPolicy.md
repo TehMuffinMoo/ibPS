@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1SecurityPolicy
 
 ## SYNOPSIS
-Updates an existing Security Policy in BloxOne Threat Defense
+Updates an existing Security Policy in Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -29,7 +29,7 @@ Set-B1SecurityPolicy [-NewName <String>] [-Description <String>] [-Precedence <I
 ```
 
 ## DESCRIPTION
-This function is used to update an existing Security Policy in BloxOne Threat Defense.
+This function is used to update an existing Security Policy in Infoblox Threat Defense.
 
 ## EXAMPLES
 

@@ -27,7 +27,7 @@ Set-B1CustomList [-NewName <String>] [-Description <String>] [-Items <Object>] [
 ```
 
 ## DESCRIPTION
-This function is used to update a custom list object within BloxOne Threat Defense
+This function is used to update a custom list object within Infoblox Threat Defense
 
 ## EXAMPLES
 

@@ -18,7 +18,7 @@ Set-B1TideDataProfile [-Name] <String> [[-Description] <String>] [[-RPZFeed] <St
 ```
 
 ## DESCRIPTION
-This function is used to update an existing TIDE Data Profile from BloxOne Threat Defense.
+This function is used to update an existing TIDE Data Profile from Infoblox Threat Defense.
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1SecurityPolicy
 
 ## SYNOPSIS
-Removes a BloxOne Threat Defense Security Policy
+Removes a Infoblox Threat Defense Security Policy
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1SecurityPolicy -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonP
 ```
 
 ## DESCRIPTION
-This function is used to remove a BloxOne Threat Defense Security Policy
+This function is used to remove a Infoblox Threat Defense Security Policy
 
 ## EXAMPLES
 
@@ -40,7 +40,7 @@ Get-B1SecurityPolicy -Name "Remote Users" | Remove-B1SecurityPolicy
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOne Threat Defense Security Policy to delete.
+The name of the Infoblox Threat Defense Security Policy to delete.
 
 ```yaml
 Type: String
@@ -55,7 +55,7 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-The BloxOne Threat Defense Security Policy Object(s) to remove.
+The Infoblox Threat Defense Security Policy Object(s) to remove.
 Accepts pipeline input
 
 ```yaml

@@ -18,7 +18,7 @@ New-B1TideDataProfile [-Name] <String> [-Description] <String> [[-RPZFeed] <Stri
 ```
 
 ## DESCRIPTION
-This function is used to create a new TIDE Data Profile in BloxOne Threat Defense.
+This function is used to create a new TIDE Data Profile in Infoblox Threat Defense.
 
 ## EXAMPLES
 

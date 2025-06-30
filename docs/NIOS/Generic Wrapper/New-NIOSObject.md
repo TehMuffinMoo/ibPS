@@ -19,7 +19,7 @@ New-NIOSObject [-ObjectType] <String> [-Object] <PSObject> [[-Fields] <String[]>
 ```
 
 ## DESCRIPTION
-Generic Wrapper function for creating new objects from the NIOS WAPI, either directly or via BloxOne Federation
+Generic Wrapper function for creating new objects from the NIOS WAPI, either directly or via Universal DDI Federation
 
 ## EXAMPLES
 
@@ -134,7 +134,7 @@ Accept wildcard characters: False
 
 ### -GridUID
 Specify the NIOS Grid UID (license_uid).
-This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+This indicates which Grid to connect to when using NIOS Federation within Universal DDI.
 
 ```yaml
 Type: String
@@ -149,7 +149,7 @@ Accept wildcard characters: False
 ```
 
 ### -GridName
-Specify the NIOS Grid Name in BloxOne DDI instead of the GridUID.
+Specify the NIOS Grid Name in Universal DDI DDI instead of the GridUID.
 This is convient, but requires resolving the license_uid on every API Call.
 
 This parameter can be ommitted if the Federated Grid has been stored by using Set-NIOSConnectionProfile

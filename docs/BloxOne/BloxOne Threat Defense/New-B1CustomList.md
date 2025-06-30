@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1CustomList
 
 ## SYNOPSIS
-Creates a new Custom List in BloxOne Threat Defense
+Creates a new Custom List in Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ New-B1CustomList [-Name] <String> [[-Description] <String>] [-Items] <Object> [-
 ```
 
 ## DESCRIPTION
-This function is used to create a new named list in BloxOne Threat Defense.
+This function is used to create a new named list in Infoblox Threat Defense.
 These are referred to and displayed as Custom Lists within the CSP.
 
 ## EXAMPLES

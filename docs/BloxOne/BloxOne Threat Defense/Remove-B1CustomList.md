@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1CustomList
 
 ## SYNOPSIS
-Removes a Custom List from BloxOne Threat Defense
+Removes a Custom List from Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1CustomList -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParam
 ```
 
 ## DESCRIPTION
-This function is used to remove named lists from BloxOne Threat Defense.
+This function is used to remove named lists from Infoblox Threat Defense.
 These are referred to and displayed as Custom Lists within the CSP.
 
 ## EXAMPLES

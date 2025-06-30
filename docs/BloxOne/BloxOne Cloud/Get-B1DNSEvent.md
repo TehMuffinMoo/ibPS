@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DNSEvent
 
 ## SYNOPSIS
-Queries the BloxOne Threat Defense DNS Events
+Queries the Infoblox Threat Defense DNS Events
 
 ## SYNTAX
 
@@ -22,7 +22,7 @@ Get-B1DNSEvent [[-Query] <String>] [[-IP] <String>] [[-Response] <String[]>] [[-
 ```
 
 ## DESCRIPTION
-This function is used to query the BloxOne Threat Defense DNS Events.
+This function is used to query the Infoblox Threat Defense DNS Events.
 This is the log which contains all security policy hits.
 
 ## EXAMPLES

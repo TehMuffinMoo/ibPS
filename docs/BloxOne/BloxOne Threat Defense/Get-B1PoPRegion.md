@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1PoPRegion
 
 ## SYNOPSIS
-Retrieves a list of BloxOne Threat Defense PoP Regions
+Retrieves a list of Infoblox Threat Defense PoP Regions
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Get-B1PoPRegion [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOne Threat Defense Point of Presence (PoP) Regions
+This function is used to query a list of Infoblox Threat Defense Point of Presence (PoP) Regions
 
 ## EXAMPLES
 

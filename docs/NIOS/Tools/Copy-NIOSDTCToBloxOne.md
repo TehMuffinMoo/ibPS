@@ -8,7 +8,7 @@ schema: 2.0.0
 # Copy-NIOSDTCToBloxOne
 
 ## SYNOPSIS
-Used to migrate LBDNs from NIOS DTC to BloxOne DTC
+Used to migrate LBDNs from NIOS DTC to Universal DDI DTC
 
 ## SYNTAX
 
@@ -18,9 +18,9 @@ Copy-NIOSDTCToBloxOne [-NIOSLBDN] <Object> [-B1DNSView] <Object> [[-PolicyName] 
 ```
 
 ## DESCRIPTION
-This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to BloxOne DTC
+This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to Universal DDI DTC
 
-BloxOne DDI only currently supports Round Robin, Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks.
+Universal DDI DDI only currently supports Round Robin, Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks.
 Unsupported Load Balancing Methods will fail, but unsupported Health Checks will be skipped gracefully.
 
 ## EXAMPLES
@@ -29,7 +29,7 @@ Unsupported Load Balancing Methods will fail, but unsupported Health Checks will
 ```powershell
 Copy-NIOSDTCToBloxOne -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp' -ApplyChanges
 
-Querying BloxOne DNS View: My DNS View
+Querying Universal DDI DNS View: My DNS View
 Querying DTC LBDN: Exchange Server
 Querying DTC Pool: dtc:pool/ZG5zLmlkbnNfcG9vbCRFeGNoYW5nZSBQb29s:Exchange%20Pool
 Querying DTC Server: dtc:server/ZG5zLmlkbnNfc2VydmVyJEV4Y2hhbmdlIFNlcnZlciAx:Exchange%20Server%201
@@ -199,7 +199,7 @@ Copy-NIOSDTCToBloxOne -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -Poli
 ## PARAMETERS
 
 ### -NIOSLBDN
-The LBDN Name within NIOS that you would like to migrate to BloxOne DDI.
+The LBDN Name within NIOS that you would like to migrate to Universal DDI DDI.
 
 ```yaml
 Type: Object
@@ -214,7 +214,7 @@ Accept wildcard characters: False
 ```
 
 ### -B1DNSView
-The DNS View within BloxOne DDI in which to assign the new LBDNs to.
+The DNS View within Universal DDI DDI in which to assign the new LBDNs to.
 The LBDNs will not initialise unless the zone(s) exist within the specified DNS View.
 
 ```yaml
@@ -231,7 +231,7 @@ Accept wildcard characters: False
 
 ### -PolicyName
 Optionally specify a DTC Policy name.
-DTC Policies are new in BloxOne DDI, so by default they will inherit the name of the DTC LBDN if this parameter is not specified.
+DTC Policies are new in Universal DDI DDI, so by default they will inherit the name of the DTC LBDN if this parameter is not specified.
 
 ```yaml
 Type: String
@@ -265,7 +265,7 @@ Use this parameter to transform the DTC LBDN FQDN from an old to new domain.
 
 Example: -LBDNTransform 'dtc.mydomain.com:b1dtc.mydomain.com'
 
-|           NIOS DTC          |        BloxOne DDI DTC        |
+|           NIOS DTC          |        Universal DDI DDI DTC        |
 |-----------------------------|-------------------------------|
 | myservice.dtc.mydomain.com  | myservice.b1dtc.mydomain.com  |
 

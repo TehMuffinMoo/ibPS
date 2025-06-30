@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DossierLookup
 
 ## SYNOPSIS
-Retrieves details about a BloxOne Threat Defense Dossier Lookup
+Retrieves details about a Infoblox Threat Defense Dossier Lookup
 
 ## SYNTAX
 
@@ -28,7 +28,7 @@ Get-B1DossierLookup -job_id <String> [-Results] [-TaskResults] -task_id <String>
 ```
 
 ## DESCRIPTION
-This function is used to retrieve details about a BloxOne Threat Defense Dossier Lookup
+This function is used to retrieve details about a Infoblox Threat Defense Dossier Lookup
 
 ## EXAMPLES
 

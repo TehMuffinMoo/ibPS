@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-B1DossierLookup
 
 ## SYNOPSIS
-Performs a single lookup against the BloxOne Threat Defense Dossier
+Performs a single lookup against the Infoblox Threat Defense Dossier
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Start-B1DossierLookup [-Type] <String> [-Value] <String> [[-Source] <String[]>] 
 ```
 
 ## DESCRIPTION
-This function is used to perform a single lookup against the BloxOne Threat Defense Dossier
+This function is used to perform a single lookup against the Infoblox Threat Defense Dossier
 
 ## EXAMPLES
 

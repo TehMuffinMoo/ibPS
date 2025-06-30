@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1ApplicationFilter
 
 ## SYNOPSIS
-Retrieves an Application Filter from BloxOne Threat Defense
+Retrieves an Application Filter from Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -25,7 +25,7 @@ Get-B1ApplicationFilter [-Fields <String[]>] [-CaseSensitive] -id <String> [<Com
 ```
 
 ## DESCRIPTION
-This function is used to retrieve application filter(s) from BloxOne Threat Defense.
+This function is used to retrieve application filter(s) from Infoblox Threat Defense.
 These are referred to and displayed as 'App Filters' within the CSP.
 
 ## EXAMPLES

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-B1DossierBatchLookup
 
 ## SYNOPSIS
-Perform multiple simultaneous lookups against the BloxOne Threat Defense Dossier
+Perform multiple simultaneous lookups against the Infoblox Threat Defense Dossier
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Start-B1DossierBatchLookup [-Type] <String> [-Target] <String[]> [-Source] <Stri
 ```
 
 ## DESCRIPTION
-This function is used to perform multiple simultaneous lookups against the BloxOne Threat Defense Dossier
+This function is used to perform multiple simultaneous lookups against the Infoblox Threat Defense Dossier
 
 ## EXAMPLES
 

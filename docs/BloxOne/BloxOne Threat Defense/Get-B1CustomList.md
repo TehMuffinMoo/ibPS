@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1CustomList
 
 ## SYNOPSIS
-Retrieves a Custom List from BloxOne Threat Defense
+Retrieves a Custom List from Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -25,7 +25,7 @@ Get-B1CustomList [-Fields <String[]>] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve named lists from BloxOne Threat Defense.
+This function is used to retrieve named lists from Infoblox Threat Defense.
 These are referred to and displayed as Custom Lists within the CSP.
 
 ## EXAMPLES

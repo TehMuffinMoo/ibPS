@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1CategoryFilter
 
 ## SYNOPSIS
-Retrieves a Category Filter from BloxOne Threat Defense
+Retrieves a Category Filter from Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -25,7 +25,7 @@ Get-B1CategoryFilter [-Fields <String[]>] [-CaseSensitive] -id <String> [<Common
 ```
 
 ## DESCRIPTION
-This function is used to retrieve category filter(s) from BloxOne Threat Defense.
+This function is used to retrieve category filter(s) from Infoblox Threat Defense.
 
 ## EXAMPLES
 

@@ -19,7 +19,7 @@ Set-ibPSConfiguration [[-CSPAPIKey] <String>] [[-CSPRegion] <String>] [[-CSPUrl]
 ```
 
 ## DESCRIPTION
-This function is used to set ibPS specific configuration, such as the BloxOne CSP API Key, Region/URL and enabling/disabling development or debug mode
+This function is used to set ibPS specific configuration, such as the Infoblox Portal CSP API Key, Region/URL and enabling/disabling development or debug mode
 
 ## EXAMPLES
 
@@ -27,14 +27,14 @@ This function is used to set ibPS specific configuration, such as the BloxOne CS
 ```powershell
 Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
 
-BloxOne API key has been stored permanently for user on MAC-DSD984HG
+Universal DDI API key has been stored permanently for user on MAC-DSD984HG
 ```
 
 ### EXAMPLE 2
 ```powershell
 Set-ibPSConfiguration -CSPRegion EU
 
-BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
+Universal DDI CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
 You can make the CSP URL persistent for this user on this machine by using the -persist parameter.
 ```
 
@@ -46,7 +46,7 @@ Set-ibPSConfiguration -DebugMode Enabled -DevelopmentMode Enabled
 ## PARAMETERS
 
 ### -CSPAPIKey
-This is the BloxOneDDI API Key retrieves from the Cloud Services Portal
+This is the Infoblox Portal API Key retrieved from the Cloud Services Portal
 
 ```yaml
 Type: String

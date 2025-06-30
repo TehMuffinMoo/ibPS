@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1CustomRedirect
 
 ## SYNOPSIS
-Retrieves a Custom Redirects from BloxOne Threat Defense
+Retrieves a Custom Redirects from Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Get-B1CustomRedirect [-Fields <String[]>] -id <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve named redirects from BloxOne Threat Defense.
+This function is used to retrieve named redirects from Infoblox Threat Defense.
 
 ## EXAMPLES
 

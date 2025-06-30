@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1SecurityPolicy
 
 ## SYNOPSIS
-Retrieves a list of BloxOne Threat Defense Security Policies
+Retrieves a list of Infoblox Threat Defense Security Policies
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Get-B1SecurityPolicy [-id <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOne Threat Defense Security Policies
+This function is used to query a list of Infoblox Threat Defense Security Policies
 
 ## EXAMPLES
 

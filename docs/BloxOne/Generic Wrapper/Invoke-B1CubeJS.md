@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-B1CubeJS
 
 ## SYNOPSIS
-A wrapper function for interacting with the BloxOne CubeJS API
+A wrapper function for interacting with the Infoblox Portal CubeJS API
 
 ## SYNTAX
 
@@ -28,7 +28,7 @@ Invoke-B1CubeJS [-Cube <String>] [-Measures <String[]>] [-Dimensions <String[]>]
 ```
 
 ## DESCRIPTION
-This is a wrapper function used for interacting with the BloxOne CubeJS APIs.
+This is a wrapper function used for interacting with the Infoblox Portal CubeJS APIs.
 
 ## EXAMPLES
 

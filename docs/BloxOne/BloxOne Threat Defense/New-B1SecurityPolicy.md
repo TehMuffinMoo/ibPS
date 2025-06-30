@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1SecurityPolicy
 
 ## SYNOPSIS
-Creates a new Security Policy in BloxOne Threat Defense
+Creates a new Security Policy in Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -21,7 +21,7 @@ New-B1SecurityPolicy [-Name] <String> [[-Description] <String>] [[-Precedence] <
 ```
 
 ## DESCRIPTION
-This function is used to create a new Security Policy in BloxOne Threat Defense.
+This function is used to create a new Security Policy in Infoblox Threat Defense.
 
 ## EXAMPLES
 

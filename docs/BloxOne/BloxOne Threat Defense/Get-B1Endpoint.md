@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Endpoint
 
 ## SYNOPSIS
-Retrieves a list of BloxOne Endpoints from BloxOne Threat Defense.
+Retrieves a list of Infoblox Endpoints from Infoblox Threat Defense.
 
 ## SYNTAX
 
@@ -31,7 +31,7 @@ Get-B1Endpoint [-Name <String>] [-Status <String>] [-Username <String>] [-Endpoi
 ```
 
 ## DESCRIPTION
-This function is used to retrieve a list of BloxOne Endpoints from BloxOne Threat Defense.
+This function is used to retrieve a list of Infoblox Endpoints from Infoblox Threat Defense.
 
 ## EXAMPLES
 

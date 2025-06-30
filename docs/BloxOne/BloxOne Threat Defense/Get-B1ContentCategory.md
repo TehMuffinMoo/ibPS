@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1ContentCategory
 
 ## SYNOPSIS
-Retrieves a list of content categories from BloxOne Threat Defense
+Retrieves a list of content categories from Infoblox Threat Defense
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1ContentCategory [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve a list of content categories from BloxOne Threat Defense
+This function is used to retrieve a list of content categories from Infoblox Threat Defense
 
 ## EXAMPLES
 

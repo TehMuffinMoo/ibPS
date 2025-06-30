@@ -8,7 +8,7 @@ schema: 2.0.0
 # Convert-RecordsToBloxOne
 
 ## SYNOPSIS
-Provides a simple way to convert NIOS Record Object data to BloxOne CSV Import Format
+Provides a simple way to convert NIOS Record Object data to Universal DDI CSV Import Format
 
 ## SYNTAX
 
@@ -60,7 +60,7 @@ Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields |
 ## PARAMETERS
 
 ### -Object
-The NIOS Record Object(s) to convert to BloxOne CSV format.
+The NIOS Record Object(s) to convert to Universal DDI CSV format.
 Accepts pipeline input from 'Get-NIOSObject'.
 
 ```yaml
@@ -76,7 +76,7 @@ Accept wildcard characters: False
 ```
 
 ### -DNSView
-This provides a way to override the BloxOne DNS View name which will be used when converting.
+This provides a way to override the Universal DDI DNS View name which will be used when converting.
 By default, the NIOS Network View name is used.
 
 ```yaml
@@ -95,7 +95,7 @@ Accept wildcard characters: False
 The results type to return.
 This can be Object, CSV or JSON.
 Object/JSON are convenience features only.
-CSV is currently the only output that is supported by BloxOne Data Import.
+CSV is currently the only output that is supported by Universal DDI Data Import.
 
 ```yaml
 Type: String
