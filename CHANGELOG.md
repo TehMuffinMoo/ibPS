@@ -1,3 +1,6 @@
+## 1.9.8.6
+- Bugfix with Remove-B1Record when using pipe
+
 ## 1.9.8.5
 - Add `Get-` cmdlets for NIOS-X As A Service
 
@@ -427,6 +430,7 @@ See here for more information on [Preference Variables](https://learn.microsoft.
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 

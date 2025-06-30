@@ -35,8 +35,8 @@ id               : fdsdfoi9sdejf98ewsgfn98e4whfsue
 name             : GB-DC
 wan_ip           : 66.66.66.66
 identity_type    : FQDN
-physical_tunnels : {@{path=secondary; remote_id=infoblox.cloud; identity=df43ewf34rf444g.infoblox.com; credential_id=fdsfsfdse-fesfsfs-seffe43gf45-g444gg4g4; 
-                  credential_name=Path-A-PSK; status=Connected}, @{path=primary; remote_id=infoblox.cloud; identity=fsef4f4f4thd4rt.infoblox.com; 
+physical_tunnels : {@{path=secondary; remote_id=infoblox.cloud; identity=df43ewf34rf444g.infoblox.com; credential_id=fdsfsfdse-fesfsfs-seffe43gf45-g444gg4g4;
+                  credential_name=Path-A-PSK; status=Connected}, @{path=primary; remote_id=infoblox.cloud; identity=fsef4f4f4thd4rt.infoblox.com;
                   credential_id=fdfsdf4e-87iik87i-h656urf9ddf-fdsgsd9sx; credential_name=Path-B-PSK; status=Connected}}
 remote_id        : infoblox.cloud
 ```
