@@ -4,7 +4,7 @@
         Use this cmdlet to retrieve information on all Threat Feed objects for the account
 
     .DESCRIPTION
-        Use this cmdlet to retrieve information on all Threat Feed objects for the account. Infoblox Portal provides predefined threat intelligence feeds based on your subscription. The Plus subscription offers a few more feeds than the Standard subscription. The Advanced subscription offers a few more feeds than the Plus subscription. A threat feed subscription for RPZ updates offers protection against malicious hostnames.
+        Use this cmdlet to retrieve information on all Threat Feed objects for the account. Infoblox Threat Defense provides predefined threat intelligence feeds based on your subscription. The Plus subscription offers a few more feeds than the Standard subscription. The Advanced subscription offers a few more feeds than the Plus subscription. A threat feed subscription for RPZ updates offers protection against malicious hostnames.
 
     .PARAMETER Name
         Use this parameter to filter the list of Subnets by Name

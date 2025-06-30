@@ -1133,13 +1133,13 @@
                     }
                     Write-Host "Infoblox Appliance deployed successfully." -ForegroundColor Green
                 } else {
-                    Write-Error "Failed to deployInfoblox Appliance."
+                    Write-Error "Failed to deploy Infoblox Appliance."
                 }
             } else {
                 Write-Host "Infoblox Appliance deployed successfully." -ForegroundColor Green
             }
         } elseif ($ShouldProcess) {
-            Write-Error "Failed to deployInfoblox Appliance."
+            Write-Error "Failed to deploy Infoblox Appliance."
             break
         }
 
