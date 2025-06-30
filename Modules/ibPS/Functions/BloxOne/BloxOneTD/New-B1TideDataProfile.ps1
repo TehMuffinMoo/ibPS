@@ -35,7 +35,7 @@
         rpzfeedname : threat_feed_one
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

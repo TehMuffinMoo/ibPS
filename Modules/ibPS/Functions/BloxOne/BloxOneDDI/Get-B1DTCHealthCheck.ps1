@@ -1,7 +1,7 @@
 ﻿function Get-B1DTCHealthCheck {
     <#
     .SYNOPSIS
-        Retrieves a list BloxOne DTC Health Checks
+        Retrieves a list of Universal DDI DTC Health Checks
 
     .DESCRIPTION
         This function is used to query a list BloxOne Health Checks
@@ -61,7 +61,7 @@
         Exchange - HTTPS                                  http    False       10      10        3          3       443      GET /owa/auth/logon.aspx HTTP/1.1                                         dtc/health_check_http/dgferhg5-ge5e-g455-gb45-muymkfdsdfcf
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

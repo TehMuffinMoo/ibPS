@@ -22,7 +22,7 @@
         PS> Get-B1SOCInsight -ThreatType 'Lookalike Threat' -Priority LOW | Set-B1SOCInsight -Status Closed
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

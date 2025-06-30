@@ -37,7 +37,7 @@
                 ...
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

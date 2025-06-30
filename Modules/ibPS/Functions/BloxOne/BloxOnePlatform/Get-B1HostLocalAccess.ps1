@@ -31,7 +31,7 @@
         ...
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Bootstrap

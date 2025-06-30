@@ -1,10 +1,10 @@
 ﻿function Remove-B1APIKey {
     <#
     .SYNOPSIS
-        Removes a BloxOne Cloud API Key
+        Removes a Infoblox Portal API Key
 
     .DESCRIPTION
-        This function is used to remove an API Key from the BloxOne Cloud
+        This function is used to remove an API Key from the Infoblox Portal
         The API Key must be disabled prior to deleting
 
     .PARAMETER User
@@ -32,7 +32,7 @@
         PS> Get-B1APIKey -Name "MyAPIKey" | Set-B1APIKey -State Disabled | Remove-B1APIKey
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Authentication

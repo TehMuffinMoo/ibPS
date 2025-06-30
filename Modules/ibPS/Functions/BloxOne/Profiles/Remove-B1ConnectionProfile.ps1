@@ -1,10 +1,10 @@
 ﻿function Remove-B1ConnectionProfile {
     <#
     .SYNOPSIS
-        This function is used to remove a saved BloxOne connection profile.
+        This function is used to remove a saved Infoblox Cloud connection profile.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts, with the ability to quickly switch between them. A list of connection profiles can be retrieved using [Get-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Get-B1ConnectionProfile/).
+        Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Cloud Accounts, with the ability to quickly switch between them. A list of connection profiles can be retrieved using [Get-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Get-B1ConnectionProfile/).
 
     .PARAMETER Name
         Specify the connection profile name to remove. This field supports tab completion.
@@ -29,7 +29,7 @@
         Removed connection profile: Test
 
     .FUNCTIONALITY
-        BloxOne
+        Infoblox Cloud
 
     .FUNCTIONALITY
         Core
@@ -51,17 +51,17 @@
     if (Get-B1ConnectionProfile -Name $Name) {
         $ContextConfig = (Get-B1Context)
         if ($ContextConfig.CurrentContext -ne $Name) {
-            if($PSCmdlet.ShouldProcess("Remove BloxOne Connection Profile: $($Name)","Remove BloxOne Connection Profile: $($Name)",$MyInvocation.MyCommand)){
+            if($PSCmdlet.ShouldProcess("Remove Connection Profile: $($Name)","Remove Connection Profile: $($Name)",$MyInvocation.MyCommand)){
                 $ContextConfig.Contexts.PSObject.Members.Remove($Name)
                 $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:B1ConfigFile -Force -Confirm:$false
-                Write-Host "Removed BloxOne connection profile: $($Name)" -ForegroundColor Green
+                Write-Host "Removed connection profile: $($Name)" -ForegroundColor Green
                 break
             }
         } else {
-            Write-Error "Cannot delete $($Name) as it the current active BloxOne connection profile."
+            Write-Error "Cannot delete $($Name) as it the current active connection profile."
             break
         }
     } else {
-        Write-Error "Unable to find a BloxOne connection profile with name: $($Name)"
+        Write-Error "Unable to find a connection profile with name: $($Name)"
     }
 }

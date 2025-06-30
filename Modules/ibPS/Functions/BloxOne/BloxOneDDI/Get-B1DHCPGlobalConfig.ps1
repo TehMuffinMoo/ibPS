@@ -13,7 +13,7 @@
         PS> Get-B1DHCPGlobalConfig
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DHCP

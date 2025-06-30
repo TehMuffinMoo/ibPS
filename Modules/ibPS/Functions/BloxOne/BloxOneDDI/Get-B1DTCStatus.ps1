@@ -1,10 +1,10 @@
 function Get-B1DTCStatus {
     <#
     .SYNOPSIS
-        Retrieves a list BloxOne DTC LBDNs
+        Retrieves a list of Universal DDI DTC LBDNs
 
     .DESCRIPTION
-        This function is used to query a list BloxOne DTC LBDNs
+        This function is used to query a list of Universal DDI DTC LBDNs
 
     .PARAMETER LBDN
         The name of the DTC LBDN to get the status for
@@ -39,7 +39,7 @@ function Get-B1DTCStatus {
                   [HealthCheck]  HEALTHY: ICMP Health Check - 04/16/2024 08:25:08
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

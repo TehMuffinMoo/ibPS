@@ -57,7 +57,7 @@
         PS> Get-B1ForwardZone -FQDN "my.dns.zone" | Get-B1ZoneChild
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DHCP

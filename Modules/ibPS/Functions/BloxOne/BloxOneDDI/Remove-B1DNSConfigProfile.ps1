@@ -22,7 +22,7 @@
         PS> Get-B1DNSConfigProfile -Name "My Config Profile" | Remove-B1DNSConfigProfile
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     #>
     [CmdletBinding(

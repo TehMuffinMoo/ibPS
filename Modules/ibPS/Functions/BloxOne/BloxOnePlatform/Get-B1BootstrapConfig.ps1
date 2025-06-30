@@ -31,7 +31,7 @@
         PS> Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Host

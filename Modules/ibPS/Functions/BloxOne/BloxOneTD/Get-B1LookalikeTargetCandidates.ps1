@@ -42,7 +42,7 @@
         Account Specific Lookalike Candidate List Auto-generated {@{item=infoblox.com; selected=True; query_count_daily=28350}}          1
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

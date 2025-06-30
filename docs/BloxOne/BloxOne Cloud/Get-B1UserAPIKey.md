@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1UserAPIKey
 
 ## SYNOPSIS
-Retrieves a list of Interactive BloxOne Cloud API Keys for your user
+Retrieves a list of Interactive Infoblox Portal API Keys for your user
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Get-B1UserAPIKey [[-Name] <String>] [[-State] <String>] [[-Limit] <Int32>] [[-Of
 ```
 
 ## DESCRIPTION
-This function is used to retrieve a list of Interactive BloxOne Cloud API Keys for your user
+This function is used to retrieve a list of Interactive Infoblox Portal API Keys for your user
 The actual API Key is only available during initial creation and cannot be retrieved afterwards via this API.
 
 ## EXAMPLES

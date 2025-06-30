@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1DTCPool
 
 ## SYNOPSIS
-Removes an existing BloxOne DTC Pool
+Removes an existing Universal DDI DTC Pool
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1DTCPool -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParamete
 ```
 
 ## DESCRIPTION
-This function is used to remove an existing BloxOne DTC Pool
+This function is used to remove an existing Universal DDI DTC Pool
 
 ## EXAMPLES
 

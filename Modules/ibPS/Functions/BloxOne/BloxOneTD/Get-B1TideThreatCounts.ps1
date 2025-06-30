@@ -26,7 +26,7 @@
         UnwantedContent        : 8
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

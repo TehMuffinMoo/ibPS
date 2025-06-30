@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1DTCPolicy
 
 ## SYNOPSIS
-Updates a policy object within BloxOne DTC
+Updates a policy object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -27,7 +27,7 @@ Set-B1DTCPolicy [-NewName <String>] [-Description <String>] [-LoadBalancingType 
 ```
 
 ## DESCRIPTION
-This function is used to update a policy object within BloxOne DTC
+This function is used to update a policy object within Universal DDI DTC
 
 ## EXAMPLES
 

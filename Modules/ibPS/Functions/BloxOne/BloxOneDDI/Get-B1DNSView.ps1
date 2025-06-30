@@ -41,7 +41,7 @@
         PS> Get-B1DNSView -Name "default"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

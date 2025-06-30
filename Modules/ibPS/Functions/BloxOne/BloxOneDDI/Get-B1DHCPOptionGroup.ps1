@@ -35,7 +35,7 @@
         PS> Get-B1DHCPOptionGroup -Name "Telephony Options"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DHCP

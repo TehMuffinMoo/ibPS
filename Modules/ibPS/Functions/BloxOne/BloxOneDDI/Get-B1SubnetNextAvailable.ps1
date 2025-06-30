@@ -44,7 +44,7 @@
         10.0.5.0   24
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

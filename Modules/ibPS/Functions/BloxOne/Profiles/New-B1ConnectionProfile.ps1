@@ -1,10 +1,10 @@
 ﻿function New-B1ConnectionProfile {
     <#
     .SYNOPSIS
-        This function is used to create new BloxOne connection profiles. By default, the new profile will be set as active.
+        This function is used to create new connection profiles. By default, the new profile will be set as active.
 
     .DESCRIPTION
-        Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts. These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Switch-B1ConnectionProfile/).
+        Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts. These can then easily be switched between by using [Switch-B1ConnectionProfile](https://ibps.readthedocs.io/en/latest/BloxOne/Profiles/Switch-B1ConnectionProfile/).
 
     .PARAMETER Name
         Specify the name for the new connection profile
@@ -16,7 +16,7 @@
         Optionally configure the the CSP URL to use manually. You only need to use -CSPUrl OR -CSPRegion.
 
     .PARAMETER APIKey
-        Specify the BloxOne API Key to save as part of this profile
+        Specify the Infoblox Portal API Key to save as part of this profile
 
     .PARAMETER NoSwitchProfile
         Do not make this profile active upon creation
@@ -81,7 +81,7 @@
        "URL" = $CSPUrl
        "API Key" = $([Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($($APIKey | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString))))
     }
-    if($PSCmdlet.ShouldProcess("Create new BloxOne Connection Profile:`n$($Config | ConvertTo-Json)","Create new BloxOne Connection Profile: $($Name)",$MyInvocation.MyCommand)){
+    if($PSCmdlet.ShouldProcess("Create new Connection Profile:`n$($Config | ConvertTo-Json)","Create new Connection Profile: $($Name)",$MyInvocation.MyCommand)){
         Set-B1Context -Name $Name -Config $Config -NoSwitchProfile:$($NoSwitchProfile)
     }
 }

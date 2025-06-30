@@ -1,4 +1,4 @@
-﻿function Convert-RecordsToBloxOne {
+﻿function Convert-RecordsToUDDI {
     <#
     .SYNOPSIS
         Provides a simple way to convert NIOS Record Object data to Universal DDI CSV Import Format
@@ -16,7 +16,7 @@
         The results type to return. This can be Object, CSV or JSON. Object/JSON are convenience features only. CSV is currently the only output that is supported by Universal DDI Data Import.
 
     .EXAMPLE
-        PS> Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne
+        PS> Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToUDDI
 
         HEADER-dnsdata-v2-record,key,name_in_zone,comment,disabled,zone,ttl,type,rdata,options,tags,ttl_action
         dnsdata-v2-record,"default,mydomain.corp.,,A,RDATA{""address"":""192.168.1.20""}RDATA",,,False,"default,mydomain.corp.",600,A,"{""address"":""192.168.1.20""}",,,
@@ -30,7 +30,7 @@
     .EXAMPLE
         ## Using -DNSView to override the view name
 
-        PS> Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne -DNSView 'Corporate'
+        PS> Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToUDDI -DNSView 'Corporate'
 
         HEADER-dnsdata-v2-record,key,name_in_zone,comment,disabled,zone,ttl,type,rdata,options,tags,ttl_action
         dnsdata-v2-record,"Corporate,mydomain.corp.,,A,RDATA{""address"":""192.168.1.20""}RDATA",,,False,"Corporate,mydomain.corp.",600,A,"{""address"":""192.168.1.20""}",,,
@@ -42,10 +42,10 @@
         ....
 
     .EXAMPLE
-        Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToBloxOne | Out-File ./records.csv
+        Get-NIOSObject -ObjectType allrecords -Filters 'zone=mydomain.corp' -AllFields | Convert-RecordsToUDDI | Out-File ./records.csv
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         NIOS

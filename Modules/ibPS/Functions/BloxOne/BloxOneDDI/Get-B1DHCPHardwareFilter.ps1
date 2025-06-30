@@ -41,7 +41,7 @@
         PS> Get-B1DHCPHardwareFilter
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DHCP

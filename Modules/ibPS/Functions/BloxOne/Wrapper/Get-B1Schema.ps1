@@ -28,7 +28,7 @@
         Using the -Quiet parameter will prevent messages from being printed to screen in addition to the schema response.
 
     .EXAMPLE
-        PS> Get-B1Schema -Product 'BloxOne DDI'
+        PS> Get-B1Schema -Product 'Universal DDI'
 
         Available Apps:
 
@@ -43,7 +43,7 @@
         CloudDiscoveryProviders Cloud Discovery Providers
 
     .EXAMPLE
-        PS> Get-B1Schema -Product 'BloxOne DDI' -App DnsConfig | Select Endpoint,Description
+        PS> Get-B1Schema -Product 'Universal DDI' -App DnsConfig | Select Endpoint,Description
 
         Endpoint                               Description
         --------                               -----------
@@ -77,7 +77,7 @@
         /dns/host/{id}                         Use this method to read a DNS Host object.…
 
     .EXAMPLE
-        PS> Get-B1Schema -Product 'BloxOne Cloud' -App 'CDC' -Endpoint /v2/flows/data -Method get -ListParameters
+        PS> Get-B1Schema -Product 'Infoblox Portal' -App 'CDC' -Endpoint /v2/flows/data -Method get -ListParameters
 
         name    type   description
         ----    ----   -----------
@@ -111,7 +111,7 @@
                     Specify this parameter as a comma-separated list of JSON tag names.
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Core

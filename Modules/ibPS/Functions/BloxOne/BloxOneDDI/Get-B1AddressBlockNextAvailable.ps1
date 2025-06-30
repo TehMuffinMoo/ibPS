@@ -35,7 +35,7 @@
     .EXAMPLE
         PS> Get-B1AddressBlock -Subnet 10.10.10.0/16 -Space my-ipspace | Get-B1AddressBlockNextAvailable -CIDRSize 29 -Count 2
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

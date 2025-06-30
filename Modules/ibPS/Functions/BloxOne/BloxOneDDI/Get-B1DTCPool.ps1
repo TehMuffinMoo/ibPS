@@ -1,10 +1,10 @@
 ﻿function Get-B1DTCPool {
     <#
     .SYNOPSIS
-        Retrieves a list BloxOne DTC Pools
+        Retrieves a list of Universal DDI DTC Pools
 
     .DESCRIPTION
-        This function is used to query a list BloxOne DTC Pools
+        This function is used to query a list of Universal DDI DTC Pools
 
     .PARAMETER Name
         The name of the DTC Pool to filter by
@@ -60,7 +60,7 @@
         metadata                    :
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

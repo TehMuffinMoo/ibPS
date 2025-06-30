@@ -46,7 +46,7 @@
 	    PS> Get-B1TopMetrics -TopDNSServers -Start (Get-Date).AddDays(-31)
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Metrics

@@ -19,7 +19,7 @@
         PS> Get-B1Import -Name "Import backup"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Tasks

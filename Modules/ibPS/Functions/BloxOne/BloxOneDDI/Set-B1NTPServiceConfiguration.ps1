@@ -19,7 +19,7 @@
         PS> Set-B1NTPServiceConfiguration -Name "ntp_mybloxonehost.corp.domain.com" -Strict
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Service

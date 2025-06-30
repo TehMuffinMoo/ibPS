@@ -47,7 +47,7 @@
         PS> Get-B1CloudProvider -Type AWS
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DHCP

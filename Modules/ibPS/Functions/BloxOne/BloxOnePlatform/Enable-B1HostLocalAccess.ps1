@@ -42,7 +42,7 @@
             Local access enable request successfully sent for: my-host-1
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Bootstrap

@@ -31,7 +31,7 @@
         Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" | Set-B1DNSHost -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

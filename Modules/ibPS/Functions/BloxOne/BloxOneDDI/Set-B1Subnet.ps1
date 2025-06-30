@@ -61,7 +61,7 @@
         PS> Set-B1Subnet -Subnet "10.10.10.0" -CIDR 24 -Space "Global" -DDNSDomain "myddns.domain.corp" -HAGroup "MyDHCPHAGroup"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

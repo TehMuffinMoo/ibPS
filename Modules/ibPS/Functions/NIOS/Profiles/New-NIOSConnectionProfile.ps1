@@ -15,7 +15,7 @@
         Using this parameter will set the connection profile type to Federated.
 
     .PARAMETER GridName
-        Specify the NIOS Grid Name in Universal DDI DDI to use for the new connection profile.
+        Specify the NIOS Grid Name in Universal DDI to use for the new connection profile.
 
         Using this parameter will set the connection profile type to Federated.
 

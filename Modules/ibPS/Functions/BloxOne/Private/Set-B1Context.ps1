@@ -10,16 +10,16 @@
     )
     $Configs = Get-B1Context -Raw
     if ($Configs.Contexts."$($Name)") {
-        Write-Warning "Are you sure you want to overwrite the BloxOne connection profile: $($Name)?" -WarningAction Inquire
+        Write-Warning "Are you sure you want to overwrite the connection profile: $($Name)?" -WarningAction Inquire
         Write-Host "Overwriting saved connection profile: $($Name).." -ForegroundColor Green
         $Configs.Contexts."$($Name)" = $Config
     } else {
-        Write-Host "Creating new BloxOne connection profile: $($Name).." -ForegroundColor Green
+        Write-Host "Creating new connection profile: $($Name).." -ForegroundColor Green
         $Configs.Contexts | Add-Member -MemberType NoteProperty -Name $($Name) -Value $($Config)
     }
 
     if (-not $NoSwitchProfile) {
-        Write-Host "Active BloxOne connection profile set to: $($Name)" -ForegroundColor Cyan
+        Write-Host "Active connection profile set to: $($Name)" -ForegroundColor Cyan
         $Configs.CurrentContext = $($Name)
         if ($ENV:B1APIKey -or $ENV:B1CSPUrl) {
             $Platform = Detect-OS

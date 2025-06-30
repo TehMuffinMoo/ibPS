@@ -19,7 +19,7 @@
         PS> Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Host

@@ -19,7 +19,7 @@
         PS> Get-B1CSPCurrentUser
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Authentication

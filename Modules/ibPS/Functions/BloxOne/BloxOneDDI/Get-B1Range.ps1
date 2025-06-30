@@ -53,7 +53,7 @@
         PS> Get-B1Range -StartAddress "10.10.100.200" -EndAddress "10.10.100.250"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

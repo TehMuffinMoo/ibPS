@@ -59,7 +59,7 @@
         PS> Get-B1AddressBlock -tfilter '("sometagname"=="sometagvalue" or "someothertagname"=="someothertagvalue")'
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

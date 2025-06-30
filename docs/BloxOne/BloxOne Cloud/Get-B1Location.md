@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Location
 
 ## SYNOPSIS
-Retrieves a list of Locations defined within BloxOne Cloud
+Retrieves a list of Locations defined within Infoblox Portal
 
 ## SYNTAX
 
@@ -21,7 +21,7 @@ Get-B1Location [[-Name] <String>] [[-Description] <String>] [[-Address] <String>
 ```
 
 ## DESCRIPTION
-This function is used to retrieve a list of Locations defined within BloxOne Cloud
+This function is used to retrieve a list of Locations defined within Infoblox Portal
 
 ## EXAMPLES
 

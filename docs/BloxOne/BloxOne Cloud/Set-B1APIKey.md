@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1APIKey
 
 ## SYNOPSIS
-Updates an existing BloxOne Cloud API Key
+Updates an existing Infoblox Portal API Key
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Set-B1APIKey [-State <Object>] -Object <Object> [-Force] [-WhatIf] [-Confirm] [<
 ```
 
 ## DESCRIPTION
-This function is used to update an existing API Key from the BloxOne Cloud, such as disabling/enabling it.
+This function is used to update an existing API Key from the Infoblox Portal, such as disabling/enabling it.
 
 ## EXAMPLES
 

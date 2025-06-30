@@ -1,10 +1,10 @@
 ﻿function Remove-B1DTCPool {
     <#
     .SYNOPSIS
-        Removes an existing BloxOne DTC Pool
+        Removes an existing Universal DDI DTC Pool
 
     .DESCRIPTION
-        This function is used to remove an existing BloxOne DTC Pool
+        This function is used to remove an existing Universal DDI DTC Pool
 
     .PARAMETER Name
         The name of the DTC Pool to remove
@@ -26,7 +26,7 @@
         Successfully removed DTC Pool: Exchange-Pool
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

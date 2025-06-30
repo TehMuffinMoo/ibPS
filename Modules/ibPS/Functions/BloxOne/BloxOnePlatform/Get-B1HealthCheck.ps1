@@ -31,7 +31,7 @@
         B1DDI-01            started                 started
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Health

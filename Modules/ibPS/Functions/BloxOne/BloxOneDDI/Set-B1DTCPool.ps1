@@ -1,10 +1,10 @@
 ﻿function Set-B1DTCPool {
     <#
     .SYNOPSIS
-        Updates a pool object within BloxOne DTC
+        Updates a pool object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to update a pool object within BloxOne DTC
+        This function is used to update a pool object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC pool object to update
@@ -96,7 +96,7 @@
         metadata                    :
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

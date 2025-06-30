@@ -1,10 +1,10 @@
 ﻿function Remove-B1DTCPolicy {
     <#
     .SYNOPSIS
-        Removes an existing BloxOne DTC Policy
+        Removes an existing Universal DDI DTC Policy
 
     .DESCRIPTION
-        This function is used to remove an existing BloxOne DTC Policy
+        This function is used to remove an existing Universal DDI DTC Policy
 
     .PARAMETER Name
         The name of the DTC Policy to remove
@@ -26,7 +26,7 @@
         Successfully removed DTC Policy: Exchange-Policy
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

@@ -1,10 +1,10 @@
 ﻿function Get-B1APIKey {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOne Cloud API Keys
+        Retrieves a list of Infoblox Portal API Keys
 
     .DESCRIPTION
-        This function is used to retrieve a list of API Keys from the BloxOne Cloud
+        This function is used to retrieve a list of API Keys from the Infoblox Portal
         The actual API Key is only available during initial creation and cannot be retrieved afterwards via this API, except for Legacy Keys which are being deprecated.
 
     .PARAMETER User
@@ -51,7 +51,7 @@
         PS> Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Authentication

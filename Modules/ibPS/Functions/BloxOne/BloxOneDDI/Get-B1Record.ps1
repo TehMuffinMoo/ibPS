@@ -67,7 +67,7 @@
         PS> Get-B1Record -Name "myArecord" -Zone "corp.mydomain.com" -View "default" | ft name_in_zone,rdata,type
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

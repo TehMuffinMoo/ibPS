@@ -4,10 +4,10 @@
         Generic Wrapper for interaction with the CSP (Cloud Services Portal) via GET requests
 
     .DESCRIPTION
-        This is a Generic Wrapper for getting objects from the BloxOne CSP (Cloud Services Portal).
+        This is a Generic Wrapper for getting objects from the Infoblox Cloud.
 
     .PARAMETER Product
-        Specify the product to use, such as 'BloxOne DDI'.
+        Specify the product to use, such as 'Universal DDI'.
         This parameter is auto-populated when using tab
 
     .PARAMETER App
@@ -37,10 +37,10 @@
         Use Case Sensitive matching for the filters
 
     .EXAMPLE
-        PS> Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
+        PS> Get-B1Object -Product 'Universal DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Core
@@ -69,7 +69,7 @@
     [System.Collections.ArrayList]$QueryFilters = @()
     [System.Collections.ArrayList]$B1Filters = @()
     if ($Limit) {
-        if ($($PSBoundParameters['App'] -eq "BloxOne Threat Defense")) {
+        if ($($PSBoundParameters['App'] -eq "Infoblox Threat Defense")) {
             $QueryFilters.Add("rlimit=$Limit") | Out-Null
         } else {
             $QueryFilters.Add("_limit=$Limit") | Out-Null

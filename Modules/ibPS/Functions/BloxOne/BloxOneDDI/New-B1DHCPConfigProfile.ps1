@@ -34,7 +34,7 @@
         PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions $DHCPOptions -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
     #>
     [CmdletBinding(
         SupportsShouldProcess,

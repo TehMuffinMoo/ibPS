@@ -25,7 +25,7 @@
         PS> New-B1DNSView -Name "Global"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

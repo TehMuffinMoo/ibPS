@@ -59,7 +59,7 @@
         PS> Get-B1Subnet -Name "subnet-1" -Space "Global" -Strict
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

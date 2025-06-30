@@ -19,7 +19,7 @@
         PS> Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Service

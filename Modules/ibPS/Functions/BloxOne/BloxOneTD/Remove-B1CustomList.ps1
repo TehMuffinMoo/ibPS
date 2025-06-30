@@ -23,7 +23,7 @@
         PS> Get-B1CustomList | Where-Object {$_.name -eq "My Custom List"} | Remove-B1CustomList
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

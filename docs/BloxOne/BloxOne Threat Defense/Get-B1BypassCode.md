@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1BypassCode
 
 ## SYNOPSIS
-Retrieves a list of Bypass Codes from BloxOne Cloud
+Retrieves a list of Bypass Codes from Infoblox Portal
 
 ## SYNTAX
 
@@ -25,7 +25,7 @@ Get-B1BypassCode [-Fields <String[]>] [-CaseSensitive] [-access_key <String>] [<
 ```
 
 ## DESCRIPTION
-This function is used to query a list of Bypass Codes from BloxOne Cloud
+This function is used to query a list of Bypass Codes from Infoblox Portal
 
 ## EXAMPLES
 

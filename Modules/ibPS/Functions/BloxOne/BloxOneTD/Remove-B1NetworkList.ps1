@@ -22,7 +22,7 @@
         PS> Get-B1NetworkList -Name "My Network List" | Remove-B1NetworkList
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

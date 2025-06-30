@@ -21,7 +21,7 @@
         Successfully deleted Internal Domain list: My List / 123456
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

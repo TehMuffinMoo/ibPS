@@ -1,10 +1,10 @@
 ﻿function New-B1Location {
     <#
     .SYNOPSIS
-        Creates a new Location within BloxOne Cloud
+        Creates a new Location within Infoblox Portal
 
     .DESCRIPTION
-        This function is used to create a new Location within BloxOne Cloud
+        This function is used to create a new Location within Infoblox Portal
 
     .PARAMETER Name
         The name of the location to create
@@ -59,7 +59,7 @@
         updated_at   : 2024-05-01T12:22:09.849259517Z
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
     #>
     [CmdletBinding(
       SupportsShouldProcess,

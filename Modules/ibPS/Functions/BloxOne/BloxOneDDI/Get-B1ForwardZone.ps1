@@ -50,7 +50,7 @@
         PS> Get-B1ForwardZone -FQDN "prod.mydomain.corp"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

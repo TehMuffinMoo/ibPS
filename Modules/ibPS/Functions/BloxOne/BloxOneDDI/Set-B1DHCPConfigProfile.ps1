@@ -54,7 +54,7 @@
         company.corp added successfully to DDNS Config for the DHCP Config Profile: Data Centre DHCP
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
     #>
     [CmdletBinding(
         SupportsShouldProcess,

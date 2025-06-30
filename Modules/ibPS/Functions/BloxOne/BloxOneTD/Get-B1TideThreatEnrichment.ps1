@@ -17,7 +17,7 @@
         PS> Get-B1TideThreatEnrichment
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

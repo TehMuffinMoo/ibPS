@@ -55,7 +55,7 @@
         PS> Get-B1DelegatedZone -ParentId (Get-B1AuthoritativeZone -FQDN 'parent.zone' -View 'my-dnsview' -Strict).id
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

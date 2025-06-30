@@ -37,7 +37,7 @@
         PS> Remove-B1Record -Type A -Name "myArecord" -Zone "corp.mydomain.com" -View "default"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

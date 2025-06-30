@@ -24,7 +24,7 @@
         discovery
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Service

@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1Location
 
 ## SYNOPSIS
-Creates a new Location within BloxOne Cloud
+Creates a new Location within Infoblox Portal
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1Location [-Name] <String> [[-Description] <String>] [-Address] <String> [[
 ```
 
 ## DESCRIPTION
-This function is used to create a new Location within BloxOne Cloud
+This function is used to create a new Location within Infoblox Portal
 
 ## EXAMPLES
 

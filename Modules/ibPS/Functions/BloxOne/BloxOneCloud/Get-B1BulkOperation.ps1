@@ -34,7 +34,7 @@
         PS> Get-B1BulkOperation -Type 'import'
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Tasks

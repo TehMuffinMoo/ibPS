@@ -50,7 +50,7 @@
         Get-B1Address -Address "10.0.0.1" -Reserved -Fixed
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

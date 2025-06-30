@@ -49,7 +49,7 @@
         {52.119.41.100, 103.80.6.100}  100 Global AnyCast       Global
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

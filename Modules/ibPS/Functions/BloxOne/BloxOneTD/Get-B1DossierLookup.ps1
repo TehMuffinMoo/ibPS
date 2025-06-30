@@ -49,7 +49,7 @@
         data    : @{record_count=2771; threat=System.Object[]}
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

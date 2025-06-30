@@ -40,7 +40,7 @@
         PS> Get-B1ForwardNSG -Name "Infoblox DTC" | Set-B1ForwardNSG -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -NewName "Infoblox DTC New"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

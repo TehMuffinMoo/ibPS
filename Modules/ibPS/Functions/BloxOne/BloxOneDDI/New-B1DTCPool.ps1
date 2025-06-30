@@ -1,10 +1,10 @@
 ﻿function New-B1DTCPool {
     <#
     .SYNOPSIS
-        Creates a new pool object within BloxOne DTC
+        Creates a new pool object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to create a new pool object within BloxOne DTC
+        This function is used to create a new pool object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC pool object to create
@@ -71,7 +71,7 @@
         metadata
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

@@ -19,7 +19,7 @@
         PS> Get-B1DNSUsage -Address "10.10.100.30" -Space "Global" -ParseDetails
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

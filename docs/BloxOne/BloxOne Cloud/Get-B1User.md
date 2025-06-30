@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1User
 
 ## SYNOPSIS
-Retrieves a list of users from the BloxOne Cloud
+Retrieves a list of users from the Infoblox Portal
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1User [[-Name] <String>] [[-Email] <String>] [[-State] <String>] [[-Type] <
 ```
 
 ## DESCRIPTION
-This function is used to retrieve a list of users from the BloxOne Cloud
+This function is used to retrieve a list of users from the Infoblox Portal
 
 ## EXAMPLES
 

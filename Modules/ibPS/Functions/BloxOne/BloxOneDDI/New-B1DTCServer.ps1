@@ -1,10 +1,10 @@
 ﻿function New-B1DTCServer {
     <#
     .SYNOPSIS
-        Creates a new server object within BloxOne DTC
+        Creates a new server object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to create a new server object within BloxOne DTC
+        This function is used to create a new server object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC server object to create
@@ -52,7 +52,7 @@
         metadata                     :
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

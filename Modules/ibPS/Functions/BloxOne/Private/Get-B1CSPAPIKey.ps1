@@ -10,7 +10,7 @@
         PS> Get-B1CSPAPIKey
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Authentication
@@ -29,7 +29,7 @@
         if ($Configs.Contexts."$($ProfileName)") {
             $ApiKey = ($Configs.Contexts | Select-Object -ExpandProperty $ProfileName).'API Key'
         } else {
-            Write-Error "Unable to find BloxOne Connection Profile: $($ProfileName)"
+            Write-Error "Unable to find Connection Profile: $($ProfileName)"
             Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
             return $null
         }
@@ -40,7 +40,7 @@
         $ApiKey = $ENV:B1APIKey
     }
     if (!$ApiKey) {
-        Write-Error "No BloxOne Connection Profiles or Global CSP API Key has been configured."
+        Write-Error "No Connection Profiles or Global CSP API Key has been configured."
         Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
         break
     } else {

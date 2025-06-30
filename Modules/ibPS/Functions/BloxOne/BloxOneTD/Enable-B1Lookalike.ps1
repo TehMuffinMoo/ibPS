@@ -19,7 +19,7 @@
         Successfully unmuted lookalike: return-tax-hmrc.com
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

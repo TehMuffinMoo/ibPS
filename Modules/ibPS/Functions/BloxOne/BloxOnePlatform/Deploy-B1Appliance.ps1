@@ -235,7 +235,7 @@
                            -AzAcceptTerms
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         VMware

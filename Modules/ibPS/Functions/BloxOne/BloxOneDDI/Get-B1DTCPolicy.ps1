@@ -1,10 +1,10 @@
 ﻿function Get-B1DTCPolicy {
     <#
     .SYNOPSIS
-        Retrieves a list BloxOne DTC Policies
+        Retrieves a list of Universal DDI DTC Policies
 
     .DESCRIPTION
-        This function is used to query a list BloxOne DTC Policies
+        This function is used to query a list of Universal DDI DTC Policies
 
     .PARAMETER Name
         The name of the DTC Policy to filter by
@@ -56,7 +56,7 @@
         metadata            :
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

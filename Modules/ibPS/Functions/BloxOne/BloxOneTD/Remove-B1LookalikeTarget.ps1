@@ -6,7 +6,7 @@
   .DESCRIPTION
     This function is used to remove a lookalike target domain from the account.
 
-    The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
+    The Lookalike Target Domains are second-level domains Threat Defense uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
   .PARAMETER Domain
     This is the domain to be removed from the watched lookalike domain list
@@ -18,7 +18,7 @@
     PS> Remove-B1LookalikeTarget -Domain "mydomain.com"
 
   .FUNCTIONALITY
-    BloxOneDDI
+    Universal DDI
 
   .FUNCTIONALITY
     Infoblox Threat Defense

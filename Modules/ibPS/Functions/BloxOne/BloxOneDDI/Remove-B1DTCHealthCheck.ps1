@@ -1,10 +1,10 @@
 ﻿function Remove-B1DTCHealthCheck {
     <#
     .SYNOPSIS
-        Removes an existing BloxOne DTC Health Check
+        Removes an existing Universal DDI DTC Health Check
 
     .DESCRIPTION
-        This function is used to remove an existing BloxOne DTC Health Check
+        This function is used to remove an existing Universal DDI DTC Health Check
 
     .PARAMETER Name
         The name of the DTC Health Check to remove
@@ -26,7 +26,7 @@
         Successfully removed DTC Health Check: Exchange-HealthCheck
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

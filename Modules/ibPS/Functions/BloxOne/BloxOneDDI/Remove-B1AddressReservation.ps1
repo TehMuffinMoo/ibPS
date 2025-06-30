@@ -22,7 +22,7 @@
         PS> Remove-B1AddressReservation -Address "10.0.0.1" -Space "Global"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

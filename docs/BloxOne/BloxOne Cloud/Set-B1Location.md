@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1Location
 
 ## SYNOPSIS
-Updates a Location within BloxOne Cloud
+Updates a Location within Infoblox Portal
 
 ## SYNTAX
 
@@ -27,7 +27,7 @@ Set-B1Location [-NewName <String>] [-Description <String>] [-Address <String>] [
 ```
 
 ## DESCRIPTION
-This function is used to update a Location within BloxOne Cloud
+This function is used to update a Location within Infoblox Portal
 
 ## EXAMPLES
 

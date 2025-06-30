@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1DTCServer
 
 ## SYNOPSIS
-Removes an existing BloxOne DTC Server
+Removes an existing Universal DDI DTC Server
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1DTCServer -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParame
 ```
 
 ## DESCRIPTION
-This function is used to remove an existing BloxOne DTC Server
+This function is used to remove an existing Universal DDI DTC Server
 
 ## EXAMPLES
 

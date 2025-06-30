@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1DTCLBDN
 
 ## SYNOPSIS
-Removes an existing BloxOne DTC LBDN
+Removes an existing Universal DDI DTC LBDN
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1DTCLBDN -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParamete
 ```
 
 ## DESCRIPTION
-This function is used to remove an existing BloxOne DTC LBDN
+This function is used to remove an existing Universal DDI DTC LBDN
 
 ## EXAMPLES
 

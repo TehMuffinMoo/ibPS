@@ -47,7 +47,7 @@
         PS> Get-B1HAGroup -Name "MyHAGroup" -Strict
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

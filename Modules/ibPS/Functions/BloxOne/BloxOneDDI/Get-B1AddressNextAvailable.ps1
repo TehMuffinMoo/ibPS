@@ -56,7 +56,7 @@
             10.57.124.87
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

@@ -4,7 +4,7 @@
         Queries the BloxOneDDI Cloud Services Portal
 
     .DESCRIPTION
-        This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the BloxOne APIs.
+        This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the Infoblox Portal APIs.
 
     .PARAMETER Method
         Specify the HTTP Method to use
@@ -31,7 +31,7 @@
         Invoke-CSP -Method DELETE -Uri "dns/record/abc16def-a125-423a-3a42-dcv6f6c4dj8x"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Core
@@ -141,7 +141,7 @@
         if ($Result.error -ne $null) {
             switch ($StatusCode) {
                 401 {
-                    Write-Error "Authorization required, please store/update your BloxOne API Key using Set-B1CSPAPIKey"
+                    Write-Error "Authorization required, please store/update your Infoblox Portal API Key using Set-B1CSPAPIKey"
                 }
                 429 {
                     Write-Error "API Request Limit Reached. Use the -Limit and -Offset parameters or make your search more specific."

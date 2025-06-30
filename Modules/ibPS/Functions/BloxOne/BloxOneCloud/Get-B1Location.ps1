@@ -1,10 +1,10 @@
 ﻿function Get-B1Location {
     <#
     .SYNOPSIS
-        Retrieves a list of Locations defined within BloxOne Cloud
+        Retrieves a list of Locations defined within Infoblox Portal
 
     .DESCRIPTION
-        This function is used to retrieve a list of Locations defined within BloxOne Cloud
+        This function is used to retrieve a list of Locations defined within Infoblox Portal
 
     .PARAMETER Name
         Filter the results by the name of the Location
@@ -75,7 +75,7 @@
         updated_at   : 2024-05-01T12:22:09.849259517Z
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
     #>
     [CmdletBinding()]
     param(

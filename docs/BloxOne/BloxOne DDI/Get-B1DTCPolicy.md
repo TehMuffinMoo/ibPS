@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DTCPolicy
 
 ## SYNOPSIS
-Retrieves a list BloxOne DTC Policies
+Retrieves a list of Universal DDI DTC Policies
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DTCPolicy [[-Name] <String>] [[-Description] <String>] [-Strict] [[-Limit]
 ```
 
 ## DESCRIPTION
-This function is used to query a list BloxOne DTC Policies
+This function is used to query a list of Universal DDI DTC Policies
 
 ## EXAMPLES
 

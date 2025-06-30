@@ -31,7 +31,7 @@
         PS> New-B1Space -Name "Global"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

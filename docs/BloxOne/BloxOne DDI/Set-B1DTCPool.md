@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1DTCPool
 
 ## SYNOPSIS
-Updates a pool object within BloxOne DTC
+Updates a pool object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -29,7 +29,7 @@ Set-B1DTCPool [-NewName <String>] [-Description <String>] [-LoadBalancingType <S
 ```
 
 ## DESCRIPTION
-This function is used to update a pool object within BloxOne DTC
+This function is used to update a pool object within Universal DDI DTC
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DTCStatus
 
 ## SYNOPSIS
-Retrieves a list BloxOne DTC LBDNs
+Retrieves a list of Universal DDI DTC LBDNs
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Get-B1DTCStatus [-Raw] -id <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query a list BloxOne DTC LBDNs
+This function is used to query a list of Universal DDI DTC LBDNs
 
 ## EXAMPLES
 

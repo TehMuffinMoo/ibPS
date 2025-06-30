@@ -22,7 +22,7 @@
         PS> Get-B1DHCPConfigProfile -Name "My Config Profile" | Remove-B1DHCPConfigProfile
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     #>
     [CmdletBinding(

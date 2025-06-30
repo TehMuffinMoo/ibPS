@@ -70,7 +70,7 @@
         PS> Get-B1DNSEvent -Start (Get-Date).AddDays(-7)
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Logs

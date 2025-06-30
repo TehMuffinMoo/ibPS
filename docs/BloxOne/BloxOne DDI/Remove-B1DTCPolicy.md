@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1DTCPolicy
 
 ## SYNOPSIS
-Removes an existing BloxOne DTC Policy
+Removes an existing Universal DDI DTC Policy
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1DTCPolicy -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParame
 ```
 
 ## DESCRIPTION
-This function is used to remove an existing BloxOne DTC Policy
+This function is used to remove an existing Universal DDI DTC Policy
 
 ## EXAMPLES
 

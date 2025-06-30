@@ -57,7 +57,7 @@
         PS> Set-B1AddressBlock -Subnet "10.10.100.0" -NewName "Updated name" -Space "Global" -Description "Comment for description" -DHCPOptions $DHCPOptions
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

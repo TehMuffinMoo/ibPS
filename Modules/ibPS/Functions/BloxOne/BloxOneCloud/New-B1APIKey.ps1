@@ -1,10 +1,10 @@
 ﻿function New-B1APIKey {
     <#
     .SYNOPSIS
-        Creates a new BloxOne Cloud API Key
+        Creates a new Infoblox Portal API Key
 
     .DESCRIPTION
-        This function is used to create a new API Key from the BloxOne Cloud.
+        This function is used to create a new API Key from the Infoblox Portal.
 
     .PARAMETER Name
         The name for the new API Key
@@ -37,7 +37,7 @@
         PS> New-B1APIKey -Name "serviceapikey" -Type Service -UserName "svc-account-name"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Authentication

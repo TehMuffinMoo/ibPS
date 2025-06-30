@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1APIKey
 
 ## SYNOPSIS
-Creates a new BloxOne Cloud API Key
+Creates a new Infoblox Portal API Key
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ New-B1APIKey [[-Type] <String>] [-Name] <String> [[-Expires] <DateTime>] [-UserE
 ```
 
 ## DESCRIPTION
-This function is used to create a new API Key from the BloxOne Cloud.
+This function is used to create a new API Key from the Infoblox Portal.
 
 ## EXAMPLES
 

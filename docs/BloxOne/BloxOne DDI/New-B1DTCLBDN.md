@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1DTCLBDN
 
 ## SYNOPSIS
-Creates a new LBDN object within BloxOne DTC
+Creates a new LBDN object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1DTCLBDN [-Name] <String> [[-Description] <String>] [-DNSView] <String> [[-
 ```
 
 ## DESCRIPTION
-This function is used to create a new LBDN object within BloxOne DTC
+This function is used to create a new LBDN object within Universal DDI DTC
 
 ## EXAMPLES
 

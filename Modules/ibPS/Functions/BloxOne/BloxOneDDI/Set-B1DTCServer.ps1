@@ -1,10 +1,10 @@
 ﻿function Set-B1DTCServer {
     <#
     .SYNOPSIS
-        Updates a server object within BloxOne DTC
+        Updates a server object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to update a server object within BloxOne DTC
+        This function is used to update a server object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC server object to update
@@ -73,7 +73,7 @@
         metadata
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

@@ -41,7 +41,7 @@
         PS> Get-B1DNSACL -Name "Servers_ACL"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

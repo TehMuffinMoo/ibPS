@@ -20,7 +20,7 @@
         Specify the NIOS Grid UID (license_uid). This indicates which Grid to connect to when using NIOS Federation within Universal DDI.
 
     .PARAMETER GridName
-        Specify the NIOS Grid Name in Universal DDI DDI instead of the GridUID. This is convient, but requires resolving the license_uid on every API Call.
+        Specify the NIOS Grid Name in Universal DDI instead of the GridUID. This is convient, but requires resolving the license_uid on every API Call.
 
     .PARAMETER Uri
         Specify the Uri, such as "record:a", you can also use the full URL and http parameters must be appended here.

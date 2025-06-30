@@ -28,7 +28,7 @@
         amazonaws.com.cn  401 [393, 408]
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

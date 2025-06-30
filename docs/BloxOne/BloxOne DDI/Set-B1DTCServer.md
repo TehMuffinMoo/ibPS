@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1DTCServer
 
 ## SYNOPSIS
-Updates a server object within BloxOne DTC
+Updates a server object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -27,7 +27,7 @@ Set-B1DTCServer [-NewName <String>] [-Description <String>] [-FQDN <String>] [-I
 ```
 
 ## DESCRIPTION
-This function is used to update a server object within BloxOne DTC
+This function is used to update a server object within Universal DDI DTC
 
 ## EXAMPLES
 

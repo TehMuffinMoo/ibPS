@@ -1,10 +1,10 @@
 ﻿function Remove-B1DTCServer {
     <#
     .SYNOPSIS
-        Removes an existing BloxOne DTC Server
+        Removes an existing Universal DDI DTC Server
 
     .DESCRIPTION
-        This function is used to remove an existing BloxOne DTC Server
+        This function is used to remove an existing Universal DDI DTC Server
 
     .PARAMETER Name
         The name of the DTC Server to remove
@@ -27,7 +27,7 @@
         Successfully removed DTC Server: EXCHANGE-MAIL02
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

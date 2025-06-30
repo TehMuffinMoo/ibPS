@@ -30,7 +30,7 @@
         bbc.co.uk bbc.co.uk
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Logs

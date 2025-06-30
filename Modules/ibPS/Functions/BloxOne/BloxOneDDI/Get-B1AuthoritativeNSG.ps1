@@ -41,7 +41,7 @@
         PS> Get-B1AuthoritativeNSG -Name "Data Centre" -Strict
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

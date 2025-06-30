@@ -59,7 +59,7 @@
         PS> Get-B1DFP -DefaultSecurityPolicy
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

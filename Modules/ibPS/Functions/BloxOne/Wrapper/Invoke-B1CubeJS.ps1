@@ -109,7 +109,7 @@
         Infoblox Threat Defense
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Logs

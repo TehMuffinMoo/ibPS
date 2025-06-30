@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DTCLBDN
 
 ## SYNOPSIS
-Retrieves a list BloxOne DTC LBDNs
+Retrieves a list of Universal DDI DTC LBDNs
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DTCLBDN [[-Name] <String>] [[-Description] <String>] [[-View] <String>] [[
 ```
 
 ## DESCRIPTION
-This function is used to query a list BloxOne DTC LBDNs
+This function is used to query a list of Universal DDI DTC LBDNs
 
 ## EXAMPLES
 

@@ -50,7 +50,7 @@
         PS> Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Service

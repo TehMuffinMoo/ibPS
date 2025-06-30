@@ -1,10 +1,10 @@
 ﻿function Get-B1Compartment {
     <#
     .SYNOPSIS
-        Retrieves a list of Compartments from the BloxOne Cloud
+        Retrieves a list of Compartments from the Infoblox Portal
 
     .DESCRIPTION
-        This function is used to retrieve a list of Compartments from the BloxOne Cloud
+        This function is used to retrieve a list of Compartments from the Infoblox Portal
 
     .PARAMETER Name
         Filter the results by compartment name
@@ -35,7 +35,7 @@
         PS> Get-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Authentication

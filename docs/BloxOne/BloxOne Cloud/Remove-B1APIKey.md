@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1APIKey
 
 ## SYNOPSIS
-Removes a BloxOne Cloud API Key
+Removes a Infoblox Portal API Key
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Remove-B1APIKey -id <String> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to remove an API Key from the BloxOne Cloud
+This function is used to remove an API Key from the Infoblox Portal
 The API Key must be disabled prior to deleting
 
 ## EXAMPLES

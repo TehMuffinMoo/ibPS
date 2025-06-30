@@ -7,7 +7,7 @@
         This is a Generic Wrapper for creating new objects within the CSP (Cloud Services Portal).
 
     .PARAMETER Product
-        Specify the product to use, such as 'BloxOne DDI'.
+        Specify the product to use, such as 'Universal DDI'.
         This parameter is auto-populated when using tab
 
     .PARAMETER App
@@ -41,10 +41,10 @@
                     "address" = "10.10.10.10"
                 }
             }
-        PS> New-B1Object -Product 'BloxOne DDI' -App DnsData -Endpoint /dns/record -Data $Splat
+        PS> New-B1Object -Product 'Universal DDI' -App DnsData -Endpoint /dns/record -Data $Splat
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Core

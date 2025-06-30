@@ -1,10 +1,10 @@
 ﻿function Get-B1BypassCode {
     <#
     .SYNOPSIS
-        Retrieves a list of Bypass Codes from BloxOne Cloud
+        Retrieves a list of Bypass Codes from Infoblox Portal
 
     .DESCRIPTION
-        This function is used to query a list of Bypass Codes from BloxOne Cloud
+        This function is used to query a list of Bypass Codes from Infoblox Portal
 
     .PARAMETER Name
         Filter results by Name.

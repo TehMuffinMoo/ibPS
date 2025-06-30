@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1DTCLBDN
 
 ## SYNOPSIS
-Updates a LBDN object within BloxOne DTC
+Updates a LBDN object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -27,7 +27,7 @@ Set-B1DTCLBDN [-NewName <String>] [-Description <String>] [-DNSView <String>] [-
 ```
 
 ## DESCRIPTION
-This function is used to updates a LBDN object within BloxOne DTC
+This function is used to updates a LBDN object within Universal DDI DTC
 
 ## EXAMPLES
 

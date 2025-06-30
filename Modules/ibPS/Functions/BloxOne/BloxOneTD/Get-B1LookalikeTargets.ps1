@@ -18,7 +18,7 @@
         name            : Global Lookalike Target List
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

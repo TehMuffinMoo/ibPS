@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1DTCHealthCheck
 
 ## SYNOPSIS
-Updates a health check object within BloxOne DTC
+Updates a health check object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -31,7 +31,7 @@ Set-B1DTCHealthCheck [-NewName <String>] [-Description <String>] [-Interval <Int
 ```
 
 ## DESCRIPTION
-This function is used to update a health check object within BloxOne DTC
+This function is used to update a health check object within Universal DDI DTC
 
 ## EXAMPLES
 

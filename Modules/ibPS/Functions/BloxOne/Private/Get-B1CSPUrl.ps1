@@ -12,7 +12,7 @@
         https://csp.infoblox.com
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         API
@@ -30,11 +30,11 @@
             if ($Configs.Contexts."$($ProfileName)") {
                 $CSPUrl = ($Configs.Contexts | Select-Object -ExpandProperty $ProfileName).'URL'
             } else {
-                Write-Error "Unable to find BloxOne Connection Profile: $($ProfileName)"
+                Write-Error "Unable to find Connection Profile: $($ProfileName)"
                 return $null
             }
         } else {
-            Write-Error "No BloxOne Connection Profiles or Global CSP API Key has been configured."
+            Write-Error "No Connection Profiles or Global CSP API Key has been configured."
             Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
             return $null
         }

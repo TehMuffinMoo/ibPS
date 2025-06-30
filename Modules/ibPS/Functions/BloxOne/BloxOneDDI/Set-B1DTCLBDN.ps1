@@ -1,10 +1,10 @@
 ﻿function Set-B1DTCLBDN {
     <#
     .SYNOPSIS
-        Updates a LBDN object within BloxOne DTC
+        Updates a LBDN object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to updates a LBDN object within BloxOne DTC
+        This function is used to updates a LBDN object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC LBDN object to update
@@ -68,7 +68,7 @@
         inheritance_sources :
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

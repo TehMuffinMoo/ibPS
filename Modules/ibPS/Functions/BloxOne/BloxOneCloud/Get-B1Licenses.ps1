@@ -13,7 +13,7 @@
         PS> Get-B1Licenses -State all
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

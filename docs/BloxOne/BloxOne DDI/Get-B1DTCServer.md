@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DTCServer
 
 ## SYNOPSIS
-Retrieves a list BloxOne DTC Servers
+Retrieves a list of Universal DDI DTC Servers
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Get-B1DTCServer [[-Name] <String>] [[-Description] <String>] [[-Address] <String
 ```
 
 ## DESCRIPTION
-This function is used to query a list BloxOne DTC Servers
+This function is used to query a list of Universal DDI DTC Servers
 
 ## EXAMPLES
 

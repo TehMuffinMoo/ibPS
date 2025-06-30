@@ -33,7 +33,7 @@
         PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Service

@@ -46,7 +46,7 @@
         New-B1CustomList -Name "Not so bad stuff" -Description "This is a list of not so bad stuff" -Items $Csv -ThreatLevel MEDIUM -ConfidenceLevel HIGH
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

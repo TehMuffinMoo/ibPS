@@ -21,7 +21,7 @@
     .EXAMPLE
         ## This example will update the comment/description against multiple DNS Records
 
-        PS> $Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields comment
+        PS> $Records = Get-B1Object -Product 'Universal DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields comment
         PS> foreach ($Record in $Records) {
                 $Record.comment = "Updated Comment"
             }
@@ -30,7 +30,7 @@
     .EXAMPLE
         ## This example will update the multiple DHCP Options against multiple Subnets
 
-        PS> $Subnets = Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
+        PS> $Subnets = Get-B1Object -product 'Universal DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
         PS> foreach ($Subnet in $Subnets) {
                 $Subnet.dhcp_options = @(
                     @{
@@ -48,7 +48,7 @@
         PS> $Subnets | Set-B1Object
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Core

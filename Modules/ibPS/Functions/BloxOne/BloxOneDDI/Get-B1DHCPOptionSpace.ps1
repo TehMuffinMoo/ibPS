@@ -38,7 +38,7 @@
         PS> Get-B1DHCPOptionSpace -Name dhcp4 -Protocol ip4 -Strict
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DHCP

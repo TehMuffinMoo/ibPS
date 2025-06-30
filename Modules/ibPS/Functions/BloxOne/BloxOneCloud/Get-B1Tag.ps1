@@ -32,7 +32,7 @@
         PS> Get-B1Tag -Name "siteCode"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Tags

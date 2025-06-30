@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1DTCPolicy
 
 ## SYNOPSIS
-Creates a new policy object within BloxOne DTC
+Creates a new policy object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1DTCPolicy [-Name] <String> [[-Description] <String>] [-LoadBalancingType] 
 ```
 
 ## DESCRIPTION
-This function is used to create a new policy object within BloxOne DTC
+This function is used to create a new policy object within Universal DDI DTC
 
 ## EXAMPLES
 

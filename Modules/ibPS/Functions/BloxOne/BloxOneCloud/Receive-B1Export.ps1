@@ -26,7 +26,7 @@
         PS> $ExportJob | Receive-B1Export -filePath "/tmp/$($ExportName)"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Backup

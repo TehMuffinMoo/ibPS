@@ -1,10 +1,10 @@
 ﻿function New-B1DTCLBDN {
     <#
     .SYNOPSIS
-        Creates a new LBDN object within BloxOne DTC
+        Creates a new LBDN object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to create a new LBDN object within BloxOne DTC
+        This function is used to create a new LBDN object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC LBDN object to create
@@ -48,7 +48,7 @@
         inheritance_sources :
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1BypassCode
 
 ## SYNOPSIS
-Removes a bypass code from BloxOne Cloud
+Removes a bypass code from Infoblox Portal
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1BypassCode -Object <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to remove a bypass code from BloxOne Cloud
+This function is used to remove a bypass code from Infoblox Portal
 
 ## EXAMPLES
 

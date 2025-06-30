@@ -90,7 +90,7 @@
         updated_time     : 5/3/2024 6:11:32 PM
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

@@ -1,10 +1,10 @@
 ﻿function Get-B1User {
     <#
     .SYNOPSIS
-        Retrieves a list of users from the BloxOne Cloud
+        Retrieves a list of users from the Infoblox Portal
 
     .DESCRIPTION
-        This function is used to retrieve a list of users from the BloxOne Cloud
+        This function is used to retrieve a list of users from the Infoblox Portal
 
     .PARAMETER Name
         Filter the results by the name of the user
@@ -53,7 +53,7 @@
         PS> Get-B1User -State Inactive
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Authentication

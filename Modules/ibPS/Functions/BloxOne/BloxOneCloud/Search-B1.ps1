@@ -20,7 +20,7 @@
         PS> Search-B1 "mysubzone.corp.com"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Search

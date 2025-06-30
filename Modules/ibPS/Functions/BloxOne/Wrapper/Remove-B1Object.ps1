@@ -18,10 +18,10 @@
     .EXAMPLE
         ## This example shows removing several address block objects based on tag
 
-        PS> Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
+        PS> Get-B1Object -product 'Universal DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Core

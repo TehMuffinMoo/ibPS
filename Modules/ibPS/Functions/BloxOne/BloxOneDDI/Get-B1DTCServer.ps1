@@ -1,10 +1,10 @@
 ﻿function Get-B1DTCServer {
     <#
     .SYNOPSIS
-        Retrieves a list BloxOne DTC Servers
+        Retrieves a list of Universal DDI DTC Servers
 
     .DESCRIPTION
-        This function is used to query a list BloxOne DTC Servers
+        This function is used to query a list of Universal DDI DTC Servers
 
     .PARAMETER Name
         The name of the DTC Server to filter by
@@ -61,7 +61,7 @@
         EXCHANGE-MAIL02 10.10.100.39
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

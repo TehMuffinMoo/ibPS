@@ -25,7 +25,7 @@
         Filter events by DNS Query Type
 
     .PARAMETER Source
-        Filter events by Network Source (i.e BloxOne Endpoint or specific DNS Forwarding Proxies)
+        Filter events by Network Source (i.e Threat Defense Endpoint or specific DNS Forwarding Proxies)
 
     .PARAMETER IP
         Filter events by the Source IP
@@ -42,18 +42,18 @@
     .EXAMPLE
         PS> Get-B1SOCInsight -Priority CRITICAL | Get-B1SOCInsightEvents | ft -AutoSize
 
-        confidenceLevel deviceName           macAddress        source           osVersion    action         policy                   deviceIp       query                                                                                                   queryType
-        --------------- ----------           ----------        ------           ---------    ------         ------                   --------       -----                                                                                                   ---------
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 gdgdxsrgbxdfbgcxv.com                                                                                   A
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.153.81.224  fsfsef4wetrfeswg.com                                                                                    A
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   80.153.81.224  fsfsef4wetrfeswg.com                                                                                    A
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   SRV
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   A
-        High            CORP-C123F987AB      ab:cd:ef:12:34:56 BloxOne Endpoint macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   CNAME
+        confidenceLevel deviceName           macAddress        source                   osVersion    action         policy                   deviceIp       query                                                                                                   queryType
+        --------------- ----------           ----------        ------                   ---------    ------         ------                   --------       -----                                                                                                   ---------
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 Threat Defense Endpoint  macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 gdgdxsrgbxdfbgcxv.com                                                                                   A
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 Threat Defense Endpoint  macOS 14.2.1 Block          Global_Security_Policy   80.153.81.224  fsfsef4wetrfeswg.com                                                                                    A
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 Threat Defense Endpoint  macOS 14.2.1 Block          Global_Security_Policy   80.153.81.224  fsfsef4wetrfeswg.com                                                                                    A
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 Threat Defense Endpoint  macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   SRV
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 Threat Defense Endpoint  macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   A
+        High            CORP-C123F987AB      ab:cd:ef:12:34:56 Threat Defense Endpoint  macOS 14.2.1 Block          Global_Security_Policy   212.204.104.50 vvv.fsgfsdxvxgddbn.vxgvr.xvfd.xvdxsv.dodgywebsite.com                                                   CNAME
         ...
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

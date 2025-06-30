@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DTCPool
 
 ## SYNOPSIS
-Retrieves a list BloxOne DTC Pools
+Retrieves a list of Universal DDI DTC Pools
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DTCPool [[-Name] <String>] [[-Description] <String>] [-Strict] [[-Limit] <
 ```
 
 ## DESCRIPTION
-This function is used to query a list BloxOne DTC Pools
+This function is used to query a list of Universal DDI DTC Pools
 
 ## EXAMPLES
 

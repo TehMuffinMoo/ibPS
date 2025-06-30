@@ -36,7 +36,7 @@
         rpzfeedname : New RPZ Feed
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

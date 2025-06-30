@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1Location
 
 ## SYNOPSIS
-Removes a Location from the BloxOne Cloud
+Removes a Location from the Infoblox Portal
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1Location -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParamet
 ```
 
 ## DESCRIPTION
-This function is used to remove a Location from the BloxOne Cloud
+This function is used to remove a Location from the Infoblox Portal
 
 ## EXAMPLES
 

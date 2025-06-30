@@ -1,10 +1,10 @@
 ﻿function Set-B1Location {
     <#
     .SYNOPSIS
-        Updates a Location within BloxOne Cloud
+        Updates a Location within Infoblox Portal
 
     .DESCRIPTION
-        This function is used to update a Location within BloxOne Cloud
+        This function is used to update a Location within Infoblox Portal
 
     .PARAMETER Name
         The name of the location to update
@@ -81,7 +81,7 @@
         updated_at   : 2024-05-01T13:06:44.873541805Z
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
     #>
     [CmdletBinding(
       SupportsShouldProcess,

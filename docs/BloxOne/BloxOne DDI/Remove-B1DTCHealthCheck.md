@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1DTCHealthCheck
 
 ## SYNOPSIS
-Removes an existing BloxOne DTC Health Check
+Removes an existing Universal DDI DTC Health Check
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1DTCHealthCheck -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonP
 ```
 
 ## DESCRIPTION
-This function is used to remove an existing BloxOne DTC Health Check
+This function is used to remove an existing Universal DDI DTC Health Check
 
 ## EXAMPLES
 

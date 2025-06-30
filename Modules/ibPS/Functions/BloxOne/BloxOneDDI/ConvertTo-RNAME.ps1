@@ -17,7 +17,7 @@
         admin.user@company.corp admin\.user.company.corp
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Logs

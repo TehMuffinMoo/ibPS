@@ -16,7 +16,7 @@
         Application Detection is incorrect
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Infoblox Threat Defense

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DTCHealthCheck
 
 ## SYNOPSIS
-Retrieves a list BloxOne DTC Health Checks
+Retrieves a list Universal DDI DTC Health Checks
 
 ## SYNTAX
 

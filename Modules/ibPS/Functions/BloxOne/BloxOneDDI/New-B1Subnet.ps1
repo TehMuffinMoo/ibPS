@@ -47,7 +47,7 @@
         PS> New-B1Subnet -Subnet "10.30.5.0" -CIDR "24" -Space "Global" -Name "My Subnet" -Description "My Production Subnet" -DHCPOptions $DHCPOptions
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

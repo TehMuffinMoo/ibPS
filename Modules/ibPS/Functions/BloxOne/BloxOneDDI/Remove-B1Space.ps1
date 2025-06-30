@@ -22,7 +22,7 @@
         PS> Get-B1Space -Name "My IP Space" | Remove-B1Space
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

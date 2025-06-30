@@ -27,7 +27,7 @@
     PS> New-B1LookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "Common description"
 
   .FUNCTIONALITY
-    BloxOneDDI
+    Universal DDI
 
   .FUNCTIONALITY
     Infoblox Threat Defense

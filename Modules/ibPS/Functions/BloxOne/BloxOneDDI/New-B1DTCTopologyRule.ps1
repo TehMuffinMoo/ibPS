@@ -33,7 +33,7 @@
         subnets     : {10.10.10.0/24, 10.20.0.0/24}
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

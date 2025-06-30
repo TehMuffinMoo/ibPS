@@ -1,10 +1,10 @@
 ﻿function New-B1DTCPolicy {
     <#
     .SYNOPSIS
-        Creates a new policy object within BloxOne DTC
+        Creates a new policy object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to create a new policy object within BloxOne DTC
+        This function is used to create a new policy object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC policy object to create
@@ -87,7 +87,7 @@
         metadata
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

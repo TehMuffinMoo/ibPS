@@ -6,7 +6,7 @@
   .DESCRIPTION
     This function is used to update an existing lookalike target domain for the account.
 
-    The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
+    The Lookalike Target Domains are second-level domains Threat Defense uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
   .PARAMETER Domain
     This is the domain to be updated from the watched lookalike domain list
@@ -27,7 +27,7 @@
     PS> Set-B1LookalikeTarget -Domain "mydomain.com","seconddomain.com" -Description "New Common description"
 
   .FUNCTIONALITY
-    BloxOneDDI
+    Universal DDI
 
   .FUNCTIONALITY
     Infoblox Threat Defense

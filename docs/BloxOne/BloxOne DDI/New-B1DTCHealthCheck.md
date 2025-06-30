@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1DTCHealthCheck
 
 ## SYNOPSIS
-Creates a new health check object within BloxOne DTC
+Creates a new health check object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -35,7 +35,7 @@ New-B1DTCHealthCheck [-Name] <String> [[-Description] <String>] [-Type] <String>
 ```
 
 ## DESCRIPTION
-This function is used to create a new health check object within BloxOne DTC
+This function is used to create a new health check object within Universal DDI DTC
 
 ## EXAMPLES
 

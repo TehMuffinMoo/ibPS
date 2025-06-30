@@ -13,7 +13,7 @@
         Global NTP Object
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         NTP

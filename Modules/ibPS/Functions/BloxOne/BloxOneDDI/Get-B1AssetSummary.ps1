@@ -38,7 +38,7 @@
         1      uksouth          azure
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Discovery

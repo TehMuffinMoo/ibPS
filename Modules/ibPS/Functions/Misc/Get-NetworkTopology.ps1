@@ -84,7 +84,7 @@
                     [AD] 10.0.1.25 [address]
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         IPAM

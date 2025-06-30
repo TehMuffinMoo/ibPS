@@ -49,7 +49,7 @@
         PS> Start-B1DiagnosticTask -DHCPConfiguration
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Tasks

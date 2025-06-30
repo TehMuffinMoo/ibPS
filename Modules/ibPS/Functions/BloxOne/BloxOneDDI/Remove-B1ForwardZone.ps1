@@ -22,7 +22,7 @@
         PS> Remove-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

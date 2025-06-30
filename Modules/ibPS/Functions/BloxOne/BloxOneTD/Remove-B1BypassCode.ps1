@@ -1,10 +1,10 @@
 ﻿function Remove-B1BypassCode {
     <#
     .SYNOPSIS
-        Removes a bypass code from BloxOne Cloud
+        Removes a bypass code from Infoblox Portal
 
     .DESCRIPTION
-        This function is used to remove a bypass code from BloxOne Cloud
+        This function is used to remove a bypass code from Infoblox Portal
 
     .PARAMETER Name
         The name of the bypass code to remove
@@ -21,7 +21,7 @@
         Successfully deleted Bypass Code: My Bypass Code
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Threat Defense

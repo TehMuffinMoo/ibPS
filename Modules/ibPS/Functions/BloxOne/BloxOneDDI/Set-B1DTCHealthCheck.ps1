@@ -1,10 +1,10 @@
 ﻿function Set-B1DTCHealthCheck {
     <#
     .SYNOPSIS
-        Updates a health check object within BloxOne DTC
+        Updates a health check object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to update a health check object within BloxOne DTC
+        This function is used to update a health check object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC health check object to update
@@ -100,7 +100,7 @@
         check_response_header_negative : True
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

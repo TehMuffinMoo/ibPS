@@ -22,7 +22,7 @@
         PS> Remove-B1DelegatedZone -FQDN "delegated.mycompany.corp" -View "default"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

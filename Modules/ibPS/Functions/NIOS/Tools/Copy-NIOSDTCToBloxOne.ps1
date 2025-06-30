@@ -1,4 +1,4 @@
-﻿function Copy-NIOSDTCToBloxOne {
+﻿function Copy-NIOSDTCToUDDI {
     <#
     .SYNOPSIS
         Used to migrate LBDNs from NIOS DTC to Universal DDI DTC
@@ -6,23 +6,23 @@
     .DESCRIPTION
         This function is used to automate the migration of Load Balanced DNS Names and associated objects (Pools/Servers/Health Monitors) from NIOS DTC to Universal DDI DTC
 
-        Universal DDI DDI only currently supports Round Robin, Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks. Unsupported Load Balancing Methods will fail, but unsupported Health Checks will be skipped gracefully.
+        Universal DDI only currently supports Round Robin, Global Availability, Ratio & Toplogy Load Balancing Methods; and TCP, HTTP & ICMP Health Checks. Unsupported Load Balancing Methods will fail, but unsupported Health Checks will be skipped gracefully.
 
     .PARAMETER B1DNSView
-        The DNS View within Universal DDI DDI in which to assign the new LBDNs to. The LBDNs will not initialise unless the zone(s) exist within the specified DNS View.
+        The DNS View within Universal DDI in which to assign the new LBDNs to. The LBDNs will not initialise unless the zone(s) exist within the specified DNS View.
 
     .PARAMETER NIOSLBDN
-        The LBDN Name within NIOS that you would like to migrate to Universal DDI DDI.
+        The LBDN Name within NIOS that you would like to migrate to Universal DDI.
 
     .PARAMETER PolicyName
-        Optionally specify a DTC Policy name. DTC Policies are new in Universal DDI DDI, so by default they will inherit the name of the DTC LBDN if this parameter is not specified.
+        Optionally specify a DTC Policy name. DTC Policies are new in Universal DDI, so by default they will inherit the name of the DTC LBDN if this parameter is not specified.
 
     .PARAMETER LBDNTransform
         Use this parameter to transform the DTC LBDN FQDN from an old to new domain.
 
         Example: -LBDNTransform 'dtc.mydomain.com:b1dtc.mydomain.com'
 
-        |           NIOS DTC          |        Universal DDI DDI DTC        |
+        |           NIOS DTC          |        Universal DDI DTC        |
         |-----------------------------|-------------------------------|
         | myservice.dtc.mydomain.com  | myservice.b1dtc.mydomain.com  |
 
@@ -30,7 +30,7 @@
         Using this switch will apply the changes, otherwise the expected changes will just be displayed.
 
     .EXAMPLE
-        PS> Copy-NIOSDTCToBloxOne -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp' -ApplyChanges
+        PS> Copy-NIOSDTCToUDDI -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp' -ApplyChanges
 
         Querying Universal DDI DNS View: My DNS View
         Querying DTC LBDN: Exchange Server
@@ -53,7 +53,7 @@
         Successfully created DTC LBDN: webmail.b1dtc.company.corp.
 
     .EXAMPLE
-        PS> Copy-NIOSDTCToBloxOne -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp'
+        PS> Copy-NIOSDTCToUDDI -B1DNSView 'My DNS View' -NIOSLBDN 'Exchange Server' -PolicyName 'Exchange' -LBDNTransform 'dtc.company.corp:b1dtc.company.corp'
 
         {
             "LBDN": [
@@ -197,7 +197,7 @@
         }
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         NIOS
@@ -390,7 +390,7 @@
                 "Policy" = $NewPolicy
                 "Pools" = $NewPools
             }
-            ## Apply changes (Publish in Universal DDI DDI)
+            ## Apply changes (Publish in Universal DDI)
             if ($ApplyChanges) {
                 ## Create DTC Pool(s), Servers(s) & Associations
                 $PoolList = @()

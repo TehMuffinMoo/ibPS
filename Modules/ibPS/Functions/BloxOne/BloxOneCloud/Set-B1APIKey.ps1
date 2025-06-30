@@ -1,10 +1,10 @@
 ﻿function Set-B1APIKey {
     <#
     .SYNOPSIS
-        Updates an existing BloxOne Cloud API Key
+        Updates an existing Infoblox Portal API Key
 
     .DESCRIPTION
-        This function is used to update an existing API Key from the BloxOne Cloud, such as disabling/enabling it.
+        This function is used to update an existing API Key from the Infoblox Portal, such as disabling/enabling it.
 
     .PARAMETER User
         Filter the results by user_email
@@ -28,7 +28,7 @@
         PS> Set-B1APIKey -User "user@domain.corp" -Name "somename" -Type "interactive" -State Enabled
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Authentication

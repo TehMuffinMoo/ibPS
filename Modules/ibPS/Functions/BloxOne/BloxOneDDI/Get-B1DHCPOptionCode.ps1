@@ -38,7 +38,7 @@
         PS> Get-B1DHCPOptionCode -Name "routers"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DHCP

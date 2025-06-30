@@ -1,10 +1,10 @@
 ﻿function New-B1DTCHealthCheck {
     <#
     .SYNOPSIS
-        Creates a new health check object within BloxOne DTC
+        Creates a new health check object within Universal DDI DTC
 
     .DESCRIPTION
-        This function is used to create a new health check object within BloxOne DTC
+        This function is used to create a new health check object within Universal DDI DTC
 
     .PARAMETER Name
         The name of the DTC health check object to create
@@ -94,7 +94,7 @@
         check_response_header_negative : False
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

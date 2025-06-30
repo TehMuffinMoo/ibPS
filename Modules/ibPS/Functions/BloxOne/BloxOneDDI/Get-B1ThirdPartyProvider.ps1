@@ -50,7 +50,7 @@
         PS> Get-B1ThirdPartyProvider -Type IPAM/DHCP
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DHCP

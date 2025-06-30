@@ -46,7 +46,7 @@
           PS> Get-B1DFPLog -Network "MyB1Host (DFP)" -Start (Get-Date).AddHours(-6) Limit 10
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Logs

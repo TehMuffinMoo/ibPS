@@ -28,7 +28,7 @@
         PS> New-B1DelegatedZone -FQDN "mysubzone.mycompany.corp" -View "default" -Description "My Delegated Zone"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         DNS

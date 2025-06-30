@@ -19,7 +19,7 @@
         PS> Get-B1Export -Name "Backup of all CSP data"
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
 
     .FUNCTIONALITY
         Tasks

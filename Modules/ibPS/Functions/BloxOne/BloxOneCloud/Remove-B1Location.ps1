@@ -1,10 +1,10 @@
 ﻿function Remove-B1Location {
     <#
     .SYNOPSIS
-        Removes a Location from the BloxOne Cloud
+        Removes a Location from the Infoblox Portal
 
     .DESCRIPTION
-        This function is used to remove a Location from the BloxOne Cloud
+        This function is used to remove a Location from the Infoblox Portal
 
     .PARAMETER Name
         Filter the results by the name of the Location
@@ -26,7 +26,7 @@
         Successfully deleted Location: Madrid
 
     .FUNCTIONALITY
-        BloxOneDDI
+        Universal DDI
     #>
     [CmdletBinding(
         SupportsShouldProcess,

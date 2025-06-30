@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1DTCServer
 
 ## SYNOPSIS
-Creates a new server object within BloxOne DTC
+Creates a new server object within Universal DDI DTC
 
 ## SYNTAX
 
@@ -27,7 +27,7 @@ New-B1DTCServer -Name <String> [-Description <String>] -IP <IPAddress> [-AutoCre
 ```
 
 ## DESCRIPTION
-This function is used to create a new server object within BloxOne DTC
+This function is used to create a new server object within Universal DDI DTC
 
 ## EXAMPLES
 

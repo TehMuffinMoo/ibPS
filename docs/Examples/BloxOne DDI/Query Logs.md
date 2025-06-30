@@ -45,7 +45,7 @@ timestamp           query_type ip          query                  response      
 
 
 ### DNS Forwarding Proxy (DFP) Log
-The DFP log shows all DNS queries which have been resolved via a BloxOne or NIOS DFP, or via the Secure BloxOne Cloud Resolver.
+The DFP log shows all DNS queries which have been resolved via a BloxOne or NIOS DFP, or via the Secure Infoblox Portal Resolver.
 
 ```powershell
 PS> Get-B1DFPLog -Start (Get-Date).AddMinutes(-30) -Limit 5
