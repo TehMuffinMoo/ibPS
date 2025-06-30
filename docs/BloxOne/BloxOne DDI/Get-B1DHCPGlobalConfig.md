@@ -17,7 +17,7 @@ Get-B1DHCPGlobalConfig [[-Fields] <String[]>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve the BloxOneDDI Global DHCP Configuration
+This function is used to retrieve the Universal DDI Global DHCP Configuration
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Receive-B1Export
 
 ## SYNOPSIS
-Retrieves a BloxOneDDI Export/Backup
+Retrieves an Infoblox Portal Export/Backup
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Receive-B1Export [-data_ref] <String> [-filePath] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to retrieve a BloxOneDDI Export/Backup
+This function is used to retrieve a Infoblox Portal Export/Backup
 
 ## EXAMPLES
 

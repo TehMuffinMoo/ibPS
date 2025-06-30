@@ -8,7 +8,7 @@ schema: 2.0.0
 # Search-B1
 
 ## SYNOPSIS
-query the Universal DDI CSP Global Search
+Query the Universal DDI CSP Global Search
 
 ## SYNTAX
 

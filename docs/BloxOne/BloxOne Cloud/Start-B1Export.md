@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-B1Export
 
 ## SYNOPSIS
-Initiates a BloxOneDDI Export/Backup
+Initiates an Infoblox Portal Export/Backup
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Start-B1Export [-Name] <String> [[-Description] <String>] [-DNSConfig] [-DNSData
 ```
 
 ## DESCRIPTION
-This function is used to initiate a BloxOneDDI Export/Backup
+This function is used to initiate an Infoblox Portal Export/Backup
 
 ## EXAMPLES
 

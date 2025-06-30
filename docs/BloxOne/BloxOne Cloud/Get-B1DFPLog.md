@@ -97,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -Network
-Filter the DFP Logs by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "ddihost.mydomain.corp (DFP)" or "ddihost1.mydomain.corp (DFP)","myddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
+Filter the DFP Logs by one or more DFP Servers, External Networks & Threat Defense Endpoints (i.e "ddihost.mydomain.corp (DFP)" or "ddihost1.mydomain.corp (DFP)","myddihost2.mydomain.corp (DFP)","Threat Defense Endpoint"
 
 ```yaml
 Type: String[]

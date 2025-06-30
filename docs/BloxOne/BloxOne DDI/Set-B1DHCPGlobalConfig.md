@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1DHCPGlobalConfig
 
 ## SYNOPSIS
-Updates the BloxOneDDI Global DHCP Configuration
+Updates the Universal DDI Global DHCP Configuration
 
 ## SYNTAX
 
@@ -30,7 +30,7 @@ Set-B1DHCPGlobalConfig [-RemoveDDNSZones] -DDNSZones <Object> [-DNSView <String>
 ```
 
 ## DESCRIPTION
-This function is used to update the BloxOneDDI Global DHCP Configuration
+This function is used to update the Universal DDI Global DHCP Configuration
 
 ## EXAMPLES
 

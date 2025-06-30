@@ -18,7 +18,7 @@ Get-B1LookalikeTargetCandidates [-AccountSpecific] [<CommonParameters>]
 
 ## DESCRIPTION
 Use this method to retrieve information on all Lookalike Target Candidates.
-The Lookalike Target Candidates are second-level domains BloxOne uses to detect lookalike FQDNs against.
+The Lookalike Target Candidates are second-level domains Threat Defense uses to detect lookalike FQDNs against.
 
 ## EXAMPLES
 

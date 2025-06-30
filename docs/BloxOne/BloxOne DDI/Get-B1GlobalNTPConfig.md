@@ -17,7 +17,7 @@ Get-B1GlobalNTPConfig
 ```
 
 ## DESCRIPTION
-This function is used to retrieve the BloxOneDDI Global NTP Configuration
+This function is used to retrieve the Universal DDI Global NTP Configuration
 
 ## EXAMPLES
 

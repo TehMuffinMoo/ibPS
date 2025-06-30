@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-B1Service
 
 ## SYNOPSIS
-Starts an Infoblox Portal Service
+Starts a Infoblox Portal service
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Start-B1Service -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameter
 ```
 
 ## DESCRIPTION
-This function is used to start an Infoblox Portal Service
+This function is used to start an Infoblox Portal service
 
 ## EXAMPLES
 
@@ -35,7 +35,7 @@ Start-B1Service -Name "dns_ddihost1.mydomain.corp"
 ## PARAMETERS
 
 ### -Name
-The name of the Infoblox Portal Service to start
+The name of the service to start
 
 ```yaml
 Type: String

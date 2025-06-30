@@ -8,7 +8,7 @@ schema: 2.0.0
 # Stop-B1Service
 
 ## SYNOPSIS
-Stops an Infoblox Portal Service
+Stops a Infoblox Portal Service
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Stop-B1Service -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters
 ```
 
 ## DESCRIPTION
-This function is used to stop an Infoblox Portal Service
+This function is used to stop a Infoblox Portal Service
 
 ## EXAMPLES
 
@@ -35,7 +35,7 @@ Stop-B1Service -Name "dns_ddihost1.mydomain.corp"
 ## PARAMETERS
 
 ### -Name
-The name of the Infoblox Portal Service to stop
+The name of the service to stop
 
 ```yaml
 Type: String

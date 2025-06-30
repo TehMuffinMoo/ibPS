@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1DNSView
 
 ## SYNOPSIS
-Creates a new BloxOneDDI DNS View
+Creates a new Universal DDI DNS View
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ New-B1DNSView [-Name] <String> [-Description] <String> [[-Space] <String>] [[-Ta
 ```
 
 ## DESCRIPTION
-This function is used to create a new BloxOneDDI DNS View
+This function is used to create a new Universal DDI DNS View
 
 ## EXAMPLES
 
