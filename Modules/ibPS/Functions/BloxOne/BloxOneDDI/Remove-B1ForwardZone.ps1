@@ -1,10 +1,10 @@
 ﻿function Remove-B1ForwardZone {
     <#
     .SYNOPSIS
-        Removes a Forward Zone from BloxOneDDI
+        Removes a Forward Zone from Universal DDI
 
     .DESCRIPTION
-        This function is used to remove a Forward Zone from BloxOneDDI
+        This function is used to remove a Forward Zone from Universal DDI
 
     .PARAMETER FQDN
         The FQDN of the zone to remove

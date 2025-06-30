@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DNSHost
 
 ## SYNOPSIS
-Retrieves a list of BloxOneDDI DNS Hosts
+Retrieves a list of Universal DDI DNS Hosts
 
 ## SYNTAX
 
@@ -19,13 +19,13 @@ Get-B1DNSHost [[-Name] <String>] [[-IP] <String>] [-Strict] [[-Limit] <Int32>] [
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI DNS Hosts
+This function is used to query a list of Universal DDI DNS Hosts
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
+Get-B1DNSHost -Name "ddihost1.mydomain.corp" -IP "10.10.10.10"
 ```
 
 ## PARAMETERS

@@ -1,10 +1,10 @@
 ﻿function New-B1AuthoritativeZone {
     <#
     .SYNOPSIS
-        Creates a new Authoritative Zone in BloxOneDDI
+        Creates a new Authoritative Zone in Universal DDI
 
     .DESCRIPTION
-        This function is used to create a new Authoritative Zone in BloxOneDDI
+        This function is used to create a new Authoritative Zone in Universal DDI
 
     .PARAMETER Type
         The type of authoritative zone to create (Primary / Secondary)

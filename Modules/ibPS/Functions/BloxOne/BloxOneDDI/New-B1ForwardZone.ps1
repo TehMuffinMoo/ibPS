@@ -1,10 +1,10 @@
 ﻿function New-B1ForwardZone {
     <#
     .SYNOPSIS
-        Creates a new Forward Zone in BloxOneDDI
+        Creates a new Forward Zone in Universal DDI
 
     .DESCRIPTION
-        This function is used to create a new Forward Zone in BloxOneDDI
+        This function is used to create a new Forward Zone in Universal DDI
 
     .PARAMETER FQDN
         The FQDN of the zone to create
@@ -31,7 +31,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -Description "My Forward Zone"
+        PS> New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "ddihost1.corp.mycompany.com" -Description "My Forward Zone"
 
     .FUNCTIONALITY
         Universal DDI

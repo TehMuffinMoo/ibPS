@@ -1,13 +1,13 @@
 ﻿function Get-B1HealthCheck {
     <#
     .SYNOPSIS
-        Performs a health check on a BloxOneDDI Host
+        Performs a health check on a NIOS-X Host
 
     .DESCRIPTION
-        This function is used to perform a health check on a BloxOneDDI Host
+        This function is used to perform a health check on a NIOS-X Host
 
     .PARAMETER B1Host
-        The BloxOneDDI Host name/fqdn
+        The NIOS-X Host name/fqdn
 
     .PARAMETER Type
         The type of health check to perform

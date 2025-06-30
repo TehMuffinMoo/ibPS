@@ -1,10 +1,10 @@
 ﻿function Remove-B1AddressBlock {
     <#
     .SYNOPSIS
-        Removes an address block from BloxOneDDI IPAM
+        Removes an address block from Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to remove an address block from BloxOneDDI IPAM
+        This function is used to remove an address block from Universal DDI IPAM
 
     .PARAMETER Subnet
         The network address of the address block you want to remove

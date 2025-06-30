@@ -1,22 +1,22 @@
 ﻿function Restart-B1Host {
     <#
     .SYNOPSIS
-        Restarts a BloxOneDDI Host
+        Restarts a NIOS-X Host
 
     .DESCRIPTION
-        This function is used to initiate a reboot of a BloxOneDDI Host
+        This function is used to initiate a reboot of a NIOS-X Host
 
     .PARAMETER B1Host
         The FQDN of the host to reboot
 
     .PARAMETER Object
-        The BloxOneDDI Host Object(s) to restart. Accepts pipeline input
+        The NIOS-X Host Object(s) to restart. Accepts pipeline input
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
-        PS> Restart-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
+        PS> Restart-B1Host -B1Host "ddihost1.mydomain.corp" -NoWarning
 
     .FUNCTIONALITY
         Universal DDI
@@ -58,7 +58,7 @@
         } else {
             $Object = Get-B1Host -Name $B1Host -Strict -Detailed
             if (!($Object)) {
-                Write-Error "Unable to find BloxOne Host: $($B1Host)"
+                Write-Error "Unable to find NIOS-X Host: $($B1Host)"
                 return $null
             }
             $HostID = $Object.id

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Subnet
 
 ## SYNOPSIS
-Queries a list of Subnets from the BloxOneDDI IPAM
+Queries a list of Subnets from the Universal DDI IPAM
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Get-B1Subnet [[-Subnet] <String>] [[-CIDR] <Int32>] [[-Space] <String>] [[-Name]
 ```
 
 ## DESCRIPTION
-This function is used to query a list of Subnets from the BloxOneDDI IPAM
+This function is used to query a list of Subnets from the Universal DDI IPAM
 
 ## EXAMPLES
 

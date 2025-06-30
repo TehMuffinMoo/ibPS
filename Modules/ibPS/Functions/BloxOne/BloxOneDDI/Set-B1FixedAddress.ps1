@@ -1,10 +1,10 @@
 ﻿function Set-B1FixedAddress {
     <#
     .SYNOPSIS
-        Updates an existing fixed addresses in BloxOneDDI IPAM
+        Updates an existing fixed addresses in Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to update an existing fixed addresses in BloxOneDDI IPAM
+        This function is used to update an existing fixed addresses in Universal DDI IPAM
 
     .PARAMETER IP
         The IP of the fixed address

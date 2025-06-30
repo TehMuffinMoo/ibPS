@@ -1,10 +1,10 @@
 ﻿function Get-B1DHCPOptionGroup {
     <#
     .SYNOPSIS
-        Retrieves a list of DHCP option groups from BloxOneDDI
+        Retrieves a list of DHCP option groups from Universal DDI
 
     .DESCRIPTION
-        This function is used to query a list DHCP option groups from BloxOneDDI.
+        This function is used to query a list DHCP option groups from Universal DDI.
 
     .PARAMETER Name
         The name of the DHCP group to filter by

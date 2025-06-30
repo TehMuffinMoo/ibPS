@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1FixedAddress
 
 ## SYNOPSIS
-Retrieves a list of Fixed Addresses in BloxOneDDI IPAM
+Retrieves a list of Fixed Addresses in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1FixedAddress [[-IP] <String>] [[-Name] <String>] [[-Space] <String>] [[-Li
 ```
 
 ## DESCRIPTION
-This function is used to query a list of Fixed Addresses in BloxOneDDI IPAM
+This function is used to query a list of Fixed Addresses in Universal DDI IPAM
 
 ## EXAMPLES
 

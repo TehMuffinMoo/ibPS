@@ -1,10 +1,10 @@
 ﻿function Set-B1Subnet {
     <#
     .SYNOPSIS
-        Updates an existing subnet in BloxOneDDI IPAM
+        Updates an existing subnet in Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to update an existing subnet in BloxOneDDI IPAM
+        This function is used to update an existing subnet in Universal DDI IPAM
 
     .PARAMETER Subnet
         The network address of the subnet you want to update

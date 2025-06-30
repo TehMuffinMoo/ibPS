@@ -1,22 +1,22 @@
 ﻿function Stop-B1Service {
     <#
     .SYNOPSIS
-        Stops a BloxOneDDI Service
+        Stops a Infoblox Portal Service
 
     .DESCRIPTION
-        This function is used to stop a BloxOneDDI Service
+        This function is used to stop a Infoblox Portal Service
 
     .PARAMETER Name
-        The name of the BloxOneDDI Service to stop
+        The name of the service to stop
 
     .PARAMETER Object
-        The BloxOneDDI Service Object(s) to stop. Accepts pipeline input
+        The Infoblox Portal Service Object(s) to stop. Accepts pipeline input
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
-        PS> Stop-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+        PS> Stop-B1Service -Name "dns_ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI
@@ -53,13 +53,13 @@
       } else {
           $Object = Get-B1Service -Name $Name -Strict -Detailed
           if (!($Object)) {
-              Write-Error "Unable to find BloxOne Service: $($Name)"
+              Write-Error "Unable to find service: $($Name)"
               return $null
           }
           $ServiceID = $Object.id
       }
 
-      if($PSCmdlet.ShouldProcess("Stop BloxOne Service: $($Object.name)","Stop BloxOne Service: $($Object.name)",$MyInvocation.MyCommand)){
+      if($PSCmdlet.ShouldProcess("Stop Service: $($Object.name)","Stop Service: $($Object.name)",$MyInvocation.MyCommand)){
         Write-Host "Stopping $($Object.name).." -ForegroundColor Cyan
         $Object.desired_state = "Stop"
         $JSON = $Object | ConvertTo-Json -Depth 3 -Compress

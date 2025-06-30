@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Service
 
 ## SYNOPSIS
-Retrieves a list of BloxOneDDI Services
+Retrieves a list of Infoblox Portal Services
 
 ## SYNTAX
 
@@ -19,13 +19,13 @@ Get-B1Service [-Name <String>] [-Type <String>] [-Detailed] [-Limit <Int32>] [-O
 ```
 
 ## DESCRIPTION
-This function is used to query a list of deployed BloxOneDDI Services/Containers
+This function is used to query a list of deployed Infoblox Portal Services/Containers
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
+Get-B1Service -Name "dns_ddihost1.mydomain.corp" -Detailed -Strict
 ```
 
 ## PARAMETERS

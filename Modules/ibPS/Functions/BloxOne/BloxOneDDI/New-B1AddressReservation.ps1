@@ -1,10 +1,10 @@
 ﻿function New-B1AddressReservation {
     <#
     .SYNOPSIS
-        Creates a new address reservation in BloxOneDDI IPAM
+        Creates a new address reservation in Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to create a new address reservation in BloxOneDDI IPAM
+        This function is used to create a new address reservation in Universal DDI IPAM
 
     .PARAMETER Address
         The IP address for the new reservation

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1HostLocalAccess
 
 ## SYNOPSIS
-Checks the Bootstrap UI Local Access status for the given BloxOne Host
+Checks the Bootstrap UI Local Access status for the given NIOS-X Host
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Get-B1HostLocalAccess -OPH <PSObject[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to check the Bootstrap UI Local Access status for the given BloxOne Host
+This function is used to check the Bootstrap UI Local Access status for the given NIOS-X Host
 
 ## EXAMPLES
 
@@ -52,7 +52,7 @@ time_left   period       enabled   B1Host
 ## PARAMETERS
 
 ### -B1Host
-The name of the BloxOne Host to check the current local access status for
+The name of the NIOS-X Host to check the current local access status for
 
 ```yaml
 Type: String
@@ -67,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -OPH
-The BloxOne Host object to check the current local access status for.
+The NIOS-X Host object to check the current local access status for.
 This accepts pipeline input from Get-B1Host
 
 ```yaml

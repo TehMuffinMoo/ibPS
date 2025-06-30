@@ -1,10 +1,10 @@
 ﻿function Get-B1GlobalNTPConfig {
     <#
     .SYNOPSIS
-        Retrieves the BloxOneDDI Global NTP Configuration
+        Retrieves the Universal DDI Global NTP Configuration
 
     .DESCRIPTION
-        This function is used to retrieve the BloxOneDDI Global NTP Configuration
+        This function is used to retrieve the Universal DDI Global NTP Configuration
 
     .EXAMPLE
         PS> Get-B1GlobalNTPConfig

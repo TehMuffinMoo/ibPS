@@ -1,10 +1,10 @@
 ﻿function Get-B1ForwardNSG {
     <#
     .SYNOPSIS
-        Retrieves a list of Forward DNS Server Groups from BloxOneDDI
+        Retrieves a list of Forward DNS Server Groups from Universal DDI
 
     .DESCRIPTION
-        This function is used to query a list Forward DNS Server Groups from BloxOneDDI
+        This function is used to query a list Forward DNS Server Groups from Universal DDI
 
     .PARAMETER Name
         The name of the Forward DNS Server Group

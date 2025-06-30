@@ -1,10 +1,10 @@
 ﻿function New-B1Record {
     <#
     .SYNOPSIS
-        Creates a new DNS record in BloxOneDDI
+        Creates a new DNS record in Universal DDI
 
     .DESCRIPTION
-        This function is used to create a new DNS record in BloxOneDDI
+        This function is used to create a new DNS record in Universal DDI
 
     .PARAMETER Type
         The record type to create

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1AddressBlock
 
 ## SYNOPSIS
-Removes an address block from BloxOneDDI IPAM
+Removes an address block from Universal DDI IPAM
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Remove-B1AddressBlock [-Recurse] -Object <Object> [-Force] [-WhatIf] [-Confirm] 
 ```
 
 ## DESCRIPTION
-This function is used to remove an address block from BloxOneDDI IPAM
+This function is used to remove an address block from Universal DDI IPAM
 
 ## EXAMPLES
 

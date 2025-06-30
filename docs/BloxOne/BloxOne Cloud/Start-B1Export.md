@@ -168,7 +168,7 @@ Accept wildcard characters: False
 ```
 
 ### -Bootstrap
-Use this switch to enable BloxOne Host Bootstrap Configuration to be included in the export/backup
+Use this switch to enable NIOS-X Host Bootstrap Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
@@ -183,7 +183,7 @@ Accept wildcard characters: False
 ```
 
 ### -B1Hosts
-Use this switch to enable BloxOne Host Configuration to be included in the export/backup
+Use this switch to enable NIOS-X Host Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter

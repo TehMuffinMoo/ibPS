@@ -1,10 +1,10 @@
 ﻿function Get-B1DNSHost {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOneDDI DNS Hosts
+        Retrieves a list of Universal DDI DNS Hosts
 
     .DESCRIPTION
-        This function is used to query a list of BloxOneDDI DNS Hosts
+        This function is used to query a list of Universal DDI DNS Hosts
 
     .PARAMETER Name
         The name of the DNS Host to filter by
@@ -44,7 +44,7 @@
         Return results based on DNS Config Profile id
 
     .EXAMPLE
-        PS> Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
+        PS> Get-B1DNSHost -Name "ddihost1.mydomain.corp" -IP "10.10.10.10"
 
     .FUNCTIONALITY
         Universal DDI

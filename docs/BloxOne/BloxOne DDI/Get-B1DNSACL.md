@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DNSACL
 
 ## SYNOPSIS
-Retrieves a list of BloxOneDDI DNS Access Control Lists
+Retrieves a list of Universal DDI DNS Access Control Lists
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DNSACL [[-Name] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI DNS Access Control Lists
+This function is used to query a list of Universal DDI DNS Access Control Lists
 
 ## EXAMPLES
 

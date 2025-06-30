@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1ForwardNSG
 
 ## SYNOPSIS
-Retrieves a list of Forward DNS Server Groups from BloxOneDDI
+Retrieves a list of Forward DNS Server Groups from Universal DDI
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1ForwardNSG [[-Name] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int
 ```
 
 ## DESCRIPTION
-This function is used to query a list Forward DNS Server Groups from BloxOneDDI
+This function is used to query a list Forward DNS Server Groups from Universal DDI
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1AuthoritativeZone
 
 ## SYNOPSIS
-Creates a new Authoritative Zone in BloxOneDDI
+Creates a new Authoritative Zone in Universal DDI
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1AuthoritativeZone [-Type] <String> [-FQDN] <String> [-View] <Object> [[-DN
 ```
 
 ## DESCRIPTION
-This function is used to create a new Authoritative Zone in BloxOneDDI
+This function is used to create a new Authoritative Zone in Universal DDI
 
 ## EXAMPLES
 

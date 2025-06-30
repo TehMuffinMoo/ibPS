@@ -1,10 +1,10 @@
 ﻿function Get-B1HAGroup {
     <#
     .SYNOPSIS
-        Queries a list of HA Groups from BloxOneDDI
+        Queries a list of HA Groups from Universal DDI
 
     .DESCRIPTION
-        This function is used to query a list of HA Group(s) from BloxOneDDI
+        This function is used to query a list of HA Group(s) from Universal DDI
 
     .PARAMETER Name
         The name of the HA Group to filter by

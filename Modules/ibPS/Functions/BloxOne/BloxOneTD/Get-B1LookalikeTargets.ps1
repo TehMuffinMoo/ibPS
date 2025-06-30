@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to query a list of lookalike target domains for the account
-        The Lookalike Target Domains are second-level domains BloxOne uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
+        The Lookalike Target Domains are second-level domains Threat Defense uses to detect lookalike FQDNs against, i.e the list of defined lookalike domains to monitor.
 
     .EXAMPLE
         PS> Get-B1LookalikeTargets

@@ -1,10 +1,10 @@
 ﻿function Get-B1DNSView {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOneDDI DNS Views
+        Retrieves a list of Universal DDI DNS Views
 
     .DESCRIPTION
-        This function is used to query a list of BloxOneDDI DNS Views
+        This function is used to query a list of Universal DDI DNS Views
 
     .PARAMETER Name
         The name of the DNS View to filter by

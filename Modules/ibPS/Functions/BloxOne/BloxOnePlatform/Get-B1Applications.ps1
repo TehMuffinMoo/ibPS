@@ -1,10 +1,10 @@
 ﻿function Get-B1Applications {
     <#
     .SYNOPSIS
-        Retrieves a list of supported BloxOneDDI Applications
+        Retrieves a list of supported Infoblox Portal Applications
 
     .DESCRIPTION
-        This function is used query a list of supported BloxOneDDI Applications/Services
+        This function is used query a list of supported Infoblox Portal Applications/Services
 
     .EXAMPLE
         PS> Get-B1Applications
@@ -37,6 +37,6 @@
     if ($Results) {
       return $Results
     } else {
-      Write-Host "Error. No BloxOneDDI Applications found." -ForegroundColor Red
+      Write-Host "Error. No Applications found." -ForegroundColor Red
     }
 }

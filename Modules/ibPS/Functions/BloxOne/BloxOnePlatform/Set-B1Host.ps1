@@ -1,34 +1,35 @@
 ﻿function Set-B1Host {
     <#
     .SYNOPSIS
-        Updates an existing BloxOne Host
+        Updates an existing NIOS-X Host
 
     .DESCRIPTION
-        This function is used to update an existing BloxOne Host
+        This function is used to update an existing NIOS-X Host
 
     .PARAMETER Name
-        The name of the BloxOne Host to update.
+        The name of the NIOS-X Host to update.
 
     .PARAMETER NewName
-        Use -NewName to update the name of the BloxOne Host
+        Use -NewName to update the name of the NIOS-X Host
 
     .PARAMETER IP
-        The IP of the BloxOne Host to update.
+        The IP of the NIOS-X Host to update.
 
     .PARAMETER TimeZone
-        The TimeZone to set the BloxOne Host to, i.e "Europe/London"
+        The TimeZone to set the NIOS-X Host to, i.e "Europe/London"
 
     .PARAMETER Space
-        The name of the IP Space to assign the BloxOne Host to
+        The name of the IP Space to assign the NIOS-X Host to
 
     .PARAMETER Description
-        The description to update the BloxOne Host to
+        The description to update the NIOS-X Host to
 
     .PARAMETER Location
-        The updated Location for the specific BloxOne Host. Using the value 'None' will set it to Empty
+        The updated Location for the specific NIOS-X Host. Using the value 'None' will set it to Empty
 
     .PARAMETER Tags
-        A list of tags to apply to this BloxOne Host. This will overwrite existing tags.
+        A list of tags to apply to this 
+         Host. This will overwrite existing tags.
 
     .PARAMETER Object
         The host object to update. Accepts pipeline input from Get-B1Host
@@ -37,10 +38,10 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
+        PS> Set-B1Host -Name "ddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
 
     .EXAMPLE
-        PS> Get-B1Host -Name "bloxoneddihost1.mydomain.corp" | Set-B1Host -NewName "mynewhostname.mydomain.corp"
+        PS> Get-B1Host -Name "ddihost1.mydomain.corp" | Set-B1Host -NewName "mynewhostname.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI
@@ -153,13 +154,13 @@
 
       $JSON = $NewObj | Select-Object * -ExcludeProperty id,configs,created_at | ConvertTo-Json -Depth 10 -Compress
 
-      if($PSCmdlet.ShouldProcess("Update BloxOne Host`n$(JSONPretty($JSON))","Update BloxOne Host: $($NewObj.display_name) ($($NewObj.id))",$MyInvocation.MyCommand)){
+      if($PSCmdlet.ShouldProcess("Update NIOS-X Host`n$(JSONPretty($JSON))","Update NIOS-X Host: $($NewObj.display_name) ($($NewObj.id))",$MyInvocation.MyCommand)){
         $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$HostID" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         if ($($Results.id.split('/')[2]) -eq $($HostID)) {
-          Write-Host "Updated BloxOne Host Configuration $($NewObj.display_name) successfuly." -ForegroundColor Green
+          Write-Host "Updated NIOS-X Host Configuration $($NewObj.display_name) successfuly." -ForegroundColor Green
           return $Results
         } else {
-          Write-Error "Failed to update BloxOne Host Configuration on $($NewObj.display_name)."
+          Write-Error "Failed to update NIOS-X Host Configuration on $($NewObj.display_name)."
           return $Results
         }
       }

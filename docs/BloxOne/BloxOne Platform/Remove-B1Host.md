@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1Host
 
 ## SYNOPSIS
-Removes an existing BloxOneDDI Host
+Removes an existing NIOS-X Host
 
 ## SYNTAX
 
@@ -23,19 +23,19 @@ Remove-B1Host -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>
 ```
 
 ## DESCRIPTION
-This function is used to remove an existing BloxOneDDI Host
+This function is used to remove an existing NIOS-X Host
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
+Remove-B1Host -Name "ddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI host to remove
+The name of the NIOS-X Host to remove
 
 ```yaml
 Type: String
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-The BloxOneDDI Host Object(s) to remove.
+The NIOS-X Host Object(s) to remove.
 Accepts pipeline input
 
 ```yaml

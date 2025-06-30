@@ -1,10 +1,10 @@
 ﻿function New-B1HAGroup {
     <#
     .SYNOPSIS
-        Creates a new HA Group in BloxOneDDI
+        Creates a new HA Group in Universal DDI
 
     .DESCRIPTION
-        This function is used to create a new HA Group in BloxOneDDI
+        This function is used to create a new HA Group in Universal DDI
 
     .PARAMETER Name
         The name of the new HA Group
@@ -13,10 +13,10 @@
         The mode of the new HA Group
 
     .PARAMETER PrimaryNode
-        The hostname or FQDN of the primary BloxOneDDI Host
+        The hostname or FQDN of the primary NIOS-X Host
 
     .PARAMETER SecondaryNode
-        The hostname or FQDN of the secondary BloxOneDDI Host
+        The hostname or FQDN of the secondary NIOS-X Host
 
     .PARAMETER Description
         The description of the new HA Group
@@ -25,7 +25,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-          PS> New-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group"
+          PS> New-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "ddihost1.mydomain.corp" -SecondaryNode "ddihost2.mydomain.corp" -Description "DHCP HA Group"
 
     .FUNCTIONALITY
         Universal DDI

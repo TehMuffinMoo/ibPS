@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1Subnet
 
 ## SYNOPSIS
-Removes a subnet from BloxOneDDI IPAM
+Removes a subnet from Universal DDI IPAM
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Remove-B1Subnet [-Name <String>] -Object <Object> [-Force] [-WhatIf] [-Confirm] 
 ```
 
 ## DESCRIPTION
-This function is used to remove a subnet from BloxOneDDI IPAM
+This function is used to remove a subnet from Universal DDI IPAM
 
 ## EXAMPLES
 

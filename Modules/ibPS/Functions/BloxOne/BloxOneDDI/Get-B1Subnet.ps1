@@ -1,10 +1,10 @@
 ﻿function Get-B1Subnet {
     <#
     .SYNOPSIS
-        Queries a list of Subnets from the BloxOneDDI IPAM
+        Queries a list of Subnets from the Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to query a list of Subnets from the BloxOneDDI IPAM
+        This function is used to query a list of Subnets from the Universal DDI IPAM
 
     .PARAMETER Subnet
         Use this parameter to filter the list of Subnets by network address

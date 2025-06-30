@@ -1,13 +1,13 @@
 ﻿function Get-B1ServiceLog {
     <#
     .SYNOPSIS
-        Queries the BloxOneDDI Service Log
+        Queries the Infoblox Portal Service Log
 
     .DESCRIPTION
-        This function is used to query the BloxOneDDI Service Log. This log contains information from all containers on all BloxOneDDI Hosts, allowing you to query various types of diagnostic related data.
+        This function is used to query the Infoblox Portal Service Log. This log contains information from all containers on all NIOS-X Hosts, allowing you to query various types of diagnostic related data.
 
     .PARAMETER B1Host
-        Use this parameter to filter the log for events relating to a specific BloxOneDDI Host
+        Use this parameter to filter the log for events relating to a specific NIOS-X Host
 
     .PARAMETER Container
         A pre-defined list of known containers to filter against.
@@ -25,7 +25,7 @@
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
     .EXAMPLE
-        PS> Get-B1ServiceLog -B1Host "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
+        PS> Get-B1ServiceLog -B1Host "ddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
 
     .FUNCTIONALITY
         Universal DDI

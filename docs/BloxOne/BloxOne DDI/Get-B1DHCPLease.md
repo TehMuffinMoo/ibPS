@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPLease
 
 ## SYNOPSIS
-Retrieves a list of DHCP Leases from BloxOneDDI IPAM
+Retrieves a list of DHCP Leases from Universal DDI IPAM
 
 ## SYNTAX
 
@@ -32,7 +32,7 @@ Get-B1DHCPLease [-Address <String>] [-MACAddress <String>] [-Hostname <String>] 
 ```
 
 ## DESCRIPTION
-This function is used to query a list of DHCP Leases from BloxOneDDI IPAM
+This function is used to query a list of DHCP Leases from Universal DDI IPAM
 
 ## EXAMPLES
 

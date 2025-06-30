@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1FixedAddress
 
 ## SYNOPSIS
-Creates a new fixed addresses in BloxOneDDI IPAM
+Creates a new fixed addresses in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1FixedAddress [-IP] <String> [[-Name] <String>] [[-Description] <String>] [
 ```
 
 ## DESCRIPTION
-This function is used to create a new fixed addresses in BloxOneDDI IPAM
+This function is used to create a new fixed addresses in Universal DDI IPAM
 
 ## EXAMPLES
 

@@ -1,10 +1,10 @@
 ﻿function Get-B1DHCPOptionSpace {
     <#
     .SYNOPSIS
-        Retrieves a list of DHCP option spaces from BloxOneDDI
+        Retrieves a list of DHCP option spaces from Universal DDI
 
     .DESCRIPTION
-        This function is used to query a list DHCP option spaces from BloxOneDDI.
+        This function is used to query a list DHCP option spaces from Universal DDI.
 
     .PARAMETER Name
         The name of the DHCP option space to filter by

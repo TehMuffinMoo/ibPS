@@ -31,18 +31,18 @@ This function is used to updates an existing DNS Host
 
 ### EXAMPLE 1
 ```powershell
-Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
+Set-B1DNSHost -Name "ddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "ddihost1.mydomain.corp"
 ```
 
 ### EXAMPLE 2
 ```powershell
-Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" | Set-B1DNSHost -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
+Get-B1DNSHost -Name "ddihost1.mydomain.corp" | Set-B1DNSHost -DNSConfigProfile "Data Centre" -DNSName "ddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI DNS Host
+The name of the Universal DDI DNS Host
 
 ```yaml
 Type: String

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DelegatedZone
 
 ## SYNOPSIS
-Retrieves a list of delegated zones from BloxOneDDI
+Retrieves a list of delegated zones from Universal DDI
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Get-B1DelegatedZone [[-FQDN] <String>] [[-Disabled] <Boolean>] [-Strict] [[-View
 ```
 
 ## DESCRIPTION
-This function is used to query a list delegated zones from BloxOneDDI
+This function is used to query a list delegated zones from Universal DDI
 
 ## EXAMPLES
 

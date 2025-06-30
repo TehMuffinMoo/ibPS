@@ -1,10 +1,10 @@
 ﻿function Get-B1DNSACL {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOneDDI DNS Access Control Lists
+        Retrieves a list of Universal DDI DNS Access Control Lists
 
     .DESCRIPTION
-        This function is used to query a list of BloxOneDDI DNS Access Control Lists
+        This function is used to query a list of Universal DDI DNS Access Control Lists
 
     .PARAMETER Name
         The name of the DNS Access Control List to filter by

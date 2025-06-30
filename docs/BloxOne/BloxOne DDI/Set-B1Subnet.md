@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1Subnet
 
 ## SYNOPSIS
-Updates an existing subnet in BloxOneDDI IPAM
+Updates an existing subnet in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -34,7 +34,7 @@ Set-B1Subnet [-NewName <String>] [-HAGroup <String>] [-DHCPOptions <Object>] [-D
 ```
 
 ## DESCRIPTION
-This function is used to update an existing subnet in BloxOneDDI IPAM
+This function is used to update an existing subnet in Universal DDI IPAM
 
 ## EXAMPLES
 

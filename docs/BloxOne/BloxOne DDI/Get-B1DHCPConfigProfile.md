@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPConfigProfile
 
 ## SYNOPSIS
-Retrieves a list of DHCP Config Profiles from BloxOneDDI
+Retrieves a list of DHCP Config Profiles from Universal DDI
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DHCPConfigProfile [[-Name] <String>] [-Strict] [-IncludeInheritance] [[-Li
 ```
 
 ## DESCRIPTION
-This function is used to query a list of DHCP Config Profiles from BloxOneDDI
+This function is used to query a list of DHCP Config Profiles from Universal DDI
 
 ## EXAMPLES
 

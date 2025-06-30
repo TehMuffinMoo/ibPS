@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1AddressReservation
 
 ## SYNOPSIS
-Removes an address reservation from BloxOneDDI IPAM
+Removes an address reservation from Universal DDI IPAM
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Remove-B1AddressReservation -Object <Object> [-Force] [-WhatIf] [-Confirm] [<Com
 ```
 
 ## DESCRIPTION
-This function is used to remove an address reservation from BloxOneDDI IPAM
+This function is used to remove an address reservation from Universal DDI IPAM
 
 ## EXAMPLES
 

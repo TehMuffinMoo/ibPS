@@ -1,13 +1,13 @@
 ﻿function Get-B1BootstrapConfig {
     <#
     .SYNOPSIS
-        Retrieves the bootstrap configuration for a BloxOneDDI Host
+        Retrieves the bootstrap configuration for a NIOS-X Host
 
     .DESCRIPTION
-        This function is used to retrieve the bootstrap configuration for a BloxOneDDI Host
+        This function is used to retrieve the bootstrap configuration for a NIOS-X Host
 
     .PARAMETER B1Host
-        The name of the BloxOneDDI host to query the bootstrap config for
+        The name of the NIOS-X Host to query the bootstrap config for
 
     .PARAMETER Limit
         Use this parameter to limit the quantity of results. The default number of results is 100.
@@ -25,7 +25,7 @@
         Optionally return the list ordered by a particular value. If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy. Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
     .PARAMETER GetConfig
-        Specify the -GetConfig parameter to return only the BloxOne Hosts current config
+        Specify the -GetConfig parameter to return only the NIOS-X Hosts current config
 
     .EXAMPLE
         PS> Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1HAGroup
 
 ## SYNOPSIS
-Updates an existing HA Group in BloxOneDDI
+Updates an existing HA Group in Universal DDI
 
 ## SYNTAX
 
@@ -26,13 +26,13 @@ Set-B1HAGroup [-NewName <String>] [-Description <String>] [-Mode <String>] [-Pri
 ```
 
 ## DESCRIPTION
-This function is used to update an existing HA Group in BloxOneDDI
+This function is used to update an existing HA Group in Universal DDI
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Set-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group" -Tags @{"TagName"="TagValue"}
+Set-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "ddihost1.mydomain.corp" -SecondaryNode "ddihost2.mydomain.corp" -Description "DHCP HA Group" -Tags @{"TagName"="TagValue"}
 ```
 
 ## PARAMETERS
@@ -98,7 +98,7 @@ Accept wildcard characters: False
 ```
 
 ### -PrimaryNode
-The hostname or FQDN of the primary BloxOneDDI Host to update
+The hostname or FQDN of the primary NIOS-X Host to update
 
 ```yaml
 Type: String
@@ -113,7 +113,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecondaryNode
-The hostname or FQDN of the secondary BloxOneDDI Host to update
+The hostname or FQDN of the secondary NIOS-X Host to update
 
 ```yaml
 Type: String

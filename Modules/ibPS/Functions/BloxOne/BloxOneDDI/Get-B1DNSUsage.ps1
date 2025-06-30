@@ -1,10 +1,10 @@
 ﻿function Get-B1DNSUsage {
     <#
     .SYNOPSIS
-        Queries an IP Address against BloxOneDDI IPAM
+        Queries an IP Address against Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to query an IP Address against the BloxOneDDI IPAM and return any records associated with that IP.
+        This function is used to query an IP Address against the Universal DDI IPAM and return any records associated with that IP.
 
     .PARAMETER Address
         Indicates whether to search by DHCP Range

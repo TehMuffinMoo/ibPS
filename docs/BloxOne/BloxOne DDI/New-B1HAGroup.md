@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1HAGroup
 
 ## SYNOPSIS
-Creates a new HA Group in BloxOneDDI
+Creates a new HA Group in Universal DDI
 
 ## SYNTAX
 
@@ -18,13 +18,13 @@ New-B1HAGroup [-Name] <String> [-Mode] <String> [-PrimaryNode] <String> [-Second
 ```
 
 ## DESCRIPTION
-This function is used to create a new HA Group in BloxOneDDI
+This function is used to create a new HA Group in Universal DDI
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-New-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group"
+New-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "ddihost1.mydomain.corp" -SecondaryNode "ddihost2.mydomain.corp" -Description "DHCP HA Group"
 ```
 
 ## PARAMETERS
@@ -60,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -PrimaryNode
-The hostname or FQDN of the primary BloxOneDDI Host
+The hostname or FQDN of the primary NIOS-X Host
 
 ```yaml
 Type: String
@@ -75,7 +75,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecondaryNode
-The hostname or FQDN of the secondary BloxOneDDI Host
+The hostname or FQDN of the secondary NIOS-X Host
 
 ```yaml
 Type: String

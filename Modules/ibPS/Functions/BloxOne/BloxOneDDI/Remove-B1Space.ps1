@@ -1,10 +1,10 @@
 ﻿function Remove-B1Space {
     <#
     .SYNOPSIS
-        Removes an IP Space from BloxOneDDI IPAM
+        Removes an IP Space from Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to remove an IP Space from BloxOneDDI IPAM
+        This function is used to remove an IP Space from Universal DDI IPAM
 
     .PARAMETER Name
         The name of the IP Space to remove

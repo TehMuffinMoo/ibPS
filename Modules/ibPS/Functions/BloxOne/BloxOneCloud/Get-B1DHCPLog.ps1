@@ -1,10 +1,10 @@
 ﻿function Get-B1DHCPLog {
     <#
     .SYNOPSIS
-        Queries the BloxOneDDI DHCP Log
+        Queries the Universal DDI DHCP Log
 
     .DESCRIPTION
-        This function is used to query the BloxOneDDI DHCP Logs. This is the log which contains all DHCP request/response information.
+        This function is used to query the Universal DDI DHCP Logs. This is the log which contains all DHCP request/response information.
 
     .PARAMETER Hostname
         Use this parameter to filter the DHCP Logs by hostname or FQDN
@@ -16,7 +16,7 @@
         Used to filter the DHCP Log by source IP
 
     .PARAMETER DHCPServer
-        Filter the DHCP Logs by one or more DHCP Servers (i.e @("mybloxoneddihost1.mydomain.corp","mybloxoneddihost2.mydomain.corp")
+        Filter the DHCP Logs by one or more DHCP Servers (i.e @("ddihost1.mydomain.corp","myddihost2.mydomain.corp")
 
     .PARAMETER Protocol
         Filter the DHCP Logs by IP Protocol (i.e "IPv4 Address")
@@ -43,7 +43,7 @@
         Use this parameter to offset the results by the value entered for the purpose of pagination
 
     .EXAMPLE
-        PS> Get-B1DHCPLog -Hostname "dhcpclient.mydomain.corp" -State "Assignments" -IP "10.10.10.100" -Protocol "IPv4 Address" -DHCPServer "bloxoneddihost1.mydomain.corp" -Start (Get-Date).AddHours(-24) -End (Get-Date) -Limit 100 -Offset 0
+        PS> Get-B1DHCPLog -Hostname "dhcpclient.mydomain.corp" -State "Assignments" -IP "10.10.10.100" -Protocol "IPv4 Address" -DHCPServer "ddihost1.mydomain.corp" -Start (Get-Date).AddHours(-24) -End (Get-Date) -Limit 100 -Offset 0
 
     .FUNCTIONALITY
         Universal DDI

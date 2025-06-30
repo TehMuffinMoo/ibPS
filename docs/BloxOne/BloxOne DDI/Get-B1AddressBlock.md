@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1AddressBlock
 
 ## SYNOPSIS
-Queries a list of Address Blocks from the BloxOneDDI IPAM
+Queries a list of Address Blocks from the Universal DDI IPAM
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Get-B1AddressBlock [[-Subnet] <String>] [[-CIDR] <Int32>] [[-Name] <String>] [[-
 ```
 
 ## DESCRIPTION
-This function is used to query a list of Address Blocks from the BloxOneDDI IPAM
+This function is used to query a list of Address Blocks from the Universal DDI IPAM
 
 ## EXAMPLES
 

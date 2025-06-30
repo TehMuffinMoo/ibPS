@@ -1,10 +1,10 @@
 ﻿function Get-B1DFP {
     <#
     .SYNOPSIS
-        Queries a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
+        Queries a list of Universal DDI DFPs (DNS Forwarding Proxies)
 
     .DESCRIPTION
-        Use this method query a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
+        Use this method query a list of Universal DDI DFPs (DNS Forwarding Proxies)
 
     .PARAMETER Name
         Filter the results by name

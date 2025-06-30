@@ -1,10 +1,10 @@
 ﻿function Set-B1HAGroup {
     <#
     .SYNOPSIS
-        Updates an existing HA Group in BloxOneDDI
+        Updates an existing HA Group in Universal DDI
 
     .DESCRIPTION
-        This function is used to update an existing HA Group in BloxOneDDI
+        This function is used to update an existing HA Group in Universal DDI
 
     .PARAMETER Name
         The name of the HA Group to modify
@@ -19,10 +19,10 @@
         The mode to update the HA Group to
 
     .PARAMETER PrimaryNode
-        The hostname or FQDN of the primary BloxOneDDI Host to update
+        The hostname or FQDN of the primary NIOS-X Host to update
 
     .PARAMETER SecondaryNode
-        The hostname or FQDN of the secondary BloxOneDDI Host to update
+        The hostname or FQDN of the secondary NIOS-X Host to update
 
     .PARAMETER Tags
         Any tags you want to apply to the HA Group
@@ -34,7 +34,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-          PS> Set-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "bloxoneddihost1.mydomain.corp" -SecondaryNode "bloxoneddihost2.mydomain.corp" -Description "DHCP HA Group" -Tags @{"TagName"="TagValue"}
+          PS> Set-B1HAGroup -Name "MyHAGroup" -Mode "active-passive" -PrimaryNode "ddihost1.mydomain.corp" -SecondaryNode "ddihost2.mydomain.corp" -Description "DHCP HA Group" -Tags @{"TagName"="TagValue"}
 
     .FUNCTIONALITY
         Universal DDI

@@ -1,10 +1,10 @@
 ﻿function Get-B1CSPAPIKey {
     <#
     .SYNOPSIS
-        Retrieves the stored BloxOneDDI API Key from the local machine, if available.
+        Retrieves the stored Infoblox Portal API Key from the local machine, if available.
 
     .DESCRIPTION
-        This function will retrieve the saved BloxOneDDI API Key from the local user/machine if it has previously been stored.
+        This function will retrieve the saved Infoblox Portal API Key from the local user/machine if it has previously been stored.
 
     .EXAMPLE
         PS> Get-B1CSPAPIKey

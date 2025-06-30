@@ -1,13 +1,13 @@
 ﻿function Start-B1DiagnosticTask {
     <#
     .SYNOPSIS
-        Initiates a BloxOneDDI Diagnostic Task
+        Initiates a NIOS-X Diagnostic Task
 
     .DESCRIPTION
-        This function is used to initiate a BloxOneDDI Diagnostic Task
+        This function is used to initiate a NIOS-X Diagnostic Task
 
     .PARAMETER B1Host
-        The name/fqdn of the BloxOneDDI Host to run the task against
+        The name/fqdn of the NIOS-X Host to run the task against
 
     .PARAMETER Traceroute
         This switch indicates you want to use the traceroute test
@@ -37,7 +37,7 @@
         Indicates whether the function should wait for results to be returned from the diagnostic task, or start it in the background only. This defaults to $true
 
     .PARAMETER Object
-        The BloxOneDDI Host Object(s) to run the diagnostic task on. Accepts pipeline input
+        The NIOS-X Host Object(s) to run the diagnostic task on. Accepts pipeline input
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
@@ -98,7 +98,7 @@
         } else {
             $Object = Get-B1Host -Name $B1Host -Strict -Detailed
             if (!($Object)) {
-                Write-Error "Unable to find BloxOne Host: $($B1Host)"
+                Write-Error "Unable to find NIOS-X Host: $($B1Host)"
                 return $null
             }
         }
@@ -157,7 +157,7 @@
         }
 
         $JSON = $splat | ConvertTo-Json
-        if($PSCmdlet.ShouldProcess("Start BloxOne Diagnostic Task: $($Object.display_name)","Start BloxOne Diagnostic Task on: $($Object.display_name)",$MyInvocation.MyCommand)){
+        if($PSCmdlet.ShouldProcess("Start NIOS-X Diagnostic Task: $($Object.display_name)","Start NIOS-X Diagnostic Task on: $($Object.display_name)",$MyInvocation.MyCommand)){
             $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
             if ($Result) {
                 if ($WaitForOutput) {

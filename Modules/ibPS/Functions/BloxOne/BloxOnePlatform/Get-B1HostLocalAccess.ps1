@@ -1,16 +1,16 @@
 ﻿function Get-B1HostLocalAccess {
     <#
     .SYNOPSIS
-        Checks the Bootstrap UI Local Access status for the given BloxOne Host
+        Checks the Bootstrap UI Local Access status for the given NIOS-X Host
 
     .DESCRIPTION
-        This function is used to check the Bootstrap UI Local Access status for the given BloxOne Host
+        This function is used to check the Bootstrap UI Local Access status for the given NIOS-X Host
 
     .PARAMETER B1Host
-        The name of the BloxOne Host to check the current local access status for
+        The name of the NIOS-X Host to check the current local access status for
 
     .PARAMETER OPH
-        The BloxOne Host object to check the current local access status for. This accepts pipeline input from Get-B1Host
+        The NIOS-X Host object to check the current local access status for. This accepts pipeline input from Get-B1Host
 
     .EXAMPLE
         PS> Get-B1HostLocalAccess -B1Host "my-host-1"
@@ -62,7 +62,7 @@
         } else {
             $OPH = Get-B1Host -Name $B1Host -Strict
             if (!($OPH)) {
-                Write-Error "Error. Unable to find BloxOne Host: $($B1Host)"
+                Write-Error "Error. Unable to find NIOS-X Host: $($B1Host)"
                 break
             } else {
                 $OPHID = $OPH.ophid

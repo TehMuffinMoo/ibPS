@@ -1,16 +1,16 @@
 ﻿function Revoke-B1DNSConfigProfile {
     <#
     .SYNOPSIS
-        Removes a DNS Config Profile from one or more BloxOneDDI hosts
+        Removes a DNS Config Profile from one or more NIOS-X Hosts
 
     .DESCRIPTION
-        This function is used to remove a DNS Config Profile from one or more BloxOneDDI hosts
+        This function is used to remove a DNS Config Profile from one or more NIOS-X Hosts
 
     .PARAMETER Name
         The name of the DNS Config Profile to remove
 
     .PARAMETER Hosts
-        A list of BloxOneDDI Hosts to remove the DNS Config Profile from
+        A list of NIOS-X Hosts to remove the DNS Config Profile from
 
     .PARAMETER Object
         The DHCP Host object(s) to revoke DNS Config Profiles from. Accepts pipeline input.
@@ -19,7 +19,7 @@
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
-        PS> Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+        PS> Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "ddihost1.mydomain.corp","ddihost2.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI

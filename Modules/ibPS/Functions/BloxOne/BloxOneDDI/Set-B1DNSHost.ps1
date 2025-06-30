@@ -7,7 +7,7 @@
         This function is used to updates an existing DNS Host
 
     .PARAMETER Name
-        The name of the BloxOneDDI DNS Host
+        The name of the Universal DDI DNS Host
 
     .PARAMETER DNSConfigProfile
         The name of the DNS Config Profile to apply to the DNS Host. This will overwrite the existing value. Using the value 'None' will remove the DNS Config Profile from the host.
@@ -25,10 +25,10 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> Set-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
+        PS> Set-B1DNSHost -Name "ddihost1.mydomain.corp" -DNSConfigProfile "Data Centre" -DNSName "ddihost1.mydomain.corp"
 
     .EXAMPLE
-        Get-B1DNSHost -Name "bloxoneddihost1.mydomain.corp" | Set-B1DNSHost -DNSConfigProfile "Data Centre" -DNSName "bloxoneddihost1.mydomain.corp"
+        Get-B1DNSHost -Name "ddihost1.mydomain.corp" | Set-B1DNSHost -DNSConfigProfile "Data Centre" -DNSName "ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI

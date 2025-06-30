@@ -1,10 +1,10 @@
 ﻿function Set-B1ForwardNSG {
     <#
     .SYNOPSIS
-        Updates a Forward DNS Server Group in BloxOneDDI
+        Updates a Forward DNS Server Group in Universal DDI
 
     .DESCRIPTION
-        This function is used to update a Forward DNS Server Group in BloxOneDDI
+        This function is used to update a Forward DNS Server Group in Universal DDI
 
     .PARAMETER Name
         The name of the Forward DNS Server Group
@@ -34,10 +34,10 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> Set-B1ForwardNSG -Name "Infoblox DTC" -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+        PS> Set-B1ForwardNSG -Name "Infoblox DTC" -AddHosts -Hosts "ddihost1.mydomain.corp","ddihost2.mydomain.corp"
 
     .EXAMPLE
-        PS> Get-B1ForwardNSG -Name "Infoblox DTC" | Set-B1ForwardNSG -AddHosts -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp" -NewName "Infoblox DTC New"
+        PS> Get-B1ForwardNSG -Name "Infoblox DTC" | Set-B1ForwardNSG -AddHosts -Hosts "ddihost1.mydomain.corp","ddihost2.mydomain.corp" -NewName "Infoblox DTC New"
 
     .FUNCTIONALITY
         Universal DDI

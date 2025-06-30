@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPHost
 
 ## SYNOPSIS
-Retrieves a list of BloxOneDDI DHCP Hosts
+Retrieves a list of Universal DDI DHCP Hosts
 
 ## SYNTAX
 
@@ -19,18 +19,18 @@ Get-B1DHCPHost [[-Name] <String>] [[-IP] <String>] [-Strict] [[-Limit] <Int32>] 
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI DHCP Hosts
+This function is used to query a list of Universal DDI DHCP Hosts
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
+Get-B1DHCPHost -Name "ddihost1.mydomain.corp" -IP "10.10.10.10"
 ```
 
 ### EXAMPLE 2
 ```powershell
-$AssociatedSubnets = (Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -Associations).Subnets
+$AssociatedSubnets = (Get-B1DHCPHost -Name "ddihost1.mydomain.corp" -Associations).Subnets
 PS> $AssociatedSubnets | ft name,address,cidr,comment
 
 name      address   cidr  comment

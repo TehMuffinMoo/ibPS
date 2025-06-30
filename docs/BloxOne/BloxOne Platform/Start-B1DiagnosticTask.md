@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-B1DiagnosticTask
 
 ## SYNOPSIS
-Initiates a BloxOneDDI Diagnostic Task
+Initiates a NIOS-X Diagnostic Task
 
 ## SYNTAX
 
@@ -43,7 +43,7 @@ Start-B1DiagnosticTask [-B1Host <String>] [-DHCPConfiguration] [-WaitForOutput <
 ```
 
 ## DESCRIPTION
-This function is used to initiate a BloxOneDDI Diagnostic Task
+This function is used to initiate a NIOS-X Diagnostic Task
 
 ## EXAMPLES
 
@@ -60,7 +60,7 @@ Start-B1DiagnosticTask -DHCPConfiguration
 ## PARAMETERS
 
 ### -B1Host
-The name/fqdn of the BloxOneDDI Host to run the task against
+The name/fqdn of the NIOS-X Host to run the task against
 
 ```yaml
 Type: String
@@ -211,7 +211,7 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-The BloxOneDDI Host Object(s) to run the diagnostic task on.
+The NIOS-X Host Object(s) to run the diagnostic task on.
 Accepts pipeline input
 
 ```yaml

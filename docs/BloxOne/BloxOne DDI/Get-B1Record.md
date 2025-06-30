@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Record
 
 ## SYNOPSIS
-Queries DNS records from BloxOneDDI
+Queries DNS records from Universal DDI
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Get-B1Record [[-Type] <String>] [[-Name] <String>] [[-Zone] <String>] [[-rdata] 
 ```
 
 ## DESCRIPTION
-This function is used to query DNS records from BloxOneDDI
+This function is used to query DNS records from Universal DDI
 
 ## EXAMPLES
 

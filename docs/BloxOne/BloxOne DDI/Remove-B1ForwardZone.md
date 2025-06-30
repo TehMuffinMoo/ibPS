@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1ForwardZone
 
 ## SYNOPSIS
-Removes a Forward Zone from BloxOneDDI
+Removes a Forward Zone from Universal DDI
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1ForwardZone -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonPara
 ```
 
 ## DESCRIPTION
-This function is used to remove a Forward Zone from BloxOneDDI
+This function is used to remove a Forward Zone from Universal DDI
 
 ## EXAMPLES
 

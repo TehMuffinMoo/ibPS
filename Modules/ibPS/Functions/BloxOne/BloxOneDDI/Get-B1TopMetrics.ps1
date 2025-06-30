@@ -1,10 +1,10 @@
 ﻿function Get-B1TopMetrics {
     <#
     .SYNOPSIS
-        Retrieves top metrics from BloxOneDDI
+        Retrieves top metrics from Universal DDI
 
     .DESCRIPTION
-        This function is used to retrieve top metrics from BloxOneDDI
+        This function is used to retrieve top metrics from Universal DDI
 
     .PARAMETER TopQueries
         Use this parameter to select Top Queries as the top metric category

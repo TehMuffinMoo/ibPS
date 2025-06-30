@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DNSView
 
 ## SYNOPSIS
-Retrieves a list of BloxOneDDI DNS Views
+Retrieves a list of Universal DDI DNS Views
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DNSView [[-Name] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI DNS Views
+This function is used to query a list of Universal DDI DNS Views
 
 ## EXAMPLES
 

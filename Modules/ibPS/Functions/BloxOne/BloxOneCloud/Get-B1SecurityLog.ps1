@@ -1,10 +1,10 @@
 ﻿function Get-B1SecurityLog {
     <#
     .SYNOPSIS
-        Queries the BloxOneDDI Security Log
+        Queries the Universal DDI Security Log
 
     .DESCRIPTION
-        This function is used to query the BloxOneDDI Security Log. This log contains web server information relating to the Cloud Services Portal Web UI.
+        This function is used to query the Universal DDI Security Log. This log contains web server information relating to the Cloud Services Portal Web UI.
 
     .PARAMETER Username
         The username of which you would like to filter the audit log with

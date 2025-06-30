@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DNSUsage
 
 ## SYNOPSIS
-Queries an IP Address against BloxOneDDI IPAM
+Queries an IP Address against Universal DDI IPAM
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1DNSUsage [[-Address] <String>] [[-Space] <String>] [-ParseDetails] [<Commo
 ```
 
 ## DESCRIPTION
-This function is used to query an IP Address against the BloxOneDDI IPAM and return any records associated with that IP.
+This function is used to query an IP Address against the Universal DDI IPAM and return any records associated with that IP.
 
 ## EXAMPLES
 

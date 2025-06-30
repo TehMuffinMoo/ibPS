@@ -1,22 +1,22 @@
 ﻿function Remove-B1Host {
     <#
     .SYNOPSIS
-        Removes an existing BloxOneDDI Host
+        Removes an existing NIOS-X Host
 
     .DESCRIPTION
-        This function is used to remove an existing BloxOneDDI Host
+        This function is used to remove an existing NIOS-X Host
 
     .PARAMETER Name
-        The name of the BloxOneDDI host to remove
+        The name of the NIOS-X Host to remove
 
     .PARAMETER Object
-        The BloxOneDDI Host Object(s) to remove. Accepts pipeline input
+        The NIOS-X Host Object(s) to remove. Accepts pipeline input
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
-        PS> Remove-B1Host -Name "bloxoneddihost1.mydomain.corp"
+        PS> Remove-B1Host -Name "ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI
@@ -57,7 +57,7 @@
       } else {
           $Object = Get-B1Host -Name $Name -Strict -Detailed
           if (!($Object)) {
-              Write-Error "Unable to find BloxOne Host: $($Name)"
+              Write-Error "Unable to find NIOS-X Host: $($Name)"
               return $null
           }
           $HostID = $Object.id
@@ -67,9 +67,9 @@
         Invoke-CSP -Method DELETE -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$($HostID)" | Out-Null
         $HID = Get-B1Host -id $($Object.id)
         if ($HID) {
-          Write-Host "Error. Failed to delete BloxOneDDI Host: $($HID.display_name)" -ForegroundColor Red
+          Write-Host "Error. Failed to delete NIOS-X Host: $($HID.display_name)" -ForegroundColor Red
         } else {
-          Write-Host "Successfully deleted BloxOneDDI Host: $($Object.display_name)" -ForegroundColor Green
+          Write-Host "Successfully deleted NIOS-X Host: $($Object.display_name)" -ForegroundColor Green
         }
       }
     }

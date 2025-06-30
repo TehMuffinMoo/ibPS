@@ -8,7 +8,7 @@ schema: 2.0.0
 # Search-B1
 
 ## SYNOPSIS
-Query the BloxOneDDI CSP Global Search
+query the Universal DDI CSP Global Search
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Search-B1 [-Query] <String> [-IncludeQueryDetails] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query the BloxOneDDI CSP Global Search
+This function is used to query the Universal DDI CSP Global Search
 
 ## EXAMPLES
 

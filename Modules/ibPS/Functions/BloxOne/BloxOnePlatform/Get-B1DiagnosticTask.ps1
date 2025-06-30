@@ -1,10 +1,10 @@
 ﻿function Get-B1DiagnosticTask {
     <#
     .SYNOPSIS
-        Query a list of BloxOneDDI Diagnostic Tasks
+        Query a list of Universal DDI Diagnostic Tasks
 
     .DESCRIPTION
-        This function is used to query a list of BloxOneDDI Diagnostic Tasks
+        This function is used to query a list of Universal DDI Diagnostic Tasks
 
     .PARAMETER id
         The id of the diagnostic task to filter by

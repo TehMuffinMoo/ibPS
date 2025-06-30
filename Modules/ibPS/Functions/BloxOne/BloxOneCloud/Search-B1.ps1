@@ -1,10 +1,10 @@
 ﻿function Search-B1 {
     <#
     .SYNOPSIS
-        Query the BloxOneDDI CSP Global Search
+        Query the Universal DDI CSP Global Search
 
     .DESCRIPTION
-        This function is used to query the BloxOneDDI CSP Global Search
+        This function is used to query the Universal DDI CSP Global Search
 
     .PARAMETER Query
         Search query

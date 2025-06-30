@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1Host
 
 ## SYNOPSIS
-Creates a new BloxOneDDI Host
+Creates a new NIOS-X Host
 
 ## SYNTAX
 
@@ -18,19 +18,19 @@ New-B1Host [-Name] <String> [-Space] <String> [[-Location] <String>] [[-Descript
 ```
 
 ## DESCRIPTION
-This function is used to create a new BloxOneDDI Host
+This function is used to create a new NIOS-X Host
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-New-B1Host -Name "bloxoneddihost1.mydomain.corp" -Description "My BloxOneDDI Host" -Space "Global"
+New-B1Host -Name "ddihost1.mydomain.corp" -Description "My NIOS-X Host" -Space "Global"
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI host to create
+The name of the NIOS-X Host to create
 
 ```yaml
 Type: String
@@ -45,7 +45,7 @@ Accept wildcard characters: False
 ```
 
 ### -Space
-The IPAM space where the BloxOneDDI host should be placed
+The IPAM space where the NIOS-X Host should be placed
 
 ```yaml
 Type: String
@@ -60,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-The Location for the new BloxOne Host.
+The Location for the new NIOS-X Host.
 
 ```yaml
 Type: String
@@ -75,7 +75,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description of the new BloxOneDDI Host
+The description of the new NIOS-X Host
 
 ```yaml
 Type: String

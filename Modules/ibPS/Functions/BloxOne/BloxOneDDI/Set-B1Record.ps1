@@ -1,10 +1,10 @@
 ﻿function Set-B1Record {
     <#
     .SYNOPSIS
-        Updates an existing DNS record in BloxOneDDI
+        Updates an existing DNS record in Universal DDI
 
     .DESCRIPTION
-        This function is used to update an existing DNS record in BloxOneDDI
+        This function is used to update an existing DNS record in Universal DDI
 
     .PARAMETER Type
         The type of the record to update

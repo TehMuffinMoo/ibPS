@@ -1,10 +1,10 @@
 ﻿function Start-B1Export {
     <#
     .SYNOPSIS
-        Initiates a BloxOneDDI Export/Backup
+        Initiates an Infoblox Portal Export/Backup
 
     .DESCRIPTION
-        This function is used to initiate a BloxOneDDI Export/Backup
+        This function is used to initiate an Infoblox Portal Export/Backup
 
     .PARAMETER Name
         The name to give the export/backup
@@ -31,10 +31,10 @@
         Use this switch to enable Threat Defense Configuration to be included in the export/backup
 
     .PARAMETER Bootstrap
-        Use this switch to enable BloxOne Host Bootstrap Configuration to be included in the export/backup
+        Use this switch to enable NIOS-X Host Bootstrap Configuration to be included in the export/backup
 
     .PARAMETER B1Hosts
-        Use this switch to enable BloxOne Host Configuration to be included in the export/backup
+        Use this switch to enable NIOS-X Host Configuration to be included in the export/backup
 
     .PARAMETER Redirects
         Use this switch to enable Custom Redirects to be included in the export/backup

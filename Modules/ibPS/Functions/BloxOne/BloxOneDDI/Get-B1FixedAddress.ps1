@@ -1,10 +1,10 @@
 ﻿function Get-B1FixedAddress {
     <#
     .SYNOPSIS
-        Retrieves a list of Fixed Addresses in BloxOneDDI IPAM
+        Retrieves a list of Fixed Addresses in Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to query a list of Fixed Addresses in BloxOneDDI IPAM
+        This function is used to query a list of Fixed Addresses in Universal DDI IPAM
 
     .PARAMETER IP
         The IP of the fixed address

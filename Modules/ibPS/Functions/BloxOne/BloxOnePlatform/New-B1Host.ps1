@@ -1,28 +1,28 @@
 ﻿function New-B1Host {
     <#
     .SYNOPSIS
-        Creates a new BloxOneDDI Host
+        Creates a new NIOS-X Host
 
     .DESCRIPTION
-        This function is used to create a new BloxOneDDI Host
+        This function is used to create a new NIOS-X Host
 
     .PARAMETER Name
-        The name of the BloxOneDDI host to create
+        The name of the NIOS-X Host to create
 
     .PARAMETER Space
-        The IPAM space where the BloxOneDDI host should be placed
+        The IPAM space where the NIOS-X Host should be placed
 
     .PARAMETER Description
-        The description of the new BloxOneDDI Host
+        The description of the new NIOS-X Host
 
     .PARAMETER Location
-        The Location for the new BloxOne Host.
+        The Location for the new NIOS-X Host.
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> New-B1Host -Name "bloxoneddihost1.mydomain.corp" -Description "My BloxOneDDI Host" -Space "Global"
+        PS> New-B1Host -Name "ddihost1.mydomain.corp" -Description "My NIOS-X Host" -Space "Global"
 
     .FUNCTIONALITY
         Universal DDI
@@ -66,7 +66,7 @@
     }
 
     $JSON = $splat | ConvertTo-Json
-    if($PSCmdlet.ShouldProcess("Create new BloxOne Host:`n$($JSON)","Create new BloxOne Host",$MyInvocation.MyCommand)){
+    if($PSCmdlet.ShouldProcess("Create new NIOS-X Host:`n$($JSON)","Create new NIOS-X Host",$MyInvocation.MyCommand)){
         $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
         $Result
         if ($Result.display_name -eq $Name) {

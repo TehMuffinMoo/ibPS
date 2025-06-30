@@ -1,6 +1,6 @@
 ﻿<#
 .SYNOPSIS
-   BloxOne REST API for PowerShell
+   Infoblox PowerShell Module for Universal DDI & Threat Defense
 .DESCRIPTION
    A collection of PowerShell Cmdlets to interact with the Infoblox BloxOne DDI & Threat Defense REST API located at https://csp.infoblox.com/apidoc
    Also supports some limited Cmdlets for Infoblox NIOS (Grid).

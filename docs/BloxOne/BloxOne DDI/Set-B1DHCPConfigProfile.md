@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1DHCPConfigProfile
 
 ## SYNOPSIS
-Updates an existing DHCP Config Profiles from BloxOneDDI
+Updates an existing DHCP Config Profiles from Universal DDI
 
 ## SYNTAX
 
@@ -27,7 +27,7 @@ Set-B1DHCPConfigProfile [-NewName <String>] [-Description <String>] [-EnableDDNS
 ```
 
 ## DESCRIPTION
-This function is used to update an existing DHCP Config Profiles from BloxOneDDI
+This function is used to update an existing DHCP Config Profiles from Universal DDI
 
 ## EXAMPLES
 

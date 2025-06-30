@@ -133,9 +133,9 @@ Get-B1Schema -Product 'BloxOne DDI'
   ThirdPartyProviders Third Party Providers
 ```
 
-An example of retrieving all available API endpoints for BloxOne DDI DnsConfig App
+An example of retrieving all available API endpoints for Universal DDI DnsConfig App
 ```powershell
-Get-B1Schema -Product 'BloxOne DDI' -App 'DnsConfig'
+Get-B1Schema -Product 'Universal DDI' -App 'DnsConfig'
 
   Endpoint                               Description
   --------                               -----------
@@ -154,7 +154,7 @@ Get-B1Schema -Product 'BloxOne DDI' -App 'DnsConfig'
 
 An example of retrieving available methods for the CDC API endpoint
 ```powershell
-Get-B1Schema -Product 'BloxOne Cloud' -App 'CDC' -Endpoint /v1/applications
+Get-B1Schema -Product 'Infoblox Portal' -App 'CDC' -Endpoint /v1/applications
 
   Name                           Value
   ----                           -----

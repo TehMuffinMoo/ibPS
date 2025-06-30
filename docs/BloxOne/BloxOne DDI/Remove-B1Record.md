@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1Record
 
 ## SYNOPSIS
-Removes an existing DNS record in BloxOneDDI
+Removes an existing DNS record in Universal DDI
 
 ## SYNTAX
 
@@ -30,7 +30,7 @@ Remove-B1Record -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameter
 ```
 
 ## DESCRIPTION
-This function is used to remove an existing DNS record in BloxOneDDI
+This function is used to remove an existing DNS record in Universal DDI
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Grant-B1DHCPConfigProfile
 
 ## SYNOPSIS
-Applies a DHCP Config Profile to one or most BloxOneDDI Hosts
+Applies a DHCP Config Profile to one or most NIOS-X Hosts
 
 ## SYNTAX
 
@@ -23,13 +23,13 @@ Grant-B1DHCPConfigProfile -Name <String> -Object <Object> [-Force] [-WhatIf] [-C
 ```
 
 ## DESCRIPTION
-This function is used to apply a DHCP Config Profile to one or most BloxOneDDI Hosts
+This function is used to apply a DHCP Config Profile to one or most NIOS-X Hosts
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "ddihost1.mydomain.corp","ddihost2.mydomain.corp"
 ```
 
 ## PARAMETERS
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -Hosts
-A list of BloxOneDDI Hosts to apply the DHCP Config Profile to
+A list of NIOS-X Hosts to apply the DHCP Config Profile to
 
 ```yaml
 Type: String[]

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Enable-B1HostLocalAccess
 
 ## SYNOPSIS
-Enables the Bootstrap UI Local Access for the given BloxOne Host
+Enables the Bootstrap UI Local Access for the given NIOS-X Host
 
 ## SYNTAX
 
@@ -37,7 +37,7 @@ Enable-B1HostLocalAccess -Credentials <PSCredential> [-Wait] -OPH <PSObject[]> [
 ```
 
 ## DESCRIPTION
-This function is used to enable the Bootstrap UI Local Access for the given BloxOne Host
+This function is used to enable the Bootstrap UI Local Access for the given NIOS-X Host
 
 ## EXAMPLES
 
@@ -65,7 +65,7 @@ Local access enable request successfully sent for: my-host-1
 ## PARAMETERS
 
 ### -B1Host
-The name of the BloxOne Host to enable local access for
+The name of the NIOS-X Host to enable local access for
 
 ```yaml
 Type: String
@@ -126,7 +126,7 @@ Accept wildcard characters: False
 ```
 
 ### -OPH
-The BloxOne Host object to submit a enable local access request for.
+The NIOS-X Host object to submit a enable local access request for.
 This accepts pipeline input from Get-B1Host
 
 ```yaml

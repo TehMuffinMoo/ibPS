@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1ServiceLog
 
 ## SYNOPSIS
-Queries the BloxOneDDI Service Log
+Queries the Infoblox Portal Service Log
 
 ## SYNTAX
 
@@ -18,20 +18,20 @@ Get-B1ServiceLog [[-B1Host] <String>] [[-Container] <String>] [[-Start] <DateTim
 ```
 
 ## DESCRIPTION
-This function is used to query the BloxOneDDI Service Log.
-This log contains information from all containers on all BloxOneDDI Hosts, allowing you to query various types of diagnostic related data.
+This function is used to query the Infoblox Portal Service Log.
+This log contains information from all containers on all NIOS-X Hosts, allowing you to query various types of diagnostic related data.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1ServiceLog -B1Host "bloxoneddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
+Get-B1ServiceLog -B1Host "ddihost1.mydomain.corp" -Container "DNS" -Start (Get-Date).AddHours(-2)
 ```
 
 ## PARAMETERS
 
 ### -B1Host
-Use this parameter to filter the log for events relating to a specific BloxOneDDI Host
+Use this parameter to filter the log for events relating to a specific NIOS-X Host
 
 ```yaml
 Type: String

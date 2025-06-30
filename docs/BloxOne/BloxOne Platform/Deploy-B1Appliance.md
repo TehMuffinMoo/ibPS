@@ -8,7 +8,7 @@ schema: 2.0.0
 # Deploy-B1Appliance
 
 ## SYNOPSIS
-Deploys a BloxOneDDI Virtual Appliance to VMware, Hyper-V or Azure.
+Deploys a NIOS-X Virtual Appliance to VMware, Hyper-V or Azure.
 
 ## SYNTAX
 
@@ -42,14 +42,14 @@ Deploy-B1Appliance [-Type] <String> [-Name] <String> [-JoinToken] <String>  [-Fo
 ```
 
 ## DESCRIPTION
-This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/cluster, Hyper-V or Azure.
+This function is used to deploy a NIOS-X Virtual Appliance to a VMware host/cluster, Hyper-V or Azure.
 
 ## EXAMPLES
 
 ### VMware Example
 ```powershell
 Deploy-B1Appliance -Type "VMware" `
-                    -Name "bloxoneddihost1" `
+                    -Name "ddihost1" `
                     -IP "10.10.100.10" `
                     -Netmask "255.255.255.0" `
                     -Gateway "10.10.100.1" `
@@ -69,7 +69,7 @@ Deploy-B1Appliance -Type "VMware" `
 ### Hyper-V Example
 ```powershell
 Deploy-B1Appliance -Type Hyper-V `
-                   -Name "bloxoneddihost1" `
+                   -Name "ddihost1" `
                    -IP 10.10.100.10 `
                    -Netmask 255.255.255.0 `
                    -Gateway 10.10.100.1 `
@@ -88,7 +88,7 @@ Deploy-B1Appliance -Type Hyper-V `
 ### Azure Example
 ```powershell
 Deploy-B1Appliance -Type "Azure" `
-                   -Name "bloxoneddihost1" `
+                   -Name "ddihost1" `
                    -JoinToken "JoinTokenGoesHere" `
                    -AzTenant 'g54gdeg5-gdf4-4434-dff4-7fdeswgf54ff' `
                    -AzSubscription '1234d123-abc1-4f33-r43f-5gredgrgdsdv4' `
@@ -139,7 +139,7 @@ Accept wildcard characters: False
 ```
 
 ### -JoinToken
-The Join Token for registration of the BloxOneDDI Host into the Cloud Services Portal
+The Join Token for registration of the NIOS-X Host into the Cloud Services Portal
 
 ```yaml
 Type: String
@@ -169,7 +169,7 @@ Accept wildcard characters: False
 ```
 
 ### -SkipCloudChecks
-Using this parameter will mean the deployment will not wait for the BloxOneDDI Host to become registered/available within the Cloud Services Portal
+Using this parameter will mean the deployment will not wait for the NIOS-X Host to become registered/available within the Cloud Services Portal
 
 ```yaml
 Type: SwitchParameter
@@ -344,7 +344,7 @@ Accept wildcard characters: False
 ```
 
 #### -OVAPath
-The path to the BloxOneDDI OVA
+The path to the NIOS-X OVA
 
 `-OVAPath` and `-DownloadLatestImage` are mutually exclusive.
 
@@ -616,7 +616,7 @@ Accept wildcard characters: False
 ```
 
 #### -VHDPath
-The full path to the BloxOne VHD/VHDX file.
+The full path to the NIOS-X VHD/VHDX file.
 
 `-VHDPath` and `-DownloadLatestImage` are mutually exclusive.
 
@@ -923,7 +923,7 @@ Accept wildcard characters: False
 ```
 
 #### -AzAcceptTerms
-The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host.
+The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a NIOS-X Host.
 
 ```yaml
 Type: SwitchParameter
@@ -971,10 +971,10 @@ Accept wildcard characters: False
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
-BloxOne Host build attributes
+NIOS-X Host build attributes
 
 ## OUTPUTS
-BloxOne DDI Host Object
+NIOS-X Host Object
 
 ## NOTES
 Credits: Ollie Sheridan - Assisted with development of the Hyper-V integration

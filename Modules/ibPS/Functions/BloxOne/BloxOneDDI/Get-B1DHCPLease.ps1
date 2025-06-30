@@ -1,10 +1,10 @@
 ﻿function Get-B1DHCPLease {
     <#
     .SYNOPSIS
-        Retrieves a list of DHCP Leases from BloxOneDDI IPAM
+        Retrieves a list of DHCP Leases from Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to query a list of DHCP Leases from BloxOneDDI IPAM
+        This function is used to query a list of DHCP Leases from Universal DDI IPAM
 
     .PARAMETER Range
         Indicates whether to search by DHCP Range

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1Service
 
 ## SYNOPSIS
-Removes an existing BloxOneDDI Service
+Removes an existing Infoblox Portal Service
 
 ## SYNTAX
 
@@ -23,19 +23,19 @@ Remove-B1Service -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParamete
 ```
 
 ## DESCRIPTION
-This function is used to remove an existing BloxOneDDI Service
+This function is used to remove an existing Infoblox Portal Service
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+Remove-B1Service -Name "dns_ddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI Service to remove
+The name of the Infoblox Portal Service to remove
 
 ```yaml
 Type: String
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-The BloxOneDDI Service Object(s) to remove.
+The Infoblox Portal Service Object(s) to remove.
 Accepts pipeline input
 
 ```yaml

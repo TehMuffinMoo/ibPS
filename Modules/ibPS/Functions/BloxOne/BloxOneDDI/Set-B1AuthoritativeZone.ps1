@@ -1,10 +1,10 @@
 ﻿function Set-B1AuthoritativeZone {
     <#
     .SYNOPSIS
-        Updates an existing Authoritative Zone in BloxOneDDI
+        Updates an existing Authoritative Zone in Universal DDI
 
     .DESCRIPTION
-        This function is used to an existing Authoritative Zone in BloxOneDDI
+        This function is used to an existing Authoritative Zone in Universal DDI
 
     .PARAMETER FQDN
         The FQDN of the zone to update
@@ -43,7 +43,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> Set-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -AddAuthNSGs "Data Centre"
+        PS> Set-B1AuthoritativeZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "ddihost1.corp.mycompany.com" -AddAuthNSGs "Data Centre"
 
     .FUNCTIONALITY
         Universal DDI

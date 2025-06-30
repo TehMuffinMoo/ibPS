@@ -1,10 +1,10 @@
 ﻿function Get-B1DFPLog {
     <#
     .SYNOPSIS
-        Queries the BloxOneDDI DFP Log
+        Queries the Universal DDI DFP Log
 
     .DESCRIPTION
-        This function is used to query the BloxOneDDI DFP (DNS Forwarding Proxy) Logs. This is the log which contains all DNS Security related events.
+        This function is used to query the Universal DDI DFP (DNS Forwarding Proxy) Logs. This is the log which contains all DNS Security related events.
 
     .PARAMETER Query
         Use this parameter to filter the DFP Logs by hostname or FQDN
@@ -19,7 +19,7 @@
         Use this parameter to filter the DFP Log by the response, i.e "NXDOMAIN"
 
     .PARAMETER Network
-        Filter the DFP Logs by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "mybloxoneddihost.mydomain.corp (DFP)" or "mybloxoneddihost1.mydomain.corp (DFP)","mybloxoneddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
+        Filter the DFP Logs by one or more DFP Servers, External Networks & Threat Defense Endpoints (i.e "ddihost.mydomain.corp (DFP)" or "ddihost1.mydomain.corp (DFP)","myddihost2.mydomain.corp (DFP)","Threat Defense Endpoint"
 
     .PARAMETER Start
         A date parameter used as the starting date/time of the log search. By default, the search will start from 24hrs ago and returns the latest results first. You may need to increase the -Limit parameter or reduce the -End date/time to view earlier events.

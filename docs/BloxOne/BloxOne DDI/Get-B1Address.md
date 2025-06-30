@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Address
 
 ## SYNOPSIS
-Queries a list of address objects from the BloxOneDDI IPAM
+Queries a list of address objects from the Universal DDI IPAM
 
 ## SYNTAX
 
@@ -33,7 +33,7 @@ Get-B1Address [-Reserved] [-Compartment <String>] [-Limit <Int32>] [-Offset <Int
 ```
 
 ## DESCRIPTION
-This function is used to query a list of address objects from the BloxOneDDI IPAM
+This function is used to query a list of address objects from the Universal DDI IPAM
 
 ## EXAMPLES
 

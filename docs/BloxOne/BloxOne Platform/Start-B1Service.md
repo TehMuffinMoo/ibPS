@@ -8,7 +8,7 @@ schema: 2.0.0
 # Start-B1Service
 
 ## SYNOPSIS
-Starts a BloxOneDDI Service
+Starts an Infoblox Portal Service
 
 ## SYNTAX
 
@@ -23,19 +23,19 @@ Start-B1Service -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameter
 ```
 
 ## DESCRIPTION
-This function is used to start a BloxOneDDI Service
+This function is used to start an Infoblox Portal Service
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Start-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+Start-B1Service -Name "dns_ddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI Service to start
+The name of the Infoblox Portal Service to start
 
 ```yaml
 Type: String
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-The BloxOneDDI Service Object(s) to start.
+The Infoblox Portal Service Object(s) to start.
 Accepts pipeline input
 
 ```yaml

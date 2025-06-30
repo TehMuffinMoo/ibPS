@@ -1,7 +1,7 @@
 ﻿function Invoke-CSP {
     <#
     .SYNOPSIS
-        Queries the BloxOneDDI Cloud Services Portal
+        Queries the Infoblox Portal
 
     .DESCRIPTION
         This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the Infoblox Portal APIs.

@@ -1,10 +1,10 @@
 ﻿function Remove-B1DelegatedZone {
     <#
     .SYNOPSIS
-        Removes a Delegated Zone from BloxOneDDI
+        Removes a Delegated Zone from Universal DDI
 
     .DESCRIPTION
-        This function is used to remove a Delegated Zone from BloxOneDDI
+        This function is used to remove a Delegated Zone from Universal DDI
 
     .PARAMETER FQDN
         The FQDN of the zone to remove

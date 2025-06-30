@@ -1,10 +1,10 @@
 ﻿function New-B1Subnet {
     <#
     .SYNOPSIS
-        Creates a new subnet in BloxOneDDI IPAM
+        Creates a new subnet in Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to create a new subnet in BloxOneDDI IPAM
+        This function is used to create a new subnet in Universal DDI IPAM
 
     .PARAMETER Subnet
         The network address of the subnet you want to create

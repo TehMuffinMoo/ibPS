@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1Record
 
 ## SYNOPSIS
-Updates an existing DNS record in BloxOneDDI
+Updates an existing DNS record in Universal DDI
 
 ## SYNTAX
 
@@ -41,7 +41,7 @@ Set-B1Record [-rdata <String>] [-NewName <String>] [-TTL <Int32>] [-Description 
 ```
 
 ## DESCRIPTION
-This function is used to update an existing DNS record in BloxOneDDI
+This function is used to update an existing DNS record in Universal DDI
 
 ## EXAMPLES
 

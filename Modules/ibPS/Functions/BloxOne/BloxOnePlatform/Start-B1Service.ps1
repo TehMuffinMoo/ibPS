@@ -1,22 +1,22 @@
 ﻿function Start-B1Service {
     <#
     .SYNOPSIS
-        Starts a BloxOneDDI Service
+        Starts a Infoblox Portal service
 
     .DESCRIPTION
-        This function is used to start a BloxOneDDI Service
+        This function is used to start an Infoblox Portal service
 
     .PARAMETER Name
-        The name of the BloxOneDDI Service to start
+        The name of the service to start
 
     .PARAMETER Object
-        The BloxOneDDI Service Object(s) to start. Accepts pipeline input
+        The Infoblox Portal Service Object(s) to start. Accepts pipeline input
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> Start-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+        PS> Start-B1Service -Name "dns_ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI
@@ -53,13 +53,13 @@
       } else {
           $Object = Get-B1Service -Name $Name -Strict -Detailed
           if (!($Object)) {
-              Write-Error "Unable to find BloxOne Service: $($Name)"
+              Write-Error "Unable to find Service: $($Name)"
               return $null
           }
           $ServiceID = $Object.id
       }
 
-      if($PSCmdlet.ShouldProcess("Start BloxOne Service: $($Object.name)","Start BloxOne Service: $($Object.name)",$MyInvocation.MyCommand)){
+      if($PSCmdlet.ShouldProcess("Start Service: $($Object.name)","Start Service: $($Object.name)",$MyInvocation.MyCommand)){
         Write-Host "Starting $($Object.name).." -ForegroundColor Cyan
         $Object.desired_state = "start"
         $JSON = $Object | ConvertTo-Json -Depth 3 -Compress

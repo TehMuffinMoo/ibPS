@@ -1,10 +1,10 @@
 ﻿function New-B1DHCPConfigProfile {
     <#
     .SYNOPSIS
-        Creates a new DHCP Config Profile in BloxOneDDI
+        Creates a new DHCP Config Profile in Universal DDI
 
     .DESCRIPTION
-        This function is used to create a new DHCP Config Profile in BloxOneDDI
+        This function is used to create a new DHCP Config Profile in Universal DDI
 
     .PARAMETER Name
         The name of the new DHCP Config Profile

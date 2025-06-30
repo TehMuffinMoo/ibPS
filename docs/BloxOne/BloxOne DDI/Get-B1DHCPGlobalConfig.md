@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPGlobalConfig
 
 ## SYNOPSIS
-Retrieves the BloxOneDDI Global DHCP Configuration
+Retrieves the Universal DDI Global DHCP Configuration
 
 ## SYNTAX
 

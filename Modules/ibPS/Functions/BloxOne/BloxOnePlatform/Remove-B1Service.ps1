@@ -1,22 +1,22 @@
 ﻿function Remove-B1Service {
     <#
     .SYNOPSIS
-        Removes an existing BloxOneDDI Service
+        Removes an existing Infoblox Portal Service
 
     .DESCRIPTION
-        This function is used to remove an existing BloxOneDDI Service
+        This function is used to remove an existing Infoblox Portal Service
 
     .PARAMETER Name
-        The name of the BloxOneDDI Service to remove
+        The name of the Infoblox Portal Service to remove
 
     .PARAMETER Object
-        The BloxOneDDI Service Object(s) to remove. Accepts pipeline input
+        The Infoblox Portal Service Object(s) to remove. Accepts pipeline input
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
 
     .EXAMPLE
-        PS> Remove-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+        PS> Remove-B1Service -Name "dns_ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI

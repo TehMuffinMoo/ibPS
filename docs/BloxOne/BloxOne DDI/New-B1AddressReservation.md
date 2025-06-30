@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1AddressReservation
 
 ## SYNOPSIS
-Creates a new address reservation in BloxOneDDI IPAM
+Creates a new address reservation in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ New-B1AddressReservation [-Address] <String> [[-Name] <String>] [[-Description] 
 ```
 
 ## DESCRIPTION
-This function is used to create a new address reservation in BloxOneDDI IPAM
+This function is used to create a new address reservation in Universal DDI IPAM
 
 ## EXAMPLES
 

@@ -30,7 +30,7 @@ CompanyName = 'TMM Networks'
 Copyright = '(c) 2021-2025 Mat Cox. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'Infoblox BloxOne PowerShell Module'
+Description = 'Infoblox Universal DDI & Threat Defense PowerShell Module'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''
@@ -196,7 +196,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Infoblox','BloxOne','BloxOneDDI','ThreatDefense','REST','Windows','MacOS','API'
+        Tags = 'Infoblox','UDDI','Universal DDI','ThreatDefense','BloxOne','BloxOneDDI','REST','Windows','MacOS','API'
 
         # A URL to the license for this module.
         LicenseUri = 'https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE'

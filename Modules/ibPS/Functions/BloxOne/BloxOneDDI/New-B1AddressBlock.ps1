@@ -1,10 +1,10 @@
 ﻿function New-B1AddressBlock {
     <#
     .SYNOPSIS
-        Creates a new address block in BloxOneDDI IPAM
+        Creates a new address block in Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to create a new address block in BloxOneDDI IPAM
+        This function is used to create a new address block in Universal DDI IPAM
 
     .PARAMETER Subnet
         The network address of the address block you want to create

@@ -1,22 +1,22 @@
 ﻿function New-B1Service {
     <#
     .SYNOPSIS
-        Creates a new BloxOneDDI Service
+        Creates a new Infoblox Portal Service
 
     .DESCRIPTION
-        This function is used to create a new BloxOneDDI Service
+        This function is used to create a new Infoblox Portal Service
 
     .PARAMETER Name
-        The name of the new BloxOneDDI Service
+        The name of the new Infoblox Portal Service
 
     .PARAMETER Type
         The type of service to deploy
 
     .PARAMETER Description
-        The description of the new BloxOneDDI Service
+        The description of the new Infoblox Portal Service
 
     .PARAMETER B1Host
-        The name of the BloxOne DDI Host to create the service on
+        The name of the NIOS-X Host to create the service on
 
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
@@ -26,11 +26,11 @@
 
     .EXAMPLE
         ## Create a DNS Service
-        PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
+        PS> New-B1Service -Type dns -Name "dns_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
 
     .EXAMPLE
         ## Create a DHCP Service
-        PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
+        PS> New-B1Service -Type dhcp -Name "dhcp_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI

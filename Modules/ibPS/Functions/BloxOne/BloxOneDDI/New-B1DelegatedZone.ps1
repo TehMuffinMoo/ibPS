@@ -1,10 +1,10 @@
 ﻿function New-B1DelegatedZone {
     <#
     .SYNOPSIS
-        Creates a new Delegated Zone in BloxOneDDI
+        Creates a new Delegated Zone in Universal DDI
 
     .DESCRIPTION
-        This function is used to create a new Delegated Zone in BloxOneDDI
+        This function is used to create a new Delegated Zone in Universal DDI
 
     .PARAMETER FQDN
         The FQDN of the delegated zone to create

@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1Subnet
 
 ## SYNOPSIS
-Creates a new subnet in BloxOneDDI IPAM
+Creates a new subnet in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1Subnet [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [[-Name] <Stri
 ```
 
 ## DESCRIPTION
-This function is used to create a new subnet in BloxOneDDI IPAM
+This function is used to create a new subnet in Universal DDI IPAM
 
 ## EXAMPLES
 

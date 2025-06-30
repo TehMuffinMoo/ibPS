@@ -1,10 +1,10 @@
 ﻿function Get-B1DHCPGlobalConfig {
     <#
     .SYNOPSIS
-        Retrieves the BloxOneDDI Global DHCP Configuration
+        Retrieves the Universal DDI Global DHCP Configuration
 
     .DESCRIPTION
-        This function is used to retrieve the BloxOneDDI Global DHCP Configuration
+        This function is used to retrieve the Universal DDI Global DHCP Configuration
 
     .PARAMETER Fields
         Specify a list of fields to return. The default is to return all fields.

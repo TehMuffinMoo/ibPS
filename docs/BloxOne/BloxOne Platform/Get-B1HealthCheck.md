@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1HealthCheck
 
 ## SYNOPSIS
-Performs a health check on a BloxOneDDI Host
+Performs a health check on a NIOS-X Host
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1HealthCheck [-B1Host] <String> [-Type] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to perform a health check on a BloxOneDDI Host
+This function is used to perform a health check on a NIOS-X Host
 
 ## EXAMPLES
 
@@ -46,7 +46,7 @@ B1DDI-01            started                 started
 ## PARAMETERS
 
 ### -B1Host
-The BloxOneDDI Host name/fqdn
+The NIOS-X Host name/fqdn
 
 ```yaml
 Type: String

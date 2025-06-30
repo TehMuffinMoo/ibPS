@@ -1,10 +1,10 @@
 ﻿function Remove-B1Subnet {
     <#
     .SYNOPSIS
-        Removes a subnet from BloxOneDDI IPAM
+        Removes a subnet from Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to remove a subnet from BloxOneDDI IPAM
+        This function is used to remove a subnet from Universal DDI IPAM
 
     .PARAMETER Subnet
         The network address of the subnet you want to remove

@@ -1,16 +1,16 @@
 ﻿function Grant-B1DHCPConfigProfile {
     <#
     .SYNOPSIS
-        Applies a DHCP Config Profile to one or most BloxOneDDI Hosts
+        Applies a DHCP Config Profile to one or most NIOS-X Hosts
 
     .DESCRIPTION
-        This function is used to apply a DHCP Config Profile to one or most BloxOneDDI Hosts
+        This function is used to apply a DHCP Config Profile to one or most NIOS-X Hosts
 
     .PARAMETER Name
         The name of the new DHCP Config Profile
 
     .PARAMETER Hosts
-        A list of BloxOneDDI Hosts to apply the DHCP Config Profile to
+        A list of NIOS-X Hosts to apply the DHCP Config Profile to
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
@@ -19,7 +19,7 @@
         The DHCP Host object(s) to grant the DHCP Config Profile to
 
     .EXAMPLE
-        PS> Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+        PS> Grant-B1DHCPConfigProfile -Name "Data Centre" -Hosts "ddihost1.mydomain.corp","ddihost2.mydomain.corp"
 
     .FUNCTIONALITY
         Universal DDI

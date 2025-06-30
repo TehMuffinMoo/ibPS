@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPOptionCode
 
 ## SYNOPSIS
-Retrieves a list of DHCP option codes from BloxOneDDI
+Retrieves a list of DHCP option codes from Universal DDI
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DHCPOptionCode [[-Name] <String>] [[-Code] <Int32>] [[-Source] <String>] [
 ```
 
 ## DESCRIPTION
-This function is used to query a list DHCP option codes from BloxOneDDI.
+This function is used to query a list DHCP option codes from Universal DDI.
 This is useful for determining the option code required when submitting options via the -DHCPOptions parameter on other cmdlets.
 
 ## EXAMPLES

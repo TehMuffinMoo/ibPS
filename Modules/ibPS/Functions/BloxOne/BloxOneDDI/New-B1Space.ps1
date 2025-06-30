@@ -1,10 +1,10 @@
 ﻿function New-B1Space {
     <#
     .SYNOPSIS
-        Creates a new BloxOneDDI IPAM/DHCP Space
+        Creates a new Universal DDI IPAM/DHCP Space
 
     .DESCRIPTION
-        This function is used to create a new BloxOneDDI IPAM/DHCP Space
+        This function is used to create a new Universal DDI IPAM/DHCP Space
 
     .PARAMETER Name
         The name of the IP Space

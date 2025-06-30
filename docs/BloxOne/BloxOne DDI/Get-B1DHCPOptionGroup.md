@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPOptionGroup
 
 ## SYNOPSIS
-Retrieves a list of DHCP option groups from BloxOneDDI
+Retrieves a list of DHCP option groups from Universal DDI
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Get-B1DHCPOptionGroup [[-Name] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] 
 ```
 
 ## DESCRIPTION
-This function is used to query a list DHCP option groups from BloxOneDDI.
+This function is used to query a list DHCP option groups from Universal DDI.
 
 ## EXAMPLES
 

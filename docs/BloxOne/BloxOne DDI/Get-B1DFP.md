@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DFP
 
 ## SYNOPSIS
-Queries a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
+Queries a list of Universal DDI DFPs (DNS Forwarding Proxies)
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Get-B1DFP [[-Name] <String[]>] [[-SiteID] <String>] [[-OPHID] <String>] [[-Polic
 ```
 
 ## DESCRIPTION
-Use this method query a list of BloxOneDDI DFPs (DNS Forwarding Proxies)
+Use this method query a list of Universal DDI DFPs (DNS Forwarding Proxies)
 
 ## EXAMPLES
 

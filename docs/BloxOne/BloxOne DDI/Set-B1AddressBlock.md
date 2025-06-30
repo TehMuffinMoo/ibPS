@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1AddressBlock
 
 ## SYNOPSIS
-Updates an existing address block in BloxOneDDI IPAM
+Updates an existing address block in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -34,7 +34,7 @@ Set-B1AddressBlock [-NewName <String>] [-DHCPOptions <Object>] [-Description <St
 ```
 
 ## DESCRIPTION
-This function is used to update an existing address block in BloxOneDDI IPAM
+This function is used to update an existing address block in Universal DDI IPAM
 
 ## EXAMPLES
 

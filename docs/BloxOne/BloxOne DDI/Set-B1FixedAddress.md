@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1FixedAddress
 
 ## SYNOPSIS
-Updates an existing fixed addresses in BloxOneDDI IPAM
+Updates an existing fixed addresses in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -33,7 +33,7 @@ Set-B1FixedAddress [-NewName <String>] [-Description <String>] [-MatchType <Stri
 ```
 
 ## DESCRIPTION
-This function is used to update an existing fixed addresses in BloxOneDDI IPAM
+This function is used to update an existing fixed addresses in Universal DDI IPAM
 
 ## EXAMPLES
 

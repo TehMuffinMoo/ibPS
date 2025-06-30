@@ -1,10 +1,10 @@
 ﻿function Get-B1ForwardZone {
     <#
     .SYNOPSIS
-        Retrieves a list of forward zones from BloxOneDDI
+        Retrieves a list of forward zones from Universal DDI
 
     .DESCRIPTION
-        This function is used to query a list forward zones from BloxOneDDI
+        This function is used to query a list forward zones from Universal DDI
 
     .PARAMETER FQDN
         The fqdn of the forward zone to filter by

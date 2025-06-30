@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DiagnosticTask
 
 ## SYNOPSIS
-Query a list of BloxOneDDI Diagnostic Tasks
+Query a list of Universal DDI Diagnostic Tasks
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1DiagnosticTask [-id] <String> [-Download] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI Diagnostic Tasks
+This function is used to query a list of Universal DDI Diagnostic Tasks
 
 ## EXAMPLES
 

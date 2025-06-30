@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DNSLog
 
 ## SYNOPSIS
-Queries the BloxOneDDI DNS Log
+Queries the Universal DDI DNS Log
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DNSLog [[-Query] <String>] [[-IP] <String[]>] [[-Name] <String[]>] [[-Type
 ```
 
 ## DESCRIPTION
-This function is used to query the BloxOneDDI DNS Logs.
+This function is used to query the Universal DDI DNS Logs.
 This is the log which contains all generic DNS request information.
 
 ## EXAMPLES
@@ -114,7 +114,7 @@ Accept wildcard characters: False
 ```
 
 ### -DNSServers
-Filter the DNS Logs by one or more DNS Servers (i.e "mybloxoneddihost.mydomain.corp" or "mybloxoneddihost1.mydomain.corp","mybloxoneddihost2.mydomain.corp"
+Filter the DNS Logs by one or more DNS Servers (i.e "ddihost.mydomain.corp" or "ddihost1.mydomain.corp","myddihost2.mydomain.corp"
 
 ```yaml
 Type: String[]

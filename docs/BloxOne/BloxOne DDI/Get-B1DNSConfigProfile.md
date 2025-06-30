@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DNSConfigProfile
 
 ## SYNOPSIS
-Retrieves a list of DNS Config Profiles from BloxOneDDI
+Retrieves a list of DNS Config Profiles from Universal DDI
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DNSConfigProfile [[-Name] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset
 ```
 
 ## DESCRIPTION
-This function is used to query a list of DNS Config Profiles from BloxOneDDI
+This function is used to query a list of DNS Config Profiles from Universal DDI
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1Space
 
 ## SYNOPSIS
-Creates a new BloxOneDDI IPAM/DHCP Space
+Creates a new Universal DDI IPAM/DHCP Space
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ New-B1Space [-Name] <String> [[-Description] <String>] [[-DHCPOptions] <Object>]
 ```
 
 ## DESCRIPTION
-This function is used to create a new BloxOneDDI IPAM/DHCP Space
+This function is used to create a new Universal DDI IPAM/DHCP Space
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1SecurityLog
 
 ## SYNOPSIS
-Queries the BloxOneDDI Security Log
+Queries the Universal DDI Security Log
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1SecurityLog [[-Username] <String>] [[-ClientIP] <String>] [[-Type] <String
 ```
 
 ## DESCRIPTION
-This function is used to query the BloxOneDDI Security Log.
+This function is used to query the Universal DDI Security Log.
 This log contains web server information relating to the Cloud Services Portal Web UI.
 
 ## EXAMPLES

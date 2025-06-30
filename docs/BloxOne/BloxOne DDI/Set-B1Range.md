@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1Range
 
 ## SYNOPSIS
-Updates an existing DHCP Range in BloxOneDDI IPAM
+Updates an existing DHCP Range in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -32,7 +32,7 @@ Set-B1Range [-NewName <String>] [-Description <String>] [-HAGroup <String>] [-Ta
 ```
 
 ## DESCRIPTION
-This function is used to update an existing DHCP Range in BloxOneDDI IPAM
+This function is used to update an existing DHCP Range in Universal DDI IPAM
 
 ## EXAMPLES
 

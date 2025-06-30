@@ -8,7 +8,7 @@ schema: 2.0.0
 # Stop-B1Service
 
 ## SYNOPSIS
-Stops a BloxOneDDI Service
+Stops an Infoblox Portal Service
 
 ## SYNTAX
 
@@ -23,19 +23,19 @@ Stop-B1Service -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters
 ```
 
 ## DESCRIPTION
-This function is used to stop a BloxOneDDI Service
+This function is used to stop an Infoblox Portal Service
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Stop-B1Service -Name "dns_bloxoneddihost1.mydomain.corp"
+Stop-B1Service -Name "dns_ddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI Service to stop
+The name of the Infoblox Portal Service to stop
 
 ```yaml
 Type: String
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-The BloxOneDDI Service Object(s) to stop.
+The Infoblox Portal Service Object(s) to stop.
 Accepts pipeline input
 
 ```yaml

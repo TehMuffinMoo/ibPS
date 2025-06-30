@@ -1,10 +1,10 @@
 ﻿function Get-B1DHCPHost {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOneDDI DHCP Hosts
+        Retrieves a list of Universal DDI DHCP Hosts
 
     .DESCRIPTION
-        This function is used to query a list of BloxOneDDI DHCP Hosts
+        This function is used to query a list of Universal DDI DHCP Hosts
 
     .PARAMETER Name
         The name of the DHCP Host to filter by
@@ -47,10 +47,10 @@
         Return results based on DHCP Host id
 
     .EXAMPLE
-        PS> Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10"
+        PS> Get-B1DHCPHost -Name "ddihost1.mydomain.corp" -IP "10.10.10.10"
 
     .EXAMPLE
-        PS> $AssociatedSubnets = (Get-B1DHCPHost -Name "bloxoneddihost1.mydomain.corp" -Associations).Subnets
+        PS> $AssociatedSubnets = (Get-B1DHCPHost -Name "ddihost1.mydomain.corp" -Associations).Subnets
         PS> $AssociatedSubnets | ft name,address,cidr,comment
 
         name      address   cidr  comment

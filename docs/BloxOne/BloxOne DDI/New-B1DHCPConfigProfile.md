@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1DHCPConfigProfile
 
 ## SYNOPSIS
-Creates a new DHCP Config Profile in BloxOneDDI
+Creates a new DHCP Config Profile in Universal DDI
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1DHCPConfigProfile [-Name] <String> [[-Description] <String>] [[-DHCPOption
 ```
 
 ## DESCRIPTION
-This function is used to create a new DHCP Config Profile in BloxOneDDI
+This function is used to create a new DHCP Config Profile in Universal DDI
 
 ## EXAMPLES
 

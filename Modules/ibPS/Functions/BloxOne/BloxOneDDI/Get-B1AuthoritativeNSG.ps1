@@ -1,10 +1,10 @@
 ﻿function Get-B1AuthoritativeNSG {
     <#
     .SYNOPSIS
-        Retrieves a list of Authoritative DNS Server Groups from BloxOneDDI
+        Retrieves a list of Authoritative DNS Server Groups from Universal DDI
 
     .DESCRIPTION
-        This function is used to query a list Authoritative DNS Server Groups from BloxOneDDI
+        This function is used to query a list Authoritative DNS Server Groups from Universal DDI
 
     .PARAMETER Name
         The name of the Authoritative DNS Server Group

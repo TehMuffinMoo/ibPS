@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1GlobalNTPConfig
 
 ## SYNOPSIS
-Retrieves the BloxOneDDI Global NTP Configuration
+Retrieves the Universal DDI Global NTP Configuration
 
 ## SYNTAX
 

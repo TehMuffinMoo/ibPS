@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1Host
 
 ## SYNOPSIS
-Updates an existing BloxOne Host
+Updates an existing NIOS-X Host
 
 ## SYNTAX
 
@@ -26,24 +26,24 @@ Set-B1Host [-NewName <String>] [-Space <String>] [-TimeZone <String>] [-Descript
 ```
 
 ## DESCRIPTION
-This function is used to update an existing BloxOne Host
+This function is used to update an existing NIOS-X Host
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Set-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
+Set-B1Host -Name "ddihost1.mydomain.corp" -IP "10.10.20.11" -TimeZone "Europe/London" -Space "Global"
 ```
 
 ### EXAMPLE 2
 ```powershell
-Get-B1Host -Name "bloxoneddihost1.mydomain.corp" | Set-B1Host -NewName "mynewhostname.mydomain.corp"
+Get-B1Host -Name "ddihost1.mydomain.corp" | Set-B1Host -NewName "mynewhostname.mydomain.corp"
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOne Host to update.
+The name of the NIOS-X Host to update.
 
 ```yaml
 Type: String
@@ -58,7 +58,7 @@ Accept wildcard characters: False
 ```
 
 ### -IP
-The IP of the BloxOne Host to update.
+The IP of the NIOS-X Host to update.
 
 ```yaml
 Type: String
@@ -73,7 +73,7 @@ Accept wildcard characters: False
 ```
 
 ### -NewName
-Use -NewName to update the name of the BloxOne Host
+Use -NewName to update the name of the NIOS-X Host
 
 ```yaml
 Type: String
@@ -88,7 +88,7 @@ Accept wildcard characters: False
 ```
 
 ### -Space
-The name of the IP Space to assign the BloxOne Host to
+The name of the IP Space to assign the NIOS-X Host to
 
 ```yaml
 Type: String
@@ -103,7 +103,7 @@ Accept wildcard characters: False
 ```
 
 ### -TimeZone
-The TimeZone to set the BloxOne Host to, i.e "Europe/London"
+The TimeZone to set the NIOS-X Host to, i.e "Europe/London"
 
 ```yaml
 Type: String
@@ -118,7 +118,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description to update the BloxOne Host to
+The description to update the NIOS-X Host to
 
 ```yaml
 Type: String
@@ -133,7 +133,7 @@ Accept wildcard characters: False
 ```
 
 ### -Location
-The updated Location for the specific BloxOne Host.
+The updated Location for the specific NIOS-X Host.
 Using the value 'None' will set it to Empty
 
 ```yaml
@@ -149,7 +149,7 @@ Accept wildcard characters: False
 ```
 
 ### -Tags
-A list of tags to apply to this BloxOne Host.
+A list of tags to apply to this NIOS-X Host.
 This will overwrite existing tags.
 
 ```yaml

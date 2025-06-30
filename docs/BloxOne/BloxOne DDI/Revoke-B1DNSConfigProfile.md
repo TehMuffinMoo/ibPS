@@ -8,7 +8,7 @@ schema: 2.0.0
 # Revoke-B1DNSConfigProfile
 
 ## SYNOPSIS
-Removes a DNS Config Profile from one or more BloxOneDDI hosts
+Removes a DNS Config Profile from one or more NIOS-X Hosts
 
 ## SYNTAX
 
@@ -23,19 +23,19 @@ Revoke-B1DNSConfigProfile -Object <Object> [-Force] [-WhatIf] [-Confirm] [<Commo
 ```
 
 ## DESCRIPTION
-This function is used to remove a DNS Config Profile from one or more BloxOneDDI hosts
+This function is used to remove a DNS Config Profile from one or more NIOS-X Hosts
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "bloxoneddihost1.mydomain.corp","bloxoneddihost2.mydomain.corp"
+Revoke-B1DNSConfigProfile -Name "Data Centre" -Hosts "ddihost1.mydomain.corp","ddihost2.mydomain.corp"
 ```
 
 ## PARAMETERS
 
 ### -Hosts
-A list of BloxOneDDI Hosts to remove the DNS Config Profile from
+A list of NIOS-X Hosts to remove the DNS Config Profile from
 
 ```yaml
 Type: Object

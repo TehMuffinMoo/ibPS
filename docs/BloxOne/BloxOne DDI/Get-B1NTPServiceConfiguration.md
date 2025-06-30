@@ -29,7 +29,7 @@ Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
 ## PARAMETERS
 
 ### -Name
-The name of the BloxOneDDI service to check the NTP configuration for
+The name of the Infoblox Portal Service to check the NTP configuration for
 
 ```yaml
 Type: String

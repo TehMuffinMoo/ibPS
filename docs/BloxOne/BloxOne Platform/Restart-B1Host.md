@@ -8,7 +8,7 @@ schema: 2.0.0
 # Restart-B1Host
 
 ## SYNOPSIS
-Restarts a BloxOneDDI Host
+Restarts a NIOS-X Host
 
 ## SYNTAX
 
@@ -23,13 +23,13 @@ Restart-B1Host -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters
 ```
 
 ## DESCRIPTION
-This function is used to initiate a reboot of a BloxOneDDI Host
+This function is used to initiate a reboot of a NIOS-X Host
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Restart-B1Host -B1Host "bloxoneddihost1.mydomain.corp" -NoWarning
+Restart-B1Host -B1Host "ddihost1.mydomain.corp" -NoWarning
 ```
 
 ## PARAMETERS
@@ -50,7 +50,7 @@ Accept wildcard characters: False
 ```
 
 ### -Object
-The BloxOneDDI Host Object(s) to restart.
+The NIOS-X Host Object(s) to restart.
 Accepts pipeline input
 
 ```yaml

@@ -1,10 +1,10 @@
 ﻿function New-B1DNSView {
     <#
     .SYNOPSIS
-        Creates a new BloxOneDDI DNS View
+        Creates a new Universal DDI DNS View
 
     .DESCRIPTION
-        This function is used to create a new BloxOneDDI DNS View
+        This function is used to create a new Universal DDI DNS View
 
     .PARAMETER Name
         The name of the DNS View

@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1ForwardZone
 
 ## SYNOPSIS
-Creates a new Forward Zone in BloxOneDDI
+Creates a new Forward Zone in Universal DDI
 
 ## SYNTAX
 
@@ -18,13 +18,13 @@ New-B1ForwardZone [-FQDN] <String> [-View] <Object> [-Forwarders] <Object> [[-DN
 ```
 
 ## DESCRIPTION
-This function is used to create a new Forward Zone in BloxOneDDI
+This function is used to create a new Forward Zone in Universal DDI
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -Description "My Forward Zone"
+New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "ddihost1.corp.mycompany.com" -Description "My Forward Zone"
 ```
 
 ## PARAMETERS

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Applications
 
 ## SYNOPSIS
-Retrieves a list of supported BloxOneDDI Applications
+Retrieves a list of supported Infoblox Portal Applications
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1Applications [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used query a list of supported BloxOneDDI Applications/Services
+This function is used query a list of supported Infoblox Portal Applications/Services
 
 ## EXAMPLES
 

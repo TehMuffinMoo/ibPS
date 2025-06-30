@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1Service
 
 ## SYNOPSIS
-Creates a new BloxOneDDI Service
+Creates a new Infoblox Portal Service
 
 ## SYNTAX
 
@@ -18,26 +18,26 @@ New-B1Service [-Name] <String> [-Type] <String> [-B1Host] <String> [[-Descriptio
 ```
 
 ## DESCRIPTION
-This function is used to create a new BloxOneDDI Service
+This function is used to create a new Infoblox Portal Service
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
 ## Create a DNS Service
-PS> New-B1Service -Type dns -Name "dns_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
+PS> New-B1Service -Type dns -Name "dns_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
 ```
 
 ### EXAMPLE 2
 ```powershell
 ## Create a DHCP Service
-PS> New-B1Service -Type dhcp -Name "dhcp_bloxoneddihost1.mydomain.corp" -B1Host "bloxoneddihost1.mydomain.corp"
+PS> New-B1Service -Type dhcp -Name "dhcp_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
 
 ### -Name
-The name of the new BloxOneDDI Service
+The name of the new Infoblox Portal Service
 
 ```yaml
 Type: String
@@ -67,7 +67,7 @@ Accept wildcard characters: False
 ```
 
 ### -B1Host
-The name of the BloxOne DDI Host to create the service on
+The name of the NIOS-X Host to create the service on
 
 ```yaml
 Type: String
@@ -82,7 +82,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-The description of the new BloxOneDDI Service
+The description of the new Infoblox Portal Service
 
 ```yaml
 Type: String

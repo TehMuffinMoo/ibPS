@@ -1,10 +1,10 @@
 ﻿function Get-B1Space {
     <#
     .SYNOPSIS
-        Queries a list of BloxOneDDI IPAM/DHCP Spaces
+        Queries a list of Universal DDI IPAM/DHCP Spaces
 
     .DESCRIPTION
-        This function is used to query a list of BloxOneDDI IPAM/DHCP Spaces
+        This function is used to query a list of Universal DDI IPAM/DHCP Spaces
 
     .PARAMETER Name
         Use this parameter to filter the list of spaces by name

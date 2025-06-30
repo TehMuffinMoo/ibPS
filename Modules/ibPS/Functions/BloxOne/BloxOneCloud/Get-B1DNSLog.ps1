@@ -1,10 +1,10 @@
 ﻿function Get-B1DNSLog {
     <#
     .SYNOPSIS
-        Queries the BloxOneDDI DNS Log
+        Queries the Universal DDI DNS Log
 
     .DESCRIPTION
-        This function is used to query the BloxOneDDI DNS Logs. This is the log which contains all generic DNS request information.
+        This function is used to query the Universal DDI DNS Logs. This is the log which contains all generic DNS request information.
 
     .PARAMETER Query
         Use this parameter to filter the DNS Logs by hostname or FQDN
@@ -22,7 +22,7 @@
         Use this parameter to filter the DNS Log by the response, i.e "NXDOMAIN"
 
     .PARAMETER DNSServers
-        Filter the DNS Logs by one or more DNS Servers (i.e "mybloxoneddihost.mydomain.corp" or "mybloxoneddihost1.mydomain.corp","mybloxoneddihost2.mydomain.corp"
+        Filter the DNS Logs by one or more DNS Servers (i.e "ddihost.mydomain.corp" or "ddihost1.mydomain.corp","myddihost2.mydomain.corp"
 
     .PARAMETER OrderBy
         The field in which to order the results by. This field supports auto-complete, and defaults to timestamp.

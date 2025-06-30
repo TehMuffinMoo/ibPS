@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPOptionSpace
 
 ## SYNOPSIS
-Retrieves a list of DHCP option spaces from BloxOneDDI
+Retrieves a list of DHCP option spaces from Universal DDI
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DHCPOptionSpace [[-Name] <String>] [[-Protocol] <String>] [[-Limit] <Int32
 ```
 
 ## DESCRIPTION
-This function is used to query a list DHCP option spaces from BloxOneDDI.
+This function is used to query a list DHCP option spaces from Universal DDI.
 
 ## EXAMPLES
 

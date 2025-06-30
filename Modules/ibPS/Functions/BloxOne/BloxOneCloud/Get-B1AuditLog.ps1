@@ -1,10 +1,10 @@
 ﻿function Get-B1AuditLog {
     <#
     .SYNOPSIS
-        Queries the BloxOneDDI Audit Log
+        Queries the Universal DDI Audit Log
 
     .DESCRIPTION
-        This function is used to query the BloxOneDDI Audit Log. This gives you visibility on changes made both via the WebUI and API, along with the context of what has been modified.
+        This function is used to query the Universal DDI Audit Log. This gives you visibility on changes made both via the WebUI and API, along with the context of what has been modified.
 
     .PARAMETER Username
         The username of which you would like to filter the audit log with

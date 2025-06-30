@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-CSP
 
 ## SYNOPSIS
-Queries the BloxOneDDI Cloud Services Portal
+Queries the Universal DDI Cloud Services Portal
 
 ## SYNTAX
 

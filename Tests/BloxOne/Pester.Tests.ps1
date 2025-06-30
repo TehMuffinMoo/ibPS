@@ -69,7 +69,7 @@ Describe 'New-*' {
         It 'Create New DHCP Config Profile' {
             (New-B1DHCPConfigProfile -Name $Name -Description $Description -Tags $Tags).Name | Should -Be $Name
         }
-        It 'Create BloxOne Host' {
+        It 'Create NIOS-X Host' {
             (New-B1Host -Name $Name -Space $Name -Description $Description).display_name | Should -Be $Name
         }
     }
@@ -124,7 +124,7 @@ Describe 'Get-*' {
         It 'Get DHCP Config Profile' {
             (Get-B1DHCPConfigProfile -Name $Name).Name | Should -Be $Name
         }
-        It 'Get BloxOne Host' {
+        It 'Get NIOS-X Host' {
             (Get-B1Host -Name $Name).display_name | Should -Be $Name
         }
     }
@@ -196,7 +196,7 @@ Describe 'Remove-*' {
         It 'Remove DHCP Config Profile' {
             Remove-B1DHCPConfigProfile -Name $Name 6>$null
         }
-        It 'Remove BloxOne Host' {
+        It 'Remove NIOS-X Host' {
             Remove-B1Host -Name $Name -NoWarning 6>$null
         }
     }

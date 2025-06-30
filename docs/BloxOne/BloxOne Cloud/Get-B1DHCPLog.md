@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPLog
 
 ## SYNOPSIS
-Queries the BloxOneDDI DHCP Log
+Queries the Universal DDI DHCP Log
 
 ## SYNTAX
 
@@ -19,14 +19,14 @@ Get-B1DHCPLog [[-Hostname] <String>] [[-State] <String>] [[-IP] <String>] [[-DHC
 ```
 
 ## DESCRIPTION
-This function is used to query the BloxOneDDI DHCP Logs.
+This function is used to query the Universal DDI DHCP Logs.
 This is the log which contains all DHCP request/response information.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1DHCPLog -Hostname "dhcpclient.mydomain.corp" -State "Assignments" -IP "10.10.10.100" -Protocol "IPv4 Address" -DHCPServer "bloxoneddihost1.mydomain.corp" -Start (Get-Date).AddHours(-24) -End (Get-Date) -Limit 100 -Offset 0
+Get-B1DHCPLog -Hostname "dhcpclient.mydomain.corp" -State "Assignments" -IP "10.10.10.100" -Protocol "IPv4 Address" -DHCPServer "ddihost1.mydomain.corp" -Start (Get-Date).AddHours(-24) -End (Get-Date) -Limit 100 -Offset 0
 ```
 
 ## PARAMETERS
@@ -77,7 +77,7 @@ Accept wildcard characters: False
 ```
 
 ### -DHCPServer
-Filter the DHCP Logs by one or more DHCP Servers (i.e @("mybloxoneddihost1.mydomain.corp","mybloxoneddihost2.mydomain.corp")
+Filter the DHCP Logs by one or more DHCP Servers (i.e @("ddihost1.mydomain.corp","myddihost2.mydomain.corp")
 
 ```yaml
 Type: Object

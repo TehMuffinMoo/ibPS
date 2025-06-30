@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1AddressBlock
 
 ## SYNOPSIS
-Creates a new address block in BloxOneDDI IPAM
+Creates a new address block in Universal DDI IPAM
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1AddressBlock [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [-Name] 
 ```
 
 ## DESCRIPTION
-This function is used to create a new address block in BloxOneDDI IPAM
+This function is used to create a new address block in Universal DDI IPAM
 
 ## EXAMPLES
 

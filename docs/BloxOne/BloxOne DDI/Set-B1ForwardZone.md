@@ -8,7 +8,7 @@ schema: 2.0.0
 # Set-B1ForwardZone
 
 ## SYNOPSIS
-Updates an existing Forward Zone in BloxOneDDI
+Updates an existing Forward Zone in Universal DDI
 
 ## SYNTAX
 
@@ -27,18 +27,18 @@ Set-B1ForwardZone [-Description <String>] [-Forwarders <Object>] [-DNSHosts <Obj
 ```
 
 ## DESCRIPTION
-This function is used to an existing Forward Zone in BloxOneDDI
+This function is used to an existing Forward Zone in Universal DDI
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Set-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
+Set-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "ddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
 ```
 
 ### EXAMPLE 2
 ```powershell
-Get-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" | Set-B1ForwardZone -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
+Get-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" | Set-B1ForwardZone -DNSHosts "ddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
 ```
 
 ## PARAMETERS

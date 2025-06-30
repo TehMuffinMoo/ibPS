@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1Range
 
 ## SYNOPSIS
-Removes a DHCP Range from BloxOneDDI
+Removes a DHCP Range from Universal DDI
 
 ## SYNTAX
 
@@ -24,7 +24,7 @@ Remove-B1Range -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters
 ```
 
 ## DESCRIPTION
-This function is used to remove a DHCP Range from BloxOneDDI
+This function is used to remove a DHCP Range from Universal DDI
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1DelegatedZone
 
 ## SYNOPSIS
-Creates a new Delegated Zone in BloxOneDDI
+Creates a new Delegated Zone in Universal DDI
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ New-B1DelegatedZone [-FQDN] <String> [-View] <Object> [-DelegationServers] <Obje
 ```
 
 ## DESCRIPTION
-This function is used to create a new Delegated Zone in BloxOneDDI
+This function is used to create a new Delegated Zone in Universal DDI
 
 ## EXAMPLES
 

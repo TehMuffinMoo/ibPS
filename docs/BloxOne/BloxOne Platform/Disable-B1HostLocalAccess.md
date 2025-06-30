@@ -8,7 +8,7 @@ schema: 2.0.0
 # Disable-B1HostLocalAccess
 
 ## SYNOPSIS
-Disabled the Bootstrap UI Local Access for the given BloxOne Host
+Disabled the Bootstrap UI Local Access for the given NIOS-X Host
 
 ## SYNTAX
 
@@ -37,7 +37,7 @@ Disable-B1HostLocalAccess -Credentials <PSCredential> [-Wait] -OPH <PSObject[]> 
 ```
 
 ## DESCRIPTION
-This function is used to disable the Bootstrap UI Local Access for the given BloxOne Host
+This function is used to disable the Bootstrap UI Local Access for the given NIOS-X Host
 
 ## EXAMPLES
 
@@ -60,7 +60,7 @@ Local access disable request successfully sent for: my-host-1
 ## PARAMETERS
 
 ### -B1Host
-The name of the BloxOne Host to disable local access for
+The name of the NIOS-X Host to disable local access for
 
 ```yaml
 Type: String
@@ -121,7 +121,7 @@ Accept wildcard characters: False
 ```
 
 ### -OPH
-The BloxOne Host object to submit a disable local access request for.
+The NIOS-X Host object to submit a disable local access request for.
 This accepts pipeline input from Get-B1Host
 
 ```yaml

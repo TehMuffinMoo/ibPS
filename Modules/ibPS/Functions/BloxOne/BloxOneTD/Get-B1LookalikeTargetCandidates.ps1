@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         Use this method to retrieve information on all Lookalike Target Candidates.
-        The Lookalike Target Candidates are second-level domains BloxOne uses to detect lookalike FQDNs against.
+        The Lookalike Target Candidates are second-level domains Threat Defense uses to detect lookalike FQDNs against.
 
     .PARAMETER AccountSpecific
         Determines whether to return account_specific or common candidates. Default value is false, i.e. returns common candidates.

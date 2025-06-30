@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DHCPHardwareFilter
 
 ## SYNOPSIS
-Retrieves a list of DHCP Hardware Filters from BloxOneDDI.
+Retrieves a list of DHCP Hardware Filters from Universal DDI.
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DHCPHardwareFilter [[-Name] <String>] [[-Role] <String>] [[-Protocol] <Str
 ```
 
 ## DESCRIPTION
-This function is used to query a list of DHCP Hardware Filters from BloxOneDDI.
+This function is used to query a list of DHCP Hardware Filters from Universal DDI.
 
 ## EXAMPLES
 

@@ -1,10 +1,10 @@
 ﻿function Get-B1DHCPConfigProfile {
     <#
     .SYNOPSIS
-        Retrieves a list of DHCP Config Profiles from BloxOneDDI
+        Retrieves a list of DHCP Config Profiles from Universal DDI
 
     .DESCRIPTION
-        This function is used to query a list of DHCP Config Profiles from BloxOneDDI
+        This function is used to query a list of DHCP Config Profiles from Universal DDI
 
     .PARAMETER Name
         The name of the DHCP Config Profile

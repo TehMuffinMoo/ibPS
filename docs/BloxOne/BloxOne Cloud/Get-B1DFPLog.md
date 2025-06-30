@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1DFPLog
 
 ## SYNOPSIS
-Queries the BloxOneDDI DFP Log
+Queries the Universal DDI DFP Log
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1DFPLog [[-Query] <String>] [[-IP] <String>] [[-Type] <String>] [[-Response
 ```
 
 ## DESCRIPTION
-This function is used to query the BloxOneDDI DFP (DNS Forwarding Proxy) Logs.
+This function is used to query the Universal DDI DFP (DNS Forwarding Proxy) Logs.
 This is the log which contains all DNS Security related events.
 
 ## EXAMPLES
@@ -97,7 +97,7 @@ Accept wildcard characters: False
 ```
 
 ### -Network
-Filter the DFP Logs by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "mybloxoneddihost.mydomain.corp (DFP)" or "mybloxoneddihost1.mydomain.corp (DFP)","mybloxoneddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
+Filter the DFP Logs by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "ddihost.mydomain.corp (DFP)" or "ddihost1.mydomain.corp (DFP)","myddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
 
 ```yaml
 Type: String[]

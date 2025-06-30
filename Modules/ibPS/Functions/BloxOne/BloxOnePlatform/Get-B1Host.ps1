@@ -1,10 +1,10 @@
 ﻿function Get-B1Host {
     <#
     .SYNOPSIS
-        Queries a list of BloxOneDDI Hosts
+        Queries a list of NIOS-X Hosts
 
     .DESCRIPTION
-        This function is used to query a list of BloxOneDDI Hosts
+        This function is used to query a list of NIOS-X Hosts
 
     .PARAMETER Name
         The name of the host to filter by
@@ -68,7 +68,7 @@
         Use the id parameter to filter the results by ID
 
     .EXAMPLE
-        PS> Get-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
+        PS> Get-B1Host -Name "ddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
 
     .FUNCTIONALITY
         Universal DDI

@@ -1,10 +1,10 @@
 ﻿function Get-B1DelegatedZone {
     <#
     .SYNOPSIS
-        Retrieves a list of delegated zones from BloxOneDDI
+        Retrieves a list of delegated zones from Universal DDI
 
     .DESCRIPTION
-        This function is used to query a list delegated zones from BloxOneDDI
+        This function is used to query a list delegated zones from Universal DDI
 
     .PARAMETER FQDN
         The fqdn of the delegated zone to filter by

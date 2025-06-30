@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1FixedAddress
 
 ## SYNOPSIS
-Removes a fixed address from BloxOneDDI IPAM
+Removes a fixed address from Universal DDI IPAM
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1FixedAddress -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonPar
 ```
 
 ## DESCRIPTION
-This function is used to remove a fixed address from BloxOneDDI IPAM
+This function is used to remove a fixed address from Universal DDI IPAM
 
 ## EXAMPLES
 

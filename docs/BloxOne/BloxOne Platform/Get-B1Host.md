@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Host
 
 ## SYNOPSIS
-Queries a list of BloxOneDDI Hosts
+Queries a list of NIOS-X Hosts
 
 ## SYNTAX
 
@@ -20,13 +20,13 @@ Get-B1Host [[-Name] <String>] [[-IP] <String>] [[-OPHID] <String>] [[-Space] <St
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI Hosts
+This function is used to query a list of NIOS-X Hosts
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1Host -Name "bloxoneddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
+Get-B1Host -Name "ddihost1.mydomain.corp" -IP "10.10.10.10" -OPHID "OnPremHostID" -Space "Global" -Limit "100" -Status "degraded" -Detailed
 ```
 
 ## PARAMETERS

@@ -1,7 +1,7 @@
 ﻿function Get-B1Range {
     <#
     .SYNOPSIS
-        Queries a list of DHCP Ranges from BloxOneDDI
+        Queries a list of DHCP Ranges from Universal DDI
 
     .DESCRIPTION
         This function is used to get one or more next available address blocks from IPAM based on the criteria entered

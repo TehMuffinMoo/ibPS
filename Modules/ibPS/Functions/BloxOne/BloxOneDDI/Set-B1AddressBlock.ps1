@@ -1,10 +1,10 @@
 ﻿function Set-B1AddressBlock {
     <#
     .SYNOPSIS
-        Updates an existing address block in BloxOneDDI IPAM
+        Updates an existing address block in Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to update an existing address block in BloxOneDDI IPAM
+        This function is used to update an existing address block in Universal DDI IPAM
 
     .PARAMETER Subnet
         The network address of the address block you want to update

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1DelegatedZone
 
 ## SYNOPSIS
-Removes a Delegated Zone from BloxOneDDI
+Removes a Delegated Zone from Universal DDI
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1DelegatedZone -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonPa
 ```
 
 ## DESCRIPTION
-This function is used to remove a Delegated Zone from BloxOneDDI
+This function is used to remove a Delegated Zone from Universal DDI
 
 ## EXAMPLES
 

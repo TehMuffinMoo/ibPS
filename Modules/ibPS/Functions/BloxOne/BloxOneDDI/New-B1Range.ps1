@@ -1,10 +1,10 @@
 ﻿function New-B1Range {
     <#
     .SYNOPSIS
-        Creates a new DHCP Range in BloxOneDDI IPAM
+        Creates a new DHCP Range in Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to create a new DHCP Range in BloxOneDDI IPAM
+        This function is used to create a new DHCP Range in Universal DDI IPAM
 
     .PARAMETER Name
         The name of the DHCP Range you want to create

@@ -1,10 +1,10 @@
 ﻿function Remove-B1AuthoritativeZone {
     <#
     .SYNOPSIS
-        Removes a Authoritative Zone from BloxOneDDI
+        Removes a Authoritative Zone from Universal DDI
 
     .DESCRIPTION
-        This function is used to remove a Authoritative Zone from BloxOneDDI
+        This function is used to remove a Authoritative Zone from Universal DDI
 
     .PARAMETER FQDN
         The FQDN of the zone to remove

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1AuthoritativeZone
 
 ## SYNOPSIS
-Retrieves a list of authoritative zones from BloxOneDDI
+Retrieves a list of authoritative zones from Universal DDI
 
 ## SYNTAX
 
@@ -20,7 +20,7 @@ Get-B1AuthoritativeZone [[-FQDN] <String>] [[-Type] <String>] [[-Disabled] <Bool
 ```
 
 ## DESCRIPTION
-This function is used to query a list authoritative zones from BloxOneDDI
+This function is used to query a list authoritative zones from Universal DDI
 
 ## EXAMPLES
 

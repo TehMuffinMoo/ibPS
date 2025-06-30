@@ -1,10 +1,10 @@
 ﻿function Receive-B1Export {
     <#
     .SYNOPSIS
-        Retrieves a BloxOneDDI Export/Backup
+        Retrieves an Infoblox Portal Export/Backup
 
     .DESCRIPTION
-        This function is used to retrieve a BloxOneDDI Export/Backup
+        This function is used to retrieve a Infoblox Portal Export/Backup
 
     .PARAMETER data_ref
         The data_ref provided by the Get-B1BulkOperation or Get-B1Export function. This accepts pipeline input.

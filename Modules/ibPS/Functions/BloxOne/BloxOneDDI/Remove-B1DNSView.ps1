@@ -1,10 +1,10 @@
 ﻿function Remove-B1DNSView {
     <#
     .SYNOPSIS
-        Removes a DNS View from BloxOneDDI
+        Removes a DNS View from Universal DDI
 
     .DESCRIPTION
-        This function is used to remove a DNS View from BloxOneDDI
+        This function is used to remove a DNS View from Universal DDI
 
     .PARAMETER Name
         The name of the DNS View to remove

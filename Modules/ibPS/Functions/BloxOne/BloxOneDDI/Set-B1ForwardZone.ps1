@@ -1,10 +1,10 @@
 ﻿function Set-B1ForwardZone {
     <#
     .SYNOPSIS
-        Updates an existing Forward Zone in BloxOneDDI
+        Updates an existing Forward Zone in Universal DDI
 
     .DESCRIPTION
-        This function is used to an existing Forward Zone in BloxOneDDI
+        This function is used to an existing Forward Zone in Universal DDI
 
     .PARAMETER FQDN
         The FQDN of the zone to update
@@ -40,10 +40,10 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> Set-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
+        PS> Set-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "ddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
 
     .EXAMPLE
-        PS> Get-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" | Set-B1ForwardZone -DNSHosts "mybloxoneddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
+        PS> Get-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" | Set-B1ForwardZone -DNSHosts "ddihost1.corp.mycompany.com" -DNSServerGroups "Data Centre"
 
     .FUNCTIONALITY
         Universal DDI

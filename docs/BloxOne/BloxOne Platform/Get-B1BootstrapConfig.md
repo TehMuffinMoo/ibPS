@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1BootstrapConfig
 
 ## SYNOPSIS
-Retrieves the bootstrap configuration for a BloxOneDDI Host
+Retrieves the bootstrap configuration for a NIOS-X Host
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Get-B1BootstrapConfig [[-B1Host] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>
 ```
 
 ## DESCRIPTION
-This function is used to retrieve the bootstrap configuration for a BloxOneDDI Host
+This function is used to retrieve the bootstrap configuration for a NIOS-X Host
 
 ## EXAMPLES
 
@@ -30,7 +30,7 @@ Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"
 ## PARAMETERS
 
 ### -B1Host
-The name of the BloxOneDDI host to query the bootstrap config for
+The name of the NIOS-X Host to query the bootstrap config for
 
 ```yaml
 Type: String
@@ -109,7 +109,7 @@ Accept wildcard characters: False
 ```
 
 ### -GetConfig
-Specify the -GetConfig parameter to return only the BloxOne Hosts current config
+Specify the -GetConfig parameter to return only the NIOS-X Hosts current config
 
 ```yaml
 Type: SwitchParameter

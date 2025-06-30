@@ -1,10 +1,10 @@
 ﻿function Remove-B1AddressReservation {
     <#
     .SYNOPSIS
-        Removes an address reservation from BloxOneDDI IPAM
+        Removes an address reservation from Universal DDI IPAM
 
     .DESCRIPTION
-        This function is used to remove an address reservation from BloxOneDDI IPAM
+        This function is used to remove an address reservation from Universal DDI IPAM
 
     .PARAMETER Address
         The IP address of the reservation to remove

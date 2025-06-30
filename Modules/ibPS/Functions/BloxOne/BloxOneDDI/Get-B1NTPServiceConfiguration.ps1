@@ -7,7 +7,7 @@
         This function is used to retrieve the NTP configuration for a particular service
 
     .PARAMETER Name
-        The name of the BloxOneDDI service to check the NTP configuration for
+        The name of the Infoblox Portal Service to check the NTP configuration for
 
     .PARAMETER ServiceId
         The Service ID of the NTP service to check

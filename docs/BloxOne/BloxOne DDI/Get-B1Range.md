@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Range
 
 ## SYNOPSIS
-Queries a list of DHCP Ranges from BloxOneDDI
+Queries a list of DHCP Ranges from Universal DDI
 
 ## SYNTAX
 

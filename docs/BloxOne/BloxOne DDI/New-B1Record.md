@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1Record
 
 ## SYNOPSIS
-Creates a new DNS record in BloxOneDDI
+Creates a new DNS record in Universal DDI
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ New-B1Record [-Type] <String> [-Name] <String> [-Zone] <String> [-view] <String>
 ```
 
 ## DESCRIPTION
-This function is used to create a new DNS record in BloxOneDDI
+This function is used to create a new DNS record in Universal DDI
 
 ## EXAMPLES
 

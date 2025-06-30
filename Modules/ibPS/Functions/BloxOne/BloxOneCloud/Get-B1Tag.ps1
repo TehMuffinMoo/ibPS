@@ -1,10 +1,10 @@
 ﻿function Get-B1Tag {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOneDDI Tags
+        Retrieves a list of Universal DDI Tags
 
     .DESCRIPTION
-        This function is used to query a list of BloxOneDDI Tags
+        This function is used to query a list of Universal DDI Tags
 
     .PARAMETER Name
         The name of the tag to filter by

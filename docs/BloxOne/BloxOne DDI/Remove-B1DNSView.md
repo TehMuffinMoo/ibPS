@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1DNSView
 
 ## SYNOPSIS
-Removes a DNS View from BloxOneDDI
+Removes a DNS View from Universal DDI
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1DNSView -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParamete
 ```
 
 ## DESCRIPTION
-This function is used to remove a DNS View from BloxOneDDI
+This function is used to remove a DNS View from Universal DDI
 
 ## EXAMPLES
 

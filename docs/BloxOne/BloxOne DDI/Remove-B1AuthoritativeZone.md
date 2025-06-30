@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1AuthoritativeZone
 
 ## SYNOPSIS
-Removes a Authoritative Zone from BloxOneDDI
+Removes a Authoritative Zone from Universal DDI
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1AuthoritativeZone -Object <Object> [-Force] [-WhatIf] [-Confirm] [<Comm
 ```
 
 ## DESCRIPTION
-This function is used to remove a Authoritative Zone from BloxOneDDI
+This function is used to remove a Authoritative Zone from Universal DDI
 
 ## EXAMPLES
 

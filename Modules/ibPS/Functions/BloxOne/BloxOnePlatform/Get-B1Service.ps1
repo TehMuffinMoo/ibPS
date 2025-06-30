@@ -1,10 +1,10 @@
 ﻿function Get-B1Service {
     <#
     .SYNOPSIS
-        Retrieves a list of BloxOneDDI Services
+        Retrieves a list of Infoblox Portal Services
 
     .DESCRIPTION
-        This function is used to query a list of deployed BloxOneDDI Services/Containers
+        This function is used to query a list of deployed Infoblox Portal Services/Containers
 
     .PARAMETER Name
         Filters the results by the name of the container
@@ -47,7 +47,7 @@
         Use the id parameter to filter the results by ID
 
     .EXAMPLE
-        PS> Get-B1Service -Name "dns_bloxoneddihost1.mydomain.corp" -Detailed -Strict
+        PS> Get-B1Service -Name "dns_ddihost1.mydomain.corp" -Detailed -Strict
 
     .FUNCTIONALITY
         Universal DDI

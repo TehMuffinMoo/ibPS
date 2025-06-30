@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1Space
 
 ## SYNOPSIS
-Removes an IP Space from BloxOneDDI IPAM
+Removes an IP Space from Universal DDI IPAM
 
 ## SYNTAX
 
@@ -23,7 +23,7 @@ Remove-B1Space -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters
 ```
 
 ## DESCRIPTION
-This function is used to remove an IP Space from BloxOneDDI IPAM
+This function is used to remove an IP Space from Universal DDI IPAM
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Space
 
 ## SYNOPSIS
-Queries a list of BloxOneDDI IPAM/DHCP Spaces
+Queries a list of Universal DDI IPAM/DHCP Spaces
 
 ## SYNTAX
 
@@ -19,7 +19,7 @@ Get-B1Space [[-Name] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] 
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI IPAM/DHCP Spaces
+This function is used to query a list of Universal DDI IPAM/DHCP Spaces
 
 ## EXAMPLES
 

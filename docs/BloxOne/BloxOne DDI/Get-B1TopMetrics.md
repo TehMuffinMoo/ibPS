@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1TopMetrics
 
 ## SYNOPSIS
-Retrieves top metrics from BloxOneDDI
+Retrieves top metrics from Universal DDI
 
 ## SYNTAX
 
@@ -36,7 +36,7 @@ Get-B1TopMetrics [-TopDNSServers] [-Granularity <String>] [-TopCount <Int32>] [-
 ```
 
 ## DESCRIPTION
-This function is used to retrieve top metrics from BloxOneDDI
+This function is used to retrieve top metrics from Universal DDI
 
 ## EXAMPLES
 

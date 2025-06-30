@@ -1,10 +1,10 @@
 ﻿function Remove-B1Range {
     <#
     .SYNOPSIS
-        Removes a DHCP Range from BloxOneDDI
+        Removes a DHCP Range from Universal DDI
 
     .DESCRIPTION
-        This function is used to remove a DHCP Range from BloxOneDDI
+        This function is used to remove a DHCP Range from Universal DDI
 
     .PARAMETER StartAddress
         The start address of the DHCP Range

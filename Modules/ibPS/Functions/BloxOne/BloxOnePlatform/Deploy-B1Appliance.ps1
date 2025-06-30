@@ -1,10 +1,10 @@
 ﻿function Deploy-B1Appliance {
     <#
     .SYNOPSIS
-        Deploys a BloxOneDDI Virtual Appliance to VMware, Hyper-V or Azure.
+        Deploys a NIOS-X Virtual Appliance to VMware, Hyper-V or Azure.
 
     .DESCRIPTION
-        This function is used to deploy a BloxOneDDI Virtual Appliance to a VMware host/cluster, Hyper-V or Azure.
+        This function is used to deploy a NIOS-X Virtual Appliance to a VMware host/cluster, Hyper-V or Azure.
 
     .PARAMETER Type
         The type of deployment to perform (VMware / Hyper-V)
@@ -37,10 +37,10 @@
           Only used when -Type is VMware or Hyper-V
 
     .PARAMETER JoinToken
-        The Join Token for registration of the BloxOneDDI Host into the Cloud Services Portal
+        The Join Token for registration of the NIOS-X Host into the Cloud Services Portal
 
     .PARAMETER OVAPath
-        The path to the BloxOneDDI OVA
+        The path to the NIOS-X OVA
           Only used when -Type is VMware
           -OVAPath and -DownloadLatestImage are mutually exclusive. -ImagesPath should be used for selecting the appropriate image cache location.
 
@@ -73,12 +73,12 @@
           Only used when -Type is VMware
 
     .PARAMETER VHDPath
-        The full path to the BloxOne VHD/VHDX file
+        The full path to the NIOS-X VHD/VHDX file
           Only used when -Type is Hyper-V
           -VHDPath and -DownloadLatestImage are mutually exclusive. -ImagesPath should be used for selecting the appropriate image cache location.
 
     .PARAMETER HyperVServer
-        The FQDN for the Hyper-V server where the BloxOne appliance will be deployed to
+        The FQDN for the Hyper-V server where theInfoblox Appliance will be deployed to
           Only used when -Type is Hyper-V
 
     .PARAMETER HyperVGeneration
@@ -142,7 +142,7 @@
           Only used when -Type is Azure
 
     .PARAMETER AzAcceptTerms
-        The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host.
+        The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a NIOS-X Host.
           Only used when -Type is Azure
 
     .PARAMETER AzBootDiagnostics
@@ -169,7 +169,7 @@
         The duration of time allowed for the B1 Host to register with the Cloud Services Portal before timing out. This defaults to 300s (5 Minutes)
 
     .PARAMETER SkipCloudChecks
-        Using this parameter will mean the deployment will not wait for the BloxOneDDI Host to become registered/available within the Cloud Services Portal
+        Using this parameter will mean the deployment will not wait for the NIOS-X Host to become registered/available within the Cloud Services Portal
 
     .PARAMETER SkipPingChecks
         Using this parameter will skip ping checks during deployment, for cases where the deployment machine and host are separated by a device which blocks ICMP.
@@ -184,7 +184,7 @@
 
     .EXAMPLE
         PS> Deploy-B1Appliance -Type "VMware" `
-                            -Name "bloxoneddihost1" `
+                            -Name "ddihost1" `
                             -IP "10.10.100.10" `
                             -Netmask "255.255.255.0" `
                             -Gateway "10.10.100.1" `
@@ -202,7 +202,7 @@
 
     .EXAMPLE
         PS> Deploy-B1Appliance -Type Hyper-V `
-                           -Name "bloxoneddihost1" `
+                           -Name "ddihost1" `
                            -IP 10.10.100.10 `
                            -Netmask 255.255.255.0 `
                            -Gateway 10.10.100.1 `
@@ -219,7 +219,7 @@
 
     .EXAMPLE
         PS> Deploy-B1Appliance -Type "Azure" `
-                           -Name "bloxoneddihost1" `
+                           -Name "ddihost1" `
                            -JoinToken "JoinTokenGoesHere" `
                            -AzTenant 'g54gdeg5-gdf4-4434-dff4-7fdeswgf54ff' `
                            -AzSubscription '1234d123-abc1-4f33-r43f-5gredgrgdsdv4' `
@@ -316,13 +316,13 @@
             $DownloadLatestImageAttribute.Position = 7
             $DownloadLatestImageAttribute.Mandatory = $false
             $DownloadLatestImageAttribute.HelpMessageBaseName = "DownloadLatestImage"
-            $DownloadLatestImageAttribute.HelpMessage = "Using -DownloadLatestImage will download the latest BloxOne image prior to deployment. Only used when -Type is VMware or Hyper-V."
+            $DownloadLatestImageAttribute.HelpMessage = "Using -DownloadLatestImage will download the latest NIOS-X image prior to deployment. Only used when -Type is VMware or Hyper-V."
 
             $ImagesPathAttribute = New-Object System.Management.Automation.ParameterAttribute
             $ImagesPathAttribute.Position = 8
             $ImagesPathAttribute.Mandatory = $false
             $ImagesPathAttribute.HelpMessageBaseName = "ImagesPath"
-            $ImagesPathAttribute.HelpMessage = "Specify a path for cached BloxOne images to be stored when combined with -DownloadLatestImage. Only used when -Type is VMware or Hyper-V."
+            $ImagesPathAttribute.HelpMessage = "Specify a path for cached NIOS-X images to be stored when combined with -DownloadLatestImage. Only used when -Type is VMware or Hyper-V."
 
             $SkipPowerOnAttribute = New-Object System.Management.Automation.ParameterAttribute
             $SkipPowerOnAttribute.Position = 9
@@ -537,7 +537,7 @@
                 $AzAcceptTermsAttribute.Position = 9
                 $AzAcceptTermsAttribute.Mandatory = $false
                 $AzAcceptTermsAttribute.HelpMessageBaseName = "AzAcceptTerms"
-                $AzAcceptTermsAttribute.HelpMessage = "The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a BloxOne DDI Host."
+                $AzAcceptTermsAttribute.HelpMessage = "The AzAcceptTerms parameter is used to accept the marketplace terms required when deploying a NIOS-X Host."
 
                 $AzBootDiagnosticsAttribute = New-Object System.Management.Automation.ParameterAttribute
                 $AzBootDiagnosticsAttribute.Position = 10
@@ -626,7 +626,7 @@
 
         if ($Type -in @('VMware','Hyper-V')) {
             if ($PSBoundParameters.DownloadLatestImage) {
-                Write-Host "-DownloadLatestImage is selected. The latest BloxOne image will be used." -ForegroundColor Cyan
+                Write-Host "-DownloadLatestImage is selected. The latest NIOS-X image will be used." -ForegroundColor Cyan
                 if ($PSBoundParameters['OVAPath'] -or $PSBoundParameters['VHDPath']) {
                     Write-Error "-DownloadLatestImage cannot be used in conjunction with -OVAPath or -VHDPath"
                     return $null
@@ -648,7 +648,7 @@
                 } else {
                     Write-Host "-ImagesPath not set. Downloaded images will not be cached." -ForegroundColor Yellow
                 }
-                $Images = Get-B1Object -Product 'Bloxone Cloud' -App BootstrapApp -Endpoint /images
+                $Images = Get-B1Object -Product 'Infoblox Portal' -App BootstrapApp -Endpoint /images
                 switch ($Type) {
                     "VMware" {
                         $Image = $Images | Where-Object {$_.desc -like "*OVA"}
@@ -781,7 +781,7 @@
                     Write-Host "VM Already exists. Skipping.." -ForegroundColor Yellow
                 } else {
                     if ($OVFConfig) {
-                        Write-Host "Generating OVFConfig file for BloxOne Appliance: $Name .." -ForegroundColor Cyan
+                        Write-Host "Generating OVFConfig file forInfoblox Appliance: $Name .." -ForegroundColor Cyan
 
                         $OVFConfig.Common.address.Value = $PSBoundParameters.IP.IPAddressToString
                         $OVFConfig.Common.gateway.Value = $PSBoundParameters.Gateway.IPAddressToString
@@ -798,11 +798,11 @@
                         return $null
                     }
                     if($PSCmdlet.ShouldProcess("Deploy BloxOne VMware Appliance: $($Name)","Deploy BloxOne VMware Appliance: $($Name)",$MyInvocation.MyCommand)){
-                        Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
+                        Write-Host "DeployingInfoblox Appliance: $Name .." -ForegroundColor Cyan
                         $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $($ImageFile) -Name $Name -VMHost $VMHostObj -Datastore $Datastore -Force
 
                         if ($VM) {
-                            Write-Host "Successfully deployed BloxOne Appliance: $Name" -ForegroundColor Green
+                            Write-Host "Successfully deployedInfoblox Appliance: $Name" -ForegroundColor Green
                             if ($ENV:IBPSDebug -eq "Enabled") {$VM | Format-Table -AutoSize}
                             if (!($PSBoundParameters.SkipPowerOn)) {
                             Write-Host "Powering on $Name.." -ForegroundColor Cyan
@@ -876,7 +876,7 @@
                         $CPU = $PSBoundParameters['CPU']
                     }
 
-                    Write-Host "Deploying BloxOne Appliance: $Name .." -ForegroundColor Cyan
+                    Write-Host "DeployingInfoblox Appliance: $Name .." -ForegroundColor Cyan
                     $VM = New-VM -Name $Name  -NoVHD  -Generation $($PSBoundParameters['HyperVGeneration']) -MemoryStartupBytes $Memory -SwitchName $($PSBoundParameters['VirtualNetwork']) -ComputerName $($PSBoundParameters['HyperVServer']) -Path $($PSBoundParameters['VMPath'])
 
                     if ($VM) {
@@ -1111,7 +1111,7 @@
                     }
                     while (!(Get-B1Host @B1HostProps)) {
                         $CSPStartCount = $CSPStartCount + 10
-                        Write-Host -NoNewLine "`rWaiting for BloxOne Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
+                        Write-Host -NoNewLine "`rWaiting forInfoblox Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
                         if ($CSPStartCount -gt $CloudCheckTimeout) {
                             Write-Error "Error. VM failed to register with the BloxOne CSP. Please check VM Console for details."
@@ -1127,19 +1127,19 @@
 
                 if (!$Failed) {
                     Write-Host ""
-                    Write-Host "BloxOne Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Green
+                    Write-Host "Infoblox Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Green
                     if (!($SkipCloudChecks)) {
                         Get-B1Host @B1HostProps | Format-Table display_name,ip_address,host_version -AutoSize
                     }
-                    Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
+                    Write-Host "Infoblox Appliance deployed successfully." -ForegroundColor Green
                 } else {
-                    Write-Error "Failed to deploy BloxOne Appliance."
+                    Write-Error "Failed to deployInfoblox Appliance."
                 }
             } else {
-                Write-Host "BloxOne Appliance deployed successfully." -ForegroundColor Green
+                Write-Host "Infoblox Appliance deployed successfully." -ForegroundColor Green
             }
         } elseif ($ShouldProcess) {
-            Write-Error "Failed to deploy BloxOne Appliance."
+            Write-Error "Failed to deployInfoblox Appliance."
             break
         }
 

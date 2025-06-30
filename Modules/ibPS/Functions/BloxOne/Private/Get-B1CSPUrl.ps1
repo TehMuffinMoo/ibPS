@@ -1,10 +1,10 @@
 ﻿function Get-B1CSPUrl {
     <#
     .SYNOPSIS
-        Retrieves the stored BloxOneDDI CSP Url, if available.
+        Retrieves the stored Infoblox Portal Url, if available.
 
     .DESCRIPTION
-        This function will retrieve the saved BloxOneDDI CSP Url from the local user/machine if it has previously been set.
+        This function will retrieve the saved Infoblox Portal CSP from the local user/machine if it has previously been set.
 
     .EXAMPLE
         PS> Get-B1CSPUrl

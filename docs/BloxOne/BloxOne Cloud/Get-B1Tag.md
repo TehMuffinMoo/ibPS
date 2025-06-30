@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Tag
 
 ## SYNOPSIS
-Retrieves a list of BloxOneDDI Tags
+Retrieves a list of Universal DDI Tags
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Get-B1Tag [[-Name] <String>] [[-Status] <String>] [-Strict] [[-Fields] <String[]
 ```
 
 ## DESCRIPTION
-This function is used to query a list of BloxOneDDI Tags
+This function is used to query a list of Universal DDI Tags
 
 ## EXAMPLES
 

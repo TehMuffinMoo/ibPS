@@ -1,10 +1,10 @@
 ﻿function Get-B1DHCPHardwareFilter {
     <#
     .SYNOPSIS
-        Retrieves a list of DHCP Hardware Filters from BloxOneDDI.
+        Retrieves a list of DHCP Hardware Filters from Universal DDI.
 
     .DESCRIPTION
-        This function is used to query a list of DHCP Hardware Filters from BloxOneDDI.
+        This function is used to query a list of DHCP Hardware Filters from Universal DDI.
 
     .PARAMETER Name
         The name of the DHCP Hardware Filter to search for

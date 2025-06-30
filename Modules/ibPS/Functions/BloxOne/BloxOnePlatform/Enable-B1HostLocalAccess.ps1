@@ -1,13 +1,13 @@
 ﻿function Enable-B1HostLocalAccess {
     <#
     .SYNOPSIS
-        Enables the Bootstrap UI Local Access for the given BloxOne Host
+        Enables the Bootstrap UI Local Access for the given NIOS-X Host
 
     .DESCRIPTION
-        This function is used to enable the Bootstrap UI Local Access for the given BloxOne Host
+        This function is used to enable the Bootstrap UI Local Access for the given NIOS-X Host
 
     .PARAMETER B1Host
-        The name of the BloxOne Host to enable local access for
+        The name of the NIOS-X Host to enable local access for
 
     .PARAMETER UseDefaultCredentials
         Using the -UseDefaultCredentials parameter will attempt to use the default credentials (admin + last 8 characters of serial number)
@@ -19,7 +19,7 @@
         Using the -Wait parameter will wait and check if the local access is enabled successfully. This can be manually checked using Get-B1HostLocalAccess
 
     .PARAMETER OPH
-        The BloxOne Host object to submit a enable local access request for. This accepts pipeline input from Get-B1Host
+        The NIOS-X Host object to submit a enable local access request for. This accepts pipeline input from Get-B1Host
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will always prompt for confirmation unless -Confirm:$false or -Force is specified, or $ConfirmPreference is set to None.
@@ -107,7 +107,7 @@
         } else {
             $OPH = Get-B1Host -Name $B1Host -Strict
             if (!($OPH)) {
-                Write-Error "Unable to find BloxOne Host: $($B1Host)"
+                Write-Error "Unable to find NIOS-X Host: $($B1Host)"
                 break
             } else {
                 $OPHID = $OPH.ophid

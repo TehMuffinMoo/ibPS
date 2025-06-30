@@ -1,10 +1,10 @@
 ﻿function Get-B1Record {
     <#
     .SYNOPSIS
-        Queries DNS records from BloxOneDDI
+        Queries DNS records from Universal DDI
 
     .DESCRIPTION
-        This function is used to query DNS records from BloxOneDDI
+        This function is used to query DNS records from Universal DDI
 
     .PARAMETER Type
         The record type to filter by
