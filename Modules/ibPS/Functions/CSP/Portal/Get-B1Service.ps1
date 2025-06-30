@@ -48,7 +48,7 @@
 
     .EXAMPLE
         PS> Get-B1Service -Name "dns_ddihost1.mydomain.corp" -Detailed -Strict
-    
+
     .FUNCTIONALITY
         NIOS-X
 
