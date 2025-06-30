@@ -1,5 +1,5 @@
 ---
-external help file: BloxOne-Main-help.xml
+external help file: ibPS-Main-help.xml
 Module Name: ibPS
 online version:
 schema: 2.0.0
@@ -32,9 +32,9 @@ Corp-GM has been set as the active connection profile.
 
 ### EXAMPLE 2
 ```powershell
-Switch-NIOSConnectionProfile BloxOne-GM
+Switch-NIOSConnectionProfile Corp-GM
 
-BloxOne-GM has been set as the active connection profile.
+Corp-GM has been set as the active connection profile.
 ```
 
 ## PARAMETERS

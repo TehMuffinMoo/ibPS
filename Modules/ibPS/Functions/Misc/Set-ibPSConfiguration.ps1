@@ -4,10 +4,10 @@
         Used to set ibPS specific configuration
 
     .DESCRIPTION
-        This function is used to set ibPS specific configuration, such as the BloxOne CSP API Key, Region/URL and enabling/disabling development or debug mode
+        This function is used to set ibPS specific configuration, such as the Infoblox Portal CSP API Key, Region/URL and enabling/disabling development or debug mode
 
     .PARAMETER CSPAPIKey
-        This is the BloxOneDDI API Key retrieves from the Cloud Services Portal
+        This is the Infoblox Portal API Key retrieved from the Cloud Services Portal
 
     .PARAMETER CSPRegion
         Optionally configure the the CSP Region to use (i.e EU for the EMEA instance). The region defaults to US if not defined. You only need to use -CSPRegion OR -CSPUrl.
@@ -36,12 +36,12 @@
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPAPIKey 'longapikeygoeshere' -Persist
 
-        BloxOne API key has been stored permanently for user on MAC-DSD984HG
+        Universal DDI API key has been stored permanently for user on MAC-DSD984HG
 
     .EXAMPLE
         PS> Set-ibPSConfiguration -CSPRegion EU
 
-        BloxOne CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
+        Universal DDI CSP URL (https://csp.eu.infoblox.com) has been stored for this session.
         You can make the CSP URL persistent for this user on this machine by using the -persist parameter.
 
     .EXAMPLE
@@ -91,7 +91,7 @@
           if ($Platform -eq "Windows") {
             [System.Environment]::SetEnvironmentVariable('B1CSPUrl',$CSPUrl,[System.EnvironmentVariableTarget]::User)
             $ENV:B1CSPUrl = $CSPUrl
-            Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+            Write-Host "Infoblox Portal CSP URL ($CSPUrl) has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
           } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
             $ENV:B1CSPUrl = $CSPUrl
             if (!(Test-Path ~/.zshenv)) {
@@ -99,11 +99,11 @@
             }
             sed -i '' -e '/B1CSPUrl/d' ~/.zshenv
             echo "export B1CSPUrl=$CSPUrl" >> ~/.zshenv
-            Write-Host "BloxOne CSP URL ($CSPUrl) has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+            Write-Host "Infoblox Portal CSP URL ($CSPUrl) has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
           }
         } else {
             $ENV:B1CSPUrl = $CSPUrl
-            Write-Host "BloxOne CSP URL ($CSPUrl) has been stored for this session." -ForegroundColor Green
+            Write-Host "Infoblox Portal CSP URL ($CSPUrl) has been stored for this session." -ForegroundColor Green
             Write-Host "You can make the CSP URL persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
         }
       }
@@ -118,7 +118,7 @@
         if ($Platform -eq "Windows") {
           [System.Environment]::SetEnvironmentVariable('B1APIKey',$Base64,[System.EnvironmentVariableTarget]::User)
           $ENV:B1APIKey = $Base64
-          Write-Host "BloxOne API key has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
+          Write-Host "Infoblox Portal API key has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
         } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
           $ENV:B1APIKey = $Base64
           if (!(Test-Path ~/.zshenv)) {
@@ -126,11 +126,11 @@
           }
           sed -i '' -e '/B1APIKey/d' ~/.zshenv
           echo "export B1APIKey=$Base64" >> ~/.zshenv
-          Write-Host "BloxOne API key has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
+          Write-Host "Infoblox Portal API key has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
         }
       } else {
           $ENV:B1APIKey = $Base64
-          Write-Host "BloxOne API key has been stored for this session." -ForegroundColor Green
+          Write-Host "Infoblox Portal API key has been stored for this session." -ForegroundColor Green
           Write-Host "You can make the API key persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
       }
     }

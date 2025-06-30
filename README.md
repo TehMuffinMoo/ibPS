@@ -3,7 +3,7 @@
   <br>
   <!--<a href=""><img src="" alt="Markdownify" width="200"></a>-->
   <br>
-  InfoBlox Portal & Threat Defense Powershell Module
+  Infoblox Portal & Threat Defense Powershell Module
   <br>
 </h1>
 
@@ -20,7 +20,7 @@
   <a href="https://www.codefactor.io/repository/github/tehmuffinmoo/ibps"><img src="https://www.codefactor.io/repository/github/tehmuffinmoo/ibps/badge"></a>
 </p>
 
-<h4 align="center">A series of PowerShell Cmdlets used to interact with the InfoBlox Universal DDI & Threat Defense APIs.</h4>
+<h4 align="center">A series of PowerShell Cmdlets used to interact with the Infoblox Universal DDI & Threat Defense APIs.</h4>
 <h6 align="center" style="margin-top:0px!important;margin-bottom:0px!important;">Formally known as BloxOne DDI & BloxOne Threat Defense.</h6>
 
 <p align="center">
@@ -97,7 +97,7 @@ Get-Help New-B1AddressBlock -Detailed
 ```
 
 ## Resources
-This PowerShell Module makes use of the following InfoBlox APIs;
+This PowerShell Module makes use of the following Infoblox APIs;
 
 - [CSP Cloud](https://csp.infoblox.com/apidoc)
 - [NIOS](https://www.infoblox.com/wp-content/uploads/infoblox-deployment-infoblox-rest-api.pdf)

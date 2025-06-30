@@ -9,7 +9,7 @@
   <br>
   <!--<a href=""><img src="" alt="Markdownify" width="200"></a>-->
   <br>
-  InfoBlox Portal & Threat Defense Powershell Module
+  Infoblox Universal DDI & Threat Defense Powershell Module
   <br>
 </h1>
 
@@ -26,7 +26,7 @@
   <a href="https://www.codefactor.io/repository/github/tehmuffinmoo/ibps"><img src="https://www.codefactor.io/repository/github/tehmuffinmoo/ibps/badge"></a>
 </p>
 
-<h4 align="center">A series of PowerShell Cmdlets used to interact with the InfoBlox Universal DDI & Threat Defense APIs.</h4>
+<h4 align="center">A series of PowerShell Cmdlets used to interact with the Infoblox Portal APIs for Universal DDI & Threat Defense.</h4>
 <h6 align="center" style="margin-top:0px!important;margin-bottom:0px!important;">Formally known as BloxOne DDI & BloxOne Threat Defense.</h6>
 
 <p align="center">
@@ -47,7 +47,7 @@
 * Deploy / Configure / Manage Hosts & Services
 * Query DNS/DHCP/Host/Audit/Security logs
 * Interact with the TIDE API
-* Build custom scripts/functions leveraging the [Infoblox Portal Wrapper Cmdlets](BloxOne/Generic%20Wrapper/).
+* Build custom scripts/functions leveraging the [Infoblox Portal Wrapper Cmdlets](CSP/Generic%20Wrapper/).
 * Fully featured NIOS Wrapper using Native API or NIOS Federation [NIOS Wrapper Cmdlets](NIOS/Generic%20Wrapper/)
 * Automate the world!
 
@@ -55,7 +55,7 @@
 
 * If the cmdlet you are looking for is not yet built into the Module, you can raise a feature request via Github Issues.
 * You can also use this module as a generic wrapper by leveraging the:
-[Infoblox Portal Wrapper Cmdlets](BloxOne/Generic%20Wrapper/) & 
+[Infoblox Portal Wrapper Cmdlets](CSP/Generic%20Wrapper/) & 
 [NIOS Wrapper Cmdlets](NIOS/Generic%20Wrapper/).
 
 ## How To Use
@@ -110,13 +110,13 @@ Get-ibPSVersion -Update
 #### Explicitly Import Module
 ```powershell
 # You can import the module directly by using;
-Import-Module -Name ".\Modules\ibPS\BloxOne-Main.psm1" -DisableNameChecking
+Import-Module -Name ".\Modules\ibPS\ibPS-Main.psm1" -DisableNameChecking
 ```
 
 #### Explicitly Import Functions
 ```powershell
 # You can load the functions directly by using;
-. .\Modules\BloxOne-Main.ps1
+. .\Modules\ibPS-Main.ps1
 ```
 
 ### Authentication (API Key)
@@ -152,7 +152,7 @@ $ENV:IBPSB1APIKEY = '<ApiKeyFromCSP>'
 #### Managing multiple Infoblox Portal Accounts
 When managing more than one account, you can use the Profiles configuration. Configuration Profiles enable you to save API keys for multiple accounts, and easily switch between them.
 
-See [Get-B1ConnectionProfile](BloxOne/Profiles/Get-B1ConnectionProfile/) for more information
+See [Get-B1ConnectionProfile](CSP/Profiles/Get-B1ConnectionProfile/) for more information
 ```powershell
 New-B1ConnectionProfile -Name 'Prod' -CSPRegion 'US' -APIKey '<ApiKeyFromCSP>'
 ```
@@ -398,7 +398,7 @@ Resolve-DoHQuery                 | ![Implemented](https://badgen.net/badge/Statu
 All new commits will first be made to the [dev branch](https://github.com/TehMuffinMoo/ibPS/tree/dev) until tested. Once these changes are merged into [main branch](https://github.com/TehMuffinMoo/ibPS/tree/main), Github actions are used to package both the PowerShell Module and its documentation and subsequently publish to PowerShell Gallery.
 
 ## Resources
-This PowerShell Module makes use of the following InfoBlox APIs;
+This PowerShell Module makes use of the following Infoblox APIs;
 
 - [CSP Cloud](https://csp.infoblox.com/apidoc)
 - [NIOS](https://www.infoblox.com/wp-content/uploads/infoblox-deployment-infoblox-rest-api.pdf)

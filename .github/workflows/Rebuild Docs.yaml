@@ -30,7 +30,7 @@ jobs:
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
 
           Write-Host "Import ibPS Classes.."
-          . ./Modules/ibPS/Functions/BloxOne/Private/Classes.ps1
+          . ./Modules/ibPS/Functions/CSP/Private/Classes.ps1
 
           Write-Host "Obtaining list of excluded docs.."
           $ExcludedDocs = Import-Csv ./docs/exclusions.csv -Header 'doc'
@@ -40,7 +40,7 @@ jobs:
           New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion $($DocumentationVersion) -Force
 
           Write-Host "Cleaning up old documentation.."
-          $OldDocs = Get-ChildItem ./docs/BloxOne -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
+          $OldDocs = Get-ChildItem ./docs/CSP -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
           $OldDocs = Get-ChildItem ./docs/General -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
           $OldDocs = Get-ChildItem ./docs/NIOS -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
 
@@ -50,17 +50,14 @@ jobs:
             if ((Test-Path $DocToFind) -and "$($F.BaseName).md" -notin $($ExcludedDocs.doc)) {
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
-                "BloxOneDDI" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne DDI"
+                "UniversalDDI" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Universal DDI"
                 }
-                "BloxOneTD" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Threat Defense"
+                "ThreatDefense" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Infoblox Threat Defense"
                 }
-                "BloxOnePlatform" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Platform"
-                }
-                "BloxOneCloud" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Cloud"
+                "Portal" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Infoblox Portal"
                 }
                 "Wrapper" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Generic Wrapper"

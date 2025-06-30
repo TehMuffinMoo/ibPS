@@ -4,7 +4,7 @@
         Generic Wrapper function for removing objects from the NIOS WAPI
 
     .DESCRIPTION
-        Generic Wrapper function for removing objects from the NIOS WAPI, either directly or via BloxOne Federation
+        Generic Wrapper function for removing objects from the NIOS WAPI, either directly or via Universal DDI Federation
 
     .PARAMETER ObjectRef
         Specify the object _ref to remove.
@@ -17,10 +17,10 @@
         This is used only when connecting to NIOS directly.
 
     .PARAMETER GridUID
-        Specify the NIOS Grid UID (license_uid). This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+        Specify the NIOS Grid UID (license_uid). This indicates which Grid to connect to when using NIOS Federation within Universal DDI.
 
     .PARAMETER GridName
-        Specify the NIOS Grid Name in BloxOne DDI instead of the GridUID. This is convient, but requires resolving the license_uid on every API Call.
+        Specify the NIOS Grid Name in Universal DDI instead of the GridUID. This is convient, but requires resolving the license_uid on every API Call.
 
         This parameter can be ommitted if the Federated Grid has been stored by using Set-NIOSConnectionProfile
 

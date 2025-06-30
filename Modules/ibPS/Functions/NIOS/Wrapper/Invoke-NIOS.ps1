@@ -1,10 +1,10 @@
 ﻿function Invoke-NIOS {
     <#
     .SYNOPSIS
-        Queries a NIOS Grid Manager via Infoblox WAPI or the BloxOne CSP via NIOS Federation
+        Queries a NIOS Grid Manager via Infoblox WAPI or the Universal DDI CSP via NIOS Federation
 
     .DESCRIPTION
-        This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs locally or via BloxOne CSP via NIOS Federation.
+        This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs locally or via Universal DDI CSP via NIOS Federation.
 
     .PARAMETER Method
         Specify the HTTP Method to use. (Default,Get,Head,Post,Put,Delete,Trace,Options,Merge,Patch)
@@ -17,10 +17,10 @@
         This is used only when connecting to NIOS directly.
 
     .PARAMETER GridUID
-        Specify the NIOS Grid UID (license_uid). This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+        Specify the NIOS Grid UID (license_uid). This indicates which Grid to connect to when using NIOS Federation within Universal DDI.
 
     .PARAMETER GridName
-        Specify the NIOS Grid Name in BloxOne DDI instead of the GridUID. This is convient, but requires resolving the license_uid on every API Call.
+        Specify the NIOS Grid Name in Universal DDI instead of the GridUID. This is convient, but requires resolving the license_uid on every API Call.
 
     .PARAMETER Uri
         Specify the Uri, such as "record:a", you can also use the full URL and http parameters must be appended here.
