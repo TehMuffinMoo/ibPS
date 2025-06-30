@@ -1,10 +1,10 @@
 ﻿function Get-B1Export {
     <#
     .SYNOPSIS
-        Used to query BloxOne Export Jobs
+        Used to query Infoblox Portal Export Jobs
 
     .DESCRIPTION
-        This function is used to query BloxOne Export Jobs
+        This function is used to query Infoblox Portal Export Jobs
 
     .PARAMETER id
         Filter the results by the id of the export job

@@ -79,7 +79,7 @@
                     "source_interfaces" = @()
                 } | ConvertTo-Json -Depth 3
 
-                if($PSCmdlet.ShouldProcess("Create new BloxOne $($Type.ToUpper()) Service:`n$($JSON)","Create new BloxOne $($Type.ToUpper()) Service: $($Name)",$MyInvocation.MyCommand)){
+                if($PSCmdlet.ShouldProcess("Create new $($Type.ToUpper()) Service:`n$($JSON)","Create new $($Type.ToUpper()) Service: $($Name)",$MyInvocation.MyCommand)){
                     $NewServiceResult = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/services" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
                     if ($NewServiceResult.id) {
                         Write-Host "$($Type.ToUpper()) service created successfully on $($B1HostInfo.display_name)" -ForegroundColor Green

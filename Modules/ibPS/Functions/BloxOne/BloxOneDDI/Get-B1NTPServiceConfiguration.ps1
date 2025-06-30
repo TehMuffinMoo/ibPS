@@ -16,7 +16,7 @@
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
     .EXAMPLE
-        PS> Get-B1NTPServiceConfiguration -Name "mybloxonehost.corp.domain.com" -Strict
+        PS> Get-B1NTPServiceConfiguration -Name "myhost.corp.domain.com" -Strict
 
     .FUNCTIONALITY
         Universal DDI

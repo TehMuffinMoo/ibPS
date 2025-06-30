@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1BulkOperation
 
 ## SYNOPSIS
-Used to query BloxOne Bulk Operations
+Used to query Infoblox Portal Bulk Operations
 
 ## SYNTAX
 
@@ -18,7 +18,7 @@ Get-B1BulkOperation [[-id] <String>] [[-Name] <String>] [[-Type] <String>] [[-St
 ```
 
 ## DESCRIPTION
-This function is used to query BloxOne Bulk Operations
+This function is used to query Infoblox Portal Bulk Operations
 
 ## EXAMPLES
 

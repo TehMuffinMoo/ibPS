@@ -8,7 +8,7 @@ schema: 2.0.0
 # ConvertTo-PunyCode
 
 ## SYNOPSIS
-Uses the BloxOne API to convert a domain name to Punycode
+Uses the Infoblox Portal API to convert a domain name to Punycode
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ ConvertTo-PunyCode [-FQDN] <String[]> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function uses the BloxOne API to convert a domain name to Punycode
+This function uses the Infoblox Portal API to convert a domain name to Punycode
 
 ## EXAMPLES
 

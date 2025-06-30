@@ -1,10 +1,10 @@
 ﻿function Get-B1Import {
     <#
     .SYNOPSIS
-        Used to query BloxOne Import Jobs
+        Used to query Infoblox Portal Import Jobs
 
     .DESCRIPTION
-        This function is used to query BloxOne Import Jobs
+        This function is used to query Infoblox Portal Import Jobs
 
     .PARAMETER id
         Filter the results by the id of the import job

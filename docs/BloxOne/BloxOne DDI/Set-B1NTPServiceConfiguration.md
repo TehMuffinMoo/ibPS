@@ -23,7 +23,7 @@ This function is used to update an NTP Service with the Global NTP Configuration
 
 ### EXAMPLE 1
 ```powershell
-Set-B1NTPServiceConfiguration -Name "ntp_mybloxonehost.corp.domain.com" -Strict
+Set-B1NTPServiceConfiguration -Name "ntp_myhost.corp.domain.com" -Strict
 ```
 
 ## PARAMETERS

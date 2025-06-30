@@ -4,7 +4,7 @@
         Retrieves a list of Universal DDI DTC Health Checks
 
     .DESCRIPTION
-        This function is used to query a list BloxOne Health Checks
+        This function is used to query a list Universal DDI DTC Health Checks
 
     .PARAMETER Name
         The name of the DTC Health Check to filter by

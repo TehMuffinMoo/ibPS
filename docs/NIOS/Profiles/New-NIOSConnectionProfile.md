@@ -151,7 +151,7 @@ Accept wildcard characters: False
 ```
 
 ### -GridName
-Specify the NIOS Grid Name in BloxOne DDI to use for the new connection profile.
+Specify the NIOS Grid Name in the Infoblox Portal to use for the new connection profile.
 
 Using this parameter will set the connection profile type to Federated.
 

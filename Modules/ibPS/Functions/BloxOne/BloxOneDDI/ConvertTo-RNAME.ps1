@@ -1,10 +1,10 @@
 ﻿function ConvertTo-RNAME {
     <#
     .SYNOPSIS
-        Uses the BloxOne API to convert an email address to RNAME format
+        Uses the Infoblox Portal API to convert an email address to RNAME format
 
     .DESCRIPTION
-        This function uses the BloxOne API to convert an email address to RNAME format
+        This function uses the Infoblox Portal API to convert an email address to RNAME format
 
     .PARAMETER Email
         The email address to convert into RNAME format

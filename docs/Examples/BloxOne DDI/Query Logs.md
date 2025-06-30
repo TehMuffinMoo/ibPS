@@ -1,4 +1,4 @@
-Here are some examples of retrieving various logs from the BloxOne CSP
+Here are some examples of retrieving various logs from the Infoblox Portal
 
 ### Service Log
 This example showcases retrieving the last 10,000 events for the `DNS` container located on a specific NIOS-X Host.
@@ -45,18 +45,18 @@ timestamp           query_type ip          query                  response      
 
 
 ### DNS Forwarding Proxy (DFP) Log
-The DFP log shows all DNS queries which have been resolved via a BloxOne or NIOS DFP, or via the Secure Infoblox Portal Resolver.
+The DFP log shows all DNS queries which have been resolved via a NIOS-X DFP, NIOS DFP, or via the Secure Infoblox Portal Resolver.
 
 ```powershell
 PS> Get-B1DFPLog -Start (Get-Date).AddMinutes(-30) -Limit 5
 
 timestamp                     query_type device_ip      device_name   user      network            query                                                               response       mac_address       device_region
 ---------                     ---------- ---------      -----------   ----      -------            -----                                                               --------       -----------       -------------
-2024-03-07 11:29:44 +0000 UTC A          10.120.170.10  Laptop-12345  bbloggs   BloxOne Endpoint   outlook.office365.com.                                              52.97.211.242  58:ce:2a:7e:b9:09 England       
+2024-03-07 11:29:44 +0000 UTC A          10.120.170.10  Laptop-12345  bbloggs   Threat Defense Endpoint   outlook.office365.com.                                              52.97.211.242  58:ce:2a:7e:b9:09 England       
 2024-03-07 11:29:42 +0000 UTC A          10.11.34.53    10.11.34.53   unknown   Corporate          ooc-g2.tm-4.office.com.                                             52.98.152.178  00:0c:29:0e:a9:df Île-de-France 
-2024-03-07 11:29:41 +0000 UTC HTTPS      10.47.9.102    Laptop-54321  mcox      BloxOne Endpoint   waa-pa.clients6.google.com.                                         NOERROR        c8:89:f3:bc:a1:4e England       
+2024-03-07 11:29:41 +0000 UTC HTTPS      10.47.9.102    Laptop-54321  mcox      Threat Defense Endpoint   waa-pa.clients6.google.com.                                         NOERROR        c8:89:f3:bc:a1:4e England       
 2024-03-07 11:29:41 +0000 UTC A          10.172.19.12   10.172.19.12  unknown   Corporate          fls-eu.amazon.es.                                                   54.154.77.19   00:0c:29:0e:a9:df Île-de-France 
-2024-03-07 11:29:40 +0000 UTC A          10.23.11.11    Laptop-98765  jbloggs   BloxOne Endpoint   gem-pa.googleapis.com.                                              142.250.180.10 c8:89:f3:bd:11:e8 England
+2024-03-07 11:29:40 +0000 UTC A          10.23.11.11    Laptop-98765  jbloggs   Threat Defense Endpoint   gem-pa.googleapis.com.                                              142.250.180.10 c8:89:f3:bd:11:e8 England
 ```
 
 

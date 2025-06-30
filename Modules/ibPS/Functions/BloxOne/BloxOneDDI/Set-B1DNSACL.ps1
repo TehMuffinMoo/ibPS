@@ -4,7 +4,7 @@
         Updates a DNS ACL object
 
     .DESCRIPTION
-        This function is used to update a DNS ACL object within BloxOne
+        This function is used to update a DNS ACL object within Universal DDI
 
     .PARAMETER Name
         The name of the DNS ACL to update.

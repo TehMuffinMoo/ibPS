@@ -16,7 +16,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> Set-B1NTPServiceConfiguration -Name "ntp_mybloxonehost.corp.domain.com" -Strict
+        PS> Set-B1NTPServiceConfiguration -Name "ntp_myhost.corp.domain.com" -Strict
 
     .FUNCTIONALITY
         Universal DDI

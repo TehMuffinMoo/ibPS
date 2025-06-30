@@ -202,7 +202,7 @@
     $Splat.latitude = $GeoCode.latitude
 
     $JSON = $Splat | ConvertTo-Json -Depth 5 -Compress
-    if($PSCmdlet.ShouldProcess($(JSONPretty($JSON)),"Create new BloxOne Location",$MyInvocation.MyCommand)){
+    if($PSCmdlet.ShouldProcess($(JSONPretty($JSON)),"Create new Location",$MyInvocation.MyCommand)){
         $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/locations" -Data ([System.Text.Encoding]::UTF8.GetBytes($JSON))
 
         if ($Results) {

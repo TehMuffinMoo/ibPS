@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1AssetSummary
 
 ## SYNOPSIS
-Summerise a list of Assets discovered by BloxOne
+Summerise a list of Assets discovered by Universal DDI
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1AssetSummary [[-Type] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to summerise a list of Assets discovered by BloxOne
+This function is used to summerise a list of Assets discovered by Universal DDI
 
 ## EXAMPLES
 

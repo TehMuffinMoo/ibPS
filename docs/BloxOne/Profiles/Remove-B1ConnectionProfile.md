@@ -8,7 +8,7 @@ schema: 2.0.0
 # Remove-B1ConnectionProfile
 
 ## SYNOPSIS
-This function is used to remove a saved BloxOne connection profile.
+This function is used to remove a saved Infoblox Portalconnection profile.
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Remove-B1ConnectionProfile [-Name] <String> [[-Confirm] <Boolean>] [<CommonParam
 ```
 
 ## DESCRIPTION
-Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts, with the ability to quickly switch between them.
+Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts, with the ability to quickly switch between them.
 A list of connection profiles can be retrieved using [`Get-B1ConnectionProfile`](../Get-B1ConnectionProfile/).
 
 ## EXAMPLES

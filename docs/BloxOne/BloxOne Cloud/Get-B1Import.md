@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Import
 
 ## SYNOPSIS
-Used to query BloxOne Import Jobs
+Used to query Infoblox Portal Import Jobs
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1Import [[-id] <String>] [[-Name] <String>] [-Strict] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query BloxOne Import Jobs
+This function is used to query Infoblox Portal Import Jobs
 
 ## EXAMPLES
 

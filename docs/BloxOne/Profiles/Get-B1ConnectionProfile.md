@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1ConnectionProfile
 
 ## SYNOPSIS
-This function is used to retrieved saved BloxOne connection profiles.
+This function is used to retrieved saved Infoblox Portalconnection profiles.
 By default, the active profile is returned.
 
 ## SYNTAX
@@ -18,7 +18,7 @@ Get-B1ConnectionProfile [[-Name] <String>] [-List] [-IncludeAPIKey]
 ```
 
 ## DESCRIPTION
-Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts.
+Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts.
 These can then easily be switched between by using [`Switch-B1ConnectionProfile`](../Switch-B1ConnectionProfile/).
 
 ## EXAMPLES

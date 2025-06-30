@@ -151,7 +151,7 @@
         $splat | Add-Member -Name "data_types" -Value $dataTypes -MemberType NoteProperty
     }
     $splat = $splat | ConvertTo-Json
-    if($PSCmdlet.ShouldProcess("Start BloxOne Data Export`n$(JSONPretty($splat))","Start BloxOne Data Export",$MyInvocation.MyCommand)){
+    if($PSCmdlet.ShouldProcess("Start Data Export`n$(JSONPretty($splat))","Start Data Export",$MyInvocation.MyCommand)){
         $Export = Invoke-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat
         if ($Export.success.message -eq "Export pending") {
             Write-Host "Data Export initalised successfully." -ForegroundColor Green

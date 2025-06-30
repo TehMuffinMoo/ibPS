@@ -17,7 +17,7 @@ Invoke-CSP [-Method] <String> [-Uri] <String> [-Data] <String> [-InFile] <String
 ```
 
 ## DESCRIPTION
-This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the BloxOne APIs.
+This is a core function used by all cmdlets when querying the CSP (Cloud Services Portal), required when interacting with the  Infoblox Portal APIs.
 
 ## EXAMPLES
 

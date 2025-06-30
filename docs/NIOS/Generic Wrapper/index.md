@@ -109,7 +109,7 @@ is_array name                       standard_field supports type
 ```
 
 ## INVOKE
-The `Invoke-NIOS` cmdlet can be used as a barebones wrapper for the interfacing with NIOS either directly or via BloxOne Federation. This is a core function and is used by every other NIOS cmdlet within the ibPS Module.
+The `Invoke-NIOS` cmdlet can be used as a barebones wrapper for the interfacing with NIOS either directly or via Universal DDI Federation. This is a core function and is used by every other NIOS cmdlet within the ibPS Module.
 
 ```powershell
 Invoke-NIOS -Method GET -Uri 'network' -GridName Infoblox_infoblox.localdomain_A438RFFD -ApiVersion 2.12

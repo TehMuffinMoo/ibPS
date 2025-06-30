@@ -117,7 +117,7 @@
             "user_id" = $UserID
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new BloxOne API Key",$MyInvocation.MyCommand)){
+          if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new Infoblox Portal API Key",$MyInvocation.MyCommand)){
             $ShouldProcess = $true
             $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
           }
@@ -132,7 +132,7 @@
             "name" = $Name
             "expires_at" = $ExpiresAt
           } | ConvertTo-Json -Depth 2
-          if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new BloxOne API Key",$MyInvocation.MyCommand)){
+          if($PSCmdlet.ShouldProcess($NewAPIKeyJson,"Create new Infoblox Portal API Key",$MyInvocation.MyCommand)){
             $ShouldProcess = $true
             $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/v2/current_api_keys" -Data $NewAPIKeyJson | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue -WarningAction SilentlyContinue
           }

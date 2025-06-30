@@ -20,7 +20,7 @@ Get-B1DTCHealthCheck [[-Name] <String>] [[-Description] <String>] [[-Type] <Stri
 ```
 
 ## DESCRIPTION
-This function is used to query a list BloxOne Health Checks
+This function is used to query a list Infoblox Portal Health Checks
 
 ## EXAMPLES
 

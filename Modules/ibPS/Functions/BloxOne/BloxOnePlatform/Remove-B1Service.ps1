@@ -57,7 +57,7 @@
       } else {
           $Object = Get-B1Service -Name $Name -Strict -Detailed
           if (!($Object)) {
-              Write-Error "Unable to find BloxOne Service: $($Name)"
+              Write-Error "Unable to find Service: $($Name)"
               return $null
           }
           $ServiceID = $Object.id

@@ -8,7 +8,7 @@ schema: 2.0.0
 # New-B1ConnectionProfile
 
 ## SYNOPSIS
-This function is used to create new BloxOne connection profiles.
+This function is used to create new Infoblox Portal connection profiles.
 By default, the new profile will be set as active.
 
 ## SYNTAX
@@ -26,7 +26,7 @@ New-B1ConnectionProfile -Name <String> -CSPUrl <String> -APIKey <String> [-NoSwi
 ```
 
 ## DESCRIPTION
-Connection profiles provide a convenient way of saving API Keys for multiple BloxOne Accounts.
+Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts.
 These can then easily be switched between by using [`Switch-B1ConnectionProfile`](../Switch-B1ConnectionProfile/).
 
 ## EXAMPLES
@@ -91,7 +91,7 @@ Accept wildcard characters: False
 ```
 
 ### -APIKey
-Specify the BloxOne API Key to save as part of this profile
+Specify the Infoblox Portal API Key to save as part of this profile
 
 ```yaml
 Type: String

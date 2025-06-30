@@ -797,7 +797,7 @@
                         Write-Error "Error. Unable to retrieve OVF Configuration from $($ImageFile)."
                         return $null
                     }
-                    if($PSCmdlet.ShouldProcess("Deploy BloxOne VMware Appliance: $($Name)","Deploy BloxOne VMware Appliance: $($Name)",$MyInvocation.MyCommand)){
+                    if($PSCmdlet.ShouldProcess("Deploy NIOS-X VMware Appliance: $($Name)","Deploy NIOS-X VMware Appliance: $($Name)",$MyInvocation.MyCommand)){
                         Write-Host "DeployingInfoblox Appliance: $Name .." -ForegroundColor Cyan
                         $VM = Import-VApp -OvfConfiguration $OVFConfig -Source $($ImageFile) -Name $Name -VMHost $VMHostObj -Datastore $Datastore -Force
 
@@ -844,7 +844,7 @@
                     return $null
                 }
 
-                if($PSCmdlet.ShouldProcess("Deploy BloxOne Hyper-V Appliance: $($Name)","Deploy BloxOne Hyper-V Appliance: $($Name)",$MyInvocation.MyCommand)){
+                if($PSCmdlet.ShouldProcess("Deploy NIOS-X Hyper-V Appliance: $($Name)","Deploy NIOS-X Hyper-V Appliance: $($Name)",$MyInvocation.MyCommand)){
                     if (Test-Path 'work-dir') {
                         Remove-Item -Path "work-dir" -Recurse
                     }
@@ -981,7 +981,7 @@
                     if ($AzureSku) {
                         $AzureImage = Get-AzVMImage -Location $($PSBoundParameters.AzLocation) -PublisherName 'infoblox' -Offer $AzureOffer.Offer -Sku $($AzureSku.Skus)
                         if ($AzureImage) {
-                            if($PSCmdlet.ShouldProcess("Deploy BloxOne VMware Appliance: $($Name)","Deploy BloxOne VMware Appliance: $($Name)",$MyInvocation.MyCommand)){
+                            if($PSCmdlet.ShouldProcess("Deploy NIOS-X VMware Appliance: $($Name)","Deploy NIOS-X VMware Appliance: $($Name)",$MyInvocation.MyCommand)){
                                 ## Check if marketplace terms have been accepted.
                                 $MarketplaceTerms = Get-AzMarketplaceTerms -Name $($AzureSku.Skus) -Product $($AzureOffer.Offer) -Publisher 'infoblox' -EA SilentlyContinue -WA SilentlyContinue
                                 if (!($MarketplaceTerms.Accepted)) {
@@ -992,7 +992,7 @@
                                             return $null
                                         }
                                     } else {
-                                        Write-Error 'The Azure Marketplace Terms for BloxOne Deployment is not accepted. To accept these terms, use the -AzAcceptTerms switch.'
+                                        Write-Error 'The Azure Marketplace Terms for NIOS-X Deployment is not accepted. To accept these terms, use the -AzAcceptTerms switch.'
                                         return $null
                                     }
                                 }
@@ -1111,10 +1111,10 @@
                     }
                     while (!(Get-B1Host @B1HostProps)) {
                         $CSPStartCount = $CSPStartCount + 10
-                        Write-Host -NoNewLine "`rWaiting forInfoblox Appliance to become registered within BloxOne CSP. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
+                        Write-Host -NoNewLine "`rWaiting forInfoblox Appliance to become registered in the Infoblox Portal. Elapsed Time: $CSPStartCount`s" -ForegroundColor Gray
                         Wait-Event -Timeout 10
                         if ($CSPStartCount -gt $CloudCheckTimeout) {
-                            Write-Error "Error. VM failed to register with the BloxOne CSP. Please check VM Console for details."
+                            Write-Error "Error. VM failed to register with the Infoblox Portal. Please check VM Console for details."
                             $Failed = $true
                             break
                         }
@@ -1127,7 +1127,7 @@
 
                 if (!$Failed) {
                     Write-Host ""
-                    Write-Host "Infoblox Appliance is now available, check the CSP portal for registration of the device" -ForegroundColor Green
+                    Write-Host "Infoblox Appliance is now available, check the Infoblox Portal for registration of the device" -ForegroundColor Green
                     if (!($SkipCloudChecks)) {
                         Get-B1Host @B1HostProps | Format-Table display_name,ip_address,host_version -AutoSize
                     }

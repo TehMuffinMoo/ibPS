@@ -13,7 +13,7 @@
         Use the IP parameter to filter the DNS Events by the IP of the source making the query
 
     .PARAMETER Network
-        Filter the DNS Events by one or more DFP Servers, External Networks & BloxOne Endpoints (i.e "ddihost.mydomain.corp (DFP)" or "ddihost1.mydomain.corp (DFP)","myddihost2.mydomain.corp (DFP)","BloxOne Endpoint"
+        Filter the DNS Events by one or more DFP Servers, External Networks & Threat Defense Endpoints (i.e "ddihost.mydomain.corp (DFP)" or "ddihost1.mydomain.corp (DFP)","myddihost2.mydomain.corp (DFP)","Threat Defense Endpoint"
 
     .PARAMETER Policy
         Used to filter the DNS Events by Policy Name

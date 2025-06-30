@@ -30,7 +30,7 @@ The function included below will enable you to produce a report with the Top X o
 function DHCP-Report {
     <#
     .SYNOPSIS
-        A simple script function designed to report on DHCP Utilization from BloxOne DDI
+        A simple script function designed to report on DHCP Utilization from Universal DDI
 
     .DESCRIPTION
         This function is used to create a DHCP Utilization report, with the Top X offenders listed.

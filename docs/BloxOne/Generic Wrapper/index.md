@@ -4,11 +4,11 @@ You can create custom functions by using the generic wrapper cmdlets.
 
 ## GET
 
-This is a generic wrapper function which allows you to create custom calls to retrieve objects from the BloxOne APIs.  
+This is a generic wrapper function which allows you to create custom calls to retrieve objects from the Infoblox Portal APIs.  
 It supports auto-complete of required fields based on the API Schema using double-tab  
 
 ```powershell
-Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
+Get-B1Object -Product 'Universal DDI' -App DnsConfig -Endpoint /dns/record -Filters @('name_in_zone~"webserver" or absolute_zone_name=="mydomain.corp." and type=="caa"') -tfilter '("Site"=="New York")' -Limit 100
 ```
 
 List DNS A Records for Domain
@@ -16,7 +16,7 @@ Example getting a list of DNS A records from a particular domain, and using Spla
 
 ```powershell
 $splat = @{                   
-  "Product" = "BloxOne DDI"
+  "Product" = "Universal DDI"
   "App" = "DnsConfig"
   "Endpoint" = "/dns/record"
 }
@@ -30,7 +30,7 @@ Get-B1Object @splat -filter @('absolute_zone_name=="mydomain.corp." and type=="c
 ```
 
 ## SET
-This is a generic wrapper function which allows you to create custom calls to update objects from the BloxOne APIs.  
+This is a generic wrapper function which allows you to create custom calls to update objects from the Infoblox Portal APIs.  
 It supports pipeline input from Get-B1Object  
 Be mindful that read-only fields may be returned and will need removing prior to submitting the data. You can use the -Fields parameter on Get-B1Object to specify the fields to return to avoid having to strip them out.  
 
@@ -40,7 +40,7 @@ Set-B1Object -id {Object ID} -_ref {Object Ref} -Data {Data to Submit}
 
 Example for adding a new tag to multiple DNS A records
 ```powershell
-$Records = Get-B1Object -Product 'BloxOne DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields tags
+$Records = Get-B1Object -Product 'Universal DDI' -App DnsConfig -Endpoint /dns/record -Filters @('absolute_zone_name~"mydomain.corp." and type=="a"') -Fields tags
 foreach ($Record in $Records) {
     if (!($Record.tags)) {
         $Record.tags = @{}
@@ -53,7 +53,7 @@ $Records | Set-B1Object
 This example will update the multiple DHCP Options against multiple Subnets
 
 ```powershell
-$Subnets = Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
+$Subnets = Get-B1Object -product 'Universal DDI' -App Ipamsvc -Endpoint /ipam/subnet -tfilter '("BuiltWith"=="ibPS")' -Fields name,dhcp_options,tags
 foreach ($Subnet in $Subnets) {
     $Subnet.dhcp_options = @(
         @{
@@ -72,7 +72,7 @@ $Subnets | Set-B1Object
 ```
 
 ## NEW
-This is a generic wrapper function which allows you to create custom calls to add new objects via the BloxOne APIs.  
+This is a generic wrapper function which allows you to create custom calls to add new objects via the Infoblox Portal APIs.  
 It supports pipeline input for the -Data parameter  
 
 ```powershell
@@ -89,11 +89,11 @@ $Splat = @{
     "address" = "10.10.10.10"
     }
 }
-New-B1Object -Product 'BloxOne DDI' -App DnsData -Endpoint /dns/record -Data $Splat
+New-B1Object -Product 'Universal DDI' -App DnsData -Endpoint /dns/record -Data $Splat
 ```
 
 ## REMOVE
-This is a generic wrapper function which allows you to create custom calls to delete objects from the BloxOne APIs.  
+This is a generic wrapper function which allows you to create custom calls to delete objects from the Infoblox Portal APIs.  
 It supports pipeline input from Get-B1Object  
 
 ```powershell
@@ -102,7 +102,7 @@ Remove-B1Object -id {Object ID} -_ref {Object Ref}
 
 This example shows deleting multiple address blocks based on tag
 ```powershell
-Get-B1Object -product 'BloxOne DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
+Get-B1Object -product 'Universal DDI' -App Ipamsvc -Endpoint /ipam/address_block -tfilter '("TagName"=="TagValue")' | Remove-B1Object -Force
 ```
 
 Another example using Splat for parameter input
@@ -117,9 +117,9 @@ Used for obtaining API Schema information for use with generic wrapper cmdlets
 Get-B1Schema -Product {Product Name} -App {App} -Endpoint {API Endpoint} -Method {Method Type} {Switch}-ListParameters
 ```
 
-An example of retrieving all available apps for BloxOne DDI    
+An example of retrieving all available apps for Infoblox Portal DDI    
 ```powershell
-Get-B1Schema -Product 'BloxOne DDI'
+Get-B1Schema -Product 'Universal DDI'
 
   Available Apps: 
 

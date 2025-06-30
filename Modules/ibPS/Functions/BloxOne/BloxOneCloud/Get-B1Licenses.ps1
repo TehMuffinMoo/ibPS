@@ -1,10 +1,10 @@
 ﻿function Get-B1Licenses {
     <#
     .SYNOPSIS
-        Retrieves a list of licenses associated with the BloxOne Account
+        Retrieves a list of licenses associated with the Infoblox Portal Account
 
     .DESCRIPTION
-        This function is used query a list of licenses associated with the BloxOne Account
+        This function is used query a list of licenses associated with the Infoblox Portal Account
 
     .PARAMETER State
         Use the -State parameter to filter by license state. (all/active/expired)
@@ -39,6 +39,6 @@
     if ($Results) {
     return $Results
     } else {
-    Write-Host "Error. No BloxOne Licenses found." -ForegroundColor Red
+    Write-Host "Error. No Infoblox Portal Licenses found." -ForegroundColor Red
     }
 }

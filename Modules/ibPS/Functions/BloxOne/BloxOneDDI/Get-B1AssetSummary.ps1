@@ -1,10 +1,10 @@
 ﻿function Get-B1AssetSummary {
     <#
     .SYNOPSIS
-        Summerise a list of Assets discovered by BloxOne
+        Summerise a list of Assets discovered by Universal DDI
 
     .DESCRIPTION
-        This function is used to summerise a list of Assets discovered by BloxOne
+        This function is used to summerise a list of Assets discovered by Universal DDI
 
     .PARAMETER Type
         The type of summary report to return
