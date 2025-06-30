@@ -1,5 +1,5 @@
 ## Automate GSLB Creation
-This example will show how you can automate the creation of GSLB objects using BloxOne Dynamic Traffic Control (DTC)
+This example will show how you can automate the creation of GSLB objects using Universal DDI Dynamic Traffic Control (DTC)
 
 ```powershell
 ## Create DTC Servers
