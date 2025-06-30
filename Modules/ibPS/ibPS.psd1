@@ -27,7 +27,7 @@ Author = 'Mat Cox'
 CompanyName = 'TMM Networks'
 
 # Copyright statement for this module
-Copyright = '(c) 2021-2024 Mat Cox. All rights reserved.'
+Copyright = '(c) 2021-2025 Mat Cox. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'InfoBlox BloxOne PowerShell Module'
