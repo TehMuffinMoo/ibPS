@@ -1,3 +1,1 @@
 "ScriptName","Severity","Line","Column","RuleName","Message"
-"Get-B1Service.ps1","Information","51","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
-"Set-B1Host.ps1","Information","31","40","PSAvoidTrailingWhitespace","Line has trailing whitespace"
