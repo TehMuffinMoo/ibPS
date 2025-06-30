@@ -1,4 +1,4 @@
-function Get-B1AsAServiceCapabilities {
+﻿function Get-B1AsAServiceCapabilities {
     <#
     .SYNOPSIS
         Retrieves a list of NIOS-XaaS Service Capabilities for a particular Service
@@ -18,7 +18,7 @@ function Get-B1AsAServiceCapabilities {
         type  service_status  profile_id                            profile_name              association_count
         ----  --------------  ----------                            ------------              -----------------
         dns   Available       fdsu98uv-rgg5-5ge4d-g5eg-cgecgcgfdfgf NIOS-XaaS DNS Profile     459
-        ntp   Available                                                                     
+        ntp   Available
         dhcp  Available       sdfdsxfb-rbf5-dxzvdx-dxvd-cxdvdxvvxd4 NIOS-XaaS DHCP Profile    2931
 
     .FUNCTIONALITY

@@ -1,4 +1,4 @@
-function Get-B1AsAServiceDeployments {
+﻿function Get-B1AsAServiceDeployments {
     <#
     .SYNOPSIS
         Retrieves a list of NIOS-XaaS Service Deployments for a particular Service

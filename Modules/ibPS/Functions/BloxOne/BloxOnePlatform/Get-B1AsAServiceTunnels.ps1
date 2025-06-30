@@ -1,4 +1,4 @@
-function Get-B1AsAServiceTunnels {
+﻿function Get-B1AsAServiceTunnels {
     <#
     .SYNOPSIS
         Retrieves the connection information of NIOS-X As A Service IPSEC Tunnels
@@ -25,8 +25,8 @@ function Get-B1AsAServiceTunnels {
         name             : GB-DC
         wan_ip           : 66.66.66.66
         identity_type    : FQDN
-        physical_tunnels : {@{path=secondary; remote_id=infoblox.cloud; identity=df43ewf34rf444g.infoblox.com; credential_id=fdsfsfdse-fesfsfs-seffe43gf45-g444gg4g4; 
-                          credential_name=Path-A-PSK; status=Connected}, @{path=primary; remote_id=infoblox.cloud; identity=fsef4f4f4thd4rt.infoblox.com; 
+        physical_tunnels : {@{path=secondary; remote_id=infoblox.cloud; identity=df43ewf34rf444g.infoblox.com; credential_id=fdsfsfdse-fesfsfs-seffe43gf45-g444gg4g4;
+                          credential_name=Path-A-PSK; status=Connected}, @{path=primary; remote_id=infoblox.cloud; identity=fsef4f4f4thd4rt.infoblox.com;
                           credential_id=fdfsdf4e-87iik87i-h656urf9ddf-fdsgsd9sx; credential_name=Path-B-PSK; status=Connected}}
         remote_id        : infoblox.cloud
 
@@ -66,7 +66,7 @@ function Get-B1AsAServiceTunnels {
             Write-Host "Service parameter is required when specifying a location." -ForegroundColor Red
             return
         }
-        $Results = (Get-B1AsAServiceDeployments -ServiceID $ServiceID -Location $Location | Select-Object -ExpandProperty access_locations)[0] | Select -ExpandProperty tunnel_configs
+        $Results = (Get-B1AsAServiceDeployments -ServiceID $ServiceID -Location $Location | Select-Object -ExpandProperty access_locations)[0] | Select-Object -ExpandProperty tunnel_configs
     } else {
         $Results = Get-B1AsAServiceDeployments -ServiceID $ServiceID | Select-Object -ExpandProperty access_locations | ForEach-Object { $_.tunnel_configs }
     }
