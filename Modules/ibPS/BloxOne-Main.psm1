@@ -42,4 +42,11 @@ if ($ENV:IBPSDebug -eq "Enabled") {
 Initialize-NIOSConfig
 Initialize-B1Config
 
+## Ensure System.Web is loaded
+try {
+   Add-Type -AssemblyName "System.Web"
+} catch {
+   Write-Error "Error loading System.Web assembly"
+}
+
 Export-ModuleMember -Function ($(@($B1PublicFunctions + $NIOSPublicFunctions + ($MiscellaneousFunctions | Where-Object {$_.BaseName -ne 'Misc'})) | Select-Object -ExpandProperty BaseName) + $AdditionalFunctionsToExport) -Alias *
