@@ -1,5 +1,5 @@
 ---
-external help file: BloxOne-Main-help.xml
+external help file: ibPS-Main-help.xml
 Module Name: ibPS
 online version:
 schema: 2.0.0

@@ -1,5 +1,5 @@
 ---
-external help file: BloxOne-Main-help.xml
+external help file: ibPS-Main-help.xml
 Module Name: ibPS
 online version:
 schema: 2.0.0
@@ -19,7 +19,7 @@ Get-B1APIKey [[-User] <String>] [[-CreatedBy] <String>] [[-Name] <String>] [[-Ty
 ```
 
 ## DESCRIPTION
-This function is used to retrieve a list of API Keys from the Infoblox Portal
+This function is used to retrieve a list of API Keys from the Infoblox Portal.
 The actual API Key is only available during initial creation and cannot be retrieved afterwards via this API, except for Legacy Keys which are being deprecated.
 
 ## EXAMPLES

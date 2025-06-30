@@ -1,5 +1,5 @@
 ---
-external help file: BloxOne-Main-help.xml
+external help file: ibPS-Main-help.xml
 Module Name: ibPS
 online version:
 schema: 2.0.0
@@ -24,7 +24,7 @@ Remove-B1APIKey -id <String> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to remove an API Key from the Infoblox Portal
+This function is used to remove an API Key from the Infoblox Portal.
 The API Key must be disabled prior to deleting
 
 ## EXAMPLES
