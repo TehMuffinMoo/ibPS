@@ -20,7 +20,7 @@ Get-B1DTCHealthCheck [[-Name] <String>] [[-Description] <String>] [[-Type] <Stri
 ```
 
 ## DESCRIPTION
-This function is used to query a list Infoblox Portal Health Checks
+This function is used to query a list Universal DDI DTC Health Checks
 
 ## EXAMPLES
 

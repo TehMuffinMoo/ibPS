@@ -25,7 +25,7 @@ Set-B1DNSACL [-NewName <String>] [-Description <String>] [-Items <Object>] [-Add
 ```
 
 ## DESCRIPTION
-This function is used to update a DNS ACL object within BloxOne
+This function is used to update a DNS ACL object within Universal DDI
 
 ## EXAMPLES
 

@@ -8,7 +8,7 @@ schema: 2.0.0
 # Get-B1Licenses
 
 ## SYNOPSIS
-Retrieves a list of licenses associated with the BloxOne Account
+Retrieves a list of licenses associated with the Infoblox Portal Account
 
 ## SYNTAX
 
@@ -17,7 +17,7 @@ Get-B1Licenses [[-State] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used query a list of licenses associated with the BloxOne Account
+This function is used query a list of licenses associated with the Infoblox Portal Account
 
 ## EXAMPLES
 
