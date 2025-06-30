@@ -1,4 +1,4 @@
-function Get-B1AsAServiceConfigChanges {
+﻿function Get-B1AsAServiceConfigChanges {
     <#
     .SYNOPSIS
         Retrieves a list of configuration changes for NIOS-X As A Service
@@ -16,7 +16,7 @@ function Get-B1AsAServiceConfigChanges {
         The name of the Access Location to filter the configuration changes by. This parameter is optional.
 
     .EXAMPLE
-        PS> Get-B1AASConfigChanges -Service NIOS-XaaS | ft -AutoSize           
+        PS> Get-B1AASConfigChanges -Service NIOS-XaaS | ft -AutoSize
 
         id        resource_id                      change_message                          created_at           user_name                      request_id
         --        -----------                      --------------                          ----------           ---------                      ----------
@@ -44,7 +44,7 @@ function Get-B1AsAServiceConfigChanges {
         $ServiceID = Get-B1AsAServiceServices | Where-Object {$_.name -eq $Service} | Select-Object -ExpandProperty id
         $Data["universal_service_id"] = $ServiceID
     }
-    
+
     if ($Location) {
         if (!$Service) {
             Write-Host "Service parameter is required when specifying a location." -ForegroundColor Red

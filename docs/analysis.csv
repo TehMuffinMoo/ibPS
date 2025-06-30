@@ -1,1 +1,8 @@
 "ScriptName","Severity","Line","Column","RuleName","Message"
+"Get-B1AsAServiceCapabilities.ps1","Information","21","24","PSAvoidTrailingWhitespace","Line has trailing whitespace"
+"Get-B1AsAServiceConfigChanges.ps1","Information","19","69","PSAvoidTrailingWhitespace","Line has trailing whitespace"
+"Get-B1AsAServiceConfigChanges.ps1","Information","47","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
+"Get-B1AsAServiceConfigChanges.ps1","Warning",,,"PSUseBOMForUnicodeEncodedFile","Missing BOM encoding for non-ASCII encoded file 'Get-B1AsAServiceConfigChanges.ps1'"
+"Get-B1AsAServiceTunnels.ps1","Information","28","166","PSAvoidTrailingWhitespace","Line has trailing whitespace"
+"Get-B1AsAServiceTunnels.ps1","Information","29","154","PSAvoidTrailingWhitespace","Line has trailing whitespace"
+"Get-B1AsAServiceTunnels.ps1","Warning","69","146","PSAvoidUsingCmdletAliases","'Select' is an alias of 'Select-Object'. Alias can introduce possible problems and make scripts hard to maintain. Please consider changing alias to its full content."

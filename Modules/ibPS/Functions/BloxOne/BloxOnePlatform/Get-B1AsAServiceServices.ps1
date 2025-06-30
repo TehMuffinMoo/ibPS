@@ -1,4 +1,4 @@
-function Get-B1AsAServiceServices {
+﻿function Get-B1AsAServiceServices {
     <#
     .SYNOPSIS
         Retrieves a list of NIOS-X As A Service services

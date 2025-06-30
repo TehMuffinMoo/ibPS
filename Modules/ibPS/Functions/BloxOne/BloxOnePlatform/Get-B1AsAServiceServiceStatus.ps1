@@ -1,4 +1,4 @@
-function Get-B1AsAServiceServiceStatus {
+﻿function Get-B1AsAServiceServiceStatus {
     <#
     .SYNOPSIS
         Retrieves the connection status of NIOS-X As A Service connections
