@@ -25,7 +25,7 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "Updating changes to Module.."
-          Copy-Item "./Modules/BloxOne-Main.ps1" "./Modules/ibPS/BloxOne-Main.psm1" -Force
+          Copy-Item "./Modules/ibPS-Main.ps1" "./Modules/ibPS/ibPS-Main.psm1" -Force
 
           Write-Host "Testing Module Manifest.."
           $Module = Test-ModuleManifest -Path "./Modules/ibPS/ibPS.psd1"
@@ -42,16 +42,16 @@ jobs:
           $ReleaseNotes = Get-Content -Path './RELEASE.md' -Raw
 
           ## Functions to export
-          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/BloxOne/" -Exclude Private | Get-ChildItem -Recurse
+          $B1PublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/CSP/" -Exclude Private | Get-ChildItem -Recurse
           $NIOSPublicFunctions = Get-ChildItem "./Modules/ibPS/Functions/NIOS/" -Exclude Private | Get-ChildItem -Recurse
           $MiscellaneousFunctions = Get-ChildItem "./Modules/ibPS/Functions/Misc/*.ps1" | Where-Object {$_.BaseName -ne 'Misc'}
           $AdditionalFunctionsToExport = @('Invoke-CSP')
 
           ## Export Aliases
           Write-Host "Exporting aliases.."
-          $null = Import-Module './Modules/ibPS/BloxOne-Main.psm1'
+          $null = Import-Module './Modules/ibPS/ibPS-Main.psm1'
           $null = Resolve-DoHQuery -Query google.com -DoHServer 1.1.1.1
-          $Aliases = (Get-Alias | Where-Object {$_.Source -eq "BloxOne-Main"}).Name
+          $Aliases = (Get-Alias | Where-Object {$_.Source -eq "ibPS-Main"}).Name
 
           ## Export Functions
           Write-Host "Updating Module Manifest to v$ModuleVersion.."
@@ -105,7 +105,7 @@ jobs:
           Import-Module './Modules/ibPS/ibPS.psd1' -Force -DisableNameChecking
 
           Write-Host "Import ibPS Classes.."
-          . ./Modules/ibPS/Functions/BloxOne/Private/Classes.ps1
+          . ./Modules/ibPS/Functions/CSP/Private/Classes.ps1
 
           Write-Host "Obtaining list of excluded docs.."
           $ExcludedDocs = Import-Csv ./docs/exclusions.csv -Header 'doc'
@@ -115,7 +115,7 @@ jobs:
           New-MarkdownHelp -Module ibPS -OutputFolder './docs-temp' -HelpVersion $($DocumentationVersion) -Force
 
           Write-Host "Cleaning up old documentation.."
-          $OldDocs = Get-ChildItem ./docs/BloxOne -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
+          $OldDocs = Get-ChildItem ./docs/CSP -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
           $OldDocs = Get-ChildItem ./docs/General -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
           $OldDocs = Get-ChildItem ./docs/NIOS -Recurse -File | where {$_.Name -notin $ExcludedDocs.doc} | Remove-Item -Force
 
@@ -125,17 +125,14 @@ jobs:
             if ((Test-Path $DocToFind) -and "$($F.BaseName).md" -notin $($ExcludedDocs.doc)) {
               $BaseName = (Get-Item $F.DirectoryName).BaseName
               switch ($BaseName) {
-                "BloxOneDDI" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne DDI"
+                "UniversalDDI" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Universal DDI"
                 }
-                "BloxOneTD" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Threat Defense"
+                "ThreatDefense" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Infoblox Threat Defense"
                 }
-                "BloxOnePlatform" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Platform"
-                }
-                "BloxOneCloud" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/BloxOne Cloud"
+                "Portal" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Infoblox Portal"
                 }
                 "Wrapper" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Generic Wrapper"

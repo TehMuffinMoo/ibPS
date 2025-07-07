@@ -1,5 +1,5 @@
 ---
-external help file: BloxOne-Main-help.xml
+external help file: ibPS-Main-help.xml
 Module Name: ibPS
 online version:
 schema: 2.0.0
@@ -134,7 +134,7 @@ Accept wildcard characters: False
 
 ### -GridUID
 Specify the NIOS Grid UID (license_uid) to use for the new connection profile.
-This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+This indicates which Grid to connect to when using NIOS Federation within Universal DDI.
 
 Using this parameter will set the connection profile type to Federated.
 
@@ -151,7 +151,7 @@ Accept wildcard characters: False
 ```
 
 ### -GridName
-Specify the NIOS Grid Name in BloxOne DDI to use for the new connection profile.
+Specify the NIOS Grid Name in the Infoblox Portal to use for the new connection profile.
 
 Using this parameter will set the connection profile type to Federated.
 

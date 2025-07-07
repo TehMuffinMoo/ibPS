@@ -21,13 +21,13 @@
         Optionally specify one or more sections to return (Answer/Authority/Additional)
 
     .PARAMETER SourceIP
-        Specify the Source IP to spoof using EDNS OPT 65523. This only works when using BloxOne Threat Defense.
+        Specify the Source IP to spoof using EDNS OPT 65523. This only works when using Infoblox Threat Defense.
 
     .PARAMETER SourceMAC
-        Specify the Source MAC Address to spoof using EDNS OPT 65524. This only works when using BloxOne Threat Defense.
+        Specify the Source MAC Address to spoof using EDNS OPT 65524. This only works when using Infoblox Threat Defense.
 
     .PARAMETER SourceView
-        Specify the Source DNS View Name to spoof using EDNS OPT 65526. This only works when using BloxOne Threat Defense.
+        Specify the Source DNS View Name to spoof using EDNS OPT 65526. This only works when using Infoblox Threat Defense.
 
     .PARAMETER OutDig
         Use the -OutDig parameter to output the response in a format similar to dig

@@ -1,5 +1,5 @@
 ---
-external help file: BloxOne-Main-help.xml
+external help file: ibPS-Main-help.xml
 Module Name: ibPS
 online version:
 schema: 2.0.0
@@ -177,7 +177,7 @@ Accept wildcard characters: False
 
 ### -SourceIP
 Specify the Source IP to spoof using EDNS OPT 65523.
-This only works when using BloxOne Threat Defense.
+This only works when using Infoblox Threat Defense.
 
 ```yaml
 Type: String
@@ -193,7 +193,7 @@ Accept wildcard characters: False
 
 ### -SourceMAC
 Specify the Source MAC Address to spoof using EDNS OPT 65524.
-This only works when using BloxOne Threat Defense.
+This only works when using Infoblox Threat Defense.
 
 ```yaml
 Type: String
@@ -209,7 +209,7 @@ Accept wildcard characters: False
 
 ### -SourceView
 Specify the Source DNS View Name to spoof using EDNS OPT 65526.
-This only works when using BloxOne Threat Defense.
+This only works when using Infoblox Threat Defense.
 
 ```yaml
 Type: String

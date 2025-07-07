@@ -1,5 +1,5 @@
 ---
-external help file: BloxOne-Main-help.xml
+external help file: ibPS-Main-help.xml
 Module Name: ibPS
 online version:
 schema: 2.0.0
@@ -8,7 +8,7 @@ schema: 2.0.0
 # Invoke-NIOS
 
 ## SYNOPSIS
-Queries a NIOS Grid Manager via Infoblox WAPI or the BloxOne CSP via NIOS Federation
+Queries a NIOS Grid Manager via Infoblox WAPI or the Universal DDI CSP via NIOS Federation
 
 ## SYNTAX
 
@@ -32,7 +32,7 @@ Invoke-NIOS [-Method <WebRequestMethod>] -GridName <String> -Uri <String> -ApiVe
 ```
 
 ## DESCRIPTION
-This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs locally or via BloxOne CSP via NIOS Federation.
+This is a core function used by all NIOS cmdlets when querying an Infoblox NIOS Grid Manager, required when interacting with the NIOS APIs locally or via Universal DDI CSP via NIOS Federation.
 
 ## EXAMPLES
 
@@ -86,7 +86,7 @@ Accept wildcard characters: False
 
 ### -GridUID
 Specify the NIOS Grid UID (license_uid).
-This indicates which Grid to connect to when using NIOS Federation within BloxOne.
+This indicates which Grid to connect to when using NIOS Federation within Universal DDI.
 
 ```yaml
 Type: String
@@ -101,7 +101,7 @@ Accept wildcard characters: False
 ```
 
 ### -GridName
-Specify the NIOS Grid Name in BloxOne DDI instead of the GridUID.
+Specify the NIOS Grid Name in Universal DDI instead of the GridUID.
 This is convient, but requires resolving the license_uid on every API Call.
 
 ```yaml

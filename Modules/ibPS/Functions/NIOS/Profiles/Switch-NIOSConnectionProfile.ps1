@@ -15,9 +15,9 @@
         Corp-GM has been set as the active connection profile.
 
     .EXAMPLE
-        PS> Switch-NIOSConnectionProfile BloxOne-GM
+        PS> Switch-NIOSConnectionProfile Corp-GM
 
-        BloxOne-GM has been set as the active connection profile.
+        Corp-GM has been set as the active connection profile.
 
     .FUNCTIONALITY
         NIOS

@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'BloxOne-Main.psm1'
+RootModule = 'ibPS-Main.psm1'
 
 # Version number of this module.
 ModuleVersion = '1.9.8.6'
@@ -27,10 +27,10 @@ Author = 'Mat Cox'
 CompanyName = 'TMM Networks'
 
 # Copyright statement for this module
-Copyright = '(c) 2021-2024 Mat Cox. All rights reserved.'
+Copyright = '(c) 2021-2025 Mat Cox. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'InfoBlox BloxOne PowerShell Module'
+Description = 'Infoblox Universal DDI & Threat Defense PowerShell Module'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = ''
@@ -69,14 +69,56 @@ Description = 'InfoBlox BloxOne PowerShell Module'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation', 
+FunctionsToExport = 'Deploy-B1Appliance', 'Disable-B1HostLocalAccess', 
+               'Enable-B1HostLocalAccess', 'Get-B1APIKey', 'Get-B1Applications', 
+               'Get-B1AsAServiceCapabilities', 'Get-B1AsAServiceConfigChanges', 
+               'Get-B1AsAServiceDeployments', 'Get-B1AsAServiceServices', 
+               'Get-B1AsAServiceServiceStatus', 'Get-B1AsAServiceTunnels', 
+               'Get-B1AuditLog', 'Get-B1BootstrapConfig', 'Get-B1BulkOperation', 
                'Get-B1Compartment', 'Get-B1CSPCurrentUser', 'Get-B1DFPLog', 
-               'Get-B1DHCPLog', 'Get-B1DNSEvent', 'Get-B1DNSLog', 'Get-B1Export', 
-               'Get-B1Import', 'Get-B1Licenses', 'Get-B1Location', 'Get-B1SecurityLog', 
+               'Get-B1DHCPLog', 'Get-B1DiagnosticTask', 'Get-B1DNSEvent', 
+               'Get-B1DNSLog', 'Get-B1Export', 'Get-B1HealthCheck', 'Get-B1Host', 
+               'Get-B1HostLocalAccess', 'Get-B1Import', 'Get-B1Licenses', 
+               'Get-B1Location', 'Get-B1SecurityLog', 'Get-B1Service', 
                'Get-B1ServiceLog', 'Get-B1Tag', 'Get-B1User', 'Get-B1UserAPIKey', 
-               'New-B1APIKey', 'New-B1Location', 'Receive-B1Export', 'Remove-B1APIKey', 
-               'Remove-B1Location', 'Search-B1', 'Set-B1APIKey', 'Set-B1Location', 
-               'Start-B1Export', 'ConvertTo-PunyCode', 'ConvertTo-RNAME', 
+               'New-B1APIKey', 'New-B1Host', 'New-B1Location', 'New-B1Service', 
+               'Receive-B1Export', 'Remove-B1APIKey', 'Remove-B1Host', 
+               'Remove-B1Location', 'Remove-B1Service', 'Restart-B1Host', 'Search-B1', 
+               'Set-B1APIKey', 'Set-B1Host', 'Set-B1Location', 
+               'Start-B1DiagnosticTask', 'Start-B1Export', 'Start-B1Service', 
+               'Stop-B1Service', 'Get-B1ConnectionProfile', 
+               'New-B1ConnectionProfile', 'Remove-B1ConnectionProfile', 
+               'Switch-B1ConnectionProfile', 'Disable-B1Lookalike', 
+               'Disable-B1LookalikeTargetCandidate', 'Enable-B1Lookalike', 
+               'Enable-B1LookalikeTargetCandidate', 'Get-B1ApplicationFilter', 
+               'Get-B1BypassCode', 'Get-B1CategoryFilter', 'Get-B1ContentCategory', 
+               'Get-B1CustomList', 'Get-B1CustomRedirect', 'Get-B1DossierLookup', 
+               'Get-B1DossierSupportedFeedback', 'Get-B1DossierSupportedSources', 
+               'Get-B1DossierSupportedTargets', 'Get-B1Endpoint', 
+               'Get-B1EndpointGroup', 'Get-B1InternalDomainList', 
+               'Get-B1LookalikeDomains', 'Get-B1Lookalikes', 
+               'Get-B1LookalikeTargetCandidates', 'Get-B1LookalikeTargets', 
+               'Get-B1LookalikeTargetSummary', 'Get-B1NetworkList', 
+               'Get-B1PoPRegion', 'Get-B1RPZFeed', 'Get-B1SecurityPolicy', 
+               'Get-B1SecurityPolicyRules', 'Get-B1SOCInsight', 
+               'Get-B1SOCInsightAssets', 'Get-B1SOCInsightComments', 
+               'Get-B1SOCInsightEvents', 'Get-B1SOCInsightIndicators', 
+               'Get-B1ThreatActor', 'Get-B1ThreatFeeds', 'Get-B1ThreatIntel', 
+               'Get-B1TideDataProfile', 'Get-B1TideFeeds', 'Get-B1TideInfoRank', 
+               'Get-B1TideThreatClass', 'Get-B1TideThreatClassDefaultTTL', 
+               'Get-B1TideThreatCounts', 'Get-B1TideThreatEnrichment', 
+               'Get-B1TideThreatInsightClass', 'Get-B1TideThreatProperty', 
+               'Get-B1TideThreats', 'New-B1CustomList', 'New-B1DoHFQDN', 
+               'New-B1InternalDomainList', 'New-B1LookalikeTarget', 
+               'New-B1SecurityPolicy', 'New-B1SecurityPolicyIPAMNetwork', 
+               'New-B1SecurityPolicyRule', 'New-B1TideDataProfile', 
+               'Remove-B1BypassCode', 'Remove-B1CustomList', 
+               'Remove-B1InternalDomainList', 'Remove-B1LookalikeTarget', 
+               'Remove-B1NetworkList', 'Remove-B1SecurityPolicy', 'Set-B1CustomList', 
+               'Set-B1InternalDomainList', 'Set-B1LookalikeTarget', 
+               'Set-B1SecurityPolicy', 'Set-B1SOCInsight', 'Set-B1TideDataProfile', 
+               'Start-B1DossierBatchLookup', 'Start-B1DossierLookup', 
+               'Submit-B1TideData', 'ConvertTo-PunyCode', 'ConvertTo-RNAME', 
                'Get-B1Address', 'Get-B1AddressBlock', 
                'Get-B1AddressBlockNextAvailable', 'Get-B1AddressNextAvailable', 
                'Get-B1AssetSummary', 'Get-B1AuthoritativeNSG', 
@@ -116,52 +158,11 @@ FunctionsToExport = 'Get-B1APIKey', 'Get-B1AuditLog', 'Get-B1BulkOperation',
                'Set-B1DTCPolicy', 'Set-B1DTCPool', 'Set-B1DTCServer', 
                'Set-B1FixedAddress', 'Set-B1ForwardNSG', 'Set-B1ForwardZone', 
                'Set-B1HAGroup', 'Set-B1NTPServiceConfiguration', 'Set-B1Range', 
-               'Set-B1Record', 'Set-B1Subnet', 'Deploy-B1Appliance', 
-               'Disable-B1HostLocalAccess', 'Enable-B1HostLocalAccess', 
-               'Get-B1Applications', 'Get-B1AsAServiceCapabilities', 
-               'Get-B1AsAServiceConfigChanges', 'Get-B1AsAServiceDeployments', 
-               'Get-B1AsAServiceServices', 'Get-B1AsAServiceServiceStatus', 
-               'Get-B1AsAServiceTunnels', 'Get-B1BootstrapConfig', 
-               'Get-B1DiagnosticTask', 'Get-B1HealthCheck', 'Get-B1Host', 
-               'Get-B1HostLocalAccess', 'Get-B1Service', 'New-B1Host', 'New-B1Service', 
-               'Remove-B1Host', 'Remove-B1Service', 'Restart-B1Host', 'Set-B1Host', 
-               'Start-B1DiagnosticTask', 'Start-B1Service', 'Stop-B1Service', 
-               'Disable-B1Lookalike', 'Disable-B1LookalikeTargetCandidate', 
-               'Enable-B1Lookalike', 'Enable-B1LookalikeTargetCandidate', 
-               'Get-B1ApplicationFilter', 'Get-B1BypassCode', 'Get-B1CategoryFilter', 
-               'Get-B1ContentCategory', 'Get-B1CustomList', 'Get-B1CustomRedirect', 
-               'Get-B1DossierLookup', 'Get-B1DossierSupportedFeedback', 
-               'Get-B1DossierSupportedSources', 'Get-B1DossierSupportedTargets', 
-               'Get-B1Endpoint', 'Get-B1EndpointGroup', 'Get-B1InternalDomainList', 
-               'Get-B1LookalikeDomains', 'Get-B1Lookalikes', 
-               'Get-B1LookalikeTargetCandidates', 'Get-B1LookalikeTargets', 
-               'Get-B1LookalikeTargetSummary', 'Get-B1NetworkList', 
-               'Get-B1PoPRegion', 'Get-B1RPZFeed', 'Get-B1SecurityPolicy', 
-               'Get-B1SecurityPolicyRules', 'Get-B1SOCInsight', 
-               'Get-B1SOCInsightAssets', 'Get-B1SOCInsightComments', 
-               'Get-B1SOCInsightEvents', 'Get-B1SOCInsightIndicators', 
-               'Get-B1ThreatActor', 'Get-B1ThreatFeeds', 'Get-B1ThreatIntel', 
-               'Get-B1TideDataProfile', 'Get-B1TideFeeds', 'Get-B1TideInfoRank', 
-               'Get-B1TideThreatClass', 'Get-B1TideThreatClassDefaultTTL', 
-               'Get-B1TideThreatCounts', 'Get-B1TideThreatEnrichment', 
-               'Get-B1TideThreatInsightClass', 'Get-B1TideThreatProperty', 
-               'Get-B1TideThreats', 'New-B1CustomList', 'New-B1DoHFQDN', 
-               'New-B1InternalDomainList', 'New-B1LookalikeTarget', 
-               'New-B1SecurityPolicy', 'New-B1SecurityPolicyIPAMNetwork', 
-               'New-B1SecurityPolicyRule', 'New-B1TideDataProfile', 
-               'Remove-B1BypassCode', 'Remove-B1CustomList', 
-               'Remove-B1InternalDomainList', 'Remove-B1LookalikeTarget', 
-               'Remove-B1NetworkList', 'Remove-B1SecurityPolicy', 'Set-B1CustomList', 
-               'Set-B1InternalDomainList', 'Set-B1LookalikeTarget', 
-               'Set-B1SecurityPolicy', 'Set-B1SOCInsight', 'Set-B1TideDataProfile', 
-               'Start-B1DossierBatchLookup', 'Start-B1DossierLookup', 
-               'Submit-B1TideData', 'Get-B1ConnectionProfile', 
-               'New-B1ConnectionProfile', 'Remove-B1ConnectionProfile', 
-               'Switch-B1ConnectionProfile', 'Get-B1Object', 'Get-B1Schema', 
+               'Set-B1Record', 'Set-B1Subnet', 'Get-B1Object', 'Get-B1Schema', 
                'Invoke-B1CubeJS', 'New-B1Object', 'Remove-B1Object', 'Set-B1Object', 
                'Get-NIOSConnectionProfile', 'New-NIOSConnectionProfile', 
                'Remove-NIOSConnectionProfile', 'Switch-NIOSConnectionProfile', 
-               'Convert-RecordsToBloxOne', 'Copy-NIOSDTCToBloxOne', 'Get-NIOSFileOp', 
+               'Convert-RecordsToUDDI', 'Copy-NIOSDTCToUDDI', 'Get-NIOSFileOp', 
                'Get-NIOSObject', 'Get-NIOSSchema', 'Invoke-NIOS', 'New-NIOSObject', 
                'Remove-NIOSObject', 'Set-NIOSObject', 'Get-ibPSConfiguration', 
                'Get-ibPSVersion', 'Get-NetworkInfo', 'Get-NetworkTopology', 
@@ -196,7 +197,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Infoblox','BloxOne','BloxOneDDI','ThreatDefense','REST','Windows','MacOS','API'
+        Tags = 'Infoblox','UDDI','Universal DDI','ThreatDefense','BloxOne','BloxOneDDI','REST','Windows','MacOS','API'
 
         # A URL to the license for this module.
         LicenseUri = 'https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE'

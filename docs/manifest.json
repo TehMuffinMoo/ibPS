@@ -1,12 +1,12 @@
 {
   "Name": "ibPS",
   "Version": "1.9.8.6",
-  "Description": "InfoBlox BloxOne PowerShell Module",
+  "Description": "Infoblox Universal DDI & Threat Defense PowerShell Module",
   "Author": "Mat Cox",
   "ProjectUri": "https://github.com/TehMuffinMoo/ibPS",
   "LicenseUri": "https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE",
   "ReleaseNotes": "https://ibps.readthedocs.io/en/latest/Change%20Log/",
   "CompanyName": "TMM Networks",
-  "Copyright": "(c) 2021-2024 Mat Cox. All rights reserved.",
+  "Copyright": "(c) 2021-2025 Mat Cox. All rights reserved.",
   "Count": 258
 }
