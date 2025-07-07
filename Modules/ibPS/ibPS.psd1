@@ -197,7 +197,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Infoblox','UDDI','Universal DDI','ThreatDefense','BloxOne','BloxOneDDI','REST','Windows','MacOS','API'
+        Tags = 'Infoblox','UDDI','UniversalDDI','ThreatDefense','BloxOne','BloxOneDDI','REST','Windows','MacOS','API'
 
         # A URL to the license for this module.
         LicenseUri = 'https://raw.githubusercontent.com/TehMuffinMoo/ibPS/main/LICENSE'
