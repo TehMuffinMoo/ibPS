@@ -1,4 +1,4 @@
-﻿param(
+param(
   $Selection,
   $Branch
 )
@@ -10,22 +10,22 @@ if ($Selection -ne 's') {
     $Platform = Detect-OS
 
     if ($Platform -eq "Windows") {
-    $UserDocuments = "$ENV:USERPROFILE\Documents"
-    $UserModuleDirectory = "$UserDocuments\WindowsPowerShell\Modules"
-    $GlobalModuleDirectory = "C:\Windows\System32\WindowsPowerShell\v1.0\Modules"
+        $UserDocuments = "$ENV:USERPROFILE\Documents"
+        $UserModuleDirectory = "$UserDocuments\WindowsPowerShell\Modules"
+        $GlobalModuleDirectory = "C:\Windows\System32\WindowsPowerShell\v1.0\Modules"
 
-    $elevated = ([Security.Principal.WindowsPrincipal] `
-    [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+        $elevated = ([Security.Principal.WindowsPrincipal] `
+        [Security.Principal.WindowsIdentity]::GetCurrent()
+        ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     }
 
     if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-    $UserDocuments = "$ENV:HOME/.local/share"
-    $UserModuleDirectory = "$UserDocuments/powershell/Modules"
-    $GlobalModuleDirectory = "/usr/local/microsoft/powershell/7/Modules"
-    if ($(whoami) -eq "root") {
-        $elevated = $true
-    }
+        $UserDocuments = "$ENV:HOME/.local/share"
+        $UserModuleDirectory = "$UserDocuments/powershell/Modules"
+        $GlobalModuleDirectory = "/usr/local/microsoft/powershell/7/Modules"
+        if ($(whoami) -eq "root") {
+            $elevated = $true
+        }
     }
 }
 
