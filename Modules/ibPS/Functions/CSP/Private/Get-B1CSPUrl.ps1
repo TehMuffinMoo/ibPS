@@ -21,7 +21,7 @@
     param(
         $ProfileName
     )
-    if ($ProfileName -or !($ENV:B1APIKey)) {
+    if ($ProfileName -or (!($ENV:B1APIKey)) -and (!($ENV:B1Bearer))) {
         $Configs = Get-B1Context
         if ($Configs.Contexts.PSObject.Properties.Name.Count -gt 0) {
             if (!$($ProfileName)) {

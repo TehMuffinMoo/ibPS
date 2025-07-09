@@ -21,7 +21,7 @@ function Connect-B1Account {
     .EXAMPLE
         PS> Connect-B1Account -Email "my.name@domain.com" -Password "mySuperSecurePassword"
 
-        Successfully connected to BloxOne account.
+        Successfully connected to MyAccount using: my.name@email.com.
 
     .FUNCTIONALITY
         Infoblox Portal
@@ -35,13 +35,32 @@ function Connect-B1Account {
     param(
         [Parameter(Mandatory = $true)]
         [string]$Email,
-        [Parameter(Mandatory = $true)]
-        [string]$Password
+        [ValidateSet("US","EU")]
+        [String]$CSPRegion = 'US',
+        [String]$CSPUrl,
+        [Parameter(Mandatory = $false)]
+        [SecureString]$SecurePassword
     )
+
+    if (-not $SecurePassword) {
+        $Password = Read-Host -Prompt "Enter your password for $Email" -AsSecureString
+    } else {
+        $Password = $SecurePassword
+    }
+
+    switch ($CSPRegion) {
+        "US" {
+            $CSPUrl = "https://csp.infoblox.com"
+        }
+        "EU" {
+            $CSPUrl = "https://csp.eu.infoblox.com"
+        }
+    }
+    $ENV:B1CSPUrl = $CSPUrl
 
     $Body = @{
         email = $Email
-        password = $Password
+        password = ConvertFrom-SecureString -SecureString $Password -AsPlainText
     } | ConvertTo-Json
 
     $Headers = @{
@@ -49,15 +68,28 @@ function Connect-B1Account {
     }
 
     try {
-        $Result = Invoke-RestMethod -Method POST -Uri "https://csp.infoblox.com/v2/session/users/sign_in" -Body $Body -Headers $Headers -ContentType "application/json"
+        $Result = Invoke-RestMethod -Method POST -Uri "$($CSPUrl)/v2/session/users/sign_in" -Body $Body -Headers $Headers -ContentType "application/json"
         if ($Result.jwt -ne $null) {
             $ENV:B1Bearer = $Result.jwt
-            Write-Host "Successfully connected to BloxOne account." -ForegroundColor Green
+            if ($CU = Get-B1CSPCurrentUser) {
+                $CA = Get-B1CSPCurrentUser -Account
+                Write-Host "Successfully connected to $($CA.name) using: $($CU.email)." -ForegroundColor Green
+            } else {
+                Write-Error "Successfully retrieved JWT but no active user details were returned."
+            }
         } else {
-            Write-Error "Failed to connect to BloxOne account. Please check your credentials and try again."
-            return $Result
+            if ($Result.error.message) {
+                Write-Error "$($Result.error.message)"
+            } else {
+                Write-Error "An unknown error occurred while connecting to the Infoblox Portal. Please check your credentials and try again."
+            }
         }
     } catch {
-        Write-Error "An error occurred while connecting to the BloxOne account: $_"
+        $json = $_ | ConvertFrom-Json -ErrorAction SilentlyContinue
+        if ($json.error) {
+            Write-Error "$($json.error.message)"
+        } else {
+            Write-Error "An unknown error occurred while connecting to the Infoblox Portal. Please check your credentials and try again."
+        }
     }
 }

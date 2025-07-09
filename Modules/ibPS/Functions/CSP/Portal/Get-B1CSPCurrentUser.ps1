@@ -30,6 +30,8 @@
         [Switch]$Groups,
         [Parameter(ParameterSetName="Account")]
         [Switch]$Account,
+        [Parameter(ParameterSetName="Accounts")]
+        [Switch]$Accounts,
         [Parameter(ParameterSetName="Compartments")]
         [Switch]$Compartments
     )
@@ -37,6 +39,10 @@
     if ($Groups) {
         Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user/groups" | Select-Object -ExpandProperty results
     } elseif ($Account) {
+        $B1Accounts = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user/accounts" | Select-Object -ExpandProperty results
+        $User = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user" | Select-Object -ExpandProperty result
+        $B1Accounts | Where-Object {$_.id -eq $User.account_id}
+    } elseif ($Accounts) {
         Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user/accounts" | Select-Object -ExpandProperty results
     } elseif ($Compartments) {
         Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/v2/current_user/compartments" | Select-Object -ExpandProperty results
