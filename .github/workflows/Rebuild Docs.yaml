@@ -72,8 +72,7 @@ jobs:
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
                 "API|JWT" {
-                  # $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/$($BaseName)"
-                  $BaseName = $F.FullName.Substring((Get-Item "docs").FullName.Length + 1).Replace('\', '/')
+                  $BaseName = $BaseName
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
@@ -82,6 +81,7 @@ jobs:
               if (-not (Test-Path "./docs/$($BaseName)")) {
                 New-Item -ItemType Directory "./docs/$($BaseName)"
               }
+              Write-Host "Moving $($DocToFind) to ./docs/$($BaseName)/"
               Move-Item "$($DocToFind)" "./docs/$($BaseName)/" -Force
             }
           }
