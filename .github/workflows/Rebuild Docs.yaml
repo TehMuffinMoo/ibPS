@@ -78,6 +78,7 @@ jobs:
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
                 }
               }
+              Write-Host "Moving $($DocToFind) to ./docs/$($BaseName)/"
               Move-Item "$($DocToFind)" "./docs/$($BaseName)/" -Force
             }
           }
