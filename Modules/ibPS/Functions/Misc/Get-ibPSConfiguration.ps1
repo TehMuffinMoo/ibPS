@@ -37,10 +37,10 @@
 
     $CurrentConfig = [PSCustomObject]@{
         "CSP Url" = $(if ($ENV:B1CSPUrl) {$ENV:B1CSPUrl} elseif ($BCP = Get-B1ConnectionProfile) {$BCP.'CSP URL'} else {'https://csp.infoblox.com'})
-        "CSP API User" = $(if ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY) {(Get-B1CSPCurrentUser).name} elseif ($BCP = Get-B1ConnectionProfile) {$BCP.'CSP User'} else {'API Key Not Set'})
-        "CSP Account" = $(if ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY) {(Get-B1CSPCurrentUser -Account).name} elseif ($BCP = Get-B1ConnectionProfile) {$BCP.'CSP Account'} else {'API Key Not Set'})
-        "CSP API Key" = $(if ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY) {if ($IncludeAPIKey) {Get-B1CSPAPIKey} else { "********" }} elseif ($BCP = Get-B1ConnectionProfile -IncludeAPIKey:$IncludeAPIKey) {$BCP.'API Key'} else {'API Key Not Set'})
-        "CSP Profile" = $(if ($ENV:B1APIKey) { 'The Global API Key is overriding the Active profile' } elseif ($ENV:IBPSB1APIKEY) { 'Environment' } elseif ($BCP = Get-B1ConnectionProfile) { $BCP.Name } else { 'None' })
+        "CSP API User" = $(if ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY -or $ENV:B1Bearer) {(Get-B1CSPCurrentUser).name} elseif ($BCP = Get-B1ConnectionProfile) {$BCP.'CSP User'} else {'API Key Not Set'})
+        "CSP Account" = $(if ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY -or $ENV:B1Bearer) {(Get-B1CSPCurrentUser -Account).name} elseif ($BCP = Get-B1ConnectionProfile) {$BCP.'CSP Account'} else {'API Key Not Set'})
+        "CSP API Key" = $(if ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY) {if ($IncludeAPIKey) {Get-B1CSPAPIKey} else { "********" }} elseif ($ENV:B1Bearer) { 'Connect-B1Account is overriding the Active Profile' } elseif ($BCP = Get-B1ConnectionProfile -IncludeAPIKey:$IncludeAPIKey) {$BCP.'API Key'} else {'API Key Not Set'})
+        "CSP Profile" = $(if ($ENV:B1APIKey) { 'The Global API Key is overriding the Active profile' } elseif ($ENV:B1Bearer) { 'Connect-B1Account is overriding the Active Profile' } elseif ($ENV:IBPSB1APIKEY) { 'Environment' } elseif ($BCP = Get-B1ConnectionProfile) { $BCP.Name } else { 'None' })
         "NIOS Profile" = $(if ($NCP = Get-NIOSConnectionProfile) { $NCP.Name} else { 'None' })
         "DoH Server" = $(if ($ENV:IBPSDoH) {$ENV:IBPSDoH} else { 'Not Set' })
         "ibPS Version" = $ibPSModule.Version.ToString()

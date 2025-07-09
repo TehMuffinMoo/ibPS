@@ -53,6 +53,8 @@
 
     if ($APIKey) {
         $B1ApiKey = "Token $($APIKey)"
+    } elseif ($ENV:B1Bearer) {
+        $B1ApiKey = "Bearer $($ENV:B1Bearer)"
     } elseif ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY) {
         ## Get Stored Global API Key or Plain-Text API Key from ENV
         $B1ApiKey = "Token $(Get-B1CSPAPIKey)"

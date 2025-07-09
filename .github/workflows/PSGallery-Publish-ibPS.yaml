@@ -140,14 +140,14 @@ jobs:
                 "Misc" {
                   $BaseName = "General"
                 }
-                "Cleanup" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Cleanup"
-                }
                 "Tools" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Tools"
                 }
                 "Profiles" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
+                }
+                "Authentication" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Authentication"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
