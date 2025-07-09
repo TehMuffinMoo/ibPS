@@ -72,7 +72,8 @@ jobs:
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
                 "API|JWT" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/$($BaseName)"
+                  # $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/$($BaseName)"
+                  $BaseName = $F.FullName.Substring((Get-Item "docs").FullName.Length + 1).Replace('\', '/')
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
