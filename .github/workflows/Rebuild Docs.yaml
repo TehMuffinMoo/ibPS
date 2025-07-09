@@ -72,7 +72,7 @@ jobs:
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
                 "API|JWT" {
-                  $BaseName = $BaseName
+                  $BaseName = "CSP/Authentication/$($BaseName)"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
