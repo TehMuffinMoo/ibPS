@@ -49,7 +49,7 @@ jobs:
             $DocToFind = "./docs-temp/$($F.BaseName).md"
             if ((Test-Path $DocToFind) -and "$($F.BaseName).md" -notin $($ExcludedDocs.doc)) {
               $BaseName = (Get-Item $F.DirectoryName).BaseName
-              switch ($BaseName) {
+              switch ($BaseName) -regex {
                 "UniversalDDI" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Universal DDI"
                 }
@@ -71,8 +71,8 @@ jobs:
                 "Profiles" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
-                "Authentication" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Authentication"
+                "API|JWT" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Authentication/$($BaseName)"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
