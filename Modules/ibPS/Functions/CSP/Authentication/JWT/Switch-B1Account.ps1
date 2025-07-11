@@ -1,4 +1,31 @@
 function Switch-B1Account {
+    <#
+    .SYNOPSIS
+        Switches the interactive JWT session token to a different Infoblox Portal account.
+
+    .DESCRIPTION
+        Switches the interactive JWT session token to a different Infoblox Portal account. This can be used to switch into the context of Sandboxes/Subtenants using the parent account's JWT session token.
+
+    .PARAMETER Name
+        The name of the Infoblox Portal account to switch to. This is the name as displayed in the Infoblox Portal.
+
+    .PARAMETER id
+        The ID of the Infoblox Portal account to switch to. This is the unique identifier for the account, which can be obtained by using Get-B1CSPCurrentUser -Accounts.
+
+    .EXAMPLE
+        PS> Switch-B1Account -Name "Sandbox Account"
+
+        Successfully switched to Sandbox Account using: my.name@email.com.
+
+    .FUNCTIONALITY
+        Infoblox Portal
+
+    .FUNCTIONALITY
+        Core
+
+    .FUNCTIONALITY
+        Authentication
+    #>
     param(
         [Parameter(Mandatory=$true, ParameterSetName="name")]
         [string]$Name,
