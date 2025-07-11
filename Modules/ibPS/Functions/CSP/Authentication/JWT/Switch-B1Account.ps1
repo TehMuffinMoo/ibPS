@@ -12,7 +12,7 @@ function Switch-B1Account {
     }
 
     if ($Name) {
-        $Account = Get-B1CSPCurrentUser -Account | Where-Object { $_.name -eq $Name }
+        $Account = Get-B1CSPCurrentUser -Accounts | Where-Object { $_.name -eq $Name }
         if (!$Account) {
             Write-Error "No account found with the name: $Name"
             return

@@ -41,7 +41,7 @@ $B1Accounts = {
         Write-Host "`nYou must be connected to a BloxOne account before switching accounts. Please use Connect-B1Account first." -ForegroundColor Red
         return
     }
-    (Get-B1CSPCurrentUser -Account | Where-Object {$_.name -like "$wordToComplete*"}).name
+    (Get-B1CSPCurrentUser -Accounts | Where-Object {$_.name -like "$wordToComplete*"}).name
 }
 Register-ArgumentCompleter -CommandName Switch-B1Account -ParameterName Name -ScriptBlock $B1Accounts
 
