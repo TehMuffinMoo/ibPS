@@ -20,6 +20,8 @@ function Disconnect-B1Account {
     .FUNCTIONALITY
         Authentication
     #>
+    [CmdletBinding()]
+    [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseDeclaredVarsMoreThanAssignments', '')]
     param()
     if ($ENV:B1Bearer) {
         $CU = Get-B1CSPCurrentUser

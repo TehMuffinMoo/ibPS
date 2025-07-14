@@ -57,7 +57,7 @@ function Switch-B1Account {
 
     try {
         $Result = Invoke-RestMethod -Method POST -Uri "https://csp.infoblox.com/v2/session/account_switch" -Body $Body -Headers $Headers -ContentType "application/json"
-        
+
         if ($Result.jwt -ne $null) {
             $ENV:B1Bearer = $Result.jwt
             if ($CU = Get-B1CSPCurrentUser) {
