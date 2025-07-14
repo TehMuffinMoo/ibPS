@@ -1,1 +1,5 @@
 "ScriptName","Severity","Line","Column","RuleName","Message"
+"Connect-B1Account.ps1","Information","10","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
+"Connect-B1Account.ps1","Information","17","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
+"Disconnect-B1Account.ps1","Warning","44","9","PSUseDeclaredVarsMoreThanAssignments","The variable 'Result' is assigned but never used."
+"Switch-B1Account.ps1","Information","60","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
