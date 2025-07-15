@@ -147,9 +147,31 @@ Connected using API Key as: John Doe
 #### Managing multiple Infoblox Portal Accounts
 When managing more than one account, you can use the Profiles configuration. Configuration Profiles enable you to save API keys for multiple accounts, and easily switch between them.
 
-See [Get-B1ConnectionProfile](CSP/Profiles/Get-B1ConnectionProfile/) for more information
+See [Get-B1ConnectionProfile](CSP/Authentication/API/Get-B1ConnectionProfile/) for more information
 ```powershell
 New-B1ConnectionProfile -Name 'Prod' -CSPRegion 'US' -APIKey '<ApiKeyFromCSP>'
+```
+
+### Authentication (JWT Token)
+In order to perform account switching, such as that of a parent account to a sandbox/subtenant account; you must authenticate using a JWT Token. To retrieve a JWT token, you must use `Connect-B1Account` and enter an email/password for an Infoblox Portal user.
+
+Once authenticated, you can perform account switching with [Switch-B1Account](CSP/Authentication/JWT/Switch-B1Account/)
+
+##### Prompt
+By default, when using `Connect-B1Account -APIKey` you will be prompted for the API Key to be entered securely.
+```powershell
+Connect-B1Account -Email John.Doe@company.com               
+Enter your Password for John.Doe@company.com: ***********************
+Connected as John.Doe@company.com
+```
+
+##### SecureString
+Alternatively, you can pass the API Key directly using a SecureString
+```powershell
+$SecurePwd = Read-Host -AsSecureString
+***********************
+Connect-B1Account -SecurePassword $SecurePwd              
+Connected as John.Doe@company.com
 ```
 
 ## Infoblox Portal Cmdlets
