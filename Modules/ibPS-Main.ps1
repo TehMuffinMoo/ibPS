@@ -35,8 +35,10 @@ if ($ENV:IBPSDevelopment -eq "Enabled") {
 }
 if ($ENV:IBPSDebug -eq "Enabled") {
    $DebugPreference = 'Continue'
+   $VerbosePreference = 'Continue'
 } else {
    $DebugPreference = 'SilentlyContinue'
+   $VerbosePreference = 'SilentlyContinue'
 }
 
 Initialize-NIOSConfig

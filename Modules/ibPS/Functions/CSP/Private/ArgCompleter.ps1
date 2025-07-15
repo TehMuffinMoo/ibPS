@@ -37,8 +37,8 @@ Register-ArgumentCompleter -CommandName Get-B1Service,New-B1Service -ParameterNa
 
 $B1Accounts = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    if (!$ENV:B1Bearer) {
-        Write-Host "`nYou must be connected to a BloxOne account before switching accounts. Please use Connect-B1Account first." -ForegroundColor Red
+    if (!$Script:AuthManager) {
+        Write-Host "`nYou must be connected to the Infoblox Portal before switching accounts. Please use Connect-B1Account first." -ForegroundColor Red
         return
     }
     (Get-B1CSPCurrentUser -Accounts | Where-Object {$_.name -like "$wordToComplete*"}).name

@@ -19,9 +19,24 @@
     param(
         [String]$ProfileName,
         [Switch]$DefaultProfile
-
     )
-    if ($ProfileName -or $DefaultProfile) {
+
+    if ($Script:AuthManager -and -not $ProfileName) {
+        $AuthManager = $Script:AuthManager
+        switch ($AuthManager.Type) {
+            'JWT' {
+                $ApiKey = $AuthManager.JWT
+                $PlainText = $true
+            }
+            'API' {
+                $ApiKey = $AuthManager.APIKey
+                $PlainText = $true
+            }
+        }
+    } elseif ($ProfileName -or $DefaultProfile) {
+        if ($ProfileName -eq '') {
+            $DefaultProfile = $true
+        }
         $Configs = Get-B1Context
         if ($DefaultProfile) {
             $ProfileName = $Configs.CurrentContext
@@ -33,12 +48,8 @@
             Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
             return $null
         }
-    } elseif ($ENV:IBPSB1APIKEY) {
-        $ApiKey = $ENV:IBPSB1APIKEY
-        $PlainText = $true
-    } else {
-        $ApiKey = $ENV:B1APIKey
     }
+
     if (!$ApiKey) {
         Write-Error "No Connection Profiles or Global CSP API Key has been configured."
         Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta

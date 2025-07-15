@@ -166,7 +166,7 @@ FunctionsToExport = 'Deploy-B1Appliance', 'Disable-B1HostLocalAccess',
                'Get-NIOSObject', 'Get-NIOSSchema', 'Invoke-NIOS', 'New-NIOSObject', 
                'Remove-NIOSObject', 'Set-NIOSObject', 'Get-ibPSConfiguration', 
                'Get-ibPSVersion', 'Get-NetworkInfo', 'Get-NetworkTopology', 
-               'Resolve-DoHQuery', 'Set-ibPSConfiguration', 'Invoke-CSP', 'Connect-B1Account', 'Switch-B1Account', 'Disconnect-B1Account'
+               'Resolve-DoHQuery', 'Set-ibPSConfiguration', 'Invoke-CSP', 'Connect-B1Account', 'Switch-B1Account', 'Disconnect-B1Account', 'Get-B1AccountSession'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()

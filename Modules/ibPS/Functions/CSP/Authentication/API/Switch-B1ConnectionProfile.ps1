@@ -42,20 +42,16 @@
             $ContextConfig.CurrentContext = $Name
             $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:B1ConfigFile -Force
 
-            if ($ENV:B1APIKey -or $ENV:B1CSPUrl) {
+            if ($ENV:B1CSPUrl) {
                 $Platform = Detect-OS
                 if ($Platform -eq "Windows") {
-                  [System.Environment]::SetEnvironmentVariable('B1APIKey',$null,[System.EnvironmentVariableTarget]::User)
                   [System.Environment]::SetEnvironmentVariable('B1CSPUrl',$null,[System.EnvironmentVariableTarget]::User)
-                  $ENV:B1APIKey = $null
                   $ENV:B1CSPUrl = $null
                 }
                 if ($Platform -eq "Mac" -or $Platform -eq "Unix") {
                     if (Test-Path ~/.zshenv) {
-                        sed -i '' -e '/B1APIKey/d' ~/.zshenv
                         sed -i '' -e '/B1CSPUrl/d' ~/.zshenv
                     }
-                    $ENV:B1APIKey = $null
                     $ENV:B1CSPUrl = $null
                 }
             }

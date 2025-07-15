@@ -15,8 +15,8 @@ function Connect-B1Account {
     .PARAMETER Email
         The email address of the Infoblox Portal account to use when connecting.
 
-    .PARAMETER Password
-        The password of the Infoblox Portal account to use when connecting.
+    .PARAMETER SecurePassword
+        The password of the Infoblox Portal account to use when connecting, in SecureString format.
 
     .EXAMPLE
         PS> Connect-B1Account -Email "my.name@domain.com" -Password "mySuperSecurePassword"
@@ -33,63 +33,49 @@ function Connect-B1Account {
         Authentication
     #>
     param(
-        [Parameter(Mandatory = $true)]
+        [Parameter(Mandatory = $true,ParameterSetName="JWT")]
         [string]$Email,
+        [Parameter(Mandatory = $true,ParameterSetName="API")]
+        [switch]$APIKey,
         [ValidateSet("US","EU")]
         [String]$CSPRegion = 'US',
-        [String]$CSPUrl,
-        [Parameter(Mandatory = $false)]
-        [SecureString]$SecurePassword
+        [Parameter(Mandatory = $false,ParameterSetName="JWT")]
+        [SecureString]$SecurePassword,
+        [Parameter(Mandatory = $false,ParameterSetName="API")]
+        [SecureString]$SecureAPIKey
     )
 
-    if (-not $SecurePassword) {
-        $Password = Read-Host -Prompt "Enter your password for $Email" -AsSecureString
-    } else {
-        $Password = $SecurePassword
-    }
-
-    switch ($CSPRegion) {
-        "US" {
-            $CSPUrl = "https://csp.infoblox.com"
-        }
-        "EU" {
-            $CSPUrl = "https://csp.eu.infoblox.com"
-        }
-    }
-    $ENV:B1CSPUrl = $CSPUrl
-
-    $Body = @{
-        email = $Email
-        password = ConvertFrom-SecureString -SecureString $Password -AsPlainText
-    } | ConvertTo-Json
-
-    $Headers = @{
-        "Content-Type" = "application/json"
-    }
-
     try {
-        $Result = Invoke-RestMethod -Method POST -Uri "$($CSPUrl)/v2/session/users/sign_in" -Body $Body -Headers $Headers -ContentType "application/json"
-        if ($Result.jwt -ne $null) {
-            $ENV:B1Bearer = $Result.jwt
-            if ($CU = Get-B1CSPCurrentUser) {
-                $CA = Get-B1CSPCurrentUser -Account
-                Write-Host "Successfully connected to $($CA.name) using: $($CU.email)." -ForegroundColor Green
+        $AuthManager = [AuthManager]::new($CSPRegion)
+        if ($Email) {
+            if (-not $SecurePassword) {
+                $Password = Read-Host -Prompt "Enter your password for $Email" -AsSecureString
             } else {
-                Write-Error "Successfully retrieved JWT but no active user details were returned."
+                $Password = $SecurePassword
             }
-        } else {
-            if ($Result.error.message) {
-                Write-Error "$($Result.error.message)"
-            } else {
-                Write-Error "An unknown error occurred while connecting to the Infoblox Portal. Please check your credentials and try again."
+            $AuthManager.ConnectJWT($Email,$Password)
+            if ($AuthManager.JWT) {
+                $Script:AuthManager = $AuthManager
+            }
+        } elseif ($APIKey) {
+            if (-not $SecureAPIKey) {
+                $SecureAPIKey = Read-Host -Prompt "Enter your API Key" -AsSecureString
+            }
+            $AuthManager.ConnectAPIKey($SecureAPIKey)
+            if ($AuthManager.APIKey) {
+                $Script:AuthManager = $AuthManager
+                $CU = Get-B1CSPCurrentUser -ErrorAction SilentlyContinue
+                if ($CU) {
+                    Write-Host "Connected using API Key as: $($CU.name)" -ForegroundColor Green
+                } else {
+                    Write-Error "Failed to connect using API Key. Please check your API Key and try again."
+                    $Script:AuthManager = $null
+                    return
+                }
             }
         }
     } catch {
-        $json = $_ | ConvertFrom-Json -ErrorAction SilentlyContinue
-        if ($json.error) {
-            Write-Error "$($json.error.message)"
-        } else {
-            Write-Error "An unknown error occurred while connecting to the Infoblox Portal. Please check your credentials and try again."
-        }
+        Write-Error $_
+        $Script:AuthManager = $null
     }
 }

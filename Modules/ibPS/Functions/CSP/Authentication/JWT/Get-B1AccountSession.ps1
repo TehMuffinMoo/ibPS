@@ -1,15 +1,13 @@
-function Disconnect-B1Account {
+function Get-B1AccountSession {
     <#
     .SYNOPSIS
-        Disconnects from the Infoblox Portal and invalidates the interactive JWT session token.
+        
 
     .DESCRIPTION
-        Disconnects from the Infoblox Portal and invalidates the interactive JWT session token.
+        
 
     .EXAMPLE
-        PS> Disconnect-B1Account
-
-        Successfully disconnected from the Infoblox Portal.
+        PS> Get-B1AccountSession
 
     .FUNCTIONALITY
         Infoblox Portal
@@ -24,8 +22,7 @@ function Disconnect-B1Account {
     param()
     if ($Script:AuthManager) {
         $AuthManager = $Script:AuthManager
-        $AuthManager.Disconnect()
-        $Script:AuthManager = $null
+        $AuthManager.GetSessionInfo()
     } else {
         Write-Error "You are not currently connected to the Infoblox Portal. Please use Connect-B1Account first."
         return

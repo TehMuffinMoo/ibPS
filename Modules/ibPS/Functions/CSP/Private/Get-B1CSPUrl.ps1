@@ -21,7 +21,7 @@
     param(
         $ProfileName
     )
-    if ($ProfileName -or (!($ENV:B1APIKey)) -and (!($ENV:B1Bearer))) {
+    if ($ProfileName -or (!($Script:AuthManager))) {
         $Configs = Get-B1Context
         if ($Configs.Contexts.PSObject.Properties.Name.Count -gt 0) {
             if (!$($ProfileName)) {
@@ -38,8 +38,8 @@
             Write-Colour "See the following link for more information: ","`nhttps://ibps.readthedocs.io/en/latest/#authentication-api-key" -Colour Cyan,Magenta
             return $null
         }
-    } elseif ($ENV:B1CSPUrl) {
-        $CSPUrl = $ENV:B1CSPUrl
+    } elseif ($Script:AuthManager) {
+        $CSPUrl = ($Script:AuthManager).CSPUrl
     } else {
         $CSPUrl = "https://csp.infoblox.com"
     }
