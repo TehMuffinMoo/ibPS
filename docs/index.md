@@ -155,6 +155,8 @@ New-B1ConnectionProfile -Name 'Prod' -CSPRegion 'US' -APIKey '<ApiKeyFromCSP>'
 ### Authentication (JWT Token)
 In order to perform account switching, such as that of a parent account to a sandbox/subtenant account; you must authenticate using a JWT Token. To retrieve a JWT token, you must use `Connect-B1Account` and enter an email/password for an Infoblox Portal user.
 
+This is useful when you need to authenticate as a separate account, without generating an account specific API Key.
+
 Once authenticated, you can perform account switching with [Switch-B1Account](CSP/Authentication/JWT/Switch-B1Account/)
 
 ##### Prompt
