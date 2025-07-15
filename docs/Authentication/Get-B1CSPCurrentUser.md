@@ -27,6 +27,11 @@ Get-B1CSPCurrentUser [-Groups] [<CommonParameters>]
 Get-B1CSPCurrentUser [-Account] [<CommonParameters>]
 ```
 
+### Accounts
+```
+Get-B1CSPCurrentUser [-Accounts] [<CommonParameters>]
+```
+
 ### Compartments
 ```
 Get-B1CSPCurrentUser [-Compartments] [<CommonParameters>]
@@ -65,6 +70,21 @@ Using the -Account switch will return the account data associated with the curre
 ```yaml
 Type: SwitchParameter
 Parameter Sets: Account
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Accounts
+{{ Fill Accounts Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: Accounts
 Aliases:
 
 Required: False

@@ -12,8 +12,14 @@ Connects to the Infoblox Portal and retrieves an interactive JWT session token, 
 
 ## SYNTAX
 
+### JWT
 ```
-Connect-B1Account [-Email] <String> [-Password] <String> [<CommonParameters>]
+Connect-B1Account -Email <String> [-CSPRegion <String>] [-SecurePassword <SecureString>] [<CommonParameters>]
+```
+
+### API
+```
+Connect-B1Account [-APIKey] [-CSPRegion <String>] [-SecureAPIKey <SecureString>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -33,7 +39,7 @@ You can disconnect from the Infoblox Portal using Disconnect-B1Account, which wi
 ```powershell
 Connect-B1Account -Email "my.name@domain.com" -Password "mySuperSecurePassword"
 
-Successfully connected to BloxOne account.
+Successfully connected to MyAccount using: my.name@email.com.
 ```
 
 ## PARAMETERS
@@ -43,26 +49,71 @@ The email address of the Infoblox Portal account to use when connecting.
 
 ```yaml
 Type: String
-Parameter Sets: (All)
+Parameter Sets: JWT
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Password
-The password of the Infoblox Portal account to use when connecting.
+### -APIKey
+{{ Fill APIKey Description }}
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: API
+Aliases:
+
+Required: True
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CSPRegion
+{{ Fill CSPRegion Description }}
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
-Position: 2
+Required: False
+Position: Named
+Default value: US
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SecurePassword
+The password of the Infoblox Portal account to use when connecting, in SecureString format.
+
+```yaml
+Type: SecureString
+Parameter Sets: JWT
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -SecureAPIKey
+{{ Fill SecureAPIKey Description }}
+
+```yaml
+Type: SecureString
+Parameter Sets: API
+Aliases:
+
+Required: False
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

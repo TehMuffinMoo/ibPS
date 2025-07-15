@@ -46,7 +46,7 @@ Set-ibPSConfiguration -DebugMode Enabled -DevelopmentMode Enabled
 ## PARAMETERS
 
 ### -CSPAPIKey
-This is the Infoblox Portal API Key retrieved from the Cloud Services Portal
+{{ Fill CSPAPIKey Description }}
 
 ```yaml
 Type: String
