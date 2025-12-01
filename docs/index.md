@@ -123,38 +123,57 @@ Import-Module -Name ".\Modules\ibPS\ibPS-Main.psm1" -DisableNameChecking
 In order to authenticate against the Infoblox Portal, you must first set your API Key. There are a few ways to do this, depending on your use-case.
 
 #### Managing a single Infoblox Portal Account
-When managing a single Infoblox Portal Account, you can use the 'Global' configuration. You can do this for either your current powershell session or save the API Key as persistent for your current user.
+When managing a single Infoblox Portal Account, or one where you need a none-persistent connection to; you can use `Connect-B1Account`
 
-Using the 'Global' method will always override any active configuration profiles. This can be useful if you want to quickly test a new API key, without having to save it as a connection profile.
+`Connect-B1Account` will override any active Connection Profiles, as it is intended to be used on a per-session basis. To revert back to Connection Profiles, use `Disconnect-B1Account` or restart the powershell session.
 
-##### Persistent
-To store your API Key permanently for your user, you can specify the <b>-Persist</b> option as shown below.
+##### Prompt
+By default, when using `Connect-B1Account -APIKey` you will be prompted for the API Key to be entered securely.
 ```powershell
-Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>" -Persist
+Connect-B1Account -APIKey               
+Enter your API Key: ********************************************
+Connected using API Key as: John Doe
 ```
 
-##### Single Session
-Alternatively, you can simply store your API Key for the current powershell session only.
+##### SecureString
+Alternatively, you can pass the API Key directly using a SecureString
 ```powershell
-Set-ibPSConfiguration -CSPAPIKey "<ApiKeyFromCSP>"
-```
-
-##### Environment Variable
-You can additionally pass the API Key via an Environment Variable. This will pass in the credentials as clear text, but can be used for non-persistent transactions such as leveraging ibPS via Ansible .
-```bash
-export IBPSB1APIKEY='<ApiKeyFromCSP>'
-```
-
-```powershell
-$ENV:IBPSB1APIKEY = '<ApiKeyFromCSP>'
+$SecurePwd = Read-Host -AsSecureString
+********************************************
+Connect-B1Account -SecureAPIKey $SecurePwd              
+Connected using API Key as: John Doe
 ```
 
 #### Managing multiple Infoblox Portal Accounts
 When managing more than one account, you can use the Profiles configuration. Configuration Profiles enable you to save API keys for multiple accounts, and easily switch between them.
 
-See [Get-B1ConnectionProfile](CSP/Profiles/Get-B1ConnectionProfile/) for more information
+See [Get-B1ConnectionProfile](CSP/Authentication/API/Get-B1ConnectionProfile/) for more information
 ```powershell
 New-B1ConnectionProfile -Name 'Prod' -CSPRegion 'US' -APIKey '<ApiKeyFromCSP>'
+```
+
+### Authentication (JWT Token)
+In order to perform account switching, such as that of a parent account to a sandbox/subtenant account; you must authenticate using a JWT Token. To retrieve a JWT token, you must use `Connect-B1Account` and enter an email/password for an Infoblox Portal user.
+
+This is useful when you need to authenticate as a separate account, without generating an account specific API Key.
+
+Once authenticated, you can perform account switching with [Switch-B1Account](CSP/Authentication/JWT/Switch-B1Account/)
+
+##### Prompt
+By default, when using `Connect-B1Account -APIKey` you will be prompted for the API Key to be entered securely.
+```powershell
+Connect-B1Account -Email John.Doe@company.com               
+Enter your Password for John.Doe@company.com: ***********************
+Connected as John.Doe@company.com
+```
+
+##### SecureString
+Alternatively, you can pass the API Key directly using a SecureString
+```powershell
+$SecurePwd = Read-Host -AsSecureString
+***********************
+Connect-B1Account -SecurePassword $SecurePwd              
+Connected as John.Doe@company.com
 ```
 
 ## Infoblox Portal Cmdlets

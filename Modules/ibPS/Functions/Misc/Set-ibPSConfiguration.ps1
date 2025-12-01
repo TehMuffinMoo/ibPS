@@ -6,9 +6,6 @@
     .DESCRIPTION
         This function is used to set ibPS specific configuration, such as the Infoblox Portal CSP API Key, Region/URL and enabling/disabling development or debug mode
 
-    .PARAMETER CSPAPIKey
-        This is the Infoblox Portal API Key retrieved from the Cloud Services Portal
-
     .PARAMETER CSPRegion
         Optionally configure the the CSP Region to use (i.e EU for the EMEA instance). The region defaults to US if not defined. You only need to use -CSPRegion OR -CSPUrl.
 
@@ -106,32 +103,6 @@
             Write-Host "Infoblox Portal CSP URL ($CSPUrl) has been stored for this session." -ForegroundColor Green
             Write-Host "You can make the CSP URL persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
         }
-      }
-    }
-
-    if ($CSPAPIKey) {
-      $B1APIKey = $CSPAPIKey | ConvertTo-SecureString -AsPlainText -Force | ConvertFrom-SecureString
-      $Bytes = [System.Text.Encoding]::Unicode.GetBytes($B1APIKey)
-      $Base64 = [Convert]::ToBase64String($Bytes)
-      if ($Persist) {
-        $Platform = Detect-OS
-        if ($Platform -eq "Windows") {
-          [System.Environment]::SetEnvironmentVariable('B1APIKey',$Base64,[System.EnvironmentVariableTarget]::User)
-          $ENV:B1APIKey = $Base64
-          Write-Host "Infoblox Portal API key has been stored permanently for $env:USERNAME on $env:COMPUTERNAME." -ForegroundColor Green
-        } elseif ($Platform -eq "Mac" -or $Platform -eq "Unix") {
-          $ENV:B1APIKey = $Base64
-          if (!(Test-Path ~/.zshenv)) {
-            touch ~/.zshenv
-          }
-          sed -i '' -e '/B1APIKey/d' ~/.zshenv
-          echo "export B1APIKey=$Base64" >> ~/.zshenv
-          Write-Host "Infoblox Portal API key has been stored permanently for $env:USER on $(scutil --get LocalHostName)." -ForegroundColor Green
-        }
-      } else {
-          $ENV:B1APIKey = $Base64
-          Write-Host "Infoblox Portal API key has been stored for this session." -ForegroundColor Green
-          Write-Host "You can make the API key persistent for this user on this machine by using the -persist parameter." -ForegroundColor Gray
       }
     }
 

@@ -35,6 +35,16 @@ $applications = {
 }
 Register-ArgumentCompleter -CommandName Get-B1Service,New-B1Service -ParameterName Type -ScriptBlock $applications
 
+$B1Accounts = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    if (!$Script:AuthManager) {
+        Write-Host "`nYou must be connected to the Infoblox Portal before switching accounts. Please use Connect-B1Account first." -ForegroundColor Red
+        return
+    }
+    (Get-B1CSPCurrentUser -Accounts | Where-Object {$_.name -like "$wordToComplete*"}).name
+}
+Register-ArgumentCompleter -CommandName Switch-B1Account -ParameterName Name -ScriptBlock $B1Accounts
+
 $B1TDSecurityPolicyRuleFilter = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     switch($fakeBoundParameters['Type']) {

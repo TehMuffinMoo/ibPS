@@ -53,19 +53,29 @@
 
     if ($APIKey) {
         $B1ApiKey = "Token $($APIKey)"
-    } elseif ($ENV:B1APIKey -or $ENV:IBPSB1APIKEY) {
-        ## Get Stored Global API Key or Plain-Text API Key from ENV
-        $B1ApiKey = "Token $(Get-B1CSPAPIKey)"
+        $B1CSPUrl = Get-B1CSPUrl -ProfileName $ProfileName
+    } elseif ($Script:AuthManager) {
+        $AuthManager = $Script:AuthManager
+        switch ($AuthManager.Type) {
+            'JWT' {
+                $B1ApiKey = "Bearer $($AuthManager.JWT)"
+                $B1CSPUrl = $AuthManager.CSPUrl
+            }
+            'API' {
+                $B1ApiKey = "Token $($AuthManager.APIKey)"
+                $B1CSPUrl = $AuthManager.CSPUrl
+            }
+        }
     } elseif ($ProfileName) {
         ## Get API Key from Selected Connection Profile
         $ProfileKey = Get-B1CSPAPIKey -ProfileName $ProfileName
         $B1ApiKey = "Token $($ProfileKey)"
+        $B1CSPUrl = Get-B1CSPUrl -ProfileName $ProfileName
     } elseif ($ProfileKey = Get-B1CSPAPIKey -DefaultProfile) {
         ## Get API Key from Default Connection Profile
         $B1ApiKey = "Token $($ProfileKey)"
+        $B1CSPUrl = Get-B1CSPUrl -ProfileName $ProfileName
     }
-
-    $B1CSPUrl = Get-B1CSPUrl -ProfileName $ProfileName
 
     if ($AdditionalHeaders) {
         $CSPHeaders = @{

@@ -16,10 +16,10 @@
 
 ## Import Functions
 $MiscellaneousFunctions = Get-ChildItem "$PSScriptRoot\Functions\Misc\*.ps1"
-$B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP" -Exclude Private | Get-ChildItem -Recurse
-$B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP\Private\*.ps1"
-$NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS" -Exclude Private | Get-ChildItem -Recurse
-$NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1"
+$B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP" -Exclude Private | Get-ChildItem -Recurse -File
+$B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP\Private\*.ps1" -File
+$NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS" -Exclude Private | Get-ChildItem -Recurse -File
+$NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1" -File
 $AdditionalFunctionsToExport = @('Invoke-CSP')
 
 foreach($FunctionToImport in @($B1PublicFunctions + $B1PrivateFunctions + $NIOSPublicFunctions + $NIOSPrivateFunctions + $MiscellaneousFunctions)) {
@@ -35,8 +35,10 @@ if ($ENV:IBPSDevelopment -eq "Enabled") {
 }
 if ($ENV:IBPSDebug -eq "Enabled") {
    $DebugPreference = 'Continue'
+   $VerbosePreference = 'Continue'
 } else {
    $DebugPreference = 'SilentlyContinue'
+   $VerbosePreference = 'SilentlyContinue'
 }
 
 Initialize-NIOSConfig

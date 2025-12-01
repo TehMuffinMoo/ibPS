@@ -104,7 +104,7 @@
                 return $null
             }
         }
-        $NewObj = $Object | Select-Object * -ExcludeProperty id,fqdn,mapped_subnet,mapping,parent,protocol_fqdn,updated_at,created_at,warnings,view,inheritance_assigned_hosts,inheritance_sources,initial_soa_serial,primary_type,zone_authority,external_providers,nios_grids_metadata
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,fqdn,mapped_subnet,mapping,parent,protocol_fqdn,updated_at,created_at,warnings,view,inheritance_assigned_hosts,inheritance_sources,initial_soa_serial,primary_type,zone_authority,external_providers,nios_grids_metadata,dnssec_keys,dnssec_status
 
         if ($Description) {
             $NewObj.comment = $Description

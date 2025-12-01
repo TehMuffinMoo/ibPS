@@ -49,7 +49,7 @@ jobs:
             $DocToFind = "./docs-temp/$($F.BaseName).md"
             if ((Test-Path $DocToFind) -and "$($F.BaseName).md" -notin $($ExcludedDocs.doc)) {
               $BaseName = (Get-Item $F.DirectoryName).BaseName
-              switch ($BaseName) {
+              switch -regex ($BaseName) {
                 "UniversalDDI" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Universal DDI"
                 }
@@ -65,19 +65,23 @@ jobs:
                 "Misc" {
                   $BaseName = "General"
                 }
-                "Cleanup" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Cleanup"
-                }
                 "Tools" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Tools"
                 }
                 "Profiles" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
+                "API|JWT" {
+                  $BaseName = "CSP/Authentication/$($BaseName)"
+                }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
                 }
               }
+              if (-not (Test-Path "./docs/$($BaseName)")) {
+                New-Item -ItemType Directory "./docs/$($BaseName)"
+              }
+              Write-Host "Moving $($DocToFind) to ./docs/$($BaseName)/"
               Move-Item "$($DocToFind)" "./docs/$($BaseName)/" -Force
             }
           }

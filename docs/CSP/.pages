@@ -1,6 +1,6 @@
 nav:
+    - Authentication
     - Infoblox Portal
     - Infoblox Threat Defense
     - Universal DDI
-    - Profiles
     - Generic Wrapper

@@ -1,12 +1,12 @@
-- Force load System.Web assembly for edge cases where it is not loaded automatically
-- Rename BloxOne Threat Defense -> Infoblox Threat Defense
-- Rename BloxOne DDI -> Universal DDI
+- Bugfix for Set-B1AuthoritativeZone (#179)
+- Fix bug with `Install.ps1` file encoding, preventing automated install from working.
+- Add `Connect-B1Account`, `Disconnect-B1Account` & `Switch-B1Account` to enable support for interactive based authentication and account switching.
+- Move JWT & API based connections to new class, including moving Global API Key usage to `Connect-B1Account -APIKey`
 
 ### Breaking Changes
 
-|  **Rename Core Module Files as part of thee Infoblox Rebranding**  |
+|  **Deprecate old Environment Variables**  |
 |:-------------------------|
-| As part of the rebrand and move away from BloxOne as a name, this update includes a vast amount of changes to align with the new naming. |
-| This includes updating a few core module files, which if not removed during update may cause stability issues. |
-| These files should be removed as part of automated updates, but it is strongly suggested to check they have been removed. |
-| ```BloxOne-Main.ps1``` & ```BloxOne-Main.psm1```
+| As part of some cleanup and ongoing improvements, old environment variables such as `B1APIKEY` & `IBPSB1APIKEY` are being deprecated. |
+| If scripts are currently configured to use `Set-ibPSConfiguration -CSPAPIKey <apikey>` or inject API Keys via Environment Variables, these will no longer work. |
+| This should be replaced with `Connect-B1Account` or `New-B1ConnectionProfile` for non-persistent/persistent connections respectively. |

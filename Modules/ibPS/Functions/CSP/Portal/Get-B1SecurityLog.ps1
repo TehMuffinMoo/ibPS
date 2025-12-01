@@ -122,7 +122,7 @@
         if ($Raw) {
             return $Results
         } else {
-            $Results.log | ConvertFrom-Json | ConvertFrom-Json
+            $Results.log | ConvertFrom-Json
         }
     } else {
         Write-Host "Error. Unable to find any security logs." -ForegroundColor Red

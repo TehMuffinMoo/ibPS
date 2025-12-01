@@ -140,14 +140,17 @@ jobs:
                 "Misc" {
                   $BaseName = "General"
                 }
-                "Cleanup" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Cleanup"
-                }
                 "Tools" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Tools"
                 }
                 "Profiles" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
+                }
+                "API" {
+                  $BaseName = "CSP/$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/API"
+                }
+                "JWT" {
+                  $BaseName = "CSP/$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/JWT"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
