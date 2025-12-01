@@ -147,10 +147,10 @@ jobs:
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
                 "API" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/API"
+                  $BaseName = "CSP/$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/API"
                 }
                 "JWT" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/JWT"
+                  $BaseName = "CSP/$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/JWT"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
