@@ -1,3 +1,4 @@
+- Bugfix for Set-B1AuthoritativeZone (#179)
 - Fix bug with `Install.ps1` file encoding, preventing automated install from working.
 - Add `Connect-B1Account`, `Disconnect-B1Account` & `Switch-B1Account` to enable support for interactive based authentication and account switching.
 - Move JWT & API based connections to new class, including moving Global API Key usage to `Connect-B1Account -APIKey`
