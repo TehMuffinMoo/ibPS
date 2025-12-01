@@ -146,8 +146,11 @@ jobs:
                 "Profiles" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Profiles"
                 }
-                "Authentication" {
-                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Authentication"
+                "API" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Authentication/API"
+                }
+                "JWT" {
+                  $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Authentication/JWT"
                 }
                 "Private" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Functions"
