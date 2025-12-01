@@ -95,9 +95,9 @@ class AuthManager {
         Remove-Event -SourceIdentifier $this.TimerEventId -ErrorAction SilentlyContinue
 
         Register-ObjectEvent -InputObject $this.RenewalTimer -EventName Elapsed -SourceIdentifier $this.TimerEventId -MessageData $this -Action {
-            param($sender, $eventArgs)
-            Write-Verbose "Updating session for $($eventArgs.MessageData.Email) at $(Get-Date)"
-            $event.MessageData.RefreshIfNeeded()
+            param($a, $b)
+            Write-Verbose "Updating session for $($b.MessageData.Email) at $(Get-Date)"
+            $b.MessageData.RefreshIfNeeded()
         }
 
         $this.RenewalTimer.Start()

@@ -1,3 +1,6 @@
+## 1.9.9.1
+- Bugfix for Set-B1AuthoritativeZone (#179)
+
 ## 1.9.9.0
 - Force load System.Web assembly for edge cases where it is not loaded automatically
 - Rename BloxOne Threat Defense -> Infoblox Threat Defense
