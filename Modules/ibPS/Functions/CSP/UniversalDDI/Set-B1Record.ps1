@@ -1,4 +1,4 @@
-﻿function Set-B1Record {
+function Set-B1Record {
     <#
     .SYNOPSIS
         Updates an existing DNS record in Universal DDI
@@ -117,14 +117,14 @@
         }
         $Type = $Object.type
     } else {
-        $Object = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA -FQDN $FQDN
+        $Object = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA -FQDN $FQDN -Strict
         if (!($Object)) {
             $Msg = $(if ($Name) {": $($Name).$($Zone)"} elseif ($FQDN) {": $($FQDN)"} elseif ($CurrentRDATA) {" with RDATA: $($CurrentRDATA)"})
             Write-Error "Unable to find DNS Record$($Msg)"
             return $null
         }
         if ($Object.count -gt 1) {
-            Write-Error "Multiple Subnet were found, to update more than one Subnet you should pass those objects using pipe instead."
+            Write-Error "Multiple records were found, to update more than one record you should pass those objects using pipe instead."
             return $null
         }
     }
