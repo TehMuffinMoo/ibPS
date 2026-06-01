@@ -126,7 +126,7 @@
     }
 
     if ($Response) {
-        $Filters += = @{
+        $Filters += @{
             "member" = "NstarDnsActivity.response"
             "operator" = "contains"
             "values" = @(

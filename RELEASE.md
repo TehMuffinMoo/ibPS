@@ -1,1 +1,2 @@
 - Fix bug with Remove-B1AuthoritativeZone, the id was incorrectly processed
+- Fix bug with `-Response` parameter when using `Get-B1DNSLog`
