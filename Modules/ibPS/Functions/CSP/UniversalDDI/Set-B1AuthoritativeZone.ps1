@@ -104,10 +104,14 @@
                 return $null
             }
         }
-        $NewObj = $Object | Select-Object * -ExcludeProperty id,fqdn,mapped_subnet,mapping,parent,protocol_fqdn,updated_at,created_at,warnings,view,inheritance_assigned_hosts,inheritance_sources,initial_soa_serial,primary_type,external_providers,nios_grids_metadata,dnssec_keys,dnssec_status
+        $NewObj = $Object | Select-Object * -ExcludeProperty id,fqdn,mapped_subnet,mapping,parent,protocol_fqdn,updated_at,created_at,warnings,view,inheritance_assigned_hosts,initial_soa_serial,primary_type,external_providers,nios_grids_metadata,dnssec_keys,dnssec_status
         ## Additionally remove the fields for zone_authority.protocol_rname & zone_authority.protocol_mname
         if ($NewObj.zone_authority) {
-            $NewObj.zone_authority = $NewObj.zone_authority | Select-Object * -ExcludeProperty protocol_rname,protocol_mname
+            if ($NewObj.zone_authority.use_default_mname -eq $true) {
+                $NewObj.zone_authority = $NewObj.zone_authority | Select-Object * -ExcludeProperty protocol_rname,protocol_mname,mname    
+            } else {
+                $NewObj.zone_authority = $NewObj.zone_authority | Select-Object * -ExcludeProperty protocol_rname,protocol_mname
+            }
         }
 
         if ($Description) {
