@@ -1,3 +1,9 @@
+## 1.9.9.2
+- Fix bug with Remove-B1AuthoritativeZone, the id was incorrectly processed
+- Fix bug with `-Response` parameter when using `Get-B1DNSLog`
+- Add support for `-Size` parameter when using `New-B1Host` & `Set-B1Host`
+- Add support for updating `zone_authority` field via Set-B1AuthoritativeZone pipeline input
+
 ## 1.9.9.1
 - Bugfix for Set-B1AuthoritativeZone (#179)
 - Fix bug with `Install.ps1` file encoding, preventing automated install from working.
@@ -458,6 +464,7 @@ See here for more information on [Preference Variables](https://learn.microsoft.
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 

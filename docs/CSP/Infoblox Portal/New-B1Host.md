@@ -13,8 +13,8 @@ Creates a new NIOS-X Host
 ## SYNTAX
 
 ```
-New-B1Host [-Name] <String> [-Space] <String> [[-Location] <String>] [[-Description] <String>] [-Force]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+New-B1Host [-Name] <String> [-Space] <String> [[-Location] <String>] [[-Description] <String>]
+ [[-Size] <String>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -85,6 +85,21 @@ Aliases:
 Required: False
 Position: 4
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Size
+The size of the new NIOS-X Host.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: S
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
