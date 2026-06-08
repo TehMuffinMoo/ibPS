@@ -267,6 +267,6 @@ Register-ArgumentCompleter -CommandName Get-B1AsAServiceConfigChanges,Get-B1AASC
 
 $NIOSXSKUs = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
-    @('2XS','XS','S','M','L','XL') | Where-Object {$_ -like "$wordToComplete*"}
+    @('XXS','XS','S','M','L','XL') | Where-Object {$_ -like "$wordToComplete*"}
 }
 Register-ArgumentCompleter -CommandName Set-B1Host,New-B1Host -ParameterName Size -ScriptBlock $NIOSXSKUs
