@@ -27,6 +27,9 @@
     .PARAMETER Location
         The updated Location for the specific NIOS-X Host. Using the value 'None' will set it to Empty
 
+    .PARAMETER Size
+        The size of the new NIOS-X Host.
+
     .PARAMETER Tags
         A list of tags to apply to this
          Host. This will overwrite existing tags.

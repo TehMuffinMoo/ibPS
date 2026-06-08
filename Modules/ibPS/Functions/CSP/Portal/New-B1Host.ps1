@@ -17,6 +17,9 @@
 
     .PARAMETER Location
         The Location for the new NIOS-X Host.
+    
+    .PARAMETER Size
+        The size of the new NIOS-X Host.
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
