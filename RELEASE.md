@@ -1,4 +1,1 @@
-- Fix bug with Remove-B1AuthoritativeZone, the id was incorrectly processed
-- Fix bug with `-Response` parameter when using `Get-B1DNSLog`
-- Add support for `-Size` parameter when using `New-B1Host` & `Set-B1Host`
-- Add support for updating `zone_authority` field via Set-B1AuthoritativeZone pipeline input
+- Update `2XS` SKU size to `XXS`
