@@ -15,14 +15,14 @@ Updates an existing NIOS-X Host
 ### Default
 ```
 Set-B1Host [-Name <String>] [-IP <String>] [-NewName <String>] [-Space <String>] [-TimeZone <String>]
- [-Description <String>] [-Location <String>] [-Tags <Object>] [-Force] [-WhatIf] [-Confirm]
+ [-Description <String>] [-Location <String>] [-Size <String>] [-Tags <Object>] [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ### Pipeline
 ```
 Set-B1Host [-NewName <String>] [-Space <String>] [-TimeZone <String>] [-Description <String>]
- [-Location <String>] -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+ [-Location <String>] [-Size <String>] -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -135,6 +135,21 @@ Accept wildcard characters: False
 ### -Location
 The updated Location for the specific NIOS-X Host.
 Using the value 'None' will set it to Empty
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Size
+The size of the new NIOS-X Host.
 
 ```yaml
 Type: String
