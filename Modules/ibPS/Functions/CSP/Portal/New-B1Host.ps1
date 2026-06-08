@@ -38,6 +38,7 @@
       [String]$Space,
       [String]$Location,
       [String]$Description,
+      [String]$Size = 'S',
       [Switch]$Force
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
@@ -50,6 +51,7 @@
         "display_name" = $Name
         "ip_space" = (Get-B1Space -Name $Space -Strict).id
         "description" = $Description
+        "size" = $Size
     }
 
     if ($Location) {

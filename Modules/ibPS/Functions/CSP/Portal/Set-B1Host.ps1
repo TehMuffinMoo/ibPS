@@ -61,6 +61,7 @@
       [String]$TimeZone,
       [String]$Description,
       [String]$Location,
+      [String]$Size,
       [Parameter(ParameterSetName="Default")]
       [System.Object]$Tags,
       [Parameter(
@@ -101,7 +102,7 @@
           $HostID = $Object.id
       }
 
-      $NewObj = $Object | Select-Object * -ExcludeProperty id,configs,created_at
+      $NewObj = $Object | Select-Object * -ExcludeProperty id,configs,created_at,managed_by
 
       if ($NewName) {
         $NewObj.display_name = $NewName
@@ -119,6 +120,13 @@
             $NewObj.description = $Description
         } else {
             $NewObj | Add-Member -MemberType NoteProperty -Name "description" -Value $Description
+        }
+      }
+      if ($Size) {
+        if ($NewObj.size) {
+            $NewObj.size = $Size
+        } else {
+            $NewObj | Add-Member -MemberType NoteProperty -Name "size" -Value $Size
         }
       }
       if ($Location) {

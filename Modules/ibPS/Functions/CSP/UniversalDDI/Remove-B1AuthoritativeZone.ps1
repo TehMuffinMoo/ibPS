@@ -66,12 +66,12 @@
       }
 
       if($PSCmdlet.ShouldProcess("$($Object.fqdn) ($($Object.id))")){
-        $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Zone.id)" | Out-Null
-        $B1Zone = Get-B1AuthoritativeZone -id $($Zone.id)
+        $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" | Out-Null
+        $B1Zone = Get-B1AuthoritativeZone -id $($Object.id)
         if ($B1Zone) {
             Write-Host "Error. Failed to delete Authoritative Zone: $($B1Zone.fqdn)" -ForegroundColor Red
         } else {
-            Write-Host "Successfully deleted Authoritative Zone: $($Zone.fqdn)" -ForegroundColor Green
+            Write-Host "Successfully deleted Authoritative Zone: $($Object.fqdn)" -ForegroundColor Green
         }
       }
     }

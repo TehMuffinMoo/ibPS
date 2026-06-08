@@ -264,3 +264,9 @@ $AsAServiceAccessLocations = {
     (Get-B1AsAServiceServiceStatus -Service $fakeBoundParameters['Service'] | Where-Object {$_.access_location_name -like "$wordToComplete*"}).access_location_name
 }
 Register-ArgumentCompleter -CommandName Get-B1AsAServiceConfigChanges,Get-B1AASConfigChanges,Get-B1AsAServiceDeployments,Get-B1AASDeployments,Get-B1AsAServiceTunnels,Get-B1AASTunnels -ParameterName Location -ScriptBlock $AsAServiceAccessLocations
+
+$NIOSXSKUs = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    @('2XS','XS','S','M','L','XL') | Where-Object {$_ -like "$wordToComplete*"}
+}
+Register-ArgumentCompleter -CommandName Set-B1Host,New-B1Host -ParameterName Size -ScriptBlock $NIOSXSKUs
