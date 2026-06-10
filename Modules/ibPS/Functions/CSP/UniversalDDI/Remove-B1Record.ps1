@@ -49,7 +49,6 @@
     param(
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
-      [ValidateSet("A","AAAA","CAA","CNAME","HTTPS","MX","NAPTR","NS","PTR","SRV","SVCB","TXT")]
       [String]$Type,
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
       [String]$Name,

@@ -75,7 +75,7 @@
     )]
     param(
       [Parameter(Mandatory=$true)]
-      [ValidateSet("A","AAAA","CNAME","PTR","TXT","SRV","MX","CAA","NS")] ## To be added "HTTPS","NAPTR","SVCB"
+      [ValidateSet("A","AAAA","CNAME","DNAME","PTR","TXT","SRV","MX","CAA","NS","HTTPS","ALIAS")] ## To be added "NAPTR","SVCB","DS"
       [String]$Type,
       [Parameter(Mandatory=$true)]
       [AllowEmptyString()]
@@ -267,6 +267,27 @@
                         } else {
                             Write-Host "Error. CNAME must be an FQDN: $rdata" -ForegroundColor Red
                             break
+                        }
+                    }
+                    "DNAME" {
+                        $rdataSplat = @{
+                            "target" = $rdata
+                        }
+                    }
+                    "HTTPS" {
+                        $rdataSplat = @{
+                            "target_name" = $rdata
+                        }
+                    }
+                    "SVCB" {
+                        $rdataSplat = @{
+                            "target_name" = $rdata
+                        }
+                    }
+                    "ALIAS" {
+                        $rdataSplat = @{
+                            "target_name" = $rdata
+                            "target_type" = "A"
                         }
                     }
                     "TXT" {

@@ -1,1 +1,3 @@
 - Update `2XS` SKU size to `XXS`
+- Add support for DNAME, HTTPS & ALIAS records
+- Fix bug when using `Set-B1Host` and `Get-B1Host -Detailed` as pipeline input, due to ID mismatch and missing fields

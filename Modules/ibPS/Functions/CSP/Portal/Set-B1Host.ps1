@@ -81,12 +81,14 @@
       if ($Object) {
           $SplitID = $Object.id.split('/')
           if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/host") {
-              $Object = Get-B1Host -id $($Object.id) -Detailed
+              $Object = Get-B1Host -id $($Object.id)
               if (-not $Object) {
                 Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/host' objects as input"
                 return $null
+              } else {
+                $SplitID = $Object.id.split('/')
+                $HostID = $SplitID[2]
               }
-              $HostID = $Object.id
           } else {
             $HostID = $SplitID[2]
           }
@@ -165,7 +167,7 @@
 
       if($PSCmdlet.ShouldProcess("Update NIOS-X Host`n$(JSONPretty($JSON))","Update NIOS-X Host: $($NewObj.display_name) ($($NewObj.id))",$MyInvocation.MyCommand)){
         $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$HostID" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        if ($($Results.id.split('/')[2]) -eq $($HostID)) {
+        if ($Results.count -gt 0-and $($Results.id.split('/')[2]) -eq $($HostID)) {
           Write-Host "Updated NIOS-X Host Configuration $($NewObj.display_name) successfuly." -ForegroundColor Green
           return $Results
         } else {
