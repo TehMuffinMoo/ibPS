@@ -104,7 +104,12 @@
                 Write-Host "On-Prem Host $Name does not exist." -ForegroundColor Gray
             }
           }
-          $HostID = $Object.id
+          if ($Object.id) {
+            $HostID = $Object.id.split('/')[2]
+          } else {
+            Write-Error "Unable to find On-Prem Host with provided parameters."
+            return $null
+          }
       }
 
       $NewObj = $Object | Select-Object * -ExcludeProperty id,configs,created_at,managed_by
