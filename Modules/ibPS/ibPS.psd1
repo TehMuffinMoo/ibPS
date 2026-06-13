@@ -69,7 +69,7 @@ Description = 'Infoblox Universal DDI & Threat Defense PowerShell Module'
 # NestedModules = @()
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
-FunctionsToExport = 'API', 'JWT', 'Get-B1ConnectionProfile', 'New-B1ConnectionProfile', 
+FunctionsToExport = 'Get-B1ConnectionProfile', 'New-B1ConnectionProfile', 
                'Remove-B1ConnectionProfile', 'Set-B1ConnectionProfile', 
                'Switch-B1ConnectionProfile', 'Connect-B1Account', 
                'Disconnect-B1Account', 'Get-B1AccountSession', 'Switch-B1Account', 
