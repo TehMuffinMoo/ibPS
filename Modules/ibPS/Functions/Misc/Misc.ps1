@@ -931,6 +931,7 @@ function DevelopmentFunctions {
     "Set-NIOSWebSession"
     "Get-B1Context"
     "Set-B1Context"
+    "New-B1Context"
     "Initialize-B1Config"
     "Write-Chart"
     "Write-Graph"

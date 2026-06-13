@@ -70,7 +70,7 @@ Description = 'Infoblox Universal DDI & Threat Defense PowerShell Module'
 
 # Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
 FunctionsToExport = 'API', 'JWT', 'Connect-B1Account', 'Disconnect-B1Account', 
-               'Get-B1AccountSession', 'Switch-B1Account', 'Get-B1ConnectionProfile', 
+               'Get-B1AccountSession', 'Switch-B1Account', 'Get-B1ConnectionProfile', 'Set-B1ConnectionProfile',
                'New-B1ConnectionProfile', 'Remove-B1ConnectionProfile', 
                'Switch-B1ConnectionProfile', 'Deploy-B1Appliance', 
                'Disable-B1HostLocalAccess', 'Enable-B1HostLocalAccess', 
@@ -179,7 +179,7 @@ CmdletsToExport = @()
 AliasesToExport = 'Apply-B1HostDHCPConfigProfile', 'Apply-B1HostDNSConfigProfile', 
                'dohdig', 'Get-B1AASCapabilities', 'Get-B1AASConfigChanges', 
                'Get-B1AASDeployments', 'Get-B1AASServices', 'Get-B1AASServiceStatus', 
-               'Get-B1AASTunnels', 'Get-BCP', 'Get-NCP', 'New-BCP', 'New-NCP', 
+               'Get-B1AASTunnels', 'Get-BCP', 'Get-NCP', 'New-BCP', 'New-NCP', 'Set-BCP',
                'Remove-B1HostDHCPConfigProfile', 'Remove-B1HostDNSConfigProfile', 
                'Remove-BCP', 'Remove-NCP', 'Switch-BCP', 'Switch-NCP'
 
