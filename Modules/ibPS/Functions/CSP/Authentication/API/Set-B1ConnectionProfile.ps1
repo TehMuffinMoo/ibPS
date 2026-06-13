@@ -18,6 +18,9 @@
     .PARAMETER APIKey
         Specify the Infoblox Portal API Key to update as part of this profile
 
+    .PARAMETER NoSwitchProfile
+        Do not make this profile active upon updating
+
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
