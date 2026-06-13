@@ -4,4 +4,4 @@
 - Fix bug with read-only fields when using `Set-B1Range`, `Set-B1Subnet` & `Set-B1AddressBlock` [#186](https://github.com/TehMuffinMoo/ibPS/issues/186)
 - Move update functionality for connection profiles to `Set-B1ConnectionProfile` (`Set-BCP`)
 - Allow deletion of all connection profiles using `Remove-B1ConnectionProfile -All`
-- Allow deletion of the currently active (and potentially only) connection profile using `Remove-B1ConnectionProfile` with the `-Force` parameter
+- Allow deletion of the currently active (and potentially only) connection profile using `Remove-B1ConnectionProfile` with the `-Force` parameter [#185](https://github.com/TehMuffinMoo/ibPS/issues/185)
