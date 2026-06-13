@@ -107,7 +107,7 @@
                 return $null
             }
         }
-        $NewObj = $Object | Select-Object * -ExcludeProperty utilization,utilization_v6,id,inheritance_assigned_hosts,inheritance_parent,parent,protocol,space,inheritance_sources
+        $NewObj = $Object | Select-Object * -ExcludeProperty utilization,utilization_v6,id,inheritance_assigned_hosts,inheritance_parent,parent,protocol,space,inheritance_sources,provider_type,delegation,subnet_id
 
         if ($Description) {
             $NewObj.comment = $Description

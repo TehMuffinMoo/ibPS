@@ -109,7 +109,7 @@
     }
 
     process {
-        $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization','asm_scope_flag','inheritance_assigned_hosts')
+        $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization','asm_scope_flag','inheritance_assigned_hosts','provider_type','delegation','subnet_id')
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "ipam/subnet") {
@@ -134,7 +134,7 @@
         }
 
         $NewObj = $Object | Select-Object * -ExcludeProperty $ObjectExclusions
-        $NewObj.dhcp_config = $NewObj.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id
+        $NewObj.dhcp_config = $NewObj.dhcp_config | Select-Object * -ExcludeProperty abandoned_reclaim_time,abandoned_reclaim_time_v6,echo_client_id,hold_reclaimed_time,hold_reclaimed_time_v6
 
         if ($NewName) {
             $NewObj.name = $NewName
