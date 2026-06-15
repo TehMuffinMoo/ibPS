@@ -60,13 +60,13 @@
       }
 
       if($PSCmdlet.ShouldProcess("$($Object.name) ($($Object.id))")){
-        Write-Host "Removing IP Space: $($SpaceInfo.Name).." -ForegroundColor Yellow
-        $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($SpaceInfo.id)" -Data $null | Out-Null
-        $SI = Get-B1Space -id $($SpaceInfo.id) 6> $null
+        Write-Host "Removing IP Space: $($Object.Name).." -ForegroundColor Yellow
+        $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $null | Out-Null
+        $SI = Get-B1Space -id $($Object.id) 6> $null
         if ($SI) {
           Write-Host "Failed to remove IP Space: $($SI.Name)" -ForegroundColor Red
         } else {
-          Write-Host "Successfully removed IP Space: $($SpaceInfo.Name)" -ForegroundColor Green
+          Write-Host "Successfully removed IP Space: $($Object.Name)" -ForegroundColor Green
         }
       }
     }

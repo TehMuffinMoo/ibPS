@@ -152,57 +152,107 @@ Describe 'Get-*' {
     }
 }
 
+Describe 'Set-*' {
+    Context 'B1DDI-General' {
+        It 'Update Fixed Address' {
+            Get-B1FixedAddress -IP 123.123.123.6 -Space $Name | Set-B1FixedAddress -Description "ibPS - Updated Description" 6>$null
+        }
+        # It 'Update Address Reservation' {
+        #     Get-B1AddressReservation -Address 123.123.123.5 -Space $Name | Set-B1AddressReservation -Description "ibPS - Updated Description" 6>$null
+        # }
+        It 'Update DHCP Range' {
+            Get-B1Range -StartAddress 123.123.123.10 -EndAddress 123.123.123.30 -Space $Name | Set-B1Range -Description "ibPS - Updated Description" 6>$null
+        }
+        It 'Update Subnet' {
+            Get-B1Subnet -Subnet 123.123.123.0 -CIDR 26 -Space $Name | Set-B1Subnet -Description "ibPS - Updated Description" 6>$null
+        }
+        It 'Update Address Block' {
+            Get-B1AddressBlock -Subnet 123.123.123.0 -CIDR 24 -Space $Name | Set-B1AddressBlock -Description "ibPS - Updated Description" 6>$null
+        }
+        # It 'Update IP Space' {
+        #     Get-B1Space -Name $Name | Set-B1Space -Description "ibPS - Updated Description" 6>$null
+        # }
+        It 'Update Authoritative Primary DNS Zone' {
+            Get-B1AuthoritativeZone -FQDN 'primary.ibps.pester.tests.' -View $Name | Set-B1AuthoritativeZone -Description "ibPS - Updated Description" 6>$null
+        }
+        It 'Update Authoritative Secondary DNS Zone' {
+            Get-B1AuthoritativeZone -FQDN 'secondary.ibps.pester.tests.' -View $Name | Set-B1AuthoritativeZone -Description "ibPS - Updated Description" 6>$null
+        }
+        It 'Update Forward DNS Zone' {
+            Get-B1ForwardZone -FQDN 'forward.ibps.pester.tests.' -View $Name | Set-B1ForwardZone -Description "ibPS - Updated Description" 6>$null
+        }
+        It 'Update DNS A Record' {
+            Get-B1Record -Type 'A' -FQDN 'A.primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" 6>$null
+        }
+        It 'Update DNS CNAME Record' {
+            Get-B1Record -Type 'CNAME' -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" 6>$null
+        }
+        It 'Update DNS SRV Record' {
+            Get-B1Record -Type 'SRV' -FQDN 'SRV.primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" 6>$null
+        }
+        # It 'Update DNS View' {
+        #     Get-B1DNSView -Name $Name | Set-B1DNSView -Description "ibPS - Updated Description" 6>$null
+        # }
+        It 'Update DHCP Config Profile' {
+            Get-B1DHCPConfigProfile -Name $Name | Set-B1DHCPConfigProfile -Description "ibPS - Updated Description" 6>$null
+        }
+        It 'Update NIOS-X Host' {
+            Get-B1Host -Name $Name | Set-B1Host -Description "ibPS - Updated Description" 6>$null
+        }
+    }
+}
+
 Describe 'Remove-*' {
     Context 'B1DDI-General' {
         It 'Remove Fixed Address' {
-            Remove-B1FixedAddress -IP 123.123.123.6 -Space $Name 6>$null
+            Remove-B1FixedAddress -IP 123.123.123.6 -Space $Name -Force 6>$null
         }
         It 'Remove Address Reservation' {
-            Remove-B1AddressReservation -Address 123.123.123.5 -Space $Name 6>$null
+            Remove-B1AddressReservation -Address 123.123.123.5 -Space $Name -Force 6>$null
         }
         It 'Remove DHCP Range' {
-            Remove-B1Range -StartAddress 123.123.123.10 -EndAddress 123.123.123.30 -Space $Name 6>$null
+            Remove-B1Range -StartAddress 123.123.123.10 -EndAddress 123.123.123.30 -Space $Name -Force 6>$null
         }
         It 'Remove Subnet' {
-            Remove-B1Subnet -Subnet 123.123.123.0 -CIDR 26 -Space $Name 6>$null
+            Remove-B1Subnet -Subnet 123.123.123.0 -CIDR 26 -Space $Name -Force 6>$null
         }
         It 'Remove Address Block' {
-            Remove-B1AddressBlock -Subnet 123.123.123.0 -CIDR 24 -Space $Name 6>$null
+            Remove-B1AddressBlock -Subnet 123.123.123.0 -CIDR 24 -Space $Name -Force 6>$null
         }
         It 'Remove IP Space' {
-            Remove-B1Space -Name $Name 6>$null
+            Remove-B1Space -Name $Name -Force 6>$null
         }
         It 'Remove Authoritative Primary DNS Zone' {
-            Remove-B1AuthoritativeZone -FQDN 'primary.ibps.pester.tests.' -View $Name 6>$null
+            Remove-B1AuthoritativeZone -FQDN 'primary.ibps.pester.tests.' -View $Name -Force 6>$null
         }
         It 'Remove Authoritative Secondary DNS Zone' {
-            Remove-B1AuthoritativeZone -FQDN 'secondary.ibps.pester.tests.' -View $Name 6>$null
+            Remove-B1AuthoritativeZone -FQDN 'secondary.ibps.pester.tests.' -View $Name -Force 6>$null
         }
         It 'Remove Forward DNS Zone' {
-            Remove-B1ForwardZone -FQDN 'forward.ibps.pester.tests.' -View $Name 6>$null
+            Remove-B1ForwardZone -FQDN 'forward.ibps.pester.tests.' -View $Name -Force 6>$null
         }
         It 'Remove DNS A Record' {
-            Get-B1Record -Type 'A' -FQDN 'A.primary.ibps.pester.tests' -View $Name | Remove-B1Record 6>$null
+            Get-B1Record -Type 'A' -FQDN 'A.primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
         }
         It 'Remove DNS CNAME Record' {
-            Get-B1Record -Type 'CNAME' -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name | Remove-B1Record 6>$null
+            Get-B1Record -Type 'CNAME' -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
         }
         It 'Remove DNS SRV Record' {
-            Get-B1Record -Type 'SRV' -FQDN 'SRV.primary.ibps.pester.tests' -View $Name | Remove-B1Record 6>$null
+            Get-B1Record -Type 'SRV' -FQDN 'SRV.primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
         }
         It 'Remove DNS View' {
-            Remove-B1DNSView -Name $Name 6>$null
+            Remove-B1DNSView -Name $Name -Force 6>$null
         }
         It 'Remove DHCP Config Profile' {
-            Remove-B1DHCPConfigProfile -Name $Name 6>$null
+            Remove-B1DHCPConfigProfile -Name $Name -Force 6>$null
         }
         It 'Remove NIOS-X Host' {
-            Remove-B1Host -Name $Name -NoWarning 6>$null
+            Remove-B1Host -Name $Name -Force 6>$null
         }
     }
     Context 'B1TD-General' {
         It 'Remove Lookalike Target' {
-            Remove-B1LookalikeTarget -Domain 'pester.test' -NoWarning 6>$null
+            Remove-B1LookalikeTarget -Domain 'pester.test' -Force 6>$null
         }
     }
 }
