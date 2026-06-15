@@ -74,7 +74,6 @@
     #>
     [CmdletBinding()]
     param(
-      [ValidateSet("A","AAAA","CAA","CNAME","DNAME","HTTPS","MX","NAPTR","NS","PTR","SRV","SVCB","TXT","SOA")]
       [String]$Type,
       [String]$Name,
       [String]$Zone,

@@ -222,6 +222,47 @@ function Get-CompositeStateSpaces {
   ) | ConvertTo-Json | ConvertFrom-Json
 }
 
+function Get-NIOSXSKUs {
+  @{
+      'XXS' = @{
+          'QPSLimit' = 5000
+          'LPSLimit' = 75
+          'ObjectLimit' = 3000
+          'Tokens' = 130
+      }
+      'XS' = @{
+          'QPSLimit' = 10000
+          'LPSLimit' = 150
+          'ObjectLimit' = 7500
+          'Tokens' = 250
+      }
+      'S' = @{
+          'QPSLimit' = 20000
+          'LPSLimit' = 200
+          'ObjectLimit' = 29000
+          'Tokens' = 470
+      }
+      'M' = @{
+          'QPSLimit' = 40000
+          'LPSLimit' = 300
+          'ObjectLimit' = 110000
+          'Tokens' = 880
+      }
+      'L' = @{
+          'QPSLimit' = 70000
+          'LPSLimit' = 400
+          'ObjectLimit' = 440000
+          'Tokens' = 1900
+      }
+      'XL' = @{
+          'QPSLimit' = 115000
+          'LPSLimit' = 675
+          'ObjectLimit' = 880000
+          'Tokens' = 2700
+      }
+  }
+}
+
 function Convert-Int64toIP ([int64]$int) {
   <#
     .LINK
@@ -931,12 +972,14 @@ function DevelopmentFunctions {
     "Set-NIOSWebSession"
     "Get-B1Context"
     "Set-B1Context"
+    "New-B1Context"
     "Initialize-B1Config"
     "Write-Chart"
     "Write-Graph"
     "Confirm-ShouldProcess"
     "JSONPretty"
     "Build-BulkExportTypes"
+    "Get-NIOSXSKUs"
   )
 }
 

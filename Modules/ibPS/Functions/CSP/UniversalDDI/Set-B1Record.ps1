@@ -74,7 +74,6 @@ function Set-B1Record {
       [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [Parameter(ParameterSetName="FQDN",Mandatory=$true)]
       [Parameter(ParameterSetName="RDATA",Mandatory=$true)]
-      [ValidateSet("A","CNAME","PTR","NS","TXT","SOA","SRV","IBMETA")]
       [String]$Type,
       [Parameter(ParameterSetName="NameAndZone",Mandatory=$true)]
       [String]$Name,
@@ -185,7 +184,7 @@ function Set-B1Record {
         }
         default {
           Write-Error "Error. Invalid record type: $Type"
-          Write-Error "Please use a supported record type: $SupportedRecords"
+          Write-Error "Please use pipeline input or a supported record type: $SupportedRecords"
           return $null
         }
       }

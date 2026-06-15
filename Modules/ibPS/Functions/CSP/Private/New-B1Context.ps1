@@ -1,4 +1,4 @@
-﻿function Set-B1Context {
+﻿function New-B1Context {
     [CmdletBinding()]
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param(
@@ -10,12 +10,11 @@
     )
     $Configs = Get-B1Context
     if ($Configs.Contexts."$($Name)") {
-        Write-Warning "Are you sure you want to overwrite the connection profile: $($Name)?" -WarningAction Inquire
-        Write-Host "Overwriting saved connection profile: $($Name).." -ForegroundColor Green
-        $Configs.Contexts."$($Name)" = $Config
-    } else {
-        Write-Warning "Connection profile does not exist: $($Name). Use New-B1ConnectionProfile to create a new connection profile."
+        Write-Warning "Connection profile already exists: $($Name). Use Set-B1ConnectionProfile to update an existing connection profile."
         break
+    } else {
+        Write-Host "Creating new connection profile: $($Name).." -ForegroundColor Green
+        $Configs.Contexts | Add-Member -MemberType NoteProperty -Name $($Name) -Value $($Config)
     }
 
     if (-not $NoSwitchProfile) {

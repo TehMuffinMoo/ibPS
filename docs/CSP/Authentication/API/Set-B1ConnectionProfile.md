@@ -5,23 +5,22 @@ online version:
 schema: 2.0.0
 ---
 
-# New-B1ConnectionProfile
+# Set-B1ConnectionProfile
 
 ## SYNOPSIS
-This function is used to create new connection profiles.
-By default, the new profile will be set as active.
+This function is used to update existing connection profiles.
 
 ## SYNTAX
 
 ### Region
 ```
-New-B1ConnectionProfile -Name <String> -CSPRegion <String> -APIKey <String> [-NoSwitchProfile] [-Force]
+Set-B1ConnectionProfile -Name <String> -CSPRegion <String> -APIKey <String> [-NoSwitchProfile] [-Force]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### URL
 ```
-New-B1ConnectionProfile -Name <String> -CSPUrl <String> -APIKey <String> [-NoSwitchProfile] [-Force] [-WhatIf]
+Set-B1ConnectionProfile -Name <String> -CSPUrl <String> -APIKey <String> [-NoSwitchProfile] [-Force] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
 
@@ -33,18 +32,18 @@ These can then easily be switched between by using \[Switch-B1ConnectionProfile\
 
 ### EXAMPLE 1
 ```powershell
-New-BCP
+Set-BCP -Name 'Dev' -CSPRegion 'US' -APIKey 'MyNewAPIKey'
 ```
 
 ### EXAMPLE 2
 ```powershell
-New-B1ConnectionProfile
+Set-B1ConnectionProfile -Name 'Dev' -CSPRegion 'US' -APIKey 'MyNewAPIKey'
 ```
 
 ## PARAMETERS
 
 ### -Name
-Specify the name for the new connection profile
+Specify the name of the connection profile to update.
 
 ```yaml
 Type: String
@@ -91,7 +90,7 @@ Accept wildcard characters: False
 ```
 
 ### -APIKey
-Specify the Infoblox Portal API Key to save as part of this profile
+Specify the Infoblox Portal API Key to update as part of this profile
 
 ```yaml
 Type: String
@@ -106,7 +105,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoSwitchProfile
-Do not make this profile active upon creation
+Do not make this profile active upon updating
 
 ```yaml
 Type: SwitchParameter
