@@ -1,9 +1,1 @@
-- Update `2XS` SKU size to `XXS`
-- Add support for DNAME, HTTPS & ALIAS records
-- Fix bug when using `Set-B1Host` and `Get-B1Host -Detailed` as pipeline input, due to ID mismatch and missing fields
-- Fix bug with read-only fields when using `Set-B1Range`, `Set-B1Subnet` & `Set-B1AddressBlock` [#186](https://github.com/TehMuffinMoo/ibPS/issues/186)
-- Move update functionality for connection profiles to `Set-B1ConnectionProfile` (`Set-BCP`)
-- Allow deletion of all connection profiles using `Remove-B1ConnectionProfile -All`
-- Allow deletion of the currently active (and potentially only) connection profile using `Remove-B1ConnectionProfile` with the `-Force` parameter [#185](https://github.com/TehMuffinMoo/ibPS/issues/185)
-- Add `Optimize-B1ServerTokens` function to provide the ability to check NIOS-X Server sizes are optimal, and optionally apply recommendations automatically. (Scale Up & Down)
-- Add `Get-B1Tokens` function to support pre-wrapped calls to the license cubes, enabling easy retrieval of summary information on token consumption (Server/Management/Reporting)
+- Fix bug with `Remove-B1Space`

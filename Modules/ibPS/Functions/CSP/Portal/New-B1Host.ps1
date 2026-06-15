@@ -17,7 +17,7 @@
 
     .PARAMETER Location
         The Location for the new NIOS-X Host.
-    
+
     .PARAMETER Size
         The size of the new NIOS-X Host.
 

@@ -1,0 +1,28 @@
+name: Run Pester Tests on Latest PS Gallery Version
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '30 6 * * *'
+
+jobs:
+  Run-URLScan-Pester-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install ibPS Module
+        shell: pwsh
+        run: |
+          Write-Host "Installing ibPS Module.."
+          Install-Module ibPS -Force -Confirm:$false
+      - name: Run Pester Tests
+        env:
+          URLSCAN_IO: ${{ secrets.API_KEY }}
+        shell: pwsh
+        run: |
+          $PesterConfig = New-PesterConfiguration
+          $PesterConfig.Run.Path = './Tests/BloxOne'
+          $PesterConfig.Output.Verbosity = 'Detailed'
+          Invoke-Pester -Configuration $PesterConfig

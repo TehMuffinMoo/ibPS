@@ -27,7 +27,7 @@
         Removed connection profile: Dev
 
     .EXAMPLE
-        PS> Remove-BCP -All                                 
+        PS> Remove-BCP -All
 
         Remove All Connection Profiles
         [Y] Yes  [A] Yes to All  [N] No  [L] No to All  [S] Suspend  [?] Help (default is "Y"): y
@@ -82,7 +82,7 @@
                 if ($Force) {
                     if($PSCmdlet.ShouldProcess("Remove Connection Profile: $($Name)","Remove Connection Profile: $($Name)",$MyInvocation.MyCommand)){
                         $ContextConfig.Contexts.PSObject.Members.Remove($Name)
-                        $NextContext = ($ContextConfig.Contexts.PSObject.Members | Where-Object {$_.MemberType -eq 'NoteProperty'} | Select -First 1).Name
+                        $NextContext = ($ContextConfig.Contexts.PSObject.Members | Where-Object {$_.MemberType -eq 'NoteProperty'} | Select-Object -First 1).Name
                         if ($NextContext) {
                             $ContextConfig.CurrentContext = $NextContext
                             $ContextConfig | ConvertTo-Json -Depth 5 | Out-File $Script:B1ConfigFile -Force -Confirm:$false

@@ -187,7 +187,7 @@ class B1Session {
 
         $tokenheader = $token.Split(".")[0].Replace('-', '+').Replace('_', '/')
         while ($tokenheader.Length % 4) { Write-Verbose "Invalid length for a Base-64 char array or string, adding ="; $tokenheader += "=" }
-    
+
         $tokenPayload = $token.Split(".")[1].Replace('-', '+').Replace('_', '/')
         while ($tokenPayload.Length % 4) { Write-Verbose "Invalid length for a Base-64 char array or string, adding ="; $tokenPayload += "=" }
         $tokenByteArray = [System.Convert]::FromBase64String($tokenPayload)
@@ -197,7 +197,7 @@ class B1Session {
         $tokobj | Add-Member -MemberType NoteProperty -Name 'issued' -Value (Get-Date -Date "01/01/1970").AddSeconds($tokobj.iat)
         $tokobj | Add-Member -MemberType NoteProperty -Name 'expires' -Value (Get-Date -Date "01/01/1970").AddSeconds($tokobj.exp)
         $tokobj | Add-Member -MemberType NoteProperty -Name 'notBefore' -Value (Get-Date -Date "01/01/1970").AddSeconds($tokobj.nbf)
-        
+
         return $tokobj
     }
 
