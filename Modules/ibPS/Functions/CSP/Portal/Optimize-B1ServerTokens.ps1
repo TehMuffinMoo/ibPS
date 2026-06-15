@@ -61,9 +61,9 @@
                 { $_ -le $NIOSXSKUs['L']['ObjectLimit'] -and $B1Host.qps.peak -le $NIOSXSKUs['L']['QPSLimit'] -and $B1Host.lps.peak -le $NIOSXSKUs['L']['LPSLimit'] } { 'L'; break }
                 default { 'XL'; break }
             }
-            
+
         ) -Force
-        
+
         $B1Host | Add-Member -MemberType NoteProperty -Name 'needs_right_sizing' -Value $(
             if ($B1Host.should_be_size -ne $B1Host.size) {
                 $true

@@ -108,7 +108,7 @@
         ## Additionally remove the fields for zone_authority.protocol_rname & zone_authority.protocol_mname
         if ($NewObj.zone_authority) {
             if ($NewObj.zone_authority.use_default_mname -eq $true) {
-                $NewObj.zone_authority = $NewObj.zone_authority | Select-Object * -ExcludeProperty protocol_rname,protocol_mname,mname    
+                $NewObj.zone_authority = $NewObj.zone_authority | Select-Object * -ExcludeProperty protocol_rname,protocol_mname,mname
             } else {
                 $NewObj.zone_authority = $NewObj.zone_authority | Select-Object * -ExcludeProperty protocol_rname,protocol_mname
             }
