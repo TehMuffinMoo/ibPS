@@ -6,7 +6,7 @@ on:
     - cron:  '30 6 * * *'
 
 jobs:
-  Run-URLScan-Pester-Tests:
+  Run-ibPS-Pester-Tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -18,10 +18,10 @@ jobs:
           Write-Host "Installing ibPS Module.."
           Install-Module ibPS -Force -Confirm:$false
       - name: Run Pester Tests
-        env:
-          URLSCAN_IO: ${{ secrets.API_KEY }}
         shell: pwsh
         run: |
+          $APIKey = '${{ secrets.IBPS_API_KEY }}' | ConvertTo-SecureString -AsPlainText -Force
+          Connect-B1Account -APIKey -SecureAPIKey $APIKey -CSPRegion 'EU'
           $PesterConfig = New-PesterConfiguration
           $PesterConfig.Run.Path = './Tests/BloxOne'
           $PesterConfig.Output.Verbosity = 'Detailed'

@@ -1,0 +1,24 @@
+name: Run ibPS Pester Tests on Github Branch
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Run-ibPS-Pester-Tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Pester Tests
+        env:
+        shell: pwsh
+        run: |
+          Write-Host "Importing ibPS Module.."
+          Import-Module './Modules/ibPS/ibPS.psd1'
+          $APIKey = '${{ secrets.IBPS_API_KEY }}' | ConvertTo-SecureString -AsPlainText -Force
+          Connect-B1Account -APIKey -SecureAPIKey $APIKey -CSPRegion 'EU'
+          $PesterConfig = New-PesterConfiguration
+          $PesterConfig.Run.Path = './Tests/'
+          $PesterConfig.Output.Verbosity = 'Detailed'
+          Invoke-Pester -Configuration $PesterConfig
