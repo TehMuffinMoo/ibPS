@@ -39,9 +39,8 @@
         ConfirmImpact = 'High'
     )]
     param(
-        [parameter(Mandatory=$true)]
         [ValidateSet('Check','Apply')]
-        [String]$Action,
+        [String]$Action = 'Check',
         [Switch]$Force
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
