@@ -20,7 +20,8 @@ jobs:
       - name: Run Pester Tests
         shell: pwsh
         run: |
-          Connect-B1Account -APIKey ${{ secrets.IBPS_API_KEY }}
+          $APIKey = '${{ secrets.IBPS_API_KEY }}' | ConvertTo-SecureString -AsPlainText -Force
+          Connect-B1Account -APIKey $APIKey
           $PesterConfig = New-PesterConfiguration
           $PesterConfig.Run.Path = './Tests/BloxOne'
           $PesterConfig.Output.Verbosity = 'Detailed'
