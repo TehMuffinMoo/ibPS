@@ -21,7 +21,7 @@ jobs:
         shell: pwsh
         run: |
           $APIKey = '${{ secrets.IBPS_API_KEY }}' | ConvertTo-SecureString -AsPlainText -Force
-          Connect-B1Account -APIKey $APIKey
+          Connect-B1Account -APIKey -SecureAPIKey $APIKey
           $PesterConfig = New-PesterConfiguration
           $PesterConfig.Run.Path = './Tests/BloxOne'
           $PesterConfig.Output.Verbosity = 'Detailed'

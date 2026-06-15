@@ -15,14 +15,28 @@ function Connect-B1Account {
     .PARAMETER Email
         The email address of the Infoblox Portal account to use when connecting.
 
+    .PARAMETER APIKey
+        Use this switch to connect to the Infoblox Portal using an API Key instead of a username and password. When using this switch, the -SecureAPIKey parameter must also be specified.
+
+    .PARAMETER CSPRegion
+        The Infoblox Cloud Portal (CSP) region to connect to. Valid values are 'US' or 'EU'. Default is 'US'.
+
     .PARAMETER SecurePassword
         The password of the Infoblox Portal account to use when connecting, in SecureString format.
+
+    .PARAMETER SecureAPIKey
+        The API Key of the Infoblox Portal account to use when connecting, in SecureString format.
 
     .EXAMPLE
         PS> Connect-B1Account -Email "my.name@domain.com" -Password "mySuperSecurePassword"
 
         Successfully connected to MyAccount using: my.name@email.com.
 
+    .EXAMPLE
+        PS> $APIKey = Read-Host -AsSecureString -Prompt "Enter your API Key"
+        PS> Connect-B1Account -APIKey -SecureAPIKey $APIKey
+
+        Successfully connected to MyAccount as: John Doe
     .FUNCTIONALITY
         Infoblox Portal
 
