@@ -5,3 +5,5 @@
 - Move update functionality for connection profiles to `Set-B1ConnectionProfile` (`Set-BCP`)
 - Allow deletion of all connection profiles using `Remove-B1ConnectionProfile -All`
 - Allow deletion of the currently active (and potentially only) connection profile using `Remove-B1ConnectionProfile` with the `-Force` parameter [#185](https://github.com/TehMuffinMoo/ibPS/issues/185)
+- Add `Optimize-B1ServerTokens` function to provide the ability to check NIOS-X Server sizes are optimal, and optionally apply recommendations automatically. (Scale Up & Down)
+- Add `Get-B1Tokens` function to support pre-wrapped calls to the license cubes, enabling easy retrieval of summary information on token consumption (Server/Management) - <b>Reporting coming soon</b>
