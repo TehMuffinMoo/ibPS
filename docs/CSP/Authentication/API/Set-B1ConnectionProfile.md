@@ -105,7 +105,7 @@ Accept wildcard characters: False
 ```
 
 ### -NoSwitchProfile
-{{ Fill NoSwitchProfile Description }}
+Do not make this profile active upon updating
 
 ```yaml
 Type: SwitchParameter
