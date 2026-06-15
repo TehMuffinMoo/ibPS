@@ -56,7 +56,8 @@
 
       $LookalikeTargetList = Get-B1LookalikeTargets
       foreach ($DomainToRemove in $Domain) {
-        if ($DomainToRemove -in $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
+        ## Check if LookalikeTargetList.items_described exists as a property, if not, skip the check for the domain in the list
+        if ($LookalikeTargetList.items_described -and $DomainToRemove -in $($LookalikeTargetList | Select-Object -ExpandProperty items_described | Select-Object -ExpandProperty item)) {
           Write-Error "Failed to remove lookalike target: $($DomainToRemove)"
         } else {
           Write-Host "Successfully removed lookalike target: $($DomainToRemove)" -ForegroundColor Green
