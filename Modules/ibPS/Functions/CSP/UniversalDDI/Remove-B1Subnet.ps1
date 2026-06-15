@@ -75,13 +75,13 @@
       }
 
       if($PSCmdlet.ShouldProcess("$($Object.address)/$($Object.cidr) ($($Object.id))")){
-        Write-Host "Removing Subnet: $($SubnetInfo.Address)/$($SubnetInfo.cidr).." -ForegroundColor Yellow
-        Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($SubnetInfo.id)" -Data $null | Out-Null
-        $SI = Get-B1Subnet -id $($SubnetInfo.id)
+        Write-Host "Removing Subnet: $($Object.Address)/$($Object.cidr).." -ForegroundColor Yellow
+        Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)" -Data $null | Out-Null
+        $SI = Get-B1Subnet -id $($Object.id)
         if ($SI) {
           Write-Host "Failed to remove Subnet: $($SI.Address)/$($SI.cidr)" -ForegroundColor Red
         } else {
-          Write-Host "Successfully removed Subnet: $($SubnetInfo.Address)/$($SubnetInfo.cidr)" -ForegroundColor Green
+          Write-Host "Successfully removed Subnet: $($Object.Address)/$($Object.cidr)" -ForegroundColor Green
         }
       }
     }

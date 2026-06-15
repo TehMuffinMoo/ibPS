@@ -92,7 +92,7 @@
       }
 
       if($PSCmdlet.ShouldProcess("$($Object.absolute_name_spec) ($($Object.id))")){
-        Write-Host "Removing record: $($Record.absolute_name_spec)" -ForegroundColor Yellow
+        Write-Host "Removing record: $($Object.absolute_name_spec)" -ForegroundColor Yellow
         $null = Invoke-CSP -Method "DELETE" -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($Object.id)"
         $RC = Get-B1Record -id $($Object.id)
         if ($RC) {

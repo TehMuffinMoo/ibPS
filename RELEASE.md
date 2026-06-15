@@ -1,1 +1,1 @@
-- Fix bug with `Remove-B1Space`
+- Fix bug with `Remove-B1Space`, `Remove-B1Record` (Visual bug only) & `Remove-B1Subnet`
