@@ -48,6 +48,9 @@
   )
   $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
   $LookalikeTargetList = Get-B1LookalikeTargets
+  if ($LookalikeTargetList.items_described -eq $null) {
+    $LookalikeTargetList | Add-Member -MemberType NoteProperty -Name items_described -Value @()
+  }
   $NewLookalikes = @()
 
   if ($Domain.Count -gt 1) {

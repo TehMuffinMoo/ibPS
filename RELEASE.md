@@ -1,1 +1,3 @@
-- Fix bug with `Remove-B1Space`, `Remove-B1Record` (Visual bug only) & `Remove-B1Subnet`
+- Fix bug with `Remove-B1Space` & `Remove-B1Subnet` where id was incorrectly processed due to old references
+- Fix bug with `Remove-B1Record` where the WhatIf message was invalid
+- Fix bug with `New-B1LookalikeTarget` failing to submit if there were no existing domains
