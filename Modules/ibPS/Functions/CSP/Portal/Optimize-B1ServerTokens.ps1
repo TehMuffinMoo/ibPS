@@ -9,6 +9,9 @@
     .PARAMETER Action
         The action to perform. Use 'Check' to check for right-sizing opportunities, or 'Apply' to apply right-sizing to any NIOS-X Servers that are not optimally sized.
 
+    .PARAMETER Force
+        Bypass confirmation prompts when applying right-sizing optimizations.
+
     .EXAMPLE
         PS> Optimize-B1ServerTokens -Action Check | ft * -AutoSize
 

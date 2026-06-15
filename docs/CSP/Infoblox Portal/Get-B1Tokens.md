@@ -94,6 +94,80 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+## DYNAMIC PARAMETERS
+
+### Management
+!!! warning "Important Information"
+    **These parameters are only available when `-Bucket` is Management**
+
+#### -ObjectType
+The ObjectType parameter is used to filter by the type of object for the specified token utilization bucket. Available values are `Active IPs`, `DDI` & `Assets`.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### Server
+!!! warning "Important Information"
+    **These parameters are only available when `-Bucket` is Server**
+
+#### -ServerType
+The ServerType parameter is used to filter by the type of server. Available values are `Self Managed` & `As a Service`.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+#### -InstanceType
+The InstanceType parameter is used to filter by the SKU size of the instance. Available values are `XXS`, `XS`, `S`, `M`, `L` & `XL`.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 3
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### Reporting
+!!! warning "Important Information"
+    **These parameters are only available when `-Bucket` is Reporting**
+
+#### -Category
+The Category parameter is used to filter by the reporting category. Available values are `30-day Active Search` & `Ecosystem`.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### CommonParameters
 This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
