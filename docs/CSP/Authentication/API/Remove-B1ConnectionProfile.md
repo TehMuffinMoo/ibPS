@@ -24,7 +24,6 @@ Remove-B1ConnectionProfile [-All] [-Force] [-WhatIf] [-Confirm] [<CommonParamete
 
 ## DESCRIPTION
 Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Cloud Accounts, with the ability to quickly switch between them.
-A list of connection profiles can be retrieved using \[Get-B1ConnectionProfile\](https://ibps.readthedocs.io/en/latest/CSP/Profiles/Get-B1ConnectionProfile/).
 
 ## EXAMPLES
 
