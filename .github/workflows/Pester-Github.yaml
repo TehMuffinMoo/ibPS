@@ -1,4 +1,4 @@
-name: Run ibPS Pester Tests on Github Branch
+name: Run Pester Tests on Github Branch
 
 on:
   workflow_dispatch:
