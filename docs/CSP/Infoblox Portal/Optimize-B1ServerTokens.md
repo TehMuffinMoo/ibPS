@@ -58,7 +58,7 @@ Accept wildcard characters: False
 ```
 
 ### -Force
-{{ Fill Force Description }}
+Bypass confirmation prompts when applying right-sizing optimizations.
 
 ```yaml
 Type: SwitchParameter

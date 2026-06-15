@@ -8,26 +8,26 @@ schema: 2.0.0
 # New-B1ConnectionProfile
 
 ## SYNOPSIS
-This function is used to create new Infoblox Portal connection profiles.
+This function is used to create new connection profiles.
 By default, the new profile will be set as active.
 
 ## SYNTAX
 
 ### Region
 ```
-New-B1ConnectionProfile -Name <String> -CSPRegion <String> -APIKey <String> [-NoSwitchProfile]
- [<CommonParameters>]
+New-B1ConnectionProfile -Name <String> -CSPRegion <String> -APIKey <String> [-NoSwitchProfile] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### URL
 ```
-New-B1ConnectionProfile -Name <String> -CSPUrl <String> -APIKey <String> [-NoSwitchProfile]
- [<CommonParameters>]
+New-B1ConnectionProfile -Name <String> -CSPUrl <String> -APIKey <String> [-NoSwitchProfile] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts.
-These can then easily be switched between by using [`Switch-B1ConnectionProfile`](../Switch-B1ConnectionProfile/).
+These can then easily be switched between by using \[Switch-B1ConnectionProfile\](https://ibps.readthedocs.io/en/latest/CSP/Profiles/Switch-B1ConnectionProfile/).
 
 ## EXAMPLES
 
@@ -116,6 +116,53 @@ Aliases:
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Force
+Perform the operation without prompting for confirmation.
+By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -WhatIf
+Shows what would happen if the cmdlet runs.
+The cmdlet is not run.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: wi
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Confirm
+Prompts you for confirmation before running the cmdlet.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases: cf
+
+Required: False
+Position: Named
+Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

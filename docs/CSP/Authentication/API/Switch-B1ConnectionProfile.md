@@ -8,7 +8,7 @@ schema: 2.0.0
 # Switch-B1ConnectionProfile
 
 ## SYNOPSIS
-This function is used to switch between saved Infoblox Portalconnection profiles.
+This function is used to switch between saved Infoblox Cloud connection profiles.
 
 ## SYNTAX
 
@@ -17,13 +17,13 @@ Switch-B1ConnectionProfile [-Name] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts, with the ability to quickly switch between them.
+Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Cloud Accounts, with the ability to quickly switch between them.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Switch-NCP Dev
+Switch-BCP Dev
 
 Dev has been set as the active connection profile.
 ```

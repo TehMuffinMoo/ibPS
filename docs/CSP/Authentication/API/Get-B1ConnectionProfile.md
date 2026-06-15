@@ -8,18 +8,18 @@ schema: 2.0.0
 # Get-B1ConnectionProfile
 
 ## SYNOPSIS
-This function is used to retrieved saved Infoblox Portalconnection profiles.
+This function is used to retrieved saved Infoblox Portal connection profiles.
 By default, the active profile is returned.
 
 ## SYNTAX
 
 ```
-Get-B1ConnectionProfile [[-Name] <String>] [-List] [-IncludeAPIKey]
+Get-B1ConnectionProfile [[-Name] <String>] [-List] [-IncludeAPIKey] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
 Connection profiles provide a convenient way of saving API Keys for multiple Infoblox Portal Accounts.
-These can then easily be switched between by using [`Switch-B1ConnectionProfile`](../Switch-B1ConnectionProfile/).
+These can then easily be switched between by using \[Switch-B1ConnectionProfile\](https://ibps.readthedocs.io/en/latest/CSP/Profiles/Switch-B1ConnectionProfile/).
 
 ## EXAMPLES
 
@@ -89,6 +89,9 @@ Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
+
+### CommonParameters
+This cmdlet supports the common parameters: -Debug, -ErrorAction, -ErrorVariable, -InformationAction, -InformationVariable, -OutVariable, -OutBuffer, -PipelineVariable, -Verbose, -WarningAction, and -WarningVariable. For more information, see [about_CommonParameters](http://go.microsoft.com/fwlink/?LinkID=113216).
 
 ## INPUTS
 
