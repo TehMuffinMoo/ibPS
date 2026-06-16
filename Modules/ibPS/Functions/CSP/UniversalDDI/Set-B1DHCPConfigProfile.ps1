@@ -35,8 +35,8 @@
     .PARAMETER RemoveDDNSZones
         This switch determines if you want to remove DDNS Zones using the -DDNSZones parameter
 
-    .PARAMETER DNSView
-        The DNS View the Authoritative DDNS Zones are located in
+    .PARAMETER View
+        The DNS View the Authoritative DDNS Zone(s) are located in
 
     .PARAMETER Tags
         The tags to apply to the DHCP Config Profile
@@ -48,7 +48,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-        PS> Set-B1DHCPConfigProfile -Name 'Data Centre DHCP' -AddDDNSZones -DDNSZones 'company.corp' -DNSView default
+        PS> Set-B1DHCPConfigProfile -Name 'Data Centre DHCP' -AddDDNSZones -DDNSZones 'company.corp' -View default
 
         Overriding Global DHCP Properties for DHCP Config Profile: Data Centre DHCP..
         company.corp added successfully to DDNS Config for the DHCP Config Profile: Data Centre DHCP
@@ -74,7 +74,8 @@
       [Switch]$RemoveDDNSZones,
       [System.Object]$DDNSZones,
       [Parameter(ParameterSetName="Default",Mandatory=$true)]
-      [String]$DNSView,
+      [Alias('DNSView')]
+      [String]$View,
       [System.Object]$Tags,
       [Parameter(
         ValueFromPipeline = $true,
@@ -153,7 +154,7 @@
                 if (("$DDNSZone.") -in $Object.ddns_zones.fqdn) {
                     Write-Host "$DDNSZone already exists. Skipping.." -ForegroundColor Yellow
                 } else {
-                    $AuthZone = Get-B1AuthoritativeZone -FQDN $DDNSZone -View $DNSView -Strict
+                    $AuthZone = Get-B1AuthoritativeZone -FQDN $DDNSZone -View $View -Strict
                     if ($AuthZone) {
                         $Zone = [PSCustomObject]@{
                             "zone" = $AuthZone.id

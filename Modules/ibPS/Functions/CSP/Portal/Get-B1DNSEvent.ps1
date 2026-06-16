@@ -45,7 +45,7 @@
     .PARAMETER AppName
         Used to filter the DNS Events by App Name
 
-    .PARAMETER DNSView
+    .PARAMETER View
         Used to filter the DNS Events by DNS View
 
     .PARAMETER Response
@@ -94,7 +94,8 @@
       [ValidateSet("Log","Block","Default","Redirect")]
       [String[]]$PolicyAction,
       [String[]]$AppName,
-      [String[]]$DNSView,
+      [Alias('DNSView')]
+      [String]$View,
       [datetime]$Start = $(Get-Date).AddDays(-1),
       [datetime]$End = $(Get-Date),
       [String[]]$Fields,
@@ -161,10 +162,12 @@
     if ($Offset) {
       $Filters += "_offset=$Offset"
     }
-    if ($DNSView) {
-      $DNSViewReturned = Get-B1DNSView -Name $DNSView -Strict
-      $DNSViewReturnedId = $($DNSViewReturned).id.Substring(9)
-      $Filters += "dns_view=$DNSView,$DNSViewReturnedId"
+    if ($View) {
+      $DNSViewReturned = Get-B1DNSView -Name $View -Strict
+      if ($DNSViewReturned -ne $null) {
+        $DNSViewReturnedId = $($DNSViewReturned).id.Substring(9)
+        $Filters += "dns_view=$View,$DNSViewReturnedId"
+      }
     }
     if ($Fields) {
       $Filters += "_fields=$($Fields -join ",")"

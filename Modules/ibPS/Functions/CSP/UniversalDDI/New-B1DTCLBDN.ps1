@@ -34,7 +34,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-       PS> New-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 10
+       PS> New-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -View 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 10
 
         id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
         name                : exchange.company.corp.
@@ -62,7 +62,8 @@
       [String]$Name,
       [String]$Description,
       [Parameter(Mandatory=$true)]
-      [String]$DNSView,
+      [Alias('DNSView')]
+      [String]$View,
       [String]$Policy,
       [Int]$Precedence,
       [Int]$TTL,
@@ -72,9 +73,9 @@
       [Switch]$Force
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
-    $ViewID = (Get-B1DNSView -Name $DNSView -Strict).id
+    $ViewID = (Get-B1DNSView -Name $View -Strict).id
     if (!($ViewID)) {
-        Write-Error "DNS View not found: $($DNSView)"
+        Write-Error "DNS View not found: $($View)"
         return $null
     }
 

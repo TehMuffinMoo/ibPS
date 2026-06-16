@@ -46,3 +46,4 @@ $B1CompartmentFunctions = @(
     'New-B1Space'
 )
 Register-ArgumentCompleter -CommandName $B1CompartmentFunctions -ParameterName Compartment -ScriptBlock $Arg_Compartments
+Register-ArgumentCompleter -CommandName Get-B1Compartment -ParameterName Name -ScriptBlock $Arg_Compartments

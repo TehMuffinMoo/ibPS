@@ -17,8 +17,8 @@
     .PARAMETER RemoveDDNSZones
         Using this switch indicates the zones specified in -DDNSZones are to be removed from the Global DHCP Configuration
 
-    .PARAMETER DNSView
-        The DNS View for applying the configuration to
+    .PARAMETER View
+        The DNS View the Authoritative DDNS Zone(s) are located in
 
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
@@ -27,7 +27,7 @@
         The DHCP Global Config object to update. Accepts pipeline input.
 
     .EXAMPLE
-        PS> Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -DNSView "default"
+        PS> Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -View "default"
 
     .FUNCTIONALITY
         Universal DDI
@@ -50,7 +50,8 @@
         [System.Object]$DDNSZones,
         [Parameter(ParameterSetName="AddDDNSZones",Mandatory=$true)]
         [Parameter(ParameterSetName="RemoveDDNSZones",Mandatory=$false)]
-        [String]$DNSView,
+        [Alias('DNSView')]
+        [String]$View,
         [Parameter(ValueFromPipeline = $true)]
         [System.Object]$Object,
         [Switch]$Force
@@ -98,7 +99,7 @@
                     if (("$DDNSZone.") -in $Object.ddns_zones.fqdn) {
                         Write-Host "$DDNSZone already exists in the Global Configuration. Skipping.." -ForegroundColor Yellow
                     } else {
-                        $AuthZone = Get-B1AuthoritativeZone -FQDN $DDNSZone -View $DNSView -Strict
+                        $AuthZone = Get-B1AuthoritativeZone -FQDN $DDNSZone -View $View -Strict
                         if ($AuthZone) {
                             $NewObj.ddns_zones += [PSCustomObject]@{
                                 "zone" = $AuthZone.id
