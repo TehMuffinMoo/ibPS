@@ -19,13 +19,13 @@ Set-B1DHCPGlobalConfig [-Object <Object>] [-Force] [-WhatIf] [-Confirm] [<Common
 
 ### AddDDNSZones
 ```
-Set-B1DHCPGlobalConfig [-AddDDNSZones] -DDNSZones <Object> -DNSView <String> [-Object <Object>] [-Force]
- [-WhatIf] [-Confirm] [<CommonParameters>]
+Set-B1DHCPGlobalConfig [-AddDDNSZones] -DDNSZones <Object> -View <String> [-Object <Object>] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ### RemoveDDNSZones
 ```
-Set-B1DHCPGlobalConfig [-RemoveDDNSZones] -DDNSZones <Object> [-DNSView <String>] [-Object <Object>] [-Force]
+Set-B1DHCPGlobalConfig [-RemoveDDNSZones] -DDNSZones <Object> [-View <String>] [-Object <Object>] [-Force]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -36,7 +36,7 @@ This function is used to update the Universal DDI Global DHCP Configuration
 
 ### EXAMPLE 1
 ```powershell
-Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -DNSView "default"
+Set-B1DHCPGlobalConfig -AddDDNSZones -DDNSZones "mysubzone.corp.mycompany.com" -View "default"
 ```
 
 ## PARAMETERS
@@ -88,13 +88,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DNSView
-The DNS View for applying the configuration to
+### -View
+The DNS View the Authoritative DDNS Zone(s) are located in
 
 ```yaml
 Type: String
 Parameter Sets: AddDDNSZones
-Aliases:
+Aliases: DNSView
 
 Required: True
 Position: Named
@@ -106,7 +106,7 @@ Accept wildcard characters: False
 ```yaml
 Type: String
 Parameter Sets: RemoveDDNSZones
-Aliases:
+Aliases: DNSView
 
 Required: False
 Position: Named

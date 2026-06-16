@@ -14,7 +14,7 @@ Checks the Bootstrap UI Local Access status for the given NIOS-X Host
 
 ### Default
 ```
-Get-B1HostLocalAccess -B1Host <String> [<CommonParameters>]
+Get-B1HostLocalAccess -Server <String> [<CommonParameters>]
 ```
 
 ### Pipeline
@@ -29,7 +29,7 @@ This function is used to check the Bootstrap UI Local Access status for the give
 
 ### EXAMPLE 1
 ```powershell
-Get-B1HostLocalAccess -B1Host "my-host-1"
+Get-B1HostLocalAccess -Server "my-host-1"
 
 enabled  time_left    period     B1Host
 -------  ---------    ------     ------
@@ -51,13 +51,13 @@ time_left   period       enabled   B1Host
 
 ## PARAMETERS
 
-### -B1Host
+### -Server
 The name of the NIOS-X Host to check the current local access status for
 
 ```yaml
 Type: String
 Parameter Sets: Default
-Aliases:
+Aliases: B1Host
 
 Required: True
 Position: Named

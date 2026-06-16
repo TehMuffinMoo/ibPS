@@ -12,27 +12,27 @@ Disabled the Bootstrap UI Local Access for the given NIOS-X Host
 
 ## SYNTAX
 
-### Typed Credentials B1Host
+### Typed Credentials Server
 ```
-Disable-B1HostLocalAccess -B1Host <String> -Credentials <PSCredential> [-Wait] [-Force] [-WhatIf] [-Confirm]
+Disable-B1HostLocalAccess -Server <String> -Credentials <PSCredential> [-Wait] [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
-### Default Credentials B1Host
+### Default Credentials Server
 ```
-Disable-B1HostLocalAccess -B1Host <String> [-UseDefaultCredentials] [-Wait] [-Force] [-WhatIf] [-Confirm]
+Disable-B1HostLocalAccess -Server <String> [-UseDefaultCredentials] [-Wait] [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ### Default Credentials Pipeline
 ```
-Disable-B1HostLocalAccess [-UseDefaultCredentials] [-Wait] -OPH <PSObject[]> [-Force] [-WhatIf] [-Confirm]
+Disable-B1HostLocalAccess [-UseDefaultCredentials] [-Wait] -Object <Object> [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ### Typed Credentials Pipeline
 ```
-Disable-B1HostLocalAccess -Credentials <PSCredential> [-Wait] -OPH <PSObject[]> [-Force] [-WhatIf] [-Confirm]
+Disable-B1HostLocalAccess -Credentials <PSCredential> [-Wait] -Object <Object> [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -52,20 +52,20 @@ Local access disable request successfully sent for: my-host-1
 
 ### EXAMPLE 2
 ```powershell
-Disable-B1HostLocalAccess -B1Host my-host-1 -UseDefaultCredentials
+Disable-B1HostLocalAccess -Server my-host-1 -UseDefaultCredentials
 
 Local access disable request successfully sent for: my-host-1
 ```
 
 ## PARAMETERS
 
-### -B1Host
+### -Server
 The name of the NIOS-X Host to disable local access for
 
 ```yaml
 Type: String
-Parameter Sets: Typed Credentials B1Host, Default Credentials B1Host
-Aliases:
+Parameter Sets: Typed Credentials Server, Default Credentials Server
+Aliases: B1Host
 
 Required: True
 Position: Named
@@ -79,7 +79,7 @@ Using the -UseDefaultCredentials parameter will attempt to use the default crede
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: Default Credentials B1Host, Default Credentials Pipeline
+Parameter Sets: Default Credentials Server, Default Credentials Pipeline
 Aliases:
 
 Required: True
@@ -94,7 +94,7 @@ The -Credentials parameter allows entering the Local Access credentials required
 
 ```yaml
 Type: PSCredential
-Parameter Sets: Typed Credentials B1Host, Typed Credentials Pipeline
+Parameter Sets: Typed Credentials Server, Typed Credentials Pipeline
 Aliases:
 
 Required: True
@@ -120,12 +120,11 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -OPH
-The NIOS-X Host object to submit a disable local access request for.
-This accepts pipeline input from Get-B1Host
+### -Object
+{{ Fill Object Description }}
 
 ```yaml
-Type: PSObject[]
+Type: Object
 Parameter Sets: Default Credentials Pipeline, Typed Credentials Pipeline
 Aliases:
 

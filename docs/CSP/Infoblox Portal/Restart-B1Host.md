@@ -14,7 +14,7 @@ Restarts a NIOS-X Host
 
 ### Default
 ```
-Restart-B1Host -B1Host <String> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+Restart-B1Host -Server <String> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Object
@@ -34,13 +34,13 @@ Restart-B1Host -B1Host "ddihost1.mydomain.corp" -NoWarning
 
 ## PARAMETERS
 
-### -B1Host
+### -Server
 The FQDN of the host to reboot
 
 ```yaml
 Type: String
 Parameter Sets: Default
-Aliases: OnPremHost
+Aliases: B1Host
 
 Required: True
 Position: Named

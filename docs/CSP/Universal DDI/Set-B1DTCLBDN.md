@@ -14,14 +14,14 @@ Updates a LBDN object within Universal DDI DTC
 
 ### Default (Default)
 ```
-Set-B1DTCLBDN -Name <String> [-NewName <String>] [-Description <String>] [-DNSView <String>] [-Policy <String>]
+Set-B1DTCLBDN -Name <String> [-NewName <String>] [-Description <String>] [-View <String>] [-Policy <String>]
  [-Precedence <Int32>] [-TTL <Int32>] [-State <String>] [-Tags <Object>] [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
 ### With ID
 ```
-Set-B1DTCLBDN [-NewName <String>] [-Description <String>] [-DNSView <String>] [-Policy <String>]
+Set-B1DTCLBDN [-NewName <String>] [-Description <String>] [-View <String>] [-Policy <String>]
  [-Precedence <Int32>] [-TTL <Int32>] [-State <String>] [-Tags <Object>] -Object <Object> [-Force] [-WhatIf]
  [-Confirm] [<CommonParameters>]
 ```
@@ -33,7 +33,7 @@ This function is used to updates a LBDN object within Universal DDI DTC
 
 ### EXAMPLE 1
 ```powershell
-Set-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 10 -TTL 10
+Set-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -View 'Corporate' -Policy Exchange-Policy -Precedence 10 -TTL 10
 
 id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
  name                : exchange.company.corp.
@@ -49,7 +49,7 @@ id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
 
 ### EXAMPLE 2
 ```powershell
-Get-B1DTCLBDN -Name 'exchange.company.corp' | Set-B1DTCLBDN -Description 'NEW LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 60 -State Disabled
+Get-B1DTCLBDN -Name 'exchange.company.corp' | Set-B1DTCLBDN -Description 'NEW LBDN' -View 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 60 -State Disabled
 
 id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
  name                : exchange.company.corp.
@@ -110,13 +110,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DNSView
+### -View
 The new DNS View to assign to the DTC LBDN object
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: DNSView
 
 Required: False
 Position: Named

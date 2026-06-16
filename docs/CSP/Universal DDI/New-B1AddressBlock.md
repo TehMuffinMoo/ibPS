@@ -13,7 +13,7 @@ Creates a new address block in Universal DDI IPAM
 ## SYNTAX
 
 ```
-New-B1AddressBlock [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [-Name] <String>
+New-B1AddressBlock [-Subnet] <String> [-CIDR] <Int32> [-Space] <String> [[-Name] <String>]
  [[-Description] <String>] [[-DHCPOptions] <Object>] [[-DDNSDomain] <String>] [[-Compartment] <String>]
  [[-Tags] <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
@@ -87,7 +87,7 @@ Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 4
 Default value: None
 Accept pipeline input: False

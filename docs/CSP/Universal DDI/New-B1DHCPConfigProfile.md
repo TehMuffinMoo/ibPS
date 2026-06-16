@@ -14,8 +14,8 @@ Creates a new DHCP Config Profile in Universal DDI
 
 ```
 New-B1DHCPConfigProfile [-Name] <String> [[-Description] <String>] [[-DHCPOptions] <Object>]
- [[-DDNSDomain] <String>] [[-DDNSZones] <Object>] [[-Tags] <Object>] [-Force] [-WhatIf] [-Confirm]
- [<CommonParameters>]
+ [[-DDNSDomain] <String>] [[-DDNSZones] <Object>] [[-View] <String>] [[-Tags] <Object>] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -28,7 +28,7 @@ This function is used to create a new DHCP Config Profile in Universal DDI
 $DHCPOptions = @()
 PS> $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
-PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions $DHCPOptions -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
+PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions $DHCPOptions -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa" -View "default"
 ```
 
 ## PARAMETERS
@@ -108,6 +108,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -View
+The DNS View the Authoritative DDNS Zone(s) are located in
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases: DNSView
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Tags
 Any tags you want to apply to the new DHCP Config Profile
 
@@ -117,7 +132,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
