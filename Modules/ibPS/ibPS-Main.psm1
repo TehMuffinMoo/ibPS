@@ -17,7 +17,7 @@
 ## Import Functions
 $MiscellaneousFunctions = Get-ChildItem "$PSScriptRoot\Functions\Misc\*.ps1"
 $B1PublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP" -Exclude Private | Get-ChildItem -Recurse -File
-$B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP\Private" -File -Recurse
+$B1PrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\CSP\Private\*.ps1" -File
 $NIOSPublicFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS" -Exclude Private | Get-ChildItem -Recurse -File
 $NIOSPrivateFunctions = Get-ChildItem "$PSScriptRoot\Functions\NIOS\Private\*.ps1" -File
 $AdditionalFunctionsToExport = @('Invoke-CSP')
