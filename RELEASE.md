@@ -6,6 +6,8 @@
 - Bugfix with `Get-B1DIagnosticTask` not retrieving information due to misaligned CSP URL
 - Updated `-B1Host` parameter to `-Server` to better reflect what it is. `-B1Host` has been retained as an alias for backwards compatibility.
 - Refactor argument completion, to enable better maintainability and continued improvements
+- Fix bug with Start-B1Export with inconsistencies between EU/US realm
+- Enable support for .csv backups via Start-B1Export
 - Add various new tab-completion parameters
 
 |        Parameter           |         Functions          |

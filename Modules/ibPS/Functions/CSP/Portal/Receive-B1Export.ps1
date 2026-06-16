@@ -44,16 +44,27 @@
     process {
         $B1Export = Invoke-CSP -Method "GET" -Uri "$(Get-B1CSPUrl)/bulk/v1/storage?data_ref=$data_ref&direction=download"
         if ($B1Export.result.url) {
-            $JSON = Invoke-RestMethod -Uri $B1Export.result.url
+            $FileDownload = Invoke-RestMethod -Uri $B1Export.result.url
             if ($filePath | Test-Path -PathType Container) {
                 $filePathSafe = "$($filePath)/$($data_ref.Split([IO.Path]::GetInvalidFileNameChars()) -join '_' -replace ' ','_')"
             } else {
                 $filePathSafe = $filePath
             }
 
-            $JSON.data | ConvertTo-Json -Depth 15 | Out-File $filePathSafe -Force -Encoding utf8
+            switch ($data_ref.split('.')[1]) {
+                "csv" {
+                    $FileDownload | ConvertFrom-Csv | ConvertTo-Csv -NoTypeInformation | Out-File $filePathSafe -Force -Encoding utf8
+                    break
+                }
+                "json" {
+                    $FileDownload | ConvertFrom-Json | ConvertTo-Json -Depth 15 | Out-File $filePathSafe -Force -Encoding utf8
+                    break
+                }
+            }
             if (Test-Path $filePathSafe) {
                 Write-Host "Export downloaded and saved to: $($filePathSafe)" -ForegroundColor Green
+            } else {
+                Write-Host "Error. Unable to save export to: $($filePathSafe)" -ForegroundColor Red
             }
         }
     }
