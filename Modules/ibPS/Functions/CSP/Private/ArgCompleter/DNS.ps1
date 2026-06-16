@@ -1,4 +1,5 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+param()
 
 $Arg_DNS_Views = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

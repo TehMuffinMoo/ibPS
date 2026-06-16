@@ -1,4 +1,5 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+param()
 
 $Arg_CubeJS_Products = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

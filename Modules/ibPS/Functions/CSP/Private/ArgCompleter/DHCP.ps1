@@ -1,4 +1,5 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+param()
 
 $Arg_DHCP_HAGroups = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

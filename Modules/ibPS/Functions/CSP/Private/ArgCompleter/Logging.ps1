@@ -1,4 +1,5 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
+param()
 
 $Arg_ServiceLogApplications = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

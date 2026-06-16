@@ -1,5 +1,5 @@
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '')]
-
+param()
 ## --------------- ##
 ## ----- JWT ----- ##
 ## --------------- ##
