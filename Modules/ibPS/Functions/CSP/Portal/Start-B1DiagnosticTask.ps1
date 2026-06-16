@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to initiate a NIOS-X Diagnostic Task
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         The name/fqdn of the NIOS-X Host to run the task against
 
     .PARAMETER Traceroute
@@ -59,8 +59,8 @@
       ConfirmImpact = 'Medium'
     )]
     param(
-      [Alias('OnPremHost')]
-      [String]$B1Host,
+      [Alias('B1Host')]
+      [String]$Server,
       [parameter(ParameterSetName="traceroute",Mandatory=$true)]
       [Switch]$Traceroute,
       [parameter(ParameterSetName="dnstest")]
@@ -96,9 +96,9 @@
                 }
             }
         } else {
-            $Object = Get-B1Host -Name $B1Host -Strict -Detailed
+            $Object = Get-B1Host -Name $Server -Strict -Detailed
             if (!($Object)) {
-                Write-Error "Unable to find NIOS-X Host: $($B1Host)"
+                Write-Error "Unable to find NIOS-X Host: $($Server)"
                 return $null
             }
         }

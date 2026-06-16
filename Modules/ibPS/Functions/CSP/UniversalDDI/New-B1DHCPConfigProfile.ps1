@@ -126,11 +126,8 @@
         $splat = $splat | ConvertTo-Json -Depth 4
 
         if($PSCmdlet.ShouldProcess("Create new DHCP Config Profile:`n$($splat)","Create new DHCP Config Profile: $($Name)",$MyInvocation.MyCommand)){
-            Write-Host "Creating DHCP Config Profile: $Name..." -ForegroundColor Gray
             $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/server" -Data $splat | Select-Object -ExpandProperty result
-
             if ($($Result).name -eq $Name) {
-                Write-Host "DHCP Config Profile: $Name created successfully." -ForegroundColor Green
                 return $Result
             } else {
                 Write-Host "Failed to create DHCP Config Profile: $Name" -ForegroundColor Red

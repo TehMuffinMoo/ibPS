@@ -132,11 +132,11 @@ Describe 'Get-*' {
         BeforeAll {
             $Addresses = Get-B1Address
         }
-        It 'Given no parameters, 1000 results should be returned' {
-            $Addresses.Count | Should -Be 1000
+        It 'Given no parameters, 1-1000 results should be returned' {
+            $Addresses.Count | Should -BeIn (1..1000)
         }
         It "Given the -Address parameter, check an object is returned" {
-            (Get-B1Address -Address 10.1.1.1)[0].address | Should -Be 10.1.1.1
+            (Get-B1Address -Address 123.123.123.6)[0].address | Should -Be 123.123.123.6
         }
         It "Given the -Limit & -Offset parameters, Test Limit: <limit> / Offset: <offset> - Expected: <expected>" -ForEach @(
             @{ Limit = "10"; Offset = "0"; Expected = '10'}

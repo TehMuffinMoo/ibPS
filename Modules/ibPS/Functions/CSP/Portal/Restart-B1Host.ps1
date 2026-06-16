@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to initiate a reboot of a NIOS-X Host
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         The FQDN of the host to reboot
 
     .PARAMETER Object
@@ -27,8 +27,8 @@
     )]
     param(
         [Parameter(ParameterSetName="Default",Mandatory=$true)]
-        [Alias('OnPremHost')]
-        [String]$B1Host,
+        [Alias('B1Host')]
+        [String]$Server,
         [Parameter(
         ValueFromPipeline = $true,
         ParameterSetName="Object",
@@ -53,9 +53,9 @@
               $HostID = $SplitID[2]
             }
         } else {
-            $Object = Get-B1Host -Name $B1Host -Strict -Detailed
+            $Object = Get-B1Host -Name $Server -Strict -Detailed
             if (!($Object)) {
-                Write-Error "Unable to find NIOS-X Host: $($B1Host)"
+                Write-Error "Unable to find NIOS-X Host: $($Server)"
                 return $null
             }
             $HostID = $Object.id

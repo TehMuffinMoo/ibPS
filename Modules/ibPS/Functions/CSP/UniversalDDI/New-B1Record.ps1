@@ -383,10 +383,8 @@
 
                     $splat = $splat | ConvertTo-Json
                     if($PSCmdlet.ShouldProcess("Create new DNS Record:`n$($splat)","Create new DNS Record: $($Name).$($Zone)",$MyInvocation.MyCommand)){
-                        Write-Host "Creating $Type Record for $FQDN.." -ForegroundColor Gray
                         $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
                         if ($Result.dns_rdata -match $rdata) {
-                            Write-Host "DNS $Type Record has been successfully created for $FQDN." -ForegroundColor Green
                             return $Result
                         } else {
                             Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red

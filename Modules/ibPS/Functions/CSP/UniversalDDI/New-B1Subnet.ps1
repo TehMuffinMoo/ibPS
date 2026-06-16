@@ -77,45 +77,45 @@
     if ($HAGroup) {
         $DHCPHost = (Get-B1HAGroup -Name $HAGroup).id
     }
-
-    if (Get-B1Subnet -Subnet $Subnet -Space $Space -CIDR $CIDR) {
-        Write-Host "The subnet $Subnet/$CIDR already exists." -ForegroundColor Yellow
-    } else {
-        $splat = @{
-            "space" = $SpaceUUID
-            "address" = $Subnet
-            "cidr" = $CIDR
-            "comment" = $Description
-            "name" = $Name
-            "dhcp_host" = $DHCPHost
-            "dhcp_options" = $DHCPOptions
-        }
-
-        if ($DDNSDomain) {
-            $splat."ddns_domain" = $DDNSDomain
-            $DDNSupdateBlock = @{
-                ddns_update_block = @{
-			        "action" = "override"
-			        "value" = @{}
-		        }
+    if ($SpaceUUID -ne $null) {
+        if (Get-B1Subnet -Subnet $Subnet -Space $Space -CIDR $CIDR) {
+            Write-Host "The subnet $Subnet/$CIDR already exists." -ForegroundColor Yellow
+        } else {
+            $splat = @{
+                "space" = $SpaceUUID
+                "address" = $Subnet
+                "cidr" = $CIDR
+                "comment" = $Description
+                "name" = $Name
+                "dhcp_host" = $DHCPHost
+                "dhcp_options" = $DHCPOptions
             }
-            $splat.inheritance_sources = $DDNSupdateBlock
-        }
 
-        if ($Tags) {
-            $splat.tags = $Tags
-        }
+            if ($DDNSDomain) {
+                $splat."ddns_domain" = $DDNSDomain
+                $DDNSupdateBlock = @{
+                    ddns_update_block = @{
+                        "action" = "override"
+                        "value" = @{}
+                    }
+                }
+                $splat.inheritance_sources = $DDNSupdateBlock
+            }
 
-        $splat = $splat | ConvertTo-Json -Depth 4
-        if($PSCmdlet.ShouldProcess("Create new Subnet:`n$($splat)","Create new Subnet: $($Subnet)/$($CIDR)",$MyInvocation.MyCommand)){
-            Write-Host "Creating subnet..." -ForegroundColor Gray
-            $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
-            if ($Result.address -eq $Subnet) {
-                Write-Host "Subnet $Subnet/$CIDR created successfully." -ForegroundColor Green
-                return $Result
-            } else {
-                Write-Host "Failed to create subnet $Subnet/$CIDR." -ForegroundColor Red
-                break
+            if ($Tags) {
+                $splat.tags = $Tags
+            }
+
+            $splat = $splat | ConvertTo-Json -Depth 4
+            if($PSCmdlet.ShouldProcess("Create new Subnet:`n$($splat)","Create new Subnet: $($Subnet)/$($CIDR)",$MyInvocation.MyCommand)){
+                Write-Host "Creating subnet..." -ForegroundColor Gray
+                $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/ipam/subnet" -Data $splat | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue
+                if ($Result.address -eq $Subnet) {
+                    return $Result
+                } else {
+                    Write-Host "Failed to create subnet $Subnet/$CIDR." -ForegroundColor Red
+                    break
+                }
             }
         }
     }

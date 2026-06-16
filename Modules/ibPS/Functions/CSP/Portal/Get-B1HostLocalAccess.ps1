@@ -6,14 +6,14 @@
     .DESCRIPTION
         This function is used to check the Bootstrap UI Local Access status for the given NIOS-X Host
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         The name of the NIOS-X Host to check the current local access status for
 
     .PARAMETER OPH
         The NIOS-X Host object to check the current local access status for. This accepts pipeline input from Get-B1Host
 
     .EXAMPLE
-        PS> Get-B1HostLocalAccess -B1Host "my-host-1"
+        PS> Get-B1HostLocalAccess -Server "my-host-1"
 
         enabled  time_left    period     B1Host
         -------  ---------    ------     ------
@@ -42,7 +42,8 @@
             ParameterSetName=("Default"),
             Mandatory=$true
         )]
-        [String]$B1Host,
+        [Alias('B1Host')]
+        [String]$Server,
         [Parameter(
             ValueFromPipeline = $true,
             ParameterSetName=("Pipeline"),
@@ -60,9 +61,9 @@
                 $OPHID = $OPH.ophid
             }
         } else {
-            $OPH = Get-B1Host -Name $B1Host -Strict
+            $OPH = Get-B1Host -Name $Server -Strict
             if (!($OPH)) {
-                Write-Error "Error. Unable to find NIOS-X Host: $($B1Host)"
+                Write-Error "Error. Unable to find NIOS-X Host: $($Server)"
                 break
             } else {
                 $OPHID = $OPH.ophid

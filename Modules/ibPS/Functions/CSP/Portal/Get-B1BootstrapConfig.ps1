@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to retrieve the bootstrap configuration for a NIOS-X Host
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         The name of the NIOS-X Host to query the bootstrap config for
 
     .PARAMETER Limit
@@ -28,7 +28,7 @@
         Specify the -GetConfig parameter to return only the NIOS-X Hosts current config
 
     .EXAMPLE
-        PS> Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"
+        PS> Get-B1BootstrapConfig -Server "myonpremhost.corp.domain.com"
 
     .FUNCTIONALITY
         NIOS-X
@@ -38,7 +38,8 @@
     #>
     [CmdletBinding()]
     param(
-        [String]$B1Host,
+        [Alias('B1Host')]
+        [String]$Server,
         [Int]$Limit = 100,
         [Int]$Offset = 0,
         [String[]]$Fields,
@@ -51,8 +52,8 @@
         $MatchType = Match-Type $Strict
         [System.Collections.ArrayList]$Filters = @()
         [System.Collections.ArrayList]$QueryFilters = @()
-        if ($B1Host) {
-            $Filters += "display_name$($MatchType)`"$($B1Host)`""
+        if ($Server) {
+            $Filters += "display_name$($MatchType)`"$($Server)`""
         }
         if ($Filters) {
             $Filter = Combine-Filters $Filters

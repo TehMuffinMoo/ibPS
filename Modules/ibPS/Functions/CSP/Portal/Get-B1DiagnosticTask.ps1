@@ -29,10 +29,10 @@
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     if ($download) {
-        $URI = "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/task/$($id)/download"
+        $URI = "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task/$($id)/download"
         $Result = Invoke-CSP -Method GET -Uri $URI
     } else {
-        $URI = "https://csp.infoblox.com/atlas-onprem-diagnostic-service/v1/task/$($id)"
+        $URI = "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task/$($id)"
         $Result = Invoke-CSP -Method GET -Uri $URI | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
     }
 
