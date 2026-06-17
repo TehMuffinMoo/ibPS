@@ -157,13 +157,15 @@
         }
 
         $JSON = $splat | ConvertTo-Json
+        $Elapsed = 0
         if($PSCmdlet.ShouldProcess("Start NIOS-X Diagnostic Task: $($Object.display_name)","Start NIOS-X Diagnostic Task on: $($Object.display_name)",$MyInvocation.MyCommand)){
             $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
             if ($Result) {
                 if ($WaitForOutput) {
                 while ((Get-B1DiagnosticTask -id $Result.id).status -eq "InProgress") {
-                    Write-Host "Waiting for task to complete on $($Object.display_name).." -ForegroundColor Yellow
+                    Write-Host "Waiting for task to complete on $($Object.display_name).. ($($Elapsed)s)" -ForegroundColor Yellow
                     Wait-Event -Timeout 5
+                    $Elapsed += 5
                 }
                 if ($DNSConfiguration) {
                     $Job = Get-B1DiagnosticTask -id $Result.id -Download
