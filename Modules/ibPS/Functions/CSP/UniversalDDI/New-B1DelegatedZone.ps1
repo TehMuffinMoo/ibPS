@@ -82,7 +82,6 @@
             $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/delegation" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
 
             if ($Result) {
-                Write-Host "Created Delegated DNS Zone $FQDN successfully." -ForegroundColor Green
                 return $Result
             } else {
                 Write-Host "Failed to create Delegated DNS Zone $FQDN." -ForegroundColor Red

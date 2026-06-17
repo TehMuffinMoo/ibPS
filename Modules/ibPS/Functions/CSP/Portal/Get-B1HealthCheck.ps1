@@ -6,14 +6,14 @@
     .DESCRIPTION
         This function is used to perform a health check on a NIOS-X Host
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         The NIOS-X Host name/fqdn
 
     .PARAMETER Type
         The type of health check to perform
 
     .EXAMPLE
-        PS> Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
+        PS> Get-B1HealthCheck -Server "B1DDI-01" -Type "ApplicationHealth"
 
         B1Host    : B1DDI-01
         DNS       : started
@@ -23,7 +23,7 @@
         DHCP      : started
 
     .EXAMPLE
-        PS> Get-B1HealthCheck -B1Host "B1DDI" -Type "ApplicationHealth" | ft
+        PS> Get-B1HealthCheck -Server "B1DDI" -Type "ApplicationHealth" | ft
 
         B1Host    Discovery AnyCast DHCP    CDC     DNS
         ------    --------- ------- ----    ---     ---
@@ -38,9 +38,9 @@
     #>
     [CmdletBinding()]
     param(
-      [Alias('OnPremHost')]
+      [Alias('B1Host')]
       [Parameter(Mandatory=$true)]
-      [String]$B1Host,
+      [String]$Server,
       [Parameter(Mandatory=$true)]
       [ValidateSet("ApplicationHealth")]
       [String]$Type
@@ -48,7 +48,7 @@
 
     switch ($Type) {
       "ApplicationHealth" {
-        $Hosts = Get-B1Host -Name $B1Host -Detailed
+        $Hosts = Get-B1Host -Name $Server -Detailed
         $B1HealthStatus = @()
         foreach ($B1HostObj in $Hosts) {
             $B1HostHealthStatus = @{}
@@ -66,10 +66,10 @@
                 $($App.Application) = $($App.Status)
               }
             }
-            $B1HostHealthStatus."B1Host" = $B1HostObj.display_name
+            $B1HostHealthStatus."Server" = $B1HostObj.display_name
             $B1HealthStatus += $B1HostHealthStatus
         }
-        $B1HealthStatus | ConvertFrom-HashTable | Select-Object B1Host,* -EA SilentlyContinue
+        $B1HealthStatus | ConvertFrom-HashTable | Select-Object Server,* -EA SilentlyContinue
       }
     }
 }

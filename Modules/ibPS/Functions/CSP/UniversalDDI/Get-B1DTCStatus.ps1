@@ -20,7 +20,7 @@ function Get-B1DTCStatus {
 
         [LBDN]  email.domain.corp
           [Policy]  Exchange
-            [B1Host]  B1-1
+            [NIOS-X]  B1-1
               [Pool]  HEALTHY: Exchange
                 [Server]  HEALTHY: EXCHANGE-MAIL01
                   [HealthCheck]  HEALTHY: Exchange-HTTPS - 04/16/2024 08:25:15
@@ -29,7 +29,7 @@ function Get-B1DTCStatus {
                   [HealthCheck]  HEALTHY: Exchange-HTTPS - 04/16/2024 08:25:10
                   [HealthCheck]  HEALTHY: ICMP Health Check - 04/16/2024 08:24:38
           [Policy]  Exchange
-            [B1Host]  B1-2
+            [NIOS-X]  B1-2
               [Pool]  HEALTHY: Exchange
                 [Server]  HEALTHY: EXCHANGE-MAIL01
                   [HealthCheck]  HEALTHY: Exchange-HTTPS - 04/16/2024 08:25:08
@@ -109,7 +109,7 @@ function Get-B1DTCStatus {
                     Write-Colour "  [Policy]  ","$($PolicyReportItem.display_name)" -Colour DarkMagenta,Gray
                     foreach ($HostReportItem in $($PolicyReportItem.reports.PSObject.Properties.Value)) {
                         $B1HostName = ($B1Hosts | Where-Object {$_.ophid -eq $($Results.reports.PSObject.Properties.Name)[$B1HostCount]}).display_name
-                        Write-Colour "    [B1Host]  ","$($B1HostName)" -Colour DarkGreen,Gray
+                        Write-Colour "    [NIOS-X]  ","$($B1HostName)" -Colour DarkGreen,Gray
                         Write-Colour "      [Pool]  ","$($HostReportItem.status): ","$($HostReportItem.display_name)" -Colour Cyan,$($Colours[$HostReportItem.status]),'Gray'
                         foreach ($ServerReportItem in $($HostReportItem.reports.PSObject.Properties.Value)) {
                             Write-Colour "        [Server]  ","$($ServerReportItem.status): ","$($ServerReportItem.display_name)" -Colour DarkCyan,$($Colours[$ServerReportItem.status]),'Gray'

@@ -70,9 +70,8 @@
     $JSON = $splat | ConvertTo-Json
     if($PSCmdlet.ShouldProcess("Create new NIOS-X Host:`n$($JSON)","Create new NIOS-X Host",$MyInvocation.MyCommand)){
         $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        $Result
         if ($Result.display_name -eq $Name) {
-            Write-Host "On-Prem host $Name created successfully." -ForegroundColor Green
+            $Result
         } else {
             Write-Host "Failed to create On-Prem host $Name." -ForegroundColor Red
         }

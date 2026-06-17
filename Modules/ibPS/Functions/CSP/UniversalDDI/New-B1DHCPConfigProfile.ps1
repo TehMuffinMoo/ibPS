@@ -21,6 +21,9 @@
     .PARAMETER DDNSZones
         A list of DDNS Zones to apply to this DHCP Config Profile
 
+    .PARAMETER View
+        The DNS View the Authoritative DDNS Zone(s) are located in
+
     .PARAMETER Tags
         Any tags you want to apply to the new DHCP Config Profile
 
@@ -31,7 +34,7 @@
         PS> $DHCPOptions = @()
         PS> $DHCPOptions += @{"type"="option";"option_code"=(Get-B1DHCPOptionCode -Name "routers").id;"option_value"="10.10.100.1";}
 
-        PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions $DHCPOptions -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa"
+        PS> New-B1DHCPConfigProfile -Name "Profile Name" -Description "Profile Description" -DHCPOptions $DHCPOptions -DDNSZones "prod.mydomain.corp","100.10.in-addr.arpa" -View "default"
 
     .FUNCTIONALITY
         Universal DDI
@@ -47,6 +50,8 @@
       [System.Object]$DHCPOptions = @(),
       [String]$DDNSDomain,
       [System.Object]$DDNSZones,
+      [Alias('DNSView')]
+      [String]$View,
       [System.Object]$Tags,
       [Switch]$Force
     )
@@ -99,7 +104,7 @@
             $ConfigProfileJson = @()
             foreach ($DDNSZone in $DDNSZones) {
                 $DDNSZone = $DDNSZone.TrimEnd(".")
-                $AuthZone = Get-B1AuthoritativeZone -FQDN $DDNSZone -View $DNSView -Strict
+                $AuthZone = Get-B1AuthoritativeZone -FQDN $DDNSZone -View $View -Strict
                 if ($AuthZone) {
                     $AuthZoneSplat = @{
                         "zone" = $AuthZone.id
@@ -126,11 +131,8 @@
         $splat = $splat | ConvertTo-Json -Depth 4
 
         if($PSCmdlet.ShouldProcess("Create new DHCP Config Profile:`n$($splat)","Create new DHCP Config Profile: $($Name)",$MyInvocation.MyCommand)){
-            Write-Host "Creating DHCP Config Profile: $Name..." -ForegroundColor Gray
             $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dhcp/server" -Data $splat | Select-Object -ExpandProperty result
-
             if ($($Result).name -eq $Name) {
-                Write-Host "DHCP Config Profile: $Name created successfully." -ForegroundColor Green
                 return $Result
             } else {
                 Write-Host "Failed to create DHCP Config Profile: $Name" -ForegroundColor Red

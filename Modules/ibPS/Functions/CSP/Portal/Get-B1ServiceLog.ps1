@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to query the Infoblox Portal Service Log. This log contains information from all containers on all NIOS-X Hosts, allowing you to query various types of diagnostic related data.
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         Use this parameter to filter the log for events relating to a specific NIOS-X Host
 
     .PARAMETER Container
@@ -35,8 +35,8 @@
     #>
     [CmdletBinding()]
     param(
-      [Alias('OnPremHost')]
-      [string]$B1Host,
+      [Alias('B1Host')]
+      [string]$Server,
       [string]$Container,
       [datetime]$Start = (Get-Date).AddDays(-1),
       [datetime]$End = (Get-Date),
@@ -48,8 +48,8 @@
     $End = $End.ToUniversalTime()
 
     $Filters = @()
-    if ($B1Host) {
-        $OPHID = (Get-B1Host -Name $B1Host).ophid
+    if ($Server) {
+        $OPHID = (Get-B1Host -Name $Server).ophid
         $Filters += "ophid=$OPHID"
     }
     if ($Container) {

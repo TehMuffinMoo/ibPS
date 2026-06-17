@@ -13,7 +13,7 @@ Creates a new Infoblox Portal Service
 ## SYNTAX
 
 ```
-New-B1Service [-Name] <String> [-Type] <String> [-B1Host] <String> [[-Description] <String>] [-Strict] [-Force]
+New-B1Service [-Name] <String> [-Type] <String> [-Server] <String> [[-Description] <String>] [-Strict] [-Force]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -25,13 +25,13 @@ This function is used to create a new Infoblox Portal Service
 ### EXAMPLE 1
 ```powershell
 ## Create a DNS Service
-PS> New-B1Service -Type dns -Name "dns_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
+PS> New-B1Service -Type dns -Name "dns_ddihost1.mydomain.corp" -Server "ddihost1.mydomain.corp"
 ```
 
 ### EXAMPLE 2
 ```powershell
 ## Create a DHCP Service
-PS> New-B1Service -Type dhcp -Name "dhcp_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
+PS> New-B1Service -Type dhcp -Name "dhcp_ddihost1.mydomain.corp" -Server "ddihost1.mydomain.corp"
 ```
 
 ## PARAMETERS
@@ -66,13 +66,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -B1Host
+### -Server
 The name of the NIOS-X Host to create the service on
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: OnPremHost
+Aliases: B1Host
 
 Required: True
 Position: 3

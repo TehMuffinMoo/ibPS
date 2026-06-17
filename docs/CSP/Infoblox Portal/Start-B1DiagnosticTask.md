@@ -14,31 +14,31 @@ Initiates a NIOS-X Diagnostic Task
 
 ### traceroute
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-Traceroute] -Target <String> [-Port <String>]
+Start-B1DiagnosticTask [-Server <String>] [-Traceroute] -Target <String> [-Port <String>]
  [-WaitForOutput <Boolean>] [-Object <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### dnstest
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DNSTest] -FQDN <String> [-WaitForOutput <Boolean>]
+Start-B1DiagnosticTask [-Server <String>] [-DNSTest] -FQDN <String> [-WaitForOutput <Boolean>]
  [-Object <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### ntptest
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-NTPTest] [-WaitForOutput <Boolean>] [-Object <Object>] [-Force]
+Start-B1DiagnosticTask [-Server <String>] [-NTPTest] [-WaitForOutput <Boolean>] [-Object <Object>] [-Force]
  [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### dnsconf
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DNSConfiguration] [-WaitForOutput <Boolean>] [-Object <Object>]
+Start-B1DiagnosticTask [-Server <String>] [-DNSConfiguration] [-WaitForOutput <Boolean>] [-Object <Object>]
  [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### dhcpconf
 ```
-Start-B1DiagnosticTask [-B1Host <String>] [-DHCPConfiguration] [-WaitForOutput <Boolean>] [-Object <Object>]
+Start-B1DiagnosticTask [-Server <String>] [-DHCPConfiguration] [-WaitForOutput <Boolean>] [-Object <Object>]
  [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
@@ -59,13 +59,13 @@ Start-B1DiagnosticTask -DHCPConfiguration
 
 ## PARAMETERS
 
-### -B1Host
+### -Server
 The name/fqdn of the NIOS-X Host to run the task against
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: OnPremHost
+Aliases: B1Host
 
 Required: False
 Position: Named

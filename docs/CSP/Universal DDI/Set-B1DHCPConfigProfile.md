@@ -16,7 +16,7 @@ Updates an existing DHCP Config Profiles from Universal DDI
 ```
 Set-B1DHCPConfigProfile -Name <String> [-NewName <String>] [-Description <String>] [-EnableDDNS <String>]
  [-SendDDNSUpdates <String>] [-DDNSDomain <String>] [-AddDDNSZones] [-RemoveDDNSZones] [-DDNSZones <Object>]
- -DNSView <String> [-Tags <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+ -View <String> [-Tags <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ### Object
@@ -33,7 +33,7 @@ This function is used to update an existing DHCP Config Profiles from Universal 
 
 ### EXAMPLE 1
 ```powershell
-Set-B1DHCPConfigProfile -Name 'Data Centre DHCP' -AddDDNSZones -DDNSZones 'company.corp' -DNSView default
+Set-B1DHCPConfigProfile -Name 'Data Centre DHCP' -AddDDNSZones -DDNSZones 'company.corp' -View default
 
 Overriding Global DHCP Properties for DHCP Config Profile: Data Centre DHCP..
 company.corp added successfully to DDNS Config for the DHCP Config Profile: Data Centre DHCP
@@ -179,13 +179,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DNSView
-The DNS View the Authoritative DDNS Zones are located in
+### -View
+The DNS View the Authoritative DDNS Zone(s) are located in
 
 ```yaml
 Type: String
 Parameter Sets: Default
-Aliases:
+Aliases: DNSView
 
 Required: True
 Position: Named

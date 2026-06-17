@@ -15,7 +15,7 @@
     .PARAMETER Description
         The new description for the DTC LBDN object
 
-    .PARAMETER DNSView
+    .PARAMETER View
         The new DNS View to assign to the DTC LBDN object
 
     .PARAMETER Policy
@@ -40,7 +40,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-       PS> Set-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 10 -TTL 10
+       PS> Set-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -View 'Corporate' -Policy Exchange-Policy -Precedence 10 -TTL 10
 
         id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
         name                : exchange.company.corp.
@@ -54,7 +54,7 @@
         inheritance_sources :
 
     .EXAMPLE
-       PS> Get-B1DTCLBDN -Name 'exchange.company.corp' | Set-B1DTCLBDN -Description 'NEW LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 60 -State Disabled
+       PS> Get-B1DTCLBDN -Name 'exchange.company.corp' | Set-B1DTCLBDN -Description 'NEW LBDN' -View 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 60 -State Disabled
 
         id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
         name                : exchange.company.corp.
@@ -83,7 +83,8 @@
       [String]$Name,
       [String]$NewName,
       [String]$Description,
-      [String]$DNSView,
+      [Alias('DNSView')]
+      [String]$View,
       [String]$Policy,
       [Int]$Precedence,
       [Int]$TTL,
@@ -126,10 +127,10 @@
         if ($Precedence) {
             $NewObj.precedence = $Precedence
         }
-        if ($DNSView) {
-            $ViewID = (Get-B1DNSView -Name $DNSView -Strict).id
+        if ($View) {
+            $ViewID = (Get-B1DNSView -Name $View -Strict).id
             if (!($ViewID)) {
-                Write-Error "DNS View not found: $($DNSView)"
+                Write-Error "DNS View not found: $($View)"
                 return $null
             }
             $NewObj.view = $ViewID

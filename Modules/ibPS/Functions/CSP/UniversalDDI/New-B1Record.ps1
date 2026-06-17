@@ -83,7 +83,7 @@
       [Parameter(Mandatory=$true)]
       [String]$Zone,
       [Parameter(Mandatory=$true)]
-      [String]$view,
+      [String]$View,
       [int]$TTL,
       [string]$Description,
       [bool]$CreatePTR = $true,
@@ -210,19 +210,19 @@
 
     process {
         $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
-        if ($view) {
-            $viewId = (Get-B1DNSView -Name $view -Strict).id
+        if ($View) {
+            $viewId = (Get-B1DNSView -Name $View -Strict).id
         }
 
         $TTLAction = "inherit"
         $FQDN = $Name+"."+$Zone
         if ($PSBoundParameters['rdata']) {$rdata = $PSBoundParameters['rdata']}
-        $Record = Get-B1Record -Name $Name -View $view -Strict -Type $Type -Zone $Zone
+        $Record = Get-B1Record -Name $Name -View $View -Strict -Type $Type -Zone $Zone
         if ($Record -and -not $IgnoreExists) {
             if (!$SkipExistsErrors -and !$Debug) {Write-Host "DNS Record $($Name).$($Zone) already exists." -ForegroundColor Yellow}
             return $null
         } else {
-            $AuthZoneId = (Get-B1AuthoritativeZone -FQDN $Zone -Strict -View $view).id
+            $AuthZoneId = (Get-B1AuthoritativeZone -FQDN $Zone -Strict -View $View).id
             if (!($AuthZoneId)) {
                 Write-Error "Error. Authorative Zone not found."
                 break
@@ -372,7 +372,7 @@
                         $splat | Add-Member -Name "ttl" -Value $TTL -MemberType NoteProperty
                     }
                     if ($viewId) {
-                        #$splat | Add-Member -Name "view" -Value $viewId -MemberType NoteProperty
+                        #$splat | Add-Member -Name "View" -Value $viewId -MemberType NoteProperty
                     }
                     if ($Description) {
                         $splat | Add-Member -Name "comment" -Value $Description -MemberType NoteProperty
@@ -383,10 +383,8 @@
 
                     $splat = $splat | ConvertTo-Json
                     if($PSCmdlet.ShouldProcess("Create new DNS Record:`n$($splat)","Create new DNS Record: $($Name).$($Zone)",$MyInvocation.MyCommand)){
-                        Write-Host "Creating $Type Record for $FQDN.." -ForegroundColor Gray
                         $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
                         if ($Result.dns_rdata -match $rdata) {
-                            Write-Host "DNS $Type Record has been successfully created for $FQDN." -ForegroundColor Green
                             return $Result
                         } else {
                             Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red

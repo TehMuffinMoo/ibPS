@@ -13,7 +13,7 @@ Creates a new LBDN object within Universal DDI DTC
 ## SYNTAX
 
 ```
-New-B1DTCLBDN [-Name] <String> [[-Description] <String>] [-DNSView] <String> [[-Policy] <String>]
+New-B1DTCLBDN [-Name] <String> [[-Description] <String>] [-View] <String> [[-Policy] <String>]
  [[-Precedence] <Int32>] [[-TTL] <Int32>] [[-State] <String>] [[-Tags] <Object>] [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
@@ -25,7 +25,7 @@ This function is used to create a new LBDN object within Universal DDI DTC
 
 ### EXAMPLE 1
 ```powershell
-New-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -DNSView 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 10
+New-B1DTCLBDN -Name 'exchange.company.corp' -Description 'Exchange Servers LBDN' -View 'Corporate' -Policy Exchange-Policy -Precedence 100 -TTL 10
 
 id                  : dtc/lbdn/17fgt5ge-g5v5-5yhh-cvbg-dfcwef9f4h8
  name                : exchange.company.corp.
@@ -71,13 +71,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DNSView
-The DNS View to assign the new LBDN to
+### -View
+{{ Fill View Description }}
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: DNSView
 
 Required: True
 Position: 3

@@ -15,7 +15,7 @@
     .PARAMETER Description
         The description of the new Infoblox Portal Service
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         The name of the NIOS-X Host to create the service on
 
     .PARAMETER Strict
@@ -26,11 +26,11 @@
 
     .EXAMPLE
         ## Create a DNS Service
-        PS> New-B1Service -Type dns -Name "dns_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
+        PS> New-B1Service -Type dns -Name "dns_ddihost1.mydomain.corp" -Server "ddihost1.mydomain.corp"
 
     .EXAMPLE
         ## Create a DHCP Service
-        PS> New-B1Service -Type dhcp -Name "dhcp_ddihost1.mydomain.corp" -B1Host "ddihost1.mydomain.corp"
+        PS> New-B1Service -Type dhcp -Name "dhcp_ddihost1.mydomain.corp" -Server "ddihost1.mydomain.corp"
 
     .FUNCTIONALITY
         NIOS-X
@@ -48,9 +48,9 @@
         [String]$Name,
         [Parameter(Mandatory=$true)]
         [String]$Type,
-        [Alias('OnPremHost')]
+        [Alias('B1Host')]
         [Parameter(Mandatory=$true)]
-        [String]$B1Host,
+        [String]$Server,
         [Parameter(Mandatory=$false)]
         [String]$Description = "",
         [Parameter(Mandatory=$false)]
@@ -58,7 +58,7 @@
         [Switch]$Force
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
-    $B1HostInfo = Get-B1Host -Name $B1Host -Detailed
+    $B1HostInfo = Get-B1Host -Name $Server -Detailed
     if ($B1HostInfo) {
         if ($B1HostInfo.count -gt 1) {
             Write-Host "Too many hosts returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red

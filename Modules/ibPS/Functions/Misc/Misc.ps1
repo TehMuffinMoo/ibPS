@@ -1122,6 +1122,8 @@ function Build-BulkExportTypes {
       [Switch]$List,
       [Parameter(ParameterSetName='Types')]
       [String[]]$Types,
+      [ValidateSet('json','csv')]
+      [String]$Format = 'json',
       [Switch]$Raw
   )
 
@@ -1135,26 +1137,26 @@ function Build-BulkExportTypes {
                       $GroupVersion = $_.group_version -split '/'
                       "$($_.data_type).$($GroupVersion[1]).$($GroupVersion[0])"
                   }},
-                  @{n="Formats";e={$_.supported_file_formats}}
+                  @{n="Formats";e={@($_.supported_file_formats)}}
   }
 
   if ($List) {
       if (-not $Raw) {
-          $Script:B1BulkExportTypes | Select-Object @ReturnProperties
+          $Script:B1BulkExportTypes | Where-Object {$_.supported_file_formats -contains $Format} | Select-Object @ReturnProperties
       } else {
-          $Script:B1BulkExportTypes
+          $Script:B1BulkExportTypes | Where-Object {$_.supported_file_formats -contains $Format} 
       }
   }
 
   if ($Types) {
       $Results = @()
       ForEach ($Type in $Types) {
-          $Results += $Script:B1BulkExportTypes | Where-Object {$_.data_type -like "*$($Type)*"}
+          $Results += $Script:B1BulkExportTypes | Where-Object {$_.data_type -like "*$($Type)*" -and $_.supported_file_formats -contains $Format}
       }
       if (-not $Raw) {
-          return $Results | Select-Object @ReturnProperties
+          return $Results | Where-Object {$_.supported_file_formats -contains $Format} | Select-Object @ReturnProperties
       } else {
-          return $Results
+          return $Results | Where-Object {$_.supported_file_formats -contains $Format} 
       }
   }
 }

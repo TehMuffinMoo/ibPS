@@ -13,7 +13,7 @@ Retrieves the bootstrap configuration for a NIOS-X Host
 ## SYNTAX
 
 ```
-Get-B1BootstrapConfig [[-B1Host] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>]
+Get-B1BootstrapConfig [[-Server] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-Fields] <String[]>]
  [[-OrderBy] <String>] [-GetConfig] [-Strict] [<CommonParameters>]
 ```
 
@@ -24,18 +24,18 @@ This function is used to retrieve the bootstrap configuration for a NIOS-X Host
 
 ### EXAMPLE 1
 ```powershell
-Get-B1BootstrapConfig -B1Host "myonpremhost.corp.domain.com"
+Get-B1BootstrapConfig -Server "myonpremhost.corp.domain.com"
 ```
 
 ## PARAMETERS
 
-### -B1Host
+### -Server
 The name of the NIOS-X Host to query the bootstrap config for
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: B1Host
 
 Required: False
 Position: 1

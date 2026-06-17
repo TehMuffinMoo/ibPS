@@ -13,7 +13,7 @@ Performs a health check on a NIOS-X Host
 ## SYNTAX
 
 ```
-Get-B1HealthCheck [-B1Host] <String> [-Type] <String> [<CommonParameters>]
+Get-B1HealthCheck [-Server] <String> [-Type] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to perform a health check on a NIOS-X Host
 
 ### EXAMPLE 1
 ```powershell
-Get-B1HealthCheck -B1Host "B1DDI-01" -Type "ApplicationHealth"
+Get-B1HealthCheck -Server "B1DDI-01" -Type "ApplicationHealth"
 
 B1Host    : B1DDI-01
 DNS       : started
@@ -35,7 +35,7 @@ DHCP      : started
 
 ### EXAMPLE 2
 ```powershell
-Get-B1HealthCheck -B1Host "B1DDI" -Type "ApplicationHealth" | ft
+Get-B1HealthCheck -Server "B1DDI" -Type "ApplicationHealth" | ft
 
 B1Host    Discovery AnyCast DHCP    CDC     DNS
 ------    --------- ------- ----    ---     ---
@@ -45,13 +45,13 @@ B1DDI-01            started                 started
 
 ## PARAMETERS
 
-### -B1Host
+### -Server
 The NIOS-X Host name/fqdn
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: OnPremHost
+Aliases: B1Host
 
 Required: True
 Position: 1

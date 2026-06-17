@@ -42,6 +42,14 @@ Connect-B1Account -Email "my.name@domain.com" -Password "mySuperSecurePassword"
 Successfully connected to MyAccount using: my.name@email.com.
 ```
 
+### EXAMPLE 2
+```powershell
+$APIKey = Read-Host -AsSecureString -Prompt "Enter your API Key"
+PS> Connect-B1Account -APIKey -SecureAPIKey $APIKey
+
+Successfully connected to MyAccount as: John Doe
+```
+
 ## PARAMETERS
 
 ### -Email
@@ -60,7 +68,8 @@ Accept wildcard characters: False
 ```
 
 ### -APIKey
-{{ Fill APIKey Description }}
+Use this switch to connect to the Infoblox Portal using an API Key instead of a username and password.
+When using this switch, the -SecureAPIKey parameter must also be specified.
 
 ```yaml
 Type: SwitchParameter
@@ -75,7 +84,9 @@ Accept wildcard characters: False
 ```
 
 ### -CSPRegion
-{{ Fill CSPRegion Description }}
+The Infoblox Cloud Portal (CSP) region to connect to.
+Valid values are 'US' or 'EU'.
+Default is 'US'.
 
 ```yaml
 Type: String
@@ -105,7 +116,7 @@ Accept wildcard characters: False
 ```
 
 ### -SecureAPIKey
-{{ Fill SecureAPIKey Description }}
+The API Key of the Infoblox Portal account to use when connecting, in SecureString format.
 
 ```yaml
 Type: SecureString

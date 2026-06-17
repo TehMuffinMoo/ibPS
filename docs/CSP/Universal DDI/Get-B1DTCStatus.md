@@ -33,7 +33,7 @@ Get-B1DTCLBDN -Name 'email.domain.corp' | Get-B1DTCStatus
 
 [LBDN]  email.domain.corp
   [Policy]  Exchange
-    [B1Host]  B1-1
+    [NIOS-X]  B1-1
       [Pool]  HEALTHY: Exchange
         [Server]  HEALTHY: EXCHANGE-MAIL01
           [HealthCheck]  HEALTHY: Exchange-HTTPS - 04/16/2024 08:25:15
@@ -42,7 +42,7 @@ Get-B1DTCLBDN -Name 'email.domain.corp' | Get-B1DTCStatus
           [HealthCheck]  HEALTHY: Exchange-HTTPS - 04/16/2024 08:25:10
           [HealthCheck]  HEALTHY: ICMP Health Check - 04/16/2024 08:24:38
   [Policy]  Exchange
-    [B1Host]  B1-2
+    [NIOS-X]  B1-2
       [Pool]  HEALTHY: Exchange
         [Server]  HEALTHY: EXCHANGE-MAIL01
           [HealthCheck]  HEALTHY: Exchange-HTTPS - 04/16/2024 08:25:08

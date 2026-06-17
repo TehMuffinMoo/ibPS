@@ -13,7 +13,7 @@ Queries the Infoblox Portal Service Log
 ## SYNTAX
 
 ```
-Get-B1ServiceLog [[-B1Host] <String>] [[-Container] <String>] [[-Start] <DateTime>] [[-End] <DateTime>]
+Get-B1ServiceLog [[-Server] <String>] [[-Container] <String>] [[-Start] <DateTime>] [[-End] <DateTime>]
  [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
 ```
 
@@ -30,13 +30,13 @@ Get-B1ServiceLog -B1Host "ddihost1.mydomain.corp" -Container "DNS" -Start (Get-D
 
 ## PARAMETERS
 
-### -B1Host
+### -Server
 Use this parameter to filter the log for events relating to a specific NIOS-X Host
 
 ```yaml
 Type: String
 Parameter Sets: (All)
-Aliases: OnPremHost
+Aliases: B1Host
 
 Required: False
 Position: 1

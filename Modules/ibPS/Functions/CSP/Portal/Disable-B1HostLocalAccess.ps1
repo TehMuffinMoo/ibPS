@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to disable the Bootstrap UI Local Access for the given NIOS-X Host
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         The name of the NIOS-X Host to disable local access for
 
     .PARAMETER UseDefaultCredentials
@@ -32,7 +32,7 @@
             Local Access Disabled Successfully.
 
     .EXAMPLE
-        PS> Disable-B1HostLocalAccess -B1Host my-host-1 -UseDefaultCredentials
+        PS> Disable-B1HostLocalAccess -Server my-host-1 -UseDefaultCredentials
 
             Local access disable request successfully sent for: my-host-1
 
@@ -48,16 +48,17 @@
     )]
     param(
         [Parameter(
-            ParameterSetName=("Default Credentials","B1Host"),
+            ParameterSetName=("Default Credentials","Server"),
             Mandatory=$true
         )]
         [Parameter(
-            ParameterSetName=("Typed Credentials","B1Host"),
+            ParameterSetName=("Typed Credentials","Server"),
             Mandatory=$true
         )]
-        [String]$B1Host,
+        [Alias('B1Host')]
+        [String]$Server,
         [Parameter(
-            ParameterSetName=("Default Credentials","B1Host"),
+            ParameterSetName=("Default Credentials","Server"),
             Mandatory=$true
         )]
         [Parameter(
@@ -66,7 +67,7 @@
         )]
         [Switch]$UseDefaultCredentials,
         [Parameter(
-            ParameterSetName=("Typed Credentials","B1Host"),
+            ParameterSetName=("Typed Credentials","Server"),
             Mandatory=$true
         )]
         [Parameter(
@@ -85,32 +86,40 @@
             ParameterSetName=("Default Credentials","Pipeline"),
             Mandatory=$true
         )]
-        [PSCustomObject[]]$OPH,
+        [System.Object]$Object,
         [Switch]$Force
     )
 
     process {
         $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $ProcessStart = Get-Date
-        if ($OPH) {
-            if (($OPH.id.split('/')[1]) -ne "host") {
-                Write-Error "Error. Unsupported pipeline object. The input must be of type: host"
-                break
+        if ($Object) {
+            $SplitID = $Object.id.split('/')
+            if (("$($SplitID[0])/$($SplitID[1])") -ne "infra/host") {
+                $Object = Get-B1Host -id $($Object.id)
+                if (-not $Object) {
+                    Write-Error "Error. Unsupported pipeline object. This function only supports 'infra/host' objects as input"
+                    return $null
+                } else {
+                    $OPHID = $Object.ophid
+                }
             } else {
-                $OPHID = $OPH.ophid
+                $OPHID = $Object.ophid
             }
         } else {
-            $OPH = Get-B1Host -Name $B1Host -Strict
-            if (!($OPH)) {
-                Write-Error "Unable to find NIOS-X Host: $($B1Host)"
-                break
+            $Object = Get-B1Host -Name $Server -Strict
+            if ($Object.ophid) {
+                $OPHID = $Object.ophid
             } else {
-                $OPHID = $OPH.ophid
+                Write-Error "Unable to find On-Prem Host with provided parameters."
+                return $null
             }
         }
+        ## Exclude NIOS-XaaS
+        $Object = $Object | Where-Object {$_.managed_by -ne "infoblox"}
 
         if ($UseDefaultCredentials) {
-            $HostSerial = ($OPH | Select-Object -ExpandProperty tags).'host/serial_number'
+            $HostSerial = ($Object | Select-Object -ExpandProperty tags).'host/serial_number'
             if ($HostSerial) {
                 Switch -Wildcard ($HostSerial) {
                     "VMware-*" {
@@ -126,7 +135,7 @@
                     'Password' = $HostPassword
                 }
             } else {
-                Write-Error 'Unable to determine default credentials'
+                Write-Error "Unable to determine default credentials for $($Object.display_name)."
             }
         } else {
             if (!($Credentials)) {
@@ -144,15 +153,15 @@
                 "password" = $LocalAccessCredentials.Password
             } | ConvertTo-Json
 
-            if($PSCmdlet.ShouldProcess("Disable Local Access on: $($OPH.display_name)","Disable Local Access on: $($OPH.display_name)",$MyInvocation.MyCommand)){
+            if($PSCmdlet.ShouldProcess("Disable Local Access on: $($Object.display_name)","Disable Local Access on: $($Object.display_name)",$MyInvocation.MyCommand)){
                 $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CspUrl)/bootstrap-app/v1/host/$($OPHID)/disable_local_access" -Data $($JSONData)
                 if ($Results.Count -eq 1) {
-                    Write-Host "Local access disable request successfully sent for: $($OPH.display_name)" -ForegroundColor Green
+                    Write-Host "Local access disable request successfully sent for: $($Object.display_name)" -ForegroundColor Green
                     if ($Wait) {
                         $Count = 0
                         while ($Count -lt 60) {
                             Write-Host "Checking local access disabled state.." -ForegroundColor Yellow
-                            $B1HostLocalAccess = $OPH | Get-B1HostLocalAccess
+                            $B1HostLocalAccess = $Object | Get-B1HostLocalAccess
                             if ($B1HostLocalAccess.enabled -ne "True") {
                                 Write-Host "Local Access disabled Successfully." -ForegroundColor Green
                                 return $null
@@ -173,7 +182,7 @@
                         Write-Error "Error. Timed out waiting for Local Access to be disabled."
                     }
                 } else {
-                    Write-Error "Error. Failed to sent local access disable request for: $($OPH.display_name)"
+                    Write-Error "Error. Failed to sent local access disable request for: $($Object.display_name)"
                 }
             }
         }

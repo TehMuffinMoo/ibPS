@@ -6,7 +6,7 @@
     .DESCRIPTION
         This function is used to initiate a NIOS-X Diagnostic Task
 
-    .PARAMETER B1Host
+    .PARAMETER Server
         The name/fqdn of the NIOS-X Host to run the task against
 
     .PARAMETER Traceroute
@@ -59,8 +59,8 @@
       ConfirmImpact = 'Medium'
     )]
     param(
-      [Alias('OnPremHost')]
-      [String]$B1Host,
+      [Alias('B1Host')]
+      [String]$Server,
       [parameter(ParameterSetName="traceroute",Mandatory=$true)]
       [Switch]$Traceroute,
       [parameter(ParameterSetName="dnstest")]
@@ -96,9 +96,9 @@
                 }
             }
         } else {
-            $Object = Get-B1Host -Name $B1Host -Strict -Detailed
+            $Object = Get-B1Host -Name $Server -Strict -Detailed
             if (!($Object)) {
-                Write-Error "Unable to find NIOS-X Host: $($B1Host)"
+                Write-Error "Unable to find NIOS-X Host: $($Server)"
                 return $null
             }
         }
@@ -157,13 +157,15 @@
         }
 
         $JSON = $splat | ConvertTo-Json
+        $Elapsed = 0
         if($PSCmdlet.ShouldProcess("Start NIOS-X Diagnostic Task: $($Object.display_name)","Start NIOS-X Diagnostic Task on: $($Object.display_name)",$MyInvocation.MyCommand)){
             $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/atlas-onprem-diagnostic-service/v1/task" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
             if ($Result) {
                 if ($WaitForOutput) {
                 while ((Get-B1DiagnosticTask -id $Result.id).status -eq "InProgress") {
-                    Write-Host "Waiting for task to complete on $($Object.display_name).." -ForegroundColor Yellow
+                    Write-Host "Waiting for task to complete on $($Object.display_name).. ($($Elapsed)s)" -ForegroundColor Yellow
                     Wait-Event -Timeout 5
+                    $Elapsed += 5
                 }
                 if ($DNSConfiguration) {
                     $Job = Get-B1DiagnosticTask -id $Result.id -Download

@@ -16,7 +16,7 @@ Queries the Infoblox Threat Defense DNS Events
 Get-B1DNSEvent [[-Query] <String>] [[-IP] <String>] [[-Response] <String[]>] [[-Network] <String[]>]
  [[-Policy] <String[]>] [[-ThreatLevel] <String[]>] [[-ThreatClass] <String[]>] [[-FeedName] <String[]>]
  [[-FeedType] <String[]>] [[-AppCategory] <String[]>] [[-ThreatProperty] <String[]>]
- [[-ThreatIndicator] <String[]>] [[-PolicyAction] <String[]>] [[-AppName] <String[]>] [[-DNSView] <String[]>]
+ [[-ThreatIndicator] <String[]>] [[-PolicyAction] <String[]>] [[-AppName] <String[]>] [[-View] <String>]
  [[-Start] <DateTime>] [[-End] <DateTime>] [[-Fields] <String[]>] [[-Limit] <Int32>] [[-Offset] <Int32>]
  [<CommonParameters>]
 ```
@@ -244,13 +244,13 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DNSView
+### -View
 Used to filter the DNS Events by DNS View
 
 ```yaml
-Type: String[]
+Type: String
 Parameter Sets: (All)
-Aliases:
+Aliases: DNSView
 
 Required: False
 Position: 15

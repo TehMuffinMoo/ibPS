@@ -45,6 +45,9 @@
     .PARAMETER BackupAll
         Use this switch to enable all configuration & data types to be included in the export/backup
 
+    .PARAMETER Format
+        The format to use for the export/backup. Valid values are "json" or "csv". Default is "json"
+
     .PARAMETER Force
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Low.
 
@@ -62,7 +65,7 @@
                 Write-Host "Waiting for export to complete.."
                 Wait-Event -Timeout 5
             }
-        PS> $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
+        PS> $BulkOp | Receive-B1Export -filePath "/tmp/$($ExportName)"
 
     .FUNCTIONALITY
         Universal DDI
@@ -79,77 +82,118 @@
       [String]$Name,
       [String]$Description,
       [Switch]$DNSConfig,
+      [parameter(ParameterSetName="BackupSelective")]
       [Switch]$DNSData,
+      [parameter(ParameterSetName="BackupSelective")]
       [Switch]$NTPData,
+      [parameter(ParameterSetName="BackupSelective")]
       [Switch]$IPAMData,
+      [parameter(ParameterSetName="BackupSelective")]
       [Switch]$KeyData,
+      [parameter(ParameterSetName="BackupSelective")]
       [Switch]$ThreatDefense,
+      [parameter(ParameterSetName="BackupSelective")]
       [Switch]$Bootstrap,
+      [parameter(ParameterSetName="BackupSelective")]
       [Alias('OnPremHosts')]
       [Switch]$B1Hosts,
+      [parameter(ParameterSetName="BackupSelective")]
       [Switch]$Redirects,
+      [parameter(ParameterSetName="BackupSelective")]
       [Switch]$Tags,
+      [parameter(ParameterSetName="BackupAll")]
       [Switch]$BackupAll,
+      [parameter(ParameterSetName="BackupAll")]
+      [ValidateSet("json","csv")]
+      [String]$Format = "json",
       [Switch]$Force
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
     $splat = @{
         "name" = $Name
         "description" = $Description
-        "export_format" = "json"
+        "export_format" = $Format
         "error_handling_id" = "1"
     }
 
     $dataTypes = @()
 
     if ($DNSConfig -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'dnsconfig').DataType ## Authoritative Zones / Forward Zones / DNS Config Profiles / DNS Views
+        ## Only add if value is returned, to avoid null being added to array
+        Build-BulkExportTypes -Types 'dnsconfig' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($DNSData -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'dnsdata').DataType ## DNS Records
+        Build-BulkExportTypes -Types 'dnsdata' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($NTPData -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'ntpserviceconfigs').DataType ## NTP Configuration
+        Build-BulkExportTypes -Types 'ntpserviceconfigs' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($IPAMData -or $BackupAll) {
-        ### Includes;
-        ## IPAM Address Blocks
-        ## Addresses
-        ## Fixed Addresses
-        ## Hardware Filters
-        ## HA Groups
-        ## IP Spaces
-        ## DHCP Option Codes
-        ## DHCP Option Filters
-        ## DHCP Option Groups
-        ## DHCP Option Spaces
-        ## DHCP Ranges
-        ## IPAM Subnets
-        ## DHCP Hosts
-        ## DHCP Config Profiles
-		$dataTypes += (Build-BulkExportTypes -Types 'ipamdhcp').DataType
+		Build-BulkExportTypes -Types 'ipamdhcp' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($KeyData -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'tsigkeys').DataType ## TSIG Keys
+        Build-BulkExportTypes -Types 'tsigkeys' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($ThreatDefense -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'atcapi').DataType ## Threat Defense Types
+        Build-BulkExportTypes -Types 'atcapi' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($Bootstrap -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'bootstrap').DataType ## Bootstrap / Host Config
+        Build-BulkExportTypes -Types 'bootstrap' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($B1Hosts -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'hosts').DataType ## B1 Host Config / Host Config
+        Build-BulkExportTypes -Types 'hosts' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($Redirects -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'customredirects').DataType ## Custom Redirects
+        Build-BulkExportTypes -Types 'customredirects' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($Tags -or $BackupAll) {
-        $dataTypes += (Build-BulkExportTypes -Types 'tagging').DataType ## Tagging
+        Build-BulkExportTypes -Types 'tagging' -Format $Format | ForEach-Object {
+            if ($_.DataType) {
+                $dataTypes += $_.DataType
+            }
+        }
     }
     if ($dataTypes) {
         $splat | Add-Member -Name "data_types" -Value $dataTypes -MemberType NoteProperty
     }
+
+    $dataTypes
     $splat = $splat | ConvertTo-Json
     if($PSCmdlet.ShouldProcess("Start Data Export`n$(JSONPretty($splat))","Start Data Export",$MyInvocation.MyCommand)){
         $Export = Invoke-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat

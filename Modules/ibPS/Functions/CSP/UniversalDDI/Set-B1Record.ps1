@@ -116,7 +116,7 @@ function Set-B1Record {
         }
         $Type = $Object.type
     } else {
-        $Object = Get-B1Record -Name $Name -View $view -Zone "$Zone" -rdata $CurrentRDATA -FQDN $FQDN -Strict
+        $Object = Get-B1Record -Name $Name -View $View -Zone "$Zone" -rdata $CurrentRDATA -FQDN $FQDN -Strict
         if (!($Object)) {
             $Msg = $(if ($Name) {": $($Name).$($Zone)"} elseif ($FQDN) {": $($FQDN)"} elseif ($CurrentRDATA) {" with RDATA: $($CurrentRDATA)"})
             Write-Error "Unable to find DNS Record$($Msg)"
