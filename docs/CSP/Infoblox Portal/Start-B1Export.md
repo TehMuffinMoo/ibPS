@@ -12,10 +12,17 @@ Initiates an Infoblox Portal Export/Backup
 
 ## SYNTAX
 
+### BackupSelective
 ```
-Start-B1Export [-Name] <String> [[-Description] <String>] [-DNSConfig] [-DNSData] [-NTPData] [-IPAMData]
- [-KeyData] [-ThreatDefense] [-Bootstrap] [-B1Hosts] [-Redirects] [-Tags] [-BackupAll] [-Force] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Start-B1Export -Name <String> [-Description <String>] [-DNSConfig] [-DNSData] [-NTPData] [-IPAMData] [-KeyData]
+ [-ThreatDefense] [-Bootstrap] [-B1Hosts] [-Redirects] [-Tags] [-Force] [-WhatIf] [-Confirm]
+ [<CommonParameters>]
+```
+
+### BackupAll
+```
+Start-B1Export -Name <String> [-Description <String>] [-DNSConfig] [-BackupAll] [-Format <String>] [-Force]
+ [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -42,7 +49,7 @@ PS> while (($BulkOp = Get-B1BulkOperation -Name $ExportName -Strict).overall_sta
         Write-Host "Waiting for export to complete.."
         Wait-Event -Timeout 5
     }
-PS> $BulkOp | Get-B1Export -filePath "/tmp/$($ExportName)"
+PS> $BulkOp | Receive-B1Export -filePath "/tmp/$($ExportName)"
 ```
 
 ## PARAMETERS
@@ -56,7 +63,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -71,7 +78,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -97,7 +104,7 @@ Use this switch to enable DNS Data to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases:
 
 Required: False
@@ -112,7 +119,7 @@ Use this switch to enable NTP Data to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases:
 
 Required: False
@@ -127,7 +134,7 @@ Use this switch to enable IPAM Data to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases:
 
 Required: False
@@ -142,7 +149,7 @@ Use this switch to enable Key Data to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases:
 
 Required: False
@@ -157,7 +164,7 @@ Use this switch to enable Threat Defense Configuration to be included in the exp
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases:
 
 Required: False
@@ -172,7 +179,7 @@ Use this switch to enable NIOS-X Host Bootstrap Configuration to be included in 
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases:
 
 Required: False
@@ -187,7 +194,7 @@ Use this switch to enable NIOS-X Host Configuration to be included in the export
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases: OnPremHosts
 
 Required: False
@@ -202,7 +209,7 @@ Use this switch to enable Custom Redirects to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases:
 
 Required: False
@@ -217,7 +224,7 @@ Use this switch to enable Tag Configuration to be included in the export/backup
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupSelective
 Aliases:
 
 Required: False
@@ -232,12 +239,29 @@ Use this switch to enable all configuration & data types to be included in the e
 
 ```yaml
 Type: SwitchParameter
-Parameter Sets: (All)
+Parameter Sets: BackupAll
 Aliases:
 
 Required: False
 Position: Named
 Default value: False
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Format
+The format to use for the export/backup.
+Valid values are "json" or "csv".
+Default is "json"
+
+```yaml
+Type: String
+Parameter Sets: BackupAll
+Aliases:
+
+Required: False
+Position: Named
+Default value: Json
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
