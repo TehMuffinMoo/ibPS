@@ -1144,7 +1144,7 @@ function Build-BulkExportTypes {
       if (-not $Raw) {
           $Script:B1BulkExportTypes | Where-Object {$_.supported_file_formats -contains $Format} | Select-Object @ReturnProperties
       } else {
-          $Script:B1BulkExportTypes | Where-Object {$_.supported_file_formats -contains $Format} 
+          $Script:B1BulkExportTypes | Where-Object {$_.supported_file_formats -contains $Format}
       }
   }
 
@@ -1156,7 +1156,7 @@ function Build-BulkExportTypes {
       if (-not $Raw) {
           return $Results | Where-Object {$_.supported_file_formats -contains $Format} | Select-Object @ReturnProperties
       } else {
-          return $Results | Where-Object {$_.supported_file_formats -contains $Format} 
+          return $Results | Where-Object {$_.supported_file_formats -contains $Format}
       }
   }
 }
