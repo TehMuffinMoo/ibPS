@@ -3,11 +3,12 @@ name: Run Pester Tests on Latest PS Gallery Version
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '30 6 * * *'
+    - cron: '30 6 * * *'
 
 jobs:
   Run-ibPS-Pester-Tests:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,12 +18,137 @@ jobs:
         run: |
           Write-Host "Installing ibPS Module.."
           Install-Module ibPS -Force -Confirm:$false
+
       - name: Run Pester Tests
         shell: pwsh
+        continue-on-error: true
         run: |
           $APIKey = '${{ secrets.IBPS_API_KEY }}' | ConvertTo-SecureString -AsPlainText -Force
           Connect-B1Account -APIKey -SecureAPIKey $APIKey -CSPRegion 'EU'
-          $PesterConfig = New-PesterConfiguration
-          $PesterConfig.Run.Path = './Tests/BloxOne'
-          $PesterConfig.Output.Verbosity = 'Detailed'
-          Invoke-Pester -Configuration $PesterConfig
+
+          Invoke-Pester -Configuration @{
+            Run = @{
+              Path = './Tests/BloxOne'
+            }
+            TestResult = @{
+              Enabled = $true
+              OutputFormat = 'NUnitXml'
+              OutputPath = 'TestResults.xml'
+            }
+            Output = @{
+              Verbosity = 'Detailed'
+            }
+          }
+
+      - name: Manage Pester failure issue
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
+        run: |
+          # Load test results
+          if (-not (Test-Path TestResults.xml)) {
+            Write-Host "No test results found. Skipping issue management."
+            exit 0
+          }
+
+          $xml = [xml](Get-Content TestResults.xml)
+          $failed = $xml.SelectNodes("//test-case[@result='Failure']")
+
+          # GitHub API headers
+          $headers = @{
+            Authorization = "Bearer $env:GITHUB_TOKEN"
+            "User-Agent"  = "ibPS-Pester-Automation"
+          }
+
+          # Fetch open issues
+          $issues = Invoke-RestMethod `
+            -Uri "https://api.github.com/repos/${{ github.repository }}/issues?state=open&per_page=100" `
+            -Headers $headers
+
+          $existing = $issues | Where-Object { $_.title -like "Daily Pester Test Failures*" }
+
+          if ($failed.Count -eq 0) {
+            Write-Host "All tests passed."
+
+            if ($existing) {
+              Write-Host "Adding comment and closing existing failure issue..."
+
+              # --- Add comment before closing ---
+              $commentBody = @{
+                body = "✅ All Pester tests passed on $((Get-Date).ToString('yyyy-MM-dd HH:mm')). Closing this issue automatically."
+              } | ConvertTo-Json
+
+              Invoke-RestMethod `
+                -Method Post `
+                -Uri "$($existing.url)/comments" `
+                -Headers $headers `
+                -Body $commentBody
+
+              # --- Close the issue ---
+              $payload = @{ state = "closed" } | ConvertTo-Json
+              Invoke-RestMethod -Method Patch -Uri $existing.url -Headers $headers -Body $payload
+
+              Write-Host "Closed issue #$($existing.number)"
+            }
+            else {
+              Write-Host "No open failure issue to close."
+            }
+
+            exit 0
+          }
+
+          # --- Failures detected: create or update issue ---
+
+          Write-Host "Failures detected. Creating or updating issue..."
+
+          $title = "Daily Pester Test Failures - $((Get-Date).ToString('yyyy-MM-dd'))"
+
+          # Build Markdown body
+          $sb = [System.Text.StringBuilder]::new()
+          $null = $sb.AppendLine("## Failed Tests")
+          $null = $sb.AppendLine()
+          $null = $sb.AppendLine("| Test | Status | Last Failure |")
+          $null = $sb.AppendLine("|------|--------|--------------|")
+
+          foreach ($f in $failed) {
+            $null = $sb.AppendLine("| $($f.name) | ❌ Failed | $((Get-Date).ToString('yyyy-MM-dd HH:mm')) |")
+          }
+
+          $null = $sb.AppendLine()
+
+          foreach ($f in $failed) {
+            $msg   = ($f.failure.message -replace '`', '\`')
+            $stack = ($f.failure.'stack-trace' -replace '`', '\`')
+
+            $null = $sb.AppendLine("### $($f.name)")
+            $null = $sb.AppendLine()
+            $null = $sb.AppendLine("**Message**")
+            $null = $sb.AppendLine("~~~text")
+            $null = $sb.AppendLine($msg)
+            $null = $sb.AppendLine("~~~")
+            $null = $sb.AppendLine()
+            $null = $sb.AppendLine("**Stack Trace**")
+            $null = $sb.AppendLine("~~~text")
+            $null = $sb.AppendLine($stack)
+            $null = $sb.AppendLine("~~~")
+            $null = $sb.AppendLine("___")
+            $null = $sb.AppendLine()
+          }
+
+          $body = $sb.ToString()
+
+          if ($existing) {
+            Write-Host "Updating existing issue #$($existing.number)..."
+            $payload = @{ body = $body } | ConvertTo-Json -Depth 5
+            Invoke-RestMethod -Method Patch -Uri $existing.url -Headers $headers -Body $payload
+          }
+          else {
+            Write-Host "Creating new issue..."
+            $payload = @{
+              title  = $title
+              body   = $body
+              labels = @("pester", "automated-test-failure")
+            } | ConvertTo-Json -Depth 5
+
+            Invoke-RestMethod -Method Post -Uri "https://api.github.com/repos/${{ github.repository }}/issues" -Headers $headers -Body $payload
+          }

@@ -160,7 +160,7 @@
                     Write-Error "API Endpoint and/or Method are not supported. Please check syntax and try again."
                 }
                 default {
-                    Write-Error $($Result.error | ConvertTo-Json)
+                    Write-Error $($Result.error | ConvertTo-Json) -ErrorAction Stop
                 }
             }
         } else {
