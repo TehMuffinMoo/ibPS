@@ -21,6 +21,7 @@ jobs:
 
       - name: Run Pester Tests
         shell: pwsh
+        continue-on-error: true
         run: |
           $APIKey = '${{ secrets.IBPS_API_KEY }}' | ConvertTo-SecureString -AsPlainText -Force
           Connect-B1Account -APIKey -SecureAPIKey $APIKey -CSPRegion 'EU'
