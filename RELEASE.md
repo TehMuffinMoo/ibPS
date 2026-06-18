@@ -1,3 +1,5 @@
-- Change behaviour of `Invoke-CSP` when encountering errors. This will now be a terminating error using `-ErrorAction stop`. Previously, this was only a visual error and non-terminating.
 - Improve automated pester testing to include automated issue creation
 - Fix regression introduced to `Set-B1AuthoritativeZone` due to new backend read-only field [#199](https://github.com/TehMuffinMoo/ibPS/issues/199)
+
+### Breaking Changes
+- Change behaviour of `Invoke-CSP` when encountering errors. This will now be a terminating error using `-ErrorAction stop`. Previously, this was only a visual error and non-terminating.
