@@ -54,6 +54,8 @@ jobs:
           $xml = [xml](Get-Content TestResults.xml)
           $failed = $xml.SelectNodes("//test-case[@result='Failure']")
 
+          $BuildInfo = Get-ibPSConfiguration -Details
+
           # GitHub API headers
           $headers = @{
             Authorization = "Bearer $env:GITHUB_TOKEN"
@@ -74,7 +76,6 @@ jobs:
               Write-Host "Adding comment and closing existing failure issue..."
 
               # --- Add comment before closing ---
-              $BuildInfo = Get-ibPSConfiguration -Details
               $commentText = @"
               ✅ All Pester tests passed on $((Get-Date).ToString('yyyy-MM-dd HH:mm')).
 
@@ -87,7 +88,7 @@ jobs:
               | SHA     | $($BuildInfo.SHA) |
 
               Closing this issue automatically.
-              "@
+          "@
 
               $commentBody = $commentText | ConvertTo-Json
 
@@ -118,6 +119,7 @@ jobs:
 
           # Build Markdown body
           $sb = [System.Text.StringBuilder]::new()
+
           $null = $sb.AppendLine("## Failed Tests")
           $null = $sb.AppendLine()
           $null = $sb.AppendLine("| Test | Status | Last Failure |")
@@ -147,6 +149,15 @@ jobs:
             $null = $sb.AppendLine("___")
             $null = $sb.AppendLine()
           }
+
+          $null = $sb.AppendLine("## Build Info")
+          $null = $sb.AppendLine("| Field   | Value |")
+          $null = $sb.AppendLine("|---------|--------|")
+          $null = $sb.AppendLine("| Branch  | $($BuildInfo.Branch) |")
+          $null = $sb.AppendLine("| Version | $($BuildInfo.'ibPS Version') |")
+          $null = $sb.AppendLine("| Build   | $($BuildInfo.Build) |")
+          $null = $sb.AppendLine("| SHA     | $($BuildInfo.SHA) |")
+          $null = $sb.AppendLine()
 
           $body = $sb.ToString()
 
