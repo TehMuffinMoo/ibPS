@@ -74,9 +74,22 @@ jobs:
               Write-Host "Adding comment and closing existing failure issue..."
 
               # --- Add comment before closing ---
-              $commentBody = @{
-                body = "✅ All Pester tests passed on $((Get-Date).ToString('yyyy-MM-dd HH:mm')). Closing this issue automatically."
-              } | ConvertTo-Json
+              $BuildInfo = Get-ibPSConfiguration -Details
+              $commentText = @"
+              ✅ All Pester tests passed on $((Get-Date).ToString('yyyy-MM-dd HH:mm')).
+
+              ### Build Info
+              | Field   | Value |
+              |---------|--------|
+              | Branch  | $($BuildInfo.Branch) |
+              | Version | $($BuildInfo.'ibPS Version') |
+              | Build   | $($BuildInfo.Build) |
+              | SHA     | $($BuildInfo.SHA) |
+
+              Closing this issue automatically.
+              "@
+
+              $commentBody = $commentText | ConvertTo-Json
 
               Invoke-RestMethod `
                 -Method Post `
