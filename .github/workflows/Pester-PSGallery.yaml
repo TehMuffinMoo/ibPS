@@ -43,51 +43,92 @@ jobs:
       - name: Create or update issue for failed run
         shell: pwsh
         run: |
-          $xml = [xml](Get-Content TestResults.xml)
-          $failed = $xml.'test-results'.'test-suite'.results.'test-case' |
-            Where-Object { $_.result -eq 'Failure' }
+            $xml = [xml](Get-Content TestResults.xml)
+            $failed = $xml.SelectNodes("//test-case[@result='Failure']")
 
-          if (-not $failed) {
-            Write-Host "No failures. Nothing to report."
-            exit 0
-          }
+            if ($failed.Count -eq 0) {
+                Write-Host "No failures. Nothing to report."
+                exit 0
+            }
 
-          $title = "Daily Pester Test Failures - $((Get-Date).ToString('yyyy-MM-dd'))"
+            $title = "Daily Pester Test Failures - $((Get-Date).ToString('yyyy-MM-dd'))"
 
-          $body = "## Failed Tests`n`n"
-          foreach ($f in $failed) {
-            $body += "### $($f.name)`n"
-            $body += "Message:`n$($f.failure.message)`n`n"
-            $body += "Stack Trace:`n$($f.failure.'stack-trace')`n`n"
-          }
+            $sb = [System.Text.StringBuilder]::new()
 
-          $issues = Invoke-RestMethod `
-            -Uri "https://api.github.com/repos/${{ github.repository }}/issues?state=open" `
-            -Headers @{ Authorization = "Bearer $env:GITHUB_TOKEN" }
+            # Header
+            $null = $sb.AppendLine("## Failed Tests")
+            $null = $sb.AppendLine()
 
-          $existing = $issues | Where-Object { $_.title -like "Daily Pester Test Failures*" }
+            # Summary table header
+            $null = $sb.AppendLine("| Test | Status |")
+            $null = $sb.AppendLine("|------|--------|")
 
-          if ($existing) {
-            $payload = @{ body = $body } | ConvertTo-Json
-            Invoke-RestMethod `
-              -Method Patch `
-              -Uri $existing.url `
-              -Headers @{ Authorization = "Bearer $env:GITHUB_TOKEN" } `
-              -Body $payload
-            Write-Host "Updated existing issue: $($existing.number)"
-          }
-          else {
-            $payload = @{
-              title  = $title
-              body   = $body
-              labels = @("pester", "automated-test-failure")
-            } | ConvertTo-Json
+            foreach ($f in $failed) {
+                $null = $sb.AppendLine("| $($f.name) | ❌ Failed |")
+            }
 
-            Invoke-RestMethod `
-              -Method Post `
-              -Uri "https://api.github.com/repos/${{ github.repository }}/issues" `
-              -Headers @{ Authorization = "Bearer $env:GITHUB_TOKEN" } `
-              -Body $payload
+            # Add spacing before details
+            $null = $sb.AppendLine()
 
-            Write-Host "Created new issue."
-          }
+            foreach ($f in $failed) {
+
+                $msg   = ($f.failure.message -replace '`', '\`')
+                $stack = ($f.failure.'stack-trace' -replace '`', '\`')
+
+                # Detailed section
+                $null = $sb.AppendLine("### $($f.name)")
+                $null = $sb.AppendLine()
+
+                $null = $sb.AppendLine("**Message**")
+                $null = $sb.AppendLine("~~~text")
+                $null = $sb.AppendLine($msg)
+                $null = $sb.AppendLine("~~~")
+                $null = $sb.AppendLine()
+
+                $null = $sb.AppendLine("**Stack Trace**")
+                $null = $sb.AppendLine("~~~text")
+                $null = $sb.AppendLine($stack)
+                $null = $sb.AppendLine("~~~")
+                $null = $sb.AppendLine("___")
+                $null = $sb.AppendLine()
+            }
+
+            $body = $sb.ToString()
+
+            # GitHub API headers
+            $headers = @{
+              Authorization = "Bearer $env:GITHUB_TOKEN"
+              "User-Agent"  = "ibPS-Pester-Automation"
+            }
+
+            # Fetch open issues (up to 100)
+            $issues = Invoke-RestMethod `
+              -Uri "https://api.github.com/repos/${{ github.repository }}/issues?state=open&per_page=100" `
+              -Headers $headers
+
+            $existing = $issues | Where-Object { $_.title -like "Daily Pester Test Failures*" }
+
+            if ($existing) {
+                $payload = @{ body = $body } | ConvertTo-Json -Depth 5
+                Invoke-RestMethod `
+                  -Method Patch `
+                  -Uri $existing.url `
+                  -Headers $headers `
+                  -Body $payload
+                Write-Host "Updated existing issue: $($existing.number)"
+            }
+            else {
+                $payload = @{
+                  title  = $title
+                  body   = $body
+                  labels = @("pester", "automated-test-failure")
+                } | ConvertTo-Json -Depth 5
+
+                Invoke-RestMethod `
+                  -Method Post `
+                  -Uri "https://api.github.com/repos/${{ github.repository }}/issues" `
+                  -Headers $headers `
+                  -Body $payload
+
+                Write-Host "Created new issue."
+            }
