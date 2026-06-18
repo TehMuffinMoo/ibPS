@@ -1,3 +1,10 @@
+## 1.9.9.5
+- Improve automated pester testing to include automated issue creation
+- Fix regression introduced to `Set-B1AuthoritativeZone` due to new backend read-only field [#199](https://github.com/TehMuffinMoo/ibPS/issues/199)
+
+### Breaking Changes
+- Change behaviour of `Invoke-CSP` when encountering errors. This will now be a terminating error using `-ErrorAction stop`. Previously, this was only a visual error and non-terminating.
+
 ## 1.9.9.4
 - Fix bug with `Remove-B1Space` & `Remove-B1Subnet` where id was incorrectly processed due to old references
 - Fix bug with `Remove-B1Record` where the WhatIf message was invalid
@@ -500,6 +507,7 @@ See here for more information on [Preference Variables](https://learn.microsoft.
 
 ## 1.9.0.99
 - Initial Gallery Publication
+
 
 
 
