@@ -107,11 +107,11 @@ jobs:
           $sb = [System.Text.StringBuilder]::new()
           $null = $sb.AppendLine("## Failed Tests")
           $null = $sb.AppendLine()
-          $null = $sb.AppendLine("| Test | Status |")
-          $null = $sb.AppendLine("|------|--------|")
+          $null = $sb.AppendLine("| Test | Status | Last Failure |")
+          $null = $sb.AppendLine("|------|--------|--------------|")
 
           foreach ($f in $failed) {
-            $null = $sb.AppendLine("| $($f.name) | ❌ Failed |")
+            $null = $sb.AppendLine("| $($f.name) | ❌ Failed | $((Get-Date).ToString('yyyy-MM-dd HH:mm')) |")
           }
 
           $null = $sb.AppendLine()
