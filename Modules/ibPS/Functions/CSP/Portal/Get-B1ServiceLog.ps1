@@ -84,7 +84,7 @@
         $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/atlas-logs/v2/logs" -Method GET
     }
     if ($Results) {
-        return $Results.logs | Select-Object timestamp,@{Name = 'B1Host'; Expression = {$ophid = $_.ophid; (@($B1Hosts).where({ $_.ophid -eq $ophid })).display_name }},container_name,msg,ophid -ErrorAction SilentlyContinue
+        return $Results.logs | Select-Object timestamp,@{Name = 'Server'; Expression = {$ophid = $_.ophid; if ($ophid) { (@($B1Hosts).where({ $_.ophid -eq $ophid })).display_name } else { $null }}},container_name,msg,type,* -ErrorAction SilentlyContinue
     } else {
         Write-Host "Error. Unable to find any service logs." -ForegroundColor Red
         break

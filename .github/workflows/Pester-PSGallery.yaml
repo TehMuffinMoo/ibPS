@@ -3,11 +3,12 @@ name: Run Pester Tests on Latest PS Gallery Version
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '30 6 * * *'
+    - cron: '30 6 * * *'
 
 jobs:
   Run-ibPS-Pester-Tests:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,12 +18,75 @@ jobs:
         run: |
           Write-Host "Installing ibPS Module.."
           Install-Module ibPS -Force -Confirm:$false
+
       - name: Run Pester Tests
         shell: pwsh
         run: |
           $APIKey = '${{ secrets.IBPS_API_KEY }}' | ConvertTo-SecureString -AsPlainText -Force
           Connect-B1Account -APIKey -SecureAPIKey $APIKey -CSPRegion 'EU'
-          $PesterConfig = New-PesterConfiguration
-          $PesterConfig.Run.Path = './Tests/BloxOne'
-          $PesterConfig.Output.Verbosity = 'Detailed'
-          Invoke-Pester -Configuration $PesterConfig
+
+          Invoke-Pester -Configuration @{
+            Run = @{
+              Path = './Tests/BloxOne'
+            }
+            TestResult = @{
+              Enabled = $true
+              OutputFormat = 'NUnitXml'
+              OutputPath = 'TestResults.xml'
+            }
+            Output = @{
+              Verbosity = 'Detailed'
+            }
+          }
+
+      - name: Create or update issue for failed run
+        shell: pwsh
+        run: |
+          $xml = [xml](Get-Content TestResults.xml)
+          $failed = $xml.'test-results'.'test-suite'.results.'test-case' |
+            Where-Object { $_.result -eq 'Failure' }
+
+          if (-not $failed) {
+            Write-Host "No failures. Nothing to report."
+            exit 0
+          }
+
+          $title = "Daily Pester Test Failures - $((Get-Date).ToString('yyyy-MM-dd'))"
+
+          $body = "## Failed Tests`n`n"
+          foreach ($f in $failed) {
+            $body += "### $($f.name)`n"
+            $body += "Message:`n$($f.failure.message)`n`n"
+            $body += "Stack Trace:`n$($f.failure.'stack-trace')`n`n"
+          }
+
+          $issues = Invoke-RestMethod `
+            -Uri "https://api.github.com/repos/${{ github.repository }}/issues?state=open" `
+            -Headers @{ Authorization = "Bearer $env:GITHUB_TOKEN" }
+
+          $existing = $issues | Where-Object { $_.title -like "Daily Pester Test Failures*" }
+
+          if ($existing) {
+            $payload = @{ body = $body } | ConvertTo-Json
+            Invoke-RestMethod `
+              -Method Patch `
+              -Uri $existing.url `
+              -Headers @{ Authorization = "Bearer $env:GITHUB_TOKEN" } `
+              -Body $payload
+            Write-Host "Updated existing issue: $($existing.number)"
+          }
+          else {
+            $payload = @{
+              title  = $title
+              body   = $body
+              labels = @("pester", "automated-test-failure")
+            } | ConvertTo-Json
+
+            Invoke-RestMethod `
+              -Method Post `
+              -Uri "https://api.github.com/repos/${{ github.repository }}/issues" `
+              -Headers @{ Authorization = "Bearer $env:GITHUB_TOKEN" } `
+              -Body $payload
+
+            Write-Host "Created new issue."
+          }

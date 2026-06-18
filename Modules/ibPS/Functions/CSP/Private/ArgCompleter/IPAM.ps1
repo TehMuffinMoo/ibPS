@@ -35,4 +35,4 @@ $IPAM_IPSpaces_Functions = @(
     'Set-B1Subnet'
 )
 Register-ArgumentCompleter -CommandName $IPAM_IPSpaces_Functions -ParameterName Space -ScriptBlock $Arg_IPAM_IPSpaces
-Register-ArgumentCompleter -CommandName 'Get-B1Space' -ParameterName Name -ScriptBlock $Arg_IPAM_IPSpaces
+Register-ArgumentCompleter -CommandName 'Get-B1Space','Remove-B1Space' -ParameterName Name -ScriptBlock $Arg_IPAM_IPSpaces
