@@ -42,6 +42,8 @@ jobs:
 
       - name: Create or update issue for failed run
         shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GIT_ACTIONS }}
         run: |
             $xml = [xml](Get-Content TestResults.xml)
             $failed = $xml.SelectNodes("//test-case[@result='Failure']")
