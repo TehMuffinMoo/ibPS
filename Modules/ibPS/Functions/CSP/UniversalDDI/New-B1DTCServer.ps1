@@ -37,7 +37,7 @@
         Perform the operation without prompting for confirmation. By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
 
     .EXAMPLE
-       PS> New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses
+       PS> New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses Enabled
 
         id                           : dtc/server/fsfsef8f3-3532-643h-jhjr-sdgfrgrg51349
         name                         : Exchange Server A
