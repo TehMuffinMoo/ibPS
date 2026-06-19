@@ -675,7 +675,7 @@ function New-ISOFile {
 }
 
 function Get-B1ServiceLogApplications {
-  $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
+  $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v2/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
   $Result += @(
     [PSCustomObject]@{
       "type" = 1000
