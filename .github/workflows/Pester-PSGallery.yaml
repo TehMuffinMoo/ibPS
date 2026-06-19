@@ -54,6 +54,7 @@ jobs:
           $xml = [xml](Get-Content TestResults.xml)
           $failed = $xml.SelectNodes("//test-case[@result='Failure']")
 
+          # Build info from ibPS
           $BuildInfo = Get-ibPSConfiguration -Details
 
           # GitHub API headers
@@ -69,28 +70,31 @@ jobs:
 
           $existing = $issues | Where-Object { $_.title -like "Daily Pester Test Failures*" }
 
+          # -------------------------------
+          # SUCCESS: Close existing issue
+          # -------------------------------
           if ($failed.Count -eq 0) {
             Write-Host "All tests passed."
 
             if ($existing) {
               Write-Host "Adding comment and closing existing failure issue..."
 
-              # --- Add comment before closing ---
-              $commentText = @"
-              ✅ All Pester tests passed on $((Get-Date).ToString('yyyy-MM-dd HH:mm')).
+              # Build comment text safely (no here-strings)
+              $commentLines = @(
+                "✅ All Pester tests passed on $((Get-Date).ToString('yyyy-MM-dd HH:mm'))."
+                ""
+                "### Build Info"
+                "| Field   | Value |"
+                "|---------|--------|"
+                "| Branch  | $($BuildInfo.Branch) |"
+                "| Version | $($BuildInfo.'ibPS Version') |"
+                "| Build   | $($BuildInfo.Build) |"
+                "| SHA     | $($BuildInfo.SHA) |"
+                ""
+                "Closing this issue automatically."
+              )
 
-              ### Build Info
-              | Field   | Value |
-              |---------|--------|
-              | Branch  | $($BuildInfo.Branch) |
-              | Version | $($BuildInfo.'ibPS Version') |
-              | Build   | $($BuildInfo.Build) |
-              | SHA     | $($BuildInfo.SHA) |
-
-              Closing this issue automatically.
-          "@
-
-              $commentBody = $commentText | ConvertTo-Json
+              $commentBody = @{ body = ($commentLines -join "`n") } | ConvertTo-Json -Depth 5
 
               Invoke-RestMethod `
                 -Method Post `
@@ -98,7 +102,7 @@ jobs:
                 -Headers $headers `
                 -Body $commentBody
 
-              # --- Close the issue ---
+              # Close the issue
               $payload = @{ state = "closed" } | ConvertTo-Json
               Invoke-RestMethod -Method Patch -Uri $existing.url -Headers $headers -Body $payload
 
@@ -111,8 +115,9 @@ jobs:
             exit 0
           }
 
-          # --- Failures detected: create or update issue ---
-
+          # -------------------------------
+          # FAILURE: Create or update issue
+          # -------------------------------
           Write-Host "Failures detected. Creating or updating issue..."
 
           $title = "Daily Pester Test Failures - $((Get-Date).ToString('yyyy-MM-dd'))"
@@ -150,6 +155,7 @@ jobs:
             $null = $sb.AppendLine()
           }
 
+          # Build info section
           $null = $sb.AppendLine("## Build Info")
           $null = $sb.AppendLine("| Field   | Value |")
           $null = $sb.AppendLine("|---------|--------|")
