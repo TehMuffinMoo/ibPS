@@ -15,6 +15,10 @@ Describe 'New-*' {
             (New-B1AuthoritativeZone -Type Primary -FQDN 'primary.ibps.pester.tests' -View $Name `
             -Description $Description -Tags $Tags).fqdn | Should -Be 'primary.ibps.pester.tests.'
         }
+        It 'Create Authoritative Primary PTR DNS Zone' {
+            (New-B1AuthoritativeZone -Type Primary -FQDN '123.123.123.in-addr.arpa.' -View $Name `
+            -Description $Description -Tags $Tags).fqdn | Should -Be '123.123.123.in-addr.arpa.'
+        }
         It 'Create Authoritative Secondary DNS Zone' {
             (New-B1AuthoritativeZone -Type Secondary -FQDN 'secondary.ibps.pester.tests' -View $Name `
             -Description $Description -Tags $Tags).fqdn | Should -Be 'secondary.ibps.pester.tests.'
@@ -24,18 +28,37 @@ Describe 'New-*' {
             -View $Name -Forwarders '123.123.123.100','123.123.123.200' -Tags $Tags).fqdn `
             | Should -Be 'forward.ibps.pester.tests.'
         }
-        It 'Create New DNS A Record' {
+        It 'Create DNS A Record' {
             (New-B1Record -Type 'A' -Name 'A' -Zone 'primary.ibps.pester.tests' -rdata '123.123.123.25' `
-            -view $Name -Description $Description -Tags $Tags).absolute_name_spec `
+            -View $Name -Description $Description -Tags $Tags).absolute_name_spec `
             | Should -Be 'A.primary.ibps.pester.tests.'
         }
-        It 'Create New DNS CNAME Record' {
+        It 'Create DNS AAAA Record' {
+            (New-B1Record -Type 'AAAA' -Name 'AAAA' -Zone 'primary.ibps.pester.tests' `
+            -rdata '2001:db8::1' -View $Name -Tags $Tags 6>$null).absolute_name_spec `
+            | Should -Be 'AAAA.primary.ibps.pester.tests.'
+        }
+        It 'Create DNS CNAME Record' {
             (New-B1Record -Type 'CNAME' -Name 'CNAME' -Zone 'primary.ibps.pester.tests' -rdata 'A.primary.ibps.pester.tests' `
-            -view $Name -Description $Description -Tags $Tags).absolute_name_spec `
+            -View $Name -Description $Description -Tags $Tags).absolute_name_spec `
             | Should -Be 'CNAME.primary.ibps.pester.tests.'
         }
-        It 'Create New DNS SRV Record' {
-            (New-B1Record -Type 'SRV' -Name 'SRV' -Zone 'primary.ibps.pester.tests' -view $Name -Tags $Tags `
+        It 'Create DNS MX Record' {
+            (New-B1Record -Type 'MX' -Name '' -Zone 'primary.ibps.pester.tests' `
+            -Preference 10 -Exchange 'mail.pester.tests' -view $Name -Tags $Tags 6>$null).absolute_name_spec `
+            | Should -Be 'primary.ibps.pester.tests.'
+        }
+        It 'Create DNS TXT Record' {
+            (New-B1Record -Type 'TXT' -Name 'txt' -Zone 'primary.ibps.pester.tests' `
+            -rdata 'v=spf1 ~all' -view $Name -Tags $Tags 6>$null).absolute_name_spec `
+            | Should -Be 'txt.primary.ibps.pester.tests.'
+        }
+        It 'Create DNS PTR Record' {
+            (New-B1Record -Type 'PTR' -Name '25' -Zone '123.123.123.in-addr.arpa' `
+            -rdata 'A.primary.ibps.pester.tests.' -view $Name -Tags $Tags 6>$null)
+        }
+        It 'Create DNS SRV Record' {
+            (New-B1Record -Type 'SRV' -Name 'SRV' -Zone 'primary.ibps.pester.tests' -View $Name -Tags $Tags `
             -Priority 0 -Weight 0 -Port 123 -rdata 'target.srv.com').absolute_name_spec `
             | Should -Be 'SRV.primary.ibps.pester.tests.'
         }
@@ -87,12 +110,12 @@ Describe 'New-*' {
         It 'Create DTC Pool' {
             (New-B1DTCPool -Name $Name -Servers $Name -LoadBalancingType GlobalAvailability -HealthChecks $Name -Tags $Tags 6>$null).name | Should -Be $Name
         }
-        # It 'Create DTC Policy' {
-        #     $TopologyRules = @()
-        #     $TopologyRules += New-B1DTCTopologyRule -Name 'Rule 1' -Type 'Subnet' -Destination NXDOMAIN -Subnets '10.10.10.0/24','10.20.0.0/24'
-        #     $TopologyRules += New-B1DTCTopologyRule -Name 'Rule 2' -Type 'Default' -Destination Pool -Pool $Name -Subnets '10.25.0.0/16','10.30.0.0/16'
-        #     (New-B1DTCPolicy -Name $Name -Pools $Name -Rules $TopologyRules -LoadBalancingType Topology -Tags $Tags 6>$null).name | Should -Be $Name
-        # }
+        It 'Create DTC Policy' {
+            $TopologyRules = @()
+            $TopologyRules += New-B1DTCTopologyRule -Name 'Rule 1' -Type 'Subnet' -Destination NXDOMAIN -Subnets '10.10.10.0/24','10.20.0.0/24'
+            $TopologyRules += New-B1DTCTopologyRule -Name 'Rule 2' -Type 'Default' -Destination Pool -Pool $Name -Subnets '10.25.0.0/16','10.30.0.0/16'
+            (New-B1DTCPolicy -Name $Name -Pools $Name -Rules $TopologyRules -LoadBalancingType Topology -Tags $Tags 6>$null).name | Should -Be $Name
+        }
         It 'Create DTC LBDN' {
             (New-B1DTCLBDN -Name "dtc.primary.ibps.pester.tests." -View $Name -Policy $Name -Tags $Tags 6>$null).name | Should -Be "dtc.primary.ibps.pester.tests."
         }
@@ -175,6 +198,9 @@ Describe 'Get-*' {
         It 'Get Authoritative Primary DNS Zone' {
             (Get-B1AuthoritativeZone -FQDN 'primary.ibps.pester.tests' -View $Name).fqdn | Should -Be 'primary.ibps.pester.tests.'
         }
+        It 'Get Authoritative Primary PTR DNS Zone' {
+            (Get-B1AuthoritativeZone -FQDN '123.123.123.in-addr.arpa' -View $Name).fqdn | Should -Be '123.123.123.in-addr.arpa.'
+        }
         It 'Get Authoritative Secondary DNS Zone' {
             (Get-B1AuthoritativeZone -FQDN 'secondary.ibps.pester.tests' -View $Name).fqdn | Should -Be 'secondary.ibps.pester.tests.'
         }
@@ -190,12 +216,25 @@ Describe 'Get-*' {
         It 'Get DNS A Record' {
             (Get-B1Record -Type A -FQDN 'A.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'A.primary.ibps.pester.tests.'
         }
+        It 'Get DNS AAAA Record' {
+            (Get-B1Record -Type AAAA -FQDN 'AAAA.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'AAAA.primary.ibps.pester.tests.'
+        }
         It 'Get DNS CNAME Record' {
             (Get-B1Record -Type CNAME -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'CNAME.primary.ibps.pester.tests.'
+        }
+        It 'Get DNS MX Record' {
+            (Get-B1Record -Type MX -FQDN 'primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'primary.ibps.pester.tests.'
+        }
+        It 'Get DNS TXT Record' {
+            (Get-B1Record -Type TXT -FQDN 'txt.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'txt.primary.ibps.pester.tests.'
+        }
+        It 'Get DNS PTR Record' {
+            (Get-B1Record -Type PTR -FQDN '25.123.123.123.in-addr.arpa' -View $Name).absolute_name_spec | Should -Be '25.123.123.123.in-addr.arpa.'
         }
         It 'Get DNS SRV Record' {
             (Get-B1Record -Type SRV -FQDN 'SRV.primary.ibps.pester.tests' -View $Name).absolute_name_spec | Should -Be 'SRV.primary.ibps.pester.tests.'
         }
+
         # It 'Get DNS Config Profiles' { ## Won't exist by default
         #     Get-B1DNSConfigProfile | Should -Not -BeNullOrEmpty
         # }
@@ -213,8 +252,20 @@ Describe 'Get-*' {
         It 'Get Address Block' {
             (Get-B1AddressBlock -Subnet 123.123.123.0 -CIDR 24 -Space $Name).Address | Should -Be 123.123.123.0
         }
+        It 'Get Address Block Next Available' {
+            (Get-B1AddressBlockNextAvailable -ParentAddressBlock 123.123.123.0/24 -Space $Name -Count 1 -CIDRSize 28).address `
+            | Should -Not -BeNullOrEmpty
+        }
+        It 'Get Subnet Next Available' {
+            (Get-B1SubnetNextAvailable -ParentAddressBlock 123.123.123.0/24 -Space $Name -Count 1 -CIDRSize 28).address `
+            | Should -Not -BeNullOrEmpty
+        }
         It 'Get Subnet' {
             (Get-B1Subnet -Subnet 123.123.123.0 -CIDR 26 -Space $Name).Address | Should -Be 123.123.123.0
+        }
+        It 'Get Address Next Available' {
+            (Get-B1AddressNextAvailable -ParentSubnet 123.123.123.0/26 -Space $Name -Count 1).address `
+            | Should -Not -BeNullOrEmpty
         }
         It 'Get DHCP Range' {
             (Get-B1Range -StartAddress 123.123.123.10 -EndAddress 123.123.123.30 -Space $Name).start | Should -Be 123.123.123.10
@@ -384,6 +435,9 @@ Describe 'Set-*' {
         It 'Update Authoritative Primary DNS Zone' {
             Get-B1AuthoritativeZone -FQDN 'primary.ibps.pester.tests.' -View $Name | Set-B1AuthoritativeZone -Description "ibPS - Updated Description" | Should -Not -Be $null
         }
+        It 'Update Authoritative Primary PTR DNS Zone' {
+            Get-B1AuthoritativeZone -FQDN '123.123.123.in-addr.arpa.' -View $Name | Set-B1AuthoritativeZone -Description "ibPS - Updated Description" | Should -Not -Be $null
+        }
         It 'Update Authoritative Secondary DNS Zone' {
             Get-B1AuthoritativeZone -FQDN 'secondary.ibps.pester.tests.' -View $Name | Set-B1AuthoritativeZone -Description "ibPS - Updated Description" | Should -Not -Be $null
         }
@@ -393,8 +447,20 @@ Describe 'Set-*' {
         It 'Update DNS A Record' {
             Get-B1Record -Type 'A' -FQDN 'A.primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" | Should -Not -Be $null
         }
+        It 'Update DNS AAAA Record' {
+            Get-B1Record -Type 'AAAA' -FQDN 'AAAA.primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" | Should -Not -Be $null
+        }
         It 'Update DNS CNAME Record' {
             Get-B1Record -Type 'CNAME' -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" | Should -Not -Be $null
+        }
+        It 'Update DNS MX Record' {
+            Get-B1Record -Type 'MX' -FQDN 'primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" | Should -Not -Be $null
+        }
+        It 'Update DNS TXT Record' {
+            Get-B1Record -Type 'TXT' -FQDN 'txt.primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" | Should -Not -Be $null
+        }
+        It 'Update DNS PTR Record' {
+            Get-B1Record -Type 'PTR' -FQDN '25.123.123.123.in-addr.arpa' -View $Name | Set-B1Record -Description "ibPS - Updated Description" | Should -Not -Be $null
         }
         It 'Update DNS SRV Record' {
             Get-B1Record -Type 'SRV' -FQDN 'SRV.primary.ibps.pester.tests' -View $Name | Set-B1Record -Description "ibPS - Updated Description" | Should -Not -Be $null
@@ -478,6 +544,9 @@ Describe 'Remove-*' {
         It 'Remove Authoritative Primary DNS Zone' {
             Remove-B1AuthoritativeZone -FQDN 'primary.ibps.pester.tests.' -View $Name -Force 6>$null
         }
+        It "Remove Authoritative Primary PTR DNS Zone" {
+            Remove-B1AuthoritativeZone -FQDN '123.123.123.in-addr.arpa.' -View $Name -Force 6>$null
+        }
         It 'Remove Authoritative Secondary DNS Zone' {
             Remove-B1AuthoritativeZone -FQDN 'secondary.ibps.pester.tests.' -View $Name -Force 6>$null
         }
@@ -487,11 +556,23 @@ Describe 'Remove-*' {
         It 'Remove DNS A Record' {
             Get-B1Record -Type 'A' -FQDN 'A.primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
         }
+        It 'Remove DNS AAAA Record' {
+            Get-B1Record -Type 'AAAA' -FQDN 'AAAA.primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
+        }
         It 'Remove DNS CNAME Record' {
             Get-B1Record -Type 'CNAME' -FQDN 'CNAME.primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
         }
         It 'Remove DNS SRV Record' {
             Get-B1Record -Type 'SRV' -FQDN 'SRV.primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
+        }
+        It 'Remove DNS MX Record' {
+            Get-B1Record -Type 'MX' -FQDN 'primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
+        }
+        It 'Remove DNS TXT Record' {
+            Get-B1Record -Type 'TXT' -FQDN 'txt.primary.ibps.pester.tests' -View $Name | Remove-B1Record -Force 6>$null
+        }
+        It 'Remove DNS PTR Record' {
+            Get-B1Record -Type 'PTR' -FQDN '25.123.123.123.in-addr.arpa' -View $Name | Remove-B1Record -Force 6>$null
         }
         It 'Remove DNS View' {
             Remove-B1DNSView -Name $Name -Force 6>$null

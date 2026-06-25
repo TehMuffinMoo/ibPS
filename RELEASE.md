@@ -2,3 +2,4 @@
 - Fix bug when `Get-B1DTCHealthCheck` using the `-id` parameter would incorrectly return a HTTP404
 - Fix bug with `Get-B1Endpoint` using incorrect api endpoint when no parameters are specified
 - Add additional pester tests
+- Fix regression introduced by new field, which is currently disabled #205
