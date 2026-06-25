@@ -33,7 +33,7 @@ This function is used to create a new server object within Universal DDI DTC
 
 ### EXAMPLE 1
 ```powershell
-New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses
+New-B1DTCServer -Name 'Exchange Server A' -Description 'Exchange Server - Active Node' -FQDN 'exchange-1.company.corp' -AutoCreateResponses Enabled
 
 id                           : dtc/server/fsfsef8f3-3532-643h-jhjr-sdgfrgrg51349
  name                         : Exchange Server A
