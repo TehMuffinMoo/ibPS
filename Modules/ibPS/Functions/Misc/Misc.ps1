@@ -262,6 +262,56 @@ function Get-NIOSXSKUs {
       }
   }
 }
+function Get-RecycleBinTypeFilters {
+  return @(
+    [PSCustomObject]@{ objectType = "ipam.ip.space";                      displayValue = "IP Space" }
+    [PSCustomObject]@{ objectType = "ipam.address.block";                 displayValue = "Address Block" }
+    [PSCustomObject]@{ objectType = "ipam.address";                       displayValue = "IPv4 Reservation" }
+    [PSCustomObject]@{ objectType = "dhcp.fixed.address";                 displayValue = "Fixed Address" }
+    [PSCustomObject]@{ objectType = "dhcp.hardware.filter";               displayValue = "IPv4 Hardware Filter" }
+    [PSCustomObject]@{ objectType = "ipam.host";                          displayValue = "IPAM Host" }
+    [PSCustomObject]@{ objectType = "dhcp.ip4.option.filter";             displayValue = "IPv4 Option Filter" }
+    [PSCustomObject]@{ objectType = "dhcp.ip6.option.filter";             displayValue = "IPv6 Option Filter" }
+    [PSCustomObject]@{ objectType = "dhcp.option.code";                   displayValue = "Option Code" }
+    [PSCustomObject]@{ objectType = "dhcp.ip4.option.group";              displayValue = "IPv4 Option Group" }
+    [PSCustomObject]@{ objectType = "dhcp.ip6.option.group";              displayValue = "IPv6 Option Group" }
+    [PSCustomObject]@{ objectType = "dhcp.option.space";                  displayValue = "Option Space" }
+    [PSCustomObject]@{ objectType = "dhcp.ip4.option.space";              displayValue = "IPv4 Option Space" }
+    [PSCustomObject]@{ objectType = "dhcp.ip6.option.space";              displayValue = "IPv6 Option Space" }
+    [PSCustomObject]@{ objectType = "ipam.range";                         displayValue = "Range" }
+    [PSCustomObject]@{ objectType = "dhcp.server";                        displayValue = "DHCP Config Profile" }
+    [PSCustomObject]@{ objectType = "dhcp.subnet.profile";                displayValue = "DHCP Subnet Profile" }
+    [PSCustomObject]@{ objectType = "ipam.subnet";                        displayValue = "Subnet" }
+    [PSCustomObject]@{ objectType = "dns.acl";                            displayValue = "Named ACL" }
+    [PSCustomObject]@{ objectType = "dns.auth.nsg";                       displayValue = "Authoritative DNS Server Group" }
+    [PSCustomObject]@{ objectType = "dns.auth.zone";                      displayValue = "Authoritative Zone" }
+    [PSCustomObject]@{ objectType = "dns.forward.zone";                   displayValue = "Forward Zone" }
+    [PSCustomObject]@{ objectType = "dns.delegation";                     displayValue = "Delegated Zone" }
+    [PSCustomObject]@{ objectType = "dns.forward.nsg";                    displayValue = "Forward DNS Server Group" }
+    [PSCustomObject]@{ objectType = "dns.host";                           displayValue = "DNS Host" }
+    [PSCustomObject]@{ objectType = "dns.server";                         displayValue = "DNS Config Profile" }
+    [PSCustomObject]@{ objectType = "dns.view";                           displayValue = "DNS View" }
+    [PSCustomObject]@{ objectType = "dns.record";                         displayValue = "DNS Record" }
+    [PSCustomObject]@{ objectType = "dhcp.fingerprint";                   displayValue = "DHCP Fingerprint" }
+    [PSCustomObject]@{ objectType = "authz.role";                         displayValue = "Role" }
+    [PSCustomObject]@{ objectType = "authz.policy";                       displayValue = "Access Policy" }
+    [PSCustomObject]@{ objectType = "atcapi.endpoints.registry";          displayValue = "Endpoint" }
+    [PSCustomObject]@{ objectType = "atcapi.networklists.registry";       displayValue = "External Network" }
+    [PSCustomObject]@{ objectType = "atcapi.internaldomains.registry";    displayValue = "Internal Domain List" }
+    [PSCustomObject]@{ objectType = "atcapi.namedlists.registry";         displayValue = "Custom List" }
+    [PSCustomObject]@{ objectType = "atcapi.endpointgroups.registry";     displayValue = "Endpoint Group" }
+    [PSCustomObject]@{ objectType = "atcapi.categoryfilters.registry";    displayValue = "Category Filter" }
+    [PSCustomObject]@{ objectType = "atcapi.securitypolicies.registry";   displayValue = "Security Policy" }
+    [PSCustomObject]@{ objectType = "atcapi.applicationfilters.registry"; displayValue = "Application Filter" }
+    [PSCustomObject]@{ objectType = "redirect.customredirects.registry";  displayValue = "Custom Redirect" }
+    [PSCustomObject]@{ objectType = "atcapi.accesscodes.registry";        displayValue = "Bypass Code" }
+    [PSCustomObject]@{ objectType = "provider.integration";               displayValue = "Third Party Provider" }
+    [PSCustomObject]@{ objectType = "authnapi.saml.registry";             displayValue = "SAML Authentication Profile" }
+    [PSCustomObject]@{ objectType = "authnapi.ldap.registry";             displayValue = "LDAP Authentication Profile" }
+    [PSCustomObject]@{ objectType = "authnapi.oidc.registry";             displayValue = "OIDC Authentication Profile" }
+    [PSCustomObject]@{ objectType = "provider";                           displayValue = "Cloud Discovery Configuration" }
+  )
+}
 
 function Convert-Int64toIP ([int64]$int) {
   <#

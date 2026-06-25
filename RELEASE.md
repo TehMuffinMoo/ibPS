@@ -3,3 +3,4 @@
 - Fix bug with `Get-B1Endpoint` using incorrect api endpoint when no parameters are specified
 - Add additional pester tests
 - Fix regression introduced by new field, which is currently disabled #205
+- Add `Get-B1RecycleBin`, `Remove-B1RecycleBin` & `Restore-B1RecycleBin` functions
