@@ -16,7 +16,7 @@ Retrieves a list of authoritative zones from Universal DDI
 Get-B1AuthoritativeZone [[-FQDN] <String>] [[-Type] <String>] [[-Disabled] <Boolean>] [-Strict]
  [[-View] <String>] [[-Compartment] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
  [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>]
- [[-id] <String>] [<CommonParameters>]
+ [-IncludeInheritance] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -230,6 +230,22 @@ Aliases:
 Required: False
 Position: 12
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -IncludeInheritance
+Whether to include inherited properties in the results.
+Using this will limit results size to a maximum of 500 results, use -Offset to page through additional results.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```

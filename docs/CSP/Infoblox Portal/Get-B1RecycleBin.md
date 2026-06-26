@@ -5,97 +5,100 @@ online version:
 schema: 2.0.0
 ---
 
-# New-B1ForwardZone
+# Get-B1RecycleBin
 
 ## SYNOPSIS
-Creates a new Forward Zone in Universal DDI
+Queries the Universal DDI Recycle Bin
 
 ## SYNTAX
 
 ```
-New-B1ForwardZone [-FQDN] <String> [-View] <Object> [[-Forwarders] <Object>] [[-DNSHosts] <Object>]
- [[-ForwardNSGs] <Object>] [[-Description] <String>] [-ForwardOnly] [[-Tags] <Object>] [-Force] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Get-B1RecycleBin [[-ResourceName] <String>] [[-ResourceType] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [[-OrderBy] <String>] [[-Fields] <String[]>] [[-CustomFilters] <Object>] [-CaseSensitive] [-Strict]
+ [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to create a new Forward Zone in Universal DDI
+This function is used to query the Universal DDI Recycle Bin.
+This gives you visibility on deleted resources and their context.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "ddihost1.corp.mycompany.com" -Description "My Forward Zone"
+Get-B1RecycleBin -Limit "25" -Offset "0" -ResourceName "my.resource.name" -ResourceType "DNS Record"
 ```
 
 ## PARAMETERS
 
-### -FQDN
-The FQDN of the zone to create
+### -ResourceName
+The name of the resource you would like to filter the recycle bin with
 
 ```yaml
 Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 1
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -View
-The DNS View the zone will be created in
+### -ResourceType
+Used to filter by Resource Type, such as "record" or "address_block"
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 2
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Forwarders
-A list of IPs/FQDNs to forward requests to
+### -Limit
+Use this parameter to limit the quantity of results returned from the Recycle Bin.
+The default number of results is 100.
 
 ```yaml
-Type: Object
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 3
-Default value: None
+Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DNSHosts
-A list of DNS Hosts to assign to the zone
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
 
 ```yaml
-Type: Object
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 4
-Default value: None
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ForwardNSGs
-A list of Forward DNS Server Groups to assign to the zone.
-This supports tab-completion.
+### -OrderBy
+Optionally return the list ordered by a particular value.
+If sorting is allowed on non-flat hierarchical resources, the service should implement a qualified naming scheme such as dot-qualification to reference data down the hierarchy.
+Using 'asc' or 'desc' as a suffix will change the ordering, with ascending as default.
 
 ```yaml
-Type: Object
+Type: String
 Parameter Sets: (All)
 Aliases:
 
@@ -106,11 +109,12 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Description
-The description for the new zone
+### -Fields
+Specify a list of fields to return.
+The default is to return all fields.
 
 ```yaml
-Type: String
+Type: String[]
 Parameter Sets: (All)
 Aliases:
 
@@ -121,23 +125,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -ForwardOnly
-Setting the -ForwardOnly switch will enable forward only mode for this zone
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Tags
-Any tags you want to apply to the forward zone
+### -CustomFilters
+Accepts either an Object, ArrayList or String containing one or more custom filters.
+See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
 ```yaml
 Type: Object
@@ -151,9 +141,9 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Force
-Perform the operation without prompting for confirmation.
-By default, this function will not prompt for confirmation unless $ConfirmPreference is set to Medium.
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
 
 ```yaml
 Type: SwitchParameter
@@ -167,32 +157,33 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -WhatIf
-Shows what would happen if the cmdlet runs.
-The cmdlet is not run.
+### -Strict
+Use strict filter matching.
+By default, filters are searched using wildcards where possible.
+Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
 ```yaml
 Type: SwitchParameter
 Parameter Sets: (All)
-Aliases: wi
+Aliases:
 
 Required: False
 Position: Named
-Default value: None
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Confirm
-Prompts you for confirmation before running the cmdlet.
+### -id
+{{ Fill id Description }}
 
 ```yaml
-Type: SwitchParameter
+Type: String
 Parameter Sets: (All)
-Aliases: cf
+Aliases:
 
 Required: False
-Position: Named
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

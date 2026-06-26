@@ -55,3 +55,9 @@ $AsAServiceAccessLocationsFunctions = @(
     'Get-B1AASTunnels'
 )
 Register-ArgumentCompleter -CommandName $AsAServiceAccessLocationsFunctions -ParameterName Location -ScriptBlock $Arg_AsAService_AccessLocations
+
+$Arg_RecycleBin_Types = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-RecycleBinTypeFilters | Where-Object {$_.displayValue -like "$wordToComplete*"}).displayValue
+}
+Register-ArgumentCompleter -CommandName Get-B1RecycleBin -ParameterName ResourceType -ScriptBlock $Arg_RecycleBin_Types

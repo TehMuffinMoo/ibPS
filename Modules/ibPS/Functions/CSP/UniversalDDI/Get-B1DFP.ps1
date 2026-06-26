@@ -101,9 +101,6 @@
     if ($PolicyID) {
       $Filters.Add("policy_id==$PolicyID") | Out-Null
     }
-    if ($id) {
-      $Filters.Add("id==$id") | Out-Null
-    }
     if ($DefaultSecurityPolicy) {
       $Filters.Add("default_security_policy==$DefaultSecurityPolicy") | Out-Null
     }

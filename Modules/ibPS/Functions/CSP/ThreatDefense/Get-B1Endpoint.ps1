@@ -181,7 +181,7 @@
         if ($QueryString) {
             $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcep/v1/roaming_devices$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         } else {
-            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcfw/v1/roaming_devices" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
+            $Results = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/atcep/v1/roaming_devices" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         }
 
         if ($Results) {

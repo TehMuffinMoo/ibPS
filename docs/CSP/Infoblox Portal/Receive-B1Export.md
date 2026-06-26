@@ -13,7 +13,7 @@ Retrieves an Infoblox Portal Export/Backup
 ## SYNTAX
 
 ```
-Receive-B1Export [-data_ref] <String> [-filePath] <String> [<CommonParameters>]
+Receive-B1Export [-filePath] <String> [-data_ref] <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,7 +23,7 @@ This function is used to retrieve a Infoblox Portal Export/Backup
 
 ### EXAMPLE 1
 ```powershell
-Receive-B1Export -data_ref (Get-B1BulkOperation -Name "Backup of all CSP data").data_ref -filePath "C:\Backups"
+Receive-B1Export -filePath "C:\Backups" -data_ref (Get-B1BulkOperation -Name "Backup of all CSP data").data_ref
 ```
 
 ### EXAMPLE 2
@@ -40,6 +40,21 @@ PS> $ExportJob | Receive-B1Export -filePath "/tmp/$($ExportName)"
 
 ## PARAMETERS
 
+### -filePath
+The local file path where the export should be saved to.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: 1
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -data_ref
 The data_ref provided by the Get-B1BulkOperation or Get-B1Export function.
 This accepts pipeline input.
@@ -50,24 +65,9 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 1
-Default value: None
-Accept pipeline input: True (ByPropertyName)
-Accept wildcard characters: False
-```
-
-### -filePath
-The local file path where the export should be saved to.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
 Position: 2
 Default value: None
-Accept pipeline input: False
+Accept pipeline input: True (ByPropertyName)
 Accept wildcard characters: False
 ```
 

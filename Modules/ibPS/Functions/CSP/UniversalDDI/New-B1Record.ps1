@@ -322,9 +322,6 @@
                         }
                     }
                     "MX" {
-                        if (!($rdata.EndsWith("."))) {
-                            $rdata = "$rdata."
-                        }
                         $rdataSplat = @{
                             "exchange" = $PSBoundParameters['Exchange']
                             "preference" = $PSBoundParameters['Preference']
@@ -384,10 +381,21 @@
                     $splat = $splat | ConvertTo-Json
                     if($PSCmdlet.ShouldProcess("Create new DNS Record:`n$($splat)","Create new DNS Record: $($Name).$($Zone)",$MyInvocation.MyCommand)){
                         $Result = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dns/record" -Data $splat | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-                        if ($Result.dns_rdata -match $rdata) {
-                            return $Result
-                        } else {
-                            Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red
+                        switch ($Type) {
+                            "TXT" {
+                                if ($Result.rdata.text -match $rdata) {
+                                    return $Result
+                                } else {
+                                    Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red
+                                }
+                            }
+                            default {
+                                if ($Result.dns_rdata -match $rdata) {
+                                    return $Result
+                                } else {
+                                    Write-Host "Failed to create DNS $Type Record for $FQDN." -ForegroundColor Red
+                                }
+                            }
                         }
                     }
                 }

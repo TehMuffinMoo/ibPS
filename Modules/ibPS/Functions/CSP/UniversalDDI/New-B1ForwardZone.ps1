@@ -18,6 +18,9 @@
     .PARAMETER DNSHosts
         A list of DNS Hosts to assign to the zone
 
+    .PARAMETER ForwardNSGs
+        A list of Forward DNS Server Groups to assign to the zone. This supports tab-completion.
+
     .PARAMETER Description
         The description for the new zone
 
@@ -48,9 +51,9 @@
       [String]$FQDN,
       [Parameter(Mandatory=$true)]
       [System.Object]$View,
-      [Parameter(Mandatory=$true)]
       [System.Object]$Forwarders,
       [System.Object]$DNSHosts,
+      [System.Object]$ForwardNSGs,
       [String]$Description,
       [Switch]$ForwardOnly,
       [System.Object]$Tags,
@@ -63,16 +66,18 @@
 
         $ViewUUID = (Get-B1DNSView -Name $View -Strict).id
 
-        if ($Forwarders.GetType().Name -eq "Object[]") {
-            $ExternalHosts = New-Object System.Collections.ArrayList
-            foreach ($Forwarder in $Forwarders) {
-                $ExternalHosts.Add(@{"address"=$Forwarder;"fqdn"=$Forwarder;}) | Out-Null
+        if ($Forwarders) {
+            if ($Forwarders.GetType().Name -eq "Object[]") {
+                $ExternalHosts = New-Object System.Collections.ArrayList
+                foreach ($Forwarder in $Forwarders) {
+                    $ExternalHosts.Add(@{"address"=$Forwarder;"fqdn"=$Forwarder;}) | Out-Null
+                }
+            } elseif ($Forwarders.GetType().Name -eq "ArrayList") {
+                $ExternalHosts = $Forwarders
+            } else {
+                Write-Host "Error. Invalid data submitted in -ExternalHosts" -ForegroundColor Red
+                break
             }
-        } elseif ($Forwarders.GetType().Name -eq "ArrayList") {
-            $ExternalHosts = $Forwarders
-        } else {
-            Write-Host "Error. Invalid data submitted in -ExternalHosts" -ForegroundColor Red
-            break
         }
 
         $splat = @{
@@ -91,6 +96,14 @@
                 $B1Hosts.Add((Get-B1DNSHost -Name $DNSHost).id) | Out-Null
             }
             $splat | Add-Member -Name "hosts" -Value $B1Hosts -MemberType NoteProperty
+        }
+
+        if ($ForwardNSGs) {
+            $B1ForwardNSGs = @()
+            foreach ($ForwardNSG in $ForwardNSGs) {
+                $B1ForwardNSGs += (Get-B1ForwardNSG -Name $ForwardNSG -Strict).id
+            }
+            $splat | Add-Member -Name "nsgs" -Value $B1ForwardNSGs -MemberType NoteProperty
         }
 
         $splat = $splat | ConvertTo-Json

@@ -118,8 +118,6 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
-    }
-    if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Fields) {

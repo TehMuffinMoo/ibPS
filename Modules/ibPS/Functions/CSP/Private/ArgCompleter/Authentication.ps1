@@ -24,6 +24,16 @@ $Arg_Connection_Profiles = {
 Register-ArgumentCompleter -CommandName Get-B1ConnectionProfile,Set-B1ConnectionProfile,Switch-B1ConnectionProfile,Remove-B1ConnectionProfile -ParameterName Name -ScriptBlock $Arg_Connection_Profiles
 Register-ArgumentCompleter -CommandName Invoke-CSP -ParameterName ProfileName -ScriptBlock $Arg_Connection_Profiles
 
+## --------------- ##
+## ---- Users ---- ##
+## --------------- ##
+$Arg_Account_Users = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1User -Name $wordToComplete).Name
+}
+Register-ArgumentCompleter -CommandName Get-B1User -ParameterName Name -ScriptBlock $Arg_Account_Users
+Register-ArgumentCompleter -CommandName New-B1Subtenant -ParameterName Administrator -ScriptBlock $Arg_Account_Users
+
 ## --------------------------- ##
 ## Compartments (Access Views) ##
 ## --------------------------- ##

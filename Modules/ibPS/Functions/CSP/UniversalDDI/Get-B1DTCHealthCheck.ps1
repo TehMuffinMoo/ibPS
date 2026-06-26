@@ -158,9 +158,7 @@
         $QueryString = ConvertTo-QueryString $QueryFilters
     }
     Write-DebugMsg -Filters $QueryFilters
-    if ($id) {
-        Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($id)" | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-    } elseif ($QueryString) {
+    if ($QueryString) {
         Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/$($QueryURI)$($QueryString)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
     } else {
         Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ddi/v1/dtc/$($QueryURI)" | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue

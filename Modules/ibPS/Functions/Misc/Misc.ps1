@@ -262,6 +262,56 @@ function Get-NIOSXSKUs {
       }
   }
 }
+function Get-RecycleBinTypeFilters {
+  return @(
+    [PSCustomObject]@{ objectType = "ipam.ip.space";                      displayValue = "IP Space" }
+    [PSCustomObject]@{ objectType = "ipam.address.block";                 displayValue = "Address Block" }
+    [PSCustomObject]@{ objectType = "ipam.address";                       displayValue = "IPv4 Reservation" }
+    [PSCustomObject]@{ objectType = "dhcp.fixed.address";                 displayValue = "Fixed Address" }
+    [PSCustomObject]@{ objectType = "dhcp.hardware.filter";               displayValue = "IPv4 Hardware Filter" }
+    [PSCustomObject]@{ objectType = "ipam.host";                          displayValue = "IPAM Host" }
+    [PSCustomObject]@{ objectType = "dhcp.ip4.option.filter";             displayValue = "IPv4 Option Filter" }
+    [PSCustomObject]@{ objectType = "dhcp.ip6.option.filter";             displayValue = "IPv6 Option Filter" }
+    [PSCustomObject]@{ objectType = "dhcp.option.code";                   displayValue = "Option Code" }
+    [PSCustomObject]@{ objectType = "dhcp.ip4.option.group";              displayValue = "IPv4 Option Group" }
+    [PSCustomObject]@{ objectType = "dhcp.ip6.option.group";              displayValue = "IPv6 Option Group" }
+    [PSCustomObject]@{ objectType = "dhcp.option.space";                  displayValue = "Option Space" }
+    [PSCustomObject]@{ objectType = "dhcp.ip4.option.space";              displayValue = "IPv4 Option Space" }
+    [PSCustomObject]@{ objectType = "dhcp.ip6.option.space";              displayValue = "IPv6 Option Space" }
+    [PSCustomObject]@{ objectType = "ipam.range";                         displayValue = "Range" }
+    [PSCustomObject]@{ objectType = "dhcp.server";                        displayValue = "DHCP Config Profile" }
+    [PSCustomObject]@{ objectType = "dhcp.subnet.profile";                displayValue = "DHCP Subnet Profile" }
+    [PSCustomObject]@{ objectType = "ipam.subnet";                        displayValue = "Subnet" }
+    [PSCustomObject]@{ objectType = "dns.acl";                            displayValue = "Named ACL" }
+    [PSCustomObject]@{ objectType = "dns.auth.nsg";                       displayValue = "Authoritative DNS Server Group" }
+    [PSCustomObject]@{ objectType = "dns.auth.zone";                      displayValue = "Authoritative Zone" }
+    [PSCustomObject]@{ objectType = "dns.forward.zone";                   displayValue = "Forward Zone" }
+    [PSCustomObject]@{ objectType = "dns.delegation";                     displayValue = "Delegated Zone" }
+    [PSCustomObject]@{ objectType = "dns.forward.nsg";                    displayValue = "Forward DNS Server Group" }
+    [PSCustomObject]@{ objectType = "dns.host";                           displayValue = "DNS Host" }
+    [PSCustomObject]@{ objectType = "dns.server";                         displayValue = "DNS Config Profile" }
+    [PSCustomObject]@{ objectType = "dns.view";                           displayValue = "DNS View" }
+    [PSCustomObject]@{ objectType = "dns.record";                         displayValue = "DNS Record" }
+    [PSCustomObject]@{ objectType = "dhcp.fingerprint";                   displayValue = "DHCP Fingerprint" }
+    [PSCustomObject]@{ objectType = "authz.role";                         displayValue = "Role" }
+    [PSCustomObject]@{ objectType = "authz.policy";                       displayValue = "Access Policy" }
+    [PSCustomObject]@{ objectType = "atcapi.endpoints.registry";          displayValue = "Endpoint" }
+    [PSCustomObject]@{ objectType = "atcapi.networklists.registry";       displayValue = "External Network" }
+    [PSCustomObject]@{ objectType = "atcapi.internaldomains.registry";    displayValue = "Internal Domain List" }
+    [PSCustomObject]@{ objectType = "atcapi.namedlists.registry";         displayValue = "Custom List" }
+    [PSCustomObject]@{ objectType = "atcapi.endpointgroups.registry";     displayValue = "Endpoint Group" }
+    [PSCustomObject]@{ objectType = "atcapi.categoryfilters.registry";    displayValue = "Category Filter" }
+    [PSCustomObject]@{ objectType = "atcapi.securitypolicies.registry";   displayValue = "Security Policy" }
+    [PSCustomObject]@{ objectType = "atcapi.applicationfilters.registry"; displayValue = "Application Filter" }
+    [PSCustomObject]@{ objectType = "redirect.customredirects.registry";  displayValue = "Custom Redirect" }
+    [PSCustomObject]@{ objectType = "atcapi.accesscodes.registry";        displayValue = "Bypass Code" }
+    [PSCustomObject]@{ objectType = "provider.integration";               displayValue = "Third Party Provider" }
+    [PSCustomObject]@{ objectType = "authnapi.saml.registry";             displayValue = "SAML Authentication Profile" }
+    [PSCustomObject]@{ objectType = "authnapi.ldap.registry";             displayValue = "LDAP Authentication Profile" }
+    [PSCustomObject]@{ objectType = "authnapi.oidc.registry";             displayValue = "OIDC Authentication Profile" }
+    [PSCustomObject]@{ objectType = "provider";                           displayValue = "Cloud Discovery Configuration" }
+  )
+}
 
 function Convert-Int64toIP ([int64]$int) {
   <#
@@ -675,7 +725,7 @@ function New-ISOFile {
 }
 
 function Get-B1ServiceLogApplications {
-  $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v1/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
+  $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/atlas-logs/v2/applications" | Select-Object -ExpandProperty applications -WA SilentlyContinue -EA SilentlyContinue
   $Result += @(
     [PSCustomObject]@{
       "type" = 1000
@@ -979,6 +1029,7 @@ function DevelopmentFunctions {
     "Confirm-ShouldProcess"
     "JSONPretty"
     "Build-BulkExportTypes"
+    "Get-BulkExportTypes"
     "Get-NIOSXSKUs"
   )
 }
@@ -1114,6 +1165,92 @@ function Confirm-ShouldProcess {
 
 function JSONPretty($JSON) {
   $JSON | ConvertFrom-Json | ConvertTo-Json -Depth 20
+}
+
+## Need a way to get these types dynamically before using this for selective backups
+function Get-BulkExportTypes {
+  return @{
+    "ipamdhcp.bulk.infoblox.com/v1/addressblocks" = "Address Blocks"
+    "ipamdhcp.bulk.infoblox.com/v2/addressblockv2s" = "Address Blocks"
+    "ipamdhcp.bulk.infoblox.com/v3/addressblockv3s" = "Address Blocks"
+    "ipamdhcp.bulk.infoblox.com/v1/fixedaddresses" = "Fixed Addresses"
+    "ipamdhcp.bulk.infoblox.com/v2/fixedaddressv2s" = "Fixed Addresses"
+    "ipamdhcp.bulk.infoblox.com/v3/fixedaddressv3s" = "Fixed Addresses"
+    "ipamdhcp.bulk.infoblox.com/v1/addresses" = "Addresses"
+    "ipamdhcp.bulk.infoblox.com/v2/addressv2s" = "Addresses"
+    "ipamdhcp.bulk.infoblox.com/v3/addressv3s" = "Addresses"
+    "ipamdhcp.bulk.infoblox.com/v1/ipspaces" = "IP Spaces"
+    "ipamdhcp.bulk.infoblox.com/v2/ipspacev2s" = "IP Spaces"
+    "ipamdhcp.bulk.infoblox.com/v3/ipspacev3s" = "IP Spaces"
+    "ipamdhcp.bulk.infoblox.com/v1/ranges" = "Ranges"
+    "ipamdhcp.bulk.infoblox.com/v2/rangev2s" = "Ranges"
+    "ipamdhcp.bulk.infoblox.com/v3/rangev3s" = "Ranges"
+    "ipamdhcp.bulk.infoblox.com/v1/subnets" = "Subnets"
+    "ipamdhcp.bulk.infoblox.com/v2/subnetv2s" = "Subnets"
+    "ipamdhcp.bulk.infoblox.com/v3/subnetv3s" = "Subnets"
+    "ipamdhcp.bulk.infoblox.com/v1/hardwarefilters" = "Hardware Filters"
+    "ipamdhcp.bulk.infoblox.com/v2/hardwarefilterv2s" = "Hardware Filters"
+    "ipamdhcp.bulk.infoblox.com/v3/hardwarefilterv3s" = "Hardware Filters"
+    "ipamdhcp.bulk.infoblox.com/v1/optionspaces" = "Option Spaces"
+    "ipamdhcp.bulk.infoblox.com/v2/optionspacev2s" = "Option Spaces"
+    "ipamdhcp.bulk.infoblox.com/v3/optionspacev3s" = "Option Spaces"
+    "ipamdhcp.bulk.infoblox.com/v1/optioncodes" = "Option Codes"
+    "ipamdhcp.bulk.infoblox.com/v2/optioncodev2s" = "Option Codes"
+    "ipamdhcp.bulk.infoblox.com/v3/optioncodev3s" = "Option Codes"
+    "ipamdhcp.bulk.infoblox.com/v1/optionfilters" = "Option Filters"
+    "ipamdhcp.bulk.infoblox.com/v2/optionfilterv2s" = "Option Filters"
+    "ipamdhcp.bulk.infoblox.com/v3/optionfilterv3s" = "Option Filters"
+    "ipamdhcp.bulk.infoblox.com/v1/servers" = "DHCP Config Profiles"
+    "ipamdhcp.bulk.infoblox.com/v2/serverv2s" = "DHCP Config Profiles"
+    "ipamdhcp.bulk.infoblox.com/v3/serverv3s" = "DHCP Config Profiles"
+    "ipamdhcp.bulk.infoblox.com/v1/optiongroups" = "Option Groups"
+    "ipamdhcp.bulk.infoblox.com/v2/optiongroupv2s" = "Option Groups"
+    "ipamdhcp.bulk.infoblox.com/v3/optiongroupv3s" = "Option Groups"
+    "ipamdhcp.bulk.infoblox.com/v1/hagroups" = "HA Groups"
+    "ipamdhcp.bulk.infoblox.com/v2/hagroupv2s" = "HA Groups"
+    "ipamdhcp.bulk.infoblox.com/v3/hagroupv3s" = "HA Groups"
+    "ipamdhcp.bulk.infoblox.com/v2/ipamhostv2s" = "Hosts"
+    "ipamdhcp.bulk.infoblox.com/v3/ipamhostv3s" = "Hosts"
+    "bootstrap.bulk.infoblox.com/v1alpha1/hostconfigs" = "Host Configs"
+    "tagging.bulk.infoblox.com/v1alpha1/namespaces" = "Tag Namespaces"
+    "tagging.bulk.infoblox.com/v1alpha1/tags" = "Tags"
+    "tagging.bulk.infoblox.com/v1alpha1/values" = "Tag Values"
+    "onprem.bulk.infoblox.com/v1alpha1/onpremhosts" = "On-Prem Hosts"
+    "onprem.bulk.infoblox.com/v1alpha1/hosts" = "Hosts"
+    "dnsconfig.bulk.infoblox.com/v1/views" = "DNS Views"
+    "dnsconfig.bulk.infoblox.com/v2/viewv2s" = "DNS Views"
+    "dnsconfig.bulk.infoblox.com/v3/viewv3s" = "DNS Views"
+    "dnsconfig.bulk.infoblox.com/v1/authzones" = "Authoritative Zones"
+    "dnsconfig.bulk.infoblox.com/v2/authzonev2s" = "Authoritative Zones"
+    "dnsconfig.bulk.infoblox.com/v3/authzonev3s" = "Authoritative Zones"
+    "dnsconfig.bulk.infoblox.com/v1/forwardzones" = "Forward Zones"
+    "dnsconfig.bulk.infoblox.com/v2/forwardzonev2s" = "Forward Zones"
+    "dnsconfig.bulk.infoblox.com/v3/forwardzonev3s" = "Forward Zones"
+    "dnsconfig.bulk.infoblox.com/v1/servers" = "DNS Config Profiles"
+    "dnsconfig.bulk.infoblox.com/v2/serverv2s" = "DNS Config Profiles"
+    "dnsconfig.bulk.infoblox.com/v3/serverv3s" = "DNS Config Profiles"
+    "dnsconfig.bulk.infoblox.com/v2/aclv2s" = "ACL"
+    "dnsconfig.bulk.infoblox.com/v2/delegationv2s" = "Delegation zones"
+    "dnsdata.bulk.infoblox.com/v1/records" = "Records"
+    "dnsdata.bulk.infoblox.com/v2/recordv2s" = "Records"
+    "dnsdata.bulk.infoblox.com/v3/recordv3s" = "Records"
+    "keys.bulk.infoblox.com/v1/tsigkeys" = "TSIG Keys"
+    "atcapi.bulk.infoblox.com/v1alpha1/categoryfilters" = "Category Filters"
+    "atcapi.bulk.infoblox.com/v1alpha1/applicationfilters" = "Application Filters"
+    "atcapi.bulk.infoblox.com/v1alpha1/customdomains" = "Custom Lists"
+    "atcapi.bulk.infoblox.com/v1alpha1/customlistcommons" = "Custom Lists"
+    "atcapi.bulk.infoblox.com/v1alpha1/customlistitems" = "Custom List Entries"
+    "atcapi.bulk.infoblox.com/v1alpha1/externalsubnets" = "External Networks"
+    "atcapi.bulk.infoblox.com/v1alpha1/endpointgroups" = "Endpoint Groups"
+    "atcapi.bulk.infoblox.com/v1alpha1/internaldomains" = "Internal Domains"
+    "atcapi.bulk.infoblox.com/v1alpha1/b1endpoints" = "Endpoints"
+    "atcapi.bulk.infoblox.com/v1alpha1/securitypolicies" = "Security Policies"
+    "redirect.bulk.infoblox.com/v1alpha1/customredirects" = "Custom Redirects"
+    "infrastructure.bulk.infoblox.com/v1alpha1/hosts" = "Servers"
+    "infrastructure.bulk.infoblox.com/v1alpha1/pools" = "Pools"
+    "infrastructure.bulk.infoblox.com/v1alpha1/services" = "Protocol Services"
+    "ntp.bulk.infoblox.com/v1alpha1/ntpserviceconfigs" = "Service Configs"
+  }
 }
 
 function Build-BulkExportTypes {

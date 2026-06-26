@@ -109,7 +109,7 @@
     }
 
     process {
-        $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization','asm_scope_flag','inheritance_assigned_hosts','provider_type','delegation','subnet_id')
+        $ObjectExclusions = @('id','utilization','utilization_v6','updated_at','created_at','federation','federated_realms','address','discovery_attrs','inheritance_parent','parent','protocol','space','usage','dhcp_utilization','asm_scope_flag','inheritance_assigned_hosts','provider_type','delegation','subnet_id','shared_network')
         if ($Object) {
             $SplitID = $Object.id.split('/')
             if (("$($SplitID[0])/$($SplitID[1])") -ne "ipam/subnet") {
