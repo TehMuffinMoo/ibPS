@@ -103,7 +103,6 @@
       [Switch]$Tags,
       [parameter(ParameterSetName="BackupAll")]
       [Switch]$BackupAll,
-      [parameter(ParameterSetName="BackupAll")]
       [ValidateSet("json","csv")]
       [String]$Format = "json",
       [Switch]$Force
@@ -193,7 +192,6 @@
         $splat | Add-Member -Name "data_types" -Value $dataTypes -MemberType NoteProperty
     }
 
-    $dataTypes
     $splat = $splat | ConvertTo-Json
     if($PSCmdlet.ShouldProcess("Start Data Export`n$(JSONPretty($splat))","Start Data Export",$MyInvocation.MyCommand)){
         $Export = Invoke-CSP -Method "POST" -Uri "$(Get-B1CSPUrl)/bulk/v1/export" -Data $splat

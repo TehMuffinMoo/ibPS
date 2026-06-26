@@ -11,3 +11,5 @@
 - Add `-IncludeInheritance` switch parameter to `Get-B1AuthoritativeZone` to retrieve inherited configuration
 - Add `Build-B1CubeJSFilter` function to assist with building simple filters, or collections of filters, to be used with `Invoke-B1CubeJS`
 - Add  `New-B1Subtenant`, `Get-B1Subtenant`, `Set-B1Subtenant` & `Remove-B1Subtenant` functions
+- Fix regression in Receive-B1Export #206
+- Fix bug with new `-Format` parameter being locked to `-BackupAll` parameter set
