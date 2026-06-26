@@ -28,7 +28,9 @@
     .PARAMETER Filters
         Used to provide a list of filters.
 
-        A filter is a JavaScript object with the following properties:
+        A helper function `Build-B1CubeJSFilter` is available to assist with building simple filters.
+
+        A filter is an object with the following properties:
 
         $Filters = @(
             @{

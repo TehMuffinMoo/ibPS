@@ -83,8 +83,6 @@
     }
     if ($Filters) {
         $Filter = Combine-Filters $Filters -CaseSensitive:$CaseSensitive
-    }
-    if ($Filter) {
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Fields) {
@@ -103,7 +101,6 @@
     $QueryString = ConvertTo-QueryString $QueryFilters
 
     Write-DebugMsg -Filters $QueryFilters
-
     if ($QueryString) {
         $Results = Invoke-CSP -Uri "$(Get-B1CSPUrl)/api/atlas-recyclebin/v1/items$QueryString" -Method GET | Select-Object -ExpandProperty results -ErrorAction SilentlyContinue
         if ($Results) {

@@ -80,7 +80,13 @@
         }
     } elseif ($List) {
         $ReturnList = @()
+        ## Write progress to show that we are retrieving the account information for each profile
+        $ProgressCount = 0
+        $ProgressTotal = $Configs.Contexts.PSObject.Properties.Name.Count
         $Configs.Contexts.PSObject.Properties.Name | ForEach-Object {
+            $ProgressCount++
+            $PercentComplete = ($ProgressCount / $ProgressTotal) * 100
+            Write-Progress -Activity "Retrieving Infoblox Portal Connection Profiles" -Status "Retrieving account information for $($_)" -PercentComplete $PercentComplete
             $ReturnList += $Configs.Contexts."$($_)" | Select-Object @ReturnProperties
         }
         return $ReturnList

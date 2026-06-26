@@ -40,6 +40,34 @@ $Arg_DNS_RecordTypes = {
 }
 Register-ArgumentCompleter -CommandName Get-B1Record,Set-B1Record,New-B1Record,Remove-B1Record -ParameterName Type -ScriptBlock $Arg_DNS_RecordTypes
 
+$Arg_DNS_Auth_NSGs = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    $((Get-B1AuthoritativeNSG -Name $wordToComplete).name | Where-Object {$_ -notin $fakeBoundParameters['AuthNSGs']}) | ForEach-Object {
+        New-Object -Type System.Management.Automation.CompletionResult -ArgumentList @(
+            "'$_'"          # completionText
+            $_          # listItemText
+            'ParameterValue' # resultType
+            $_          # toolTip
+        )
+    }
+}
+Register-ArgumentCompleter -CommandName New-B1AuthoritativeZone -ParameterName AuthNSGs -ScriptBlock $Arg_DNS_Auth_NSGs
+Register-ArgumentCompleter -CommandName Set-B1AuthoritativeZone -ParameterName AddAuthNSGs -ScriptBlock $Arg_DNS_Auth_NSGs
+Register-ArgumentCompleter -CommandName Set-B1AuthoritativeZone -ParameterName RemoveAuthNSGs -ScriptBlock $Arg_DNS_Auth_NSGs
+
+$Arg_DNS_Forward_NSGs = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    $((Get-B1ForwardNSG -Name $wordToComplete).name | Where-Object {$_ -notin $fakeBoundParameters['ForwardNSGs']}) | ForEach-Object {
+        New-Object -Type System.Management.Automation.CompletionResult -ArgumentList @(
+            "'$_'"          # completionText
+            $_          # listItemText
+            'ParameterValue' # resultType
+            $_          # toolTip
+        )
+    }
+}
+Register-ArgumentCompleter -CommandName New-B1ForwardZone -ParameterName ForwardNSGs -ScriptBlock $Arg_DNS_Forward_NSGs
+
 ## --------------- ##
 ## ----- DTC ----- ##
 ## --------------- ##

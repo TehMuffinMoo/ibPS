@@ -61,7 +61,7 @@
         if ($PSCmdlet.ShouldProcess("$($IDsToRestore.Count) Recycle Bin items")) {
             $Payload = @{ id = $IDsToRestore } | ConvertTo-Json
 
-            $Result = Invoke-CSP -Method PUT `
+            Invoke-CSP -Method PUT `
                 -Uri "$(Get-B1CSPUrl)/api/atlas-recyclebin/v1/items/restore" `
                 -Data $Payload
 

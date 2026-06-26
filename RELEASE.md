@@ -4,3 +4,9 @@
 - Add additional pester tests
 - Fix regression introduced by new field, which is currently disabled #205
 - Add `Get-B1RecycleBin`, `Remove-B1RecycleBin` & `Restore-B1RecycleBin` functions
+- Add progress indicator when using `Get-BCP -List` / `Get-B1ConnectionProfile -List`
+- Add `-ForwardNSGs` parameter to `New-B1ForwardZone`
+- Add tab-completion for `-AuthNSGs`, `-AddAuthNSGs` & `-RemoveAuthNSGs` parameters when using `New-B1AuthoritativeZone` & `Set-B1AuthoritativeZone`
+- Add tab-completion for `-ForwardNSGs` parameter when using `New-B1ForwardZone`
+- Add `-IncludeInheritance` switch parameter to `Get-B1AuthoritativeZone` to retrieve inherited configuration
+- Add `Build-B1CubeJSFilter` function to assist with building simple filters, or collections of filters, to be used with `Invoke-B1CubeJS`

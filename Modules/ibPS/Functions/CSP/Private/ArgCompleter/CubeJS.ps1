@@ -33,7 +33,7 @@ $Arg_CubeJS_Cubes = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1CubeJSCubes | Where-Object {$_.name -like "$($wordToComplete)*"}).Name
 }
-Register-ArgumentCompleter -CommandName Invoke-B1CubeJS,Get-B1CubeJSCubes,Get-B1CubeJSMeasures,Get-B1CubeJSDimensions -ParameterName Cube -ScriptBlock $Arg_CubeJS_Cubes
+Register-ArgumentCompleter -CommandName Invoke-B1CubeJS,Get-B1CubeJSCubes,Get-B1CubeJSMeasures,Get-B1CubeJSDimensions,Build-B1CubeJSFilter -ParameterName Cube -ScriptBlock $Arg_CubeJS_Cubes
 
 $Arg_CubeJS_Measures = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
@@ -50,6 +50,7 @@ $Arg_CubeJS_Dimensions = {
     } | Where-Object {$_ -like "$($wordToComplete)*" -and $_ -notin @($fakeBoundParameters['Dimensions'])}
 }
 Register-ArgumentCompleter -CommandName Invoke-B1CubeJS -ParameterName Dimensions -ScriptBlock $Arg_CubeJS_Dimensions
+Register-ArgumentCompleter -CommandName Build-B1CubeJSFilter -ParameterName Member -ScriptBlock $Arg_CubeJS_Dimensions
 
 $Arg_CubeJS_Segments = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

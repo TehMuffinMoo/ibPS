@@ -46,6 +46,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER IncludeInheritance
+        Whether to include inherited properties in the results. Using this will limit results size to a maximum of 500 results, use -Offset to page through additional results.
+
     .PARAMETER id
         The id of the authoritative zone to filter by
 
@@ -74,6 +77,7 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
+      [Switch]$IncludeInheritance,
       [String]$id
     )
     [System.Collections.ArrayList]$Filters = @()
@@ -121,6 +125,10 @@
         $QueryFilters.Add("_filter=$Filter") | Out-Null
     }
     if ($Limit) {
+        if ($IncludeInheritance -and $Limit -gt 500) {
+            Write-Warning "When using -IncludeInheritance, the maximum limit is 500. Setting limit to 500."
+            $Limit = 500
+        }
         $QueryFilters.Add("_limit=$Limit") | Out-Null
     }
     if ($Offset) {
@@ -138,6 +146,9 @@
     }
     if ($tfilter) {
         $QueryFilters.Add("_tfilter=$tfilter") | Out-Null
+    }
+    if ($IncludeInheritance) {
+        $QueryFilters.Add('_inherit=full') | Out-Null
     }
     if ($QueryFilters) {
         $QueryString = ConvertTo-QueryString $QueryFilters
