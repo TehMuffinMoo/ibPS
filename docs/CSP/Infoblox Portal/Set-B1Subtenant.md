@@ -5,63 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# New-B1ForwardZone
+# Set-B1Subtenant
 
 ## SYNOPSIS
-Creates a new Forward Zone in Universal DDI
+Updates an existing Infoblox Portal Subtenant
 
 ## SYNTAX
 
 ```
-New-B1ForwardZone [-FQDN] <String> [-View] <Object> [[-Forwarders] <Object>] [[-DNSHosts] <Object>]
- [[-ForwardNSGs] <Object>] [[-Description] <String>] [-ForwardOnly] [[-Tags] <Object>] [-Force] [-WhatIf]
- [-Confirm] [<CommonParameters>]
+Set-B1Subtenant [-Name <Object>] [-Administrator <Object>] [-Description <Object>] [-State <Object>]
+ -Object <Object> [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to create a new Forward Zone in Universal DDI
+This function is used to update an existing Infoblox Portal Subtenant, such as changing its state or updating its details.
+This only accepts pipeline input
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-New-B1ForwardZone -FQDN "mysubzone.mycompany.corp" -View "default" -DNSHosts "ddihost1.corp.mycompany.com" -Description "My Forward Zone"
+Set-B1Subtenant -Name "Dev" -Administrator "Admin User" -Description "Dev Subtenant" -State "disabled"
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1Subtenant -Name "Dev" | Set-B1Subtenant -Administrator "Admin User" -Description "Dev Subtenant" -State "active"
 ```
 
 ## PARAMETERS
 
-### -FQDN
-The FQDN of the zone to create
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 1
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -View
-The DNS View the zone will be created in
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: True
-Position: 2
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Forwarders
-A list of IPs/FQDNs to forward requests to
+### -Name
+The new name of the Infoblox Portal Subtenant
 
 ```yaml
 Type: Object
@@ -69,14 +44,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -DNSHosts
-A list of DNS Hosts to assign to the zone
+### -Administrator
+The administrative user for the Infoblox Portal Subtenant
 
 ```yaml
 Type: Object
@@ -84,60 +59,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ForwardNSGs
-A list of Forward DNS Server Groups to assign to the zone.
-This supports tab-completion.
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
+Position: Named
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -Description
-The description for the new zone
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -ForwardOnly
-Setting the -ForwardOnly switch will enable forward only mode for this zone
-
-```yaml
-Type: SwitchParameter
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: Named
-Default value: False
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Tags
-Any tags you want to apply to the forward zone
+The description for the Infoblox Portal Subtenant
 
 ```yaml
 Type: Object
@@ -145,9 +74,41 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: Named
 Default value: None
 Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -State
+The state of the Infoblox Portal Subtenant.
+Valid values are "active" or "disabled"
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Object
+The Infoblox Portal Subtenant Object.
+Accepts pipeline input
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: True
+Position: Named
+Default value: None
+Accept pipeline input: True (ByValue)
 Accept wildcard characters: False
 ```
 

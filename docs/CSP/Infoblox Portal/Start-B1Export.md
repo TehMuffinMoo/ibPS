@@ -15,7 +15,7 @@ Initiates an Infoblox Portal Export/Backup
 ### BackupSelective
 ```
 Start-B1Export -Name <String> [-Description <String>] [-DNSConfig] [-DNSData] [-NTPData] [-IPAMData] [-KeyData]
- [-ThreatDefense] [-Bootstrap] [-B1Hosts] [-Redirects] [-Tags] [-Force] [-WhatIf] [-Confirm]
+ [-ThreatDefense] [-Bootstrap] [-B1Hosts] [-Redirects] [-Tags] [-Format <String>] [-Force] [-WhatIf] [-Confirm]
  [<CommonParameters>]
 ```
 
@@ -256,7 +256,7 @@ Default is "json"
 
 ```yaml
 Type: String
-Parameter Sets: BackupAll
+Parameter Sets: (All)
 Aliases:
 
 Required: False
