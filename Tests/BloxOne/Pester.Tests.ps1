@@ -330,9 +330,9 @@ Describe 'Get-*' {
         It 'Get DTC Pool' {
             (Get-B1DTCPool -Name $Name).name | Should -Be $Name
         }
-        # It 'Get DTC Policy' {
-        #     (Get-B1DTCPolicy -Name $Name).name | Should -Be $Name
-        # }
+        It 'Get DTC Policy' {
+            (Get-B1DTCPolicy -Name $Name).name | Should -Be $Name
+        }
         It 'Get DTC LBDN' {
             (Get-B1DTCLBDN -Name "dtc.primary.ibps.pester.tests.").name | Should -Be "dtc.primary.ibps.pester.tests."
         }
@@ -507,9 +507,9 @@ Describe 'Set-*' {
         It 'Update DTC Pool' {
             Get-B1DTCPool -Name $Name | Set-B1DTCPool -Description "ibPS - Updated" | Should -Not -Be $null
         }
-        # It 'Update DTC Policy' {
-        #     Get-B1DTCPolicy -Name $Name | Set-B1DTCPolicy -Description "ibPS - Updated" | Should -Not -Be $null
-        # }
+        It 'Update DTC Policy' {
+            Get-B1DTCPolicy -Name $Name | Set-B1DTCPolicy -Description "ibPS - Updated" | Should -Not -Be $null
+        }
         It 'Update DTC LBDN' {
             Get-B1DTCLBDN -Name "dtc.primary.ibps.pester.tests." | Set-B1DTCLBDN -Description "ibPS - Updated" | Should -Not -Be $null
         }
@@ -531,9 +531,9 @@ Describe 'Remove-*' {
         It 'Remove DTC Health Check' {
             { Remove-B1DTCHealthCheck -Name $Name -Force 6>$null } | Should -Not -Throw
         }
-        # It 'Remove DTC Policy' {
-        #     { Remove-B1DTCPolicy -Name $Name -Force 6>$null } | Should -Not -Throw
-        # }
+        It 'Remove DTC Policy' {
+            { Remove-B1DTCPolicy -Name $Name -Force 6>$null } | Should -Not -Throw
+        }
     }
     Context 'Universal DDI NIOS-X' {
         It 'Remove NIOS-X Host' {
