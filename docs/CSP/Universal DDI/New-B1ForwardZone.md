@@ -13,8 +13,9 @@ Creates a new Forward Zone in Universal DDI
 ## SYNTAX
 
 ```
-New-B1ForwardZone [-FQDN] <String> [-View] <Object> [-Forwarders] <Object> [[-DNSHosts] <Object>]
- [[-Description] <String>] [-ForwardOnly] [[-Tags] <Object>] [-Force] [-WhatIf] [-Confirm] [<CommonParameters>]
+New-B1ForwardZone [-FQDN] <String> [-View] <Object> [[-Forwarders] <Object>] [[-DNSHosts] <Object>]
+ [[-ForwardNSGs] <Object>] [[-Description] <String>] [-ForwardOnly] [[-Tags] <Object>] [-Force] [-WhatIf]
+ [-Confirm] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -67,7 +68,7 @@ Type: Object
 Parameter Sets: (All)
 Aliases:
 
-Required: True
+Required: False
 Position: 3
 Default value: None
 Accept pipeline input: False
@@ -89,6 +90,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -ForwardNSGs
+{{ Fill ForwardNSGs Description }}
+
+```yaml
+Type: Object
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 5
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Description
 The description for the new zone
 
@@ -98,7 +114,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -128,7 +144,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
