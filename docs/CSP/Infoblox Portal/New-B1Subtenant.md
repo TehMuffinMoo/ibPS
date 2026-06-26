@@ -76,7 +76,9 @@ Accept wildcard characters: False
 ```
 
 ### -State
-{{ Fill State Description }}
+The state of the new Subtenant.
+Valid values are "active" or "disabled".
+Default is "active"
 
 ```yaml
 Type: String
