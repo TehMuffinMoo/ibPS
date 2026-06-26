@@ -2,7 +2,7 @@
 - Fix bug when `Get-B1DTCHealthCheck` using the `-id` parameter would incorrectly return a HTTP404
 - Fix bug with `Get-B1Endpoint` using incorrect api endpoint when no parameters are specified
 - Add additional pester tests
-- Fix regression introduced by new field, which is currently disabled (#205)
+- Fix regression introduced by new field, which is currently disabled [#205](https://github.com/TehMuffinMoo/ibPS/issues/205)
 - Add `Get-B1RecycleBin`, `Remove-B1RecycleBin` & `Restore-B1RecycleBin` functions
 - Add progress indicator when using `Get-BCP -List` / `Get-B1ConnectionProfile -List`
 - Add `-ForwardNSGs` parameter to `New-B1ForwardZone`
@@ -11,5 +11,5 @@
 - Add `-IncludeInheritance` switch parameter to `Get-B1AuthoritativeZone` to retrieve inherited configuration
 - Add `Build-B1CubeJSFilter` function to assist with building simple filters, or collections of filters, to be used with `Invoke-B1CubeJS`
 - Add  `New-B1Subtenant`, `Get-B1Subtenant`, `Set-B1Subtenant` & `Remove-B1Subtenant` functions
-- Fix regression in Receive-B1Export (#206)
-- Fix bug with new `-Format` parameter being locked to `-BackupAll` parameter set (#207)
+- Fix regression in Receive-B1Export [#206](https://github.com/TehMuffinMoo/ibPS/issues/206)
+- Fix bug with new `-Format` parameter being locked to `-BackupAll` parameter set [#207](https://github.com/TehMuffinMoo/ibPS/issues/207)
