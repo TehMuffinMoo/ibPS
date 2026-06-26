@@ -12,7 +12,7 @@
 RootModule = 'ibPS-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.9.5'
+ModuleVersion = '1.9.9.6'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
