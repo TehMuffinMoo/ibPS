@@ -18,6 +18,9 @@
     .PARAMETER DNSHosts
         A list of DNS Hosts to assign to the zone
 
+    .PARAMETER ForwardNSGs
+        A list of Forward DNS Server Groups to assign to the zone. This supports tab-completion.
+
     .PARAMETER Description
         The description for the new zone
 

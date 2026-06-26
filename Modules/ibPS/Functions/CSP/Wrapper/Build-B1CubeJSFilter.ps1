@@ -25,7 +25,7 @@ function Build-B1CubeJSFilter {
         PS> $Filters += Build-B1CubeJSFilter -Cube "NstarLeaseActivity" -Member "state" -Operator "contains" -Values "Assignments"
         PS> $Filters += Build-B1CubeJSFilter -Cube "NstarLeaseActivity" -Member "lease_ip" -Operator "equals" -Values @("192.168.180.11","192.168.180.13")
         PS> Invoke-B1CubeJS -Cube NstarLeaseActivity -Dimensions timestamp,lease_ip,lease_op,protocol,state -Limit 100 -TimeDimension timestamp -Start (Get-Date).AddDays(-30) -Filters $Filters | ft -AutoSize
-                                                                                                                                
+
         lease_ip       lease_op protocol     state       timestamp
         --------       -------- --------     -----       ---------
         192.168.180.11 Update   IPv4 Address Assignments 20/06/2026 15:17:14
