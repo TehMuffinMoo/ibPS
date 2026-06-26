@@ -1029,6 +1029,7 @@ function DevelopmentFunctions {
     "Confirm-ShouldProcess"
     "JSONPretty"
     "Build-BulkExportTypes"
+    "Get-BulkExportTypes"
     "Get-NIOSXSKUs"
   )
 }
