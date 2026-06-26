@@ -1,4 +1,4 @@
 "ScriptName","Severity","Line","Column","RuleName","Message"
-"Restore-B1RecycleBin.ps1","Warning","64","13","PSUseDeclaredVarsMoreThanAssignments","The variable 'Result' is assigned but never used."
 "AuthManager.class.ps1","Warning","98","19","PSReviewUnusedParameter","The parameter 'a' has been declared but not used."
 "AuthManager.class.ps1","Warning","90","9","PSUseDeclaredVarsMoreThanAssignments","The variable 'session' is assigned but never used."
+"Build-B1CubeJSFilter.ps1","Information","28","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
