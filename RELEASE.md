@@ -10,3 +10,4 @@
 - Add tab-completion for `-ForwardNSGs` parameter when using `New-B1ForwardZone`
 - Add `-IncludeInheritance` switch parameter to `Get-B1AuthoritativeZone` to retrieve inherited configuration
 - Add `Build-B1CubeJSFilter` function to assist with building simple filters, or collections of filters, to be used with `Invoke-B1CubeJS`
+- Add  `New-B1Subtenant`, `Get-B1Subtenant`, `Set-B1Subtenant` & `Remove-B1Subtenant` functions

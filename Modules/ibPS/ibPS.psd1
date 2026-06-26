@@ -170,7 +170,7 @@ FunctionsToExport = 'Get-B1ConnectionProfile', 'New-B1ConnectionProfile',
                'Get-NIOSSchema', 'Invoke-NIOS', 'New-NIOSObject', 'Remove-NIOSObject', 
                'Set-NIOSObject', 'Get-ibPSConfiguration', 'Get-ibPSVersion', 
                'Get-NetworkInfo', 'Get-NetworkTopology', 'Resolve-DoHQuery', 
-               'Set-ibPSConfiguration', 'Invoke-CSP'
+               'Set-ibPSConfiguration', 'Invoke-CSP', 'Get-B1Subtenant', 'Remove-B1Subtenant', 'New-B1Subtenant', 'Set-B1Subtenant'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
