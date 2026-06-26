@@ -15,6 +15,9 @@
     .PARAMETER Description
         The description for the new Subtenant
 
+    .PARAMETER State
+        The state of the new Subtenant. Valid values are "active" or "disabled". Default is "active"
+
     .EXAMPLE
         PS> New-B1Subtenant -Name "Dev" -Administrator "Admin User" -Description "Dev Subtenant"
 
