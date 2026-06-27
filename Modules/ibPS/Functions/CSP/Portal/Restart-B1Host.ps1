@@ -21,6 +21,7 @@
     .FUNCTIONALITY
         NIOS-X
     #>
+    [Alias("Restart-B1Server")]
     [CmdletBinding(
       SupportsShouldProcess,
       ConfirmImpact = 'High'

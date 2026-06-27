@@ -73,6 +73,7 @@
     .FUNCTIONALITY
         NIOS-X
     #>
+    [Alias("Get-B1Server")]
     [CmdletBinding(DefaultParameterSetName="default")]
     param(
       [String]$Name,

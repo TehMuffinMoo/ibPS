@@ -30,6 +30,7 @@
     .FUNCTIONALITY
         NIOS-X
     #>
+    [Alias("New-B1Server")]
     [CmdletBinding(
         SupportsShouldProcess,
         ConfirmImpact = 'Medium'

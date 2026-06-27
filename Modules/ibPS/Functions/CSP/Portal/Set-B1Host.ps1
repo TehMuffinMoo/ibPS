@@ -50,6 +50,7 @@
         NIOS-X
 
     #>
+    [Alias("Set-B1Server")]
     [CmdletBinding(
       SupportsShouldProcess,
       ConfirmImpact = 'Medium'

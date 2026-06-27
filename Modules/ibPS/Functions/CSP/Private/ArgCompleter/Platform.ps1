@@ -18,7 +18,7 @@ $Arg_NIOSX_SM = {
     $(Get-B1Host -Name $wordToComplete).display_name
 }
 Register-ArgumentCompleter -CommandName Get-B1Host,Set-B1Host,Remove-B1Host -ParameterName Name -ScriptBlock $Arg_NIOSX_SM
-Register-ArgumentCompleter -CommandName Disable-B1HostLocalAccess,Enable-B1HostLocalAccess,Get-B1HealthCheck,Get-B1BootstrapConfig,Get-B1HostLocalAccess,Get-B1ServiceLog,New-B1Service,Restart-B1Host,Start-B1DiagnosticTask -ParameterName Server -ScriptBlock $Arg_NIOSX_SM
+Register-ArgumentCompleter -CommandName Disable-B1HostLocalAccess,Enable-B1HostLocalAccess,Get-B1HealthCheck,Get-B1BootstrapConfig,Get-B1HostLocalAccess,Get-B1ServiceLog,New-B1Service,Restart-B1Host,Start-B1DiagnosticTask,Set-B1Service -ParameterName Server -ScriptBlock $Arg_NIOSX_SM
 
 $Arg_AsAService_Services = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
