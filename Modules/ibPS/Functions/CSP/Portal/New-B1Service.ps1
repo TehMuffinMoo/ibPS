@@ -92,5 +92,7 @@
                 }
             }
         }
+    } else {
+        Write-Error "Unable to find NIOS-X Host: $($Server)"
     }
 }
