@@ -371,6 +371,7 @@ Remove-B1DTCPool                 | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1DTCPolicy               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy
 Remove-B1DTCLBDN                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCLBDN
 Remove-B1DTCHealthCheck          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCHealthCheck
+Remove-B1Subtenant               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subtenant
 Set-B1DTCServer                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCServer
 Set-B1DTCPool                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPool
 Set-B1DTCPolicy                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy
@@ -392,9 +393,11 @@ Set-B1HAGroup                    | ![Implemented](https://badgen.net/badge/Statu
 Start-B1DiagnosticTask           | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Host
 Start-B1Service                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Stop-B1Service                   | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
+Set-B1Service                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Service
 Set-B1TideDataProfile            | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1TideDataProfile
 Set-B1InternalDomainList         | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
 Set-B1CustomList                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1CustomList
+Set-B1Subtenant                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subtenant
 Remove-B1SecurityPolicy          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
 Remove-B1NetworkList             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1NetworkList
 Get-B1DossierLookup              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1DossierLookup
