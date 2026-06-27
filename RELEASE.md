@@ -1,6 +1,7 @@
 - Fix invalid error returned when using `Set-B1Host`
 - Add new `Set-B1Service` function [#211](https://github.com/TehMuffinMoo/ibPS/issues/211)
 - Add aliases for Host functions
+
 |      Function     |       Alias       |
 |:------------------|:------------------|
 | `Get-B1Host`      | `Get-B1Server`    |
