@@ -36,3 +36,10 @@ $IPAM_IPSpaces_Functions = @(
 )
 Register-ArgumentCompleter -CommandName $IPAM_IPSpaces_Functions -ParameterName Space -ScriptBlock $Arg_IPAM_IPSpaces
 Register-ArgumentCompleter -CommandName 'Get-B1Space','Remove-B1Space' -ParameterName Name -ScriptBlock $Arg_IPAM_IPSpaces
+
+$Arg_IPAM_Federated_Realms = {
+    param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
+    (Get-B1FederatedRealm -Name "$wordToComplete*").name
+}
+Register-ArgumentCompleter -CommandName 'Get-B1FederatedRealm' -ParameterName Name -ScriptBlock $Arg_IPAM_Federated_Realms
+Register-ArgumentCompleter -CommandName 'Get-B1FederatedBlock','Get-B1ReservedBlock','Get-B1OverlappingBlock','Get-B1FederatedPool' -ParameterName Realm -ScriptBlock $Arg_IPAM_Federated_Realms

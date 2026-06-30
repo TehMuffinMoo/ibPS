@@ -9,3 +9,5 @@
 | `New-B1Host`      | `New-B1Server`    |
 | `Remove-B1Host`   | `Remove-B1Server` |
 | `Restart-B1Host`  | `Restart-B1Server`|
+
+- Add `Get-B1FederatedRealm`, `Get-B1FederatedPool`, `Get-B1FederatedBlock`, `Get-B1ForwardLookingDelegation`, `Get-B1OverlappingBlock`, `Get-B1ReservedBlock` & `Get-B1Delegation` functions to begin aligning with the new IPAM model
