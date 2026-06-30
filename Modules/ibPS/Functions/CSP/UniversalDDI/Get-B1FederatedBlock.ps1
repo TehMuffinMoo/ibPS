@@ -6,6 +6,15 @@
     .DESCRIPTION
         This function is used to query a list of Federated Blocks from the Universal DDI IPAM
 
+    .PARAMETER Subnet
+        Use this parameter to filter the list of Federated Blocks by network address
+
+    .PARAMETER CIDR
+        Use this parameter to filter the list of Federated Blocks by CIDR suffix
+
+    .PARAMETER Protocol
+        Use this parameter to filter the list of Federated Blocks by protocol
+
     .PARAMETER Name
         Use this parameter to filter the list of Federated Blocks by name
 

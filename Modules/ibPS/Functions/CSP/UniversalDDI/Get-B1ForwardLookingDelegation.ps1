@@ -6,6 +6,15 @@
     .DESCRIPTION
         This function is used to query a list of Forward Looking Delegations from the Universal DDI IPAM
 
+    .PARAMETER Subnet
+        Use this parameter to filter the list of Forward Looking Delegations by network address
+
+    .PARAMETER CIDR
+        Use this parameter to filter the list of Forward Looking Delegations by CIDR suffix
+
+    .PARAMETER Protocol
+        Use this parameter to filter the list of Forward Looking Delegations by protocol
+
     .PARAMETER Name
         Use this parameter to filter the list of Forward Looking Delegations by name
 

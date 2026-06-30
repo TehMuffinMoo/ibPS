@@ -6,6 +6,15 @@
     .DESCRIPTION
         This function is used to query a list of Overlapping Blocks from the Universal DDI IPAM
 
+    .PARAMETER Subnet
+        Use this parameter to filter the list of Overlapping Blocks by network address
+
+    .PARAMETER CIDR
+        Use this parameter to filter the list of Overlapping Blocks by CIDR suffix
+
+    .PARAMETER Protocol
+        Use this parameter to filter the list of Overlapping Blocks by protocol
+
     .PARAMETER Name
         Use this parameter to filter the list of Overlapping Blocks by name
 
