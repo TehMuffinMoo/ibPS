@@ -45,7 +45,7 @@ network_compliant : True
 ## PARAMETERS
 
 ### -Subnet
-{{ Fill Subnet Description }}
+Use this parameter to filter the list of Forward Looking Delegations by network address
 
 ```yaml
 Type: String
@@ -60,7 +60,7 @@ Accept wildcard characters: False
 ```
 
 ### -CIDR
-{{ Fill CIDR Description }}
+Use this parameter to filter the list of Forward Looking Delegations by CIDR suffix
 
 ```yaml
 Type: Int32
@@ -75,7 +75,7 @@ Accept wildcard characters: False
 ```
 
 ### -Protocol
-{{ Fill Protocol Description }}
+Use this parameter to filter the list of Forward Looking Delegations by protocol
 
 ```yaml
 Type: String

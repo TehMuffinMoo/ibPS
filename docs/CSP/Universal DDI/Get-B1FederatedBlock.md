@@ -40,7 +40,7 @@ Get-B1FederatedBlock -Protocol ip4 -CIDR 24 | ft address,cidr,name,protocol
 ## PARAMETERS
 
 ### -Subnet
-{{ Fill Subnet Description }}
+Use this parameter to filter the list of Federated Blocks by network address
 
 ```yaml
 Type: String
@@ -55,7 +55,7 @@ Accept wildcard characters: False
 ```
 
 ### -CIDR
-{{ Fill CIDR Description }}
+Use this parameter to filter the list of Federated Blocks by CIDR suffix
 
 ```yaml
 Type: Int32
@@ -70,7 +70,7 @@ Accept wildcard characters: False
 ```
 
 ### -Protocol
-{{ Fill Protocol Description }}
+Use this parameter to filter the list of Federated Blocks by protocol
 
 ```yaml
 Type: String
