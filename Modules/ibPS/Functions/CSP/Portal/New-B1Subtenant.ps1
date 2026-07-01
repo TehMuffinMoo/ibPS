@@ -5,7 +5,7 @@
 
     .DESCRIPTION
         This function is used to create a new Infoblox Portal Subtenant.
-      
+
     .PARAMETER Name
         The name for the new Subtenant
 

@@ -63,9 +63,9 @@
         protocol          : ip4
         address           : 10.20.0.0
         cidr              : 16
-        tags              : 
+        tags              :
         federated_realms  : {federation/federated_realm/2bff55cf-9bb9-441f-bf06-df53e9358aa3}
-        federated_pool_id : 
+        federated_pool_id :
         network_compliant : True
 
     .FUNCTIONALITY

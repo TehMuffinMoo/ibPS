@@ -63,16 +63,16 @@
 
         address           : 10.0.0.0
         cidr              : 24
-        comment           : 
+        comment           :
         created_at        : 13/11/2024 09:56:16
-        federated_pool_id : 
+        federated_pool_id :
         federated_realm   : federation/federated_realm/1aad3bfc-be41-4415-ba6d-57bde9e957a0
         id                : federation/overlapping_block/17ca1e03-1a15-4732-acd3-9bc8b7de3a03
         name              : block-1
         network_compliant : True
-        parent            : 
+        parent            :
         protocol          : ip4
-        tags              : 
+        tags              :
         updated_at        : 26/04/2025 01:50:58
 
     .FUNCTIONALITY

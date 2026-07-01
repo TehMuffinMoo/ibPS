@@ -63,7 +63,7 @@
 
     .EXAMPLE
         PS> Get-B1FederatedBlock -Protocol ip4 -CIDR 24 | ft address,cidr,name,protocol
-                                                                                                                        
+
             address      cidr name                         protocol
             -------      ---- ----                         --------
             10.0.0.0       24 block_a                      ip4

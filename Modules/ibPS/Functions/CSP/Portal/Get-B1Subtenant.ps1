@@ -20,10 +20,10 @@
 
     .PARAMETER Offset
         Use this parameter to offset the results by the value entered for the purpose of pagination
-    
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
-    
+
     .PARAMETER id
         Return a subtenant by its id
 
