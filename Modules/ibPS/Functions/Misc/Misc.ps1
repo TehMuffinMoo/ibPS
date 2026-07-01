@@ -1297,3 +1297,22 @@ function Build-BulkExportTypes {
       }
   }
 }
+
+function Convert-SubnetToNetworkAndCIDR([String]$Subnet) {
+  if ($Subnet -match '/\d') {
+    $IPandCIDR = $Subnet -split '/'
+    $IP = $IPandCIDR[0]
+    $CIDR = $IPandCIDR[1]
+    return @{
+      IPandCIDR = "$($IP)/$($CIDR)"
+      Subnet = "$($IP)"
+      CIDR = $CIDR
+    }
+  } else {
+    return @{
+      IPandMask = $IP
+      Subnet = $IP
+      CIDR = 0
+    }
+  }
+}

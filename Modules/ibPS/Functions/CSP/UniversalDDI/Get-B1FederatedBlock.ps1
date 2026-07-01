@@ -24,6 +24,9 @@
     .PARAMETER Realm
         Use this parameter to filter the list of Federated Blocks by federated realm
 
+    .PARAMETER Pool
+        Use this parameter to filter the list of Federated Blocks by federated pool
+
     # .PARAMETER UtilizationLow
     #     Use this parameter to filter the list of Federated Blocks with a utilization above the low utilization threshold
 
@@ -85,6 +88,7 @@
       [String]$Name,
       [String]$Description,
       [String]$Realm,
+      [String]$Pool,
     #   [ValidateRange(0,100)] - Currently broken on backend API
     #   [Int]$UtilizationLow = 0,
     #   [ValidateRange(0,100)]
@@ -133,6 +137,14 @@
             return
         }
         $Filters.Add("federated_realm==`"$RealmID`"") | Out-Null
+    }
+    if ($Pool) {
+        $PoolID = (Get-B1FederatedPool -Name $Pool -Strict | Select-Object -ExpandProperty id).split('/')[-1]
+        if ($PoolID -eq $null) {
+            Write-Warning "No Federated Pool found with name '$Pool'. No results will be returned."
+            return
+        }
+        $Filters.Add("federated_pool_id==`"$PoolID`"") | Out-Null
     }
     # Currently broken on backend API. Works via htree which is used in the UI, but official APIs should be used where possible
     # if ($UtilizationLow -or $UtilizationHigh) {

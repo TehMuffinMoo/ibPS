@@ -372,6 +372,7 @@ Remove-B1DTCPolicy               | ![Implemented](https://badgen.net/badge/Statu
 Remove-B1DTCLBDN                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCLBDN
 Remove-B1DTCHealthCheck          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCHealthCheck
 Remove-B1Subtenant               | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subtenant
+Remove-B1FederatedRealm          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1FederatedRealm
 Set-B1DTCServer                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCServer
 Set-B1DTCPool                    | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPool
 Set-B1DTCPolicy                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1DTCPolicy

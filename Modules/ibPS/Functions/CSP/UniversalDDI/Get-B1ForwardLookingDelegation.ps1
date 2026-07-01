@@ -21,6 +21,9 @@
     .PARAMETER Description
         Use this parameter to filter the list of Forward Looking Delegations by description
 
+    .PARAMETER Pool
+        Use this parameter to filter the list of Forward Looking Delegations by federated pool
+
     .PARAMETER Strict
         Use strict filter matching. By default, filters are searched using wildcards where possible. Using strict matching will only return results matching exactly what is entered in the applicable parameters.
 
@@ -80,6 +83,7 @@
       [String]$Protocol,
       [String]$Name,
       [String]$Description,
+      [String]$Pool,
       [Switch]$Strict,
       [Int]$Limit = 1000,
       [Int]$Offset = 0,
@@ -116,6 +120,14 @@
     }
     if ($Description) {
         $Filters.Add("comment$MatchType`"$Description`"") | Out-Null
+    }
+    if ($Pool) {
+        $PoolID = (Get-B1FederatedPool -Name $Pool -Strict | Select-Object -ExpandProperty id).split('/')[-1]
+        if ($PoolID -eq $null) {
+            Write-Warning "No Federated Pool found with name '$Pool'. No results will be returned."
+            return
+        }
+        $Filters.Add("federated_pool_id==`"$PoolID`"") | Out-Null
     }
     if ($id) {
         $Filters.Add("id==`"$id`"") | Out-Null
