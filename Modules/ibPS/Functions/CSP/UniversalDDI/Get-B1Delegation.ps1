@@ -21,6 +21,12 @@
     .PARAMETER Description
         Use this parameter to filter the list of Delegations by description
 
+    # .PARAMETER Realm
+    #     Use this parameter to filter the list of Delegations by federated realm
+
+    .PARAMETER Pool
+        Use this parameter to filter the list of Delegations by federated pool
+
     # .PARAMETER UtilizationLow
     #     Use this parameter to filter the list of Delegations with a utilization above the low utilization threshold
 
@@ -52,6 +58,12 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    # .PARAMETER RealmID
+    #     Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
+
+    .PARAMETER PoolID
+        Use this parameter to query using a particular federated pool id, without looking up the pool by name first.
+
     .PARAMETER id
         Use this parameter to query a particular delegation id
 
@@ -81,6 +93,7 @@
       [String]$Protocol,
       [String]$Name,
       [String]$Description,
+      [String]$Pool,
     #   [ValidateRange(0,100)] - Currently broken on backend API
     #   [Int]$UtilizationLow = 0,
     #   [ValidateRange(0,100)]
@@ -93,6 +106,8 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
+    #   [String]$RealmID,
+      [String]$PoolID,
       [String]$id
     )
 	$MatchType = Match-Type $Strict
@@ -121,6 +136,27 @@
     }
     if ($Description) {
         $Filters.Add("comment$MatchType`"$Description`"") | Out-Null
+    }
+    # if ($RealmID) {
+    #     $Filters.Add("federated_realm==`"$($RealmID.split('/')[-1])`"") | Out-Null
+    # } elseif ($Realm) {
+    #     $RealmObject = Get-B1FederatedRealm -Name $Realm -Strict
+    #     if ($RealmObject -eq $null) {
+    #         Write-Warning "No Federated Realm found with name '$Realm'. No results will be returned."
+    #         return
+    #     }
+    #     $RealmID = $RealmObject.id.split('/')[-1]
+    #     $Filters.Add("federated_realm==`"$RealmID`"") | Out-Null
+    # }
+    if ($PoolID) {
+        $Filters.Add("federated_pool_id==`"$($PoolID.split('/')[-1])`"") | Out-Null
+    } elseif ($Pool) {
+        $PoolID = (Get-B1FederatedPool -Name $Pool -Strict | Select-Object -ExpandProperty id).split('/')[-1]
+        if ($PoolID -eq $null) {
+            Write-Warning "No Federated Pool found with name '$Pool'. No results will be returned."
+            return
+        }
+        $Filters.Add("federated_pool_id==`"$PoolID`"") | Out-Null
     }
     # Currently broken on backend API. Works via htree which is used in the UI, but official APIs should be used where possible
     # if ($UtilizationLow -or $UtilizationHigh) {

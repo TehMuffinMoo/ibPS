@@ -41,7 +41,7 @@
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
     .PARAMETER RealmID
-        Use this parameter to query a particular federated realm id, without looking up the realm by name first.
+        Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
 
     .PARAMETER id
         Use this parameter to query a particular federated pool id
@@ -89,11 +89,12 @@
     if ($RealmID) {
         $Filters.Add("federated_realm==`"$($RealmID.split('/')[-1])`"") | Out-Null
     } elseif ($Realm) {
-        $RealmID = (Get-B1FederatedRealm -Name $Realm -Strict | Select-Object -ExpandProperty id).split('/')[-1]
-        if ($RealmID -eq $null) {
+        $RealmObject = Get-B1FederatedRealm -Name $Realm -Strict
+        if ($RealmObject -eq $null) {
             Write-Warning "No Federated Realm found with name '$Realm'. No results will be returned."
             return
         }
+        $RealmID = $RealmObject.id.split('/')[-1]
         $Filters.Add("federated_realm==`"$RealmID`"") | Out-Null
     }
     # Currently broken on backend API. Works via htree which is used in the UI, but official APIs should be used where possible

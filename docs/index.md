@@ -399,6 +399,7 @@ Set-B1TideDataProfile            | ![Implemented](https://badgen.net/badge/Statu
 Set-B1InternalDomainList         | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1InternalDomainList
 Set-B1CustomList                 | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1CustomList
 Set-B1Subtenant                  | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1Subtenant
+Update-B1AuthoritativeZoneSerial | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1AuthoritativeZone
 Remove-B1SecurityPolicy          | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1SecurityPolicy
 Remove-B1NetworkList             | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Get-B1NetworkList
 Get-B1DossierLookup              | ![Implemented](https://badgen.net/badge/Status/Implemented/green)  | Start-B1DossierLookup
