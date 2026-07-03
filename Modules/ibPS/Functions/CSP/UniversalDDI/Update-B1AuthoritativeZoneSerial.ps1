@@ -4,13 +4,16 @@
         Increments the serial number of an existing Authoritative Zone in Universal DDI
 
     .DESCRIPTION
-        This function is used to increment an Authoritative Zone Serial Number by 1,000 in Universal DDI
+        This function is used to increment an Authoritative Zone SOA Serial Number in Universal DDI
 
     .PARAMETER FQDN
         The FQDN of the zone to update
 
     .PARAMETER View
         The DNS View the zone is located in
+
+    .PARAMETER Serial
+        The new serial number to set for the Authoritative Zone. If not specified, the serial will be incremented by 1,000
 
     .PARAMETER Object
         The Authoritative Zone Object to update. Accepts pipeline input
@@ -36,6 +39,7 @@
       [String]$FQDN,
       [Parameter(ParameterSetName="FQDN", Mandatory=$true)]
       [String]$View,
+      [String]$Serial,
       [Parameter(
         ValueFromPipeline = $true,
         ParameterSetName="Object",
@@ -69,15 +73,37 @@
 
         $SOARDATA = $SOARecord.record_data | ConvertFrom-Json
         $OldSerial = $SOARDATA.serial
-        $NewSerial = $SOARDATA.serial + 1000
-
-        if($PSCmdlet.ShouldProcess("Increment Serial Number by 1,000 on Authoritative Zone: $($Object.fqdn) ($($Object.id)) from $OldSerial to $NewSerial","Increment Serial Number by 1,000 on Authoritative Zone: $($Object.fqdn) ($($Object.id)) from $OldSerial to $NewSerial",$MyInvocation.MyCommand)){
-            $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($SOARecord.id)/serial_increment" -Data "{}"
-            if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
-                $Results | Select-Object -ExpandProperty result
-            } else {
-                $Results
+        if ($Serial) {
+            $NewSerial = $Serial
+            $Diff = $NewSerial - $OldSerial
+            if ($Diff -le 0) {
+                Write-Error "New Serial Number ($NewSerial) must be greater than the current Serial Number ($OldSerial)"
+                return $null
+            }
+            $SOARDATA.serial = [int]$NewSerial
+            $JSON = @{
+                "rdata" = $SOARDATA
+            } | ConvertTo-Json -Depth 4 -Compress
+            if($PSCmdlet.ShouldProcess("Increment Serial Number by $Diff on Authoritative Zone: $($Object.fqdn) ($($Object.id)) from $OldSerial to $NewSerial","Increment Serial Number by $Diff on Authoritative Zone: $($Object.fqdn) ($($Object.id)) from $OldSerial to $NewSerial",$MyInvocation.MyCommand)){
+                $Results = Invoke-CSP -Method PATCH -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($SOARecord.id)" -Data $JSON
+                if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                    $Results | Select-Object -ExpandProperty result
+                } else {
+                    $Results
+                }
+            }
+        } else {
+            $NewSerial = $OldSerial + 1000
+            if($PSCmdlet.ShouldProcess("Increment Serial Number by 1,000 on Authoritative Zone: $($Object.fqdn) ($($Object.id)) from $OldSerial to $NewSerial","Increment Serial Number by 1,000 on Authoritative Zone: $($Object.fqdn) ($($Object.id)) from $OldSerial to $NewSerial",$MyInvocation.MyCommand)){
+                $Results = Invoke-CSP -Method POST -Uri "$(Get-B1CSPUrl)/api/ddi/v1/$($SOARecord.id)/serial_increment" -Data "{}"
+                if ($Results | Select-Object -ExpandProperty result -EA SilentlyContinue -WA SilentlyContinue) {
+                    $Results | Select-Object -ExpandProperty result
+                } else {
+                    $Results
+                }
             }
         }
+
+
     }
 }
