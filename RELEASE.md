@@ -18,3 +18,5 @@
 - Add `Get-B1OverlappingBlock`
 - Add `Get-B1ReservedBlock`
 - Add `Get-B1Delegation`
+- Fix bug with `Get-B1ZoneChild` and add `-RecordType` filter parameter
+- Add `Update-B1AuthoritativeZoneSerial` to increment the SOA Serial Number of an Authoritative Zone by 1,000. Updating the serial number to a specific value should still be performed via `Set-B1Record` pipeline
