@@ -13,7 +13,7 @@
 - Add various functions to begin aligning with the new IPAM model
 - Add `Get-B1FederatedRealm`, `New-B1FederatedRealm` & `Remove-B1FederatedRealm`
 - Add `Get-B1FederatedPool`, `New-B1FederatedPool` & `Remove-B1FederatedPool`
-- Add `Get-B1FederatedBlock`
+- Add `Get-B1FederatedBlock`, `New-B1FederatedBlock` (Awaiting backend fixes)
 - Add `Get-B1ForwardLookingDelegation` 
 - Add `Get-B1OverlappingBlock`
 - Add `Get-B1ReservedBlock`

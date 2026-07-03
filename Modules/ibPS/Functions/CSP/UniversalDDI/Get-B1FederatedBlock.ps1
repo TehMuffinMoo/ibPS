@@ -7,7 +7,7 @@
         This function is used to query a list of Federated Blocks from the Universal DDI IPAM
 
     .PARAMETER Subnet
-        Use this parameter to filter the list of Federated Blocks by network address
+        Use this parameter to filter the list of Federated Blocks by network address. If subnet is entered in CIDR notation, the CIDR will overwrite the -CIDR parameter.
 
     .PARAMETER CIDR
         Use this parameter to filter the list of Federated Blocks by CIDR suffix
@@ -58,6 +58,12 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER RealmID
+        Use this parameter to query a particular federated realm id, without looking up the realm by name first.
+
+    .PARAMETER PoolID
+        Use this parameter to query a particular federated pool id, without looking up the pool by name first.
+
     .PARAMETER id
         Use this parameter to query a particular federated block id
 
@@ -101,6 +107,8 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
+      [String]$RealmID,
+      [String]$PoolID,
       [String]$id
     )
 	$MatchType = Match-Type $Strict
@@ -130,7 +138,9 @@
     if ($Description) {
         $Filters.Add("comment$MatchType`"$Description`"") | Out-Null
     }
-    if ($Realm) {
+    if ($RealmID) {
+        $Filters.Add("federated_realm==`"$($RealmID.split('/')[-1])`"") | Out-Null
+    } elseif ($Realm) {
         $RealmID = (Get-B1FederatedRealm -Name $Realm -Strict | Select-Object -ExpandProperty id).split('/')[-1]
         if ($RealmID -eq $null) {
             Write-Warning "No Federated Realm found with name '$Realm'. No results will be returned."
@@ -138,7 +148,9 @@
         }
         $Filters.Add("federated_realm==`"$RealmID`"") | Out-Null
     }
-    if ($Pool) {
+    if ($PoolID) {
+        $Filters.Add("federated_pool_id==`"$($PoolID.split('/')[-1])`"") | Out-Null
+    } elseif ($Pool) {
         $PoolID = (Get-B1FederatedPool -Name $Pool -Strict | Select-Object -ExpandProperty id).split('/')[-1]
         if ($PoolID -eq $null) {
             Write-Warning "No Federated Pool found with name '$Pool'. No results will be returned."

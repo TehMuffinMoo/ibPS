@@ -40,6 +40,9 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+    .PARAMETER RealmID
+        Use this parameter to query a particular federated realm id, without looking up the realm by name first.
+
     .PARAMETER id
         Use this parameter to query a particular federated pool id
 
@@ -67,6 +70,7 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
+      [String]$RealmID,
       [String]$id
     )
 	$MatchType = Match-Type $Strict
@@ -82,7 +86,9 @@
     if ($Description) {
         $Filters.Add("comment$MatchType`"$Description`"") | Out-Null
     }
-    if ($Realm) {
+    if ($RealmID) {
+        $Filters.Add("federated_realm==`"$($RealmID.split('/')[-1])`"") | Out-Null
+    } elseif ($Realm) {
         $RealmID = (Get-B1FederatedRealm -Name $Realm -Strict | Select-Object -ExpandProperty id).split('/')[-1]
         if ($RealmID -eq $null) {
             Write-Warning "No Federated Realm found with name '$Realm'. No results will be returned."
