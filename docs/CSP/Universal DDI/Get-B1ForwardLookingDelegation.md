@@ -14,9 +14,9 @@ Queries a list of Forward Looking Delegations from the Universal DDI IPAM
 
 ```
 Get-B1ForwardLookingDelegation [[-Subnet] <String>] [[-CIDR] <Int32>] [[-Protocol] <String>] [[-Name] <String>]
- [[-Description] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>]
- [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-CustomFilters] <Object>]
- [[-id] <String>] [<CommonParameters>]
+ [[-Description] <String>] [[-Pool] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
+ [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -36,9 +36,9 @@ comment           : Azure Landing Zone #2 - Forward Looking Delegation
 protocol          : ip4
 address           : 10.20.0.0
 cidr              : 16
-tags              : 
+tags              :
 federated_realms  : {federation/federated_realm/2bff55cf-9bb9-441f-bf06-df53e9358aa3}
-federated_pool_id : 
+federated_pool_id :
 network_compliant : True
 ```
 
@@ -119,6 +119,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -Pool
+Use this parameter to filter the list of Forward Looking Delegations by federated pool
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Strict
 Use strict filter matching.
 By default, filters are searched using wildcards where possible.
@@ -146,7 +161,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -161,7 +176,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -176,7 +191,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -192,7 +207,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -209,7 +224,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -225,7 +240,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -241,7 +256,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -256,7 +271,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 14
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

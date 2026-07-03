@@ -13,9 +13,9 @@ Retrieves a list of child objects from a DNS View or Zone
 ## SYNTAX
 
 ```
-Get-B1ZoneChild [[-Type] <String>] [[-Name] <String>] [[-Description] <String>] [-Flat] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-tfilter] <String>] [-Object] <Object> [<CommonParameters>]
+Get-B1ZoneChild [[-Type] <String>] [[-RecordType] <String>] [[-Name] <String>] [[-Description] <String>]
+ [-Flat] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict] [[-Fields] <String[]>] [[-OrderBy] <String>]
+ [[-OrderByTag] <String>] [[-tfilter] <String>] [-Object] <Object> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -57,6 +57,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RecordType
+Filter results by the object record type
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 2
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -Name
 Filter results by the object name
 
@@ -66,7 +81,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 2
+Position: 3
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -81,7 +96,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 3
+Position: 4
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -111,7 +126,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 4
+Position: 5
 Default value: 100
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -126,7 +141,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 5
+Position: 6
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -159,7 +174,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -176,7 +191,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -192,7 +207,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -207,7 +222,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -222,7 +237,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: True
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: True (ByValue)
 Accept wildcard characters: False

@@ -14,9 +14,10 @@ Queries a list of Federated Blocks from the Universal DDI IPAM
 
 ```
 Get-B1FederatedBlock [[-Subnet] <String>] [[-CIDR] <Int32>] [[-Protocol] <String>] [[-Name] <String>]
- [[-Description] <String>] [[-Realm] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
- [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
+ [[-Description] <String>] [[-Realm] <String>] [[-Pool] <String>] [-Strict] [[-Limit] <Int32>]
+ [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
+ [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-RealmID] <String>] [[-PoolID] <String>]
+ [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -27,8 +28,8 @@ This function is used to query a list of Federated Blocks from the Universal DDI
 ### EXAMPLE 1
 ```powershell
 Get-B1FederatedBlock -Protocol ip4 -CIDR 24 | ft address,cidr,name,protocol
-                                                                                                                
-    address      cidr name                         protocol
+
+address      cidr name                         protocol
     -------      ---- ----                         --------
     10.0.0.0       24 block_a                      ip4
     10.0.1.0       24 block_b                      ip4
@@ -40,7 +41,8 @@ Get-B1FederatedBlock -Protocol ip4 -CIDR 24 | ft address,cidr,name,protocol
 ## PARAMETERS
 
 ### -Subnet
-Use this parameter to filter the list of Federated Blocks by network address
+Use this parameter to filter the list of Federated Blocks by network address.
+If subnet is entered in CIDR notation, the CIDR will overwrite the -CIDR parameter.
 
 ```yaml
 Type: String
@@ -117,6 +119,21 @@ Accept wildcard characters: False
 ### -Realm
 Use this parameter to filter the list of Federated Blocks by federated realm
 
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 6
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Pool
+Use this parameter to filter the list of Federated Blocks by federated pool
+
 # .PARAMETER UtilizationLow
 #     Use this parameter to filter the list of Federated Blocks with a utilization above the low utilization threshold
 
@@ -129,7 +146,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 6
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -162,7 +179,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 8
 Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -177,7 +194,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 9
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -192,7 +209,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -208,7 +225,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -225,7 +242,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -241,7 +258,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -257,7 +274,37 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 14
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -RealmID
+Use this parameter to query a particular federated realm id, without looking up the realm by name first.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 15
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -PoolID
+Use this parameter to query a particular federated pool id, without looking up the pool by name first.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 16
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -272,7 +319,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 14
+Position: 17
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

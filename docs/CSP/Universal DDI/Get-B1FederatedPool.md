@@ -15,7 +15,8 @@ Queries a list of Federated Pools from the Universal DDI IPAM
 ```
 Get-B1FederatedPool [[-Name] <String>] [[-Description] <String>] [[-Realm] <String>] [-Strict]
  [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
- [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
+ [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-RealmID] <String>] [[-id] <String>]
+ [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -203,6 +204,21 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
+### -RealmID
+Use this parameter to query a particular federated realm id, without looking up the realm by name first.
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 11
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
 ### -id
 Use this parameter to query a particular federated pool id
 
@@ -212,7 +228,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

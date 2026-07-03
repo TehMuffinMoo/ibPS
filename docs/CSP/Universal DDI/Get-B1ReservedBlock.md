@@ -32,16 +32,16 @@ address           : 10.10.10.0
 cidr              : 24
 comment           : Reserved for future use in the Data Center
 created_at        : 22/10/2024 06:29:18
-federated_pool_id : 
+federated_pool_id :
 federated_realm   : federation/federated_realm/a0ebec5f-ea98-41c1-8033-47b05d1f04fc
 id                : federation/reserved_block/ff23ff93-2188-406f-9b1f-79153cf3b07b
-metadata          : 
+metadata          :
 name              : reserved-for-dc
 network_compliant : True
 parent            : federation/federated_block/bdb62c57-0c19-4cef-88c9-464e816bebc0
 protocol          : ip4
-region            : 
-tags              : 
+region            :
+tags              :
 updated_at        : 26/04/2025 01:50:58
 ```
 

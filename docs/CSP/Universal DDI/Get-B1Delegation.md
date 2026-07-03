@@ -27,8 +27,8 @@ This function is used to query a list of Delegations from the Universal DDI IPAM
 ### EXAMPLE 1
 ```powershell
 Get-B1Delegation -Protocol ip4 -CIDR 24 | ft address,cidr,name,protocol
-                                                                                                                
-    address      cidr name                         protocol
+
+address      cidr name                         protocol
     -------      ---- ----                         --------
     10.0.0.0       24 block_a                      ip4
     10.0.1.0       24 block_b                      ip4

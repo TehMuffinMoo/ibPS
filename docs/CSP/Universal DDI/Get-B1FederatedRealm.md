@@ -31,11 +31,11 @@ allocation_v4  : @{allocated=32; delegated=12; forward_looking_delegation=3; ove
 comment        : Corporate Federated Realm
 created_at     : 04/03/2026 13:40:50
 id             : federation/federated_realm/2bff55cf-9bb9-441f-bf06-df53e9358aa3
-metadata       : 
+metadata       :
 name           : Corporate
 provider       : NIOS_X
-region         : 
-tags           : 
+region         :
+tags           :
 updated_at     : 26/06/2026 12:10:05
 utilization    : 0
 utilization_v6 :
