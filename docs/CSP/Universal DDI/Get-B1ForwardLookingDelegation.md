@@ -16,7 +16,7 @@ Queries a list of Forward Looking Delegations from the Universal DDI IPAM
 Get-B1ForwardLookingDelegation [[-Subnet] <String>] [[-CIDR] <Int32>] [[-Protocol] <String>] [[-Name] <String>]
  [[-Description] <String>] [[-Pool] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
  [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
- [[-CustomFilters] <Object>] [[-id] <String>] [<CommonParameters>]
+ [[-CustomFilters] <Object>] [[-PoolID] <String>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -106,6 +106,9 @@ Accept wildcard characters: False
 
 ### -Description
 Use this parameter to filter the list of Forward Looking Delegations by description
+
+# .PARAMETER Realm
+#     Use this parameter to filter the list of Forward Looking Delegations by federated realm
 
 ```yaml
 Type: String
@@ -250,6 +253,9 @@ Accept wildcard characters: False
 Accepts either an Object, ArrayList or String containing one or more custom filters.
 See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+# .PARAMETER RealmID
+#     Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
+
 ```yaml
 Type: Object
 Parameter Sets: (All)
@@ -262,8 +268,8 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -id
-Use this parameter to query a particular forward looking delegation id
+### -PoolID
+Use this parameter to query using a particular federated pool id, without looking up the pool by name first.
 
 ```yaml
 Type: String
@@ -272,6 +278,21 @@ Aliases:
 
 Required: False
 Position: 14
+Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -id
+Use this parameter to query using a particular forward looking delegation id
+
+```yaml
+Type: String
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 15
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False

@@ -281,7 +281,7 @@ Accept wildcard characters: False
 ```
 
 ### -RealmID
-Use this parameter to query a particular federated realm id, without looking up the realm by name first.
+Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
 
 ```yaml
 Type: String
@@ -296,7 +296,7 @@ Accept wildcard characters: False
 ```
 
 ### -PoolID
-Use this parameter to query a particular federated pool id, without looking up the pool by name first.
+Use this parameter to query using a particular federated pool id, without looking up the pool by name first.
 
 ```yaml
 Type: String

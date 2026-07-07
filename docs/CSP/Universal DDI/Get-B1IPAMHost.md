@@ -5,34 +5,38 @@ online version:
 schema: 2.0.0
 ---
 
-# Get-B1FederatedPool
+# Get-B1IPAMHost
 
 ## SYNOPSIS
-Queries a list of Federated Pools from the Universal DDI IPAM
+Retrieves a list of host objects from IPAM
 
 ## SYNTAX
 
 ```
-Get-B1FederatedPool [[-Name] <String>] [[-Description] <String>] [[-Realm] <String>] [-Strict]
- [[-Limit] <Int32>] [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
- [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-RealmID] <String>] [[-id] <String>]
- [<CommonParameters>]
+Get-B1IPAMHost [[-Name] <String>] [[-Description] <String>] [[-Limit] <Int32>] [[-Offset] <Int32>] [-Strict]
+ [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>] [[-tfilter] <String>] [-CaseSensitive]
+ [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
-This function is used to query a list of Federated Pools from the Universal DDI IPAM
+This function is used to query a list of host objects from IPAM.
 
 ## EXAMPLES
 
 ### EXAMPLE 1
 ```powershell
-Get-B1FederatedPool -Name "Azure" -Strict
+Get-B1Host -Name "my-host" -Strict
+```
+
+### EXAMPLE 2
+```powershell
+Get-B1Host -Limit 50 -Offset 100
 ```
 
 ## PARAMETERS
 
 ### -Name
-Use this parameter to filter the list of Federated Pools by name
+Filter results by the host object name
 
 ```yaml
 Type: String
@@ -47,7 +51,7 @@ Accept wildcard characters: False
 ```
 
 ### -Description
-Use this parameter to filter the list of Federated Pools by description
+Filter results by the host object description
 
 ```yaml
 Type: String
@@ -61,17 +65,32 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Realm
-Use this parameter to filter the list of Federated Pools by federated realm
+### -Limit
+Limits the number of results returned, the default is 100
 
 ```yaml
-Type: String
+Type: Int32
 Parameter Sets: (All)
 Aliases:
 
 Required: False
 Position: 3
-Default value: None
+Default value: 100
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -Offset
+Use this parameter to offset the results by the value entered for the purpose of pagination
+
+```yaml
+Type: Int32
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: 4
+Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
@@ -93,52 +112,6 @@ Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -Limit
-Use this parameter to limit the quantity of results.
-The default number of results is 1000.
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 4
-Default value: 1000
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Offset
-Use this parameter to offset the results by the value entered for the purpose of pagination
-
-```yaml
-Type: Int32
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 5
-Default value: 0
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -tfilter
-Use this parameter to filter the results returned by tag.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
 ### -Fields
 Specify a list of fields to return.
 The default is to return all fields.
@@ -149,7 +122,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 5
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -166,7 +139,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -182,30 +155,14 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 7
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
-### -CustomFilters
-Accepts either an Object, ArrayList or String containing one or more custom filters.
-See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
-
-```yaml
-Type: Object
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 10
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -RealmID
-Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
+### -tfilter
+Use this parameter to filter the results returned by tag.
 
 ```yaml
 Type: String
@@ -213,14 +170,30 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 8
 Default value: None
+Accept pipeline input: False
+Accept wildcard characters: False
+```
+
+### -CaseSensitive
+Use Case Sensitive matching.
+By default, case-insensitive matching both for -Strict matching and regex matching.
+
+```yaml
+Type: SwitchParameter
+Parameter Sets: (All)
+Aliases:
+
+Required: False
+Position: Named
+Default value: False
 Accept pipeline input: False
 Accept wildcard characters: False
 ```
 
 ### -id
-Use this parameter to query a particular federated pool id
+Use this parameter to query a particular host object by id
 
 ```yaml
 Type: String
@@ -228,7 +201,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
