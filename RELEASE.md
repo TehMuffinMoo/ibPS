@@ -20,3 +20,4 @@
 - Add `Get-B1Delegation`
 - Fix bug with `Get-B1ZoneChild` and add `-RecordType` filter parameter
 - Add `Update-B1AuthoritativeZoneSerial` to increment the SOA Serial Number of an Authoritative Zone by 1,000, or to a specific value.
+- Add `Get-B1IPAMHost`, `Set-B1IPAMHost` & `Remove-B1IPAMHost` functions
