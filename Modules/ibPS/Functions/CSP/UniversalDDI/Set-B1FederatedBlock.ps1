@@ -104,6 +104,7 @@
     )
 
     process {
+        $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
         $ObjectExclusions = @('id','address','allocation_v4','created_at','protocol','state','region','parent','utilization','utilization_v6','metadata','updated_at','network_compliant')
         if ($Object) {
             $SplitID = $Object.id.split('/')
