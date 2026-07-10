@@ -42,11 +42,11 @@ $Arg_IPAM_Federated_Realms = {
     (Get-B1FederatedRealm -Name "$wordToComplete*").name
 }
 Register-ArgumentCompleter -CommandName 'Get-B1FederatedRealm' -ParameterName Name -ScriptBlock $Arg_IPAM_Federated_Realms
-Register-ArgumentCompleter -CommandName 'Get-B1FederatedBlock','Get-B1ReservedBlock','Get-B1OverlappingBlock','Get-B1FederatedPool', 'New-B1FederatedPool', 'New-B1FederatedBlock' -ParameterName Realm -ScriptBlock $Arg_IPAM_Federated_Realms
+Register-ArgumentCompleter -CommandName 'Get-B1Delegation', 'Get-B1FederatedBlock','Get-B1ReservedBlock','Get-B1OverlappingBlock','Get-B1FederatedPool', 'New-B1FederatedPool', 'New-B1FederatedBlock' -ParameterName Realm -ScriptBlock $Arg_IPAM_Federated_Realms
 
 $Arg_IPAM_Federated_Pools = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)
     (Get-B1FederatedPool -Name "$wordToComplete*").name
 }
 Register-ArgumentCompleter -CommandName 'Get-B1FederatedPool' -ParameterName Name -ScriptBlock $Arg_IPAM_Federated_Pools
-Register-ArgumentCompleter -CommandName 'Get-B1FederatedBlock','Get-B1ForwardLookingDelegation', 'New-B1FederatedBlock' -ParameterName Pool -ScriptBlock $Arg_IPAM_Federated_Pools
+Register-ArgumentCompleter -CommandName 'Get-B1Delegation', 'Get-B1FederatedBlock', 'Get-B1ForwardLookingDelegation', 'Get-B1OverlappingBlock', 'Get-B1ReservedBlock', 'New-B1FederatedBlock', 'New-B1ForwardLookingDelegation' -ParameterName Pool -ScriptBlock $Arg_IPAM_Federated_Pools

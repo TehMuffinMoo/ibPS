@@ -21,8 +21,8 @@
     .PARAMETER Description
         Use this parameter to filter the list of Reserved Blocks by description
 
-    .PARAMETER Realm
-        Use this parameter to filter the list of Reserved Blocks by federated realm
+    # .PARAMETER Realm
+    #     Use this parameter to filter the list of Reserved Blocks by federated realm
 
     .PARAMETER Pool
         Use this parameter to filter the list of Reserved Blocks by federated pool
@@ -58,8 +58,8 @@
         Accepts either an Object, ArrayList or String containing one or more custom filters.
         See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
-    .PARAMETER RealmID
-        Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
+    # .PARAMETER RealmID
+    #     Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
 
     .PARAMETER PoolID
         Use this parameter to query using a particular federated pool id, without looking up the pool by name first.
@@ -101,7 +101,7 @@
       [String]$Protocol,
       [String]$Name,
       [String]$Description,
-      [String]$Realm,
+    #   [String]$Realm,
       [String]$Pool,
     #   [ValidateRange(0,100)] - Currently broken on backend API
     #   [Int]$UtilizationLow = 0,
@@ -115,7 +115,7 @@
       [String]$OrderBy,
       [String]$OrderByTag,
       $CustomFilters,
-      [String]$RealmID,
+    #   [String]$RealmID,
       [String]$PoolID,
       [String]$id
     )
@@ -129,8 +129,11 @@
     if ($Subnet) {
         if ($Subnet -match '/\d') {
             $IPandMask = $Subnet -Split '/'
-            $Subnet = $IPandMask[0]
+            # $Subnet = $IPandMask[0] - Temporarily disabled to allow for filtering by CIDR in the Subnet parameter. This will be re-enabled when the backend API is updated to support this functionality.
             $CIDR = $IPandMask[1]
+        } else { ## Temporary validation until backend API is updated to support filtering by CIDR and Subnet (address) parameter independently.
+            Write-Error "The Subnet parameter must be in CIDR notation (e.g. 192.168.1.0/24)."
+            return
         }
         $Filters.Add("address==`"$Subnet`"") | Out-Null
     }
@@ -160,11 +163,12 @@
     if ($PoolID) {
         $Filters.Add("federated_pool_id==`"$($PoolID.split('/')[-1])`"") | Out-Null
     } elseif ($Pool) {
-        $PoolID = (Get-B1FederatedPool -Name $Pool -Strict | Select-Object -ExpandProperty id).split('/')[-1]
-        if ($PoolID -eq $null) {
+        $PoolObject = Get-B1FederatedPool -Name $Pool -Strict
+        if ($PoolObject -eq $null) {
             Write-Warning "No Federated Pool found with name '$Pool'. No results will be returned."
             return
         }
+        $PoolID = $PoolObject.id.split('/')[-1]
         $Filters.Add("federated_pool_id==`"$PoolID`"") | Out-Null
     }
     # Currently broken on backend API. Works via htree which is used in the UI, but official APIs should be used where possible

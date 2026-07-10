@@ -93,6 +93,7 @@
       [String]$Protocol,
       [String]$Name,
       [String]$Description,
+    #   [String]$Realm,
       [String]$Pool,
     #   [ValidateRange(0,100)] - Currently broken on backend API
     #   [Int]$UtilizationLow = 0,
@@ -120,8 +121,11 @@
     if ($Subnet) {
         if ($Subnet -match '/\d') {
             $IPandMask = $Subnet -Split '/'
-            $Subnet = $IPandMask[0]
+            # $Subnet = $IPandMask[0] - Temporarily disabled to allow for filtering by CIDR in the Subnet parameter. This will be re-enabled when the backend API is updated to support this functionality.
             $CIDR = $IPandMask[1]
+        } else { ## Temporary validation until backend API is updated to support filtering by CIDR and Subnet (address) parameter independently.
+            Write-Error "The Subnet parameter must be in CIDR notation (e.g. 192.168.1.0/24)."
+            return
         }
         $Filters.Add("address==`"$Subnet`"") | Out-Null
     }
@@ -137,25 +141,26 @@
     if ($Description) {
         $Filters.Add("comment$MatchType`"$Description`"") | Out-Null
     }
-    # if ($RealmID) {
-    #     $Filters.Add("federated_realm==`"$($RealmID.split('/')[-1])`"") | Out-Null
-    # } elseif ($Realm) {
-    #     $RealmObject = Get-B1FederatedRealm -Name $Realm -Strict
-    #     if ($RealmObject -eq $null) {
-    #         Write-Warning "No Federated Realm found with name '$Realm'. No results will be returned."
-    #         return
-    #     }
-    #     $RealmID = $RealmObject.id.split('/')[-1]
-    #     $Filters.Add("federated_realm==`"$RealmID`"") | Out-Null
-    # }
+    if ($RealmID) {
+        $Filters.Add("federated_realm==`"$($RealmID.split('/')[-1])`"") | Out-Null
+    } elseif ($Realm) {
+        $RealmObject = Get-B1FederatedRealm -Name $Realm -Strict
+        if ($RealmObject -eq $null) {
+            Write-Warning "No Federated Realm found with name '$Realm'. No results will be returned."
+            return
+        }
+        $RealmID = $RealmObject.id.split('/')[-1]
+        $Filters.Add("federated_realm==`"$RealmID`"") | Out-Null
+    }
     if ($PoolID) {
         $Filters.Add("federated_pool_id==`"$($PoolID.split('/')[-1])`"") | Out-Null
     } elseif ($Pool) {
-        $PoolID = (Get-B1FederatedPool -Name $Pool -Strict | Select-Object -ExpandProperty id).split('/')[-1]
-        if ($PoolID -eq $null) {
+        $PoolObject = Get-B1FederatedPool -Name $Pool -Strict
+        if ($PoolObject -eq $null) {
             Write-Warning "No Federated Pool found with name '$Pool'. No results will be returned."
             return
         }
+        $PoolID = $PoolObject.id.split('/')[-1]
         $Filters.Add("federated_pool_id==`"$PoolID`"") | Out-Null
     }
     # Currently broken on backend API. Works via htree which is used in the UI, but official APIs should be used where possible
