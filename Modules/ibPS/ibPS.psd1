@@ -12,7 +12,7 @@
 RootModule = 'ibPS-Main.psm1'
 
 # Version number of this module.
-ModuleVersion = '1.9.9.6'
+ModuleVersion = '1.9.9.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -167,25 +167,24 @@ FunctionsToExport = 'Get-B1ConnectionProfile', 'New-B1ConnectionProfile',
                'Remove-B1ReservedBlock', 'Remove-B1Space', 'Remove-B1Subnet', 
                'Revoke-B1DHCPConfigProfile', 'Revoke-B1DNSConfigProfile', 
                'Set-B1AddressBlock', 'Set-B1AuthoritativeZone', 
-               'Set-B1DHCPConfigProfile', 'Set-B1DHCPGlobalConfig', 'Set-B1DNSACL', 
-               'Set-B1DNSHost', 'Set-B1DTCHealthCheck', 'Set-B1DTCLBDN', 
-               'Set-B1DTCPolicy', 'Set-B1DTCPool', 'Set-B1DTCServer', 
-               'Set-B1FederatedBlock', 'Set-B1FederatedPool', 'Set-B1FederatedRealm', 
-               'Set-B1FixedAddress', 'Set-B1ForwardLookingDelegation', 
-               'Set-B1ForwardNSG', 'Set-B1ForwardZone', 'Set-B1HAGroup', 
-               'Set-B1IPAMHost', 'Set-B1NTPServiceConfiguration', 
-               'Set-B1OverlappingBlock', 'Set-B1Range', 'Set-B1Record', 
-               'Set-B1ReservedBlock', 'Set-B1Subnet', 
-               'Update-B1AuthoritativeZoneSerial', 'Build-B1CubeJSFilter', 
-               'Get-B1Object', 'Get-B1Schema', 'Invoke-B1CubeJS', 'New-B1Object', 
-               'Remove-B1Object', 'Set-B1Object', 'Get-NIOSConnectionProfile', 
-               'New-NIOSConnectionProfile', 'Remove-NIOSConnectionProfile', 
-               'Switch-NIOSConnectionProfile', 'Convert-RecordsToUDDI', 
-               'Copy-NIOSDTCToUDDI', 'Get-NIOSFileOp', 'Get-NIOSObject', 
-               'Get-NIOSSchema', 'Invoke-NIOS', 'New-NIOSObject', 'Remove-NIOSObject', 
-               'Set-NIOSObject', 'Get-ibPSConfiguration', 'Get-ibPSVersion', 
-               'Get-NetworkInfo', 'Get-NetworkTopology', 'Resolve-DoHQuery', 
-               'Set-ibPSConfiguration', 'Invoke-CSP'
+               'Set-B1AuthoritativeZoneSerial', 'Set-B1DHCPConfigProfile', 
+               'Set-B1DHCPGlobalConfig', 'Set-B1DNSACL', 'Set-B1DNSHost', 
+               'Set-B1DTCHealthCheck', 'Set-B1DTCLBDN', 'Set-B1DTCPolicy', 
+               'Set-B1DTCPool', 'Set-B1DTCServer', 'Set-B1FederatedBlock', 
+               'Set-B1FederatedPool', 'Set-B1FederatedRealm', 'Set-B1FixedAddress', 
+               'Set-B1ForwardLookingDelegation', 'Set-B1ForwardNSG', 
+               'Set-B1ForwardZone', 'Set-B1HAGroup', 'Set-B1IPAMHost', 
+               'Set-B1NTPServiceConfiguration', 'Set-B1OverlappingBlock', 
+               'Set-B1Range', 'Set-B1Record', 'Set-B1ReservedBlock', 'Set-B1Subnet', 
+               'Build-B1CubeJSFilter', 'Get-B1Object', 'Get-B1Schema', 
+               'Invoke-B1CubeJS', 'New-B1Object', 'Remove-B1Object', 'Set-B1Object', 
+               'Get-NIOSConnectionProfile', 'New-NIOSConnectionProfile', 
+               'Remove-NIOSConnectionProfile', 'Switch-NIOSConnectionProfile', 
+               'Convert-RecordsToUDDI', 'Copy-NIOSDTCToUDDI', 'Get-NIOSFileOp', 
+               'Get-NIOSObject', 'Get-NIOSSchema', 'Invoke-NIOS', 'New-NIOSObject', 
+               'Remove-NIOSObject', 'Set-NIOSObject', 'Get-ibPSConfiguration', 
+               'Get-ibPSVersion', 'Get-NetworkInfo', 'Get-NetworkTopology', 
+               'Resolve-DoHQuery', 'Set-ibPSConfiguration', 'Invoke-CSP'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
