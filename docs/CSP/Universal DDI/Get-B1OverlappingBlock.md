@@ -14,10 +14,9 @@ Queries a list of Overlapping Blocks from the Universal DDI IPAM
 
 ```
 Get-B1OverlappingBlock [[-Subnet] <String>] [[-CIDR] <Int32>] [[-Protocol] <String>] [[-Name] <String>]
- [[-Description] <String>] [[-Realm] <String>] [[-Pool] <String>] [-Strict] [[-Limit] <Int32>]
- [[-Offset] <Int32>] [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>]
- [[-OrderByTag] <String>] [[-CustomFilters] <Object>] [[-RealmID] <String>] [[-PoolID] <String>]
- [[-id] <String>] [<CommonParameters>]
+ [[-Description] <String>] [[-Pool] <String>] [-Strict] [[-Limit] <Int32>] [[-Offset] <Int32>]
+ [[-tfilter] <String>] [[-Fields] <String[]>] [[-OrderBy] <String>] [[-OrderByTag] <String>]
+ [[-CustomFilters] <Object>] [[-PoolID] <String>] [[-id] <String>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -109,6 +108,9 @@ Accept wildcard characters: False
 ### -Description
 Use this parameter to filter the list of Overlapping Blocks by description
 
+# .PARAMETER Realm
+#     Use this parameter to filter the list of Overlapping Blocks by federated realm
+
 ```yaml
 Type: String
 Parameter Sets: (All)
@@ -116,21 +118,6 @@ Aliases:
 
 Required: False
 Position: 5
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -Realm
-Use this parameter to filter the list of Overlapping Blocks by federated realm
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -151,7 +138,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 7
+Position: 6
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -184,7 +171,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 8
+Position: 7
 Default value: 1000
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -199,7 +186,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 9
+Position: 8
 Default value: 0
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -214,7 +201,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 10
+Position: 9
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -230,7 +217,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 11
+Position: 10
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -247,7 +234,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 12
+Position: 11
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -263,7 +250,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 13
+Position: 12
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -273,28 +260,16 @@ Accept wildcard characters: False
 Accepts either an Object, ArrayList or String containing one or more custom filters.
 See here for usage: https://ibps.readthedocs.io/en/latest/#-customfilters
 
+# .PARAMETER RealmID
+#     Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
+
 ```yaml
 Type: Object
 Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 14
-Default value: None
-Accept pipeline input: False
-Accept wildcard characters: False
-```
-
-### -RealmID
-Use this parameter to query using a particular federated realm id, without looking up the realm by name first.
-
-```yaml
-Type: String
-Parameter Sets: (All)
-Aliases:
-
-Required: False
-Position: 15
+Position: 13
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -309,7 +284,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 16
+Position: 14
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
@@ -324,7 +299,7 @@ Parameter Sets: (All)
 Aliases:
 
 Required: False
-Position: 17
+Position: 15
 Default value: None
 Accept pipeline input: False
 Accept wildcard characters: False
