@@ -21,6 +21,7 @@
     .FUNCTIONALITY
         NIOS-X
     #>
+    [Alias("Remove-B1Server")]
     [CmdletBinding(
       SupportsShouldProcess,
       ConfirmImpact = 'High'

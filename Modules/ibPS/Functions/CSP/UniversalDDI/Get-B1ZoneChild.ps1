@@ -11,6 +11,9 @@
     .PARAMETER Type
         Filter results by the object type
 
+    .PARAMETER RecordType
+        Filter results by the object record type
+
     .PARAMETER Name
         Filter results by the object name
 
@@ -65,6 +68,7 @@
     [CmdletBinding()]
     param (
         [String]$Type,
+        [String]$RecordType,
         [String]$Name,
         [String]$Description,
         [Switch]$Flat,
@@ -83,7 +87,7 @@
     )
 
     process {
-        $MatchType = Match-Type $Strict $CaseSensitive
+        $MatchType = Match-Type $Strict
         $PermittedInputs = "view","auth_zone","forward_zone"
         if (($Object.id.split('/')[1]) -notin $PermittedInputs) {
             Write-Error "Error. Unsupported pipeline object. Supported inputs are view, auth_zone & forward_zone"
@@ -100,6 +104,9 @@
         [System.Collections.ArrayList]$QueryFilters = @()
         if ($Type) {
             $Filters.Add("type$($MatchType)`"$($Type)`"") | Out-Null
+        }
+        if ($RecordType) {
+            $Filters.Add("record_type$($MatchType)`"$($RecordType)`"") | Out-Null
         }
         if ($Name) {
             $Filters.Add("absolute_name$($MatchType)`"$($Name)`"") | Out-Null

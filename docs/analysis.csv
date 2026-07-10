@@ -1,6 +1,3 @@
 "ScriptName","Severity","Line","Column","RuleName","Message"
-"Get-B1Subtenant.ps1","Information","23","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
-"Get-B1Subtenant.ps1","Information","26","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
-"New-B1Subtenant.ps1","Information","8","1","PSAvoidTrailingWhitespace","Line has trailing whitespace"
 "AuthManager.class.ps1","Warning","98","19","PSReviewUnusedParameter","The parameter 'a' has been declared but not used."
 "AuthManager.class.ps1","Warning","90","9","PSUseDeclaredVarsMoreThanAssignments","The variable 'session' is assigned but never used."

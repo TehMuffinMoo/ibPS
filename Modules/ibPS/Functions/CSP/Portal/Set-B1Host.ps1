@@ -50,6 +50,7 @@
         NIOS-X
 
     #>
+    [Alias("Set-B1Server")]
     [CmdletBinding(
       SupportsShouldProcess,
       ConfirmImpact = 'Medium'
@@ -168,11 +169,11 @@
         }
       }
 
-      $JSON = $NewObj | Select-Object * -ExcludeProperty id,configs,created_at | ConvertTo-Json -Depth 10 -Compress
+      $JSON = $NewObj | ConvertTo-Json -Depth 10 -Compress
 
       if($PSCmdlet.ShouldProcess("Update NIOS-X Host`n$(JSONPretty($JSON))","Update NIOS-X Host: $($NewObj.display_name) ($($NewObj.id))",$MyInvocation.MyCommand)){
         $Results = Invoke-CSP -Method PUT -Uri "$(Get-B1CSPUrl)/api/infra/v1/hosts/$HostID" -Data $JSON | Select-Object -ExpandProperty result -ErrorAction SilentlyContinue
-        if ($Results.count -gt 0 -and $($Results.id.split('/')[2]) -eq $($HostID)) {
+        if ($Results.id -and $($Results.id.split('/')[2]) -eq $($HostID)) {
           return $Results
         } else {
           Write-Error "Failed to update NIOS-X Host Configuration on $($NewObj.display_name)."
