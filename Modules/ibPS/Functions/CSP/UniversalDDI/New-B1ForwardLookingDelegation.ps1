@@ -61,6 +61,12 @@
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
 
+    if ($Subnet -match '/\d') {
+        $IPandMask = $Subnet -Split '/'
+        $Subnet = $IPandMask[0]
+        $CIDR = $IPandMask[1]
+    }
+
     $splat = @{
         "address" = $Subnet
         "cidr" = $CIDR
@@ -100,12 +106,6 @@
             return
         } else {
             $splat | Add-Member -MemberType NoteProperty -Name "federated_realms" -Value @($RealmID)
-        }
-
-        if ($Subnet -match '/\d') {
-            $IPandMask = $Subnet -Split '/'
-            $Subnet = $IPandMask[0]
-            $CIDR = $IPandMask[1]
         }
 
         if (!$CIDR) {

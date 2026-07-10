@@ -42,7 +42,7 @@ $Arg_IPAM_Federated_Realms = {
     (Get-B1FederatedRealm -Name "$wordToComplete*").name
 }
 Register-ArgumentCompleter -CommandName 'Get-B1FederatedRealm' -ParameterName Name -ScriptBlock $Arg_IPAM_Federated_Realms
-Register-ArgumentCompleter -CommandName 'Get-B1Delegation', 'Get-B1FederatedBlock','Get-B1ReservedBlock','Get-B1OverlappingBlock','Get-B1FederatedPool', 'New-B1FederatedPool', 'New-B1FederatedBlock' -ParameterName Realm -ScriptBlock $Arg_IPAM_Federated_Realms
+Register-ArgumentCompleter -CommandName 'Get-B1Delegation', 'Get-B1FederatedBlock','Get-B1ReservedBlock','Get-B1OverlappingBlock','Get-B1FederatedPool', 'New-B1FederatedPool', 'New-B1FederatedBlock', 'New-B1ForwardLookingDelegation' -ParameterName Realm -ScriptBlock $Arg_IPAM_Federated_Realms
 
 $Arg_IPAM_Federated_Pools = {
     param($commandName, $parameterName, $wordToComplete, $commandAst, $fakeBoundParameters)

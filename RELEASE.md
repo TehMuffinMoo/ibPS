@@ -15,9 +15,9 @@
 - Add `Get-B1FederatedPool`, `New-B1FederatedPool` & `Remove-B1FederatedPool`
 - Add `Get-B1FederatedBlock`, `New-B1FederatedBlock` & `Remove-B1FederatedBlock`
 - Add `Get-B1ForwardLookingDelegation`, `New-B1ForwardLookingDelegation` & `Remove-B1ForwardLookingDelegation`
-- Add `Get-B1OverlappingBlock`, `Remove-B1OverlappingBlock`
-- Add `Get-B1ReservedBlock`, `Remove-B1ReservedBlock`
-- Add `Get-B1Delegation`, `Remove-B1Delegation`
+- Add `Get-B1OverlappingBlock`, `New-B1OverlappingBlock`, `Remove-B1OverlappingBlock`
+- Add `Get-B1ReservedBlock`, `New-B1ReservedBlock`, `Remove-B1ReservedBlock`
+- Add `Get-B1Delegation` (Delegations are system managed, so no `New-*`, `Set-*` or `Remove-*` functions for this)
 - Fix bug with `Get-B1ZoneChild` and add `-RecordType` filter parameter
 - Add `Update-B1AuthoritativeZoneSerial` to increment the SOA Serial Number of an Authoritative Zone by 1,000, or to a specific value.
 - Add `Get-B1IPAMHost`, `Set-B1IPAMHost` & `Remove-B1IPAMHost` functions

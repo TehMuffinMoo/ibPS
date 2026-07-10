@@ -93,6 +93,12 @@
     )
     $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
 
+    if ($Subnet -match '/\d') {
+        $IPandMask = $Subnet -Split '/'
+        $Subnet = $IPandMask[0]
+        $CIDR = $IPandMask[1]
+    }
+
     $splat = @{
         "address" = $Subnet
         "cidr" = $CIDR
@@ -131,12 +137,6 @@
         if ($RealmID -eq $null) {
             Write-Error "No Federated Realm found with name '$Realm'. Cannot create Federated Pool without a valid Federated Realm."
             return
-        }
-
-        if ($Subnet -match '/\d') {
-            $IPandMask = $Subnet -Split '/'
-            $Subnet = $IPandMask[0]
-            $CIDR = $IPandMask[1]
         }
 
         if (!$CIDR) {
