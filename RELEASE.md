@@ -19,5 +19,5 @@
 - Add `Get-B1ReservedBlock`, `New-B1ReservedBlock`, `Set-B1ReservedBlock`, `Remove-B1ReservedBlock`
 - Add `Get-B1Delegation` (Delegations are system managed, so no `New-*`, `Set-*` or `Remove-*` functions for this)
 - Fix bug with `Get-B1ZoneChild` and add `-RecordType` filter parameter
-- Add `Update-B1AuthoritativeZoneSerial` to increment the SOA Serial Number of an Authoritative Zone by 1,000, or to a specific value.
+- Add `Set-B1AuthoritativeZoneSerial` to increment the SOA Serial Number of an Authoritative Zone by 1,000, or to a specific value.
 - Add `Get-B1IPAMHost`, `Set-B1IPAMHost` & `Remove-B1IPAMHost` functions
