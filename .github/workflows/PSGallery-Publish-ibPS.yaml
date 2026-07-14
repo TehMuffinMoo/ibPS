@@ -128,7 +128,7 @@ jobs:
                 "UniversalDDI" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Universal DDI"
                 }
-                "DNS|DHCP|IPAM" {
+                "DNS|DHCP|IPAM|NTP" {
                   $BaseName = "CSP/Universal DDI/$($BaseName)"
                 }
                 "UAI" {
