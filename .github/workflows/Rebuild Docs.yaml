@@ -53,6 +53,12 @@ jobs:
                 "UniversalDDI" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Universal DDI"
                 }
+                "DNS|DHCP|IPAM" {
+                  $BaseName = "CSP/Universal DDI/$($BaseName)"
+                }
+                "UAI" {
+                  $BaseName = "CSP/Universal DDI/Asset Insights"
+                }
                 "ThreatDefense" {
                   $BaseName = "$((Get-Item (Split-Path $($F.DirectoryName))).BaseName)/Infoblox Threat Defense"
                 }
