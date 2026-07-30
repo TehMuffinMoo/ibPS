@@ -19,6 +19,7 @@
         NTP
     #>
     [CmdletBinding()]
+    param()
     $Result = Invoke-CSP -Method GET -Uri "$(Get-B1CSPUrl)/api/ntp/v1/account/config"
     if ($Result) {
       $Result | Select-Object -ExpandProperty account_config

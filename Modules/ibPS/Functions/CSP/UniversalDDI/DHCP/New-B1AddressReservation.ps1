@@ -72,7 +72,7 @@
                 Write-Host "Address Reservation created successfully." -ForegroundColor Green
                 return $Result | Select-Object -ExpandProperty result
             } else {
-                Write-Host "Error. Failed to create Address Reservation $Subnet." -ForegroundColor Red
+                Write-Host "Error. Failed to create Address Reservation $Address." -ForegroundColor Red
                 break
             }
         }

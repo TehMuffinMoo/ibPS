@@ -25,10 +25,10 @@
         Universal DDI
     #>
     [CmdletBinding(
-      SupportsShouldProcess,
-      ConfirmImpact = 'High'
+        DefaultParameterSetName="Default",
+        SupportsShouldProcess=$true,
+        ConfirmImpact = 'High'
     )]
-    [CmdletBinding(DefaultParameterSetName="Default")]
     param(
       [parameter(ParameterSetName="Default")]
       [String]$Name,

@@ -36,7 +36,7 @@
     [Switch]$Force
   )
   $ConfirmPreference = Confirm-ShouldProcess $PSBoundParameters
-  $B1Service = Get-B1Service -Name $Name -Strict:$Strict
+  $B1Service = Get-B1Service -Name $Name -Type ntp -Strict:$Strict
   if ($B1Service) {
     if ($B1Service.count -gt 1) {
       Write-Host "Too many services returned. Please check the -name parameter, or use -Strict for strict parameter checking." -ForegroundColor Red
