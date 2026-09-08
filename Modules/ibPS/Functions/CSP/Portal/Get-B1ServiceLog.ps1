@@ -66,7 +66,7 @@
         $Filters += "_limit=$Limit"
     }
     if ($Offset) {
-        $Filters += "_limit=$Limit"
+        $Filters += "_offset=$Offset"
     }
 
     $StartTime = $Start.ToString("yyyy-MM-ddTHH:mm:ssZ")
